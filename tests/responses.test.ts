@@ -1,5 +1,5 @@
-import { createResponseHeaders } from 'dodo-payments/core';
-import { Headers } from 'dodo-payments/_shims/index';
+import { createResponseHeaders } from 'dodopayments/core';
+import { Headers } from 'dodopayments/_shims/index';
 
 describe('response parsing', () => {
   // TODO: test unicode characters

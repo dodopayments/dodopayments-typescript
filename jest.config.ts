@@ -7,9 +7,9 @@ const config: JestConfigWithTsJest = {
     '^.+\\.(t|j)sx?$': ['@swc/jest', { sourceMaps: 'inline' }],
   },
   moduleNameMapper: {
-    '^dodo-payments$': '<rootDir>/src/index.ts',
-    '^dodo-payments/_shims/auto/(.*)$': '<rootDir>/src/_shims/auto/$1-node',
-    '^dodo-payments/(.*)$': '<rootDir>/src/$1',
+    '^dodopayments$': '<rootDir>/src/index.ts',
+    '^dodopayments/_shims/auto/(.*)$': '<rootDir>/src/_shims/auto/$1-node',
+    '^dodopayments/(.*)$': '<rootDir>/src/$1',
   },
   modulePathIgnorePatterns: [
     '<rootDir>/ecosystem-tests/',

@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { toFile, type ResponseLike } from 'dodo-payments/uploads';
-import { File } from 'dodo-payments/_shims/index';
+import { toFile, type ResponseLike } from 'dodopayments/uploads';
+import { File } from 'dodopayments/_shims/index';
 
 class MyClass {
   name: string = 'foo';

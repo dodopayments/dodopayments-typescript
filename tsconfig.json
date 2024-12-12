@@ -9,9 +9,9 @@
     "esModuleInterop": true,
     "baseUrl": "./",
     "paths": {
-      "dodo-payments/_shims/auto/*": ["src/_shims/auto/*-node"],
-      "dodo-payments/*": ["src/*"],
-      "dodo-payments": ["src/index.ts"]
+      "dodopayments/_shims/auto/*": ["src/_shims/auto/*-node"],
+      "dodopayments/*": ["src/*"],
+      "dodopayments": ["src/index.ts"]
     },
     "noEmit": true,
 

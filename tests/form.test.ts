@@ -1,6 +1,6 @@
-import { multipartFormRequestOptions, createForm } from 'dodo-payments/core';
-import { Blob } from 'dodo-payments/_shims/index';
-import { toFile } from 'dodo-payments';
+import { multipartFormRequestOptions, createForm } from 'dodopayments/core';
+import { Blob } from 'dodopayments/_shims/index';
+import { toFile } from 'dodopayments';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

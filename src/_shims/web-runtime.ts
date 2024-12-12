@@ -9,9 +9,9 @@ export function getRuntime({ manuallyImported }: { manuallyImported?: boolean } 
   const recommendation =
     manuallyImported ?
       `You may need to use polyfills`
-    : `Add one of these imports before your first \`import … from 'dodo-payments'\`:
-- \`import 'dodo-payments/shims/node'\` (if you're running on Node)
-- \`import 'dodo-payments/shims/web'\` (otherwise)
+    : `Add one of these imports before your first \`import … from 'dodopayments'\`:
+- \`import 'dodopayments/shims/node'\` (if you're running on Node)
+- \`import 'dodopayments/shims/web'\` (otherwise)
 `;
 
   let _fetch, _Request, _Response, _Headers;

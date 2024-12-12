@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { DodoPayments } from 'dodo-payments';
+import { Dodopayments } from 'dodopayments';
 
-const { stringifyQuery } = DodoPayments.prototype as any;
+const { stringifyQuery } = Dodopayments.prototype as any;
 
 describe(stringifyQuery, () => {
   for (const [input, expected] of [

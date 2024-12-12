@@ -51,8 +51,8 @@ import {
 } from './resources/products/products';
 
 const environments = {
-  production: 'https://test.dodopayments.com/',
-  environment_1: 'https://live.dodopayments.com/',
+  test_mode: 'https://test.dodopayments.com/',
+  live_mode: 'https://live.dodopayments.com/',
 };
 type Environment = keyof typeof environments;
 export interface ClientOptions {
@@ -65,15 +65,15 @@ export interface ClientOptions {
    * Specifies the environment to use for the API.
    *
    * Each environment maps to a different base URL:
-   * - `production` corresponds to `https://test.dodopayments.com/`
-   * - `environment_1` corresponds to `https://live.dodopayments.com/`
+   * - `test_mode` corresponds to `https://test.dodopayments.com/`
+   * - `live_mode` corresponds to `https://live.dodopayments.com/`
    */
   environment?: Environment;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['DODO_PAYMENTS_BASE_URL'].
+   * Defaults to process.env['DODOPAYMENTS_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -128,19 +128,19 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Dodo Payments API.
+ * API Client for interfacing with the Dodopayments API.
  */
-export class DodoPayments extends Core.APIClient {
+export class Dodopayments extends Core.APIClient {
   apiKey: string;
 
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Dodo Payments API.
+   * API Client for interfacing with the Dodopayments API.
    *
    * @param {string | undefined} [opts.apiKey=process.env['API_KEY'] ?? undefined]
-   * @param {Environment} [opts.environment=production] - Specifies the environment URL to use for the API.
-   * @param {string} [opts.baseURL=process.env['DODO_PAYMENTS_BASE_URL'] ?? https://test.dodopayments.com/] - Override the default base URL for the API.
+   * @param {Environment} [opts.environment=test_mode] - Specifies the environment URL to use for the API.
+   * @param {string} [opts.baseURL=process.env['DODOPAYMENTS_BASE_URL'] ?? https://test.dodopayments.com/] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
    * @param {Core.Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -149,13 +149,13 @@ export class DodoPayments extends Core.APIClient {
    * @param {Core.DefaultQuery} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = Core.readEnv('DODO_PAYMENTS_BASE_URL'),
+    baseURL = Core.readEnv('DODOPAYMENTS_BASE_URL'),
     apiKey = Core.readEnv('API_KEY'),
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
-      throw new Errors.DodoPaymentsError(
-        "The API_KEY environment variable is missing or empty; either provide it, or instantiate the DodoPayments client with an apiKey option, like new DodoPayments({ apiKey: 'My API Key' }).",
+      throw new Errors.DodopaymentsError(
+        "The API_KEY environment variable is missing or empty; either provide it, or instantiate the Dodopayments client with an apiKey option, like new Dodopayments({ apiKey: 'My API Key' }).",
       );
     }
 
@@ -163,17 +163,17 @@ export class DodoPayments extends Core.APIClient {
       apiKey,
       ...opts,
       baseURL,
-      environment: opts.environment ?? 'production',
+      environment: opts.environment ?? 'test_mode',
     };
 
     if (baseURL && opts.environment) {
-      throw new Errors.DodoPaymentsError(
-        'Ambiguous URL; The `baseURL` option (or DODO_PAYMENTS_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null',
+      throw new Errors.DodopaymentsError(
+        'Ambiguous URL; The `baseURL` option (or DODOPAYMENTS_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null',
       );
     }
 
     super({
-      baseURL: options.baseURL || environments[options.environment || 'production'],
+      baseURL: options.baseURL || environments[options.environment || 'test_mode'],
       timeout: options.timeout ?? 60000 /* 1 minute */,
       httpAgent: options.httpAgent,
       maxRetries: options.maxRetries,
@@ -211,10 +211,10 @@ export class DodoPayments extends Core.APIClient {
     return { Authorization: `Bearer ${this.apiKey}` };
   }
 
-  static DodoPayments = this;
+  static Dodopayments = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
 
-  static DodoPaymentsError = Errors.DodoPaymentsError;
+  static DodopaymentsError = Errors.DodopaymentsError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -232,17 +232,17 @@ export class DodoPayments extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
-DodoPayments.Checkout = Checkout;
-DodoPayments.Customers = Customers;
-DodoPayments.Disputes = Disputes;
-DodoPayments.Payments = Payments;
-DodoPayments.Payouts = Payouts;
-DodoPayments.Products = Products;
-DodoPayments.Refunds = Refunds;
-DodoPayments.Subscriptions = Subscriptions;
-DodoPayments.WebhookEvents = WebhookEvents;
-DodoPayments.OutgoingWebhooks = OutgoingWebhooks;
-export declare namespace DodoPayments {
+Dodopayments.Checkout = Checkout;
+Dodopayments.Customers = Customers;
+Dodopayments.Disputes = Disputes;
+Dodopayments.Payments = Payments;
+Dodopayments.Payouts = Payouts;
+Dodopayments.Products = Products;
+Dodopayments.Refunds = Refunds;
+Dodopayments.Subscriptions = Subscriptions;
+Dodopayments.WebhookEvents = WebhookEvents;
+Dodopayments.OutgoingWebhooks = OutgoingWebhooks;
+export declare namespace Dodopayments {
   export type RequestOptions = Core.RequestOptions;
 
   export { Checkout as Checkout };
@@ -319,7 +319,7 @@ export declare namespace DodoPayments {
 
 export { toFile, fileFromPath } from './uploads';
 export {
-  DodoPaymentsError,
+  DodopaymentsError,
   APIError,
   APIConnectionError,
   APIConnectionTimeoutError,
@@ -334,4 +334,4 @@ export {
   UnprocessableEntityError,
 } from './error';
 
-export default DodoPayments;
+export default Dodopayments;

@@ -55,12 +55,12 @@ $ cd dodo-payments-node
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link dodo-payments
+$ yarn link dodopayments
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global dodo-payments
+$ pnpm link -—global dodopayments
 ```
 
 ## Running tests
