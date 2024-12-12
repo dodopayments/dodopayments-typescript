@@ -1,0 +1,79 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import DodoPayments from 'dodo-payments';
+import { Response } from 'node-fetch';
+
+const client = new DodoPayments({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
+
+describe('resource payments', () => {
+  test('create: only required params', async () => {
+    const responsePromise = client.payments.create({
+      billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 },
+      customer: { email: 'email', name: 'name' },
+      product_cart: [{ product_id: 'product_id', quantity: 0 }],
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('create: required and optional params', async () => {
+    const response = await client.payments.create({
+      billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 },
+      customer: { email: 'email', name: 'name', phone_number: 'phone_number' },
+      product_cart: [{ product_id: 'product_id', quantity: 0 }],
+      payment_link: true,
+      return_url: 'return_url',
+    });
+  });
+
+  test('retrieve', async () => {
+    const responsePromise = client.payments.retrieve('payment_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieve: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.payments.retrieve('payment_id', { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
+
+  test('list', async () => {
+    const responsePromise = client.payments.list();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('list: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.payments.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      DodoPayments.NotFoundError,
+    );
+  });
+
+  test('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.payments.list({ page_number: 0, page_size: 0 }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
+});
