@@ -1,9 +1,9 @@
 # 👋 Wondering what everything in here does?
 
-`dodo-payments` supports a wide variety of runtime environments like Node.js, Deno, Bun, browsers, and various
+`dodopayments` supports a wide variety of runtime environments like Node.js, Deno, Bun, browsers, and various
 edge runtimes, as well as both CommonJS (CJS) and EcmaScript Modules (ESM).
 
-To do this, `dodo-payments` provides shims for either using `node-fetch` when in Node (because `fetch` is still experimental there) or the global `fetch` API built into the environment when not in Node.
+To do this, `dodopayments` provides shims for either using `node-fetch` when in Node (because `fetch` is still experimental there) or the global `fetch` API built into the environment when not in Node.
 
 It uses [conditional exports](https://nodejs.org/api/packages.html#conditional-exports) to
 automatically select the correct shims for each environment. However, conditional exports are a fairly new
@@ -15,32 +15,32 @@ getting the wrong raw `Response` type from `.asResponse()`, for example.
 
 The user can work around these issues by manually importing one of:
 
-- `import 'dodo-payments/shims/node'`
-- `import 'dodo-payments/shims/web'`
+- `import 'dodopayments/shims/node'`
+- `import 'dodopayments/shims/web'`
 
 All of the code here in `_shims` handles selecting the automatic default shims or manual overrides.
 
 ### How it works - Runtime
 
-Runtime shims get installed by calling `setShims` exported by `dodo-payments/_shims/registry`.
+Runtime shims get installed by calling `setShims` exported by `dodopayments/_shims/registry`.
 
-Manually importing `dodo-payments/shims/node` or `dodo-payments/shims/web`, calls `setShims` with the respective runtime shims.
+Manually importing `dodopayments/shims/node` or `dodopayments/shims/web`, calls `setShims` with the respective runtime shims.
 
-All client code imports shims from `dodo-payments/_shims/index`, which:
+All client code imports shims from `dodopayments/_shims/index`, which:
 
 - checks if shims have been set manually
-- if not, calls `setShims` with the shims from `dodo-payments/_shims/auto/runtime`
-- re-exports the installed shims from `dodo-payments/_shims/registry`.
+- if not, calls `setShims` with the shims from `dodopayments/_shims/auto/runtime`
+- re-exports the installed shims from `dodopayments/_shims/registry`.
 
-`dodo-payments/_shims/auto/runtime` exports web runtime shims.
-If the `node` export condition is set, the export map replaces it with `dodo-payments/_shims/auto/runtime-node`.
+`dodopayments/_shims/auto/runtime` exports web runtime shims.
+If the `node` export condition is set, the export map replaces it with `dodopayments/_shims/auto/runtime-node`.
 
 ### How it works - Type time
 
-All client code imports shim types from `dodo-payments/_shims/index`, which selects the manual types from `dodo-payments/_shims/manual-types` if they have been declared, otherwise it exports the auto types from `dodo-payments/_shims/auto/types`.
+All client code imports shim types from `dodopayments/_shims/index`, which selects the manual types from `dodopayments/_shims/manual-types` if they have been declared, otherwise it exports the auto types from `dodopayments/_shims/auto/types`.
 
-`dodo-payments/_shims/manual-types` exports an empty namespace.
-Manually importing `dodo-payments/shims/node` or `dodo-payments/shims/web` merges declarations into this empty namespace, so they get picked up by `dodo-payments/_shims/index`.
+`dodopayments/_shims/manual-types` exports an empty namespace.
+Manually importing `dodopayments/shims/node` or `dodopayments/shims/web` merges declarations into this empty namespace, so they get picked up by `dodopayments/_shims/index`.
 
-`dodo-payments/_shims/auto/types` exports web type definitions.
-If the `node` export condition is set, the export map replaces it with `dodo-payments/_shims/auto/types-node`, though TS only picks this up if `"moduleResolution": "nodenext"` or `"moduleResolution": "bundler"`.
+`dodopayments/_shims/auto/types` exports web type definitions.
+If the `node` export condition is set, the export map replaces it with `dodopayments/_shims/auto/types-node`, though TS only picks this up if `"moduleResolution": "nodenext"` or `"moduleResolution": "bundler"`.

@@ -1,8 +1,8 @@
 {
-  "name": "dodo-payments",
+  "name": "dodopayments",
   "version": "0.0.1-alpha.0",
-  "description": "The official TypeScript library for the Dodo Payments API",
-  "author": "Dodo Payments <dev-feedback@dodo-payments.com>",
+  "description": "The official TypeScript library for the Dodopayments API",
+  "author": "Dodopayments <support@dodopayments.com>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "commonjs",
@@ -59,8 +59,8 @@
     "./shims/web.mjs"
   ],
   "imports": {
-    "dodo-payments": ".",
-    "dodo-payments/*": "./src/*"
+    "dodopayments": ".",
+    "dodopayments/*": "./src/*"
   },
   "exports": {
     "./_shims/auto/*": {

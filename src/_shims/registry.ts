@@ -42,12 +42,12 @@ export let isFsReadStream: Shims['isFsReadStream'] | undefined = undefined;
 export function setShims(shims: Shims, options: { auto: boolean } = { auto: false }) {
   if (auto) {
     throw new Error(
-      `you must \`import 'dodo-payments/shims/${shims.kind}'\` before importing anything else from dodo-payments`,
+      `you must \`import 'dodopayments/shims/${shims.kind}'\` before importing anything else from dodopayments`,
     );
   }
   if (kind) {
     throw new Error(
-      `can't \`import 'dodo-payments/shims/${shims.kind}'\` after \`import 'dodo-payments/shims/${kind}'\``,
+      `can't \`import 'dodopayments/shims/${shims.kind}'\` after \`import 'dodopayments/shims/${kind}'\``,
     );
   }
   auto = options.auto;

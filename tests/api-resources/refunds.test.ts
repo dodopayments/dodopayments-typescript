@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import DodoPayments from 'dodo-payments';
+import Dodopayments from 'dodopayments';
 import { Response } from 'node-fetch';
 
-const client = new DodoPayments({
+const client = new Dodopayments({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
@@ -38,7 +38,7 @@ describe('resource refunds', () => {
   test('retrieve: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(client.refunds.retrieve('refund_id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      DodoPayments.NotFoundError,
+      Dodopayments.NotFoundError,
     );
   });
 
@@ -56,7 +56,7 @@ describe('resource refunds', () => {
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(client.refunds.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      DodoPayments.NotFoundError,
+      Dodopayments.NotFoundError,
     );
   });
 
@@ -64,6 +64,6 @@ describe('resource refunds', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.refunds.list({ page_number: 0, page_size: 0 }, { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(DodoPayments.NotFoundError);
+    ).rejects.toThrow(Dodopayments.NotFoundError);
   });
 });

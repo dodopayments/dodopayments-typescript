@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { parse } = require('@typescript-eslint/parser');
 
-const pkgImportPath = process.env['PKG_IMPORT_PATH'] ?? 'dodo-payments/';
+const pkgImportPath = process.env['PKG_IMPORT_PATH'] ?? 'dodopayments/';
 
 const distDir =
   process.env['DIST_PATH'] ?
@@ -142,7 +142,7 @@ async function postprocess() {
 
     if (file.endsWith('.d.ts')) {
       // work around bad tsc behavior
-      // if we have `import { type Readable } from 'dodo-payments/_shims/index'`,
+      // if we have `import { type Readable } from 'dodopayments/_shims/index'`,
       // tsc sometimes replaces `Readable` with `import("stream").Readable` inline
       // in the output .d.ts
       transformed = transformed.replace(/import\("stream"\).Readable/g, 'Readable');
