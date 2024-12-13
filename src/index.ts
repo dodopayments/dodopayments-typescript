@@ -3,11 +3,12 @@
 import { type Agent } from './_shims/index';
 import * as Core from './core';
 import * as Errors from './error';
+import * as Pagination from './pagination';
+import { type PageNumberPageParams, PageNumberPageResponse } from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { Customer, CustomerListParams, CustomerListResponse, Customers } from './resources/customers';
 import { Dispute, DisputeListParams, DisputeListResponse, Disputes } from './resources/disputes';
-import { OutgoingWebhookCreateParams, OutgoingWebhooks } from './resources/outgoing-webhooks';
 import {
   Payment,
   PaymentCreateParams,
@@ -41,23 +42,23 @@ import {
 } from './resources/webhook-events';
 import { Checkout } from './resources/checkout/checkout';
 import {
-  Product,
   ProductCreateParams,
   ProductCreateResponse,
   ProductListParams,
   ProductListResponse,
+  ProductRetrieveResponse,
   ProductUpdateParams,
   Products,
 } from './resources/products/products';
 
 const environments = {
-  test_mode: 'https://test.dodopayments.com/',
   live_mode: 'https://live.dodopayments.com/',
+  test_mode: 'https://test.dodopayments.com/',
 };
 type Environment = keyof typeof environments;
 export interface ClientOptions {
   /**
-   * Bearer token for accessing the API
+   * API Key to Access Dodo Payments APIs
    */
   apiKey?: string | undefined;
 
@@ -65,8 +66,8 @@ export interface ClientOptions {
    * Specifies the environment to use for the API.
    *
    * Each environment maps to a different base URL:
-   * - `test_mode` corresponds to `https://test.dodopayments.com/`
    * - `live_mode` corresponds to `https://live.dodopayments.com/`
+   * - `test_mode` corresponds to `https://test.dodopayments.com/`
    */
   environment?: Environment;
 
@@ -138,9 +139,9 @@ export class Dodopayments extends Core.APIClient {
   /**
    * API Client for interfacing with the Dodopayments API.
    *
-   * @param {string | undefined} [opts.apiKey=process.env['API_KEY'] ?? undefined]
-   * @param {Environment} [opts.environment=test_mode] - Specifies the environment URL to use for the API.
-   * @param {string} [opts.baseURL=process.env['DODOPAYMENTS_BASE_URL'] ?? https://test.dodopayments.com/] - Override the default base URL for the API.
+   * @param {string | undefined} [opts.apiKey=process.env['DODO_PAYMENTS_API_KEY'] ?? undefined]
+   * @param {Environment} [opts.environment=live_mode] - Specifies the environment URL to use for the API.
+   * @param {string} [opts.baseURL=process.env['DODOPAYMENTS_BASE_URL'] ?? https://live.dodopayments.com/] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
    * @param {Core.Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -150,12 +151,12 @@ export class Dodopayments extends Core.APIClient {
    */
   constructor({
     baseURL = Core.readEnv('DODOPAYMENTS_BASE_URL'),
-    apiKey = Core.readEnv('API_KEY'),
+    apiKey = Core.readEnv('DODO_PAYMENTS_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
       throw new Errors.DodopaymentsError(
-        "The API_KEY environment variable is missing or empty; either provide it, or instantiate the Dodopayments client with an apiKey option, like new Dodopayments({ apiKey: 'My API Key' }).",
+        "The DODO_PAYMENTS_API_KEY environment variable is missing or empty; either provide it, or instantiate the Dodopayments client with an apiKey option, like new Dodopayments({ apiKey: 'My API Key' }).",
       );
     }
 
@@ -163,7 +164,7 @@ export class Dodopayments extends Core.APIClient {
       apiKey,
       ...opts,
       baseURL,
-      environment: opts.environment ?? 'test_mode',
+      environment: opts.environment ?? 'live_mode',
     };
 
     if (baseURL && opts.environment) {
@@ -173,7 +174,7 @@ export class Dodopayments extends Core.APIClient {
     }
 
     super({
-      baseURL: options.baseURL || environments[options.environment || 'test_mode'],
+      baseURL: options.baseURL || environments[options.environment || 'live_mode'],
       timeout: options.timeout ?? 60000 /* 1 minute */,
       httpAgent: options.httpAgent,
       maxRetries: options.maxRetries,
@@ -194,7 +195,6 @@ export class Dodopayments extends Core.APIClient {
   refunds: API.Refunds = new API.Refunds(this);
   subscriptions: API.Subscriptions = new API.Subscriptions(this);
   webhookEvents: API.WebhookEvents = new API.WebhookEvents(this);
-  outgoingWebhooks: API.OutgoingWebhooks = new API.OutgoingWebhooks(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -241,9 +241,14 @@ Dodopayments.Products = Products;
 Dodopayments.Refunds = Refunds;
 Dodopayments.Subscriptions = Subscriptions;
 Dodopayments.WebhookEvents = WebhookEvents;
-Dodopayments.OutgoingWebhooks = OutgoingWebhooks;
 export declare namespace Dodopayments {
   export type RequestOptions = Core.RequestOptions;
+
+  export import PageNumberPage = Pagination.PageNumberPage;
+  export {
+    type PageNumberPageParams as PageNumberPageParams,
+    type PageNumberPageResponse as PageNumberPageResponse,
+  };
 
   export { Checkout as Checkout };
 
@@ -278,8 +283,8 @@ export declare namespace Dodopayments {
 
   export {
     Products as Products,
-    type Product as Product,
     type ProductCreateResponse as ProductCreateResponse,
+    type ProductRetrieveResponse as ProductRetrieveResponse,
     type ProductListResponse as ProductListResponse,
     type ProductCreateParams as ProductCreateParams,
     type ProductUpdateParams as ProductUpdateParams,
@@ -309,11 +314,6 @@ export declare namespace Dodopayments {
     type WebhookEventLog as WebhookEventLog,
     type WebhookEventListResponse as WebhookEventListResponse,
     type WebhookEventListParams as WebhookEventListParams,
-  };
-
-  export {
-    OutgoingWebhooks as OutgoingWebhooks,
-    type OutgoingWebhookCreateParams as OutgoingWebhookCreateParams,
   };
 }
 

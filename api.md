@@ -63,14 +63,14 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/products/products.ts">Product</a></code>
 - <code><a href="./src/resources/products/products.ts">ProductCreateResponse</a></code>
+- <code><a href="./src/resources/products/products.ts">ProductRetrieveResponse</a></code>
 - <code><a href="./src/resources/products/products.ts">ProductListResponse</a></code>
 
 Methods:
 
 - <code title="post /products">client.products.<a href="./src/resources/products/products.ts">create</a>({ ...params }) -> ProductCreateResponse</code>
-- <code title="get /products/{id}">client.products.<a href="./src/resources/products/products.ts">retrieve</a>(id) -> Product</code>
+- <code title="get /products/{id}">client.products.<a href="./src/resources/products/products.ts">retrieve</a>(id) -> ProductRetrieveResponse</code>
 - <code title="patch /products/{id}">client.products.<a href="./src/resources/products/products.ts">update</a>(id, { ...params }) -> void</code>
 - <code title="get /products">client.products.<a href="./src/resources/products/products.ts">list</a>({ ...params }) -> ProductListResponse</code>
 
@@ -123,9 +123,3 @@ Methods:
 
 - <code title="get /webhook_events/{webhook_event_id}">client.webhookEvents.<a href="./src/resources/webhook-events.ts">retrieve</a>(webhookEventId) -> WebhookEventLog</code>
 - <code title="get /webhook_events">client.webhookEvents.<a href="./src/resources/webhook-events.ts">list</a>({ ...params }) -> WebhookEventListResponse</code>
-
-# OutgoingWebhooks
-
-Methods:
-
-- <code title="post /your-webhook-url">client.outgoingWebhooks.<a href="./src/resources/outgoing-webhooks.ts">create</a>({ ...params }) -> void</code>

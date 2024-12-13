@@ -3,7 +3,6 @@
 export { Checkout } from './checkout/checkout';
 export { Customers, type Customer, type CustomerListResponse, type CustomerListParams } from './customers';
 export { Disputes, type Dispute, type DisputeListResponse, type DisputeListParams } from './disputes';
-export { OutgoingWebhooks, type OutgoingWebhookCreateParams } from './outgoing-webhooks';
 export {
   Payments,
   type Payment,
@@ -15,8 +14,8 @@ export {
 export { Payouts, type PayoutListResponse, type PayoutListParams } from './payouts';
 export {
   Products,
-  type Product,
   type ProductCreateResponse,
+  type ProductRetrieveResponse,
   type ProductListResponse,
   type ProductCreateParams,
   type ProductUpdateParams,
