@@ -3,7 +3,7 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import { PageNumberPage, type PageNumberPageParams } from '../pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class Disputes extends APIResource {
   retrieve(disputeId: string, options?: Core.RequestOptions): Core.APIPromise<Dispute> {
@@ -13,20 +13,20 @@ export class Disputes extends APIResource {
   list(
     query?: DisputeListParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<DisputesPageNumberPage, Dispute>;
-  list(options?: Core.RequestOptions): Core.PagePromise<DisputesPageNumberPage, Dispute>;
+  ): Core.PagePromise<DisputesDefaultPageNumberPagination, Dispute>;
+  list(options?: Core.RequestOptions): Core.PagePromise<DisputesDefaultPageNumberPagination, Dispute>;
   list(
     query: DisputeListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<DisputesPageNumberPage, Dispute> {
+  ): Core.PagePromise<DisputesDefaultPageNumberPagination, Dispute> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/disputes', DisputesPageNumberPage, { query, ...options });
+    return this._client.getAPIList('/disputes', DisputesDefaultPageNumberPagination, { query, ...options });
   }
 }
 
-export class DisputesPageNumberPage extends PageNumberPage<Dispute> {}
+export class DisputesDefaultPageNumberPagination extends DefaultPageNumberPagination<Dispute> {}
 
 export interface Dispute {
   amount: string;
@@ -53,14 +53,14 @@ export interface Dispute {
   payment_id: string;
 }
 
-export interface DisputeListParams extends PageNumberPageParams {}
+export interface DisputeListParams extends DefaultPageNumberPaginationParams {}
 
-Disputes.DisputesPageNumberPage = DisputesPageNumberPage;
+Disputes.DisputesDefaultPageNumberPagination = DisputesDefaultPageNumberPagination;
 
 export declare namespace Disputes {
   export {
     type Dispute as Dispute,
-    DisputesPageNumberPage as DisputesPageNumberPage,
+    DisputesDefaultPageNumberPagination as DisputesDefaultPageNumberPagination,
     type DisputeListParams as DisputeListParams,
   };
 }

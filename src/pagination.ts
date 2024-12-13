@@ -2,23 +2,26 @@
 
 import { AbstractPage, Response, APIClient, FinalRequestOptions, PageInfo } from './core';
 
-export interface PageNumberPageResponse<Item> {
+export interface DefaultPageNumberPaginationResponse<Item> {
   items: Array<Item>;
 }
 
-export interface PageNumberPageParams {
+export interface DefaultPageNumberPaginationParams {
   page_number?: number;
 
   page_size?: number;
 }
 
-export class PageNumberPage<Item> extends AbstractPage<Item> implements PageNumberPageResponse<Item> {
+export class DefaultPageNumberPagination<Item>
+  extends AbstractPage<Item>
+  implements DefaultPageNumberPaginationResponse<Item>
+{
   items: Array<Item>;
 
   constructor(
     client: APIClient,
     response: Response,
-    body: PageNumberPageResponse<Item>,
+    body: DefaultPageNumberPaginationResponse<Item>,
     options: FinalRequestOptions,
   ) {
     super(client, response, body, options);
@@ -31,7 +34,7 @@ export class PageNumberPage<Item> extends AbstractPage<Item> implements PageNumb
   }
 
   // @deprecated Please use `nextPageInfo()` instead
-  nextPageParams(): Partial<PageNumberPageParams> | null {
+  nextPageParams(): Partial<DefaultPageNumberPaginationParams> | null {
     const info = this.nextPageInfo();
     if (!info) return null;
     if ('params' in info) return info.params;
@@ -41,7 +44,7 @@ export class PageNumberPage<Item> extends AbstractPage<Item> implements PageNumb
   }
 
   nextPageInfo(): PageInfo | null {
-    const query = this.options.query as PageNumberPageParams;
+    const query = this.options.query as DefaultPageNumberPaginationParams;
     const currentPage = query?.page_number ?? 1;
 
     return { params: { page_number: currentPage + 1 } };

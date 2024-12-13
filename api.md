@@ -20,7 +20,7 @@ Types:
 Methods:
 
 - <code title="get /customers/{customer_id}">client.customers.<a href="./src/resources/customers.ts">retrieve</a>(customerId) -> Customer</code>
-- <code title="get /customers">client.customers.<a href="./src/resources/customers.ts">list</a>({ ...params }) -> CustomersPageNumberPage</code>
+- <code title="get /customers">client.customers.<a href="./src/resources/customers.ts">list</a>({ ...params }) -> CustomersDefaultPageNumberPagination</code>
 
 # Disputes
 
@@ -31,7 +31,7 @@ Types:
 Methods:
 
 - <code title="get /disputes/{dispute_id}">client.disputes.<a href="./src/resources/disputes.ts">retrieve</a>(disputeId) -> Dispute</code>
-- <code title="get /disputes">client.disputes.<a href="./src/resources/disputes.ts">list</a>({ ...params }) -> DisputesPageNumberPage</code>
+- <code title="get /disputes">client.disputes.<a href="./src/resources/disputes.ts">list</a>({ ...params }) -> DisputesDefaultPageNumberPagination</code>
 
 # Payments
 
@@ -45,7 +45,7 @@ Methods:
 
 - <code title="post /payments">client.payments.<a href="./src/resources/payments.ts">create</a>({ ...params }) -> PaymentCreateResponse</code>
 - <code title="get /payments/{payment_id}">client.payments.<a href="./src/resources/payments.ts">retrieve</a>(paymentId) -> Payment</code>
-- <code title="get /payments">client.payments.<a href="./src/resources/payments.ts">list</a>({ ...params }) -> PaymentListResponsesPageNumberPage</code>
+- <code title="get /payments">client.payments.<a href="./src/resources/payments.ts">list</a>({ ...params }) -> PaymentListResponsesDefaultPageNumberPagination</code>
 
 # Payouts
 
@@ -55,7 +55,7 @@ Types:
 
 Methods:
 
-- <code title="get /payouts">client.payouts.<a href="./src/resources/payouts.ts">list</a>({ ...params }) -> PayoutListResponsesPageNumberPage</code>
+- <code title="get /payouts">client.payouts.<a href="./src/resources/payouts.ts">list</a>({ ...params }) -> PayoutListResponsesDefaultPageNumberPagination</code>
 
 # Products
 
@@ -70,7 +70,7 @@ Methods:
 - <code title="post /products">client.products.<a href="./src/resources/products/products.ts">create</a>({ ...params }) -> ProductCreateResponse</code>
 - <code title="get /products/{id}">client.products.<a href="./src/resources/products/products.ts">retrieve</a>(id) -> Product</code>
 - <code title="patch /products/{id}">client.products.<a href="./src/resources/products/products.ts">update</a>(id, { ...params }) -> void</code>
-- <code title="get /products">client.products.<a href="./src/resources/products/products.ts">list</a>({ ...params }) -> ProductListResponsesPageNumberPage</code>
+- <code title="get /products">client.products.<a href="./src/resources/products/products.ts">list</a>({ ...params }) -> ProductListResponsesDefaultPageNumberPagination</code>
 
 ## Images
 
@@ -92,7 +92,7 @@ Methods:
 
 - <code title="post /refunds">client.refunds.<a href="./src/resources/refunds.ts">create</a>({ ...params }) -> Refund</code>
 - <code title="get /refunds/{refund_id}">client.refunds.<a href="./src/resources/refunds.ts">retrieve</a>(refundId) -> Refund</code>
-- <code title="get /refunds">client.refunds.<a href="./src/resources/refunds.ts">list</a>({ ...params }) -> RefundsPageNumberPage</code>
+- <code title="get /refunds">client.refunds.<a href="./src/resources/refunds.ts">list</a>({ ...params }) -> RefundsDefaultPageNumberPagination</code>
 
 # Subscriptions
 
@@ -106,7 +106,7 @@ Methods:
 - <code title="post /subscriptions">client.subscriptions.<a href="./src/resources/subscriptions.ts">create</a>({ ...params }) -> SubscriptionCreateResponse</code>
 - <code title="get /subscriptions/{subscription_id}">client.subscriptions.<a href="./src/resources/subscriptions.ts">retrieve</a>(subscriptionId) -> Subscription</code>
 - <code title="patch /subscriptions/{subscription_id}">client.subscriptions.<a href="./src/resources/subscriptions.ts">update</a>(subscriptionId, { ...params }) -> Subscription</code>
-- <code title="get /subscriptions">client.subscriptions.<a href="./src/resources/subscriptions.ts">list</a>({ ...params }) -> SubscriptionsPageNumberPage</code>
+- <code title="get /subscriptions">client.subscriptions.<a href="./src/resources/subscriptions.ts">list</a>({ ...params }) -> SubscriptionsDefaultPageNumberPagination</code>
 
 # WebhookEvents
 

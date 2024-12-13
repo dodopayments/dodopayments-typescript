@@ -6,7 +6,7 @@ import * as Core from '../core';
 import * as DisputesAPI from './disputes';
 import * as RefundsAPI from './refunds';
 import * as SupportedCountriesAPI from './checkout/supported-countries';
-import { PageNumberPage, type PageNumberPageParams } from '../pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class Payments extends APIResource {
   create(body: PaymentCreateParams, options?: Core.RequestOptions): Core.APIPromise<PaymentCreateResponse> {
@@ -20,22 +20,25 @@ export class Payments extends APIResource {
   list(
     query?: PaymentListParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<PaymentListResponsesPageNumberPage, PaymentListResponse>;
+  ): Core.PagePromise<PaymentListResponsesDefaultPageNumberPagination, PaymentListResponse>;
   list(
     options?: Core.RequestOptions,
-  ): Core.PagePromise<PaymentListResponsesPageNumberPage, PaymentListResponse>;
+  ): Core.PagePromise<PaymentListResponsesDefaultPageNumberPagination, PaymentListResponse>;
   list(
     query: PaymentListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<PaymentListResponsesPageNumberPage, PaymentListResponse> {
+  ): Core.PagePromise<PaymentListResponsesDefaultPageNumberPagination, PaymentListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/payments', PaymentListResponsesPageNumberPage, { query, ...options });
+    return this._client.getAPIList('/payments', PaymentListResponsesDefaultPageNumberPagination, {
+      query,
+      ...options,
+    });
   }
 }
 
-export class PaymentListResponsesPageNumberPage extends PageNumberPage<PaymentListResponse> {}
+export class PaymentListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<PaymentListResponse> {}
 
 export interface Payment {
   business_id: string;
@@ -514,16 +517,16 @@ export namespace PaymentCreateParams {
   }
 }
 
-export interface PaymentListParams extends PageNumberPageParams {}
+export interface PaymentListParams extends DefaultPageNumberPaginationParams {}
 
-Payments.PaymentListResponsesPageNumberPage = PaymentListResponsesPageNumberPage;
+Payments.PaymentListResponsesDefaultPageNumberPagination = PaymentListResponsesDefaultPageNumberPagination;
 
 export declare namespace Payments {
   export {
     type Payment as Payment,
     type PaymentCreateResponse as PaymentCreateResponse,
     type PaymentListResponse as PaymentListResponse,
-    PaymentListResponsesPageNumberPage as PaymentListResponsesPageNumberPage,
+    PaymentListResponsesDefaultPageNumberPagination as PaymentListResponsesDefaultPageNumberPagination,
     type PaymentCreateParams as PaymentCreateParams,
     type PaymentListParams as PaymentListParams,
   };

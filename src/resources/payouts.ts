@@ -3,28 +3,31 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import { PageNumberPage, type PageNumberPageParams } from '../pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class Payouts extends APIResource {
   list(
     query?: PayoutListParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<PayoutListResponsesPageNumberPage, PayoutListResponse>;
+  ): Core.PagePromise<PayoutListResponsesDefaultPageNumberPagination, PayoutListResponse>;
   list(
     options?: Core.RequestOptions,
-  ): Core.PagePromise<PayoutListResponsesPageNumberPage, PayoutListResponse>;
+  ): Core.PagePromise<PayoutListResponsesDefaultPageNumberPagination, PayoutListResponse>;
   list(
     query: PayoutListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<PayoutListResponsesPageNumberPage, PayoutListResponse> {
+  ): Core.PagePromise<PayoutListResponsesDefaultPageNumberPagination, PayoutListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/payouts', PayoutListResponsesPageNumberPage, { query, ...options });
+    return this._client.getAPIList('/payouts', PayoutListResponsesDefaultPageNumberPagination, {
+      query,
+      ...options,
+    });
   }
 }
 
-export class PayoutListResponsesPageNumberPage extends PageNumberPage<PayoutListResponse> {}
+export class PayoutListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<PayoutListResponse> {}
 
 export interface PayoutListResponse {
   amount: number;
@@ -203,14 +206,14 @@ export interface PayoutListResponse {
   remarks?: string | null;
 }
 
-export interface PayoutListParams extends PageNumberPageParams {}
+export interface PayoutListParams extends DefaultPageNumberPaginationParams {}
 
-Payouts.PayoutListResponsesPageNumberPage = PayoutListResponsesPageNumberPage;
+Payouts.PayoutListResponsesDefaultPageNumberPagination = PayoutListResponsesDefaultPageNumberPagination;
 
 export declare namespace Payouts {
   export {
     type PayoutListResponse as PayoutListResponse,
-    PayoutListResponsesPageNumberPage as PayoutListResponsesPageNumberPage,
+    PayoutListResponsesDefaultPageNumberPagination as PayoutListResponsesDefaultPageNumberPagination,
     type PayoutListParams as PayoutListParams,
   };
 }
