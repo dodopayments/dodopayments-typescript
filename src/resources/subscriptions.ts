@@ -4,6 +4,7 @@ import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
 import * as SupportedCountriesAPI from './checkout/supported-countries';
+import { PageNumberPage, type PageNumberPageParams } from '../pagination';
 
 export class Subscriptions extends APIResource {
   create(
@@ -28,18 +29,20 @@ export class Subscriptions extends APIResource {
   list(
     query?: SubscriptionListParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<SubscriptionListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<SubscriptionListResponse>;
+  ): Core.PagePromise<SubscriptionsPageNumberPage, Subscription>;
+  list(options?: Core.RequestOptions): Core.PagePromise<SubscriptionsPageNumberPage, Subscription>;
   list(
     query: SubscriptionListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<SubscriptionListResponse> {
+  ): Core.PagePromise<SubscriptionsPageNumberPage, Subscription> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/subscriptions', { query, ...options });
+    return this._client.getAPIList('/subscriptions', SubscriptionsPageNumberPage, { query, ...options });
   }
 }
+
+export class SubscriptionsPageNumberPage extends PageNumberPage<Subscription> {}
 
 export interface Subscription {
   created_at: string;
@@ -248,10 +251,6 @@ export namespace SubscriptionCreateResponse {
   }
 }
 
-export interface SubscriptionListResponse {
-  items: Array<Subscription>;
-}
-
 export interface SubscriptionCreateParams {
   billing: SubscriptionCreateParams.Billing;
 
@@ -298,23 +297,15 @@ export interface SubscriptionUpdateParams {
   status: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired';
 }
 
-export interface SubscriptionListParams {
-  /**
-   * Page number default is 0
-   */
-  page_number?: number | null;
+export interface SubscriptionListParams extends PageNumberPageParams {}
 
-  /**
-   * Page size default is 10 max is 100
-   */
-  page_size?: number | null;
-}
+Subscriptions.SubscriptionsPageNumberPage = SubscriptionsPageNumberPage;
 
 export declare namespace Subscriptions {
   export {
     type Subscription as Subscription,
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
-    type SubscriptionListResponse as SubscriptionListResponse,
+    SubscriptionsPageNumberPage as SubscriptionsPageNumberPage,
     type SubscriptionCreateParams as SubscriptionCreateParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionListParams as SubscriptionListParams,

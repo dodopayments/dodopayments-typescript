@@ -3,7 +3,7 @@
 import { AbstractPage, Response, APIClient, FinalRequestOptions, PageInfo } from './core';
 
 export interface PageNumberPageResponse<Item> {
-  data: Array<Item>;
+  items: Array<Item>;
 }
 
 export interface PageNumberPageParams {
@@ -13,7 +13,7 @@ export interface PageNumberPageParams {
 }
 
 export class PageNumberPage<Item> extends AbstractPage<Item> implements PageNumberPageResponse<Item> {
-  data: Array<Item>;
+  items: Array<Item>;
 
   constructor(
     client: APIClient,
@@ -23,11 +23,11 @@ export class PageNumberPage<Item> extends AbstractPage<Item> implements PageNumb
   ) {
     super(client, response, body, options);
 
-    this.data = body.data || [];
+    this.items = body.items || [];
   }
 
   getPaginatedItems(): Item[] {
-    return this.data ?? [];
+    return this.items ?? [];
   }
 
   // @deprecated Please use `nextPageInfo()` instead

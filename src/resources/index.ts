@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export { Checkout } from './checkout/checkout';
-export { Customers, type Customer, type CustomerListResponse, type CustomerListParams } from './customers';
-export { Disputes, type Dispute, type DisputeListResponse, type DisputeListParams } from './disputes';
+export { CustomersPageNumberPage, Customers, type Customer, type CustomerListParams } from './customers';
+export { DisputesPageNumberPage, Disputes, type Dispute, type DisputeListParams } from './disputes';
 export {
+  PaymentListResponsesPageNumberPage,
   Payments,
   type Payment,
   type PaymentCreateResponse,
@@ -11,8 +12,14 @@ export {
   type PaymentCreateParams,
   type PaymentListParams,
 } from './payments';
-export { Payouts, type PayoutListResponse, type PayoutListParams } from './payouts';
 export {
+  PayoutListResponsesPageNumberPage,
+  Payouts,
+  type PayoutListResponse,
+  type PayoutListParams,
+} from './payouts';
+export {
+  ProductListResponsesPageNumberPage,
   Products,
   type Product,
   type ProductCreateResponse,
@@ -22,17 +29,17 @@ export {
   type ProductListParams,
 } from './products/products';
 export {
+  RefundsPageNumberPage,
   Refunds,
   type Refund,
-  type RefundListResponse,
   type RefundCreateParams,
   type RefundListParams,
 } from './refunds';
 export {
+  SubscriptionsPageNumberPage,
   Subscriptions,
   type Subscription,
   type SubscriptionCreateResponse,
-  type SubscriptionListResponse,
   type SubscriptionCreateParams,
   type SubscriptionUpdateParams,
   type SubscriptionListParams,
