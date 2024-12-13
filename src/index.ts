@@ -75,9 +75,9 @@ const environments = {
 type Environment = keyof typeof environments;
 export interface ClientOptions {
   /**
-   * API Key to Access Dodo Payments APIs
+   * Bearer Token for API authentication
    */
-  apiKey?: string | undefined;
+  bearerToken?: string | undefined;
 
   /**
    * Specifies the environment to use for the API.
@@ -149,14 +149,14 @@ export interface ClientOptions {
  * API Client for interfacing with the Dodo Payments API.
  */
 export class DodoPayments extends Core.APIClient {
-  apiKey: string;
+  bearerToken: string;
 
   private _options: ClientOptions;
 
   /**
    * API Client for interfacing with the Dodo Payments API.
    *
-   * @param {string | undefined} [opts.apiKey=process.env['DODO_PAYMENTS_API_KEY'] ?? undefined]
+   * @param {string | undefined} [opts.bearerToken=process.env['DOOD_PAYMENTS_API_KEY'] ?? undefined]
    * @param {Environment} [opts.environment=live_mode] - Specifies the environment URL to use for the API.
    * @param {string} [opts.baseURL=process.env['DODO_PAYMENTS_BASE_URL'] ?? https://live.dodopayments.com/] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
@@ -168,17 +168,17 @@ export class DodoPayments extends Core.APIClient {
    */
   constructor({
     baseURL = Core.readEnv('DODO_PAYMENTS_BASE_URL'),
-    apiKey = Core.readEnv('DODO_PAYMENTS_API_KEY'),
+    bearerToken = Core.readEnv('DOOD_PAYMENTS_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
-    if (apiKey === undefined) {
+    if (bearerToken === undefined) {
       throw new Errors.DodoPaymentsError(
-        "The DODO_PAYMENTS_API_KEY environment variable is missing or empty; either provide it, or instantiate the DodoPayments client with an apiKey option, like new DodoPayments({ apiKey: 'My API Key' }).",
+        "The DOOD_PAYMENTS_API_KEY environment variable is missing or empty; either provide it, or instantiate the DodoPayments client with an bearerToken option, like new DodoPayments({ bearerToken: 'My Bearer Token' }).",
       );
     }
 
     const options: ClientOptions = {
-      apiKey,
+      bearerToken,
       ...opts,
       baseURL,
       environment: opts.environment ?? 'live_mode',
@@ -200,7 +200,7 @@ export class DodoPayments extends Core.APIClient {
 
     this._options = options;
 
-    this.apiKey = apiKey;
+    this.bearerToken = bearerToken;
   }
 
   payments: API.Payments = new API.Payments(this);
@@ -225,7 +225,7 @@ export class DodoPayments extends Core.APIClient {
   }
 
   protected override authHeaders(opts: Core.FinalRequestOptions): Core.Headers {
-    return { Authorization: `Bearer ${this.apiKey}` };
+    return { Authorization: `Bearer ${this.bearerToken}` };
   }
 
   static DodoPayments = this;
