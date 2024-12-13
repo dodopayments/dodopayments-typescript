@@ -2,20 +2,20 @@
 
 import { APIResource } from '../../resource';
 import * as SupportedCountriesAPI from './supported-countries';
-import { CountryCodeAlpha2, SupportedCountries, SupportedCountryListResponse } from './supported-countries';
+import { CountryCode, SupportedCountries, SupportedCountryListResponse } from './supported-countries';
 
-export class Checkout extends APIResource {
+export class Misc extends APIResource {
   supportedCountries: SupportedCountriesAPI.SupportedCountries = new SupportedCountriesAPI.SupportedCountries(
     this._client,
   );
 }
 
-Checkout.SupportedCountries = SupportedCountries;
+Misc.SupportedCountries = SupportedCountries;
 
-export declare namespace Checkout {
+export declare namespace Misc {
   export {
     SupportedCountries as SupportedCountries,
-    type CountryCodeAlpha2 as CountryCodeAlpha2,
+    type CountryCode as CountryCode,
     type SupportedCountryListResponse as SupportedCountryListResponse,
   };
 }

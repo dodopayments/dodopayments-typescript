@@ -5,7 +5,7 @@ import { isRequestOptions } from '../core';
 import * as Core from '../core';
 
 export class WebhookEvents extends APIResource {
-  retrieve(webhookEventId: string, options?: Core.RequestOptions): Core.APIPromise<WebhookEventLog> {
+  retrieve(webhookEventId: string, options?: Core.RequestOptions): Core.APIPromise<WebhookEvent> {
     return this._client.get(`/webhook_events/${webhookEventId}`, options);
   }
 
@@ -25,7 +25,7 @@ export class WebhookEvents extends APIResource {
   }
 }
 
-export interface WebhookEventLog {
+export interface WebhookEvent {
   business_id: string;
 
   created_at: string;
@@ -44,7 +44,7 @@ export interface WebhookEventLog {
 }
 
 export interface WebhookEventListResponse {
-  items: Array<WebhookEventLog>;
+  items: Array<WebhookEvent>;
 }
 
 export interface WebhookEventListParams {
@@ -66,7 +66,7 @@ export interface WebhookEventListParams {
 
 export declare namespace WebhookEvents {
   export {
-    type WebhookEventLog as WebhookEventLog,
+    type WebhookEvent as WebhookEvent,
     type WebhookEventListResponse as WebhookEventListResponse,
     type WebhookEventListParams as WebhookEventListParams,
   };

@@ -12,7 +12,7 @@ export class SupportedCountries extends APIResource {
 /**
  * ISO country code alpha2 variant
  */
-export type CountryCodeAlpha2 =
+export type CountryCode =
   | 'AF'
   | 'AX'
   | 'AL'
@@ -263,11 +263,11 @@ export type CountryCodeAlpha2 =
   | 'ZM'
   | 'ZW';
 
-export type SupportedCountryListResponse = Array<CountryCodeAlpha2>;
+export type SupportedCountryListResponse = Array<CountryCode>;
 
 export declare namespace SupportedCountries {
   export {
-    type CountryCodeAlpha2 as CountryCodeAlpha2,
+    type CountryCode as CountryCode,
     type SupportedCountryListResponse as SupportedCountryListResponse,
   };
 }

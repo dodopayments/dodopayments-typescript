@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Checkout } from './checkout';
+export { Misc } from './misc';
 export {
   SupportedCountries,
-  type CountryCodeAlpha2,
+  type CountryCode,
   type SupportedCountryListResponse,
 } from './supported-countries';
