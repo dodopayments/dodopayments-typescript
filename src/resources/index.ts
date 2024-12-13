@@ -1,6 +1,5 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Checkout } from './checkout/checkout';
 export {
   CustomersDefaultPageNumberPagination,
   Customers,
@@ -13,6 +12,7 @@ export {
   type Dispute,
   type DisputeListParams,
 } from './disputes';
+export { Misc } from './misc/misc';
 export {
   PaymentListResponsesDefaultPageNumberPagination,
   Payments,
@@ -56,7 +56,7 @@ export {
 } from './subscriptions';
 export {
   WebhookEvents,
-  type WebhookEventLog,
+  type WebhookEvent,
   type WebhookEventListResponse,
   type WebhookEventListParams,
 } from './webhook-events';

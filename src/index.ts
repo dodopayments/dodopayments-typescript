@@ -51,12 +51,12 @@ import {
   SubscriptionsDefaultPageNumberPagination,
 } from './resources/subscriptions';
 import {
+  WebhookEvent,
   WebhookEventListParams,
   WebhookEventListResponse,
-  WebhookEventLog,
   WebhookEvents,
 } from './resources/webhook-events';
-import { Checkout } from './resources/checkout/checkout';
+import { Misc } from './resources/misc/misc';
 import {
   Product,
   ProductCreateParams,
@@ -91,7 +91,7 @@ export interface ClientOptions {
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['DODOPAYMENTS_BASE_URL'].
+   * Defaults to process.env['DODO_PAYMENTS_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -146,19 +146,19 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Dodopayments API.
+ * API Client for interfacing with the Dodo Payments API.
  */
-export class Dodopayments extends Core.APIClient {
+export class DodoPayments extends Core.APIClient {
   apiKey: string;
 
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Dodopayments API.
+   * API Client for interfacing with the Dodo Payments API.
    *
    * @param {string | undefined} [opts.apiKey=process.env['DODO_PAYMENTS_API_KEY'] ?? undefined]
    * @param {Environment} [opts.environment=live_mode] - Specifies the environment URL to use for the API.
-   * @param {string} [opts.baseURL=process.env['DODOPAYMENTS_BASE_URL'] ?? https://live.dodopayments.com/] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['DODO_PAYMENTS_BASE_URL'] ?? https://live.dodopayments.com/] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
    * @param {Core.Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -167,13 +167,13 @@ export class Dodopayments extends Core.APIClient {
    * @param {Core.DefaultQuery} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = Core.readEnv('DODOPAYMENTS_BASE_URL'),
+    baseURL = Core.readEnv('DODO_PAYMENTS_BASE_URL'),
     apiKey = Core.readEnv('DODO_PAYMENTS_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
-      throw new Errors.DodopaymentsError(
-        "The DODO_PAYMENTS_API_KEY environment variable is missing or empty; either provide it, or instantiate the Dodopayments client with an apiKey option, like new Dodopayments({ apiKey: 'My API Key' }).",
+      throw new Errors.DodoPaymentsError(
+        "The DODO_PAYMENTS_API_KEY environment variable is missing or empty; either provide it, or instantiate the DodoPayments client with an apiKey option, like new DodoPayments({ apiKey: 'My API Key' }).",
       );
     }
 
@@ -185,8 +185,8 @@ export class Dodopayments extends Core.APIClient {
     };
 
     if (baseURL && opts.environment) {
-      throw new Errors.DodopaymentsError(
-        'Ambiguous URL; The `baseURL` option (or DODOPAYMENTS_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null',
+      throw new Errors.DodoPaymentsError(
+        'Ambiguous URL; The `baseURL` option (or DODO_PAYMENTS_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null',
       );
     }
 
@@ -203,15 +203,15 @@ export class Dodopayments extends Core.APIClient {
     this.apiKey = apiKey;
   }
 
-  checkout: API.Checkout = new API.Checkout(this);
-  customers: API.Customers = new API.Customers(this);
-  disputes: API.Disputes = new API.Disputes(this);
   payments: API.Payments = new API.Payments(this);
-  payouts: API.Payouts = new API.Payouts(this);
-  products: API.Products = new API.Products(this);
-  refunds: API.Refunds = new API.Refunds(this);
   subscriptions: API.Subscriptions = new API.Subscriptions(this);
+  customers: API.Customers = new API.Customers(this);
+  refunds: API.Refunds = new API.Refunds(this);
+  disputes: API.Disputes = new API.Disputes(this);
+  payouts: API.Payouts = new API.Payouts(this);
   webhookEvents: API.WebhookEvents = new API.WebhookEvents(this);
+  products: API.Products = new API.Products(this);
+  misc: API.Misc = new API.Misc(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -228,10 +228,10 @@ export class Dodopayments extends Core.APIClient {
     return { Authorization: `Bearer ${this.apiKey}` };
   }
 
-  static Dodopayments = this;
+  static DodoPayments = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
 
-  static DodopaymentsError = Errors.DodopaymentsError;
+  static DodoPaymentsError = Errors.DodoPaymentsError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -249,47 +249,31 @@ export class Dodopayments extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
-Dodopayments.Checkout = Checkout;
-Dodopayments.Customers = Customers;
-Dodopayments.CustomersDefaultPageNumberPagination = CustomersDefaultPageNumberPagination;
-Dodopayments.Disputes = Disputes;
-Dodopayments.DisputesDefaultPageNumberPagination = DisputesDefaultPageNumberPagination;
-Dodopayments.Payments = Payments;
-Dodopayments.PaymentListResponsesDefaultPageNumberPagination =
+DodoPayments.Payments = Payments;
+DodoPayments.PaymentListResponsesDefaultPageNumberPagination =
   PaymentListResponsesDefaultPageNumberPagination;
-Dodopayments.Payouts = Payouts;
-Dodopayments.PayoutListResponsesDefaultPageNumberPagination = PayoutListResponsesDefaultPageNumberPagination;
-Dodopayments.Products = Products;
-Dodopayments.ProductListResponsesDefaultPageNumberPagination =
+DodoPayments.Subscriptions = Subscriptions;
+DodoPayments.SubscriptionsDefaultPageNumberPagination = SubscriptionsDefaultPageNumberPagination;
+DodoPayments.Customers = Customers;
+DodoPayments.CustomersDefaultPageNumberPagination = CustomersDefaultPageNumberPagination;
+DodoPayments.Refunds = Refunds;
+DodoPayments.RefundsDefaultPageNumberPagination = RefundsDefaultPageNumberPagination;
+DodoPayments.Disputes = Disputes;
+DodoPayments.DisputesDefaultPageNumberPagination = DisputesDefaultPageNumberPagination;
+DodoPayments.Payouts = Payouts;
+DodoPayments.PayoutListResponsesDefaultPageNumberPagination = PayoutListResponsesDefaultPageNumberPagination;
+DodoPayments.WebhookEvents = WebhookEvents;
+DodoPayments.Products = Products;
+DodoPayments.ProductListResponsesDefaultPageNumberPagination =
   ProductListResponsesDefaultPageNumberPagination;
-Dodopayments.Refunds = Refunds;
-Dodopayments.RefundsDefaultPageNumberPagination = RefundsDefaultPageNumberPagination;
-Dodopayments.Subscriptions = Subscriptions;
-Dodopayments.SubscriptionsDefaultPageNumberPagination = SubscriptionsDefaultPageNumberPagination;
-Dodopayments.WebhookEvents = WebhookEvents;
-export declare namespace Dodopayments {
+DodoPayments.Misc = Misc;
+export declare namespace DodoPayments {
   export type RequestOptions = Core.RequestOptions;
 
   export import DefaultPageNumberPagination = Pagination.DefaultPageNumberPagination;
   export {
     type DefaultPageNumberPaginationParams as DefaultPageNumberPaginationParams,
     type DefaultPageNumberPaginationResponse as DefaultPageNumberPaginationResponse,
-  };
-
-  export { Checkout as Checkout };
-
-  export {
-    Customers as Customers,
-    type Customer as Customer,
-    CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
-    type CustomerListParams as CustomerListParams,
-  };
-
-  export {
-    Disputes as Disputes,
-    type Dispute as Dispute,
-    DisputesDefaultPageNumberPagination as DisputesDefaultPageNumberPagination,
-    type DisputeListParams as DisputeListParams,
   };
 
   export {
@@ -303,10 +287,49 @@ export declare namespace Dodopayments {
   };
 
   export {
+    Subscriptions as Subscriptions,
+    type Subscription as Subscription,
+    type SubscriptionCreateResponse as SubscriptionCreateResponse,
+    SubscriptionsDefaultPageNumberPagination as SubscriptionsDefaultPageNumberPagination,
+    type SubscriptionCreateParams as SubscriptionCreateParams,
+    type SubscriptionUpdateParams as SubscriptionUpdateParams,
+    type SubscriptionListParams as SubscriptionListParams,
+  };
+
+  export {
+    Customers as Customers,
+    type Customer as Customer,
+    CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
+    type CustomerListParams as CustomerListParams,
+  };
+
+  export {
+    Refunds as Refunds,
+    type Refund as Refund,
+    RefundsDefaultPageNumberPagination as RefundsDefaultPageNumberPagination,
+    type RefundCreateParams as RefundCreateParams,
+    type RefundListParams as RefundListParams,
+  };
+
+  export {
+    Disputes as Disputes,
+    type Dispute as Dispute,
+    DisputesDefaultPageNumberPagination as DisputesDefaultPageNumberPagination,
+    type DisputeListParams as DisputeListParams,
+  };
+
+  export {
     Payouts as Payouts,
     type PayoutListResponse as PayoutListResponse,
     PayoutListResponsesDefaultPageNumberPagination as PayoutListResponsesDefaultPageNumberPagination,
     type PayoutListParams as PayoutListParams,
+  };
+
+  export {
+    WebhookEvents as WebhookEvents,
+    type WebhookEvent as WebhookEvent,
+    type WebhookEventListResponse as WebhookEventListResponse,
+    type WebhookEventListParams as WebhookEventListParams,
   };
 
   export {
@@ -320,35 +343,12 @@ export declare namespace Dodopayments {
     type ProductListParams as ProductListParams,
   };
 
-  export {
-    Refunds as Refunds,
-    type Refund as Refund,
-    RefundsDefaultPageNumberPagination as RefundsDefaultPageNumberPagination,
-    type RefundCreateParams as RefundCreateParams,
-    type RefundListParams as RefundListParams,
-  };
-
-  export {
-    Subscriptions as Subscriptions,
-    type Subscription as Subscription,
-    type SubscriptionCreateResponse as SubscriptionCreateResponse,
-    SubscriptionsDefaultPageNumberPagination as SubscriptionsDefaultPageNumberPagination,
-    type SubscriptionCreateParams as SubscriptionCreateParams,
-    type SubscriptionUpdateParams as SubscriptionUpdateParams,
-    type SubscriptionListParams as SubscriptionListParams,
-  };
-
-  export {
-    WebhookEvents as WebhookEvents,
-    type WebhookEventLog as WebhookEventLog,
-    type WebhookEventListResponse as WebhookEventListResponse,
-    type WebhookEventListParams as WebhookEventListParams,
-  };
+  export { Misc as Misc };
 }
 
 export { toFile, fileFromPath } from './uploads';
 export {
-  DodopaymentsError,
+  DodoPaymentsError,
   APIError,
   APIConnectionError,
   APIConnectionTimeoutError,
@@ -363,4 +363,4 @@ export {
   UnprocessableEntityError,
 } from './error';
 
-export default Dodopayments;
+export default DodoPayments;

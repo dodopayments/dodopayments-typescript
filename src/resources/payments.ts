@@ -5,7 +5,7 @@ import { isRequestOptions } from '../core';
 import * as Core from '../core';
 import * as DisputesAPI from './disputes';
 import * as RefundsAPI from './refunds';
-import * as SupportedCountriesAPI from './checkout/supported-countries';
+import * as SupportedCountriesAPI from './misc/supported-countries';
 import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class Payments extends APIResource {
@@ -493,7 +493,7 @@ export namespace PaymentCreateParams {
     /**
      * ISO country code alpha2 variant
      */
-    country: SupportedCountriesAPI.CountryCodeAlpha2;
+    country: SupportedCountriesAPI.CountryCode;
 
     state: string;
 

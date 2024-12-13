@@ -3,7 +3,7 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import * as SupportedCountriesAPI from './checkout/supported-countries';
+import * as SupportedCountriesAPI from './misc/supported-countries';
 import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class Subscriptions extends APIResource {
@@ -280,7 +280,7 @@ export namespace SubscriptionCreateParams {
     /**
      * ISO country code alpha2 variant
      */
-    country: SupportedCountriesAPI.CountryCodeAlpha2;
+    country: SupportedCountriesAPI.CountryCode;
 
     state: string;
 

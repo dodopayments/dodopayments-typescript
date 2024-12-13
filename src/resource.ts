@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import type { Dodopayments } from './index';
+import type { DodoPayments } from './index';
 
 export class APIResource {
-  protected _client: Dodopayments;
+  protected _client: DodoPayments;
 
-  constructor(client: Dodopayments) {
+  constructor(client: DodoPayments) {
     this._client = client;
   }
 }
