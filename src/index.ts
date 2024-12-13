@@ -42,11 +42,11 @@ import {
 } from './resources/webhook-events';
 import { Checkout } from './resources/checkout/checkout';
 import {
+  Product,
   ProductCreateParams,
   ProductCreateResponse,
   ProductListParams,
   ProductListResponse,
-  ProductRetrieveResponse,
   ProductUpdateParams,
   Products,
 } from './resources/products/products';
@@ -283,8 +283,8 @@ export declare namespace Dodopayments {
 
   export {
     Products as Products,
+    type Product as Product,
     type ProductCreateResponse as ProductCreateResponse,
-    type ProductRetrieveResponse as ProductRetrieveResponse,
     type ProductListResponse as ProductListResponse,
     type ProductCreateParams as ProductCreateParams,
     type ProductUpdateParams as ProductUpdateParams,

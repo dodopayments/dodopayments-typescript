@@ -14,8 +14,8 @@ export {
 export { Payouts, type PayoutListResponse, type PayoutListParams } from './payouts';
 export {
   Products,
+  type Product,
   type ProductCreateResponse,
-  type ProductRetrieveResponse,
   type ProductListResponse,
   type ProductCreateParams,
   type ProductUpdateParams,
