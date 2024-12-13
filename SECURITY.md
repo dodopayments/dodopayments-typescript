@@ -20,7 +20,7 @@ or products provided by Dodo Payments please follow the respective company's sec
 
 ### Dodo Payments Terms and Policies
 
-Please contact support@dodopayments.com for any questions or concerns regarding security of our services.
+Please contact founders@dodopayments.com for any questions or concerns regarding security of our services.
 
 ---
 
