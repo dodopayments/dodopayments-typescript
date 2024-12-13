@@ -3,7 +3,7 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import { PageNumberPage, type PageNumberPageParams } from '../pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class Refunds extends APIResource {
   create(body: RefundCreateParams, options?: Core.RequestOptions): Core.APIPromise<Refund> {
@@ -17,20 +17,20 @@ export class Refunds extends APIResource {
   list(
     query?: RefundListParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<RefundsPageNumberPage, Refund>;
-  list(options?: Core.RequestOptions): Core.PagePromise<RefundsPageNumberPage, Refund>;
+  ): Core.PagePromise<RefundsDefaultPageNumberPagination, Refund>;
+  list(options?: Core.RequestOptions): Core.PagePromise<RefundsDefaultPageNumberPagination, Refund>;
   list(
     query: RefundListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<RefundsPageNumberPage, Refund> {
+  ): Core.PagePromise<RefundsDefaultPageNumberPagination, Refund> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/refunds', RefundsPageNumberPage, { query, ...options });
+    return this._client.getAPIList('/refunds', RefundsDefaultPageNumberPagination, { query, ...options });
   }
 }
 
-export class RefundsPageNumberPage extends PageNumberPage<Refund> {}
+export class RefundsDefaultPageNumberPagination extends DefaultPageNumberPagination<Refund> {}
 
 export interface Refund {
   business_id: string;
@@ -204,14 +204,14 @@ export interface RefundCreateParams {
   reason?: string | null;
 }
 
-export interface RefundListParams extends PageNumberPageParams {}
+export interface RefundListParams extends DefaultPageNumberPaginationParams {}
 
-Refunds.RefundsPageNumberPage = RefundsPageNumberPage;
+Refunds.RefundsDefaultPageNumberPagination = RefundsDefaultPageNumberPagination;
 
 export declare namespace Refunds {
   export {
     type Refund as Refund,
-    RefundsPageNumberPage as RefundsPageNumberPage,
+    RefundsDefaultPageNumberPagination as RefundsDefaultPageNumberPagination,
     type RefundCreateParams as RefundCreateParams,
     type RefundListParams as RefundListParams,
   };

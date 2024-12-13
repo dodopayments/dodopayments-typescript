@@ -5,7 +5,7 @@ import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
 import * as ImagesAPI from './images';
 import { ImageUpdateResponse, Images } from './images';
-import { PageNumberPage, type PageNumberPageParams } from '../../pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../../pagination';
 
 export class Products extends APIResource {
   images: ImagesAPI.Images = new ImagesAPI.Images(this._client);
@@ -29,22 +29,25 @@ export class Products extends APIResource {
   list(
     query?: ProductListParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<ProductListResponsesPageNumberPage, ProductListResponse>;
+  ): Core.PagePromise<ProductListResponsesDefaultPageNumberPagination, ProductListResponse>;
   list(
     options?: Core.RequestOptions,
-  ): Core.PagePromise<ProductListResponsesPageNumberPage, ProductListResponse>;
+  ): Core.PagePromise<ProductListResponsesDefaultPageNumberPagination, ProductListResponse>;
   list(
     query: ProductListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<ProductListResponsesPageNumberPage, ProductListResponse> {
+  ): Core.PagePromise<ProductListResponsesDefaultPageNumberPagination, ProductListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/products', ProductListResponsesPageNumberPage, { query, ...options });
+    return this._client.getAPIList('/products', ProductListResponsesDefaultPageNumberPagination, {
+      query,
+      ...options,
+    });
   }
 }
 
-export class ProductListResponsesPageNumberPage extends PageNumberPage<ProductListResponse> {}
+export class ProductListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<ProductListResponse> {}
 
 export interface Product {
   business_id: string;
@@ -1132,9 +1135,9 @@ export namespace ProductUpdateParams {
   }
 }
 
-export interface ProductListParams extends PageNumberPageParams {}
+export interface ProductListParams extends DefaultPageNumberPaginationParams {}
 
-Products.ProductListResponsesPageNumberPage = ProductListResponsesPageNumberPage;
+Products.ProductListResponsesDefaultPageNumberPagination = ProductListResponsesDefaultPageNumberPagination;
 Products.Images = Images;
 
 export declare namespace Products {
@@ -1142,7 +1145,7 @@ export declare namespace Products {
     type Product as Product,
     type ProductCreateResponse as ProductCreateResponse,
     type ProductListResponse as ProductListResponse,
-    ProductListResponsesPageNumberPage as ProductListResponsesPageNumberPage,
+    ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
     type ProductCreateParams as ProductCreateParams,
     type ProductUpdateParams as ProductUpdateParams,
     type ProductListParams as ProductListParams,

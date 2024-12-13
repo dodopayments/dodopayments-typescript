@@ -4,7 +4,7 @@ import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
 import * as SupportedCountriesAPI from './checkout/supported-countries';
-import { PageNumberPage, type PageNumberPageParams } from '../pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class Subscriptions extends APIResource {
   create(
@@ -29,20 +29,25 @@ export class Subscriptions extends APIResource {
   list(
     query?: SubscriptionListParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<SubscriptionsPageNumberPage, Subscription>;
-  list(options?: Core.RequestOptions): Core.PagePromise<SubscriptionsPageNumberPage, Subscription>;
+  ): Core.PagePromise<SubscriptionsDefaultPageNumberPagination, Subscription>;
+  list(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<SubscriptionsDefaultPageNumberPagination, Subscription>;
   list(
     query: SubscriptionListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<SubscriptionsPageNumberPage, Subscription> {
+  ): Core.PagePromise<SubscriptionsDefaultPageNumberPagination, Subscription> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/subscriptions', SubscriptionsPageNumberPage, { query, ...options });
+    return this._client.getAPIList('/subscriptions', SubscriptionsDefaultPageNumberPagination, {
+      query,
+      ...options,
+    });
   }
 }
 
-export class SubscriptionsPageNumberPage extends PageNumberPage<Subscription> {}
+export class SubscriptionsDefaultPageNumberPagination extends DefaultPageNumberPagination<Subscription> {}
 
 export interface Subscription {
   created_at: string;
@@ -297,15 +302,15 @@ export interface SubscriptionUpdateParams {
   status: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired';
 }
 
-export interface SubscriptionListParams extends PageNumberPageParams {}
+export interface SubscriptionListParams extends DefaultPageNumberPaginationParams {}
 
-Subscriptions.SubscriptionsPageNumberPage = SubscriptionsPageNumberPage;
+Subscriptions.SubscriptionsDefaultPageNumberPagination = SubscriptionsDefaultPageNumberPagination;
 
 export declare namespace Subscriptions {
   export {
     type Subscription as Subscription,
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
-    SubscriptionsPageNumberPage as SubscriptionsPageNumberPage,
+    SubscriptionsDefaultPageNumberPagination as SubscriptionsDefaultPageNumberPagination,
     type SubscriptionCreateParams as SubscriptionCreateParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionListParams as SubscriptionListParams,

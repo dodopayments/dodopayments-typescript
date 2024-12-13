@@ -3,7 +3,7 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import { PageNumberPage, type PageNumberPageParams } from '../pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class Customers extends APIResource {
   retrieve(customerId: string, options?: Core.RequestOptions): Core.APIPromise<Customer> {
@@ -13,20 +13,20 @@ export class Customers extends APIResource {
   list(
     query?: CustomerListParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomersPageNumberPage, Customer>;
-  list(options?: Core.RequestOptions): Core.PagePromise<CustomersPageNumberPage, Customer>;
+  ): Core.PagePromise<CustomersDefaultPageNumberPagination, Customer>;
+  list(options?: Core.RequestOptions): Core.PagePromise<CustomersDefaultPageNumberPagination, Customer>;
   list(
     query: CustomerListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomersPageNumberPage, Customer> {
+  ): Core.PagePromise<CustomersDefaultPageNumberPagination, Customer> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/customers', CustomersPageNumberPage, { query, ...options });
+    return this._client.getAPIList('/customers', CustomersDefaultPageNumberPagination, { query, ...options });
   }
 }
 
-export class CustomersPageNumberPage extends PageNumberPage<Customer> {}
+export class CustomersDefaultPageNumberPagination extends DefaultPageNumberPagination<Customer> {}
 
 export interface Customer {
   business_id: string;
@@ -42,14 +42,14 @@ export interface Customer {
   phone_number?: string | null;
 }
 
-export interface CustomerListParams extends PageNumberPageParams {}
+export interface CustomerListParams extends DefaultPageNumberPaginationParams {}
 
-Customers.CustomersPageNumberPage = CustomersPageNumberPage;
+Customers.CustomersDefaultPageNumberPagination = CustomersDefaultPageNumberPagination;
 
 export declare namespace Customers {
   export {
     type Customer as Customer,
-    CustomersPageNumberPage as CustomersPageNumberPage,
+    CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
     type CustomerListParams as CustomerListParams,
   };
 }

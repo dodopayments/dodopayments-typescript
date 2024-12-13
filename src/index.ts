@@ -4,24 +4,34 @@ import { type Agent } from './_shims/index';
 import * as Core from './core';
 import * as Errors from './error';
 import * as Pagination from './pagination';
-import { type PageNumberPageParams, PageNumberPageResponse } from './pagination';
+import { type DefaultPageNumberPaginationParams, DefaultPageNumberPaginationResponse } from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
-import { Customer, CustomerListParams, Customers, CustomersPageNumberPage } from './resources/customers';
-import { Dispute, DisputeListParams, Disputes, DisputesPageNumberPage } from './resources/disputes';
+import {
+  Customer,
+  CustomerListParams,
+  Customers,
+  CustomersDefaultPageNumberPagination,
+} from './resources/customers';
+import {
+  Dispute,
+  DisputeListParams,
+  Disputes,
+  DisputesDefaultPageNumberPagination,
+} from './resources/disputes';
 import {
   Payment,
   PaymentCreateParams,
   PaymentCreateResponse,
   PaymentListParams,
   PaymentListResponse,
-  PaymentListResponsesPageNumberPage,
+  PaymentListResponsesDefaultPageNumberPagination,
   Payments,
 } from './resources/payments';
 import {
   PayoutListParams,
   PayoutListResponse,
-  PayoutListResponsesPageNumberPage,
+  PayoutListResponsesDefaultPageNumberPagination,
   Payouts,
 } from './resources/payouts';
 import {
@@ -29,7 +39,7 @@ import {
   RefundCreateParams,
   RefundListParams,
   Refunds,
-  RefundsPageNumberPage,
+  RefundsDefaultPageNumberPagination,
 } from './resources/refunds';
 import {
   Subscription,
@@ -38,7 +48,7 @@ import {
   SubscriptionListParams,
   SubscriptionUpdateParams,
   Subscriptions,
-  SubscriptionsPageNumberPage,
+  SubscriptionsDefaultPageNumberPagination,
 } from './resources/subscriptions';
 import {
   WebhookEventListParams,
@@ -53,7 +63,7 @@ import {
   ProductCreateResponse,
   ProductListParams,
   ProductListResponse,
-  ProductListResponsesPageNumberPage,
+  ProductListResponsesDefaultPageNumberPagination,
   ProductUpdateParams,
   Products,
 } from './resources/products/products';
@@ -241,27 +251,29 @@ export class Dodopayments extends Core.APIClient {
 
 Dodopayments.Checkout = Checkout;
 Dodopayments.Customers = Customers;
-Dodopayments.CustomersPageNumberPage = CustomersPageNumberPage;
+Dodopayments.CustomersDefaultPageNumberPagination = CustomersDefaultPageNumberPagination;
 Dodopayments.Disputes = Disputes;
-Dodopayments.DisputesPageNumberPage = DisputesPageNumberPage;
+Dodopayments.DisputesDefaultPageNumberPagination = DisputesDefaultPageNumberPagination;
 Dodopayments.Payments = Payments;
-Dodopayments.PaymentListResponsesPageNumberPage = PaymentListResponsesPageNumberPage;
+Dodopayments.PaymentListResponsesDefaultPageNumberPagination =
+  PaymentListResponsesDefaultPageNumberPagination;
 Dodopayments.Payouts = Payouts;
-Dodopayments.PayoutListResponsesPageNumberPage = PayoutListResponsesPageNumberPage;
+Dodopayments.PayoutListResponsesDefaultPageNumberPagination = PayoutListResponsesDefaultPageNumberPagination;
 Dodopayments.Products = Products;
-Dodopayments.ProductListResponsesPageNumberPage = ProductListResponsesPageNumberPage;
+Dodopayments.ProductListResponsesDefaultPageNumberPagination =
+  ProductListResponsesDefaultPageNumberPagination;
 Dodopayments.Refunds = Refunds;
-Dodopayments.RefundsPageNumberPage = RefundsPageNumberPage;
+Dodopayments.RefundsDefaultPageNumberPagination = RefundsDefaultPageNumberPagination;
 Dodopayments.Subscriptions = Subscriptions;
-Dodopayments.SubscriptionsPageNumberPage = SubscriptionsPageNumberPage;
+Dodopayments.SubscriptionsDefaultPageNumberPagination = SubscriptionsDefaultPageNumberPagination;
 Dodopayments.WebhookEvents = WebhookEvents;
 export declare namespace Dodopayments {
   export type RequestOptions = Core.RequestOptions;
 
-  export import PageNumberPage = Pagination.PageNumberPage;
+  export import DefaultPageNumberPagination = Pagination.DefaultPageNumberPagination;
   export {
-    type PageNumberPageParams as PageNumberPageParams,
-    type PageNumberPageResponse as PageNumberPageResponse,
+    type DefaultPageNumberPaginationParams as DefaultPageNumberPaginationParams,
+    type DefaultPageNumberPaginationResponse as DefaultPageNumberPaginationResponse,
   };
 
   export { Checkout as Checkout };
@@ -269,14 +281,14 @@ export declare namespace Dodopayments {
   export {
     Customers as Customers,
     type Customer as Customer,
-    CustomersPageNumberPage as CustomersPageNumberPage,
+    CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
     type CustomerListParams as CustomerListParams,
   };
 
   export {
     Disputes as Disputes,
     type Dispute as Dispute,
-    DisputesPageNumberPage as DisputesPageNumberPage,
+    DisputesDefaultPageNumberPagination as DisputesDefaultPageNumberPagination,
     type DisputeListParams as DisputeListParams,
   };
 
@@ -285,7 +297,7 @@ export declare namespace Dodopayments {
     type Payment as Payment,
     type PaymentCreateResponse as PaymentCreateResponse,
     type PaymentListResponse as PaymentListResponse,
-    PaymentListResponsesPageNumberPage as PaymentListResponsesPageNumberPage,
+    PaymentListResponsesDefaultPageNumberPagination as PaymentListResponsesDefaultPageNumberPagination,
     type PaymentCreateParams as PaymentCreateParams,
     type PaymentListParams as PaymentListParams,
   };
@@ -293,7 +305,7 @@ export declare namespace Dodopayments {
   export {
     Payouts as Payouts,
     type PayoutListResponse as PayoutListResponse,
-    PayoutListResponsesPageNumberPage as PayoutListResponsesPageNumberPage,
+    PayoutListResponsesDefaultPageNumberPagination as PayoutListResponsesDefaultPageNumberPagination,
     type PayoutListParams as PayoutListParams,
   };
 
@@ -302,7 +314,7 @@ export declare namespace Dodopayments {
     type Product as Product,
     type ProductCreateResponse as ProductCreateResponse,
     type ProductListResponse as ProductListResponse,
-    ProductListResponsesPageNumberPage as ProductListResponsesPageNumberPage,
+    ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
     type ProductCreateParams as ProductCreateParams,
     type ProductUpdateParams as ProductUpdateParams,
     type ProductListParams as ProductListParams,
@@ -311,7 +323,7 @@ export declare namespace Dodopayments {
   export {
     Refunds as Refunds,
     type Refund as Refund,
-    RefundsPageNumberPage as RefundsPageNumberPage,
+    RefundsDefaultPageNumberPagination as RefundsDefaultPageNumberPagination,
     type RefundCreateParams as RefundCreateParams,
     type RefundListParams as RefundListParams,
   };
@@ -320,7 +332,7 @@ export declare namespace Dodopayments {
     Subscriptions as Subscriptions,
     type Subscription as Subscription,
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
-    SubscriptionsPageNumberPage as SubscriptionsPageNumberPage,
+    SubscriptionsDefaultPageNumberPagination as SubscriptionsDefaultPageNumberPagination,
     type SubscriptionCreateParams as SubscriptionCreateParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionListParams as SubscriptionListParams,
