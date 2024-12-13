@@ -154,26 +154,26 @@ describe('instantiate client', () => {
     test('empty env variable', () => {
       process.env['DODOPAYMENTS_BASE_URL'] = ''; // empty
       const client = new Dodopayments({ apiKey: 'My API Key' });
-      expect(client.baseURL).toEqual('https://test.dodopayments.com/');
+      expect(client.baseURL).toEqual('https://live.dodopayments.com/');
     });
 
     test('blank env variable', () => {
       process.env['DODOPAYMENTS_BASE_URL'] = '  '; // blank
       const client = new Dodopayments({ apiKey: 'My API Key' });
-      expect(client.baseURL).toEqual('https://test.dodopayments.com/');
+      expect(client.baseURL).toEqual('https://live.dodopayments.com/');
     });
 
     test('env variable with environment', () => {
       process.env['DODOPAYMENTS_BASE_URL'] = 'https://example.com/from_env';
 
       expect(
-        () => new Dodopayments({ apiKey: 'My API Key', environment: 'test_mode' }),
+        () => new Dodopayments({ apiKey: 'My API Key', environment: 'live_mode' }),
       ).toThrowErrorMatchingInlineSnapshot(
         `"Ambiguous URL; The \`baseURL\` option (or DODOPAYMENTS_BASE_URL env var) and the \`environment\` option are given. If you want to use the environment you must pass baseURL: null"`,
       );
 
-      const client = new Dodopayments({ apiKey: 'My API Key', baseURL: null, environment: 'test_mode' });
-      expect(client.baseURL).toEqual('https://test.dodopayments.com/');
+      const client = new Dodopayments({ apiKey: 'My API Key', baseURL: null, environment: 'live_mode' });
+      expect(client.baseURL).toEqual('https://live.dodopayments.com/');
     });
   });
 
@@ -188,14 +188,14 @@ describe('instantiate client', () => {
 
   test('with environment variable arguments', () => {
     // set options via env var
-    process.env['API_KEY'] = 'My API Key';
+    process.env['DODO_PAYMENTS_API_KEY'] = 'My API Key';
     const client = new Dodopayments();
     expect(client.apiKey).toBe('My API Key');
   });
 
   test('with overriden environment variable arguments', () => {
     // set options via env var
-    process.env['API_KEY'] = 'another My API Key';
+    process.env['DODO_PAYMENTS_API_KEY'] = 'another My API Key';
     const client = new Dodopayments({ apiKey: 'My API Key' });
     expect(client.apiKey).toBe('My API Key');
   });

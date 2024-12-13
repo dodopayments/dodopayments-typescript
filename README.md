@@ -26,7 +26,7 @@ The full API of this library can be found in [api.md](api.md).
 import Dodopayments from 'dodopayments';
 
 const client = new Dodopayments({
-  environment: 'live_mode', // defaults to 'test_mode'
+  environment: 'test_mode', // defaults to 'live_mode'
 });
 
 async function main() {
@@ -51,7 +51,7 @@ This library includes TypeScript definitions for all request params and response
 import Dodopayments from 'dodopayments';
 
 const client = new Dodopayments({
-  environment: 'live_mode', // defaults to 'test_mode'
+  environment: 'test_mode', // defaults to 'live_mode'
 });
 
 async function main() {

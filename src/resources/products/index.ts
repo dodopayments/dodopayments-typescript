@@ -3,8 +3,8 @@
 export { Images, type ImageUpdateResponse } from './images';
 export {
   Products,
-  type Product,
   type ProductCreateResponse,
+  type ProductRetrieveResponse,
   type ProductListResponse,
   type ProductCreateParams,
   type ProductUpdateParams,

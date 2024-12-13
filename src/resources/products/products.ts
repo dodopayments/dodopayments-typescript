@@ -13,7 +13,7 @@ export class Products extends APIResource {
     return this._client.post('/products', { body, ...options });
   }
 
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<Product> {
+  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<ProductRetrieveResponse> {
     return this._client.get(`/products/${id}`, options);
   }
 
@@ -38,14 +38,18 @@ export class Products extends APIResource {
   }
 }
 
-export interface Product {
+export interface ProductCreateResponse {
+  product_id: string;
+}
+
+export interface ProductRetrieveResponse {
   business_id: string;
 
   created_at: string;
 
   is_recurring: boolean;
 
-  price: Product.OneTimePrice | Product.RecurringPrice;
+  price: ProductRetrieveResponse.OneTimePrice | ProductRetrieveResponse.RecurringPrice;
 
   product_id: string;
 
@@ -64,7 +68,7 @@ export interface Product {
   name?: string | null;
 }
 
-export namespace Product {
+export namespace ProductRetrieveResponse {
   export interface OneTimePrice {
     currency:
       | 'AED'
@@ -396,10 +400,6 @@ export namespace Product {
 
     type: 'recurring_price';
   }
-}
-
-export interface ProductCreateResponse {
-  product_id: string;
 }
 
 export interface ProductListResponse {
@@ -1146,8 +1146,8 @@ Products.Images = Images;
 
 export declare namespace Products {
   export {
-    type Product as Product,
     type ProductCreateResponse as ProductCreateResponse,
+    type ProductRetrieveResponse as ProductRetrieveResponse,
     type ProductListResponse as ProductListResponse,
     type ProductCreateParams as ProductCreateParams,
     type ProductUpdateParams as ProductUpdateParams,
