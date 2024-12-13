@@ -3,24 +3,30 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
+import { PageNumberPage, type PageNumberPageParams } from '../pagination';
 
 export class Customers extends APIResource {
   retrieve(customerId: string, options?: Core.RequestOptions): Core.APIPromise<Customer> {
     return this._client.get(`/customers/${customerId}`, options);
   }
 
-  list(query?: CustomerListParams, options?: Core.RequestOptions): Core.APIPromise<CustomerListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<CustomerListResponse>;
+  list(
+    query?: CustomerListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CustomersPageNumberPage, Customer>;
+  list(options?: Core.RequestOptions): Core.PagePromise<CustomersPageNumberPage, Customer>;
   list(
     query: CustomerListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomerListResponse> {
+  ): Core.PagePromise<CustomersPageNumberPage, Customer> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/customers', { query, ...options });
+    return this._client.getAPIList('/customers', CustomersPageNumberPage, { query, ...options });
   }
 }
+
+export class CustomersPageNumberPage extends PageNumberPage<Customer> {}
 
 export interface Customer {
   business_id: string;
@@ -36,26 +42,14 @@ export interface Customer {
   phone_number?: string | null;
 }
 
-export interface CustomerListResponse {
-  items: Array<Customer>;
-}
+export interface CustomerListParams extends PageNumberPageParams {}
 
-export interface CustomerListParams {
-  /**
-   * Page number default is 0
-   */
-  page_number?: number | null;
-
-  /**
-   * Page size default is 10 max is 100
-   */
-  page_size?: number | null;
-}
+Customers.CustomersPageNumberPage = CustomersPageNumberPage;
 
 export declare namespace Customers {
   export {
     type Customer as Customer,
-    type CustomerListResponse as CustomerListResponse,
+    CustomersPageNumberPage as CustomersPageNumberPage,
     type CustomerListParams as CustomerListParams,
   };
 }

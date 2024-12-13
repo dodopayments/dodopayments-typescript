@@ -3,24 +3,30 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
+import { PageNumberPage, type PageNumberPageParams } from '../pagination';
 
 export class Disputes extends APIResource {
   retrieve(disputeId: string, options?: Core.RequestOptions): Core.APIPromise<Dispute> {
     return this._client.get(`/disputes/${disputeId}`, options);
   }
 
-  list(query?: DisputeListParams, options?: Core.RequestOptions): Core.APIPromise<DisputeListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<DisputeListResponse>;
+  list(
+    query?: DisputeListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<DisputesPageNumberPage, Dispute>;
+  list(options?: Core.RequestOptions): Core.PagePromise<DisputesPageNumberPage, Dispute>;
   list(
     query: DisputeListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<DisputeListResponse> {
+  ): Core.PagePromise<DisputesPageNumberPage, Dispute> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/disputes', { query, ...options });
+    return this._client.getAPIList('/disputes', DisputesPageNumberPage, { query, ...options });
   }
 }
+
+export class DisputesPageNumberPage extends PageNumberPage<Dispute> {}
 
 export interface Dispute {
   amount: string;
@@ -47,26 +53,14 @@ export interface Dispute {
   payment_id: string;
 }
 
-export interface DisputeListResponse {
-  items: Array<Dispute>;
-}
+export interface DisputeListParams extends PageNumberPageParams {}
 
-export interface DisputeListParams {
-  /**
-   * Page number default is 0
-   */
-  page_number?: number | null;
-
-  /**
-   * Page size default is 10 max is 100
-   */
-  page_size?: number | null;
-}
+Disputes.DisputesPageNumberPage = DisputesPageNumberPage;
 
 export declare namespace Disputes {
   export {
     type Dispute as Dispute,
-    type DisputeListResponse as DisputeListResponse,
+    DisputesPageNumberPage as DisputesPageNumberPage,
     type DisputeListParams as DisputeListParams,
   };
 }

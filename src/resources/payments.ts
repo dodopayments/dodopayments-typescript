@@ -6,6 +6,7 @@ import * as Core from '../core';
 import * as DisputesAPI from './disputes';
 import * as RefundsAPI from './refunds';
 import * as SupportedCountriesAPI from './checkout/supported-countries';
+import { PageNumberPage, type PageNumberPageParams } from '../pagination';
 
 export class Payments extends APIResource {
   create(body: PaymentCreateParams, options?: Core.RequestOptions): Core.APIPromise<PaymentCreateResponse> {
@@ -16,18 +17,25 @@ export class Payments extends APIResource {
     return this._client.get(`/payments/${paymentId}`, options);
   }
 
-  list(query?: PaymentListParams, options?: Core.RequestOptions): Core.APIPromise<PaymentListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<PaymentListResponse>;
+  list(
+    query?: PaymentListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<PaymentListResponsesPageNumberPage, PaymentListResponse>;
+  list(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<PaymentListResponsesPageNumberPage, PaymentListResponse>;
   list(
     query: PaymentListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<PaymentListResponse> {
+  ): Core.PagePromise<PaymentListResponsesPageNumberPage, PaymentListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/payments', { query, ...options });
+    return this._client.getAPIList('/payments', PaymentListResponsesPageNumberPage, { query, ...options });
   }
 }
+
+export class PaymentListResponsesPageNumberPage extends PageNumberPage<PaymentListResponse> {}
 
 export interface Payment {
   business_id: string;
@@ -277,195 +285,189 @@ export namespace PaymentCreateResponse {
 }
 
 export interface PaymentListResponse {
-  items: Array<PaymentListResponse.Item>;
+  created_at: string;
+
+  currency:
+    | 'AED'
+    | 'ALL'
+    | 'AMD'
+    | 'ANG'
+    | 'AOA'
+    | 'ARS'
+    | 'AUD'
+    | 'AWG'
+    | 'AZN'
+    | 'BAM'
+    | 'BBD'
+    | 'BDT'
+    | 'BGN'
+    | 'BHD'
+    | 'BIF'
+    | 'BMD'
+    | 'BND'
+    | 'BOB'
+    | 'BRL'
+    | 'BSD'
+    | 'BWP'
+    | 'BYN'
+    | 'BZD'
+    | 'CAD'
+    | 'CHF'
+    | 'CLP'
+    | 'CNY'
+    | 'COP'
+    | 'CRC'
+    | 'CUP'
+    | 'CVE'
+    | 'CZK'
+    | 'DJF'
+    | 'DKK'
+    | 'DOP'
+    | 'DZD'
+    | 'EGP'
+    | 'ETB'
+    | 'EUR'
+    | 'FJD'
+    | 'FKP'
+    | 'GBP'
+    | 'GEL'
+    | 'GHS'
+    | 'GIP'
+    | 'GMD'
+    | 'GNF'
+    | 'GTQ'
+    | 'GYD'
+    | 'HKD'
+    | 'HNL'
+    | 'HRK'
+    | 'HTG'
+    | 'HUF'
+    | 'IDR'
+    | 'ILS'
+    | 'INR'
+    | 'IQD'
+    | 'JMD'
+    | 'JOD'
+    | 'JPY'
+    | 'KES'
+    | 'KGS'
+    | 'KHR'
+    | 'KMF'
+    | 'KRW'
+    | 'KWD'
+    | 'KYD'
+    | 'KZT'
+    | 'LAK'
+    | 'LBP'
+    | 'LKR'
+    | 'LRD'
+    | 'LSL'
+    | 'LYD'
+    | 'MAD'
+    | 'MDL'
+    | 'MGA'
+    | 'MKD'
+    | 'MMK'
+    | 'MNT'
+    | 'MOP'
+    | 'MRU'
+    | 'MUR'
+    | 'MVR'
+    | 'MWK'
+    | 'MXN'
+    | 'MYR'
+    | 'MZN'
+    | 'NAD'
+    | 'NGN'
+    | 'NIO'
+    | 'NOK'
+    | 'NPR'
+    | 'NZD'
+    | 'OMR'
+    | 'PAB'
+    | 'PEN'
+    | 'PGK'
+    | 'PHP'
+    | 'PKR'
+    | 'PLN'
+    | 'PYG'
+    | 'QAR'
+    | 'RON'
+    | 'RSD'
+    | 'RUB'
+    | 'RWF'
+    | 'SAR'
+    | 'SBD'
+    | 'SCR'
+    | 'SEK'
+    | 'SGD'
+    | 'SHP'
+    | 'SLE'
+    | 'SLL'
+    | 'SOS'
+    | 'SRD'
+    | 'SSP'
+    | 'STN'
+    | 'SVC'
+    | 'SZL'
+    | 'THB'
+    | 'TND'
+    | 'TOP'
+    | 'TRY'
+    | 'TTD'
+    | 'TWD'
+    | 'TZS'
+    | 'UAH'
+    | 'UGX'
+    | 'USD'
+    | 'UYU'
+    | 'UZS'
+    | 'VES'
+    | 'VND'
+    | 'VUV'
+    | 'WST'
+    | 'XAF'
+    | 'XCD'
+    | 'XOF'
+    | 'XPF'
+    | 'YER'
+    | 'ZAR'
+    | 'ZMW';
+
+  customer: PaymentListResponse.Customer;
+
+  payment_id: string;
+
+  total_amount: number;
+
+  payment_method?: string | null;
+
+  payment_method_type?: string | null;
+
+  status?:
+    | 'succeeded'
+    | 'failed'
+    | 'cancelled'
+    | 'processing'
+    | 'requires_customer_action'
+    | 'requires_merchant_action'
+    | 'requires_payment_method'
+    | 'requires_confirmation'
+    | 'requires_capture'
+    | 'partially_captured'
+    | 'partially_captured_and_capturable'
+    | null;
+
+  subscription_id?: string | null;
 }
 
 export namespace PaymentListResponse {
-  export interface Item {
-    created_at: string;
+  export interface Customer {
+    customer_id: string;
 
-    currency:
-      | 'AED'
-      | 'ALL'
-      | 'AMD'
-      | 'ANG'
-      | 'AOA'
-      | 'ARS'
-      | 'AUD'
-      | 'AWG'
-      | 'AZN'
-      | 'BAM'
-      | 'BBD'
-      | 'BDT'
-      | 'BGN'
-      | 'BHD'
-      | 'BIF'
-      | 'BMD'
-      | 'BND'
-      | 'BOB'
-      | 'BRL'
-      | 'BSD'
-      | 'BWP'
-      | 'BYN'
-      | 'BZD'
-      | 'CAD'
-      | 'CHF'
-      | 'CLP'
-      | 'CNY'
-      | 'COP'
-      | 'CRC'
-      | 'CUP'
-      | 'CVE'
-      | 'CZK'
-      | 'DJF'
-      | 'DKK'
-      | 'DOP'
-      | 'DZD'
-      | 'EGP'
-      | 'ETB'
-      | 'EUR'
-      | 'FJD'
-      | 'FKP'
-      | 'GBP'
-      | 'GEL'
-      | 'GHS'
-      | 'GIP'
-      | 'GMD'
-      | 'GNF'
-      | 'GTQ'
-      | 'GYD'
-      | 'HKD'
-      | 'HNL'
-      | 'HRK'
-      | 'HTG'
-      | 'HUF'
-      | 'IDR'
-      | 'ILS'
-      | 'INR'
-      | 'IQD'
-      | 'JMD'
-      | 'JOD'
-      | 'JPY'
-      | 'KES'
-      | 'KGS'
-      | 'KHR'
-      | 'KMF'
-      | 'KRW'
-      | 'KWD'
-      | 'KYD'
-      | 'KZT'
-      | 'LAK'
-      | 'LBP'
-      | 'LKR'
-      | 'LRD'
-      | 'LSL'
-      | 'LYD'
-      | 'MAD'
-      | 'MDL'
-      | 'MGA'
-      | 'MKD'
-      | 'MMK'
-      | 'MNT'
-      | 'MOP'
-      | 'MRU'
-      | 'MUR'
-      | 'MVR'
-      | 'MWK'
-      | 'MXN'
-      | 'MYR'
-      | 'MZN'
-      | 'NAD'
-      | 'NGN'
-      | 'NIO'
-      | 'NOK'
-      | 'NPR'
-      | 'NZD'
-      | 'OMR'
-      | 'PAB'
-      | 'PEN'
-      | 'PGK'
-      | 'PHP'
-      | 'PKR'
-      | 'PLN'
-      | 'PYG'
-      | 'QAR'
-      | 'RON'
-      | 'RSD'
-      | 'RUB'
-      | 'RWF'
-      | 'SAR'
-      | 'SBD'
-      | 'SCR'
-      | 'SEK'
-      | 'SGD'
-      | 'SHP'
-      | 'SLE'
-      | 'SLL'
-      | 'SOS'
-      | 'SRD'
-      | 'SSP'
-      | 'STN'
-      | 'SVC'
-      | 'SZL'
-      | 'THB'
-      | 'TND'
-      | 'TOP'
-      | 'TRY'
-      | 'TTD'
-      | 'TWD'
-      | 'TZS'
-      | 'UAH'
-      | 'UGX'
-      | 'USD'
-      | 'UYU'
-      | 'UZS'
-      | 'VES'
-      | 'VND'
-      | 'VUV'
-      | 'WST'
-      | 'XAF'
-      | 'XCD'
-      | 'XOF'
-      | 'XPF'
-      | 'YER'
-      | 'ZAR'
-      | 'ZMW';
+    email: string;
 
-    customer: Item.Customer;
-
-    payment_id: string;
-
-    total_amount: number;
-
-    payment_method?: string | null;
-
-    payment_method_type?: string | null;
-
-    status?:
-      | 'succeeded'
-      | 'failed'
-      | 'cancelled'
-      | 'processing'
-      | 'requires_customer_action'
-      | 'requires_merchant_action'
-      | 'requires_payment_method'
-      | 'requires_confirmation'
-      | 'requires_capture'
-      | 'partially_captured'
-      | 'partially_captured_and_capturable'
-      | null;
-
-    subscription_id?: string | null;
-  }
-
-  export namespace Item {
-    export interface Customer {
-      customer_id: string;
-
-      email: string;
-
-      name: string;
-    }
+    name: string;
   }
 }
 
@@ -512,23 +514,16 @@ export namespace PaymentCreateParams {
   }
 }
 
-export interface PaymentListParams {
-  /**
-   * Page number default is 0
-   */
-  page_number?: number | null;
+export interface PaymentListParams extends PageNumberPageParams {}
 
-  /**
-   * Page size default is 10 max is 100
-   */
-  page_size?: number | null;
-}
+Payments.PaymentListResponsesPageNumberPage = PaymentListResponsesPageNumberPage;
 
 export declare namespace Payments {
   export {
     type Payment as Payment,
     type PaymentCreateResponse as PaymentCreateResponse,
     type PaymentListResponse as PaymentListResponse,
+    PaymentListResponsesPageNumberPage as PaymentListResponsesPageNumberPage,
     type PaymentCreateParams as PaymentCreateParams,
     type PaymentListParams as PaymentListParams,
   };

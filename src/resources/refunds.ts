@@ -3,6 +3,7 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
+import { PageNumberPage, type PageNumberPageParams } from '../pagination';
 
 export class Refunds extends APIResource {
   create(body: RefundCreateParams, options?: Core.RequestOptions): Core.APIPromise<Refund> {
@@ -13,18 +14,23 @@ export class Refunds extends APIResource {
     return this._client.get(`/refunds/${refundId}`, options);
   }
 
-  list(query?: RefundListParams, options?: Core.RequestOptions): Core.APIPromise<RefundListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<RefundListResponse>;
+  list(
+    query?: RefundListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<RefundsPageNumberPage, Refund>;
+  list(options?: Core.RequestOptions): Core.PagePromise<RefundsPageNumberPage, Refund>;
   list(
     query: RefundListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<RefundListResponse> {
+  ): Core.PagePromise<RefundsPageNumberPage, Refund> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/refunds', { query, ...options });
+    return this._client.getAPIList('/refunds', RefundsPageNumberPage, { query, ...options });
   }
 }
+
+export class RefundsPageNumberPage extends PageNumberPage<Refund> {}
 
 export interface Refund {
   business_id: string;
@@ -190,10 +196,6 @@ export interface Refund {
   reason?: string | null;
 }
 
-export interface RefundListResponse {
-  items: Array<Refund>;
-}
-
 export interface RefundCreateParams {
   payment_id: string;
 
@@ -202,22 +204,14 @@ export interface RefundCreateParams {
   reason?: string | null;
 }
 
-export interface RefundListParams {
-  /**
-   * Page number default is 0
-   */
-  page_number?: number | null;
+export interface RefundListParams extends PageNumberPageParams {}
 
-  /**
-   * Page size default is 10 max is 100
-   */
-  page_size?: number | null;
-}
+Refunds.RefundsPageNumberPage = RefundsPageNumberPage;
 
 export declare namespace Refunds {
   export {
     type Refund as Refund,
-    type RefundListResponse as RefundListResponse,
+    RefundsPageNumberPage as RefundsPageNumberPage,
     type RefundCreateParams as RefundCreateParams,
     type RefundListParams as RefundListParams,
   };

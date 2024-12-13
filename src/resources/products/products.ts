@@ -5,6 +5,7 @@ import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
 import * as ImagesAPI from './images';
 import { ImageUpdateResponse, Images } from './images';
+import { PageNumberPage, type PageNumberPageParams } from '../../pagination';
 
 export class Products extends APIResource {
   images: ImagesAPI.Images = new ImagesAPI.Images(this._client);
@@ -25,18 +26,25 @@ export class Products extends APIResource {
     });
   }
 
-  list(query?: ProductListParams, options?: Core.RequestOptions): Core.APIPromise<ProductListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<ProductListResponse>;
+  list(
+    query?: ProductListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<ProductListResponsesPageNumberPage, ProductListResponse>;
+  list(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<ProductListResponsesPageNumberPage, ProductListResponse>;
   list(
     query: ProductListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<ProductListResponse> {
+  ): Core.PagePromise<ProductListResponsesPageNumberPage, ProductListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/products', { query, ...options });
+    return this._client.getAPIList('/products', ProductListResponsesPageNumberPage, { query, ...options });
   }
 }
+
+export class ProductListResponsesPageNumberPage extends PageNumberPage<ProductListResponse> {}
 
 export interface Product {
   business_id: string;
@@ -403,35 +411,29 @@ export interface ProductCreateResponse {
 }
 
 export interface ProductListResponse {
-  items: Array<ProductListResponse.Item>;
-}
+  business_id: string;
 
-export namespace ProductListResponse {
-  export interface Item {
-    business_id: string;
+  created_at: string;
 
-    created_at: string;
+  is_recurring: boolean;
 
-    is_recurring: boolean;
+  product_id: string;
 
-    product_id: string;
+  /**
+   * Represents the different categories of taxation applicable to various products
+   * and services.
+   */
+  tax_category: 'digital_products' | 'saas' | 'e_book';
 
-    /**
-     * Represents the different categories of taxation applicable to various products
-     * and services.
-     */
-    tax_category: 'digital_products' | 'saas' | 'e_book';
+  updated_at: string;
 
-    updated_at: string;
+  description?: string | null;
 
-    description?: string | null;
+  image?: string | null;
 
-    image?: string | null;
+  name?: string | null;
 
-    name?: string | null;
-
-    price?: number | null;
-  }
+  price?: number | null;
 }
 
 export interface ProductCreateParams {
@@ -1130,18 +1132,9 @@ export namespace ProductUpdateParams {
   }
 }
 
-export interface ProductListParams {
-  /**
-   * Page number default is 0
-   */
-  page_number?: number | null;
+export interface ProductListParams extends PageNumberPageParams {}
 
-  /**
-   * Page size default is 10 max is 100
-   */
-  page_size?: number | null;
-}
-
+Products.ProductListResponsesPageNumberPage = ProductListResponsesPageNumberPage;
 Products.Images = Images;
 
 export declare namespace Products {
@@ -1149,6 +1142,7 @@ export declare namespace Products {
     type Product as Product,
     type ProductCreateResponse as ProductCreateResponse,
     type ProductListResponse as ProductListResponse,
+    ProductListResponsesPageNumberPage as ProductListResponsesPageNumberPage,
     type ProductCreateParams as ProductCreateParams,
     type ProductUpdateParams as ProductUpdateParams,
     type ProductListParams as ProductListParams,

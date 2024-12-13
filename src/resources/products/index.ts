@@ -2,6 +2,7 @@
 
 export { Images, type ImageUpdateResponse } from './images';
 export {
+  ProductListResponsesPageNumberPage,
   Products,
   type Product,
   type ProductCreateResponse,
