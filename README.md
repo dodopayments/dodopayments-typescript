@@ -23,6 +23,7 @@ The full API of this library can be found in [api.md](api.md).
 import DodoPayments from 'dodopayments';
 
 const client = new DodoPayments({
+  bearerToken: process.env['DOOD_PAYMENTS_API_KEY'], // This is the default and can be omitted
   environment: 'test_mode', // defaults to 'live_mode'
 });
 
@@ -48,6 +49,7 @@ This library includes TypeScript definitions for all request params and response
 import DodoPayments from 'dodopayments';
 
 const client = new DodoPayments({
+  bearerToken: process.env['DOOD_PAYMENTS_API_KEY'], // This is the default and can be omitted
   environment: 'test_mode', // defaults to 'live_mode'
 });
 
