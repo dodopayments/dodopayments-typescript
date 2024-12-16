@@ -55,8 +55,8 @@ export {
   type SubscriptionListParams,
 } from './subscriptions';
 export {
+  WebhookEventsDefaultPageNumberPagination,
   WebhookEvents,
   type WebhookEvent,
-  type WebhookEventListResponse,
   type WebhookEventListParams,
 } from './webhook-events';
