@@ -3,6 +3,7 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class WebhookEvents extends APIResource {
   retrieve(webhookEventId: string, options?: Core.RequestOptions): Core.APIPromise<WebhookEvent> {
@@ -12,18 +13,25 @@ export class WebhookEvents extends APIResource {
   list(
     query?: WebhookEventListParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<WebhookEventListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<WebhookEventListResponse>;
+  ): Core.PagePromise<WebhookEventsDefaultPageNumberPagination, WebhookEvent>;
+  list(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<WebhookEventsDefaultPageNumberPagination, WebhookEvent>;
   list(
     query: WebhookEventListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<WebhookEventListResponse> {
+  ): Core.PagePromise<WebhookEventsDefaultPageNumberPagination, WebhookEvent> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/webhook_events', { query, ...options });
+    return this._client.getAPIList('/webhook_events', WebhookEventsDefaultPageNumberPagination, {
+      query,
+      ...options,
+    });
   }
 }
+
+export class WebhookEventsDefaultPageNumberPagination extends DefaultPageNumberPagination<WebhookEvent> {}
 
 export interface WebhookEvent {
   business_id: string;
@@ -43,15 +51,16 @@ export interface WebhookEvent {
   response?: string | null;
 }
 
-export interface WebhookEventListResponse {
-  items: Array<WebhookEvent>;
-}
-
-export interface WebhookEventListParams {
+export interface WebhookEventListParams extends DefaultPageNumberPaginationParams {
   /**
    * Get events after this created time
    */
   created_at_gte?: string | null;
+
+  /**
+   * Get events created before this time
+   */
+  created_at_lte?: string | null;
 
   /**
    * Min : 1, Max : 100, default 10
@@ -64,10 +73,12 @@ export interface WebhookEventListParams {
   object_id?: string | null;
 }
 
+WebhookEvents.WebhookEventsDefaultPageNumberPagination = WebhookEventsDefaultPageNumberPagination;
+
 export declare namespace WebhookEvents {
   export {
     type WebhookEvent as WebhookEvent,
-    type WebhookEventListResponse as WebhookEventListResponse,
+    WebhookEventsDefaultPageNumberPagination as WebhookEventsDefaultPageNumberPagination,
     type WebhookEventListParams as WebhookEventListParams,
   };
 }

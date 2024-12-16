@@ -30,7 +30,7 @@ const client = new DodoPayments({
 async function main() {
   const payment = await client.payments.create({
     billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 },
-    customer: { email: 'email', name: 'name' },
+    customer: { customer_id: 'customer_id' },
     product_cart: [{ product_id: 'product_id', quantity: 0 }],
   });
 
@@ -56,7 +56,7 @@ const client = new DodoPayments({
 async function main() {
   const params: DodoPayments.PaymentCreateParams = {
     billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 },
-    customer: { email: 'email', name: 'name' },
+    customer: { customer_id: 'customer_id' },
     product_cart: [{ product_id: 'product_id', quantity: 0 }],
   };
   const payment: DodoPayments.PaymentCreateResponse = await client.payments.create(params);
@@ -79,7 +79,7 @@ async function main() {
   const payment = await client.payments
     .create({
       billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 },
-      customer: { email: 'email', name: 'name' },
+      customer: { customer_id: 'customer_id' },
       product_cart: [{ product_id: 'product_id', quantity: 0 }],
     })
     .catch(async (err) => {
@@ -125,7 +125,7 @@ const client = new DodoPayments({
 });
 
 // Or, configure per-request:
-await client.payments.create({ billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 }, customer: { email: 'email', name: 'name' }, product_cart: [{ product_id: 'product_id', quantity: 0 }] }, {
+await client.payments.create({ billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 }, customer: { customer_id: 'customer_id' }, product_cart: [{ product_id: 'product_id', quantity: 0 }] }, {
   maxRetries: 5,
 });
 ```
@@ -142,7 +142,7 @@ const client = new DodoPayments({
 });
 
 // Override per-request:
-await client.payments.create({ billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 }, customer: { email: 'email', name: 'name' }, product_cart: [{ product_id: 'product_id', quantity: 0 }] }, {
+await client.payments.create({ billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 }, customer: { customer_id: 'customer_id' }, product_cart: [{ product_id: 'product_id', quantity: 0 }] }, {
   timeout: 5 * 1000,
 });
 ```
@@ -197,7 +197,7 @@ const client = new DodoPayments();
 const response = await client.payments
   .create({
     billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 },
-    customer: { email: 'email', name: 'name' },
+    customer: { customer_id: 'customer_id' },
     product_cart: [{ product_id: 'product_id', quantity: 0 }],
   })
   .asResponse();
@@ -207,7 +207,7 @@ console.log(response.statusText); // access the underlying Response object
 const { data: payment, response: raw } = await client.payments
   .create({
     billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 },
-    customer: { email: 'email', name: 'name' },
+    customer: { customer_id: 'customer_id' },
     product_cart: [{ product_id: 'product_id', quantity: 0 }],
   })
   .withResponse();
@@ -319,7 +319,7 @@ const client = new DodoPayments({
 await client.payments.create(
   {
     billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 },
-    customer: { email: 'email', name: 'name' },
+    customer: { customer_id: 'customer_id' },
     product_cart: [{ product_id: 'product_id', quantity: 0 }],
   },
   {

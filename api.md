@@ -75,12 +75,11 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/webhook-events.ts">WebhookEvent</a></code>
-- <code><a href="./src/resources/webhook-events.ts">WebhookEventListResponse</a></code>
 
 Methods:
 
 - <code title="get /webhook_events/{webhook_event_id}">client.webhookEvents.<a href="./src/resources/webhook-events.ts">retrieve</a>(webhookEventId) -> WebhookEvent</code>
-- <code title="get /webhook_events">client.webhookEvents.<a href="./src/resources/webhook-events.ts">list</a>({ ...params }) -> WebhookEventListResponse</code>
+- <code title="get /webhook_events">client.webhookEvents.<a href="./src/resources/webhook-events.ts">list</a>({ ...params }) -> WebhookEventsDefaultPageNumberPagination</code>
 
 # Products
 

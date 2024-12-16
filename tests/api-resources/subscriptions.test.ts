@@ -12,7 +12,7 @@ describe('resource subscriptions', () => {
   test('create: only required params', async () => {
     const responsePromise = client.subscriptions.create({
       billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 },
-      customer: { email: 'email', name: 'name' },
+      customer: { customer_id: 'customer_id' },
       product_id: 'product_id',
       quantity: 0,
     });
@@ -28,9 +28,10 @@ describe('resource subscriptions', () => {
   test('create: required and optional params', async () => {
     const response = await client.subscriptions.create({
       billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 },
-      customer: { email: 'email', name: 'name', phone_number: 'phone_number' },
+      customer: { customer_id: 'customer_id' },
       product_id: 'product_id',
       quantity: 0,
+      metadata: { foo: 'string' },
       payment_link: true,
       return_url: 'return_url',
     });
@@ -54,8 +55,8 @@ describe('resource subscriptions', () => {
     ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
-  test('update: only required params', async () => {
-    const responsePromise = client.subscriptions.update('subscription_id', { status: 'pending' });
+  test('update', async () => {
+    const responsePromise = client.subscriptions.update('subscription_id', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -63,10 +64,6 @@ describe('resource subscriptions', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('update: required and optional params', async () => {
-    const response = await client.subscriptions.update('subscription_id', { status: 'pending' });
   });
 
   test('list', async () => {

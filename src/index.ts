@@ -53,8 +53,8 @@ import {
 import {
   WebhookEvent,
   WebhookEventListParams,
-  WebhookEventListResponse,
   WebhookEvents,
+  WebhookEventsDefaultPageNumberPagination,
 } from './resources/webhook-events';
 import { Misc } from './resources/misc/misc';
 import {
@@ -263,6 +263,7 @@ DodoPayments.DisputesDefaultPageNumberPagination = DisputesDefaultPageNumberPagi
 DodoPayments.Payouts = Payouts;
 DodoPayments.PayoutListResponsesDefaultPageNumberPagination = PayoutListResponsesDefaultPageNumberPagination;
 DodoPayments.WebhookEvents = WebhookEvents;
+DodoPayments.WebhookEventsDefaultPageNumberPagination = WebhookEventsDefaultPageNumberPagination;
 DodoPayments.Products = Products;
 DodoPayments.ProductListResponsesDefaultPageNumberPagination =
   ProductListResponsesDefaultPageNumberPagination;
@@ -328,7 +329,7 @@ export declare namespace DodoPayments {
   export {
     WebhookEvents as WebhookEvents,
     type WebhookEvent as WebhookEvent,
-    type WebhookEventListResponse as WebhookEventListResponse,
+    WebhookEventsDefaultPageNumberPagination as WebhookEventsDefaultPageNumberPagination,
     type WebhookEventListParams as WebhookEventListParams,
   };
 
