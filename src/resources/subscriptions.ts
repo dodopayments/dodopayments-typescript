@@ -201,6 +201,8 @@ export interface Subscription {
 
   customer: Subscription.Customer;
 
+  metadata: Record<string, string>;
+
   next_billing_date: string;
 
   payment_frequency_count: number;
@@ -237,6 +239,8 @@ export namespace Subscription {
 export interface SubscriptionCreateResponse {
   customer: SubscriptionCreateResponse.Customer;
 
+  metadata: Record<string, string>;
+
   recurring_pre_tax_amount: number;
 
   subscription_id: string;
@@ -259,11 +263,13 @@ export namespace SubscriptionCreateResponse {
 export interface SubscriptionCreateParams {
   billing: SubscriptionCreateParams.Billing;
 
-  customer: SubscriptionCreateParams.Customer;
+  customer: SubscriptionCreateParams.AttachExistingCustomer | SubscriptionCreateParams.CreateNewCustomer;
 
   product_id: string;
 
   quantity: number;
+
+  metadata?: Record<string, string>;
 
   /**
    * False by default
@@ -289,7 +295,11 @@ export namespace SubscriptionCreateParams {
     zipcode: number;
   }
 
-  export interface Customer {
+  export interface AttachExistingCustomer {
+    customer_id: string;
+  }
+
+  export interface CreateNewCustomer {
     email: string;
 
     name: string;
@@ -299,7 +309,9 @@ export namespace SubscriptionCreateParams {
 }
 
 export interface SubscriptionUpdateParams {
-  status: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired';
+  metadata?: Record<string, string> | null;
+
+  status?: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | null;
 }
 
 export interface SubscriptionListParams extends DefaultPageNumberPaginationParams {}

@@ -196,6 +196,8 @@ export interface Payment {
 
   disputes: Array<DisputesAPI.Dispute>;
 
+  metadata: Record<string, string>;
+
   payment_id: string;
 
   refunds: Array<RefundsAPI.Refund>;
@@ -261,6 +263,8 @@ export interface PaymentCreateResponse {
   client_secret: string;
 
   customer: PaymentCreateResponse.Customer;
+
+  metadata: Record<string, string>;
 
   payment_id: string;
 
@@ -439,6 +443,8 @@ export interface PaymentListResponse {
 
   customer: PaymentListResponse.Customer;
 
+  metadata: Record<string, string>;
+
   payment_id: string;
 
   total_amount: number;
@@ -477,9 +483,11 @@ export namespace PaymentListResponse {
 export interface PaymentCreateParams {
   billing: PaymentCreateParams.Billing;
 
-  customer: PaymentCreateParams.Customer;
+  customer: PaymentCreateParams.AttachExistingCustomer | PaymentCreateParams.CreateNewCustomer;
 
   product_cart: Array<PaymentCreateParams.ProductCart>;
+
+  metadata?: Record<string, string>;
 
   payment_link?: boolean | null;
 
@@ -502,7 +510,11 @@ export namespace PaymentCreateParams {
     zipcode: number;
   }
 
-  export interface Customer {
+  export interface AttachExistingCustomer {
+    customer_id: string;
+  }
+
+  export interface CreateNewCustomer {
     email: string;
 
     name: string;

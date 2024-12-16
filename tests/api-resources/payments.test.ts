@@ -12,7 +12,7 @@ describe('resource payments', () => {
   test('create: only required params', async () => {
     const responsePromise = client.payments.create({
       billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 },
-      customer: { email: 'email', name: 'name' },
+      customer: { customer_id: 'customer_id' },
       product_cart: [{ product_id: 'product_id', quantity: 0 }],
     });
     const rawResponse = await responsePromise.asResponse();
@@ -27,8 +27,9 @@ describe('resource payments', () => {
   test('create: required and optional params', async () => {
     const response = await client.payments.create({
       billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 },
-      customer: { email: 'email', name: 'name', phone_number: 'phone_number' },
+      customer: { customer_id: 'customer_id' },
       product_cart: [{ product_id: 'product_id', quantity: 0 }],
+      metadata: { foo: 'string' },
       payment_link: true,
       return_url: 'return_url',
     });
