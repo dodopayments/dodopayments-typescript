@@ -6,8 +6,20 @@ import * as Core from '../core';
 import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class Customers extends APIResource {
+  create(body: CustomerCreateParams, options?: Core.RequestOptions): Core.APIPromise<Customer> {
+    return this._client.post('/customers', { body, ...options });
+  }
+
   retrieve(customerId: string, options?: Core.RequestOptions): Core.APIPromise<Customer> {
     return this._client.get(`/customers/${customerId}`, options);
+  }
+
+  update(
+    customerId: string,
+    body: CustomerUpdateParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<Customer> {
+    return this._client.patch(`/customers/${customerId}`, { body, ...options });
   }
 
   list(
@@ -42,6 +54,20 @@ export interface Customer {
   phone_number?: string | null;
 }
 
+export interface CustomerCreateParams {
+  email: string;
+
+  name: string;
+
+  phone_number?: string | null;
+}
+
+export interface CustomerUpdateParams {
+  name?: string | null;
+
+  phone_number?: string | null;
+}
+
 export interface CustomerListParams extends DefaultPageNumberPaginationParams {}
 
 Customers.CustomersDefaultPageNumberPagination = CustomersDefaultPageNumberPagination;
@@ -50,6 +76,8 @@ export declare namespace Customers {
   export {
     type Customer as Customer,
     CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
+    type CustomerCreateParams as CustomerCreateParams,
+    type CustomerUpdateParams as CustomerUpdateParams,
     type CustomerListParams as CustomerListParams,
   };
 }

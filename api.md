@@ -34,7 +34,9 @@ Types:
 
 Methods:
 
+- <code title="post /customers">client.customers.<a href="./src/resources/customers.ts">create</a>({ ...params }) -> Customer</code>
 - <code title="get /customers/{customer_id}">client.customers.<a href="./src/resources/customers.ts">retrieve</a>(customerId) -> Customer</code>
+- <code title="patch /customers/{customer_id}">client.customers.<a href="./src/resources/customers.ts">update</a>(customerId, { ...params }) -> Customer</code>
 - <code title="get /customers">client.customers.<a href="./src/resources/customers.ts">list</a>({ ...params }) -> CustomersDefaultPageNumberPagination</code>
 
 # Refunds
