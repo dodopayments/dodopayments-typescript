@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.12.0 (2024-12-17)
+
+Full Changelog: [v0.11.1...v0.12.0](https://github.com/dodopayments/dodopayments-node/compare/v0.11.1...v0.12.0)
+
+### Features
+
+* **api:** api update ([#9](https://github.com/dodopayments/dodopayments-node/issues/9)) ([eb67c8c](https://github.com/dodopayments/dodopayments-node/commit/eb67c8c159e56a2123915397279d47c93541e349))
+* **api:** updated openapi methods ([#11](https://github.com/dodopayments/dodopayments-node/issues/11)) ([bb5d991](https://github.com/dodopayments/dodopayments-node/commit/bb5d991c1341b3fb6f92a4ada2ad5b06778023ae))
+
 ## 0.11.1 (2024-12-16)
 
 Full Changelog: [v0.11.0...v0.11.1](https://github.com/dodopayments/dodopayments-node/compare/v0.11.0...v0.11.1)
