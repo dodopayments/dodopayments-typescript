@@ -9,6 +9,25 @@ const client = new DodoPayments({
 });
 
 describe('resource customers', () => {
+  test('create: only required params', async () => {
+    const responsePromise = client.customers.create({ email: 'email', name: 'name' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('create: required and optional params', async () => {
+    const response = await client.customers.create({
+      email: 'email',
+      name: 'name',
+      phone_number: 'phone_number',
+    });
+  });
+
   test('retrieve', async () => {
     const responsePromise = client.customers.retrieve('customer_id');
     const rawResponse = await responsePromise.asResponse();
@@ -25,6 +44,17 @@ describe('resource customers', () => {
     await expect(
       client.customers.retrieve('customer_id', { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
+
+  test('update', async () => {
+    const responsePromise = client.customers.update('customer_id', {});
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
   });
 
   test('list', async () => {
