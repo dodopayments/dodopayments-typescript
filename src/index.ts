@@ -9,7 +9,9 @@ import * as Uploads from './uploads';
 import * as API from './resources/index';
 import {
   Customer,
+  CustomerCreateParams,
   CustomerListParams,
+  CustomerUpdateParams,
   Customers,
   CustomersDefaultPageNumberPagination,
 } from './resources/customers';
@@ -301,6 +303,8 @@ export declare namespace DodoPayments {
     Customers as Customers,
     type Customer as Customer,
     CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
+    type CustomerCreateParams as CustomerCreateParams,
+    type CustomerUpdateParams as CustomerUpdateParams,
     type CustomerListParams as CustomerListParams,
   };
 
