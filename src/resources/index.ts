@@ -4,6 +4,8 @@ export {
   CustomersDefaultPageNumberPagination,
   Customers,
   type Customer,
+  type CustomerCreateParams,
+  type CustomerUpdateParams,
   type CustomerListParams,
 } from './customers';
 export {
