@@ -200,7 +200,7 @@ describe('instantiate client', () => {
     expect(client.bearerToken).toBe('My Bearer Token');
   });
 
-  test('with overriden environment variable arguments', () => {
+  test('with overridden environment variable arguments', () => {
     // set options via env var
     process.env['DOOD_PAYMENTS_API_KEY'] = 'another My Bearer Token';
     const client = new DodoPayments({ bearerToken: 'My Bearer Token' });
