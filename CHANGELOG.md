@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.13.2 (2024-12-21)
+
+Full Changelog: [v0.12.0...v0.13.2](https://github.com/dodopayments/dodopayments-node/compare/v0.12.0...v0.13.2)
+
+### Bug Fixes
+
+* **client:** normalize method ([#15](https://github.com/dodopayments/dodopayments-node/issues/15)) ([44ff1cd](https://github.com/dodopayments/dodopayments-node/commit/44ff1cd212e3c4cbb920a76cb0471f3490e35d47))
+
+
+### Chores
+
+* **internal:** codegen related update ([#16](https://github.com/dodopayments/dodopayments-node/issues/16)) ([4cfac0c](https://github.com/dodopayments/dodopayments-node/commit/4cfac0c19d65136f19efcf26d1174d52a64517ab))
+* **internal:** fix some typos ([#13](https://github.com/dodopayments/dodopayments-node/issues/13)) ([d419e43](https://github.com/dodopayments/dodopayments-node/commit/d419e432fd48f5dbfe92c7da082d9bb13283e2c8))
+
 ## 0.12.0 (2024-12-17)
 
 Full Changelog: [v0.11.1...v0.12.0](https://github.com/dodopayments/dodopayments-node/compare/v0.11.1...v0.12.0)
