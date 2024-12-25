@@ -10,7 +10,7 @@ import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } f
 export class Products extends APIResource {
   images: ImagesAPI.Images = new ImagesAPI.Images(this._client);
 
-  create(body: ProductCreateParams, options?: Core.RequestOptions): Core.APIPromise<ProductCreateResponse> {
+  create(body: ProductCreateParams, options?: Core.RequestOptions): Core.APIPromise<Product> {
     return this._client.post('/products', { body, ...options });
   }
 
@@ -56,6 +56,8 @@ export interface Product {
 
   is_recurring: boolean;
 
+  license_key_enabled: boolean;
+
   price: Product.OneTimePrice | Product.RecurringPrice;
 
   product_id: string;
@@ -71,6 +73,12 @@ export interface Product {
   description?: string | null;
 
   image?: string | null;
+
+  license_key_activation_message?: string | null;
+
+  license_key_activations_limit?: number | null;
+
+  license_key_duration?: Product.LicenseKeyDuration | null;
 
   name?: string | null;
 }
@@ -407,10 +415,12 @@ export namespace Product {
 
     type: 'recurring_price';
   }
-}
 
-export interface ProductCreateResponse {
-  product_id: string;
+  export interface LicenseKeyDuration {
+    count: number;
+
+    interval: 'Day' | 'Week' | 'Month' | 'Year';
+  }
 }
 
 export interface ProductListResponse {
@@ -449,6 +459,20 @@ export interface ProductCreateParams {
   tax_category: 'digital_products' | 'saas' | 'e_book';
 
   description?: string | null;
+
+  license_key_activation_message?: string | null;
+
+  /**
+   * The number of times the license key can be activated
+   */
+  license_key_activations_limit?: number | null;
+
+  license_key_duration?: ProductCreateParams.LicenseKeyDuration | null;
+
+  /**
+   * Put true to generate and send license key to your customer. Default is false
+   */
+  license_key_enabled?: boolean | null;
 
   name?: string | null;
 }
@@ -785,10 +809,24 @@ export namespace ProductCreateParams {
 
     type: 'recurring_price';
   }
+
+  export interface LicenseKeyDuration {
+    count: number;
+
+    interval: 'Day' | 'Week' | 'Month' | 'Year';
+  }
 }
 
 export interface ProductUpdateParams {
   description?: string | null;
+
+  license_key_activation_message?: string | null;
+
+  license_key_activations_limit?: number | null;
+
+  license_key_duration?: ProductUpdateParams.LicenseKeyDuration | null;
+
+  license_key_enabled?: boolean | null;
 
   name?: string | null;
 
@@ -802,6 +840,12 @@ export interface ProductUpdateParams {
 }
 
 export namespace ProductUpdateParams {
+  export interface LicenseKeyDuration {
+    count: number;
+
+    interval: 'Day' | 'Week' | 'Month' | 'Year';
+  }
+
   export interface OneTimePrice {
     currency:
       | 'AED'
@@ -1143,7 +1187,6 @@ Products.Images = Images;
 export declare namespace Products {
   export {
     type Product as Product,
-    type ProductCreateResponse as ProductCreateResponse,
     type ProductListResponse as ProductListResponse,
     ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
     type ProductCreateParams as ProductCreateParams,

@@ -14,6 +14,27 @@ export {
   type Dispute,
   type DisputeListParams,
 } from './disputes';
+export {
+  LicenseKeyInstances,
+  type LicenseKeyInstance,
+  type LicenseKeyInstanceListResponse,
+  type LicenseKeyInstanceUpdateParams,
+  type LicenseKeyInstanceListParams,
+} from './license-key-instances';
+export {
+  LicenseKeys,
+  type LicenseKey,
+  type LicenseKeyListResponse,
+  type LicenseKeyUpdateParams,
+  type LicenseKeyListParams,
+} from './license-keys';
+export {
+  Licenses,
+  type LicenseValidateResponse,
+  type LicenseActivateParams,
+  type LicenseDeactivateParams,
+  type LicenseValidateParams,
+} from './licenses';
 export { Misc } from './misc/misc';
 export {
   PaymentListResponsesDefaultPageNumberPagination,
@@ -34,7 +55,6 @@ export {
   ProductListResponsesDefaultPageNumberPagination,
   Products,
   type Product,
-  type ProductCreateResponse,
   type ProductListResponse,
   type ProductCreateParams,
   type ProductUpdateParams,
