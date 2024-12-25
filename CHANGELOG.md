@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.14.0 (2024-12-25)
+
+Full Changelog: [v0.13.2...v0.14.0](https://github.com/dodopayments/dodopayments-node/compare/v0.13.2...v0.14.0)
+
+### Features
+
+* **api:** updated openapi spec for License Keys ([#18](https://github.com/dodopayments/dodopayments-node/issues/18)) ([cf81c5d](https://github.com/dodopayments/dodopayments-node/commit/cf81c5d12aadb61fcdc933341c4089bbfd04739a))
+
 ## 0.13.2 (2024-12-21)
 
 Full Changelog: [v0.12.0...v0.13.2](https://github.com/dodopayments/dodopayments-node/compare/v0.12.0...v0.13.2)
