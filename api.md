@@ -26,6 +26,44 @@ Methods:
 - <code title="patch /subscriptions/{subscription_id}">client.subscriptions.<a href="./src/resources/subscriptions.ts">update</a>(subscriptionId, { ...params }) -> Subscription</code>
 - <code title="get /subscriptions">client.subscriptions.<a href="./src/resources/subscriptions.ts">list</a>({ ...params }) -> SubscriptionsDefaultPageNumberPagination</code>
 
+# Licenses
+
+Types:
+
+- <code><a href="./src/resources/licenses.ts">LicenseValidateResponse</a></code>
+
+Methods:
+
+- <code title="post /licenses/activate">client.licenses.<a href="./src/resources/licenses.ts">activate</a>({ ...params }) -> LicenseKeyInstance</code>
+- <code title="post /licenses/deactivate">client.licenses.<a href="./src/resources/licenses.ts">deactivate</a>({ ...params }) -> void</code>
+- <code title="post /licenses/validate">client.licenses.<a href="./src/resources/licenses.ts">validate</a>({ ...params }) -> LicenseValidateResponse</code>
+
+# LicenseKeys
+
+Types:
+
+- <code><a href="./src/resources/license-keys.ts">LicenseKey</a></code>
+- <code><a href="./src/resources/license-keys.ts">LicenseKeyListResponse</a></code>
+
+Methods:
+
+- <code title="get /license_keys/{id}">client.licenseKeys.<a href="./src/resources/license-keys.ts">retrieve</a>(id) -> LicenseKey</code>
+- <code title="patch /license_keys/{id}">client.licenseKeys.<a href="./src/resources/license-keys.ts">update</a>(id, { ...params }) -> LicenseKey</code>
+- <code title="get /license_keys">client.licenseKeys.<a href="./src/resources/license-keys.ts">list</a>({ ...params }) -> LicenseKeyListResponse</code>
+
+# LicenseKeyInstances
+
+Types:
+
+- <code><a href="./src/resources/license-key-instances.ts">LicenseKeyInstance</a></code>
+- <code><a href="./src/resources/license-key-instances.ts">LicenseKeyInstanceListResponse</a></code>
+
+Methods:
+
+- <code title="get /license_key_instances/{id}">client.licenseKeyInstances.<a href="./src/resources/license-key-instances.ts">retrieve</a>(id) -> LicenseKeyInstance</code>
+- <code title="patch /license_key_instances/{id}">client.licenseKeyInstances.<a href="./src/resources/license-key-instances.ts">update</a>(id, { ...params }) -> LicenseKeyInstance</code>
+- <code title="get /license_key_instances">client.licenseKeyInstances.<a href="./src/resources/license-key-instances.ts">list</a>({ ...params }) -> LicenseKeyInstanceListResponse</code>
+
 # Customers
 
 Types:
@@ -88,12 +126,11 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/products/products.ts">Product</a></code>
-- <code><a href="./src/resources/products/products.ts">ProductCreateResponse</a></code>
 - <code><a href="./src/resources/products/products.ts">ProductListResponse</a></code>
 
 Methods:
 
-- <code title="post /products">client.products.<a href="./src/resources/products/products.ts">create</a>({ ...params }) -> ProductCreateResponse</code>
+- <code title="post /products">client.products.<a href="./src/resources/products/products.ts">create</a>({ ...params }) -> Product</code>
 - <code title="get /products/{id}">client.products.<a href="./src/resources/products/products.ts">retrieve</a>(id) -> Product</code>
 - <code title="patch /products/{id}">client.products.<a href="./src/resources/products/products.ts">update</a>(id, { ...params }) -> void</code>
 - <code title="get /products">client.products.<a href="./src/resources/products/products.ts">list</a>({ ...params }) -> ProductListResponsesDefaultPageNumberPagination</code>

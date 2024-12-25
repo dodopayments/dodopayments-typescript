@@ -22,6 +22,27 @@ import {
   DisputesDefaultPageNumberPagination,
 } from './resources/disputes';
 import {
+  LicenseKeyInstance,
+  LicenseKeyInstanceListParams,
+  LicenseKeyInstanceListResponse,
+  LicenseKeyInstanceUpdateParams,
+  LicenseKeyInstances,
+} from './resources/license-key-instances';
+import {
+  LicenseKey,
+  LicenseKeyListParams,
+  LicenseKeyListResponse,
+  LicenseKeyUpdateParams,
+  LicenseKeys,
+} from './resources/license-keys';
+import {
+  LicenseActivateParams,
+  LicenseDeactivateParams,
+  LicenseValidateParams,
+  LicenseValidateResponse,
+  Licenses,
+} from './resources/licenses';
+import {
   Payment,
   PaymentCreateParams,
   PaymentCreateResponse,
@@ -62,7 +83,6 @@ import { Misc } from './resources/misc/misc';
 import {
   Product,
   ProductCreateParams,
-  ProductCreateResponse,
   ProductListParams,
   ProductListResponse,
   ProductListResponsesDefaultPageNumberPagination,
@@ -207,6 +227,9 @@ export class DodoPayments extends Core.APIClient {
 
   payments: API.Payments = new API.Payments(this);
   subscriptions: API.Subscriptions = new API.Subscriptions(this);
+  licenses: API.Licenses = new API.Licenses(this);
+  licenseKeys: API.LicenseKeys = new API.LicenseKeys(this);
+  licenseKeyInstances: API.LicenseKeyInstances = new API.LicenseKeyInstances(this);
   customers: API.Customers = new API.Customers(this);
   refunds: API.Refunds = new API.Refunds(this);
   disputes: API.Disputes = new API.Disputes(this);
@@ -256,6 +279,9 @@ DodoPayments.PaymentListResponsesDefaultPageNumberPagination =
   PaymentListResponsesDefaultPageNumberPagination;
 DodoPayments.Subscriptions = Subscriptions;
 DodoPayments.SubscriptionsDefaultPageNumberPagination = SubscriptionsDefaultPageNumberPagination;
+DodoPayments.Licenses = Licenses;
+DodoPayments.LicenseKeys = LicenseKeys;
+DodoPayments.LicenseKeyInstances = LicenseKeyInstances;
 DodoPayments.Customers = Customers;
 DodoPayments.CustomersDefaultPageNumberPagination = CustomersDefaultPageNumberPagination;
 DodoPayments.Refunds = Refunds;
@@ -300,6 +326,30 @@ export declare namespace DodoPayments {
   };
 
   export {
+    Licenses as Licenses,
+    type LicenseValidateResponse as LicenseValidateResponse,
+    type LicenseActivateParams as LicenseActivateParams,
+    type LicenseDeactivateParams as LicenseDeactivateParams,
+    type LicenseValidateParams as LicenseValidateParams,
+  };
+
+  export {
+    LicenseKeys as LicenseKeys,
+    type LicenseKey as LicenseKey,
+    type LicenseKeyListResponse as LicenseKeyListResponse,
+    type LicenseKeyUpdateParams as LicenseKeyUpdateParams,
+    type LicenseKeyListParams as LicenseKeyListParams,
+  };
+
+  export {
+    LicenseKeyInstances as LicenseKeyInstances,
+    type LicenseKeyInstance as LicenseKeyInstance,
+    type LicenseKeyInstanceListResponse as LicenseKeyInstanceListResponse,
+    type LicenseKeyInstanceUpdateParams as LicenseKeyInstanceUpdateParams,
+    type LicenseKeyInstanceListParams as LicenseKeyInstanceListParams,
+  };
+
+  export {
     Customers as Customers,
     type Customer as Customer,
     CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
@@ -340,7 +390,6 @@ export declare namespace DodoPayments {
   export {
     Products as Products,
     type Product as Product,
-    type ProductCreateResponse as ProductCreateResponse,
     type ProductListResponse as ProductListResponse,
     ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
     type ProductCreateParams as ProductCreateParams,

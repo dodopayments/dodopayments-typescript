@@ -5,7 +5,6 @@ export {
   ProductListResponsesDefaultPageNumberPagination,
   Products,
   type Product,
-  type ProductCreateResponse,
   type ProductListResponse,
   type ProductCreateParams,
   type ProductUpdateParams,
