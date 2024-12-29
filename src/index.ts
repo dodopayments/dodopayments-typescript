@@ -178,7 +178,7 @@ export class DodoPayments extends Core.APIClient {
   /**
    * API Client for interfacing with the Dodo Payments API.
    *
-   * @param {string | undefined} [opts.bearerToken=process.env['DOOD_PAYMENTS_API_KEY'] ?? undefined]
+   * @param {string | undefined} [opts.bearerToken=process.env['DODO_PAYMENTS_API_KEY'] ?? undefined]
    * @param {Environment} [opts.environment=live_mode] - Specifies the environment URL to use for the API.
    * @param {string} [opts.baseURL=process.env['DODO_PAYMENTS_BASE_URL'] ?? https://live.dodopayments.com/] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
@@ -190,12 +190,12 @@ export class DodoPayments extends Core.APIClient {
    */
   constructor({
     baseURL = Core.readEnv('DODO_PAYMENTS_BASE_URL'),
-    bearerToken = Core.readEnv('DOOD_PAYMENTS_API_KEY'),
+    bearerToken = Core.readEnv('DODO_PAYMENTS_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
     if (bearerToken === undefined) {
       throw new Errors.DodoPaymentsError(
-        "The DOOD_PAYMENTS_API_KEY environment variable is missing or empty; either provide it, or instantiate the DodoPayments client with an bearerToken option, like new DodoPayments({ bearerToken: 'My Bearer Token' }).",
+        "The DODO_PAYMENTS_API_KEY environment variable is missing or empty; either provide it, or instantiate the DodoPayments client with an bearerToken option, like new DodoPayments({ bearerToken: 'My Bearer Token' }).",
       );
     }
 
