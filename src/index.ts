@@ -79,6 +79,7 @@ import {
   WebhookEvents,
   WebhookEventsDefaultPageNumberPagination,
 } from './resources/webhook-events';
+import { Invoices } from './resources/invoices/invoices';
 import { Misc } from './resources/misc/misc';
 import {
   Product,
@@ -227,6 +228,7 @@ export class DodoPayments extends Core.APIClient {
 
   payments: API.Payments = new API.Payments(this);
   subscriptions: API.Subscriptions = new API.Subscriptions(this);
+  invoices: API.Invoices = new API.Invoices(this);
   licenses: API.Licenses = new API.Licenses(this);
   licenseKeys: API.LicenseKeys = new API.LicenseKeys(this);
   licenseKeyInstances: API.LicenseKeyInstances = new API.LicenseKeyInstances(this);
@@ -279,6 +281,7 @@ DodoPayments.PaymentListResponsesDefaultPageNumberPagination =
   PaymentListResponsesDefaultPageNumberPagination;
 DodoPayments.Subscriptions = Subscriptions;
 DodoPayments.SubscriptionsDefaultPageNumberPagination = SubscriptionsDefaultPageNumberPagination;
+DodoPayments.Invoices = Invoices;
 DodoPayments.Licenses = Licenses;
 DodoPayments.LicenseKeys = LicenseKeys;
 DodoPayments.LicenseKeyInstances = LicenseKeyInstances;
@@ -324,6 +327,8 @@ export declare namespace DodoPayments {
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionListParams as SubscriptionListParams,
   };
+
+  export { Invoices as Invoices };
 
   export {
     Licenses as Licenses,

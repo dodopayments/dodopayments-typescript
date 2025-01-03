@@ -277,6 +277,12 @@ export interface SubscriptionCreateParams {
   payment_link?: boolean | null;
 
   return_url?: string | null;
+
+  /**
+   * If specified this will override the trial period days given in the products
+   * price
+   */
+  trial_period_days?: number | null;
 }
 
 export namespace SubscriptionCreateParams {
@@ -303,6 +309,12 @@ export namespace SubscriptionCreateParams {
     email: string;
 
     name: string;
+
+    /**
+     * When true, the most recently created customer object with the given email is
+     * used if exists. False by default
+     */
+    create_new_customer?: boolean;
 
     phone_number?: string | null;
   }

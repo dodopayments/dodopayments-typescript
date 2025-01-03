@@ -14,6 +14,7 @@ export {
   type Dispute,
   type DisputeListParams,
 } from './disputes';
+export { Invoices } from './invoices/invoices';
 export {
   LicenseKeyInstances,
   type LicenseKeyInstance,
