@@ -34,6 +34,7 @@ describe('resource subscriptions', () => {
       metadata: { foo: 'string' },
       payment_link: true,
       return_url: 'return_url',
+      trial_period_days: 0,
     });
   });
 

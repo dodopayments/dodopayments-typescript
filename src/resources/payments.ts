@@ -519,6 +519,12 @@ export namespace PaymentCreateParams {
 
     name: string;
 
+    /**
+     * When true, the most recently created customer object with the given email is
+     * used if exists. False by default
+     */
+    create_new_customer?: boolean;
+
     phone_number?: string | null;
   }
 
