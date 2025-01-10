@@ -96,6 +96,7 @@ const environments = {
   test_mode: 'https://test.dodopayments.com/',
 };
 type Environment = keyof typeof environments;
+
 export interface ClientOptions {
   /**
    * Bearer Token for API authentication
