@@ -29,14 +29,30 @@ export class Disputes extends APIResource {
 export class DisputesDefaultPageNumberPagination extends DefaultPageNumberPagination<Dispute> {}
 
 export interface Dispute {
+  /**
+   * The amount involved in the dispute, represented as a string to accommodate
+   * precision.
+   */
   amount: string;
 
+  /**
+   * The unique identifier of the business involved in the dispute.
+   */
   business_id: string;
 
+  /**
+   * The timestamp of when the dispute was created, in UTC.
+   */
   created_at: string;
 
+  /**
+   * The currency of the disputed amount, represented as an ISO 4217 currency code.
+   */
   currency: string;
 
+  /**
+   * The unique identifier of the dispute.
+   */
   dispute_id: string;
 
   dispute_stage: 'pre_dispute' | 'dispute' | 'pre_arbitration';
@@ -50,6 +66,9 @@ export interface Dispute {
     | 'dispute_won'
     | 'dispute_lost';
 
+  /**
+   * The unique identifier of the payment associated with the dispute.
+   */
   payment_id: string;
 }
 
