@@ -49,7 +49,13 @@ export class Subscriptions extends APIResource {
 
 export class SubscriptionsDefaultPageNumberPagination extends DefaultPageNumberPagination<Subscription> {}
 
+/**
+ * Response struct representing subscription details
+ */
 export interface Subscription {
+  /**
+   * Timestamp when the subscription was created
+   */
   created_at: string;
 
   currency:
@@ -203,35 +209,69 @@ export interface Subscription {
 
   metadata: Record<string, string>;
 
+  /**
+   * Timestamp of the next scheduled billing
+   */
   next_billing_date: string;
 
+  /**
+   * Number of payment frequency intervals
+   */
   payment_frequency_count: number;
 
   payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year';
 
+  /**
+   * Identifier of the product associated with this subscription
+   */
   product_id: string;
 
+  /**
+   * Number of units/items included in the subscription
+   */
   quantity: number;
 
+  /**
+   * Amount charged before tax for each recurring payment in smallest currency unit
+   * (e.g. cents)
+   */
   recurring_pre_tax_amount: number;
 
   status: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired';
 
+  /**
+   * Unique identifier for the subscription
+   */
   subscription_id: string;
 
+  /**
+   * Number of subscription period intervals
+   */
   subscription_period_count: number;
 
   subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year';
 
+  /**
+   * Number of days in the trial period (0 if no trial)
+   */
   trial_period_days: number;
 }
 
 export namespace Subscription {
   export interface Customer {
+    /**
+     * Unique identifier for the customer
+     */
     customer_id: string;
 
+    /**
+     * Email address of the customer
+     */
     email: string;
 
+    /**
+     * Full name of the customer
+     */
     name: string;
   }
 }
@@ -241,21 +281,44 @@ export interface SubscriptionCreateResponse {
 
   metadata: Record<string, string>;
 
+  /**
+   * Tax will be added to the amount and charged to the customer on each billing
+   * cycle
+   */
   recurring_pre_tax_amount: number;
 
+  /**
+   * Unique identifier for the subscription
+   */
   subscription_id: string;
 
+  /**
+   * Client secret used to load Dodo checkout SDK NOTE : Dodo checkout SDK will be
+   * coming soon
+   */
   client_secret?: string | null;
 
+  /**
+   * URL to checkout page
+   */
   payment_link?: string | null;
 }
 
 export namespace SubscriptionCreateResponse {
   export interface Customer {
+    /**
+     * Unique identifier for the customer
+     */
     customer_id: string;
 
+    /**
+     * Email address of the customer
+     */
     email: string;
 
+    /**
+     * Full name of the customer
+     */
     name: string;
   }
 }
@@ -265,28 +328,40 @@ export interface SubscriptionCreateParams {
 
   customer: SubscriptionCreateParams.AttachExistingCustomer | SubscriptionCreateParams.CreateNewCustomer;
 
+  /**
+   * Unique identifier of the product to subscribe to
+   */
   product_id: string;
 
+  /**
+   * Number of units to subscribe for. Must be at least 1.
+   */
   quantity: number;
 
   metadata?: Record<string, string>;
 
   /**
-   * False by default
+   * If true, generates a payment link. Defaults to false if not specified.
    */
   payment_link?: boolean | null;
 
+  /**
+   * Optional URL to redirect after successful subscription creation
+   */
   return_url?: string | null;
 
   /**
-   * If specified this will override the trial period days given in the products
-   * price
+   * Optional trial period in days If specified, this value overrides the trial
+   * period set in the product's price Must be between 0 and 10000 days
    */
   trial_period_days?: number | null;
 }
 
 export namespace SubscriptionCreateParams {
   export interface Billing {
+    /**
+     * City name
+     */
     city: string;
 
     /**
@@ -294,11 +369,20 @@ export namespace SubscriptionCreateParams {
      */
     country: SupportedCountriesAPI.CountryCode;
 
+    /**
+     * State or province name
+     */
     state: string;
 
+    /**
+     * Street address including house number and unit/apartment if applicable
+     */
     street: string;
 
-    zipcode: number;
+    /**
+     * Postal code or ZIP code
+     */
+    zipcode: string;
   }
 
   export interface AttachExistingCustomer {
