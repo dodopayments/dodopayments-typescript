@@ -50,16 +50,31 @@ export class Products extends APIResource {
 export class ProductListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<ProductListResponse> {}
 
 export interface Product {
+  /**
+   * Unique identifier for the business to which the product belongs.
+   */
   business_id: string;
 
+  /**
+   * Timestamp when the product was created.
+   */
   created_at: string;
 
+  /**
+   * Indicates if the product is recurring (e.g., subscriptions).
+   */
   is_recurring: boolean;
 
+  /**
+   * Indicates whether the product requires a license key.
+   */
   license_key_enabled: boolean;
 
   price: Product.OneTimePrice | Product.RecurringPrice;
 
+  /**
+   * Unique identifier for the product.
+   */
   product_id: string;
 
   /**
@@ -68,18 +83,36 @@ export interface Product {
    */
   tax_category: 'digital_products' | 'saas' | 'e_book';
 
+  /**
+   * Timestamp when the product was last updated.
+   */
   updated_at: string;
 
+  /**
+   * Description of the product, optional.
+   */
   description?: string | null;
 
+  /**
+   * URL of the product image, optional.
+   */
   image?: string | null;
 
+  /**
+   * Message sent upon license key activation, if applicable.
+   */
   license_key_activation_message?: string | null;
 
+  /**
+   * Limit on the number of activations for the license key, if enabled.
+   */
   license_key_activations_limit?: number | null;
 
   license_key_duration?: Product.LicenseKeyDuration | null;
 
+  /**
+   * Name of the product, optional.
+   */
   name?: string | null;
 }
 
@@ -232,14 +265,21 @@ export namespace Product {
       | 'ZAR'
       | 'ZMW';
 
+    /**
+     * Discount applied to the price, represented as a percentage (0 to 100).
+     */
     discount: number;
 
     /**
-     * The payment amount. Amount for the payment in the lowest denomination of the
-     * currency, (i.e) in cents for USD denomination. E.g., Pass 100 to charge $1.00
+     * The payment amount. Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
      */
     price: number;
 
+    /**
+     * Indicates if purchasing power parity adjustments are applied to the price.
+     * Purchasing power parity feature is not available as of now
+     */
     purchasing_power_parity: boolean;
 
     type: 'one_time_price';
@@ -393,27 +433,45 @@ export namespace Product {
       | 'ZAR'
       | 'ZMW';
 
+    /**
+     * Discount applied to the price, represented as a percentage (0 to 100).
+     */
     discount: number;
 
+    /**
+     * Number of units for the payment frequency. For example, a value of `1` with a
+     * `payment_frequency_interval` of `month` represents monthly payments.
+     */
     payment_frequency_count: number;
 
     payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year';
 
     /**
-     * The payment amount. Amount for the payment in the lowest denomination of the
-     * currency, (i.e) in cents for USD denomination. E.g., Pass 100 to charge $1.00
+     * The payment amount. Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
      */
     price: number;
 
+    /**
+     * Indicates if purchasing power parity adjustments are applied to the price.
+     * Purchasing power parity feature is not available as of now
+     */
     purchasing_power_parity: boolean;
 
+    /**
+     * Number of units for the subscription period. For example, a value of `12` with a
+     * `subscription_period_interval` of `month` represents a one-year subscription.
+     */
     subscription_period_count: number;
 
     subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year';
 
-    trial_period_days: number;
-
     type: 'recurring_price';
+
+    /**
+     * Number of days for the trial period. A value of `0` indicates no trial period.
+     */
+    trial_period_days?: number;
   }
 
   export interface LicenseKeyDuration {
@@ -424,12 +482,24 @@ export namespace Product {
 }
 
 export interface ProductListResponse {
+  /**
+   * Unique identifier for the business to which the product belongs.
+   */
   business_id: string;
 
+  /**
+   * Timestamp when the product was created.
+   */
   created_at: string;
 
+  /**
+   * Indicates if the product is recurring (e.g., subscriptions).
+   */
   is_recurring: boolean;
 
+  /**
+   * Unique identifier for the product.
+   */
   product_id: string;
 
   /**
@@ -438,14 +508,38 @@ export interface ProductListResponse {
    */
   tax_category: 'digital_products' | 'saas' | 'e_book';
 
+  /**
+   * Timestamp when the product was last updated.
+   */
   updated_at: string;
 
+  /**
+   * Description of the product, optional.
+   */
   description?: string | null;
 
+  /**
+   * URL of the product image, optional.
+   */
   image?: string | null;
 
+  /**
+   * Name of the product, optional.
+   */
   name?: string | null;
 
+  /**
+   * Price of the product, optional.
+   *
+   * The price is represented in the lowest denomination of the currency. For
+   * example:
+   *
+   * - In USD, a price of `$12.34` would be represented as `1234` (cents).
+   * - In JPY, a price of `¥1500` would be represented as `1500` (yen).
+   * - In INR, a price of `₹1234.56` would be represented as `123456` (paise).
+   *
+   * This ensures precision and avoids floating-point rounding errors.
+   */
   price?: number | null;
 }
 
@@ -458,22 +552,31 @@ export interface ProductCreateParams {
    */
   tax_category: 'digital_products' | 'saas' | 'e_book';
 
+  /**
+   * Optional description of the product
+   */
   description?: string | null;
 
+  /**
+   * Optional message displayed during license key activation
+   */
   license_key_activation_message?: string | null;
 
   /**
-   * The number of times the license key can be activated
+   * The number of times the license key can be activated. Must be 0 or greater
    */
   license_key_activations_limit?: number | null;
 
   license_key_duration?: ProductCreateParams.LicenseKeyDuration | null;
 
   /**
-   * Put true to generate and send license key to your customer. Default is false
+   * When true, generates and sends a license key to your customer. Defaults to false
    */
   license_key_enabled?: boolean | null;
 
+  /**
+   * Optional name of the product
+   */
   name?: string | null;
 }
 
@@ -626,14 +729,21 @@ export namespace ProductCreateParams {
       | 'ZAR'
       | 'ZMW';
 
+    /**
+     * Discount applied to the price, represented as a percentage (0 to 100).
+     */
     discount: number;
 
     /**
-     * The payment amount. Amount for the payment in the lowest denomination of the
-     * currency, (i.e) in cents for USD denomination. E.g., Pass 100 to charge $1.00
+     * The payment amount. Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
      */
     price: number;
 
+    /**
+     * Indicates if purchasing power parity adjustments are applied to the price.
+     * Purchasing power parity feature is not available as of now
+     */
     purchasing_power_parity: boolean;
 
     type: 'one_time_price';
@@ -787,27 +897,45 @@ export namespace ProductCreateParams {
       | 'ZAR'
       | 'ZMW';
 
+    /**
+     * Discount applied to the price, represented as a percentage (0 to 100).
+     */
     discount: number;
 
+    /**
+     * Number of units for the payment frequency. For example, a value of `1` with a
+     * `payment_frequency_interval` of `month` represents monthly payments.
+     */
     payment_frequency_count: number;
 
     payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year';
 
     /**
-     * The payment amount. Amount for the payment in the lowest denomination of the
-     * currency, (i.e) in cents for USD denomination. E.g., Pass 100 to charge $1.00
+     * The payment amount. Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
      */
     price: number;
 
+    /**
+     * Indicates if purchasing power parity adjustments are applied to the price.
+     * Purchasing power parity feature is not available as of now
+     */
     purchasing_power_parity: boolean;
 
+    /**
+     * Number of units for the subscription period. For example, a value of `12` with a
+     * `subscription_period_interval` of `month` represents a one-year subscription.
+     */
     subscription_period_count: number;
 
     subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year';
 
-    trial_period_days: number;
-
     type: 'recurring_price';
+
+    /**
+     * Number of days for the trial period. A value of `0` indicates no trial period.
+     */
+    trial_period_days?: number;
   }
 
   export interface LicenseKeyDuration {
@@ -818,16 +946,40 @@ export namespace ProductCreateParams {
 }
 
 export interface ProductUpdateParams {
+  /**
+   * Description of the product, optional and must be at most 1000 characters.
+   */
   description?: string | null;
 
+  /**
+   * Message sent to the customer upon license key activation.
+   *
+   * Only applicable if `license_key_enabled` is `true`. This message contains
+   * instructions for activating the license key.
+   */
   license_key_activation_message?: string | null;
 
+  /**
+   * Limit for the number of activations for the license key.
+   *
+   * Only applicable if `license_key_enabled` is `true`. Represents the maximum
+   * number of times the license key can be activated.
+   */
   license_key_activations_limit?: number | null;
 
   license_key_duration?: ProductUpdateParams.LicenseKeyDuration | null;
 
+  /**
+   * Whether the product requires a license key.
+   *
+   * If `true`, additional fields related to license key (duration, activations
+   * limit, activation message) become applicable.
+   */
   license_key_enabled?: boolean | null;
 
+  /**
+   * Name of the product, optional and must be at most 100 characters.
+   */
   name?: string | null;
 
   price?: ProductUpdateParams.OneTimePrice | ProductUpdateParams.RecurringPrice | null;
@@ -994,14 +1146,21 @@ export namespace ProductUpdateParams {
       | 'ZAR'
       | 'ZMW';
 
+    /**
+     * Discount applied to the price, represented as a percentage (0 to 100).
+     */
     discount: number;
 
     /**
-     * The payment amount. Amount for the payment in the lowest denomination of the
-     * currency, (i.e) in cents for USD denomination. E.g., Pass 100 to charge $1.00
+     * The payment amount. Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
      */
     price: number;
 
+    /**
+     * Indicates if purchasing power parity adjustments are applied to the price.
+     * Purchasing power parity feature is not available as of now
+     */
     purchasing_power_parity: boolean;
 
     type: 'one_time_price';
@@ -1155,27 +1314,45 @@ export namespace ProductUpdateParams {
       | 'ZAR'
       | 'ZMW';
 
+    /**
+     * Discount applied to the price, represented as a percentage (0 to 100).
+     */
     discount: number;
 
+    /**
+     * Number of units for the payment frequency. For example, a value of `1` with a
+     * `payment_frequency_interval` of `month` represents monthly payments.
+     */
     payment_frequency_count: number;
 
     payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year';
 
     /**
-     * The payment amount. Amount for the payment in the lowest denomination of the
-     * currency, (i.e) in cents for USD denomination. E.g., Pass 100 to charge $1.00
+     * The payment amount. Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
      */
     price: number;
 
+    /**
+     * Indicates if purchasing power parity adjustments are applied to the price.
+     * Purchasing power parity feature is not available as of now
+     */
     purchasing_power_parity: boolean;
 
+    /**
+     * Number of units for the subscription period. For example, a value of `12` with a
+     * `subscription_period_interval` of `month` represents a one-year subscription.
+     */
     subscription_period_count: number;
 
     subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year';
 
-    trial_period_days: number;
-
     type: 'recurring_price';
+
+    /**
+     * Number of days for the trial period. A value of `0` indicates no trial period.
+     */
+    trial_period_days?: number;
   }
 }
 

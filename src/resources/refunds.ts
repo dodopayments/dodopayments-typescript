@@ -33,16 +33,31 @@ export class Refunds extends APIResource {
 export class RefundsDefaultPageNumberPagination extends DefaultPageNumberPagination<Refund> {}
 
 export interface Refund {
+  /**
+   * The unique identifier of the business issuing the refund.
+   */
   business_id: string;
 
+  /**
+   * The timestamp of when the refund was created in UTC.
+   */
   created_at: string;
 
+  /**
+   * The unique identifier of the payment associated with the refund.
+   */
   payment_id: string;
 
+  /**
+   * The unique identifier of the refund.
+   */
   refund_id: string;
 
   status: 'succeeded' | 'failed' | 'pending' | 'review';
 
+  /**
+   * The refunded amount.
+   */
   amount?: number | null;
 
   currency?:
@@ -193,14 +208,27 @@ export interface Refund {
     | 'ZMW'
     | null;
 
+  /**
+   * The reason provided for the refund, if any. Optional.
+   */
   reason?: string | null;
 }
 
 export interface RefundCreateParams {
+  /**
+   * The unique identifier of the payment to be refunded.
+   */
   payment_id: string;
 
+  /**
+   * The amount to be refunded. Must be non-negative. Optional. Partial refunds are
+   * currently disabled.
+   */
   amount?: number | null;
 
+  /**
+   * The reason for the refund, if any. Maximum length is 3000 characters. Optional.
+   */
   reason?: string | null;
 }
 

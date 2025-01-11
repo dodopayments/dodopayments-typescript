@@ -30,12 +30,24 @@ export class Payouts extends APIResource {
 export class PayoutListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<PayoutListResponse> {}
 
 export interface PayoutListResponse {
+  /**
+   * The total amount of the payout.
+   */
   amount: number;
 
+  /**
+   * The unique identifier of the business associated with the payout.
+   */
   business_id: string;
 
+  /**
+   * The total value of chargebacks associated with the payout.
+   */
   chargebacks: number;
 
+  /**
+   * The timestamp when the payout was created, in UTC.
+   */
   created_at: string;
 
   currency:
@@ -185,24 +197,51 @@ export interface PayoutListResponse {
     | 'ZAR'
     | 'ZMW';
 
+  /**
+   * The fee charged for processing the payout.
+   */
   fee: number;
 
+  /**
+   * The payment method used for the payout (e.g., bank transfer, card, etc.).
+   */
   payment_method: string;
 
+  /**
+   * The unique identifier of the payout.
+   */
   payout_id: string;
 
+  /**
+   * The total value of refunds associated with the payout.
+   */
   refunds: number;
 
   status: 'in_progress' | 'failed' | 'success';
 
+  /**
+   * The tax applied to the payout.
+   */
   tax: number;
 
+  /**
+   * The timestamp when the payout was last updated, in UTC.
+   */
   updated_at: string;
 
+  /**
+   * The name of the payout recipient or purpose.
+   */
   name?: string | null;
 
+  /**
+   * The URL of the document associated with the payout.
+   */
   payout_document_url?: string | null;
 
+  /**
+   * Any additional remarks or notes associated with the payout.
+   */
   remarks?: string | null;
 }
 
