@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.16.1 (2025-01-11)
+
+Full Changelog: [v0.15.1...v0.16.1](https://github.com/dodopayments/dodopayments-node/compare/v0.15.1...v0.16.1)
+
+### Features
+
+* **api:** updated openapi spec ([#31](https://github.com/dodopayments/dodopayments-node/issues/31)) ([871b563](https://github.com/dodopayments/dodopayments-node/commit/871b5633328c91c510f98eaedf25593d010f30a4))
+
+
+### Chores
+
+* **internal:** change formatting ([#30](https://github.com/dodopayments/dodopayments-node/issues/30)) ([03737c3](https://github.com/dodopayments/dodopayments-node/commit/03737c3da27ac25c0250abfea2adf2a69a738abf))
+* **internal:** codegen related update ([#28](https://github.com/dodopayments/dodopayments-node/issues/28)) ([2d46103](https://github.com/dodopayments/dodopayments-node/commit/2d461037e47846a19e9a48377c3a165140c0b424))
+
 ## 0.15.1 (2025-01-03)
 
 Full Changelog: [v0.14.1...v0.15.1](https://github.com/dodopayments/dodopayments-node/compare/v0.14.1...v0.15.1)
