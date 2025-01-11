@@ -32,28 +32,62 @@ export class LicenseKeys extends APIResource {
 }
 
 export interface LicenseKey {
+  /**
+   * The unique identifier of the license key.
+   */
   id: string;
 
+  /**
+   * The unique identifier of the business associated with the license key.
+   */
   business_id: string;
 
+  /**
+   * The timestamp indicating when the license key was created, in UTC.
+   */
   created_at: string;
 
+  /**
+   * The unique identifier of the customer associated with the license key.
+   */
   customer_id: string;
 
+  /**
+   * The current number of instances activated for this license key.
+   */
   instances_count: number;
 
+  /**
+   * The license key string.
+   */
   key: string;
 
+  /**
+   * The unique identifier of the payment associated with the license key.
+   */
   payment_id: string;
 
+  /**
+   * The unique identifier of the product associated with the license key.
+   */
   product_id: string;
 
   status: 'active' | 'expired' | 'disabled';
 
+  /**
+   * The maximum number of activations allowed for this license key.
+   */
   activations_limit?: number | null;
 
+  /**
+   * The timestamp indicating when the license key expires, in UTC.
+   */
   expires_at?: string | null;
 
+  /**
+   * The unique identifier of the subscription associated with the license key, if
+   * any.
+   */
   subscription_id?: string | null;
 }
 
@@ -66,10 +100,22 @@ export namespace LicenseKeyListResponse {
 }
 
 export interface LicenseKeyUpdateParams {
+  /**
+   * The updated activation limit for the license key. Use `null` to remove the
+   * limit, or omit this field to leave it unchanged.
+   */
   activations_limit?: number | null;
 
+  /**
+   * Indicates whether the license key should be disabled. A value of `true` disables
+   * the key, while `false` enables it. Omit this field to leave it unchanged.
+   */
   disabled?: boolean | null;
 
+  /**
+   * The updated expiration timestamp for the license key in UTC. Use `null` to
+   * remove the expiration date, or omit this field to leave it unchanged.
+   */
   expires_at?: string | null;
 }
 

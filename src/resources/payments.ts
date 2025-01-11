@@ -41,8 +41,14 @@ export class Payments extends APIResource {
 export class PaymentListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<PaymentListResponse> {}
 
 export interface Payment {
+  /**
+   * Identifier of the business associated with the payment
+   */
   business_id: string;
 
+  /**
+   * Timestamp when the payment was created
+   */
   created_at: string;
 
   currency:
@@ -194,28 +200,46 @@ export interface Payment {
 
   customer: Payment.Customer;
 
+  /**
+   * List of disputes associated with this payment
+   */
   disputes: Array<DisputesAPI.Dispute>;
 
   metadata: Record<string, string>;
 
+  /**
+   * Unique identifier for the payment
+   */
   payment_id: string;
 
+  /**
+   * List of refunds issued for this payment
+   */
   refunds: Array<RefundsAPI.Refund>;
 
   /**
-   * Total amount taken from the customer including tax
+   * Total amount charged to the customer including tax, in smallest currency unit
+   * (e.g. cents)
    */
   total_amount: number;
 
+  /**
+   * Checkout URL
+   */
   payment_link?: string | null;
 
+  /**
+   * Payment method used by customer (e.g. "card", "bank_transfer")
+   */
   payment_method?: string | null;
 
+  /**
+   * Specific type of payment method (e.g. "visa", "mastercard")
+   */
   payment_method_type?: string | null;
 
   /**
-   * Product Cart of One time payment. In case of subscription/recurring payment
-   * product id and quantity are available in Get Subscription Api
+   * List of products purchased in a one-time payment
    */
   product_cart?: Array<Payment.ProductCart> | null;
 
@@ -233,22 +257,37 @@ export interface Payment {
     | 'partially_captured_and_capturable'
     | null;
 
+  /**
+   * Identifier of the subscription if payment is part of a subscription
+   */
   subscription_id?: string | null;
 
   /**
-   * Tax collected in this transaction
+   * Amount of tax collected in smallest currency unit (e.g. cents)
    */
   tax?: number | null;
 
+  /**
+   * Timestamp when the payment was last updated
+   */
   updated_at?: string | null;
 }
 
 export namespace Payment {
   export interface Customer {
+    /**
+     * Unique identifier for the customer
+     */
     customer_id: string;
 
+    /**
+     * Email address of the customer
+     */
     email: string;
 
+    /**
+     * Full name of the customer
+     */
     name: string;
   }
 
@@ -260,27 +299,52 @@ export namespace Payment {
 }
 
 export interface PaymentCreateResponse {
+  /**
+   * Client secret used to load Dodo checkout SDK NOTE : Dodo checkout SDK will be
+   * coming soon
+   */
   client_secret: string;
 
   customer: PaymentCreateResponse.Customer;
 
   metadata: Record<string, string>;
 
+  /**
+   * Unique identifier for the payment
+   */
   payment_id: string;
 
+  /**
+   * Total amount of the payment in smallest currency unit (e.g. cents)
+   */
   total_amount: number;
 
+  /**
+   * Optional URL to a hosted payment page
+   */
   payment_link?: string | null;
 
+  /**
+   * Optional list of products included in the payment
+   */
   product_cart?: Array<PaymentCreateResponse.ProductCart> | null;
 }
 
 export namespace PaymentCreateResponse {
   export interface Customer {
+    /**
+     * Unique identifier for the customer
+     */
     customer_id: string;
 
+    /**
+     * Email address of the customer
+     */
     email: string;
 
+    /**
+     * Full name of the customer
+     */
     name: string;
   }
 
@@ -472,10 +536,19 @@ export interface PaymentListResponse {
 
 export namespace PaymentListResponse {
   export interface Customer {
+    /**
+     * Unique identifier for the customer
+     */
     customer_id: string;
 
+    /**
+     * Email address of the customer
+     */
     email: string;
 
+    /**
+     * Full name of the customer
+     */
     name: string;
   }
 }
@@ -485,17 +558,30 @@ export interface PaymentCreateParams {
 
   customer: PaymentCreateParams.AttachExistingCustomer | PaymentCreateParams.CreateNewCustomer;
 
+  /**
+   * List of products in the cart. Must contain at least 1 and at most 100 items.
+   */
   product_cart: Array<PaymentCreateParams.ProductCart>;
 
   metadata?: Record<string, string>;
 
+  /**
+   * Whether to generate a payment link. Defaults to false if not specified.
+   */
   payment_link?: boolean | null;
 
+  /**
+   * Optional URL to redirect the customer after payment. Must be a valid URL if
+   * provided.
+   */
   return_url?: string | null;
 }
 
 export namespace PaymentCreateParams {
   export interface Billing {
+    /**
+     * City name
+     */
     city: string;
 
     /**
@@ -503,11 +589,20 @@ export namespace PaymentCreateParams {
      */
     country: SupportedCountriesAPI.CountryCode;
 
+    /**
+     * State or province name
+     */
     state: string;
 
+    /**
+     * Street address including house number and unit/apartment if applicable
+     */
     street: string;
 
-    zipcode: number;
+    /**
+     * Postal code or ZIP code
+     */
+    zipcode: string;
   }
 
   export interface AttachExistingCustomer {

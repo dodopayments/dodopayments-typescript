@@ -11,7 +11,7 @@ const client = new DodoPayments({
 describe('resource payments', () => {
   test('create: only required params', async () => {
     const responsePromise = client.payments.create({
-      billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 },
+      billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
       customer: { customer_id: 'customer_id' },
       product_cart: [{ product_id: 'product_id', quantity: 0 }],
     });
@@ -26,7 +26,7 @@ describe('resource payments', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.payments.create({
-      billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 0 },
+      billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
       customer: { customer_id: 'customer_id' },
       product_cart: [{ product_id: 'product_id', quantity: 0 }],
       metadata: { foo: 'string' },
