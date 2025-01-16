@@ -63,7 +63,16 @@ describe('resource refunds', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.refunds.list({ page_number: 0, page_size: 0 }, { path: '/_stainless_unknown_path' }),
+      client.refunds.list(
+        {
+          created_at_gte: '2019-12-27T18:11:19.117Z',
+          created_at_lte: '2019-12-27T18:11:19.117Z',
+          page_number: 0,
+          page_size: 0,
+          status: 'succeeded',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 });

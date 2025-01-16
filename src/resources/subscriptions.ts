@@ -410,7 +410,27 @@ export interface SubscriptionUpdateParams {
   status?: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | null;
 }
 
-export interface SubscriptionListParams extends DefaultPageNumberPaginationParams {}
+export interface SubscriptionListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Get events after this created time
+   */
+  created_at_gte?: string | null;
+
+  /**
+   * Get events created before this time
+   */
+  created_at_lte?: string | null;
+
+  /**
+   * Filter by customer id
+   */
+  customer_id?: string | null;
+
+  /**
+   * Filter by status
+   */
+  status?: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | null;
+}
 
 Subscriptions.SubscriptionsDefaultPageNumberPagination = SubscriptionsDefaultPageNumberPagination;
 
