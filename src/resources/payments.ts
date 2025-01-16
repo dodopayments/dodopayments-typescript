@@ -630,7 +630,39 @@ export namespace PaymentCreateParams {
   }
 }
 
-export interface PaymentListParams extends DefaultPageNumberPaginationParams {}
+export interface PaymentListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Get events after this created time
+   */
+  created_at_gte?: string | null;
+
+  /**
+   * Get events created before this time
+   */
+  created_at_lte?: string | null;
+
+  /**
+   * Filter by customer id
+   */
+  customer_id?: string | null;
+
+  /**
+   * Filter by status
+   */
+  status?:
+    | 'succeeded'
+    | 'failed'
+    | 'cancelled'
+    | 'processing'
+    | 'requires_customer_action'
+    | 'requires_merchant_action'
+    | 'requires_payment_method'
+    | 'requires_confirmation'
+    | 'requires_capture'
+    | 'partially_captured'
+    | 'partially_captured_and_capturable'
+    | null;
+}
 
 Payments.PaymentListResponsesDefaultPageNumberPagination = PaymentListResponsesDefaultPageNumberPagination;
 
