@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.17.0 (2025-01-16)
+
+Full Changelog: [v0.16.1...v0.17.0](https://github.com/dodopayments/dodopayments-node/compare/v0.16.1...v0.17.0)
+
+### Features
+
+* **api:** added filter apis ([#33](https://github.com/dodopayments/dodopayments-node/issues/33)) ([0f7e77a](https://github.com/dodopayments/dodopayments-node/commit/0f7e77aa66dbc79df5718453e07287e264e5c471))
+
 ## 0.16.1 (2025-01-11)
 
 Full Changelog: [v0.15.1...v0.16.1](https://github.com/dodopayments/dodopayments-node/compare/v0.15.1...v0.16.1)

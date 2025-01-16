@@ -72,7 +72,35 @@ export interface Dispute {
   payment_id: string;
 }
 
-export interface DisputeListParams extends DefaultPageNumberPaginationParams {}
+export interface DisputeListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Get events after this created time
+   */
+  created_at_gte?: string | null;
+
+  /**
+   * Get events created before this time
+   */
+  created_at_lte?: string | null;
+
+  /**
+   * Filter by dispute stage
+   */
+  dispute_stage?: 'pre_dispute' | 'dispute' | 'pre_arbitration' | null;
+
+  /**
+   * Filter by dispute status
+   */
+  dispute_status?:
+    | 'dispute_opened'
+    | 'dispute_expired'
+    | 'dispute_accepted'
+    | 'dispute_cancelled'
+    | 'dispute_challenged'
+    | 'dispute_won'
+    | 'dispute_lost'
+    | null;
+}
 
 Disputes.DisputesDefaultPageNumberPagination = DisputesDefaultPageNumberPagination;
 

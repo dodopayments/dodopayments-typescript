@@ -232,7 +232,22 @@ export interface RefundCreateParams {
   reason?: string | null;
 }
 
-export interface RefundListParams extends DefaultPageNumberPaginationParams {}
+export interface RefundListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Get events after this created time
+   */
+  created_at_gte?: string | null;
+
+  /**
+   * Get events created before this time
+   */
+  created_at_lte?: string | null;
+
+  /**
+   * Filter by status
+   */
+  status?: 'succeeded' | 'failed' | 'pending' | 'review' | null;
+}
 
 Refunds.RefundsDefaultPageNumberPagination = RefundsDefaultPageNumberPagination;
 
