@@ -142,6 +142,7 @@ Methods:
 - <code title="get /products/{id}">client.products.<a href="./src/resources/products/products.ts">retrieve</a>(id) -> Product</code>
 - <code title="patch /products/{id}">client.products.<a href="./src/resources/products/products.ts">update</a>(id, { ...params }) -> void</code>
 - <code title="get /products">client.products.<a href="./src/resources/products/products.ts">list</a>({ ...params }) -> ProductListResponsesDefaultPageNumberPagination</code>
+- <code title="delete /products/{id}">client.products.<a href="./src/resources/products/products.ts">delete</a>(id) -> void</code>
 
 ## Images
 
