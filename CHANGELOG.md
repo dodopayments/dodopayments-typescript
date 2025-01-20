@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.18.0 (2025-01-20)
+
+Full Changelog: [v0.17.0...v0.18.0](https://github.com/dodopayments/dodopayments-node/compare/v0.17.0...v0.18.0)
+
+### Features
+
+* **api:** updated openapi sepc ([#38](https://github.com/dodopayments/dodopayments-node/issues/38)) ([9682295](https://github.com/dodopayments/dodopayments-node/commit/96822951e14f7183a3375769cf1ef26877bc7d58))
+
+
+### Chores
+
+* **internal:** codegen related update ([#36](https://github.com/dodopayments/dodopayments-node/issues/36)) ([b954c61](https://github.com/dodopayments/dodopayments-node/commit/b954c61dfb4795c48fb6a8ff187a60320fe008b7))
+
 ## 0.17.0 (2025-01-16)
 
 Full Changelog: [v0.16.1...v0.17.0](https://github.com/dodopayments/dodopayments-node/compare/v0.16.1...v0.17.0)
