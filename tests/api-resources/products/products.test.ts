@@ -37,6 +37,7 @@ describe('resource products', () => {
         price: 0,
         purchasing_power_parity: true,
         type: 'one_time_price',
+        tax_inclusive: true,
       },
       tax_category: 'digital_products',
       description: 'description',
