@@ -252,6 +252,11 @@ export interface Subscription {
   subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year';
 
   /**
+   * Indicates if the recurring_pre_tax_amount is tax inclusive
+   */
+  tax_inclusive: boolean;
+
+  /**
    * Number of days in the trial period (0 if no trial)
    */
   trial_period_days: number;
