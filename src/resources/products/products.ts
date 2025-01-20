@@ -283,6 +283,11 @@ export namespace Product {
     purchasing_power_parity: boolean;
 
     type: 'one_time_price';
+
+    /**
+     * Indicates if the price is tax inclusive
+     */
+    tax_inclusive?: boolean | null;
   }
 
   export interface RecurringPrice {
@@ -469,6 +474,11 @@ export namespace Product {
     type: 'recurring_price';
 
     /**
+     * Indicates if the price is tax inclusive
+     */
+    tax_inclusive?: boolean | null;
+
+    /**
      * Number of days for the trial period. A value of `0` indicates no trial period.
      */
     trial_period_days?: number;
@@ -513,6 +523,154 @@ export interface ProductListResponse {
    */
   updated_at: string;
 
+  currency?:
+    | 'AED'
+    | 'ALL'
+    | 'AMD'
+    | 'ANG'
+    | 'AOA'
+    | 'ARS'
+    | 'AUD'
+    | 'AWG'
+    | 'AZN'
+    | 'BAM'
+    | 'BBD'
+    | 'BDT'
+    | 'BGN'
+    | 'BHD'
+    | 'BIF'
+    | 'BMD'
+    | 'BND'
+    | 'BOB'
+    | 'BRL'
+    | 'BSD'
+    | 'BWP'
+    | 'BYN'
+    | 'BZD'
+    | 'CAD'
+    | 'CHF'
+    | 'CLP'
+    | 'CNY'
+    | 'COP'
+    | 'CRC'
+    | 'CUP'
+    | 'CVE'
+    | 'CZK'
+    | 'DJF'
+    | 'DKK'
+    | 'DOP'
+    | 'DZD'
+    | 'EGP'
+    | 'ETB'
+    | 'EUR'
+    | 'FJD'
+    | 'FKP'
+    | 'GBP'
+    | 'GEL'
+    | 'GHS'
+    | 'GIP'
+    | 'GMD'
+    | 'GNF'
+    | 'GTQ'
+    | 'GYD'
+    | 'HKD'
+    | 'HNL'
+    | 'HRK'
+    | 'HTG'
+    | 'HUF'
+    | 'IDR'
+    | 'ILS'
+    | 'INR'
+    | 'IQD'
+    | 'JMD'
+    | 'JOD'
+    | 'JPY'
+    | 'KES'
+    | 'KGS'
+    | 'KHR'
+    | 'KMF'
+    | 'KRW'
+    | 'KWD'
+    | 'KYD'
+    | 'KZT'
+    | 'LAK'
+    | 'LBP'
+    | 'LKR'
+    | 'LRD'
+    | 'LSL'
+    | 'LYD'
+    | 'MAD'
+    | 'MDL'
+    | 'MGA'
+    | 'MKD'
+    | 'MMK'
+    | 'MNT'
+    | 'MOP'
+    | 'MRU'
+    | 'MUR'
+    | 'MVR'
+    | 'MWK'
+    | 'MXN'
+    | 'MYR'
+    | 'MZN'
+    | 'NAD'
+    | 'NGN'
+    | 'NIO'
+    | 'NOK'
+    | 'NPR'
+    | 'NZD'
+    | 'OMR'
+    | 'PAB'
+    | 'PEN'
+    | 'PGK'
+    | 'PHP'
+    | 'PKR'
+    | 'PLN'
+    | 'PYG'
+    | 'QAR'
+    | 'RON'
+    | 'RSD'
+    | 'RUB'
+    | 'RWF'
+    | 'SAR'
+    | 'SBD'
+    | 'SCR'
+    | 'SEK'
+    | 'SGD'
+    | 'SHP'
+    | 'SLE'
+    | 'SLL'
+    | 'SOS'
+    | 'SRD'
+    | 'SSP'
+    | 'STN'
+    | 'SVC'
+    | 'SZL'
+    | 'THB'
+    | 'TND'
+    | 'TOP'
+    | 'TRY'
+    | 'TTD'
+    | 'TWD'
+    | 'TZS'
+    | 'UAH'
+    | 'UGX'
+    | 'USD'
+    | 'UYU'
+    | 'UZS'
+    | 'VES'
+    | 'VND'
+    | 'VUV'
+    | 'WST'
+    | 'XAF'
+    | 'XCD'
+    | 'XOF'
+    | 'XPF'
+    | 'YER'
+    | 'ZAR'
+    | 'ZMW'
+    | null;
+
   /**
    * Description of the product, optional.
    */
@@ -541,6 +699,8 @@ export interface ProductListResponse {
    * This ensures precision and avoids floating-point rounding errors.
    */
   price?: number | null;
+
+  tax_inclusive?: boolean | null;
 }
 
 export interface ProductCreateParams {
@@ -747,6 +907,11 @@ export namespace ProductCreateParams {
     purchasing_power_parity: boolean;
 
     type: 'one_time_price';
+
+    /**
+     * Indicates if the price is tax inclusive
+     */
+    tax_inclusive?: boolean | null;
   }
 
   export interface RecurringPrice {
@@ -931,6 +1096,11 @@ export namespace ProductCreateParams {
     subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year';
 
     type: 'recurring_price';
+
+    /**
+     * Indicates if the price is tax inclusive
+     */
+    tax_inclusive?: boolean | null;
 
     /**
      * Number of days for the trial period. A value of `0` indicates no trial period.
@@ -1164,6 +1334,11 @@ export namespace ProductUpdateParams {
     purchasing_power_parity: boolean;
 
     type: 'one_time_price';
+
+    /**
+     * Indicates if the price is tax inclusive
+     */
+    tax_inclusive?: boolean | null;
   }
 
   export interface RecurringPrice {
@@ -1348,6 +1523,11 @@ export namespace ProductUpdateParams {
     subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year';
 
     type: 'recurring_price';
+
+    /**
+     * Indicates if the price is tax inclusive
+     */
+    tax_inclusive?: boolean | null;
 
     /**
      * Number of days for the trial period. A value of `0` indicates no trial period.
