@@ -707,7 +707,381 @@ export interface ProductListResponse {
    */
   price?: number | null;
 
+  price_detail?: ProductListResponse.OneTimePrice | ProductListResponse.RecurringPrice | null;
+
+  /**
+   * Indicates if the price is tax inclusive
+   */
   tax_inclusive?: boolean | null;
+}
+
+export namespace ProductListResponse {
+  export interface OneTimePrice {
+    currency:
+      | 'AED'
+      | 'ALL'
+      | 'AMD'
+      | 'ANG'
+      | 'AOA'
+      | 'ARS'
+      | 'AUD'
+      | 'AWG'
+      | 'AZN'
+      | 'BAM'
+      | 'BBD'
+      | 'BDT'
+      | 'BGN'
+      | 'BHD'
+      | 'BIF'
+      | 'BMD'
+      | 'BND'
+      | 'BOB'
+      | 'BRL'
+      | 'BSD'
+      | 'BWP'
+      | 'BYN'
+      | 'BZD'
+      | 'CAD'
+      | 'CHF'
+      | 'CLP'
+      | 'CNY'
+      | 'COP'
+      | 'CRC'
+      | 'CUP'
+      | 'CVE'
+      | 'CZK'
+      | 'DJF'
+      | 'DKK'
+      | 'DOP'
+      | 'DZD'
+      | 'EGP'
+      | 'ETB'
+      | 'EUR'
+      | 'FJD'
+      | 'FKP'
+      | 'GBP'
+      | 'GEL'
+      | 'GHS'
+      | 'GIP'
+      | 'GMD'
+      | 'GNF'
+      | 'GTQ'
+      | 'GYD'
+      | 'HKD'
+      | 'HNL'
+      | 'HRK'
+      | 'HTG'
+      | 'HUF'
+      | 'IDR'
+      | 'ILS'
+      | 'INR'
+      | 'IQD'
+      | 'JMD'
+      | 'JOD'
+      | 'JPY'
+      | 'KES'
+      | 'KGS'
+      | 'KHR'
+      | 'KMF'
+      | 'KRW'
+      | 'KWD'
+      | 'KYD'
+      | 'KZT'
+      | 'LAK'
+      | 'LBP'
+      | 'LKR'
+      | 'LRD'
+      | 'LSL'
+      | 'LYD'
+      | 'MAD'
+      | 'MDL'
+      | 'MGA'
+      | 'MKD'
+      | 'MMK'
+      | 'MNT'
+      | 'MOP'
+      | 'MRU'
+      | 'MUR'
+      | 'MVR'
+      | 'MWK'
+      | 'MXN'
+      | 'MYR'
+      | 'MZN'
+      | 'NAD'
+      | 'NGN'
+      | 'NIO'
+      | 'NOK'
+      | 'NPR'
+      | 'NZD'
+      | 'OMR'
+      | 'PAB'
+      | 'PEN'
+      | 'PGK'
+      | 'PHP'
+      | 'PKR'
+      | 'PLN'
+      | 'PYG'
+      | 'QAR'
+      | 'RON'
+      | 'RSD'
+      | 'RUB'
+      | 'RWF'
+      | 'SAR'
+      | 'SBD'
+      | 'SCR'
+      | 'SEK'
+      | 'SGD'
+      | 'SHP'
+      | 'SLE'
+      | 'SLL'
+      | 'SOS'
+      | 'SRD'
+      | 'SSP'
+      | 'STN'
+      | 'SVC'
+      | 'SZL'
+      | 'THB'
+      | 'TND'
+      | 'TOP'
+      | 'TRY'
+      | 'TTD'
+      | 'TWD'
+      | 'TZS'
+      | 'UAH'
+      | 'UGX'
+      | 'USD'
+      | 'UYU'
+      | 'UZS'
+      | 'VES'
+      | 'VND'
+      | 'VUV'
+      | 'WST'
+      | 'XAF'
+      | 'XCD'
+      | 'XOF'
+      | 'XPF'
+      | 'YER'
+      | 'ZAR'
+      | 'ZMW';
+
+    /**
+     * Discount applied to the price, represented as a percentage (0 to 100).
+     */
+    discount: number;
+
+    /**
+     * The payment amount. Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
+     */
+    price: number;
+
+    /**
+     * Indicates if purchasing power parity adjustments are applied to the price.
+     * Purchasing power parity feature is not available as of now
+     */
+    purchasing_power_parity: boolean;
+
+    type: 'one_time_price';
+
+    /**
+     * Indicates if the price is tax inclusive
+     */
+    tax_inclusive?: boolean | null;
+  }
+
+  export interface RecurringPrice {
+    currency:
+      | 'AED'
+      | 'ALL'
+      | 'AMD'
+      | 'ANG'
+      | 'AOA'
+      | 'ARS'
+      | 'AUD'
+      | 'AWG'
+      | 'AZN'
+      | 'BAM'
+      | 'BBD'
+      | 'BDT'
+      | 'BGN'
+      | 'BHD'
+      | 'BIF'
+      | 'BMD'
+      | 'BND'
+      | 'BOB'
+      | 'BRL'
+      | 'BSD'
+      | 'BWP'
+      | 'BYN'
+      | 'BZD'
+      | 'CAD'
+      | 'CHF'
+      | 'CLP'
+      | 'CNY'
+      | 'COP'
+      | 'CRC'
+      | 'CUP'
+      | 'CVE'
+      | 'CZK'
+      | 'DJF'
+      | 'DKK'
+      | 'DOP'
+      | 'DZD'
+      | 'EGP'
+      | 'ETB'
+      | 'EUR'
+      | 'FJD'
+      | 'FKP'
+      | 'GBP'
+      | 'GEL'
+      | 'GHS'
+      | 'GIP'
+      | 'GMD'
+      | 'GNF'
+      | 'GTQ'
+      | 'GYD'
+      | 'HKD'
+      | 'HNL'
+      | 'HRK'
+      | 'HTG'
+      | 'HUF'
+      | 'IDR'
+      | 'ILS'
+      | 'INR'
+      | 'IQD'
+      | 'JMD'
+      | 'JOD'
+      | 'JPY'
+      | 'KES'
+      | 'KGS'
+      | 'KHR'
+      | 'KMF'
+      | 'KRW'
+      | 'KWD'
+      | 'KYD'
+      | 'KZT'
+      | 'LAK'
+      | 'LBP'
+      | 'LKR'
+      | 'LRD'
+      | 'LSL'
+      | 'LYD'
+      | 'MAD'
+      | 'MDL'
+      | 'MGA'
+      | 'MKD'
+      | 'MMK'
+      | 'MNT'
+      | 'MOP'
+      | 'MRU'
+      | 'MUR'
+      | 'MVR'
+      | 'MWK'
+      | 'MXN'
+      | 'MYR'
+      | 'MZN'
+      | 'NAD'
+      | 'NGN'
+      | 'NIO'
+      | 'NOK'
+      | 'NPR'
+      | 'NZD'
+      | 'OMR'
+      | 'PAB'
+      | 'PEN'
+      | 'PGK'
+      | 'PHP'
+      | 'PKR'
+      | 'PLN'
+      | 'PYG'
+      | 'QAR'
+      | 'RON'
+      | 'RSD'
+      | 'RUB'
+      | 'RWF'
+      | 'SAR'
+      | 'SBD'
+      | 'SCR'
+      | 'SEK'
+      | 'SGD'
+      | 'SHP'
+      | 'SLE'
+      | 'SLL'
+      | 'SOS'
+      | 'SRD'
+      | 'SSP'
+      | 'STN'
+      | 'SVC'
+      | 'SZL'
+      | 'THB'
+      | 'TND'
+      | 'TOP'
+      | 'TRY'
+      | 'TTD'
+      | 'TWD'
+      | 'TZS'
+      | 'UAH'
+      | 'UGX'
+      | 'USD'
+      | 'UYU'
+      | 'UZS'
+      | 'VES'
+      | 'VND'
+      | 'VUV'
+      | 'WST'
+      | 'XAF'
+      | 'XCD'
+      | 'XOF'
+      | 'XPF'
+      | 'YER'
+      | 'ZAR'
+      | 'ZMW';
+
+    /**
+     * Discount applied to the price, represented as a percentage (0 to 100).
+     */
+    discount: number;
+
+    /**
+     * Number of units for the payment frequency. For example, a value of `1` with a
+     * `payment_frequency_interval` of `month` represents monthly payments.
+     */
+    payment_frequency_count: number;
+
+    payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year';
+
+    /**
+     * The payment amount. Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
+     */
+    price: number;
+
+    /**
+     * Indicates if purchasing power parity adjustments are applied to the price.
+     * Purchasing power parity feature is not available as of now
+     */
+    purchasing_power_parity: boolean;
+
+    /**
+     * Number of units for the subscription period. For example, a value of `12` with a
+     * `subscription_period_interval` of `month` represents a one-year subscription.
+     */
+    subscription_period_count: number;
+
+    subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year';
+
+    type: 'recurring_price';
+
+    /**
+     * Indicates if the price is tax inclusive
+     */
+    tax_inclusive?: boolean | null;
+
+    /**
+     * Number of days for the trial period. A value of `0` indicates no trial period.
+     */
+    trial_period_days?: number;
+  }
 }
 
 export interface ProductCreateParams {
@@ -1543,7 +1917,12 @@ export namespace ProductUpdateParams {
   }
 }
 
-export interface ProductListParams extends DefaultPageNumberPaginationParams {}
+export interface ProductListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * List archived products
+   */
+  archived?: boolean;
+}
 
 Products.ProductListResponsesDefaultPageNumberPagination = ProductListResponsesDefaultPageNumberPagination;
 Products.Images = Images;
