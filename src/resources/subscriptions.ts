@@ -400,8 +400,9 @@ export namespace SubscriptionCreateParams {
     name: string;
 
     /**
-     * When true, the most recently created customer object with the given email is
-     * used if exists. False by default
+     * When false, the most recently created customer object with the given email is
+     * used if exists. When true, a new customer object is always created False by
+     * default
      */
     create_new_customer?: boolean;
 
