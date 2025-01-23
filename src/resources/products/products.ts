@@ -52,6 +52,13 @@ export class Products extends APIResource {
       headers: { Accept: '*/*', ...options?.headers },
     });
   }
+
+  unarchive(id: string, options?: Core.RequestOptions): Core.APIPromise<void> {
+    return this._client.post(`/products/${id}/unarchive`, {
+      ...options,
+      headers: { Accept: '*/*', ...options?.headers },
+    });
+  }
 }
 
 export class ProductListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<ProductListResponse> {}

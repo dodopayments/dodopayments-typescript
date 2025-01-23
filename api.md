@@ -143,6 +143,7 @@ Methods:
 - <code title="patch /products/{id}">client.products.<a href="./src/resources/products/products.ts">update</a>(id, { ...params }) -> void</code>
 - <code title="get /products">client.products.<a href="./src/resources/products/products.ts">list</a>({ ...params }) -> ProductListResponsesDefaultPageNumberPagination</code>
 - <code title="delete /products/{id}">client.products.<a href="./src/resources/products/products.ts">delete</a>(id) -> void</code>
+- <code title="post /products/{id}/unarchive">client.products.<a href="./src/resources/products/products.ts">unarchive</a>(id) -> void</code>
 
 ## Images
 
