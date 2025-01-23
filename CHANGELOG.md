@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.19.0 (2025-01-23)
+
+Full Changelog: [v0.18.0...v0.19.0](https://github.com/dodopayments/dodopayments-node/compare/v0.18.0...v0.19.0)
+
+### Features
+
+* **api:** added archive product api ([#39](https://github.com/dodopayments/dodopayments-node/issues/39)) ([809b126](https://github.com/dodopayments/dodopayments-node/commit/809b126784c606a9fb53863e86efd2268aecb22b))
+* **api:** manual updates ([#42](https://github.com/dodopayments/dodopayments-node/issues/42)) ([ff0ba1c](https://github.com/dodopayments/dodopayments-node/commit/ff0ba1cb350db1ac74cd1fce98e1f1d9362306c2))
+* **api:** manual updates ([#43](https://github.com/dodopayments/dodopayments-node/issues/43)) ([414cf72](https://github.com/dodopayments/dodopayments-node/commit/414cf724ea2903ed69d3240ccd942fb5f3606121))
+
+
+### Chores
+
+* **internal:** add test ([#41](https://github.com/dodopayments/dodopayments-node/issues/41)) ([c34b584](https://github.com/dodopayments/dodopayments-node/commit/c34b584d916f115cfb3e991fe9fb1cc8d5bc59f4))
+
 ## 0.18.0 (2025-01-20)
 
 Full Changelog: [v0.17.0...v0.18.0](https://github.com/dodopayments/dodopayments-node/compare/v0.17.0...v0.18.0)
