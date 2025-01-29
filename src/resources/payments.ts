@@ -352,6 +352,12 @@ export namespace PaymentCreateResponse {
     product_id: string;
 
     quantity: number;
+
+    /**
+     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
+     * amount will be ignored
+     */
+    amount?: number | null;
   }
 }
 
@@ -628,6 +634,12 @@ export namespace PaymentCreateParams {
     product_id: string;
 
     quantity: number;
+
+    /**
+     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
+     * amount will be ignored
+     */
+    amount?: number | null;
   }
 }
 
