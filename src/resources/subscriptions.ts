@@ -356,6 +356,12 @@ export interface SubscriptionCreateParams {
   return_url?: string | null;
 
   /**
+   * Tax ID in case the payment is B2B. If tax id validation fails the payment
+   * creation will fail
+   */
+  tax_id?: string | null;
+
+  /**
    * Optional trial period in days If specified, this value overrides the trial
    * period set in the product's price Must be between 0 and 10000 days
    */

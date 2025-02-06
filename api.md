@@ -153,7 +153,7 @@ Types:
 
 Methods:
 
-- <code title="put /products/{id}/images">client.products.images.<a href="./src/resources/products/images.ts">update</a>(id) -> ImageUpdateResponse</code>
+- <code title="put /products/{id}/images">client.products.images.<a href="./src/resources/products/images.ts">update</a>(id, { ...params }) -> ImageUpdateResponse</code>
 
 # Misc
 

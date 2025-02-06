@@ -224,6 +224,11 @@ export interface Payment {
   total_amount: number;
 
   /**
+   * An error message if the payment failed
+   */
+  error_message?: string | null;
+
+  /**
    * Checkout URL
    */
   payment_link?: string | null;
@@ -581,6 +586,12 @@ export interface PaymentCreateParams {
    * provided.
    */
   return_url?: string | null;
+
+  /**
+   * Tax ID in case the payment is B2B. If tax id validation fails the payment
+   * creation will fail
+   */
+  tax_id?: string | null;
 }
 
 export namespace PaymentCreateParams {
