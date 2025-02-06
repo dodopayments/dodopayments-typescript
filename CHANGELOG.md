@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.22.0 (2025-02-06)
+
+Full Changelog: [v0.20.1...v0.22.0](https://github.com/dodopayments/dodopayments-node/compare/v0.20.1...v0.22.0)
+
+### Features
+
+* **api:** updated API changes for v0.22.0 ([#51](https://github.com/dodopayments/dodopayments-node/issues/51)) ([d57dec3](https://github.com/dodopayments/dodopayments-node/commit/d57dec3b32be9e3e3e4642a205cae69fe33268f0))
+* **client:** send `X-Stainless-Timeout` header ([#49](https://github.com/dodopayments/dodopayments-node/issues/49)) ([432c959](https://github.com/dodopayments/dodopayments-node/commit/432c959909f8e918c387e34a6d4bcb0b70715699))
+
 ## 0.20.1 (2025-01-29)
 
 Full Changelog: [v0.19.0...v0.20.1](https://github.com/dodopayments/dodopayments-node/compare/v0.19.0...v0.20.1)
