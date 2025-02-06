@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Images, type ImageUpdateResponse } from './images';
+export { Images, type ImageUpdateResponse, type ImageUpdateParams } from './images';
 export {
   ProductListResponsesDefaultPageNumberPagination,
   Products,

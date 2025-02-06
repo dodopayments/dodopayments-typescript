@@ -4,7 +4,7 @@ import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
 import * as ImagesAPI from './images';
-import { ImageUpdateResponse, Images } from './images';
+import { ImageUpdateParams, ImageUpdateResponse, Images } from './images';
 import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../../pagination';
 
 export class Products extends APIResource {
@@ -1558,6 +1558,11 @@ export interface ProductUpdateParams {
   description?: string | null;
 
   /**
+   * Product image id after its uploaded to S3
+   */
+  image_id?: string | null;
+
+  /**
    * Message sent to the customer upon license key activation.
    *
    * Only applicable if `license_key_enabled` is `true`. This message contains
@@ -2008,5 +2013,9 @@ export declare namespace Products {
     type ProductListParams as ProductListParams,
   };
 
-  export { Images as Images, type ImageUpdateResponse as ImageUpdateResponse };
+  export {
+    Images as Images,
+    type ImageUpdateResponse as ImageUpdateResponse,
+    type ImageUpdateParams as ImageUpdateParams,
+  };
 }
