@@ -26,4 +26,11 @@ describe('resource images', () => {
       DodoPayments.NotFoundError,
     );
   });
+
+  test('update: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.products.images.update('id', { force_update: true }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
 });
