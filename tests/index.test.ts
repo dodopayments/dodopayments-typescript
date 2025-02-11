@@ -183,13 +183,13 @@ describe('instantiate client', () => {
     test('empty env variable', () => {
       process.env['DODO_PAYMENTS_BASE_URL'] = ''; // empty
       const client = new DodoPayments({ bearerToken: 'My Bearer Token' });
-      expect(client.baseURL).toEqual('https://live.dodopayments.com/');
+      expect(client.baseURL).toEqual('https://live.dodopayments.com');
     });
 
     test('blank env variable', () => {
       process.env['DODO_PAYMENTS_BASE_URL'] = '  '; // blank
       const client = new DodoPayments({ bearerToken: 'My Bearer Token' });
-      expect(client.baseURL).toEqual('https://live.dodopayments.com/');
+      expect(client.baseURL).toEqual('https://live.dodopayments.com');
     });
 
     test('env variable with environment', () => {
@@ -206,7 +206,7 @@ describe('instantiate client', () => {
         baseURL: null,
         environment: 'live_mode',
       });
-      expect(client.baseURL).toEqual('https://live.dodopayments.com/');
+      expect(client.baseURL).toEqual('https://live.dodopayments.com');
     });
   });
 
