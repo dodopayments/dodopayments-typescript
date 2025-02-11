@@ -92,8 +92,8 @@ import {
 } from './resources/products/products';
 
 const environments = {
-  live_mode: 'https://live.dodopayments.com/',
-  test_mode: 'https://test.dodopayments.com/',
+  live_mode: 'https://live.dodopayments.com',
+  test_mode: 'https://test.dodopayments.com',
 };
 type Environment = keyof typeof environments;
 
@@ -107,8 +107,8 @@ export interface ClientOptions {
    * Specifies the environment to use for the API.
    *
    * Each environment maps to a different base URL:
-   * - `live_mode` corresponds to `https://live.dodopayments.com/`
-   * - `test_mode` corresponds to `https://test.dodopayments.com/`
+   * - `live_mode` corresponds to `https://live.dodopayments.com`
+   * - `test_mode` corresponds to `https://test.dodopayments.com`
    */
   environment?: Environment | undefined;
 
@@ -182,7 +182,7 @@ export class DodoPayments extends Core.APIClient {
    *
    * @param {string | undefined} [opts.bearerToken=process.env['DODO_PAYMENTS_API_KEY'] ?? undefined]
    * @param {Environment} [opts.environment=live_mode] - Specifies the environment URL to use for the API.
-   * @param {string} [opts.baseURL=process.env['DODO_PAYMENTS_BASE_URL'] ?? https://live.dodopayments.com/] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['DODO_PAYMENTS_BASE_URL'] ?? https://live.dodopayments.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
    * @param {Core.Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
