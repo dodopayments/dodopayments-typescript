@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.24.0 (2025-02-15)
+
+Full Changelog: [v0.22.1...v0.24.0](https://github.com/dodopayments/dodopayments-node/compare/v0.22.1...v0.24.0)
+
+### Features
+
+* **api:** added discount apis ([#59](https://github.com/dodopayments/dodopayments-node/issues/59)) ([ca80ada](https://github.com/dodopayments/dodopayments-node/commit/ca80adaca0ff61a27dcc3024b7e2e985794e3ee0))
+* **api:** openapi spec changes ([#58](https://github.com/dodopayments/dodopayments-node/issues/58)) ([fcbf145](https://github.com/dodopayments/dodopayments-node/commit/fcbf145b5039593e6e2dd357947ea970fa77829a))
+
+
+### Bug Fixes
+
+* **client:** fix export map for index exports ([#56](https://github.com/dodopayments/dodopayments-node/issues/56)) ([87b98a3](https://github.com/dodopayments/dodopayments-node/commit/87b98a3818629e79eb6f2256335eaa4c04a12bc6))
+
 ## 0.22.1 (2025-02-11)
 
 Full Changelog: [v0.22.0...v0.22.1](https://github.com/dodopayments/dodopayments-node/compare/v0.22.0...v0.22.1)
