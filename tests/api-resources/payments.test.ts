@@ -29,6 +29,7 @@ describe('resource payments', () => {
       billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
       customer: { customer_id: 'customer_id' },
       product_cart: [{ product_id: 'product_id', quantity: 0, amount: 0 }],
+      discount_code: 'discount_code',
       metadata: { foo: 'string' },
       payment_link: true,
       return_url: 'return_url',
