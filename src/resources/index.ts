@@ -9,6 +9,14 @@ export {
   type CustomerListParams,
 } from './customers';
 export {
+  DiscountsDefaultPageNumberPagination,
+  Discounts,
+  type Discount,
+  type DiscountCreateParams,
+  type DiscountUpdateParams,
+  type DiscountListParams,
+} from './discounts';
+export {
   DisputesDefaultPageNumberPagination,
   Disputes,
   type Dispute,
