@@ -167,3 +167,17 @@ Types:
 Methods:
 
 - <code title="get /checkout/supported_countries">client.misc.supportedCountries.<a href="./src/resources/misc/supported-countries.ts">list</a>() -> SupportedCountryListResponse</code>
+
+# Discounts
+
+Types:
+
+- <code><a href="./src/resources/discounts.ts">Discount</a></code>
+
+Methods:
+
+- <code title="post /discounts">client.discounts.<a href="./src/resources/discounts.ts">create</a>({ ...params }) -> Discount</code>
+- <code title="get /discounts/{discount_id}">client.discounts.<a href="./src/resources/discounts.ts">retrieve</a>(discountId) -> Discount</code>
+- <code title="patch /discounts/{discount_id}">client.discounts.<a href="./src/resources/discounts.ts">update</a>(discountId, { ...params }) -> Discount</code>
+- <code title="get /discounts">client.discounts.<a href="./src/resources/discounts.ts">list</a>({ ...params }) -> DiscountsDefaultPageNumberPagination</code>
+- <code title="delete /discounts/{discount_id}">client.discounts.<a href="./src/resources/discounts.ts">delete</a>(discountId) -> void</code>

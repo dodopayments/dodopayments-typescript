@@ -16,6 +16,14 @@ import {
   CustomersDefaultPageNumberPagination,
 } from './resources/customers';
 import {
+  Discount,
+  DiscountCreateParams,
+  DiscountListParams,
+  DiscountUpdateParams,
+  Discounts,
+  DiscountsDefaultPageNumberPagination,
+} from './resources/discounts';
+import {
   Dispute,
   DisputeListParams,
   Disputes,
@@ -240,6 +248,7 @@ export class DodoPayments extends Core.APIClient {
   webhookEvents: API.WebhookEvents = new API.WebhookEvents(this);
   products: API.Products = new API.Products(this);
   misc: API.Misc = new API.Misc(this);
+  discounts: API.Discounts = new API.Discounts(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -300,6 +309,8 @@ DodoPayments.Products = Products;
 DodoPayments.ProductListResponsesDefaultPageNumberPagination =
   ProductListResponsesDefaultPageNumberPagination;
 DodoPayments.Misc = Misc;
+DodoPayments.Discounts = Discounts;
+DodoPayments.DiscountsDefaultPageNumberPagination = DiscountsDefaultPageNumberPagination;
 export declare namespace DodoPayments {
   export type RequestOptions = Core.RequestOptions;
 
@@ -404,6 +415,15 @@ export declare namespace DodoPayments {
   };
 
   export { Misc as Misc };
+
+  export {
+    Discounts as Discounts,
+    type Discount as Discount,
+    DiscountsDefaultPageNumberPagination as DiscountsDefaultPageNumberPagination,
+    type DiscountCreateParams as DiscountCreateParams,
+    type DiscountUpdateParams as DiscountUpdateParams,
+    type DiscountListParams as DiscountListParams,
+  };
 }
 
 export { toFile, fileFromPath } from './uploads';
