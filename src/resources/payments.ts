@@ -224,6 +224,11 @@ export interface Payment {
   total_amount: number;
 
   /**
+   * The discount id if discount is applied
+   */
+  discount_id?: string | null;
+
+  /**
    * An error message if the payment failed
    */
   error_message?: string | null;
@@ -323,6 +328,11 @@ export interface PaymentCreateResponse {
    * Total amount of the payment in smallest currency unit (e.g. cents)
    */
   total_amount: number;
+
+  /**
+   * The discount id if discount is applied
+   */
+  discount_id?: string | null;
 
   /**
    * Optional URL to a hosted payment page
@@ -573,6 +583,11 @@ export interface PaymentCreateParams {
    * List of products in the cart. Must contain at least 1 and at most 100 items.
    */
   product_cart: Array<PaymentCreateParams.ProductCart>;
+
+  /**
+   * Discount Code to apply to the transaction
+   */
+  discount_code?: string | null;
 
   metadata?: Record<string, string>;
 

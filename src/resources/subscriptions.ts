@@ -260,6 +260,11 @@ export interface Subscription {
    * Number of days in the trial period (0 if no trial)
    */
   trial_period_days: number;
+
+  /**
+   * The discount id if discount is applied
+   */
+  discount_id?: string | null;
 }
 
 export namespace Subscription {
@@ -304,6 +309,11 @@ export interface SubscriptionCreateResponse {
   client_secret?: string | null;
 
   /**
+   * The discount id if discount is applied
+   */
+  discount_id?: string | null;
+
+  /**
    * URL to checkout page
    */
   payment_link?: string | null;
@@ -342,6 +352,11 @@ export interface SubscriptionCreateParams {
    * Number of units to subscribe for. Must be at least 1.
    */
   quantity: number;
+
+  /**
+   * Discount Code to apply to the subscription
+   */
+  discount_code?: string | null;
 
   metadata?: Record<string, string>;
 
