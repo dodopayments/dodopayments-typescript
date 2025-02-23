@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.0.0 (2025-02-23)
+
+Full Changelog: [v0.24.0...v1.0.0](https://github.com/dodopayments/dodopayments-node/compare/v0.24.0...v1.0.0)
+
+### Features
+
+* **api:** fixed errors ([#64](https://github.com/dodopayments/dodopayments-node/issues/64)) ([0ee82e8](https://github.com/dodopayments/dodopayments-node/commit/0ee82e8cf82b3127bba42a15a339a98ed000d476))
+* **api:** updated config and updated version to v1.0.0 ([#63](https://github.com/dodopayments/dodopayments-node/issues/63)) ([ce72618](https://github.com/dodopayments/dodopayments-node/commit/ce72618ac47231097a13546ab60c2847b4e376e0))
+
+
+### Chores
+
+* **internal:** fix devcontainers setup ([#61](https://github.com/dodopayments/dodopayments-node/issues/61)) ([f43773f](https://github.com/dodopayments/dodopayments-node/commit/f43773f625c1b6d108c28932583aba723f12cd6f))
+
 ## 0.24.0 (2025-02-15)
 
 Full Changelog: [v0.22.1...v0.24.0](https://github.com/dodopayments/dodopayments-node/compare/v0.22.1...v0.24.0)
