@@ -58,6 +58,10 @@ export interface Customer {
   phone_number?: string | null;
 }
 
+export interface CustomerPortalSession {
+  link: string;
+}
+
 export interface CustomerCreateParams {
   email: string;
 
@@ -80,6 +84,7 @@ Customers.CustomerPortal = CustomerPortal;
 export declare namespace Customers {
   export {
     type Customer as Customer,
+    type CustomerPortalSession as CustomerPortalSession,
     CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
     type CustomerCreateParams as CustomerCreateParams,
     type CustomerUpdateParams as CustomerUpdateParams,

@@ -83,6 +83,7 @@ import {
   Customer,
   CustomerCreateParams,
   CustomerListParams,
+  CustomerPortalSession,
   CustomerUpdateParams,
   Customers,
   CustomersDefaultPageNumberPagination,
@@ -369,6 +370,7 @@ export declare namespace DodoPayments {
   export {
     Customers as Customers,
     type Customer as Customer,
+    type CustomerPortalSession as CustomerPortalSession,
     CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
     type CustomerCreateParams as CustomerCreateParams,
     type CustomerUpdateParams as CustomerUpdateParams,
