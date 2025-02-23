@@ -77,6 +77,7 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/customers/customers.ts">Customer</a></code>
+- <code><a href="./src/resources/customers/customers.ts">CustomerPortalSession</a></code>
 
 Methods:
 
