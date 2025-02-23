@@ -8,14 +8,6 @@ import { type DefaultPageNumberPaginationParams, DefaultPageNumberPaginationResp
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import {
-  Customer,
-  CustomerCreateParams,
-  CustomerListParams,
-  CustomerUpdateParams,
-  Customers,
-  CustomersDefaultPageNumberPagination,
-} from './resources/customers';
-import {
   Discount,
   DiscountCreateParams,
   DiscountListParams,
@@ -87,6 +79,14 @@ import {
   WebhookEvents,
   WebhookEventsDefaultPageNumberPagination,
 } from './resources/webhook-events';
+import {
+  Customer,
+  CustomerCreateParams,
+  CustomerListParams,
+  CustomerUpdateParams,
+  Customers,
+  CustomersDefaultPageNumberPagination,
+} from './resources/customers/customers';
 import { Invoices } from './resources/invoices/invoices';
 import { Misc } from './resources/misc/misc';
 import {
