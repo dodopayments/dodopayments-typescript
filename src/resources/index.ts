@@ -7,7 +7,7 @@ export {
   type CustomerCreateParams,
   type CustomerUpdateParams,
   type CustomerListParams,
-} from './customers';
+} from './customers/customers';
 export {
   DiscountsDefaultPageNumberPagination,
   Discounts,

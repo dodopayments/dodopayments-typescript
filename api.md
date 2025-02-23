@@ -76,14 +76,22 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/customers.ts">Customer</a></code>
+- <code><a href="./src/resources/customers/customers.ts">Customer</a></code>
 
 Methods:
 
-- <code title="post /customers">client.customers.<a href="./src/resources/customers.ts">create</a>({ ...params }) -> Customer</code>
-- <code title="get /customers/{customer_id}">client.customers.<a href="./src/resources/customers.ts">retrieve</a>(customerId) -> Customer</code>
-- <code title="patch /customers/{customer_id}">client.customers.<a href="./src/resources/customers.ts">update</a>(customerId, { ...params }) -> Customer</code>
-- <code title="get /customers">client.customers.<a href="./src/resources/customers.ts">list</a>({ ...params }) -> CustomersDefaultPageNumberPagination</code>
+- <code title="post /customers">client.customers.<a href="./src/resources/customers/customers.ts">create</a>({ ...params }) -> Customer</code>
+- <code title="get /customers/{customer_id}">client.customers.<a href="./src/resources/customers/customers.ts">retrieve</a>(customerId) -> Customer</code>
+- <code title="patch /customers/{customer_id}">client.customers.<a href="./src/resources/customers/customers.ts">update</a>(customerId, { ...params }) -> Customer</code>
+- <code title="get /customers">client.customers.<a href="./src/resources/customers/customers.ts">list</a>({ ...params }) -> CustomersDefaultPageNumberPagination</code>
+
+## CustomerPortal
+
+### Session
+
+Methods:
+
+- <code title="post /customers/{customer_id}/customer-portal/session">client.customers.customerPortal.session.<a href="./src/resources/customers/customer-portal/session.ts">create</a>(customerId, { ...params }) -> void</code>
 
 # Refunds
 

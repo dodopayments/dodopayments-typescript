@@ -1,11 +1,15 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
+import { APIResource } from '../../resource';
+import { isRequestOptions } from '../../core';
+import * as Core from '../../core';
+import * as CustomerPortalAPI from './customer-portal/customer-portal';
+import { CustomerPortal } from './customer-portal/customer-portal';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../../pagination';
 
 export class Customers extends APIResource {
+  customerPortal: CustomerPortalAPI.CustomerPortal = new CustomerPortalAPI.CustomerPortal(this._client);
+
   create(body: CustomerCreateParams, options?: Core.RequestOptions): Core.APIPromise<Customer> {
     return this._client.post('/customers', { body, ...options });
   }
@@ -71,6 +75,7 @@ export interface CustomerUpdateParams {
 export interface CustomerListParams extends DefaultPageNumberPaginationParams {}
 
 Customers.CustomersDefaultPageNumberPagination = CustomersDefaultPageNumberPagination;
+Customers.CustomerPortal = CustomerPortal;
 
 export declare namespace Customers {
   export {
@@ -80,4 +85,6 @@ export declare namespace Customers {
     type CustomerUpdateParams as CustomerUpdateParams,
     type CustomerListParams as CustomerListParams,
   };
+
+  export { CustomerPortal as CustomerPortal };
 }
