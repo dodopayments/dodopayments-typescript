@@ -701,6 +701,11 @@ export interface PaymentListParams extends DefaultPageNumberPaginationParams {
     | 'partially_captured'
     | 'partially_captured_and_capturable'
     | null;
+
+  /**
+   * Filter by subscription id
+   */
+  subscription_id?: string | null;
 }
 
 Payments.PaymentListResponsesDefaultPageNumberPagination = PaymentListResponsesDefaultPageNumberPagination;
