@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.5.0 (2025-03-07)
+
+Full Changelog: [v1.0.0...v1.5.0](https://github.com/dodopayments/dodopayments-node/compare/v1.0.0...v1.5.0)
+
+### Features
+
+* **api:** manual updates ([#69](https://github.com/dodopayments/dodopayments-node/issues/69)) ([34a3570](https://github.com/dodopayments/dodopayments-node/commit/34a35708f68a7927d6f1002914f4635e1eb510ef))
+
+
+### Documentation
+
+* update URLs from stainlessapi.com to stainless.com ([#66](https://github.com/dodopayments/dodopayments-node/issues/66)) ([04fbf67](https://github.com/dodopayments/dodopayments-node/commit/04fbf678cde877da571244736f59eec72e0ebd15))
+
 ## 1.0.0 (2025-02-23)
 
 Full Changelog: [v0.24.0...v1.0.0](https://github.com/dodopayments/dodopayments-node/compare/v0.24.0...v1.0.0)
