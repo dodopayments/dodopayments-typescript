@@ -95,7 +95,7 @@ export interface Product {
    * Represents the different categories of taxation applicable to various products
    * and services.
    */
-  tax_category: 'digital_products' | 'saas' | 'e_book';
+  tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech';
 
   /**
    * Timestamp when the product was last updated.
@@ -546,7 +546,7 @@ export interface ProductListResponse {
    * Represents the different categories of taxation applicable to various products
    * and services.
    */
-  tax_category: 'digital_products' | 'saas' | 'e_book';
+  tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech';
 
   /**
    * Timestamp when the product was last updated.
@@ -1130,7 +1130,7 @@ export interface ProductCreateParams {
    * Represents the different categories of taxation applicable to various products
    * and services.
    */
-  tax_category: 'digital_products' | 'saas' | 'e_book';
+  tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech';
 
   /**
    * Optional description of the product
@@ -1599,7 +1599,7 @@ export interface ProductUpdateParams {
    * Represents the different categories of taxation applicable to various products
    * and services.
    */
-  tax_category?: 'digital_products' | 'saas' | 'e_book' | null;
+  tax_category?: 'digital_products' | 'saas' | 'e_book' | 'edtech' | null;
 }
 
 export namespace ProductUpdateParams {
@@ -1998,6 +1998,15 @@ export interface ProductListParams extends DefaultPageNumberPaginationParams {
    * List archived products
    */
   archived?: boolean;
+
+  /**
+   * Filter products by pricing type:
+   *
+   * - `true`: Show only recurring pricing products (e.g. subscriptions)
+   * - `false`: Show only one-time price products
+   * - `null` or absent: Show both types of products
+   */
+  recurring?: boolean | null;
 }
 
 Products.ProductListResponsesDefaultPageNumberPagination = ProductListResponsesDefaultPageNumberPagination;
