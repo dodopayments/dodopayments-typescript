@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.5.1 (2025-03-12)
+
+Full Changelog: [v1.5.0...v1.5.1](https://github.com/dodopayments/dodopayments-node/compare/v1.5.0...v1.5.1)
+
+### Chores
+
+* **internal:** codegen related update ([#71](https://github.com/dodopayments/dodopayments-node/issues/71)) ([0161d2c](https://github.com/dodopayments/dodopayments-node/commit/0161d2cbfcd68ba4aa16168278a31b286cba2df2))
+
 ## 1.5.0 (2025-03-07)
 
 Full Changelog: [v1.0.0...v1.5.0](https://github.com/dodopayments/dodopayments-node/compare/v1.0.0...v1.5.0)
