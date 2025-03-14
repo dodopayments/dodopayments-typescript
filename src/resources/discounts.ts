@@ -102,7 +102,7 @@ export interface Discount {
    */
   times_used: number;
 
-  type: 'percentage';
+  type: DiscountType;
 
   /**
    * Optional date/time after which discount is expired.
@@ -120,6 +120,8 @@ export interface Discount {
   usage_limit?: number | null;
 }
 
+export type DiscountType = 'percentage';
+
 export interface DiscountCreateParams {
   /**
    * The discount amount.
@@ -133,7 +135,7 @@ export interface DiscountCreateParams {
    */
   amount: number;
 
-  type: 'percentage';
+  type: DiscountType;
 
   /**
    * Optionally supply a code (will be uppercased).
@@ -188,7 +190,7 @@ export interface DiscountUpdateParams {
    */
   restricted_to?: Array<string> | null;
 
-  type?: 'percentage' | null;
+  type?: DiscountType | null;
 
   usage_limit?: number | null;
 }
@@ -200,6 +202,7 @@ Discounts.DiscountsDefaultPageNumberPagination = DiscountsDefaultPageNumberPagin
 export declare namespace Discounts {
   export {
     type Discount as Discount,
+    type DiscountType as DiscountType,
     DiscountsDefaultPageNumberPagination as DiscountsDefaultPageNumberPagination,
     type DiscountCreateParams as DiscountCreateParams,
     type DiscountUpdateParams as DiscountUpdateParams,

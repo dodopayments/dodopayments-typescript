@@ -72,7 +72,7 @@ export interface LicenseKey {
    */
   product_id: string;
 
-  status: 'active' | 'expired' | 'disabled';
+  status: LicenseKeyStatus;
 
   /**
    * The maximum number of activations allowed for this license key.
@@ -90,6 +90,8 @@ export interface LicenseKey {
    */
   subscription_id?: string | null;
 }
+
+export type LicenseKeyStatus = 'active' | 'expired' | 'disabled';
 
 export type LicenseKeyListResponse = Array<LicenseKeyListResponse.LicenseKeyListResponseItem>;
 
@@ -143,12 +145,13 @@ export interface LicenseKeyListParams {
   /**
    * Filter by license key status
    */
-  status?: 'active' | 'expired' | 'disabled' | null;
+  status?: LicenseKeyStatus | null;
 }
 
 export declare namespace LicenseKeys {
   export {
     type LicenseKey as LicenseKey,
+    type LicenseKeyStatus as LicenseKeyStatus,
     type LicenseKeyListResponse as LicenseKeyListResponse,
     type LicenseKeyUpdateParams as LicenseKeyUpdateParams,
     type LicenseKeyListParams as LicenseKeyListParams,

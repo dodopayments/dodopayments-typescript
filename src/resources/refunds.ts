@@ -53,7 +53,7 @@ export interface Refund {
    */
   refund_id: string;
 
-  status: 'succeeded' | 'failed' | 'pending' | 'review';
+  status: RefundStatus;
 
   /**
    * The refunded amount.
@@ -214,6 +214,8 @@ export interface Refund {
   reason?: string | null;
 }
 
+export type RefundStatus = 'succeeded' | 'failed' | 'pending' | 'review';
+
 export interface RefundCreateParams {
   /**
    * The unique identifier of the payment to be refunded.
@@ -251,7 +253,7 @@ export interface RefundListParams extends DefaultPageNumberPaginationParams {
   /**
    * Filter by status
    */
-  status?: 'succeeded' | 'failed' | 'pending' | 'review' | null;
+  status?: RefundStatus | null;
 }
 
 Refunds.RefundsDefaultPageNumberPagination = RefundsDefaultPageNumberPagination;
@@ -259,6 +261,7 @@ Refunds.RefundsDefaultPageNumberPagination = RefundsDefaultPageNumberPagination;
 export declare namespace Refunds {
   export {
     type Refund as Refund,
+    type RefundStatus as RefundStatus,
     RefundsDefaultPageNumberPagination as RefundsDefaultPageNumberPagination,
     type RefundCreateParams as RefundCreateParams,
     type RefundListParams as RefundListParams,
