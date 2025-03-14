@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.7.0 (2025-03-14)
+
+Full Changelog: [v1.6.3...v1.7.0](https://github.com/dodopayments/dodopayments-node/compare/v1.6.3...v1.7.0)
+
+### Features
+
+* **api:** added jsr publishing ([#80](https://github.com/dodopayments/dodopayments-node/issues/80)) ([b1040ec](https://github.com/dodopayments/dodopayments-node/commit/b1040ec22d840493db2e9fa6d0ca75495b69b4e0))
+* **api:** fixed openapi spec issues ([#83](https://github.com/dodopayments/dodopayments-node/issues/83)) ([a05a6ff](https://github.com/dodopayments/dodopayments-node/commit/a05a6ff42da3d036aa7d6c5a8ce8409b432b9811))
+* **api:** reverted jsr publishing ([#81](https://github.com/dodopayments/dodopayments-node/issues/81)) ([44cce37](https://github.com/dodopayments/dodopayments-node/commit/44cce37d7d6fa1beb28695693b579fe870f88bcf))
+
 ## 1.6.3 (2025-03-14)
 
 Full Changelog: [v1.5.1...v1.6.3](https://github.com/dodopayments/dodopayments-node/compare/v1.5.1...v1.6.3)
