@@ -3,7 +3,7 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import * as LicenseKeyInstancesAPI from './license-key-instances';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class LicenseKeyInstances extends APIResource {
   retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<LicenseKeyInstance> {
@@ -21,18 +21,25 @@ export class LicenseKeyInstances extends APIResource {
   list(
     query?: LicenseKeyInstanceListParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<LicenseKeyInstanceListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<LicenseKeyInstanceListResponse>;
+  ): Core.PagePromise<LicenseKeyInstancesDefaultPageNumberPagination, LicenseKeyInstance>;
+  list(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<LicenseKeyInstancesDefaultPageNumberPagination, LicenseKeyInstance>;
   list(
     query: LicenseKeyInstanceListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<LicenseKeyInstanceListResponse> {
+  ): Core.PagePromise<LicenseKeyInstancesDefaultPageNumberPagination, LicenseKeyInstance> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/license_key_instances', { query, ...options });
+    return this._client.getAPIList('/license_key_instances', LicenseKeyInstancesDefaultPageNumberPagination, {
+      query,
+      ...options,
+    });
   }
 }
+
+export class LicenseKeyInstancesDefaultPageNumberPagination extends DefaultPageNumberPagination<LicenseKeyInstance> {}
 
 export interface LicenseKeyInstance {
   id: string;
@@ -46,40 +53,24 @@ export interface LicenseKeyInstance {
   name: string;
 }
 
-export type LicenseKeyInstanceListResponse =
-  Array<LicenseKeyInstanceListResponse.LicenseKeyInstanceListResponseItem>;
-
-export namespace LicenseKeyInstanceListResponse {
-  export interface LicenseKeyInstanceListResponseItem {
-    items: Array<LicenseKeyInstancesAPI.LicenseKeyInstance>;
-  }
-}
-
 export interface LicenseKeyInstanceUpdateParams {
   name: string;
 }
 
-export interface LicenseKeyInstanceListParams {
+export interface LicenseKeyInstanceListParams extends DefaultPageNumberPaginationParams {
   /**
    * Filter by license key ID
    */
   license_key_id?: string | null;
-
-  /**
-   * Page number default is 0
-   */
-  page_number?: number | null;
-
-  /**
-   * Page size default is 10 max is 100
-   */
-  page_size?: number | null;
 }
+
+LicenseKeyInstances.LicenseKeyInstancesDefaultPageNumberPagination =
+  LicenseKeyInstancesDefaultPageNumberPagination;
 
 export declare namespace LicenseKeyInstances {
   export {
     type LicenseKeyInstance as LicenseKeyInstance,
-    type LicenseKeyInstanceListResponse as LicenseKeyInstanceListResponse,
+    LicenseKeyInstancesDefaultPageNumberPagination as LicenseKeyInstancesDefaultPageNumberPagination,
     type LicenseKeyInstanceUpdateParams as LicenseKeyInstanceUpdateParams,
     type LicenseKeyInstanceListParams as LicenseKeyInstanceListParams,
   };
