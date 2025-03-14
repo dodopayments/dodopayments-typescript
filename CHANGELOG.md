@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.6.3 (2025-03-14)
+
+Full Changelog: [v1.5.1...v1.6.3](https://github.com/dodopayments/dodopayments-node/compare/v1.5.1...v1.6.3)
+
+### Features
+
+* **api:** openapi spec updated ([#77](https://github.com/dodopayments/dodopayments-node/issues/77)) ([683d65e](https://github.com/dodopayments/dodopayments-node/commit/683d65e3f8bdcad333a4fcca2d6206095ebadaf0))
+* **api:** updated stainless config ([#78](https://github.com/dodopayments/dodopayments-node/issues/78)) ([f5c0a0c](https://github.com/dodopayments/dodopayments-node/commit/f5c0a0cba2037616c86bfafd755cc6af992ab5af))
+
+
+### Bug Fixes
+
+* **exports:** ensure resource imports don't require /index ([#76](https://github.com/dodopayments/dodopayments-node/issues/76)) ([81670db](https://github.com/dodopayments/dodopayments-node/commit/81670db550b5c7c5fc9245e7415a338fa06fc826))
+
+
+### Chores
+
+* **internal:** remove extra empty newlines ([#74](https://github.com/dodopayments/dodopayments-node/issues/74)) ([74fa335](https://github.com/dodopayments/dodopayments-node/commit/74fa33567318e4c36a44c4ee6fd3910a176249e6))
+
 ## 1.5.1 (2025-03-12)
 
 Full Changelog: [v1.5.0...v1.5.1](https://github.com/dodopayments/dodopayments-node/compare/v1.5.0...v1.5.1)
