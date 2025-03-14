@@ -3,7 +3,7 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import * as SupportedCountriesAPI from './misc/supported-countries';
+import * as PaymentsAPI from './payments';
 import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class Subscriptions extends APIResource {
@@ -205,7 +205,7 @@ export interface Subscription {
     | 'ZAR'
     | 'ZMW';
 
-  customer: Subscription.Customer;
+  customer: PaymentsAPI.CustomerLimitedDetails;
 
   metadata: Record<string, string>;
 
@@ -219,7 +219,7 @@ export interface Subscription {
    */
   payment_frequency_count: number;
 
-  payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year';
+  payment_frequency_interval: TimeInterval;
 
   /**
    * Identifier of the product associated with this subscription
@@ -237,7 +237,7 @@ export interface Subscription {
    */
   recurring_pre_tax_amount: number;
 
-  status: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired';
+  status: SubscriptionStatus;
 
   /**
    * Unique identifier for the subscription
@@ -249,7 +249,7 @@ export interface Subscription {
    */
   subscription_period_count: number;
 
-  subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year';
+  subscription_period_interval: TimeInterval;
 
   /**
    * Indicates if the recurring_pre_tax_amount is tax inclusive
@@ -272,27 +272,19 @@ export interface Subscription {
   discount_id?: string | null;
 }
 
-export namespace Subscription {
-  export interface Customer {
-    /**
-     * Unique identifier for the customer
-     */
-    customer_id: string;
+export type SubscriptionStatus =
+  | 'pending'
+  | 'active'
+  | 'on_hold'
+  | 'paused'
+  | 'cancelled'
+  | 'failed'
+  | 'expired';
 
-    /**
-     * Email address of the customer
-     */
-    email: string;
-
-    /**
-     * Full name of the customer
-     */
-    name: string;
-  }
-}
+export type TimeInterval = 'Day' | 'Week' | 'Month' | 'Year';
 
 export interface SubscriptionCreateResponse {
-  customer: SubscriptionCreateResponse.Customer;
+  customer: PaymentsAPI.CustomerLimitedDetails;
 
   metadata: Record<string, string>;
 
@@ -324,29 +316,10 @@ export interface SubscriptionCreateResponse {
   payment_link?: string | null;
 }
 
-export namespace SubscriptionCreateResponse {
-  export interface Customer {
-    /**
-     * Unique identifier for the customer
-     */
-    customer_id: string;
-
-    /**
-     * Email address of the customer
-     */
-    email: string;
-
-    /**
-     * Full name of the customer
-     */
-    name: string;
-  }
-}
-
 export interface SubscriptionCreateParams {
-  billing: SubscriptionCreateParams.Billing;
+  billing: PaymentsAPI.BillingAddress;
 
-  customer: SubscriptionCreateParams.AttachExistingCustomer | SubscriptionCreateParams.CreateNewCustomer;
+  customer: PaymentsAPI.CustomerRequest;
 
   /**
    * Unique identifier of the product to subscribe to
@@ -388,58 +361,10 @@ export interface SubscriptionCreateParams {
   trial_period_days?: number | null;
 }
 
-export namespace SubscriptionCreateParams {
-  export interface Billing {
-    /**
-     * City name
-     */
-    city: string;
-
-    /**
-     * ISO country code alpha2 variant
-     */
-    country: SupportedCountriesAPI.CountryCode;
-
-    /**
-     * State or province name
-     */
-    state: string;
-
-    /**
-     * Street address including house number and unit/apartment if applicable
-     */
-    street: string;
-
-    /**
-     * Postal code or ZIP code
-     */
-    zipcode: string;
-  }
-
-  export interface AttachExistingCustomer {
-    customer_id: string;
-  }
-
-  export interface CreateNewCustomer {
-    email: string;
-
-    name: string;
-
-    /**
-     * When false, the most recently created customer object with the given email is
-     * used if exists. When true, a new customer object is always created False by
-     * default
-     */
-    create_new_customer?: boolean;
-
-    phone_number?: string | null;
-  }
-}
-
 export interface SubscriptionUpdateParams {
   metadata?: Record<string, string> | null;
 
-  status?: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | null;
+  status?: SubscriptionStatus | null;
 }
 
 export interface SubscriptionListParams extends DefaultPageNumberPaginationParams {
@@ -461,7 +386,7 @@ export interface SubscriptionListParams extends DefaultPageNumberPaginationParam
   /**
    * Filter by status
    */
-  status?: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | null;
+  status?: SubscriptionStatus | null;
 }
 
 Subscriptions.SubscriptionsDefaultPageNumberPagination = SubscriptionsDefaultPageNumberPagination;
@@ -469,6 +394,8 @@ Subscriptions.SubscriptionsDefaultPageNumberPagination = SubscriptionsDefaultPag
 export declare namespace Subscriptions {
   export {
     type Subscription as Subscription,
+    type SubscriptionStatus as SubscriptionStatus,
+    type TimeInterval as TimeInterval,
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
     SubscriptionsDefaultPageNumberPagination as SubscriptionsDefaultPageNumberPagination,
     type SubscriptionCreateParams as SubscriptionCreateParams,

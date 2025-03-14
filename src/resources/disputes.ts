@@ -55,22 +55,26 @@ export interface Dispute {
    */
   dispute_id: string;
 
-  dispute_stage: 'pre_dispute' | 'dispute' | 'pre_arbitration';
+  dispute_stage: DisputeStage;
 
-  dispute_status:
-    | 'dispute_opened'
-    | 'dispute_expired'
-    | 'dispute_accepted'
-    | 'dispute_cancelled'
-    | 'dispute_challenged'
-    | 'dispute_won'
-    | 'dispute_lost';
+  dispute_status: DisputeStatus;
 
   /**
    * The unique identifier of the payment associated with the dispute.
    */
   payment_id: string;
 }
+
+export type DisputeStage = 'pre_dispute' | 'dispute' | 'pre_arbitration';
+
+export type DisputeStatus =
+  | 'dispute_opened'
+  | 'dispute_expired'
+  | 'dispute_accepted'
+  | 'dispute_cancelled'
+  | 'dispute_challenged'
+  | 'dispute_won'
+  | 'dispute_lost';
 
 export interface DisputeListParams extends DefaultPageNumberPaginationParams {
   /**
@@ -91,20 +95,12 @@ export interface DisputeListParams extends DefaultPageNumberPaginationParams {
   /**
    * Filter by dispute stage
    */
-  dispute_stage?: 'pre_dispute' | 'dispute' | 'pre_arbitration' | null;
+  dispute_stage?: DisputeStage | null;
 
   /**
    * Filter by dispute status
    */
-  dispute_status?:
-    | 'dispute_opened'
-    | 'dispute_expired'
-    | 'dispute_accepted'
-    | 'dispute_cancelled'
-    | 'dispute_challenged'
-    | 'dispute_won'
-    | 'dispute_lost'
-    | null;
+  dispute_status?: DisputeStatus | null;
 }
 
 Disputes.DisputesDefaultPageNumberPagination = DisputesDefaultPageNumberPagination;
@@ -112,6 +108,8 @@ Disputes.DisputesDefaultPageNumberPagination = DisputesDefaultPageNumberPaginati
 export declare namespace Disputes {
   export {
     type Dispute as Dispute,
+    type DisputeStage as DisputeStage,
+    type DisputeStatus as DisputeStatus,
     DisputesDefaultPageNumberPagination as DisputesDefaultPageNumberPagination,
     type DisputeListParams as DisputeListParams,
   };

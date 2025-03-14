@@ -3,6 +3,7 @@
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
+import * as SubscriptionsAPI from '../subscriptions';
 import * as ImagesAPI from './images';
 import { ImageUpdateParams, ImageUpdateResponse, Images } from './images';
 import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../../pagination';
@@ -63,79 +64,15 @@ export class Products extends APIResource {
 
 export class ProductListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<ProductListResponse> {}
 
-export interface Product {
-  /**
-   * Unique identifier for the business to which the product belongs.
-   */
-  business_id: string;
+export interface LicenseKeyDuration {
+  count: number;
 
-  /**
-   * Timestamp when the product was created.
-   */
-  created_at: string;
-
-  /**
-   * Indicates if the product is recurring (e.g., subscriptions).
-   */
-  is_recurring: boolean;
-
-  /**
-   * Indicates whether the product requires a license key.
-   */
-  license_key_enabled: boolean;
-
-  price: Product.OneTimePrice | Product.RecurringPrice;
-
-  /**
-   * Unique identifier for the product.
-   */
-  product_id: string;
-
-  /**
-   * Represents the different categories of taxation applicable to various products
-   * and services.
-   */
-  tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech';
-
-  /**
-   * Timestamp when the product was last updated.
-   */
-  updated_at: string;
-
-  /**
-   * Available Addons for subscription products
-   */
-  addons?: Array<string> | null;
-
-  /**
-   * Description of the product, optional.
-   */
-  description?: string | null;
-
-  /**
-   * URL of the product image, optional.
-   */
-  image?: string | null;
-
-  /**
-   * Message sent upon license key activation, if applicable.
-   */
-  license_key_activation_message?: string | null;
-
-  /**
-   * Limit on the number of activations for the license key, if enabled.
-   */
-  license_key_activations_limit?: number | null;
-
-  license_key_duration?: Product.LicenseKeyDuration | null;
-
-  /**
-   * Name of the product, optional.
-   */
-  name?: string | null;
+  interval: SubscriptionsAPI.TimeInterval;
 }
 
-export namespace Product {
+export type Price = Price.OneTimePrice | Price.RecurringPrice;
+
+export namespace Price {
   export interface OneTimePrice {
     currency:
       | 'AED'
@@ -484,7 +421,7 @@ export namespace Product {
      */
     payment_frequency_count: number;
 
-    payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year';
+    payment_frequency_interval: SubscriptionsAPI.TimeInterval;
 
     /**
      * The payment amount. Represented in the lowest denomination of the currency
@@ -504,7 +441,7 @@ export namespace Product {
      */
     subscription_period_count: number;
 
-    subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year';
+    subscription_period_interval: SubscriptionsAPI.TimeInterval;
 
     type: 'recurring_price';
 
@@ -518,12 +455,78 @@ export namespace Product {
      */
     trial_period_days?: number;
   }
+}
 
-  export interface LicenseKeyDuration {
-    count: number;
+export interface Product {
+  /**
+   * Unique identifier for the business to which the product belongs.
+   */
+  business_id: string;
 
-    interval: 'Day' | 'Week' | 'Month' | 'Year';
-  }
+  /**
+   * Timestamp when the product was created.
+   */
+  created_at: string;
+
+  /**
+   * Indicates if the product is recurring (e.g., subscriptions).
+   */
+  is_recurring: boolean;
+
+  /**
+   * Indicates whether the product requires a license key.
+   */
+  license_key_enabled: boolean;
+
+  price: Price;
+
+  /**
+   * Unique identifier for the product.
+   */
+  product_id: string;
+
+  /**
+   * Represents the different categories of taxation applicable to various products
+   * and services.
+   */
+  tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech';
+
+  /**
+   * Timestamp when the product was last updated.
+   */
+  updated_at: string;
+
+  /**
+   * Available Addons for subscription products
+   */
+  addons?: Array<string> | null;
+
+  /**
+   * Description of the product, optional.
+   */
+  description?: string | null;
+
+  /**
+   * URL of the product image, optional.
+   */
+  image?: string | null;
+
+  /**
+   * Message sent upon license key activation, if applicable.
+   */
+  license_key_activation_message?: string | null;
+
+  /**
+   * Limit on the number of activations for the license key, if enabled.
+   */
+  license_key_activations_limit?: number | null;
+
+  license_key_duration?: LicenseKeyDuration | null;
+
+  /**
+   * Name of the product, optional.
+   */
+  name?: string | null;
 }
 
 export interface ProductListResponse {
@@ -735,7 +738,7 @@ export interface ProductListResponse {
    */
   price?: number | null;
 
-  price_detail?: ProductListResponse.OneTimePrice | ProductListResponse.RecurringPrice | null;
+  price_detail?: Price | null;
 
   /**
    * Indicates if the price is tax inclusive
@@ -743,393 +746,8 @@ export interface ProductListResponse {
   tax_inclusive?: boolean | null;
 }
 
-export namespace ProductListResponse {
-  export interface OneTimePrice {
-    currency:
-      | 'AED'
-      | 'ALL'
-      | 'AMD'
-      | 'ANG'
-      | 'AOA'
-      | 'ARS'
-      | 'AUD'
-      | 'AWG'
-      | 'AZN'
-      | 'BAM'
-      | 'BBD'
-      | 'BDT'
-      | 'BGN'
-      | 'BHD'
-      | 'BIF'
-      | 'BMD'
-      | 'BND'
-      | 'BOB'
-      | 'BRL'
-      | 'BSD'
-      | 'BWP'
-      | 'BYN'
-      | 'BZD'
-      | 'CAD'
-      | 'CHF'
-      | 'CLP'
-      | 'CNY'
-      | 'COP'
-      | 'CRC'
-      | 'CUP'
-      | 'CVE'
-      | 'CZK'
-      | 'DJF'
-      | 'DKK'
-      | 'DOP'
-      | 'DZD'
-      | 'EGP'
-      | 'ETB'
-      | 'EUR'
-      | 'FJD'
-      | 'FKP'
-      | 'GBP'
-      | 'GEL'
-      | 'GHS'
-      | 'GIP'
-      | 'GMD'
-      | 'GNF'
-      | 'GTQ'
-      | 'GYD'
-      | 'HKD'
-      | 'HNL'
-      | 'HRK'
-      | 'HTG'
-      | 'HUF'
-      | 'IDR'
-      | 'ILS'
-      | 'INR'
-      | 'IQD'
-      | 'JMD'
-      | 'JOD'
-      | 'JPY'
-      | 'KES'
-      | 'KGS'
-      | 'KHR'
-      | 'KMF'
-      | 'KRW'
-      | 'KWD'
-      | 'KYD'
-      | 'KZT'
-      | 'LAK'
-      | 'LBP'
-      | 'LKR'
-      | 'LRD'
-      | 'LSL'
-      | 'LYD'
-      | 'MAD'
-      | 'MDL'
-      | 'MGA'
-      | 'MKD'
-      | 'MMK'
-      | 'MNT'
-      | 'MOP'
-      | 'MRU'
-      | 'MUR'
-      | 'MVR'
-      | 'MWK'
-      | 'MXN'
-      | 'MYR'
-      | 'MZN'
-      | 'NAD'
-      | 'NGN'
-      | 'NIO'
-      | 'NOK'
-      | 'NPR'
-      | 'NZD'
-      | 'OMR'
-      | 'PAB'
-      | 'PEN'
-      | 'PGK'
-      | 'PHP'
-      | 'PKR'
-      | 'PLN'
-      | 'PYG'
-      | 'QAR'
-      | 'RON'
-      | 'RSD'
-      | 'RUB'
-      | 'RWF'
-      | 'SAR'
-      | 'SBD'
-      | 'SCR'
-      | 'SEK'
-      | 'SGD'
-      | 'SHP'
-      | 'SLE'
-      | 'SLL'
-      | 'SOS'
-      | 'SRD'
-      | 'SSP'
-      | 'STN'
-      | 'SVC'
-      | 'SZL'
-      | 'THB'
-      | 'TND'
-      | 'TOP'
-      | 'TRY'
-      | 'TTD'
-      | 'TWD'
-      | 'TZS'
-      | 'UAH'
-      | 'UGX'
-      | 'USD'
-      | 'UYU'
-      | 'UZS'
-      | 'VES'
-      | 'VND'
-      | 'VUV'
-      | 'WST'
-      | 'XAF'
-      | 'XCD'
-      | 'XOF'
-      | 'XPF'
-      | 'YER'
-      | 'ZAR'
-      | 'ZMW';
-
-    /**
-     * Discount applied to the price, represented as a percentage (0 to 100).
-     */
-    discount: number;
-
-    /**
-     * The payment amount, in the smallest denomination of the currency (e.g., cents
-     * for USD). For example, to charge $1.00, pass `100`.
-     *
-     * If [`pay_what_you_want`](Self::pay_what_you_want) is set to `true`, this field
-     * represents the **minimum** amount the customer must pay.
-     */
-    price: number;
-
-    /**
-     * Indicates if purchasing power parity adjustments are applied to the price.
-     * Purchasing power parity feature is not available as of now.
-     */
-    purchasing_power_parity: boolean;
-
-    type: 'one_time_price';
-
-    /**
-     * Indicates whether the customer can pay any amount they choose. If set to `true`,
-     * the [`price`](Self::price) field is the minimum amount.
-     */
-    pay_what_you_want?: boolean;
-
-    /**
-     * A suggested price for the user to pay. This value is only considered if
-     * [`pay_what_you_want`](Self::pay_what_you_want) is `true`. Otherwise, it is
-     * ignored.
-     */
-    suggested_price?: number | null;
-
-    /**
-     * Indicates if the price is tax inclusive.
-     */
-    tax_inclusive?: boolean | null;
-  }
-
-  export interface RecurringPrice {
-    currency:
-      | 'AED'
-      | 'ALL'
-      | 'AMD'
-      | 'ANG'
-      | 'AOA'
-      | 'ARS'
-      | 'AUD'
-      | 'AWG'
-      | 'AZN'
-      | 'BAM'
-      | 'BBD'
-      | 'BDT'
-      | 'BGN'
-      | 'BHD'
-      | 'BIF'
-      | 'BMD'
-      | 'BND'
-      | 'BOB'
-      | 'BRL'
-      | 'BSD'
-      | 'BWP'
-      | 'BYN'
-      | 'BZD'
-      | 'CAD'
-      | 'CHF'
-      | 'CLP'
-      | 'CNY'
-      | 'COP'
-      | 'CRC'
-      | 'CUP'
-      | 'CVE'
-      | 'CZK'
-      | 'DJF'
-      | 'DKK'
-      | 'DOP'
-      | 'DZD'
-      | 'EGP'
-      | 'ETB'
-      | 'EUR'
-      | 'FJD'
-      | 'FKP'
-      | 'GBP'
-      | 'GEL'
-      | 'GHS'
-      | 'GIP'
-      | 'GMD'
-      | 'GNF'
-      | 'GTQ'
-      | 'GYD'
-      | 'HKD'
-      | 'HNL'
-      | 'HRK'
-      | 'HTG'
-      | 'HUF'
-      | 'IDR'
-      | 'ILS'
-      | 'INR'
-      | 'IQD'
-      | 'JMD'
-      | 'JOD'
-      | 'JPY'
-      | 'KES'
-      | 'KGS'
-      | 'KHR'
-      | 'KMF'
-      | 'KRW'
-      | 'KWD'
-      | 'KYD'
-      | 'KZT'
-      | 'LAK'
-      | 'LBP'
-      | 'LKR'
-      | 'LRD'
-      | 'LSL'
-      | 'LYD'
-      | 'MAD'
-      | 'MDL'
-      | 'MGA'
-      | 'MKD'
-      | 'MMK'
-      | 'MNT'
-      | 'MOP'
-      | 'MRU'
-      | 'MUR'
-      | 'MVR'
-      | 'MWK'
-      | 'MXN'
-      | 'MYR'
-      | 'MZN'
-      | 'NAD'
-      | 'NGN'
-      | 'NIO'
-      | 'NOK'
-      | 'NPR'
-      | 'NZD'
-      | 'OMR'
-      | 'PAB'
-      | 'PEN'
-      | 'PGK'
-      | 'PHP'
-      | 'PKR'
-      | 'PLN'
-      | 'PYG'
-      | 'QAR'
-      | 'RON'
-      | 'RSD'
-      | 'RUB'
-      | 'RWF'
-      | 'SAR'
-      | 'SBD'
-      | 'SCR'
-      | 'SEK'
-      | 'SGD'
-      | 'SHP'
-      | 'SLE'
-      | 'SLL'
-      | 'SOS'
-      | 'SRD'
-      | 'SSP'
-      | 'STN'
-      | 'SVC'
-      | 'SZL'
-      | 'THB'
-      | 'TND'
-      | 'TOP'
-      | 'TRY'
-      | 'TTD'
-      | 'TWD'
-      | 'TZS'
-      | 'UAH'
-      | 'UGX'
-      | 'USD'
-      | 'UYU'
-      | 'UZS'
-      | 'VES'
-      | 'VND'
-      | 'VUV'
-      | 'WST'
-      | 'XAF'
-      | 'XCD'
-      | 'XOF'
-      | 'XPF'
-      | 'YER'
-      | 'ZAR'
-      | 'ZMW';
-
-    /**
-     * Discount applied to the price, represented as a percentage (0 to 100).
-     */
-    discount: number;
-
-    /**
-     * Number of units for the payment frequency. For example, a value of `1` with a
-     * `payment_frequency_interval` of `month` represents monthly payments.
-     */
-    payment_frequency_count: number;
-
-    payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year';
-
-    /**
-     * The payment amount. Represented in the lowest denomination of the currency
-     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
-     */
-    price: number;
-
-    /**
-     * Indicates if purchasing power parity adjustments are applied to the price.
-     * Purchasing power parity feature is not available as of now
-     */
-    purchasing_power_parity: boolean;
-
-    /**
-     * Number of units for the subscription period. For example, a value of `12` with a
-     * `subscription_period_interval` of `month` represents a one-year subscription.
-     */
-    subscription_period_count: number;
-
-    subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year';
-
-    type: 'recurring_price';
-
-    /**
-     * Indicates if the price is tax inclusive
-     */
-    tax_inclusive?: boolean | null;
-
-    /**
-     * Number of days for the trial period. A value of `0` indicates no trial period.
-     */
-    trial_period_days?: number;
-  }
-}
-
 export interface ProductCreateParams {
-  price: ProductCreateParams.OneTimePrice | ProductCreateParams.RecurringPrice;
+  price: Price;
 
   /**
    * Represents the different categories of taxation applicable to various products
@@ -1157,7 +775,7 @@ export interface ProductCreateParams {
    */
   license_key_activations_limit?: number | null;
 
-  license_key_duration?: ProductCreateParams.LicenseKeyDuration | null;
+  license_key_duration?: LicenseKeyDuration | null;
 
   /**
    * When true, generates and sends a license key to your customer. Defaults to false
@@ -1168,397 +786,6 @@ export interface ProductCreateParams {
    * Optional name of the product
    */
   name?: string | null;
-}
-
-export namespace ProductCreateParams {
-  export interface OneTimePrice {
-    currency:
-      | 'AED'
-      | 'ALL'
-      | 'AMD'
-      | 'ANG'
-      | 'AOA'
-      | 'ARS'
-      | 'AUD'
-      | 'AWG'
-      | 'AZN'
-      | 'BAM'
-      | 'BBD'
-      | 'BDT'
-      | 'BGN'
-      | 'BHD'
-      | 'BIF'
-      | 'BMD'
-      | 'BND'
-      | 'BOB'
-      | 'BRL'
-      | 'BSD'
-      | 'BWP'
-      | 'BYN'
-      | 'BZD'
-      | 'CAD'
-      | 'CHF'
-      | 'CLP'
-      | 'CNY'
-      | 'COP'
-      | 'CRC'
-      | 'CUP'
-      | 'CVE'
-      | 'CZK'
-      | 'DJF'
-      | 'DKK'
-      | 'DOP'
-      | 'DZD'
-      | 'EGP'
-      | 'ETB'
-      | 'EUR'
-      | 'FJD'
-      | 'FKP'
-      | 'GBP'
-      | 'GEL'
-      | 'GHS'
-      | 'GIP'
-      | 'GMD'
-      | 'GNF'
-      | 'GTQ'
-      | 'GYD'
-      | 'HKD'
-      | 'HNL'
-      | 'HRK'
-      | 'HTG'
-      | 'HUF'
-      | 'IDR'
-      | 'ILS'
-      | 'INR'
-      | 'IQD'
-      | 'JMD'
-      | 'JOD'
-      | 'JPY'
-      | 'KES'
-      | 'KGS'
-      | 'KHR'
-      | 'KMF'
-      | 'KRW'
-      | 'KWD'
-      | 'KYD'
-      | 'KZT'
-      | 'LAK'
-      | 'LBP'
-      | 'LKR'
-      | 'LRD'
-      | 'LSL'
-      | 'LYD'
-      | 'MAD'
-      | 'MDL'
-      | 'MGA'
-      | 'MKD'
-      | 'MMK'
-      | 'MNT'
-      | 'MOP'
-      | 'MRU'
-      | 'MUR'
-      | 'MVR'
-      | 'MWK'
-      | 'MXN'
-      | 'MYR'
-      | 'MZN'
-      | 'NAD'
-      | 'NGN'
-      | 'NIO'
-      | 'NOK'
-      | 'NPR'
-      | 'NZD'
-      | 'OMR'
-      | 'PAB'
-      | 'PEN'
-      | 'PGK'
-      | 'PHP'
-      | 'PKR'
-      | 'PLN'
-      | 'PYG'
-      | 'QAR'
-      | 'RON'
-      | 'RSD'
-      | 'RUB'
-      | 'RWF'
-      | 'SAR'
-      | 'SBD'
-      | 'SCR'
-      | 'SEK'
-      | 'SGD'
-      | 'SHP'
-      | 'SLE'
-      | 'SLL'
-      | 'SOS'
-      | 'SRD'
-      | 'SSP'
-      | 'STN'
-      | 'SVC'
-      | 'SZL'
-      | 'THB'
-      | 'TND'
-      | 'TOP'
-      | 'TRY'
-      | 'TTD'
-      | 'TWD'
-      | 'TZS'
-      | 'UAH'
-      | 'UGX'
-      | 'USD'
-      | 'UYU'
-      | 'UZS'
-      | 'VES'
-      | 'VND'
-      | 'VUV'
-      | 'WST'
-      | 'XAF'
-      | 'XCD'
-      | 'XOF'
-      | 'XPF'
-      | 'YER'
-      | 'ZAR'
-      | 'ZMW';
-
-    /**
-     * Discount applied to the price, represented as a percentage (0 to 100).
-     */
-    discount: number;
-
-    /**
-     * The payment amount, in the smallest denomination of the currency (e.g., cents
-     * for USD). For example, to charge $1.00, pass `100`.
-     *
-     * If [`pay_what_you_want`](Self::pay_what_you_want) is set to `true`, this field
-     * represents the **minimum** amount the customer must pay.
-     */
-    price: number;
-
-    /**
-     * Indicates if purchasing power parity adjustments are applied to the price.
-     * Purchasing power parity feature is not available as of now.
-     */
-    purchasing_power_parity: boolean;
-
-    type: 'one_time_price';
-
-    /**
-     * Indicates whether the customer can pay any amount they choose. If set to `true`,
-     * the [`price`](Self::price) field is the minimum amount.
-     */
-    pay_what_you_want?: boolean;
-
-    /**
-     * A suggested price for the user to pay. This value is only considered if
-     * [`pay_what_you_want`](Self::pay_what_you_want) is `true`. Otherwise, it is
-     * ignored.
-     */
-    suggested_price?: number | null;
-
-    /**
-     * Indicates if the price is tax inclusive.
-     */
-    tax_inclusive?: boolean | null;
-  }
-
-  export interface RecurringPrice {
-    currency:
-      | 'AED'
-      | 'ALL'
-      | 'AMD'
-      | 'ANG'
-      | 'AOA'
-      | 'ARS'
-      | 'AUD'
-      | 'AWG'
-      | 'AZN'
-      | 'BAM'
-      | 'BBD'
-      | 'BDT'
-      | 'BGN'
-      | 'BHD'
-      | 'BIF'
-      | 'BMD'
-      | 'BND'
-      | 'BOB'
-      | 'BRL'
-      | 'BSD'
-      | 'BWP'
-      | 'BYN'
-      | 'BZD'
-      | 'CAD'
-      | 'CHF'
-      | 'CLP'
-      | 'CNY'
-      | 'COP'
-      | 'CRC'
-      | 'CUP'
-      | 'CVE'
-      | 'CZK'
-      | 'DJF'
-      | 'DKK'
-      | 'DOP'
-      | 'DZD'
-      | 'EGP'
-      | 'ETB'
-      | 'EUR'
-      | 'FJD'
-      | 'FKP'
-      | 'GBP'
-      | 'GEL'
-      | 'GHS'
-      | 'GIP'
-      | 'GMD'
-      | 'GNF'
-      | 'GTQ'
-      | 'GYD'
-      | 'HKD'
-      | 'HNL'
-      | 'HRK'
-      | 'HTG'
-      | 'HUF'
-      | 'IDR'
-      | 'ILS'
-      | 'INR'
-      | 'IQD'
-      | 'JMD'
-      | 'JOD'
-      | 'JPY'
-      | 'KES'
-      | 'KGS'
-      | 'KHR'
-      | 'KMF'
-      | 'KRW'
-      | 'KWD'
-      | 'KYD'
-      | 'KZT'
-      | 'LAK'
-      | 'LBP'
-      | 'LKR'
-      | 'LRD'
-      | 'LSL'
-      | 'LYD'
-      | 'MAD'
-      | 'MDL'
-      | 'MGA'
-      | 'MKD'
-      | 'MMK'
-      | 'MNT'
-      | 'MOP'
-      | 'MRU'
-      | 'MUR'
-      | 'MVR'
-      | 'MWK'
-      | 'MXN'
-      | 'MYR'
-      | 'MZN'
-      | 'NAD'
-      | 'NGN'
-      | 'NIO'
-      | 'NOK'
-      | 'NPR'
-      | 'NZD'
-      | 'OMR'
-      | 'PAB'
-      | 'PEN'
-      | 'PGK'
-      | 'PHP'
-      | 'PKR'
-      | 'PLN'
-      | 'PYG'
-      | 'QAR'
-      | 'RON'
-      | 'RSD'
-      | 'RUB'
-      | 'RWF'
-      | 'SAR'
-      | 'SBD'
-      | 'SCR'
-      | 'SEK'
-      | 'SGD'
-      | 'SHP'
-      | 'SLE'
-      | 'SLL'
-      | 'SOS'
-      | 'SRD'
-      | 'SSP'
-      | 'STN'
-      | 'SVC'
-      | 'SZL'
-      | 'THB'
-      | 'TND'
-      | 'TOP'
-      | 'TRY'
-      | 'TTD'
-      | 'TWD'
-      | 'TZS'
-      | 'UAH'
-      | 'UGX'
-      | 'USD'
-      | 'UYU'
-      | 'UZS'
-      | 'VES'
-      | 'VND'
-      | 'VUV'
-      | 'WST'
-      | 'XAF'
-      | 'XCD'
-      | 'XOF'
-      | 'XPF'
-      | 'YER'
-      | 'ZAR'
-      | 'ZMW';
-
-    /**
-     * Discount applied to the price, represented as a percentage (0 to 100).
-     */
-    discount: number;
-
-    /**
-     * Number of units for the payment frequency. For example, a value of `1` with a
-     * `payment_frequency_interval` of `month` represents monthly payments.
-     */
-    payment_frequency_count: number;
-
-    payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year';
-
-    /**
-     * The payment amount. Represented in the lowest denomination of the currency
-     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
-     */
-    price: number;
-
-    /**
-     * Indicates if purchasing power parity adjustments are applied to the price.
-     * Purchasing power parity feature is not available as of now
-     */
-    purchasing_power_parity: boolean;
-
-    /**
-     * Number of units for the subscription period. For example, a value of `12` with a
-     * `subscription_period_interval` of `month` represents a one-year subscription.
-     */
-    subscription_period_count: number;
-
-    subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year';
-
-    type: 'recurring_price';
-
-    /**
-     * Indicates if the price is tax inclusive
-     */
-    tax_inclusive?: boolean | null;
-
-    /**
-     * Number of days for the trial period. A value of `0` indicates no trial period.
-     */
-    trial_period_days?: number;
-  }
-
-  export interface LicenseKeyDuration {
-    count: number;
-
-    interval: 'Day' | 'Week' | 'Month' | 'Year';
-  }
 }
 
 export interface ProductUpdateParams {
@@ -1593,7 +820,7 @@ export interface ProductUpdateParams {
    */
   license_key_activations_limit?: number | null;
 
-  license_key_duration?: ProductUpdateParams.LicenseKeyDuration | null;
+  license_key_duration?: LicenseKeyDuration | null;
 
   /**
    * Whether the product requires a license key.
@@ -1608,404 +835,13 @@ export interface ProductUpdateParams {
    */
   name?: string | null;
 
-  price?: ProductUpdateParams.OneTimePrice | ProductUpdateParams.RecurringPrice | null;
+  price?: Price | null;
 
   /**
    * Represents the different categories of taxation applicable to various products
    * and services.
    */
   tax_category?: 'digital_products' | 'saas' | 'e_book' | 'edtech' | null;
-}
-
-export namespace ProductUpdateParams {
-  export interface LicenseKeyDuration {
-    count: number;
-
-    interval: 'Day' | 'Week' | 'Month' | 'Year';
-  }
-
-  export interface OneTimePrice {
-    currency:
-      | 'AED'
-      | 'ALL'
-      | 'AMD'
-      | 'ANG'
-      | 'AOA'
-      | 'ARS'
-      | 'AUD'
-      | 'AWG'
-      | 'AZN'
-      | 'BAM'
-      | 'BBD'
-      | 'BDT'
-      | 'BGN'
-      | 'BHD'
-      | 'BIF'
-      | 'BMD'
-      | 'BND'
-      | 'BOB'
-      | 'BRL'
-      | 'BSD'
-      | 'BWP'
-      | 'BYN'
-      | 'BZD'
-      | 'CAD'
-      | 'CHF'
-      | 'CLP'
-      | 'CNY'
-      | 'COP'
-      | 'CRC'
-      | 'CUP'
-      | 'CVE'
-      | 'CZK'
-      | 'DJF'
-      | 'DKK'
-      | 'DOP'
-      | 'DZD'
-      | 'EGP'
-      | 'ETB'
-      | 'EUR'
-      | 'FJD'
-      | 'FKP'
-      | 'GBP'
-      | 'GEL'
-      | 'GHS'
-      | 'GIP'
-      | 'GMD'
-      | 'GNF'
-      | 'GTQ'
-      | 'GYD'
-      | 'HKD'
-      | 'HNL'
-      | 'HRK'
-      | 'HTG'
-      | 'HUF'
-      | 'IDR'
-      | 'ILS'
-      | 'INR'
-      | 'IQD'
-      | 'JMD'
-      | 'JOD'
-      | 'JPY'
-      | 'KES'
-      | 'KGS'
-      | 'KHR'
-      | 'KMF'
-      | 'KRW'
-      | 'KWD'
-      | 'KYD'
-      | 'KZT'
-      | 'LAK'
-      | 'LBP'
-      | 'LKR'
-      | 'LRD'
-      | 'LSL'
-      | 'LYD'
-      | 'MAD'
-      | 'MDL'
-      | 'MGA'
-      | 'MKD'
-      | 'MMK'
-      | 'MNT'
-      | 'MOP'
-      | 'MRU'
-      | 'MUR'
-      | 'MVR'
-      | 'MWK'
-      | 'MXN'
-      | 'MYR'
-      | 'MZN'
-      | 'NAD'
-      | 'NGN'
-      | 'NIO'
-      | 'NOK'
-      | 'NPR'
-      | 'NZD'
-      | 'OMR'
-      | 'PAB'
-      | 'PEN'
-      | 'PGK'
-      | 'PHP'
-      | 'PKR'
-      | 'PLN'
-      | 'PYG'
-      | 'QAR'
-      | 'RON'
-      | 'RSD'
-      | 'RUB'
-      | 'RWF'
-      | 'SAR'
-      | 'SBD'
-      | 'SCR'
-      | 'SEK'
-      | 'SGD'
-      | 'SHP'
-      | 'SLE'
-      | 'SLL'
-      | 'SOS'
-      | 'SRD'
-      | 'SSP'
-      | 'STN'
-      | 'SVC'
-      | 'SZL'
-      | 'THB'
-      | 'TND'
-      | 'TOP'
-      | 'TRY'
-      | 'TTD'
-      | 'TWD'
-      | 'TZS'
-      | 'UAH'
-      | 'UGX'
-      | 'USD'
-      | 'UYU'
-      | 'UZS'
-      | 'VES'
-      | 'VND'
-      | 'VUV'
-      | 'WST'
-      | 'XAF'
-      | 'XCD'
-      | 'XOF'
-      | 'XPF'
-      | 'YER'
-      | 'ZAR'
-      | 'ZMW';
-
-    /**
-     * Discount applied to the price, represented as a percentage (0 to 100).
-     */
-    discount: number;
-
-    /**
-     * The payment amount, in the smallest denomination of the currency (e.g., cents
-     * for USD). For example, to charge $1.00, pass `100`.
-     *
-     * If [`pay_what_you_want`](Self::pay_what_you_want) is set to `true`, this field
-     * represents the **minimum** amount the customer must pay.
-     */
-    price: number;
-
-    /**
-     * Indicates if purchasing power parity adjustments are applied to the price.
-     * Purchasing power parity feature is not available as of now.
-     */
-    purchasing_power_parity: boolean;
-
-    type: 'one_time_price';
-
-    /**
-     * Indicates whether the customer can pay any amount they choose. If set to `true`,
-     * the [`price`](Self::price) field is the minimum amount.
-     */
-    pay_what_you_want?: boolean;
-
-    /**
-     * A suggested price for the user to pay. This value is only considered if
-     * [`pay_what_you_want`](Self::pay_what_you_want) is `true`. Otherwise, it is
-     * ignored.
-     */
-    suggested_price?: number | null;
-
-    /**
-     * Indicates if the price is tax inclusive.
-     */
-    tax_inclusive?: boolean | null;
-  }
-
-  export interface RecurringPrice {
-    currency:
-      | 'AED'
-      | 'ALL'
-      | 'AMD'
-      | 'ANG'
-      | 'AOA'
-      | 'ARS'
-      | 'AUD'
-      | 'AWG'
-      | 'AZN'
-      | 'BAM'
-      | 'BBD'
-      | 'BDT'
-      | 'BGN'
-      | 'BHD'
-      | 'BIF'
-      | 'BMD'
-      | 'BND'
-      | 'BOB'
-      | 'BRL'
-      | 'BSD'
-      | 'BWP'
-      | 'BYN'
-      | 'BZD'
-      | 'CAD'
-      | 'CHF'
-      | 'CLP'
-      | 'CNY'
-      | 'COP'
-      | 'CRC'
-      | 'CUP'
-      | 'CVE'
-      | 'CZK'
-      | 'DJF'
-      | 'DKK'
-      | 'DOP'
-      | 'DZD'
-      | 'EGP'
-      | 'ETB'
-      | 'EUR'
-      | 'FJD'
-      | 'FKP'
-      | 'GBP'
-      | 'GEL'
-      | 'GHS'
-      | 'GIP'
-      | 'GMD'
-      | 'GNF'
-      | 'GTQ'
-      | 'GYD'
-      | 'HKD'
-      | 'HNL'
-      | 'HRK'
-      | 'HTG'
-      | 'HUF'
-      | 'IDR'
-      | 'ILS'
-      | 'INR'
-      | 'IQD'
-      | 'JMD'
-      | 'JOD'
-      | 'JPY'
-      | 'KES'
-      | 'KGS'
-      | 'KHR'
-      | 'KMF'
-      | 'KRW'
-      | 'KWD'
-      | 'KYD'
-      | 'KZT'
-      | 'LAK'
-      | 'LBP'
-      | 'LKR'
-      | 'LRD'
-      | 'LSL'
-      | 'LYD'
-      | 'MAD'
-      | 'MDL'
-      | 'MGA'
-      | 'MKD'
-      | 'MMK'
-      | 'MNT'
-      | 'MOP'
-      | 'MRU'
-      | 'MUR'
-      | 'MVR'
-      | 'MWK'
-      | 'MXN'
-      | 'MYR'
-      | 'MZN'
-      | 'NAD'
-      | 'NGN'
-      | 'NIO'
-      | 'NOK'
-      | 'NPR'
-      | 'NZD'
-      | 'OMR'
-      | 'PAB'
-      | 'PEN'
-      | 'PGK'
-      | 'PHP'
-      | 'PKR'
-      | 'PLN'
-      | 'PYG'
-      | 'QAR'
-      | 'RON'
-      | 'RSD'
-      | 'RUB'
-      | 'RWF'
-      | 'SAR'
-      | 'SBD'
-      | 'SCR'
-      | 'SEK'
-      | 'SGD'
-      | 'SHP'
-      | 'SLE'
-      | 'SLL'
-      | 'SOS'
-      | 'SRD'
-      | 'SSP'
-      | 'STN'
-      | 'SVC'
-      | 'SZL'
-      | 'THB'
-      | 'TND'
-      | 'TOP'
-      | 'TRY'
-      | 'TTD'
-      | 'TWD'
-      | 'TZS'
-      | 'UAH'
-      | 'UGX'
-      | 'USD'
-      | 'UYU'
-      | 'UZS'
-      | 'VES'
-      | 'VND'
-      | 'VUV'
-      | 'WST'
-      | 'XAF'
-      | 'XCD'
-      | 'XOF'
-      | 'XPF'
-      | 'YER'
-      | 'ZAR'
-      | 'ZMW';
-
-    /**
-     * Discount applied to the price, represented as a percentage (0 to 100).
-     */
-    discount: number;
-
-    /**
-     * Number of units for the payment frequency. For example, a value of `1` with a
-     * `payment_frequency_interval` of `month` represents monthly payments.
-     */
-    payment_frequency_count: number;
-
-    payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year';
-
-    /**
-     * The payment amount. Represented in the lowest denomination of the currency
-     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
-     */
-    price: number;
-
-    /**
-     * Indicates if purchasing power parity adjustments are applied to the price.
-     * Purchasing power parity feature is not available as of now
-     */
-    purchasing_power_parity: boolean;
-
-    /**
-     * Number of units for the subscription period. For example, a value of `12` with a
-     * `subscription_period_interval` of `month` represents a one-year subscription.
-     */
-    subscription_period_count: number;
-
-    subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year';
-
-    type: 'recurring_price';
-
-    /**
-     * Indicates if the price is tax inclusive
-     */
-    tax_inclusive?: boolean | null;
-
-    /**
-     * Number of days for the trial period. A value of `0` indicates no trial period.
-     */
-    trial_period_days?: number;
-  }
 }
 
 export interface ProductListParams extends DefaultPageNumberPaginationParams {
@@ -2029,6 +865,8 @@ Products.Images = Images;
 
 export declare namespace Products {
   export {
+    type LicenseKeyDuration as LicenseKeyDuration,
+    type Price as Price,
     type Product as Product,
     type ProductListResponse as ProductListResponse,
     ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
