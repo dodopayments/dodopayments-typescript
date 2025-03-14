@@ -1,6 +1,6 @@
 # Dodo Payments Node API Library
 
-[![NPM version](https://img.shields.io/npm/v/dodopayments.svg)](https://npmjs.org/package/dodopayments) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/dodopayments) [![JSR Version](https://jsr.io/badges/@dodopayments/dodopayments)](https://jsr.io/@dodopayments/dodopayments)
+[![NPM version](https://img.shields.io/npm/v/dodopayments.svg)](https://npmjs.org/package/dodopayments) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/dodopayments)
 
 This library provides convenient access to the Dodo Payments REST API from server-side TypeScript or JavaScript.
 
@@ -12,21 +12,6 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ```sh
 npm install dodopayments
-```
-
-### Installation from JSR
-
-```sh
-deno add jsr:\@dodopayments/dodopayments
-npx jsr add \@dodopayments/dodopayments
-```
-
-These commands will make the module importable from the `\@dodopayments/dodopayments` scope:
-
-You can also [import directly from JSR](https://jsr.io/docs/using-packages#importing-with-jsr-specifiers) without an install step if you're using the Deno JavaScript runtime:
-
-```ts
-import DodoPayments from 'jsr:\\@dodopayments/dodopayments';
 ```
 
 ## Usage
