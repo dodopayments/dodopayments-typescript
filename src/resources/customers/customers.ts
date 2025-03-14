@@ -3,8 +3,8 @@
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
-import * as CustomerPortalAPI from './customer-portal/customer-portal';
-import { CustomerPortal } from './customer-portal/customer-portal';
+import * as CustomerPortalAPI from './customer-portal';
+import { CustomerPortal, CustomerPortalCreateParams } from './customer-portal';
 import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../../pagination';
 
 export class Customers extends APIResource {
@@ -91,5 +91,5 @@ export declare namespace Customers {
     type CustomerListParams as CustomerListParams,
   };
 
-  export { CustomerPortal as CustomerPortal };
+  export { CustomerPortal as CustomerPortal, type CustomerPortalCreateParams as CustomerPortalCreateParams };
 }

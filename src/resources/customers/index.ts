@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { CustomerPortal } from './customer-portal/index';
+export { CustomerPortal, type CustomerPortalCreateParams } from './customer-portal';
 export {
   CustomersDefaultPageNumberPagination,
   Customers,

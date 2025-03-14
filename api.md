@@ -2,6 +2,13 @@
 
 Types:
 
+- <code><a href="./src/resources/payments.ts">AttachExistingCustomer</a></code>
+- <code><a href="./src/resources/payments.ts">BillingAddress</a></code>
+- <code><a href="./src/resources/payments.ts">CreateNewCustomer</a></code>
+- <code><a href="./src/resources/payments.ts">CustomerLimitedDetails</a></code>
+- <code><a href="./src/resources/payments.ts">CustomerRequest</a></code>
+- <code><a href="./src/resources/payments.ts">IntentStatus</a></code>
+- <code><a href="./src/resources/payments.ts">OneTimeProductCartItem</a></code>
 - <code><a href="./src/resources/payments.ts">Payment</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentCreateResponse</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentListResponse</a></code>
@@ -17,6 +24,8 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/subscriptions.ts">Subscription</a></code>
+- <code><a href="./src/resources/subscriptions.ts">SubscriptionStatus</a></code>
+- <code><a href="./src/resources/subscriptions.ts">TimeInterval</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionCreateResponse</a></code>
 
 Methods:
@@ -51,6 +60,7 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/license-keys.ts">LicenseKey</a></code>
+- <code><a href="./src/resources/license-keys.ts">LicenseKeyStatus</a></code>
 - <code><a href="./src/resources/license-keys.ts">LicenseKeyListResponse</a></code>
 
 Methods:
@@ -88,17 +98,16 @@ Methods:
 
 ## CustomerPortal
 
-### Session
-
 Methods:
 
-- <code title="post /customers/{customer_id}/customer-portal/session">client.customers.customerPortal.session.<a href="./src/resources/customers/customer-portal/session.ts">create</a>(customerId, { ...params }) -> void</code>
+- <code title="post /customers/{customer_id}/customer-portal/session">client.customers.customerPortal.<a href="./src/resources/customers/customer-portal.ts">create</a>(customerId, { ...params }) -> void</code>
 
 # Refunds
 
 Types:
 
 - <code><a href="./src/resources/refunds.ts">Refund</a></code>
+- <code><a href="./src/resources/refunds.ts">RefundStatus</a></code>
 
 Methods:
 
@@ -111,6 +120,8 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/disputes.ts">Dispute</a></code>
+- <code><a href="./src/resources/disputes.ts">DisputeStage</a></code>
+- <code><a href="./src/resources/disputes.ts">DisputeStatus</a></code>
 
 Methods:
 
@@ -142,6 +153,8 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/products/products.ts">LicenseKeyDuration</a></code>
+- <code><a href="./src/resources/products/products.ts">Price</a></code>
 - <code><a href="./src/resources/products/products.ts">Product</a></code>
 - <code><a href="./src/resources/products/products.ts">ProductListResponse</a></code>
 
@@ -166,22 +179,21 @@ Methods:
 
 # Misc
 
-## SupportedCountries
-
 Types:
 
-- <code><a href="./src/resources/misc/supported-countries.ts">CountryCode</a></code>
-- <code><a href="./src/resources/misc/supported-countries.ts">SupportedCountryListResponse</a></code>
+- <code><a href="./src/resources/misc.ts">CountryCode</a></code>
+- <code><a href="./src/resources/misc.ts">MiscListSupportedCountriesResponse</a></code>
 
 Methods:
 
-- <code title="get /checkout/supported_countries">client.misc.supportedCountries.<a href="./src/resources/misc/supported-countries.ts">list</a>() -> SupportedCountryListResponse</code>
+- <code title="get /checkout/supported_countries">client.misc.<a href="./src/resources/misc.ts">listSupportedCountries</a>() -> MiscListSupportedCountriesResponse</code>
 
 # Discounts
 
 Types:
 
 - <code><a href="./src/resources/discounts.ts">Discount</a></code>
+- <code><a href="./src/resources/discounts.ts">DiscountType</a></code>
 
 Methods:
 
