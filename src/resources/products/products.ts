@@ -103,6 +103,11 @@ export interface Product {
   updated_at: string;
 
   /**
+   * Available Addons for subscription products
+   */
+  addons?: Array<string> | null;
+
+  /**
    * Description of the product, optional.
    */
   description?: string | null;
@@ -1133,6 +1138,11 @@ export interface ProductCreateParams {
   tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech';
 
   /**
+   * Addons available for subscription product
+   */
+  addons?: Array<string> | null;
+
+  /**
    * Optional description of the product
    */
   description?: string | null;
@@ -1552,6 +1562,11 @@ export namespace ProductCreateParams {
 }
 
 export interface ProductUpdateParams {
+  /**
+   * Available Addons for subscription products
+   */
+  addons?: Array<string> | null;
+
   /**
    * Description of the product, optional and must be at most 1000 characters.
    */

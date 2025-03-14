@@ -84,6 +84,11 @@ export interface DisputeListParams extends DefaultPageNumberPaginationParams {
   created_at_lte?: string | null;
 
   /**
+   * Filter by customer_id
+   */
+  customer_id?: string | null;
+
+  /**
    * Filter by dispute stage
    */
   dispute_stage?: 'pre_dispute' | 'dispute' | 'pre_arbitration' | null;
