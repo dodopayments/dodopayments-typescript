@@ -42,6 +42,7 @@ describe('resource products', () => {
         tax_inclusive: true,
       },
       tax_category: 'digital_products',
+      addons: ['string'],
       description: 'description',
       license_key_activation_message: 'license_key_activation_message',
       license_key_activations_limit: 0,
