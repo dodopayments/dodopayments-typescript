@@ -262,6 +262,11 @@ export interface Subscription {
   trial_period_days: number;
 
   /**
+   * Cancelled timestamp if the subscription is cancelled
+   */
+  cancelled_at?: string | null;
+
+  /**
    * The discount id if discount is applied
    */
   discount_id?: string | null;
