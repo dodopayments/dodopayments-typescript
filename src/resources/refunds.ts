@@ -244,6 +244,11 @@ export interface RefundListParams extends DefaultPageNumberPaginationParams {
   created_at_lte?: string | null;
 
   /**
+   * Filter by customer_id
+   */
+  customer_id?: string | null;
+
+  /**
    * Filter by status
    */
   status?: 'succeeded' | 'failed' | 'pending' | 'review' | null;
