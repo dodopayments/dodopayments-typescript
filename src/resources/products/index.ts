@@ -4,6 +4,8 @@ export { Images, type ImageUpdateResponse, type ImageUpdateParams } from './imag
 export {
   ProductListResponsesDefaultPageNumberPagination,
   Products,
+  type LicenseKeyDuration,
+  type Price,
   type Product,
   type ProductListResponse,
   type ProductCreateParams,

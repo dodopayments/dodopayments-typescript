@@ -11,6 +11,7 @@ import {
   Discount,
   DiscountCreateParams,
   DiscountListParams,
+  DiscountType,
   DiscountUpdateParams,
   Discounts,
   DiscountsDefaultPageNumberPagination,
@@ -18,6 +19,8 @@ import {
 import {
   Dispute,
   DisputeListParams,
+  DisputeStage,
+  DisputeStatus,
   Disputes,
   DisputesDefaultPageNumberPagination,
 } from './resources/disputes';
@@ -32,6 +35,7 @@ import {
   LicenseKey,
   LicenseKeyListParams,
   LicenseKeyListResponse,
+  LicenseKeyStatus,
   LicenseKeyUpdateParams,
   LicenseKeys,
 } from './resources/license-keys';
@@ -42,7 +46,15 @@ import {
   LicenseValidateResponse,
   Licenses,
 } from './resources/licenses';
+import { CountryCode, Misc, MiscListSupportedCountriesResponse } from './resources/misc';
 import {
+  AttachExistingCustomer,
+  BillingAddress,
+  CreateNewCustomer,
+  CustomerLimitedDetails,
+  CustomerRequest,
+  IntentStatus,
+  OneTimeProductCartItem,
   Payment,
   PaymentCreateParams,
   PaymentCreateResponse,
@@ -61,6 +73,7 @@ import {
   Refund,
   RefundCreateParams,
   RefundListParams,
+  RefundStatus,
   Refunds,
   RefundsDefaultPageNumberPagination,
 } from './resources/refunds';
@@ -69,9 +82,11 @@ import {
   SubscriptionCreateParams,
   SubscriptionCreateResponse,
   SubscriptionListParams,
+  SubscriptionStatus,
   SubscriptionUpdateParams,
   Subscriptions,
   SubscriptionsDefaultPageNumberPagination,
+  TimeInterval,
 } from './resources/subscriptions';
 import {
   WebhookEvent,
@@ -89,8 +104,9 @@ import {
   CustomersDefaultPageNumberPagination,
 } from './resources/customers/customers';
 import { Invoices } from './resources/invoices/invoices';
-import { Misc } from './resources/misc/misc';
 import {
+  LicenseKeyDuration,
+  Price,
   Product,
   ProductCreateParams,
   ProductListParams,
@@ -323,6 +339,13 @@ export declare namespace DodoPayments {
 
   export {
     Payments as Payments,
+    type AttachExistingCustomer as AttachExistingCustomer,
+    type BillingAddress as BillingAddress,
+    type CreateNewCustomer as CreateNewCustomer,
+    type CustomerLimitedDetails as CustomerLimitedDetails,
+    type CustomerRequest as CustomerRequest,
+    type IntentStatus as IntentStatus,
+    type OneTimeProductCartItem as OneTimeProductCartItem,
     type Payment as Payment,
     type PaymentCreateResponse as PaymentCreateResponse,
     type PaymentListResponse as PaymentListResponse,
@@ -334,6 +357,8 @@ export declare namespace DodoPayments {
   export {
     Subscriptions as Subscriptions,
     type Subscription as Subscription,
+    type SubscriptionStatus as SubscriptionStatus,
+    type TimeInterval as TimeInterval,
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
     SubscriptionsDefaultPageNumberPagination as SubscriptionsDefaultPageNumberPagination,
     type SubscriptionCreateParams as SubscriptionCreateParams,
@@ -354,6 +379,7 @@ export declare namespace DodoPayments {
   export {
     LicenseKeys as LicenseKeys,
     type LicenseKey as LicenseKey,
+    type LicenseKeyStatus as LicenseKeyStatus,
     type LicenseKeyListResponse as LicenseKeyListResponse,
     type LicenseKeyUpdateParams as LicenseKeyUpdateParams,
     type LicenseKeyListParams as LicenseKeyListParams,
@@ -380,6 +406,7 @@ export declare namespace DodoPayments {
   export {
     Refunds as Refunds,
     type Refund as Refund,
+    type RefundStatus as RefundStatus,
     RefundsDefaultPageNumberPagination as RefundsDefaultPageNumberPagination,
     type RefundCreateParams as RefundCreateParams,
     type RefundListParams as RefundListParams,
@@ -388,6 +415,8 @@ export declare namespace DodoPayments {
   export {
     Disputes as Disputes,
     type Dispute as Dispute,
+    type DisputeStage as DisputeStage,
+    type DisputeStatus as DisputeStatus,
     DisputesDefaultPageNumberPagination as DisputesDefaultPageNumberPagination,
     type DisputeListParams as DisputeListParams,
   };
@@ -408,6 +437,8 @@ export declare namespace DodoPayments {
 
   export {
     Products as Products,
+    type LicenseKeyDuration as LicenseKeyDuration,
+    type Price as Price,
     type Product as Product,
     type ProductListResponse as ProductListResponse,
     ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
@@ -416,11 +447,16 @@ export declare namespace DodoPayments {
     type ProductListParams as ProductListParams,
   };
 
-  export { Misc as Misc };
+  export {
+    Misc as Misc,
+    type CountryCode as CountryCode,
+    type MiscListSupportedCountriesResponse as MiscListSupportedCountriesResponse,
+  };
 
   export {
     Discounts as Discounts,
     type Discount as Discount,
+    type DiscountType as DiscountType,
     DiscountsDefaultPageNumberPagination as DiscountsDefaultPageNumberPagination,
     type DiscountCreateParams as DiscountCreateParams,
     type DiscountUpdateParams as DiscountUpdateParams,

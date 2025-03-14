@@ -13,6 +13,7 @@ export {
   DiscountsDefaultPageNumberPagination,
   Discounts,
   type Discount,
+  type DiscountType,
   type DiscountCreateParams,
   type DiscountUpdateParams,
   type DiscountListParams,
@@ -21,6 +22,8 @@ export {
   DisputesDefaultPageNumberPagination,
   Disputes,
   type Dispute,
+  type DisputeStage,
+  type DisputeStatus,
   type DisputeListParams,
 } from './disputes';
 export { Invoices } from './invoices/invoices';
@@ -34,6 +37,7 @@ export {
 export {
   LicenseKeys,
   type LicenseKey,
+  type LicenseKeyStatus,
   type LicenseKeyListResponse,
   type LicenseKeyUpdateParams,
   type LicenseKeyListParams,
@@ -45,10 +49,17 @@ export {
   type LicenseDeactivateParams,
   type LicenseValidateParams,
 } from './licenses';
-export { Misc } from './misc/misc';
+export { Misc, type CountryCode, type MiscListSupportedCountriesResponse } from './misc';
 export {
   PaymentListResponsesDefaultPageNumberPagination,
   Payments,
+  type AttachExistingCustomer,
+  type BillingAddress,
+  type CreateNewCustomer,
+  type CustomerLimitedDetails,
+  type CustomerRequest,
+  type IntentStatus,
+  type OneTimeProductCartItem,
   type Payment,
   type PaymentCreateResponse,
   type PaymentListResponse,
@@ -64,6 +75,8 @@ export {
 export {
   ProductListResponsesDefaultPageNumberPagination,
   Products,
+  type LicenseKeyDuration,
+  type Price,
   type Product,
   type ProductListResponse,
   type ProductCreateParams,
@@ -74,6 +87,7 @@ export {
   RefundsDefaultPageNumberPagination,
   Refunds,
   type Refund,
+  type RefundStatus,
   type RefundCreateParams,
   type RefundListParams,
 } from './refunds';
@@ -81,6 +95,8 @@ export {
   SubscriptionsDefaultPageNumberPagination,
   Subscriptions,
   type Subscription,
+  type SubscriptionStatus,
+  type TimeInterval,
   type SubscriptionCreateResponse,
   type SubscriptionCreateParams,
   type SubscriptionUpdateParams,

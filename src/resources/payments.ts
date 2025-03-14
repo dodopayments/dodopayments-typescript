@@ -4,8 +4,8 @@ import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
 import * as DisputesAPI from './disputes';
+import * as MiscAPI from './misc';
 import * as RefundsAPI from './refunds';
-import * as SupportedCountriesAPI from './misc/supported-countries';
 import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class Payments extends APIResource {
@@ -39,6 +39,96 @@ export class Payments extends APIResource {
 }
 
 export class PaymentListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<PaymentListResponse> {}
+
+export interface AttachExistingCustomer {
+  customer_id: string;
+}
+
+export interface BillingAddress {
+  /**
+   * City name
+   */
+  city: string;
+
+  /**
+   * ISO country code alpha2 variant
+   */
+  country: MiscAPI.CountryCode;
+
+  /**
+   * State or province name
+   */
+  state: string;
+
+  /**
+   * Street address including house number and unit/apartment if applicable
+   */
+  street: string;
+
+  /**
+   * Postal code or ZIP code
+   */
+  zipcode: string;
+}
+
+export interface CreateNewCustomer {
+  email: string;
+
+  name: string;
+
+  /**
+   * When false, the most recently created customer object with the given email is
+   * used if exists. When true, a new customer object is always created False by
+   * default
+   */
+  create_new_customer?: boolean;
+
+  phone_number?: string | null;
+}
+
+export interface CustomerLimitedDetails {
+  /**
+   * Unique identifier for the customer
+   */
+  customer_id: string;
+
+  /**
+   * Email address of the customer
+   */
+  email: string;
+
+  /**
+   * Full name of the customer
+   */
+  name: string;
+}
+
+export type CustomerRequest = AttachExistingCustomer | CreateNewCustomer;
+
+export type IntentStatus =
+  | 'succeeded'
+  | 'failed'
+  | 'cancelled'
+  | 'processing'
+  | 'requires_customer_action'
+  | 'requires_merchant_action'
+  | 'requires_payment_method'
+  | 'requires_confirmation'
+  | 'requires_capture'
+  | 'partially_captured'
+  | 'partially_captured_and_capturable';
+
+export interface OneTimeProductCartItem {
+  product_id: string;
+
+  quantity: number;
+
+  /**
+   * Amount the customer pays if pay_what_you_want is enabled. If disabled then
+   * amount will be ignored
+   */
+  amount?: number | null;
+}
 
 export interface Payment {
   /**
@@ -198,7 +288,7 @@ export interface Payment {
     | 'ZAR'
     | 'ZMW';
 
-  customer: Payment.Customer;
+  customer: CustomerLimitedDetails;
 
   /**
    * List of disputes associated with this payment
@@ -253,19 +343,7 @@ export interface Payment {
    */
   product_cart?: Array<Payment.ProductCart> | null;
 
-  status?:
-    | 'succeeded'
-    | 'failed'
-    | 'cancelled'
-    | 'processing'
-    | 'requires_customer_action'
-    | 'requires_merchant_action'
-    | 'requires_payment_method'
-    | 'requires_confirmation'
-    | 'requires_capture'
-    | 'partially_captured'
-    | 'partially_captured_and_capturable'
-    | null;
+  status?: IntentStatus | null;
 
   /**
    * Identifier of the subscription if payment is part of a subscription
@@ -284,23 +362,6 @@ export interface Payment {
 }
 
 export namespace Payment {
-  export interface Customer {
-    /**
-     * Unique identifier for the customer
-     */
-    customer_id: string;
-
-    /**
-     * Email address of the customer
-     */
-    email: string;
-
-    /**
-     * Full name of the customer
-     */
-    name: string;
-  }
-
   export interface ProductCart {
     product_id: string;
 
@@ -315,7 +376,7 @@ export interface PaymentCreateResponse {
    */
   client_secret: string;
 
-  customer: PaymentCreateResponse.Customer;
+  customer: CustomerLimitedDetails;
 
   metadata: Record<string, string>;
 
@@ -342,38 +403,7 @@ export interface PaymentCreateResponse {
   /**
    * Optional list of products included in the payment
    */
-  product_cart?: Array<PaymentCreateResponse.ProductCart> | null;
-}
-
-export namespace PaymentCreateResponse {
-  export interface Customer {
-    /**
-     * Unique identifier for the customer
-     */
-    customer_id: string;
-
-    /**
-     * Email address of the customer
-     */
-    email: string;
-
-    /**
-     * Full name of the customer
-     */
-    name: string;
-  }
-
-  export interface ProductCart {
-    product_id: string;
-
-    quantity: number;
-
-    /**
-     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
-     * amount will be ignored
-     */
-    amount?: number | null;
-  }
+  product_cart?: Array<OneTimeProductCartItem> | null;
 }
 
 export interface PaymentListResponse {
@@ -526,7 +556,7 @@ export interface PaymentListResponse {
     | 'ZAR'
     | 'ZMW';
 
-  customer: PaymentListResponse.Customer;
+  customer: CustomerLimitedDetails;
 
   metadata: Record<string, string>;
 
@@ -538,51 +568,20 @@ export interface PaymentListResponse {
 
   payment_method_type?: string | null;
 
-  status?:
-    | 'succeeded'
-    | 'failed'
-    | 'cancelled'
-    | 'processing'
-    | 'requires_customer_action'
-    | 'requires_merchant_action'
-    | 'requires_payment_method'
-    | 'requires_confirmation'
-    | 'requires_capture'
-    | 'partially_captured'
-    | 'partially_captured_and_capturable'
-    | null;
+  status?: IntentStatus | null;
 
   subscription_id?: string | null;
 }
 
-export namespace PaymentListResponse {
-  export interface Customer {
-    /**
-     * Unique identifier for the customer
-     */
-    customer_id: string;
-
-    /**
-     * Email address of the customer
-     */
-    email: string;
-
-    /**
-     * Full name of the customer
-     */
-    name: string;
-  }
-}
-
 export interface PaymentCreateParams {
-  billing: PaymentCreateParams.Billing;
+  billing: BillingAddress;
 
-  customer: PaymentCreateParams.AttachExistingCustomer | PaymentCreateParams.CreateNewCustomer;
+  customer: CustomerRequest;
 
   /**
    * List of products in the cart. Must contain at least 1 and at most 100 items.
    */
-  product_cart: Array<PaymentCreateParams.ProductCart>;
+  product_cart: Array<OneTimeProductCartItem>;
 
   /**
    * Discount Code to apply to the transaction
@@ -609,66 +608,6 @@ export interface PaymentCreateParams {
   tax_id?: string | null;
 }
 
-export namespace PaymentCreateParams {
-  export interface Billing {
-    /**
-     * City name
-     */
-    city: string;
-
-    /**
-     * ISO country code alpha2 variant
-     */
-    country: SupportedCountriesAPI.CountryCode;
-
-    /**
-     * State or province name
-     */
-    state: string;
-
-    /**
-     * Street address including house number and unit/apartment if applicable
-     */
-    street: string;
-
-    /**
-     * Postal code or ZIP code
-     */
-    zipcode: string;
-  }
-
-  export interface AttachExistingCustomer {
-    customer_id: string;
-  }
-
-  export interface CreateNewCustomer {
-    email: string;
-
-    name: string;
-
-    /**
-     * When false, the most recently created customer object with the given email is
-     * used if exists. When true, a new customer object is always created False by
-     * default
-     */
-    create_new_customer?: boolean;
-
-    phone_number?: string | null;
-  }
-
-  export interface ProductCart {
-    product_id: string;
-
-    quantity: number;
-
-    /**
-     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
-     * amount will be ignored
-     */
-    amount?: number | null;
-  }
-}
-
 export interface PaymentListParams extends DefaultPageNumberPaginationParams {
   /**
    * Get events after this created time
@@ -688,19 +627,7 @@ export interface PaymentListParams extends DefaultPageNumberPaginationParams {
   /**
    * Filter by status
    */
-  status?:
-    | 'succeeded'
-    | 'failed'
-    | 'cancelled'
-    | 'processing'
-    | 'requires_customer_action'
-    | 'requires_merchant_action'
-    | 'requires_payment_method'
-    | 'requires_confirmation'
-    | 'requires_capture'
-    | 'partially_captured'
-    | 'partially_captured_and_capturable'
-    | null;
+  status?: IntentStatus | null;
 
   /**
    * Filter by subscription id
@@ -712,6 +639,13 @@ Payments.PaymentListResponsesDefaultPageNumberPagination = PaymentListResponsesD
 
 export declare namespace Payments {
   export {
+    type AttachExistingCustomer as AttachExistingCustomer,
+    type BillingAddress as BillingAddress,
+    type CreateNewCustomer as CreateNewCustomer,
+    type CustomerLimitedDetails as CustomerLimitedDetails,
+    type CustomerRequest as CustomerRequest,
+    type IntentStatus as IntentStatus,
+    type OneTimeProductCartItem as OneTimeProductCartItem,
     type Payment as Payment,
     type PaymentCreateResponse as PaymentCreateResponse,
     type PaymentListResponse as PaymentListResponse,
