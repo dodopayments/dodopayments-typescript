@@ -1,0 +1,8 @@
+{
+  "name": "\@dodopayments/dodopayments",
+  "version": "1.6.3",
+  "exports": "./index.ts",
+  "publish": {
+    "exclude": ["!."]
+  }
+}
