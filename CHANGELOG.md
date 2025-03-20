@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.7.1 (2025-03-20)
+
+Full Changelog: [v1.7.0...v1.7.1](https://github.com/dodopayments/dodopayments-node/compare/v1.7.0...v1.7.1)
+
+### Chores
+
+* **exports:** cleaner resource index imports ([#85](https://github.com/dodopayments/dodopayments-node/issues/85)) ([cd192bd](https://github.com/dodopayments/dodopayments-node/commit/cd192bd2a53640b91f57023bb4910dfdffc9a5e8))
+* **exports:** stop using path fallbacks ([#87](https://github.com/dodopayments/dodopayments-node/issues/87)) ([0573909](https://github.com/dodopayments/dodopayments-node/commit/0573909b4b60a5e9ac8aca7e337c49577c327984))
+
 ## 1.7.0 (2025-03-14)
 
 Full Changelog: [v1.6.3...v1.7.0](https://github.com/dodopayments/dodopayments-node/compare/v1.6.3...v1.7.0)
