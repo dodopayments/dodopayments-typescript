@@ -79,6 +79,8 @@ import {
 } from './resources/refunds';
 import {
   Subscription,
+  SubscriptionChargeParams,
+  SubscriptionChargeResponse,
   SubscriptionCreateParams,
   SubscriptionCreateResponse,
   SubscriptionListParams,
@@ -362,10 +364,12 @@ export declare namespace DodoPayments {
     type SubscriptionStatus as SubscriptionStatus,
     type TimeInterval as TimeInterval,
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
+    type SubscriptionChargeResponse as SubscriptionChargeResponse,
     SubscriptionsDefaultPageNumberPagination as SubscriptionsDefaultPageNumberPagination,
     type SubscriptionCreateParams as SubscriptionCreateParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionListParams as SubscriptionListParams,
+    type SubscriptionChargeParams as SubscriptionChargeParams,
   };
 
   export { Invoices as Invoices };

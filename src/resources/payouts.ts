@@ -217,7 +217,7 @@ export interface PayoutListResponse {
    */
   refunds: number;
 
-  status: 'in_progress' | 'failed' | 'success';
+  status: 'not_initiated' | 'in_progress' | 'on_hold' | 'failed' | 'success';
 
   /**
    * The tax applied to the payout.

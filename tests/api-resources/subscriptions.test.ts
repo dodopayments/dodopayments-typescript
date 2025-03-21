@@ -31,8 +31,10 @@ describe('resource subscriptions', () => {
       customer: { customer_id: 'customer_id' },
       product_id: 'product_id',
       quantity: 0,
+      allowed_payment_method_types: ['credit'],
       discount_code: 'discount_code',
       metadata: { foo: 'string' },
+      on_demand: { mandate_only: true, product_price: 0 },
       payment_link: true,
       return_url: 'return_url',
       tax_id: 'tax_id',
@@ -102,5 +104,20 @@ describe('resource subscriptions', () => {
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
+
+  test('charge: only required params', async () => {
+    const responsePromise = client.subscriptions.charge('subscription_id', { product_price: 0 });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('charge: required and optional params', async () => {
+    const response = await client.subscriptions.charge('subscription_id', { product_price: 0 });
   });
 });

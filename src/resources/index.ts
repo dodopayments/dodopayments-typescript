@@ -98,9 +98,11 @@ export {
   type SubscriptionStatus,
   type TimeInterval,
   type SubscriptionCreateResponse,
+  type SubscriptionChargeResponse,
   type SubscriptionCreateParams,
   type SubscriptionUpdateParams,
   type SubscriptionListParams,
+  type SubscriptionChargeParams,
 } from './subscriptions';
 export {
   WebhookEventsDefaultPageNumberPagination,

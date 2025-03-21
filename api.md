@@ -27,6 +27,7 @@ Types:
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionStatus</a></code>
 - <code><a href="./src/resources/subscriptions.ts">TimeInterval</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionCreateResponse</a></code>
+- <code><a href="./src/resources/subscriptions.ts">SubscriptionChargeResponse</a></code>
 
 Methods:
 
@@ -34,6 +35,7 @@ Methods:
 - <code title="get /subscriptions/{subscription_id}">client.subscriptions.<a href="./src/resources/subscriptions.ts">retrieve</a>(subscriptionId) -> Subscription</code>
 - <code title="patch /subscriptions/{subscription_id}">client.subscriptions.<a href="./src/resources/subscriptions.ts">update</a>(subscriptionId, { ...params }) -> Subscription</code>
 - <code title="get /subscriptions">client.subscriptions.<a href="./src/resources/subscriptions.ts">list</a>({ ...params }) -> SubscriptionsDefaultPageNumberPagination</code>
+- <code title="post /subscriptions/{subscription_id}/charge">client.subscriptions.<a href="./src/resources/subscriptions.ts">charge</a>(subscriptionId, { ...params }) -> SubscriptionChargeResponse</code>
 
 # Invoices
 
