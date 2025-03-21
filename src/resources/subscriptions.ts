@@ -45,6 +45,14 @@ export class Subscriptions extends APIResource {
       ...options,
     });
   }
+
+  charge(
+    subscriptionId: string,
+    body: SubscriptionChargeParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<SubscriptionChargeResponse> {
+    return this._client.post(`/subscriptions/${subscriptionId}/charge`, { body, ...options });
+  }
 }
 
 export class SubscriptionsDefaultPageNumberPagination extends DefaultPageNumberPagination<Subscription> {}
@@ -316,6 +324,10 @@ export interface SubscriptionCreateResponse {
   payment_link?: string | null;
 }
 
+export interface SubscriptionChargeResponse {
+  payment_id: string;
+}
+
 export interface SubscriptionCreateParams {
   billing: PaymentsAPI.BillingAddress;
 
@@ -332,11 +344,41 @@ export interface SubscriptionCreateParams {
   quantity: number;
 
   /**
+   * List of payment methods allowed during checkout.
+   *
+   * Customers will **never** see payment methods that are **not** in this list.
+   * However, adding a method here **does not guarantee** customers will see it.
+   * Availability still depends on other factors (e.g., customer location, merchant
+   * settings).
+   */
+  allowed_payment_method_types?: Array<
+    | 'credit'
+    | 'debit'
+    | 'upi_collect'
+    | 'upi_intent'
+    | 'apple_pay'
+    | 'cashapp'
+    | 'google_pay'
+    | 'multibanco'
+    | 'bancontact_card'
+    | 'eps'
+    | 'ideal'
+    | 'przelewy24'
+    | 'affirm'
+    | 'klarna'
+    | 'sepa'
+    | 'ach'
+    | 'amazon_pay'
+  > | null;
+
+  /**
    * Discount Code to apply to the subscription
    */
   discount_code?: string | null;
 
   metadata?: Record<string, string>;
+
+  on_demand?: SubscriptionCreateParams.OnDemand | null;
 
   /**
    * If true, generates a payment link. Defaults to false if not specified.
@@ -359,6 +401,22 @@ export interface SubscriptionCreateParams {
    * period set in the product's price Must be between 0 and 10000 days
    */
   trial_period_days?: number | null;
+}
+
+export namespace SubscriptionCreateParams {
+  export interface OnDemand {
+    /**
+     * If set as True, does not perform any charge and only authorizes payment method
+     * details for future use.
+     */
+    mandate_only: boolean;
+
+    /**
+     * Product price for the initial charge to customer If not specified the stored
+     * price of the product will be used
+     */
+    product_price?: number | null;
+  }
 }
 
 export interface SubscriptionUpdateParams {
@@ -389,6 +447,10 @@ export interface SubscriptionListParams extends DefaultPageNumberPaginationParam
   status?: SubscriptionStatus | null;
 }
 
+export interface SubscriptionChargeParams {
+  product_price: number;
+}
+
 Subscriptions.SubscriptionsDefaultPageNumberPagination = SubscriptionsDefaultPageNumberPagination;
 
 export declare namespace Subscriptions {
@@ -397,9 +459,11 @@ export declare namespace Subscriptions {
     type SubscriptionStatus as SubscriptionStatus,
     type TimeInterval as TimeInterval,
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
+    type SubscriptionChargeResponse as SubscriptionChargeResponse,
     SubscriptionsDefaultPageNumberPagination as SubscriptionsDefaultPageNumberPagination,
     type SubscriptionCreateParams as SubscriptionCreateParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionListParams as SubscriptionListParams,
+    type SubscriptionChargeParams as SubscriptionChargeParams,
   };
 }

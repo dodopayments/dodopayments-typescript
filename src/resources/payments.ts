@@ -584,6 +584,34 @@ export interface PaymentCreateParams {
   product_cart: Array<OneTimeProductCartItem>;
 
   /**
+   * List of payment methods allowed during checkout.
+   *
+   * Customers will **never** see payment methods that are **not** in this list.
+   * However, adding a method here **does not guarantee** customers will see it.
+   * Availability still depends on other factors (e.g., customer location, merchant
+   * settings).
+   */
+  allowed_payment_method_types?: Array<
+    | 'credit'
+    | 'debit'
+    | 'upi_collect'
+    | 'upi_intent'
+    | 'apple_pay'
+    | 'cashapp'
+    | 'google_pay'
+    | 'multibanco'
+    | 'bancontact_card'
+    | 'eps'
+    | 'ideal'
+    | 'przelewy24'
+    | 'affirm'
+    | 'klarna'
+    | 'sepa'
+    | 'ach'
+    | 'amazon_pay'
+  > | null;
+
+  /**
    * Discount Code to apply to the transaction
    */
   discount_code?: string | null;
