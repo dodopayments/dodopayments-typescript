@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.10.2 (2025-03-22)
+
+Full Changelog: [v1.10.1...v1.10.2](https://github.com/dodopayments/dodopayments-node/compare/v1.10.1...v1.10.2)
+
+### Bug Fixes
+
+* avoid type error in certain environments ([#93](https://github.com/dodopayments/dodopayments-node/issues/93)) ([64b5554](https://github.com/dodopayments/dodopayments-node/commit/64b55549efa34b6c2229d80339455f96ce4cd7b8))
+
 ## 1.10.1 (2025-03-21)
 
 Full Changelog: [v1.7.1...v1.10.1](https://github.com/dodopayments/dodopayments-node/compare/v1.7.1...v1.10.1)
