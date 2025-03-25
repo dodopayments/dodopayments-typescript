@@ -413,7 +413,8 @@ export namespace SubscriptionCreateParams {
 
     /**
      * Product price for the initial charge to customer If not specified the stored
-     * price of the product will be used
+     * price of the product will be used Represented in the lowest denomination of the
+     * currency (e.g., cents for USD). For example, to charge $1.00, pass `100`.
      */
     product_price?: number | null;
   }
@@ -448,6 +449,10 @@ export interface SubscriptionListParams extends DefaultPageNumberPaginationParam
 }
 
 export interface SubscriptionChargeParams {
+  /**
+   * The product price. Represented in the lowest denomination of the currency (e.g.,
+   * cents for USD). For example, to charge $1.00, pass `100`.
+   */
   product_price: number;
 }
 
