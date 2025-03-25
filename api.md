@@ -100,7 +100,7 @@ Methods:
 
 Methods:
 
-- <code title="post /customers/{customer_id}/customer-portal/session">client.customers.customerPortal.<a href="./src/resources/customers/customer-portal.ts">create</a>(customerId, { ...params }) -> void</code>
+- <code title="post /customers/{customer_id}/customer-portal/session">client.customers.customerPortal.<a href="./src/resources/customers/customer-portal.ts">create</a>(customerId, { ...params }) -> CustomerPortalSession</code>
 
 # Refunds
 
