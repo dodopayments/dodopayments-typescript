@@ -30,10 +30,12 @@ describe('resource payments', () => {
       customer: { customer_id: 'customer_id' },
       product_cart: [{ product_id: 'product_id', quantity: 0, amount: 0 }],
       allowed_payment_method_types: ['credit'],
+      billing_currency: 'AED',
       discount_code: 'discount_code',
       metadata: { foo: 'string' },
       payment_link: true,
       return_url: 'return_url',
+      show_saved_payment_methods: true,
       tax_id: 'tax_id',
     });
   });
