@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.10.4 (2025-03-28)
+
+Full Changelog: [v1.10.3...v1.10.4](https://github.com/dodopayments/dodopayments-node/compare/v1.10.3...v1.10.4)
+
+### Bug Fixes
+
+* **internal:** work around https://github.com/vercel/next.js/issues/76881 ([#99](https://github.com/dodopayments/dodopayments-node/issues/99)) ([4c12505](https://github.com/dodopayments/dodopayments-node/commit/4c12505acb178b79157981d9b23e8c4b48577121))
+
 ## 1.10.3 (2025-03-25)
 
 Full Changelog: [v1.10.2...v1.10.3](https://github.com/dodopayments/dodopayments-node/compare/v1.10.2...v1.10.3)
