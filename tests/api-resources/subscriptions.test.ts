@@ -32,11 +32,13 @@ describe('resource subscriptions', () => {
       product_id: 'product_id',
       quantity: 0,
       allowed_payment_method_types: ['credit'],
+      billing_currency: 'AED',
       discount_code: 'discount_code',
       metadata: { foo: 'string' },
       on_demand: { mandate_only: true, product_price: 0 },
       payment_link: true,
       return_url: 'return_url',
+      show_saved_payment_methods: true,
       tax_id: 'tax_id',
       trial_period_days: 0,
     });
