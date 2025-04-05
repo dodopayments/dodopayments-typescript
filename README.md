@@ -2,7 +2,7 @@
 
 [![NPM version](https://img.shields.io/npm/v/dodopayments.svg)](https://npmjs.org/package/dodopayments) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/dodopayments)
 
-This library provides convenient access to the Dodo Payments REST API from server-side TypeScript or JavaScript.
+This library provides convenient access to the [Dodo Payments](https://dodopayments.com) REST API from server-side TypeScript or JavaScript.
 
 The REST API documentation can be found on [docs.dodopayments.com](https://docs.dodopayments.com). The full API of this library can be found in [api.md](api.md).
 
