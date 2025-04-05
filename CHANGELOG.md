@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.12.0 (2025-04-05)
+
+Full Changelog: [v1.11.0...v1.12.0](https://github.com/dodopayments/dodopayments-node/compare/v1.11.0...v1.12.0)
+
+### Bug Fixes
+
+* **api:** improve type resolution when importing as a package ([#108](https://github.com/dodopayments/dodopayments-node/issues/108)) ([29668dc](https://github.com/dodopayments/dodopayments-node/commit/29668dc2a4c9e3b3cbd06b34119b41c751a0b87a))
+* **client:** send `X-Stainless-Timeout` in seconds ([#106](https://github.com/dodopayments/dodopayments-node/issues/106)) ([36ecfdf](https://github.com/dodopayments/dodopayments-node/commit/36ecfdfc9558df804e8771ab36ce5f0ce08c7f1f))
+* **mcp:** remove unused tools.ts ([#109](https://github.com/dodopayments/dodopayments-node/issues/109)) ([334197e](https://github.com/dodopayments/dodopayments-node/commit/334197e33b5bde9e2d406465cc3713f9919bc55f))
+
+
+### Chores
+
+* configure new SDK language ([#110](https://github.com/dodopayments/dodopayments-node/issues/110)) ([5f3e4c2](https://github.com/dodopayments/dodopayments-node/commit/5f3e4c2f683fe6f959064e867a206b46915f2703))
+* **internal:** add aliases for Record and Array ([#107](https://github.com/dodopayments/dodopayments-node/issues/107)) ([fc97985](https://github.com/dodopayments/dodopayments-node/commit/fc97985e9ae649f33c6e94ef83b31a7967bc320c))
+
 ## 1.11.0 (2025-03-28)
 
 Full Changelog: [v1.10.4...v1.11.0](https://github.com/dodopayments/dodopayments-node/compare/v1.10.4...v1.11.0)
