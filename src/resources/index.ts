@@ -28,17 +28,17 @@ export {
 } from './disputes';
 export { Invoices } from './invoices/invoices';
 export {
-  LicenseKeyInstancesDefaultPageNumberPagination,
   LicenseKeyInstances,
   type LicenseKeyInstance,
+  type LicenseKeyInstanceListResponse,
   type LicenseKeyInstanceUpdateParams,
   type LicenseKeyInstanceListParams,
 } from './license-key-instances';
 export {
-  LicenseKeysDefaultPageNumberPagination,
   LicenseKeys,
   type LicenseKey,
   type LicenseKeyStatus,
+  type LicenseKeyListResponse,
   type LicenseKeyUpdateParams,
   type LicenseKeyListParams,
 } from './license-keys';
