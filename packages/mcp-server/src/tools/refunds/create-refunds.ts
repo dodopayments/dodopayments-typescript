@@ -20,11 +20,6 @@ export const tool: Tool = {
         type: 'string',
         description: 'The unique identifier of the payment to be refunded.',
       },
-      amount: {
-        type: 'integer',
-        description:
-          'The amount to be refunded. Must be non-negative. Optional.\nPartial refunds are currently disabled.',
-      },
       reason: {
         type: 'string',
         description: 'The reason for the refund, if any. Maximum length is 3000 characters. Optional.',

@@ -223,12 +223,6 @@ export interface RefundCreateParams {
   payment_id: string;
 
   /**
-   * The amount to be refunded. Must be non-negative. Optional. Partial refunds are
-   * currently disabled.
-   */
-  amount?: number | null;
-
-  /**
    * The reason for the refund, if any. Maximum length is 3000 characters. Optional.
    */
   reason?: string | null;
