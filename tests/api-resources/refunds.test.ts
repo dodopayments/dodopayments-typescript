@@ -21,7 +21,7 @@ describe('resource refunds', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.refunds.create({ payment_id: 'payment_id', amount: 0, reason: 'reason' });
+    const response = await client.refunds.create({ payment_id: 'payment_id', reason: 'reason' });
   });
 
   test('retrieve', async () => {
