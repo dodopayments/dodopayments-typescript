@@ -27,17 +27,17 @@ import {
 import {
   LicenseKeyInstance,
   LicenseKeyInstanceListParams,
-  LicenseKeyInstanceListResponse,
   LicenseKeyInstanceUpdateParams,
   LicenseKeyInstances,
+  LicenseKeyInstancesDefaultPageNumberPagination,
 } from './resources/license-key-instances';
 import {
   LicenseKey,
   LicenseKeyListParams,
-  LicenseKeyListResponse,
   LicenseKeyStatus,
   LicenseKeyUpdateParams,
   LicenseKeys,
+  LicenseKeysDefaultPageNumberPagination,
 } from './resources/license-keys';
 import {
   LicenseActivateParams,
@@ -313,7 +313,9 @@ DodoPayments.SubscriptionsDefaultPageNumberPagination = SubscriptionsDefaultPage
 DodoPayments.Invoices = Invoices;
 DodoPayments.Licenses = Licenses;
 DodoPayments.LicenseKeys = LicenseKeys;
+DodoPayments.LicenseKeysDefaultPageNumberPagination = LicenseKeysDefaultPageNumberPagination;
 DodoPayments.LicenseKeyInstances = LicenseKeyInstances;
+DodoPayments.LicenseKeyInstancesDefaultPageNumberPagination = LicenseKeyInstancesDefaultPageNumberPagination;
 DodoPayments.Customers = Customers;
 DodoPayments.CustomersDefaultPageNumberPagination = CustomersDefaultPageNumberPagination;
 DodoPayments.Refunds = Refunds;
@@ -384,7 +386,7 @@ export declare namespace DodoPayments {
     LicenseKeys as LicenseKeys,
     type LicenseKey as LicenseKey,
     type LicenseKeyStatus as LicenseKeyStatus,
-    type LicenseKeyListResponse as LicenseKeyListResponse,
+    LicenseKeysDefaultPageNumberPagination as LicenseKeysDefaultPageNumberPagination,
     type LicenseKeyUpdateParams as LicenseKeyUpdateParams,
     type LicenseKeyListParams as LicenseKeyListParams,
   };
@@ -392,7 +394,7 @@ export declare namespace DodoPayments {
   export {
     LicenseKeyInstances as LicenseKeyInstances,
     type LicenseKeyInstance as LicenseKeyInstance,
-    type LicenseKeyInstanceListResponse as LicenseKeyInstanceListResponse,
+    LicenseKeyInstancesDefaultPageNumberPagination as LicenseKeyInstancesDefaultPageNumberPagination,
     type LicenseKeyInstanceUpdateParams as LicenseKeyInstanceUpdateParams,
     type LicenseKeyInstanceListParams as LicenseKeyInstanceListParams,
   };

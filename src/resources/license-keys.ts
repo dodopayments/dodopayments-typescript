@@ -3,7 +3,7 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import * as LicenseKeysAPI from './license-keys';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class LicenseKeys extends APIResource {
   retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<LicenseKey> {
@@ -18,18 +18,26 @@ export class LicenseKeys extends APIResource {
     return this._client.patch(`/license_keys/${id}`, { body, ...options });
   }
 
-  list(query?: LicenseKeyListParams, options?: Core.RequestOptions): Core.APIPromise<LicenseKeyListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<LicenseKeyListResponse>;
+  list(
+    query?: LicenseKeyListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<LicenseKeysDefaultPageNumberPagination, LicenseKey>;
+  list(options?: Core.RequestOptions): Core.PagePromise<LicenseKeysDefaultPageNumberPagination, LicenseKey>;
   list(
     query: LicenseKeyListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<LicenseKeyListResponse> {
+  ): Core.PagePromise<LicenseKeysDefaultPageNumberPagination, LicenseKey> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/license_keys', { query, ...options });
+    return this._client.getAPIList('/license_keys', LicenseKeysDefaultPageNumberPagination, {
+      query,
+      ...options,
+    });
   }
 }
+
+export class LicenseKeysDefaultPageNumberPagination extends DefaultPageNumberPagination<LicenseKey> {}
 
 export interface LicenseKey {
   /**
@@ -93,14 +101,6 @@ export interface LicenseKey {
 
 export type LicenseKeyStatus = 'active' | 'expired' | 'disabled';
 
-export type LicenseKeyListResponse = Array<LicenseKeyListResponse.LicenseKeyListResponseItem>;
-
-export namespace LicenseKeyListResponse {
-  export interface LicenseKeyListResponseItem {
-    items: Array<LicenseKeysAPI.LicenseKey>;
-  }
-}
-
 export interface LicenseKeyUpdateParams {
   /**
    * The updated activation limit for the license key. Use `null` to remove the
@@ -121,21 +121,11 @@ export interface LicenseKeyUpdateParams {
   expires_at?: string | null;
 }
 
-export interface LicenseKeyListParams {
+export interface LicenseKeyListParams extends DefaultPageNumberPaginationParams {
   /**
    * Filter by customer ID
    */
   customer_id?: string | null;
-
-  /**
-   * Page number default is 0
-   */
-  page_number?: number | null;
-
-  /**
-   * Page size default is 10 max is 100
-   */
-  page_size?: number | null;
 
   /**
    * Filter by product ID
@@ -148,11 +138,13 @@ export interface LicenseKeyListParams {
   status?: LicenseKeyStatus | null;
 }
 
+LicenseKeys.LicenseKeysDefaultPageNumberPagination = LicenseKeysDefaultPageNumberPagination;
+
 export declare namespace LicenseKeys {
   export {
     type LicenseKey as LicenseKey,
     type LicenseKeyStatus as LicenseKeyStatus,
-    type LicenseKeyListResponse as LicenseKeyListResponse,
+    LicenseKeysDefaultPageNumberPagination as LicenseKeysDefaultPageNumberPagination,
     type LicenseKeyUpdateParams as LicenseKeyUpdateParams,
     type LicenseKeyListParams as LicenseKeyListParams,
   };
