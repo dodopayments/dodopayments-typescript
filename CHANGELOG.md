@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.14.0 (2025-04-11)
+
+Full Changelog: [v1.13.0...v1.14.0](https://github.com/dodopayments/dodopayments-node/compare/v1.13.0...v1.14.0)
+
+### Features
+
+* **api:** fixed license key pagination issues in openapi spec ([1dd780f](https://github.com/dodopayments/dodopayments-node/commit/1dd780f589eb52eb55f030b0c86a504d1b269fe6))
+* **api:** updated openapi spec ([b2d8c74](https://github.com/dodopayments/dodopayments-node/commit/b2d8c7434a63f075a2fcd802f6fbe1bf8e3c5187))
+
+
+### Bug Fixes
+
+* **mcp:** fix readEnv type error ([eea8bb0](https://github.com/dodopayments/dodopayments-node/commit/eea8bb0acf4df25b59f050497a6008ca88d839e2))
+* **mcp:** include all necessary env vars in client instantiation ([017dc59](https://github.com/dodopayments/dodopayments-node/commit/017dc5984977620c49fa37412493831fa0932121))
+* **mcp:** point homepage and repo for mcp package to the `packages/mcp-server` directory ([#116](https://github.com/dodopayments/dodopayments-node/issues/116)) ([1da6385](https://github.com/dodopayments/dodopayments-node/commit/1da63855b41b62dae90e7433ba382bab5a22412c))
+
+
+### Chores
+
+* **internal:** reduce CI branch coverage ([fffa272](https://github.com/dodopayments/dodopayments-node/commit/fffa27283218143b69abf7ce80c5b8dffe79837e))
+* **internal:** upload builds and expand CI branch coverage ([7191c27](https://github.com/dodopayments/dodopayments-node/commit/7191c2763ac1e7d57620d0d208576e792f144fb8))
+
 ## 1.13.0 (2025-04-08)
 
 Full Changelog: [v1.12.0...v1.13.0](https://github.com/dodopayments/dodopayments-node/compare/v1.12.0...v1.13.0)
