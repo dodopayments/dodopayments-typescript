@@ -63,26 +63,24 @@ Types:
 
 - <code><a href="./src/resources/license-keys.ts">LicenseKey</a></code>
 - <code><a href="./src/resources/license-keys.ts">LicenseKeyStatus</a></code>
-- <code><a href="./src/resources/license-keys.ts">LicenseKeyListResponse</a></code>
 
 Methods:
 
 - <code title="get /license_keys/{id}">client.licenseKeys.<a href="./src/resources/license-keys.ts">retrieve</a>(id) -> LicenseKey</code>
 - <code title="patch /license_keys/{id}">client.licenseKeys.<a href="./src/resources/license-keys.ts">update</a>(id, { ...params }) -> LicenseKey</code>
-- <code title="get /license_keys">client.licenseKeys.<a href="./src/resources/license-keys.ts">list</a>({ ...params }) -> LicenseKeyListResponse</code>
+- <code title="get /license_keys">client.licenseKeys.<a href="./src/resources/license-keys.ts">list</a>({ ...params }) -> LicenseKeysDefaultPageNumberPagination</code>
 
 # LicenseKeyInstances
 
 Types:
 
 - <code><a href="./src/resources/license-key-instances.ts">LicenseKeyInstance</a></code>
-- <code><a href="./src/resources/license-key-instances.ts">LicenseKeyInstanceListResponse</a></code>
 
 Methods:
 
 - <code title="get /license_key_instances/{id}">client.licenseKeyInstances.<a href="./src/resources/license-key-instances.ts">retrieve</a>(id) -> LicenseKeyInstance</code>
 - <code title="patch /license_key_instances/{id}">client.licenseKeyInstances.<a href="./src/resources/license-key-instances.ts">update</a>(id, { ...params }) -> LicenseKeyInstance</code>
-- <code title="get /license_key_instances">client.licenseKeyInstances.<a href="./src/resources/license-key-instances.ts">list</a>({ ...params }) -> LicenseKeyInstanceListResponse</code>
+- <code title="get /license_key_instances">client.licenseKeyInstances.<a href="./src/resources/license-key-instances.ts">list</a>({ ...params }) -> LicenseKeyInstancesDefaultPageNumberPagination</code>
 
 # Customers
 
