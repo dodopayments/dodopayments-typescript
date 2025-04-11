@@ -61,6 +61,8 @@ export class SubscriptionsDefaultPageNumberPagination extends DefaultPageNumberP
  * Response struct representing subscription details
  */
 export interface Subscription {
+  billing: PaymentsAPI.BillingAddress;
+
   /**
    * Timestamp when the subscription was created
    */
@@ -574,9 +576,13 @@ export namespace SubscriptionCreateParams {
 }
 
 export interface SubscriptionUpdateParams {
+  billing?: PaymentsAPI.BillingAddress | null;
+
   metadata?: Record<string, string> | null;
 
   status?: SubscriptionStatus | null;
+
+  tax_id?: string | null;
 }
 
 export interface SubscriptionListParams extends DefaultPageNumberPaginationParams {
