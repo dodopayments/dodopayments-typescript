@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.14.1 (2025-04-15)
+
+Full Changelog: [v1.14.0...v1.14.1](https://github.com/dodopayments/dodopayments-node/compare/v1.14.0...v1.14.1)
+
+### Chores
+
+* **client:** minor internal fixes ([1455033](https://github.com/dodopayments/dodopayments-node/commit/1455033373190788bcfd6548c267cb5a983c8ecd))
+
 ## 1.14.0 (2025-04-11)
 
 Full Changelog: [v1.13.0...v1.14.0](https://github.com/dodopayments/dodopayments-node/compare/v1.13.0...v1.14.0)
