@@ -1,4 +1,4 @@
 configured_endpoints: 44
 openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/dodo-payments%2Fdodo-payments-fb70c8d587b76b44c4cf26b2d845e49e477025abea2e0f1924d630fac9382320.yml
 openapi_spec_hash: ebbde07e351a61eec137dbc45e2f8ed3
-config_hash: d20491ff10e252228902391960864722
+config_hash: 9f4858f9dab12182c7756c17da228e64
