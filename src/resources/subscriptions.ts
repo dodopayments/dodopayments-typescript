@@ -371,6 +371,7 @@ export interface SubscriptionCreateParams {
     | 'sepa'
     | 'ach'
     | 'amazon_pay'
+    | 'afterpay_clearpay'
   > | null;
 
   billing_currency?:
