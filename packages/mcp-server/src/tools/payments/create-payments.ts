@@ -373,6 +373,7 @@ export const tool: Tool = {
             'sepa',
             'ach',
             'amazon_pay',
+            'afterpay_clearpay',
           ],
         },
       },
