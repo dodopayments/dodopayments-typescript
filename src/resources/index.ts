@@ -102,6 +102,7 @@ export {
   type SubscriptionCreateParams,
   type SubscriptionUpdateParams,
   type SubscriptionListParams,
+  type SubscriptionChangePlanParams,
   type SubscriptionChargeParams,
 } from './subscriptions';
 export {
