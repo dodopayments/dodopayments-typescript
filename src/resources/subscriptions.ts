@@ -46,6 +46,18 @@ export class Subscriptions extends APIResource {
     });
   }
 
+  changePlan(
+    subscriptionId: string,
+    body: SubscriptionChangePlanParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<void> {
+    return this._client.post(`/subscriptions/${subscriptionId}/change-plan`, {
+      body,
+      ...options,
+      headers: { Accept: '*/*', ...options?.headers },
+    });
+  }
+
   charge(
     subscriptionId: string,
     body: SubscriptionChargeParams,
@@ -614,6 +626,20 @@ export interface SubscriptionListParams extends DefaultPageNumberPaginationParam
   status?: SubscriptionStatus | null;
 }
 
+export interface SubscriptionChangePlanParams {
+  /**
+   * Unique identifier of the product to subscribe to
+   */
+  product_id: string;
+
+  proration_billing_mode: 'prorated_immediately';
+
+  /**
+   * Number of units to subscribe for. Must be at least 1.
+   */
+  quantity: number;
+}
+
 export interface SubscriptionChargeParams {
   /**
    * The product price. Represented in the lowest denomination of the currency (e.g.,
@@ -635,6 +661,7 @@ export declare namespace Subscriptions {
     type SubscriptionCreateParams as SubscriptionCreateParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionListParams as SubscriptionListParams,
+    type SubscriptionChangePlanParams as SubscriptionChangePlanParams,
     type SubscriptionChargeParams as SubscriptionChargeParams,
   };
 }

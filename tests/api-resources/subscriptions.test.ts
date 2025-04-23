@@ -108,6 +108,29 @@ describe('resource subscriptions', () => {
     ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
+  test('changePlan: only required params', async () => {
+    const responsePromise = client.subscriptions.changePlan('subscription_id', {
+      product_id: 'product_id',
+      proration_billing_mode: 'prorated_immediately',
+      quantity: 0,
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('changePlan: required and optional params', async () => {
+    const response = await client.subscriptions.changePlan('subscription_id', {
+      product_id: 'product_id',
+      proration_billing_mode: 'prorated_immediately',
+      quantity: 0,
+    });
+  });
+
   test('charge: only required params', async () => {
     const responsePromise = client.subscriptions.charge('subscription_id', { product_price: 0 });
     const rawResponse = await responsePromise.asResponse();
