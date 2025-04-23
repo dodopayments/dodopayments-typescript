@@ -220,7 +220,8 @@ export interface Subscription {
   metadata: Record<string, string>;
 
   /**
-   * Timestamp of the next scheduled billing
+   * Timestamp of the next scheduled billing. Indicates the end of current billing
+   * period
    */
   next_billing_date: string;
 
@@ -230,6 +231,11 @@ export interface Subscription {
   payment_frequency_count: number;
 
   payment_frequency_interval: TimeInterval;
+
+  /**
+   * Timestamp of the last payment. Indicates the start of current billing period
+   */
+  previous_billing_date: string;
 
   /**
    * Identifier of the product associated with this subscription
