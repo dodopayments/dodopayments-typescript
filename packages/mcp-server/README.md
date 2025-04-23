@@ -103,6 +103,7 @@ The following tools are available in this MCP server.
 - `retrieve_subscriptions` (`read`):
 - `update_subscriptions` (`write`):
 - `list_subscriptions` (`read`):
+- `change_plan_subscriptions` (`write`):
 - `charge_subscriptions` (`write`):
 
 ### Resource `invoices.payments`:
