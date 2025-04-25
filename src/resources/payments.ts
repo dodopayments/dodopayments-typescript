@@ -498,6 +498,13 @@ export interface Payment {
    */
   product_cart?: Array<Payment.ProductCart> | null;
 
+  /**
+   * This represents the portion of settlement_amount that corresponds to taxes
+   * collected. Especially relevant for adaptive pricing where the tax component must
+   * be tracked separately in your Dodo balance.
+   */
+  settlement_tax?: number | null;
+
   status?: IntentStatus | null;
 
   /**
