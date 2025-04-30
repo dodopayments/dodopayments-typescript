@@ -39,6 +39,11 @@ export const tool: Tool = {
         description: 'Page size default is 10 max is 100',
       },
       status: {
+        $ref: '#/$defs/subscription_status',
+      },
+    },
+    $defs: {
+      subscription_status: {
         type: 'string',
         enum: ['pending', 'active', 'on_hold', 'paused', 'cancelled', 'failed', 'expired'],
       },
@@ -46,8 +51,8 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: DodoPayments, args: any) => {
-  const { ...body } = args;
+export const handler = (client: DodoPayments, args: Record<string, unknown> | undefined) => {
+  const body = args as any;
   return client.subscriptions.list(body);
 };
 

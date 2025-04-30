@@ -26,8 +26,8 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: DodoPayments, args: any) => {
-  const { ...body } = args;
+export const handler = (client: DodoPayments, args: Record<string, unknown> | undefined) => {
+  const body = args as any;
   return client.licenses.activate(body);
 };
 

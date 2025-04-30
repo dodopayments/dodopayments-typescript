@@ -23,8 +23,8 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: DodoPayments, args: any) => {
-  const { webhook_event_id } = args;
+export const handler = (client: DodoPayments, args: Record<string, unknown> | undefined) => {
+  const { webhook_event_id, ...body } = args as any;
   return client.webhookEvents.retrieve(webhook_event_id);
 };
 

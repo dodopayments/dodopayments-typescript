@@ -22,8 +22,7 @@ export const tool: Tool = {
           'The discount amount.\n\n- If `discount_type` is **not** `percentage`, `amount` is in **USD cents**. For example, `100` means `$1.00`.\nOnly USD is allowed.\n- If `discount_type` **is** `percentage`, `amount` is in **basis points**. For example, `540` means `5.4%`.\n\nMust be at least 1.',
       },
       type: {
-        type: 'string',
-        enum: ['percentage'],
+        $ref: '#/$defs/discount_type',
       },
       code: {
         type: 'string',
@@ -50,11 +49,17 @@ export const tool: Tool = {
         description: 'How many times this discount can be used (if any).\nMust be >= 1 if provided.',
       },
     },
+    $defs: {
+      discount_type: {
+        type: 'string',
+        enum: ['percentage'],
+      },
+    },
   },
 };
 
-export const handler = (client: DodoPayments, args: any) => {
-  const { ...body } = args;
+export const handler = (client: DodoPayments, args: Record<string, unknown> | undefined) => {
+  const body = args as any;
   return client.discounts.create(body);
 };
 

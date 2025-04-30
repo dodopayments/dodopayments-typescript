@@ -44,18 +44,23 @@ export const tool: Tool = {
         },
       },
       type: {
-        type: 'string',
-        enum: ['percentage'],
+        $ref: '#/$defs/discount_type',
       },
       usage_limit: {
         type: 'integer',
       },
     },
+    $defs: {
+      discount_type: {
+        type: 'string',
+        enum: ['percentage'],
+      },
+    },
   },
 };
 
-export const handler = (client: DodoPayments, args: any) => {
-  const { discount_id, ...body } = args;
+export const handler = (client: DodoPayments, args: Record<string, unknown> | undefined) => {
+  const { discount_id, ...body } = args as any;
   return client.discounts.update(discount_id, body);
 };
 
