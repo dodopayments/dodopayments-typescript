@@ -19,8 +19,7 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: DodoPayments, args: any) => {
-  const {} = args;
+export const handler = (client: DodoPayments, args: Record<string, unknown> | undefined) => {
   return client.misc.listSupportedCountries();
 };
 

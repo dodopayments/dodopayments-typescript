@@ -33,6 +33,11 @@ export const tool: Tool = {
         description: 'Filter by product ID',
       },
       status: {
+        $ref: '#/$defs/license_key_status',
+      },
+    },
+    $defs: {
+      license_key_status: {
         type: 'string',
         enum: ['active', 'expired', 'disabled'],
       },
@@ -40,8 +45,8 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: DodoPayments, args: any) => {
-  const { ...body } = args;
+export const handler = (client: DodoPayments, args: Record<string, unknown> | undefined) => {
+  const body = args as any;
   return client.licenseKeys.list(body);
 };
 

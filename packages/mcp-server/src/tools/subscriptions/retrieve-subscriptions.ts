@@ -23,8 +23,8 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: DodoPayments, args: any) => {
-  const { subscription_id } = args;
+export const handler = (client: DodoPayments, args: Record<string, unknown> | undefined) => {
+  const { subscription_id, ...body } = args as any;
   return client.subscriptions.retrieve(subscription_id);
 };
 
