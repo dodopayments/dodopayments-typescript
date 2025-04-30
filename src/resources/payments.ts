@@ -132,6 +132,8 @@ export interface OneTimeProductCartItem {
 }
 
 export interface Payment {
+  billing: BillingAddress;
+
   /**
    * Identifier of the business associated with the payment
    */
