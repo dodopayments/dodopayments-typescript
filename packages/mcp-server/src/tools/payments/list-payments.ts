@@ -39,6 +39,15 @@ export const tool: Tool = {
         description: 'Page size default is 10 max is 100',
       },
       status: {
+        $ref: '#/$defs/intent_status',
+      },
+      subscription_id: {
+        type: 'string',
+        description: 'Filter by subscription id',
+      },
+    },
+    $defs: {
+      intent_status: {
         type: 'string',
         enum: [
           'succeeded',
@@ -54,16 +63,12 @@ export const tool: Tool = {
           'partially_captured_and_capturable',
         ],
       },
-      subscription_id: {
-        type: 'string',
-        description: 'Filter by subscription id',
-      },
     },
   },
 };
 
-export const handler = (client: DodoPayments, args: any) => {
-  const { ...body } = args;
+export const handler = (client: DodoPayments, args: Record<string, unknown> | undefined) => {
+  const body = args as any;
   return client.payments.list(body);
 };
 

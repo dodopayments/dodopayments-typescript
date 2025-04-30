@@ -39,6 +39,11 @@ export const tool: Tool = {
         description: 'Page size default is 10 max is 100',
       },
       status: {
+        $ref: '#/$defs/refund_status',
+      },
+    },
+    $defs: {
+      refund_status: {
         type: 'string',
         enum: ['succeeded', 'failed', 'pending', 'review'],
       },
@@ -46,8 +51,8 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: DodoPayments, args: any) => {
-  const { ...body } = args;
+export const handler = (client: DodoPayments, args: Record<string, unknown> | undefined) => {
+  const body = args as any;
   return client.refunds.list(body);
 };
 

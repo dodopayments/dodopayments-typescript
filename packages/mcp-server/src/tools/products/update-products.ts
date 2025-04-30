@@ -45,17 +45,7 @@ export const tool: Tool = {
           'Limit for the number of activations for the license key.\n\nOnly applicable if `license_key_enabled` is `true`. Represents the maximum number of times\nthe license key can be activated.',
       },
       license_key_duration: {
-        type: 'object',
-        properties: {
-          count: {
-            type: 'integer',
-          },
-          interval: {
-            type: 'string',
-            enum: ['Day', 'Week', 'Month', 'Year'],
-          },
-        },
-        required: ['count', 'interval'],
+        $ref: '#/$defs/license_key_duration',
       },
       license_key_enabled: {
         type: 'boolean',
@@ -65,6 +55,33 @@ export const tool: Tool = {
       name: {
         type: 'string',
         description: 'Name of the product, optional and must be at most 100 characters.',
+      },
+      price: {
+        $ref: '#/$defs/price',
+      },
+      tax_category: {
+        type: 'string',
+        description:
+          'Represents the different categories of taxation applicable to various products and services.',
+        enum: ['digital_products', 'saas', 'e_book', 'edtech'],
+      },
+    },
+    $defs: {
+      time_interval: {
+        type: 'string',
+        enum: ['Day', 'Week', 'Month', 'Year'],
+      },
+      license_key_duration: {
+        type: 'object',
+        properties: {
+          count: {
+            type: 'integer',
+          },
+          interval: {
+            $ref: '#/$defs/time_interval',
+          },
+        },
+        required: ['count', 'interval'],
       },
       price: {
         anyOf: [
@@ -421,7 +438,7 @@ export const tool: Tool = {
                   'Number of units for the payment frequency.\nFor example, a value of `1` with a `payment_frequency_interval` of `month` represents monthly payments.',
               },
               payment_frequency_interval: {
-                $ref: '#/properties/license_key_duration/interval',
+                $ref: '#/$defs/time_interval',
               },
               price: {
                 type: 'integer',
@@ -439,7 +456,7 @@ export const tool: Tool = {
                   'Number of units for the subscription period.\nFor example, a value of `12` with a `subscription_period_interval` of `month` represents a one-year subscription.',
               },
               subscription_period_interval: {
-                $ref: '#/properties/license_key_duration/interval',
+                $ref: '#/$defs/time_interval',
               },
               type: {
                 type: 'string',
@@ -468,18 +485,12 @@ export const tool: Tool = {
           },
         ],
       },
-      tax_category: {
-        type: 'string',
-        description:
-          'Represents the different categories of taxation applicable to various products and services.',
-        enum: ['digital_products', 'saas', 'e_book', 'edtech'],
-      },
     },
   },
 };
 
-export const handler = (client: DodoPayments, args: any) => {
-  const { id, ...body } = args;
+export const handler = (client: DodoPayments, args: Record<string, unknown> | undefined) => {
+  const { id, ...body } = args as any;
   return client.products.update(id, body);
 };
 

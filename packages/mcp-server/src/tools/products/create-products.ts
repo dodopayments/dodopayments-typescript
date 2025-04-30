@@ -17,6 +17,51 @@ export const tool: Tool = {
     type: 'object',
     properties: {
       price: {
+        $ref: '#/$defs/price',
+      },
+      tax_category: {
+        type: 'string',
+        description:
+          'Represents the different categories of taxation applicable to various products and services.',
+        enum: ['digital_products', 'saas', 'e_book', 'edtech'],
+      },
+      addons: {
+        type: 'array',
+        description: 'Addons available for subscription product',
+        items: {
+          type: 'string',
+        },
+      },
+      description: {
+        type: 'string',
+        description: 'Optional description of the product',
+      },
+      license_key_activation_message: {
+        type: 'string',
+        description: 'Optional message displayed during license key activation',
+      },
+      license_key_activations_limit: {
+        type: 'integer',
+        description: 'The number of times the license key can be activated.\nMust be 0 or greater',
+      },
+      license_key_duration: {
+        $ref: '#/$defs/license_key_duration',
+      },
+      license_key_enabled: {
+        type: 'boolean',
+        description: 'When true, generates and sends a license key to your customer.\nDefaults to false',
+      },
+      name: {
+        type: 'string',
+        description: 'Optional name of the product',
+      },
+    },
+    $defs: {
+      time_interval: {
+        type: 'string',
+        enum: ['Day', 'Week', 'Month', 'Year'],
+      },
+      price: {
         anyOf: [
           {
             type: 'object',
@@ -371,8 +416,7 @@ export const tool: Tool = {
                   'Number of units for the payment frequency.\nFor example, a value of `1` with a `payment_frequency_interval` of `month` represents monthly payments.',
               },
               payment_frequency_interval: {
-                type: 'string',
-                enum: ['Day', 'Week', 'Month', 'Year'],
+                $ref: '#/$defs/time_interval',
               },
               price: {
                 type: 'integer',
@@ -390,7 +434,7 @@ export const tool: Tool = {
                   'Number of units for the subscription period.\nFor example, a value of `12` with a `subscription_period_interval` of `month` represents a one-year subscription.',
               },
               subscription_period_interval: {
-                $ref: '#/properties/price/anyOf/1/payment_frequency_interval',
+                $ref: '#/$defs/time_interval',
               },
               type: {
                 type: 'string',
@@ -419,31 +463,6 @@ export const tool: Tool = {
           },
         ],
       },
-      tax_category: {
-        type: 'string',
-        description:
-          'Represents the different categories of taxation applicable to various products and services.',
-        enum: ['digital_products', 'saas', 'e_book', 'edtech'],
-      },
-      addons: {
-        type: 'array',
-        description: 'Addons available for subscription product',
-        items: {
-          type: 'string',
-        },
-      },
-      description: {
-        type: 'string',
-        description: 'Optional description of the product',
-      },
-      license_key_activation_message: {
-        type: 'string',
-        description: 'Optional message displayed during license key activation',
-      },
-      license_key_activations_limit: {
-        type: 'integer',
-        description: 'The number of times the license key can be activated.\nMust be 0 or greater',
-      },
       license_key_duration: {
         type: 'object',
         properties: {
@@ -451,25 +470,17 @@ export const tool: Tool = {
             type: 'integer',
           },
           interval: {
-            $ref: '#/properties/price/anyOf/1/payment_frequency_interval',
+            $ref: '#/$defs/time_interval',
           },
         },
         required: ['count', 'interval'],
-      },
-      license_key_enabled: {
-        type: 'boolean',
-        description: 'When true, generates and sends a license key to your customer.\nDefaults to false',
-      },
-      name: {
-        type: 'string',
-        description: 'Optional name of the product',
       },
     },
   },
 };
 
-export const handler = (client: DodoPayments, args: any) => {
-  const { ...body } = args;
+export const handler = (client: DodoPayments, args: Record<string, unknown> | undefined) => {
+  const body = args as any;
   return client.products.create(body);
 };
 
