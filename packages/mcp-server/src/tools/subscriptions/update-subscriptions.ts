@@ -22,6 +22,16 @@ export const tool: Tool = {
       billing: {
         $ref: '#/$defs/billing_address',
       },
+      disable_on_demand: {
+        type: 'object',
+        properties: {
+          next_billing_date: {
+            type: 'string',
+            format: 'date-time',
+          },
+        },
+        required: ['next_billing_date'],
+      },
       metadata: {
         type: 'object',
       },
