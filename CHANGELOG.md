@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.19.0 (2025-04-30)
+
+Full Changelog: [v1.18.3...v1.19.0](https://github.com/dodopayments/dodopayments-node/compare/v1.18.3...v1.19.0)
+
+### Features
+
+* **api:** manual updates ([14468c8](https://github.com/dodopayments/dodopayments-node/commit/14468c8512bbbc318608007aabce238a6d1f3a1d))
+* more gracefully handle $refs and work around schema limitations ([ad64648](https://github.com/dodopayments/dodopayments-node/commit/ad646482ce60d96ae082d795ba917959a516657a))
+
 ## 1.18.3 (2025-04-25)
 
 Full Changelog: [v1.18.1...v1.18.3](https://github.com/dodopayments/dodopayments-node/compare/v1.18.1...v1.18.3)
