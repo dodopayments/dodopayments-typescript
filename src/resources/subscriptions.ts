@@ -238,6 +238,11 @@ export interface Subscription {
   next_billing_date: string;
 
   /**
+   * Wether the subscription is on-demand or not
+   */
+  on_demand: boolean;
+
+  /**
    * Number of payment frequency intervals
    */
   payment_frequency_count: number;
@@ -597,11 +602,19 @@ export namespace SubscriptionCreateParams {
 export interface SubscriptionUpdateParams {
   billing?: PaymentsAPI.BillingAddress | null;
 
+  disable_on_demand?: SubscriptionUpdateParams.DisableOnDemand | null;
+
   metadata?: Record<string, string> | null;
 
   status?: SubscriptionStatus | null;
 
   tax_id?: string | null;
+}
+
+export namespace SubscriptionUpdateParams {
+  export interface DisableOnDemand {
+    next_billing_date: string;
+  }
 }
 
 export interface SubscriptionListParams extends DefaultPageNumberPaginationParams {
