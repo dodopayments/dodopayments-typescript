@@ -1,6 +1,15 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export {
+  AddonResponsesDefaultPageNumberPagination,
+  Addons,
+  type AddonResponse,
+  type AddonUpdateImagesResponse,
+  type AddonCreateParams,
+  type AddonUpdateParams,
+  type AddonListParams,
+} from './addons';
+export {
   CustomersDefaultPageNumberPagination,
   Customers,
   type Customer,
@@ -49,7 +58,13 @@ export {
   type LicenseDeactivateParams,
   type LicenseValidateParams,
 } from './licenses';
-export { Misc, type CountryCode, type MiscListSupportedCountriesResponse } from './misc';
+export {
+  Misc,
+  type CountryCode,
+  type Currency,
+  type TaxCategory,
+  type MiscListSupportedCountriesResponse,
+} from './misc';
 export {
   PaymentListResponsesDefaultPageNumberPagination,
   Payments,
@@ -92,12 +107,14 @@ export {
   type RefundListParams,
 } from './refunds';
 export {
-  SubscriptionsDefaultPageNumberPagination,
+  SubscriptionListResponsesDefaultPageNumberPagination,
   Subscriptions,
+  type AddonCartResponseItem,
   type Subscription,
   type SubscriptionStatus,
   type TimeInterval,
   type SubscriptionCreateResponse,
+  type SubscriptionListResponse,
   type SubscriptionChargeResponse,
   type SubscriptionCreateParams,
   type SubscriptionUpdateParams,

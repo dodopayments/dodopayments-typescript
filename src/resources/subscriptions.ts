@@ -3,6 +3,7 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
+import * as MiscAPI from './misc';
 import * as PaymentsAPI from './payments';
 import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
@@ -29,18 +30,18 @@ export class Subscriptions extends APIResource {
   list(
     query?: SubscriptionListParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<SubscriptionsDefaultPageNumberPagination, Subscription>;
+  ): Core.PagePromise<SubscriptionListResponsesDefaultPageNumberPagination, SubscriptionListResponse>;
   list(
     options?: Core.RequestOptions,
-  ): Core.PagePromise<SubscriptionsDefaultPageNumberPagination, Subscription>;
+  ): Core.PagePromise<SubscriptionListResponsesDefaultPageNumberPagination, SubscriptionListResponse>;
   list(
     query: SubscriptionListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<SubscriptionsDefaultPageNumberPagination, Subscription> {
+  ): Core.PagePromise<SubscriptionListResponsesDefaultPageNumberPagination, SubscriptionListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/subscriptions', SubscriptionsDefaultPageNumberPagination, {
+    return this._client.getAPIList('/subscriptions', SubscriptionListResponsesDefaultPageNumberPagination, {
       query,
       ...options,
     });
@@ -67,12 +68,26 @@ export class Subscriptions extends APIResource {
   }
 }
 
-export class SubscriptionsDefaultPageNumberPagination extends DefaultPageNumberPagination<Subscription> {}
+export class SubscriptionListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<SubscriptionListResponse> {}
+
+/**
+ * Response struct representing subscription details
+ */
+export interface AddonCartResponseItem {
+  addon_id: string;
+
+  quantity: number;
+}
 
 /**
  * Response struct representing subscription details
  */
 export interface Subscription {
+  /**
+   * Addons associated with this subscription
+   */
+  addons: Array<AddonCartResponseItem>;
+
   billing: PaymentsAPI.BillingAddress;
 
   /**
@@ -80,152 +95,7 @@ export interface Subscription {
    */
   created_at: string;
 
-  currency:
-    | 'AED'
-    | 'ALL'
-    | 'AMD'
-    | 'ANG'
-    | 'AOA'
-    | 'ARS'
-    | 'AUD'
-    | 'AWG'
-    | 'AZN'
-    | 'BAM'
-    | 'BBD'
-    | 'BDT'
-    | 'BGN'
-    | 'BHD'
-    | 'BIF'
-    | 'BMD'
-    | 'BND'
-    | 'BOB'
-    | 'BRL'
-    | 'BSD'
-    | 'BWP'
-    | 'BYN'
-    | 'BZD'
-    | 'CAD'
-    | 'CHF'
-    | 'CLP'
-    | 'CNY'
-    | 'COP'
-    | 'CRC'
-    | 'CUP'
-    | 'CVE'
-    | 'CZK'
-    | 'DJF'
-    | 'DKK'
-    | 'DOP'
-    | 'DZD'
-    | 'EGP'
-    | 'ETB'
-    | 'EUR'
-    | 'FJD'
-    | 'FKP'
-    | 'GBP'
-    | 'GEL'
-    | 'GHS'
-    | 'GIP'
-    | 'GMD'
-    | 'GNF'
-    | 'GTQ'
-    | 'GYD'
-    | 'HKD'
-    | 'HNL'
-    | 'HRK'
-    | 'HTG'
-    | 'HUF'
-    | 'IDR'
-    | 'ILS'
-    | 'INR'
-    | 'IQD'
-    | 'JMD'
-    | 'JOD'
-    | 'JPY'
-    | 'KES'
-    | 'KGS'
-    | 'KHR'
-    | 'KMF'
-    | 'KRW'
-    | 'KWD'
-    | 'KYD'
-    | 'KZT'
-    | 'LAK'
-    | 'LBP'
-    | 'LKR'
-    | 'LRD'
-    | 'LSL'
-    | 'LYD'
-    | 'MAD'
-    | 'MDL'
-    | 'MGA'
-    | 'MKD'
-    | 'MMK'
-    | 'MNT'
-    | 'MOP'
-    | 'MRU'
-    | 'MUR'
-    | 'MVR'
-    | 'MWK'
-    | 'MXN'
-    | 'MYR'
-    | 'MZN'
-    | 'NAD'
-    | 'NGN'
-    | 'NIO'
-    | 'NOK'
-    | 'NPR'
-    | 'NZD'
-    | 'OMR'
-    | 'PAB'
-    | 'PEN'
-    | 'PGK'
-    | 'PHP'
-    | 'PKR'
-    | 'PLN'
-    | 'PYG'
-    | 'QAR'
-    | 'RON'
-    | 'RSD'
-    | 'RUB'
-    | 'RWF'
-    | 'SAR'
-    | 'SBD'
-    | 'SCR'
-    | 'SEK'
-    | 'SGD'
-    | 'SHP'
-    | 'SLE'
-    | 'SLL'
-    | 'SOS'
-    | 'SRD'
-    | 'SSP'
-    | 'STN'
-    | 'SVC'
-    | 'SZL'
-    | 'THB'
-    | 'TND'
-    | 'TOP'
-    | 'TRY'
-    | 'TTD'
-    | 'TWD'
-    | 'TZS'
-    | 'UAH'
-    | 'UGX'
-    | 'USD'
-    | 'UYU'
-    | 'UZS'
-    | 'VES'
-    | 'VND'
-    | 'VUV'
-    | 'WST'
-    | 'XAF'
-    | 'XCD'
-    | 'XOF'
-    | 'XPF'
-    | 'YER'
-    | 'ZAR'
-    | 'ZMW';
+  currency: MiscAPI.Currency;
 
   customer: PaymentsAPI.CustomerLimitedDetails;
 
@@ -317,6 +187,11 @@ export type SubscriptionStatus =
 export type TimeInterval = 'Day' | 'Week' | 'Month' | 'Year';
 
 export interface SubscriptionCreateResponse {
+  /**
+   * Addons associated with this subscription
+   */
+  addons: Array<AddonCartResponseItem>;
+
   customer: PaymentsAPI.CustomerLimitedDetails;
 
   metadata: Record<string, string>;
@@ -349,6 +224,97 @@ export interface SubscriptionCreateResponse {
   payment_link?: string | null;
 }
 
+/**
+ * Response struct representing subscription details
+ */
+export interface SubscriptionListResponse {
+  billing: PaymentsAPI.BillingAddress;
+
+  /**
+   * Timestamp when the subscription was created
+   */
+  created_at: string;
+
+  currency: MiscAPI.Currency;
+
+  customer: PaymentsAPI.CustomerLimitedDetails;
+
+  metadata: Record<string, string>;
+
+  /**
+   * Timestamp of the next scheduled billing. Indicates the end of current billing
+   * period
+   */
+  next_billing_date: string;
+
+  /**
+   * Wether the subscription is on-demand or not
+   */
+  on_demand: boolean;
+
+  /**
+   * Number of payment frequency intervals
+   */
+  payment_frequency_count: number;
+
+  payment_frequency_interval: TimeInterval;
+
+  /**
+   * Timestamp of the last payment. Indicates the start of current billing period
+   */
+  previous_billing_date: string;
+
+  /**
+   * Identifier of the product associated with this subscription
+   */
+  product_id: string;
+
+  /**
+   * Number of units/items included in the subscription
+   */
+  quantity: number;
+
+  /**
+   * Amount charged before tax for each recurring payment in smallest currency unit
+   * (e.g. cents)
+   */
+  recurring_pre_tax_amount: number;
+
+  status: SubscriptionStatus;
+
+  /**
+   * Unique identifier for the subscription
+   */
+  subscription_id: string;
+
+  /**
+   * Number of subscription period intervals
+   */
+  subscription_period_count: number;
+
+  subscription_period_interval: TimeInterval;
+
+  /**
+   * Indicates if the recurring_pre_tax_amount is tax inclusive
+   */
+  tax_inclusive: boolean;
+
+  /**
+   * Number of days in the trial period (0 if no trial)
+   */
+  trial_period_days: number;
+
+  /**
+   * Cancelled timestamp if the subscription is cancelled
+   */
+  cancelled_at?: string | null;
+
+  /**
+   * The discount id if discount is applied
+   */
+  discount_id?: string | null;
+}
+
 export interface SubscriptionChargeResponse {
   payment_id: string;
 }
@@ -367,6 +333,11 @@ export interface SubscriptionCreateParams {
    * Number of units to subscribe for. Must be at least 1.
    */
   quantity: number;
+
+  /**
+   * Attach addons to this subscription
+   */
+  addons?: Array<SubscriptionCreateParams.Addon> | null;
 
   /**
    * List of payment methods allowed during checkout.
@@ -397,153 +368,7 @@ export interface SubscriptionCreateParams {
     | 'afterpay_clearpay'
   > | null;
 
-  billing_currency?:
-    | 'AED'
-    | 'ALL'
-    | 'AMD'
-    | 'ANG'
-    | 'AOA'
-    | 'ARS'
-    | 'AUD'
-    | 'AWG'
-    | 'AZN'
-    | 'BAM'
-    | 'BBD'
-    | 'BDT'
-    | 'BGN'
-    | 'BHD'
-    | 'BIF'
-    | 'BMD'
-    | 'BND'
-    | 'BOB'
-    | 'BRL'
-    | 'BSD'
-    | 'BWP'
-    | 'BYN'
-    | 'BZD'
-    | 'CAD'
-    | 'CHF'
-    | 'CLP'
-    | 'CNY'
-    | 'COP'
-    | 'CRC'
-    | 'CUP'
-    | 'CVE'
-    | 'CZK'
-    | 'DJF'
-    | 'DKK'
-    | 'DOP'
-    | 'DZD'
-    | 'EGP'
-    | 'ETB'
-    | 'EUR'
-    | 'FJD'
-    | 'FKP'
-    | 'GBP'
-    | 'GEL'
-    | 'GHS'
-    | 'GIP'
-    | 'GMD'
-    | 'GNF'
-    | 'GTQ'
-    | 'GYD'
-    | 'HKD'
-    | 'HNL'
-    | 'HRK'
-    | 'HTG'
-    | 'HUF'
-    | 'IDR'
-    | 'ILS'
-    | 'INR'
-    | 'IQD'
-    | 'JMD'
-    | 'JOD'
-    | 'JPY'
-    | 'KES'
-    | 'KGS'
-    | 'KHR'
-    | 'KMF'
-    | 'KRW'
-    | 'KWD'
-    | 'KYD'
-    | 'KZT'
-    | 'LAK'
-    | 'LBP'
-    | 'LKR'
-    | 'LRD'
-    | 'LSL'
-    | 'LYD'
-    | 'MAD'
-    | 'MDL'
-    | 'MGA'
-    | 'MKD'
-    | 'MMK'
-    | 'MNT'
-    | 'MOP'
-    | 'MRU'
-    | 'MUR'
-    | 'MVR'
-    | 'MWK'
-    | 'MXN'
-    | 'MYR'
-    | 'MZN'
-    | 'NAD'
-    | 'NGN'
-    | 'NIO'
-    | 'NOK'
-    | 'NPR'
-    | 'NZD'
-    | 'OMR'
-    | 'PAB'
-    | 'PEN'
-    | 'PGK'
-    | 'PHP'
-    | 'PKR'
-    | 'PLN'
-    | 'PYG'
-    | 'QAR'
-    | 'RON'
-    | 'RSD'
-    | 'RUB'
-    | 'RWF'
-    | 'SAR'
-    | 'SBD'
-    | 'SCR'
-    | 'SEK'
-    | 'SGD'
-    | 'SHP'
-    | 'SLE'
-    | 'SLL'
-    | 'SOS'
-    | 'SRD'
-    | 'SSP'
-    | 'STN'
-    | 'SVC'
-    | 'SZL'
-    | 'THB'
-    | 'TND'
-    | 'TOP'
-    | 'TRY'
-    | 'TTD'
-    | 'TWD'
-    | 'TZS'
-    | 'UAH'
-    | 'UGX'
-    | 'USD'
-    | 'UYU'
-    | 'UZS'
-    | 'VES'
-    | 'VND'
-    | 'VUV'
-    | 'WST'
-    | 'XAF'
-    | 'XCD'
-    | 'XOF'
-    | 'XPF'
-    | 'YER'
-    | 'ZAR'
-    | 'ZMW'
-    | null;
+  billing_currency?: MiscAPI.Currency | null;
 
   /**
    * Discount Code to apply to the subscription
@@ -583,6 +408,12 @@ export interface SubscriptionCreateParams {
 }
 
 export namespace SubscriptionCreateParams {
+  export interface Addon {
+    addon_id: string;
+
+    quantity: number;
+  }
+
   export interface OnDemand {
     /**
      * If set as True, does not perform any charge and only authorizes payment method
@@ -661,16 +492,19 @@ export interface SubscriptionChargeParams {
   product_price: number;
 }
 
-Subscriptions.SubscriptionsDefaultPageNumberPagination = SubscriptionsDefaultPageNumberPagination;
+Subscriptions.SubscriptionListResponsesDefaultPageNumberPagination =
+  SubscriptionListResponsesDefaultPageNumberPagination;
 
 export declare namespace Subscriptions {
   export {
+    type AddonCartResponseItem as AddonCartResponseItem,
     type Subscription as Subscription,
     type SubscriptionStatus as SubscriptionStatus,
     type TimeInterval as TimeInterval,
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
+    type SubscriptionListResponse as SubscriptionListResponse,
     type SubscriptionChargeResponse as SubscriptionChargeResponse,
-    SubscriptionsDefaultPageNumberPagination as SubscriptionsDefaultPageNumberPagination,
+    SubscriptionListResponsesDefaultPageNumberPagination as SubscriptionListResponsesDefaultPageNumberPagination,
     type SubscriptionCreateParams as SubscriptionCreateParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionListParams as SubscriptionListParams,
