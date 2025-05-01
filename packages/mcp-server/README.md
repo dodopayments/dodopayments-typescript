@@ -9,7 +9,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 You can run the MCP Server directly via `npx`:
 
 ```sh
-export DODO_PAYMENTS_API_KEY="My Bearer Token"
+export DODO_PAYMENTS_API_KEY="My API Key"
 npx -y dodopayments-mcp
 ```
 
@@ -27,7 +27,7 @@ For clients with a configuration JSON, it might look something like this:
       "command": "npx",
       "args": ["-y", "dodopayments-mcp", "--client=claude"],
       "env": {
-        "DODO_PAYMENTS_API_KEY": "My Bearer Token"
+        "DODO_PAYMENTS_API_KEY": "My API Key"
       }
     }
   }
@@ -235,3 +235,11 @@ The following tools are available in this MCP server.
 - `update_discounts` (`write`): PATCH /discounts/{discount_id}
 - `list_discounts` (`read`): GET /discounts
 - `delete_discounts` (`write`): DELETE /discounts/{discount_id}
+
+### Resource `addons`:
+
+- `create_addons` (`write`):
+- `retrieve_addons` (`read`):
+- `update_addons` (`write`):
+- `list_addons` (`read`):
+- `update_images_addons` (`write`):

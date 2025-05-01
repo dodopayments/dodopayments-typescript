@@ -4,7 +4,7 @@ import DodoPayments from 'dodopayments';
 import { Response } from 'node-fetch';
 
 const client = new DodoPayments({
-  bearerToken: 'My Bearer Token',
+  apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
@@ -31,6 +31,7 @@ describe('resource subscriptions', () => {
       customer: { customer_id: 'customer_id' },
       product_id: 'product_id',
       quantity: 0,
+      addons: [{ addon_id: 'addon_id', quantity: 0 }],
       allowed_payment_method_types: ['credit'],
       billing_currency: 'AED',
       discount_code: 'discount_code',
