@@ -23,10 +23,12 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/subscriptions.ts">AddonCartResponseItem</a></code>
 - <code><a href="./src/resources/subscriptions.ts">Subscription</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionStatus</a></code>
 - <code><a href="./src/resources/subscriptions.ts">TimeInterval</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionCreateResponse</a></code>
+- <code><a href="./src/resources/subscriptions.ts">SubscriptionListResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionChargeResponse</a></code>
 
 Methods:
@@ -34,7 +36,7 @@ Methods:
 - <code title="post /subscriptions">client.subscriptions.<a href="./src/resources/subscriptions.ts">create</a>({ ...params }) -> SubscriptionCreateResponse</code>
 - <code title="get /subscriptions/{subscription_id}">client.subscriptions.<a href="./src/resources/subscriptions.ts">retrieve</a>(subscriptionId) -> Subscription</code>
 - <code title="patch /subscriptions/{subscription_id}">client.subscriptions.<a href="./src/resources/subscriptions.ts">update</a>(subscriptionId, { ...params }) -> Subscription</code>
-- <code title="get /subscriptions">client.subscriptions.<a href="./src/resources/subscriptions.ts">list</a>({ ...params }) -> SubscriptionsDefaultPageNumberPagination</code>
+- <code title="get /subscriptions">client.subscriptions.<a href="./src/resources/subscriptions.ts">list</a>({ ...params }) -> SubscriptionListResponsesDefaultPageNumberPagination</code>
 - <code title="post /subscriptions/{subscription_id}/change-plan">client.subscriptions.<a href="./src/resources/subscriptions.ts">changePlan</a>(subscriptionId, { ...params }) -> void</code>
 - <code title="post /subscriptions/{subscription_id}/charge">client.subscriptions.<a href="./src/resources/subscriptions.ts">charge</a>(subscriptionId, { ...params }) -> SubscriptionChargeResponse</code>
 
@@ -183,6 +185,8 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/misc.ts">CountryCode</a></code>
+- <code><a href="./src/resources/misc.ts">Currency</a></code>
+- <code><a href="./src/resources/misc.ts">TaxCategory</a></code>
 - <code><a href="./src/resources/misc.ts">MiscListSupportedCountriesResponse</a></code>
 
 Methods:
@@ -203,3 +207,18 @@ Methods:
 - <code title="patch /discounts/{discount_id}">client.discounts.<a href="./src/resources/discounts.ts">update</a>(discountId, { ...params }) -> Discount</code>
 - <code title="get /discounts">client.discounts.<a href="./src/resources/discounts.ts">list</a>({ ...params }) -> DiscountsDefaultPageNumberPagination</code>
 - <code title="delete /discounts/{discount_id}">client.discounts.<a href="./src/resources/discounts.ts">delete</a>(discountId) -> void</code>
+
+# Addons
+
+Types:
+
+- <code><a href="./src/resources/addons.ts">AddonResponse</a></code>
+- <code><a href="./src/resources/addons.ts">AddonUpdateImagesResponse</a></code>
+
+Methods:
+
+- <code title="post /addons">client.addons.<a href="./src/resources/addons.ts">create</a>({ ...params }) -> AddonResponse</code>
+- <code title="get /addons/{id}">client.addons.<a href="./src/resources/addons.ts">retrieve</a>(id) -> AddonResponse</code>
+- <code title="patch /addons/{id}">client.addons.<a href="./src/resources/addons.ts">update</a>(id, { ...params }) -> AddonResponse</code>
+- <code title="get /addons">client.addons.<a href="./src/resources/addons.ts">list</a>({ ...params }) -> AddonResponsesDefaultPageNumberPagination</code>
+- <code title="put /addons/{id}/images">client.addons.<a href="./src/resources/addons.ts">updateImages</a>(id) -> AddonUpdateImagesResponse</code>

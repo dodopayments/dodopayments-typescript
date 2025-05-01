@@ -48,6 +48,11 @@ import retrieve_discounts from './discounts/retrieve-discounts';
 import update_discounts from './discounts/update-discounts';
 import list_discounts from './discounts/list-discounts';
 import delete_discounts from './discounts/delete-discounts';
+import create_addons from './addons/create-addons';
+import retrieve_addons from './addons/retrieve-addons';
+import update_addons from './addons/update-addons';
+import list_addons from './addons/list-addons';
+import update_images_addons from './addons/update-images-addons';
 
 export type HandlerFunction = (
   client: DodoPayments,
@@ -117,6 +122,11 @@ addEndpoint(retrieve_discounts);
 addEndpoint(update_discounts);
 addEndpoint(list_discounts);
 addEndpoint(delete_discounts);
+addEndpoint(create_addons);
+addEndpoint(retrieve_addons);
+addEndpoint(update_addons);
+addEndpoint(list_addons);
+addEndpoint(update_images_addons);
 
 export type Filter = {
   type: 'resource' | 'operation' | 'tag' | 'tool';

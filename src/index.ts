@@ -8,6 +8,15 @@ import { type DefaultPageNumberPaginationParams, DefaultPageNumberPaginationResp
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import {
+  AddonCreateParams,
+  AddonListParams,
+  AddonResponse,
+  AddonResponsesDefaultPageNumberPagination,
+  AddonUpdateImagesResponse,
+  AddonUpdateParams,
+  Addons,
+} from './resources/addons';
+import {
   Discount,
   DiscountCreateParams,
   DiscountListParams,
@@ -46,7 +55,13 @@ import {
   LicenseValidateResponse,
   Licenses,
 } from './resources/licenses';
-import { CountryCode, Misc, MiscListSupportedCountriesResponse } from './resources/misc';
+import {
+  CountryCode,
+  Currency,
+  Misc,
+  MiscListSupportedCountriesResponse,
+  TaxCategory,
+} from './resources/misc';
 import {
   AttachExistingCustomer,
   BillingAddress,
@@ -78,6 +93,7 @@ import {
   RefundsDefaultPageNumberPagination,
 } from './resources/refunds';
 import {
+  AddonCartResponseItem,
   Subscription,
   SubscriptionChangePlanParams,
   SubscriptionChargeParams,
@@ -85,10 +101,11 @@ import {
   SubscriptionCreateParams,
   SubscriptionCreateResponse,
   SubscriptionListParams,
+  SubscriptionListResponse,
+  SubscriptionListResponsesDefaultPageNumberPagination,
   SubscriptionStatus,
   SubscriptionUpdateParams,
   Subscriptions,
-  SubscriptionsDefaultPageNumberPagination,
   TimeInterval,
 } from './resources/subscriptions';
 import {
@@ -127,9 +144,9 @@ type Environment = keyof typeof environments;
 
 export interface ClientOptions {
   /**
-   * Bearer Token for API authentication
+   * Defaults to process.env['DODO_PAYMENTS_API_KEY'].
    */
-  bearerToken?: string | undefined;
+  apiKey?: string | undefined;
 
   /**
    * Specifies the environment to use for the API.
@@ -201,14 +218,14 @@ export interface ClientOptions {
  * API Client for interfacing with the Dodo Payments API.
  */
 export class DodoPayments extends Core.APIClient {
-  bearerToken: string;
+  apiKey: string;
 
   private _options: ClientOptions;
 
   /**
    * API Client for interfacing with the Dodo Payments API.
    *
-   * @param {string | undefined} [opts.bearerToken=process.env['DODO_PAYMENTS_API_KEY'] ?? undefined]
+   * @param {string | undefined} [opts.apiKey=process.env['DODO_PAYMENTS_API_KEY'] ?? undefined]
    * @param {Environment} [opts.environment=live_mode] - Specifies the environment URL to use for the API.
    * @param {string} [opts.baseURL=process.env['DODO_PAYMENTS_BASE_URL'] ?? https://live.dodopayments.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
@@ -220,17 +237,17 @@ export class DodoPayments extends Core.APIClient {
    */
   constructor({
     baseURL = Core.readEnv('DODO_PAYMENTS_BASE_URL'),
-    bearerToken = Core.readEnv('DODO_PAYMENTS_API_KEY'),
+    apiKey = Core.readEnv('DODO_PAYMENTS_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
-    if (bearerToken === undefined) {
+    if (apiKey === undefined) {
       throw new Errors.DodoPaymentsError(
-        "The DODO_PAYMENTS_API_KEY environment variable is missing or empty; either provide it, or instantiate the DodoPayments client with an bearerToken option, like new DodoPayments({ bearerToken: 'My Bearer Token' }).",
+        "The DODO_PAYMENTS_API_KEY environment variable is missing or empty; either provide it, or instantiate the DodoPayments client with an apiKey option, like new DodoPayments({ apiKey: 'My API Key' }).",
       );
     }
 
     const options: ClientOptions = {
-      bearerToken,
+      apiKey,
       ...opts,
       baseURL,
       environment: opts.environment ?? 'live_mode',
@@ -252,7 +269,7 @@ export class DodoPayments extends Core.APIClient {
 
     this._options = options;
 
-    this.bearerToken = bearerToken;
+    this.apiKey = apiKey;
   }
 
   payments: API.Payments = new API.Payments(this);
@@ -269,6 +286,7 @@ export class DodoPayments extends Core.APIClient {
   products: API.Products = new API.Products(this);
   misc: API.Misc = new API.Misc(this);
   discounts: API.Discounts = new API.Discounts(this);
+  addons: API.Addons = new API.Addons(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -282,7 +300,7 @@ export class DodoPayments extends Core.APIClient {
   }
 
   protected override authHeaders(opts: Core.FinalRequestOptions): Core.Headers {
-    return { Authorization: `Bearer ${this.bearerToken}` };
+    return { Authorization: `Bearer ${this.apiKey}` };
   }
 
   static DodoPayments = this;
@@ -310,7 +328,8 @@ DodoPayments.Payments = Payments;
 DodoPayments.PaymentListResponsesDefaultPageNumberPagination =
   PaymentListResponsesDefaultPageNumberPagination;
 DodoPayments.Subscriptions = Subscriptions;
-DodoPayments.SubscriptionsDefaultPageNumberPagination = SubscriptionsDefaultPageNumberPagination;
+DodoPayments.SubscriptionListResponsesDefaultPageNumberPagination =
+  SubscriptionListResponsesDefaultPageNumberPagination;
 DodoPayments.Invoices = Invoices;
 DodoPayments.Licenses = Licenses;
 DodoPayments.LicenseKeys = LicenseKeys;
@@ -333,6 +352,8 @@ DodoPayments.ProductListResponsesDefaultPageNumberPagination =
 DodoPayments.Misc = Misc;
 DodoPayments.Discounts = Discounts;
 DodoPayments.DiscountsDefaultPageNumberPagination = DiscountsDefaultPageNumberPagination;
+DodoPayments.Addons = Addons;
+DodoPayments.AddonResponsesDefaultPageNumberPagination = AddonResponsesDefaultPageNumberPagination;
 export declare namespace DodoPayments {
   export type RequestOptions = Core.RequestOptions;
 
@@ -361,12 +382,14 @@ export declare namespace DodoPayments {
 
   export {
     Subscriptions as Subscriptions,
+    type AddonCartResponseItem as AddonCartResponseItem,
     type Subscription as Subscription,
     type SubscriptionStatus as SubscriptionStatus,
     type TimeInterval as TimeInterval,
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
+    type SubscriptionListResponse as SubscriptionListResponse,
     type SubscriptionChargeResponse as SubscriptionChargeResponse,
-    SubscriptionsDefaultPageNumberPagination as SubscriptionsDefaultPageNumberPagination,
+    SubscriptionListResponsesDefaultPageNumberPagination as SubscriptionListResponsesDefaultPageNumberPagination,
     type SubscriptionCreateParams as SubscriptionCreateParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionListParams as SubscriptionListParams,
@@ -458,6 +481,8 @@ export declare namespace DodoPayments {
   export {
     Misc as Misc,
     type CountryCode as CountryCode,
+    type Currency as Currency,
+    type TaxCategory as TaxCategory,
     type MiscListSupportedCountriesResponse as MiscListSupportedCountriesResponse,
   };
 
@@ -469,6 +494,16 @@ export declare namespace DodoPayments {
     type DiscountCreateParams as DiscountCreateParams,
     type DiscountUpdateParams as DiscountUpdateParams,
     type DiscountListParams as DiscountListParams,
+  };
+
+  export {
+    Addons as Addons,
+    type AddonResponse as AddonResponse,
+    type AddonUpdateImagesResponse as AddonUpdateImagesResponse,
+    AddonResponsesDefaultPageNumberPagination as AddonResponsesDefaultPageNumberPagination,
+    type AddonCreateParams as AddonCreateParams,
+    type AddonUpdateParams as AddonUpdateParams,
+    type AddonListParams as AddonListParams,
   };
 }
 
