@@ -28,14 +28,13 @@ const client = new DodoPayments({
 });
 
 async function main() {
-  const subscription = await client.subscriptions.create({
+  const payment = await client.payments.create({
     billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
     customer: { customer_id: 'customer_id' },
-    product_id: 'product_id',
-    quantity: 0,
+    product_cart: [{ product_id: 'product_id', quantity: 0 }],
   });
 
-  console.log(subscription.subscription_id);
+  console.log(payment.payment_id);
 }
 
 main();
