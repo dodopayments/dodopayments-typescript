@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.20.0 (2025-05-01)
+
+Full Changelog: [v1.19.0...v1.20.0](https://github.com/dodopayments/dodopayments-node/compare/v1.19.0...v1.20.0)
+
+### Features
+
+* **api:** added addons ([1e02684](https://github.com/dodopayments/dodopayments-node/commit/1e02684522d2e02e95995880a99856106977e24e))
+* **api:** updated readme example ([eaa2425](https://github.com/dodopayments/dodopayments-node/commit/eaa24252f843775f237441d2371f22c8397057ef))
+* **api:** updated readme example ([5e589ad](https://github.com/dodopayments/dodopayments-node/commit/5e589ad233c6724dc29ca56d6a673dae5c7caf4a))
+
+
+### Documentation
+
+* **readme:** fix typo ([a3357ea](https://github.com/dodopayments/dodopayments-node/commit/a3357ea1d18caf29afef209a287e9b87a9d5da9a))
+
 ## 1.19.0 (2025-04-30)
 
 Full Changelog: [v1.18.3...v1.19.0](https://github.com/dodopayments/dodopayments-node/compare/v1.18.3...v1.19.0)
