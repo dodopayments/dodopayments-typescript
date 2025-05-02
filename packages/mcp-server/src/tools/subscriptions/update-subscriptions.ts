@@ -43,6 +43,31 @@ export const tool: Tool = {
       },
     },
     $defs: {
+      billing_address: {
+        type: 'object',
+        properties: {
+          city: {
+            type: 'string',
+            description: 'City name',
+          },
+          country: {
+            $ref: '#/$defs/country_code',
+          },
+          state: {
+            type: 'string',
+            description: 'State or province name',
+          },
+          street: {
+            type: 'string',
+            description: 'Street address including house number and unit/apartment if applicable',
+          },
+          zipcode: {
+            type: 'string',
+            description: 'Postal code or ZIP code',
+          },
+        },
+        required: ['city', 'country', 'state', 'street', 'zipcode'],
+      },
       country_code: {
         type: 'string',
         description: 'ISO country code alpha2 variant',
@@ -297,31 +322,6 @@ export const tool: Tool = {
           'ZM',
           'ZW',
         ],
-      },
-      billing_address: {
-        type: 'object',
-        properties: {
-          city: {
-            type: 'string',
-            description: 'City name',
-          },
-          country: {
-            $ref: '#/$defs/country_code',
-          },
-          state: {
-            type: 'string',
-            description: 'State or province name',
-          },
-          street: {
-            type: 'string',
-            description: 'Street address including house number and unit/apartment if applicable',
-          },
-          zipcode: {
-            type: 'string',
-            description: 'Postal code or ZIP code',
-          },
-        },
-        required: ['city', 'country', 'state', 'street', 'zipcode'],
       },
       subscription_status: {
         type: 'string',

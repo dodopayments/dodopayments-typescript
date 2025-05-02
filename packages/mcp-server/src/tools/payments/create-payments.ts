@@ -86,6 +86,31 @@ export const tool: Tool = {
       },
     },
     $defs: {
+      billing_address: {
+        type: 'object',
+        properties: {
+          city: {
+            type: 'string',
+            description: 'City name',
+          },
+          country: {
+            $ref: '#/$defs/country_code',
+          },
+          state: {
+            type: 'string',
+            description: 'State or province name',
+          },
+          street: {
+            type: 'string',
+            description: 'Street address including house number and unit/apartment if applicable',
+          },
+          zipcode: {
+            type: 'string',
+            description: 'Postal code or ZIP code',
+          },
+        },
+        required: ['city', 'country', 'state', 'street', 'zipcode'],
+      },
       country_code: {
         type: 'string',
         description: 'ISO country code alpha2 variant',
@@ -341,30 +366,15 @@ export const tool: Tool = {
           'ZW',
         ],
       },
-      billing_address: {
-        type: 'object',
-        properties: {
-          city: {
-            type: 'string',
-            description: 'City name',
+      customer_request: {
+        anyOf: [
+          {
+            $ref: '#/$defs/attach_existing_customer',
           },
-          country: {
-            $ref: '#/$defs/country_code',
+          {
+            $ref: '#/$defs/create_new_customer',
           },
-          state: {
-            type: 'string',
-            description: 'State or province name',
-          },
-          street: {
-            type: 'string',
-            description: 'Street address including house number and unit/apartment if applicable',
-          },
-          zipcode: {
-            type: 'string',
-            description: 'Postal code or ZIP code',
-          },
-        },
-        required: ['city', 'country', 'state', 'street', 'zipcode'],
+        ],
       },
       attach_existing_customer: {
         type: 'object',
@@ -396,16 +406,6 @@ export const tool: Tool = {
           },
         },
         required: ['email', 'name'],
-      },
-      customer_request: {
-        anyOf: [
-          {
-            $ref: '#/$defs/attach_existing_customer',
-          },
-          {
-            $ref: '#/$defs/create_new_customer',
-          },
-        ],
       },
       one_time_product_cart_item: {
         type: 'object',
