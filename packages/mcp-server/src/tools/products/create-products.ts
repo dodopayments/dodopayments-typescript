@@ -54,6 +54,114 @@ export const tool: Tool = {
       },
     },
     $defs: {
+      price: {
+        anyOf: [
+          {
+            type: 'object',
+            title: 'One Time Price',
+            properties: {
+              currency: {
+                $ref: '#/$defs/currency',
+              },
+              discount: {
+                type: 'number',
+                description: 'Discount applied to the price, represented as a percentage (0 to 100).',
+              },
+              price: {
+                type: 'integer',
+                description:
+                  'The payment amount, in the smallest denomination of the currency (e.g., cents for USD).\nFor example, to charge $1.00, pass `100`.\n\nIf [`pay_what_you_want`](Self::pay_what_you_want) is set to `true`, this field represents\nthe **minimum** amount the customer must pay.',
+              },
+              purchasing_power_parity: {
+                type: 'boolean',
+                description:
+                  'Indicates if purchasing power parity adjustments are applied to the price.\nPurchasing power parity feature is not available as of now.',
+              },
+              type: {
+                type: 'string',
+                enum: ['one_time_price'],
+              },
+              pay_what_you_want: {
+                type: 'boolean',
+                description:
+                  'Indicates whether the customer can pay any amount they choose.\nIf set to `true`, the [`price`](Self::price) field is the minimum amount.',
+              },
+              suggested_price: {
+                type: 'integer',
+                description:
+                  'A suggested price for the user to pay. This value is only considered if\n[`pay_what_you_want`](Self::pay_what_you_want) is `true`. Otherwise, it is ignored.',
+              },
+              tax_inclusive: {
+                type: 'boolean',
+                description: 'Indicates if the price is tax inclusive.',
+              },
+            },
+            required: ['currency', 'discount', 'price', 'purchasing_power_parity', 'type'],
+          },
+          {
+            type: 'object',
+            title: 'Recurring Price',
+            properties: {
+              currency: {
+                $ref: '#/$defs/currency',
+              },
+              discount: {
+                type: 'number',
+                description: 'Discount applied to the price, represented as a percentage (0 to 100).',
+              },
+              payment_frequency_count: {
+                type: 'integer',
+                description:
+                  'Number of units for the payment frequency.\nFor example, a value of `1` with a `payment_frequency_interval` of `month` represents monthly payments.',
+              },
+              payment_frequency_interval: {
+                $ref: '#/$defs/time_interval',
+              },
+              price: {
+                type: 'integer',
+                description:
+                  'The payment amount. Represented in the lowest denomination of the currency (e.g., cents for USD).\nFor example, to charge $1.00, pass `100`.',
+              },
+              purchasing_power_parity: {
+                type: 'boolean',
+                description:
+                  'Indicates if purchasing power parity adjustments are applied to the price.\nPurchasing power parity feature is not available as of now',
+              },
+              subscription_period_count: {
+                type: 'integer',
+                description:
+                  'Number of units for the subscription period.\nFor example, a value of `12` with a `subscription_period_interval` of `month` represents a one-year subscription.',
+              },
+              subscription_period_interval: {
+                $ref: '#/$defs/time_interval',
+              },
+              type: {
+                type: 'string',
+                enum: ['recurring_price'],
+              },
+              tax_inclusive: {
+                type: 'boolean',
+                description: 'Indicates if the price is tax inclusive',
+              },
+              trial_period_days: {
+                type: 'integer',
+                description: 'Number of days for the trial period. A value of `0` indicates no trial period.',
+              },
+            },
+            required: [
+              'currency',
+              'discount',
+              'payment_frequency_count',
+              'payment_frequency_interval',
+              'price',
+              'purchasing_power_parity',
+              'subscription_period_count',
+              'subscription_period_interval',
+              'type',
+            ],
+          },
+        ],
+      },
       currency: {
         type: 'string',
         enum: [
@@ -207,114 +315,6 @@ export const tool: Tool = {
       time_interval: {
         type: 'string',
         enum: ['Day', 'Week', 'Month', 'Year'],
-      },
-      price: {
-        anyOf: [
-          {
-            type: 'object',
-            title: 'One Time Price',
-            properties: {
-              currency: {
-                $ref: '#/$defs/currency',
-              },
-              discount: {
-                type: 'number',
-                description: 'Discount applied to the price, represented as a percentage (0 to 100).',
-              },
-              price: {
-                type: 'integer',
-                description:
-                  'The payment amount, in the smallest denomination of the currency (e.g., cents for USD).\nFor example, to charge $1.00, pass `100`.\n\nIf [`pay_what_you_want`](Self::pay_what_you_want) is set to `true`, this field represents\nthe **minimum** amount the customer must pay.',
-              },
-              purchasing_power_parity: {
-                type: 'boolean',
-                description:
-                  'Indicates if purchasing power parity adjustments are applied to the price.\nPurchasing power parity feature is not available as of now.',
-              },
-              type: {
-                type: 'string',
-                enum: ['one_time_price'],
-              },
-              pay_what_you_want: {
-                type: 'boolean',
-                description:
-                  'Indicates whether the customer can pay any amount they choose.\nIf set to `true`, the [`price`](Self::price) field is the minimum amount.',
-              },
-              suggested_price: {
-                type: 'integer',
-                description:
-                  'A suggested price for the user to pay. This value is only considered if\n[`pay_what_you_want`](Self::pay_what_you_want) is `true`. Otherwise, it is ignored.',
-              },
-              tax_inclusive: {
-                type: 'boolean',
-                description: 'Indicates if the price is tax inclusive.',
-              },
-            },
-            required: ['currency', 'discount', 'price', 'purchasing_power_parity', 'type'],
-          },
-          {
-            type: 'object',
-            title: 'Recurring Price',
-            properties: {
-              currency: {
-                $ref: '#/$defs/currency',
-              },
-              discount: {
-                type: 'number',
-                description: 'Discount applied to the price, represented as a percentage (0 to 100).',
-              },
-              payment_frequency_count: {
-                type: 'integer',
-                description:
-                  'Number of units for the payment frequency.\nFor example, a value of `1` with a `payment_frequency_interval` of `month` represents monthly payments.',
-              },
-              payment_frequency_interval: {
-                $ref: '#/$defs/time_interval',
-              },
-              price: {
-                type: 'integer',
-                description:
-                  'The payment amount. Represented in the lowest denomination of the currency (e.g., cents for USD).\nFor example, to charge $1.00, pass `100`.',
-              },
-              purchasing_power_parity: {
-                type: 'boolean',
-                description:
-                  'Indicates if purchasing power parity adjustments are applied to the price.\nPurchasing power parity feature is not available as of now',
-              },
-              subscription_period_count: {
-                type: 'integer',
-                description:
-                  'Number of units for the subscription period.\nFor example, a value of `12` with a `subscription_period_interval` of `month` represents a one-year subscription.',
-              },
-              subscription_period_interval: {
-                $ref: '#/$defs/time_interval',
-              },
-              type: {
-                type: 'string',
-                enum: ['recurring_price'],
-              },
-              tax_inclusive: {
-                type: 'boolean',
-                description: 'Indicates if the price is tax inclusive',
-              },
-              trial_period_days: {
-                type: 'integer',
-                description: 'Number of days for the trial period. A value of `0` indicates no trial period.',
-              },
-            },
-            required: [
-              'currency',
-              'discount',
-              'payment_frequency_count',
-              'payment_frequency_interval',
-              'price',
-              'purchasing_power_parity',
-              'subscription_period_count',
-              'subscription_period_interval',
-              'type',
-            ],
-          },
-        ],
       },
       tax_category: {
         type: 'string',
