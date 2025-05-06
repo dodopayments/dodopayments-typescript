@@ -9,7 +9,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 You can run the MCP Server directly via `npx`:
 
 ```sh
-export DODO_PAYMENTS_API_KEY="My API Key"
+export DODO_PAYMENTS_API_KEY="My Bearer Token"
 npx -y dodopayments-mcp
 ```
 
@@ -27,7 +27,7 @@ For clients with a configuration JSON, it might look something like this:
       "command": "npx",
       "args": ["-y", "dodopayments-mcp", "--client=claude"],
       "env": {
-        "DODO_PAYMENTS_API_KEY": "My API Key"
+        "DODO_PAYMENTS_API_KEY": "My Bearer Token"
       }
     }
   }

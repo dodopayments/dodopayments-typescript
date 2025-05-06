@@ -23,7 +23,7 @@ describe('instantiate client', () => {
     const client = new DodoPayments({
       baseURL: 'http://localhost:5000/',
       defaultHeaders: { 'X-My-Default-Header': '2' },
-      apiKey: 'My API Key',
+      bearerToken: 'My Bearer Token',
     });
 
     test('they are used in the request', () => {
@@ -55,7 +55,7 @@ describe('instantiate client', () => {
       const client = new DodoPayments({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo' },
-        apiKey: 'My API Key',
+        bearerToken: 'My Bearer Token',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/foo?apiVersion=foo');
     });
@@ -64,7 +64,7 @@ describe('instantiate client', () => {
       const client = new DodoPayments({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo', hello: 'world' },
-        apiKey: 'My API Key',
+        bearerToken: 'My Bearer Token',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/foo?apiVersion=foo&hello=world');
     });
@@ -73,7 +73,7 @@ describe('instantiate client', () => {
       const client = new DodoPayments({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { hello: 'world' },
-        apiKey: 'My API Key',
+        bearerToken: 'My Bearer Token',
       });
       expect(client.buildURL('/foo', { hello: undefined })).toEqual('http://localhost:5000/foo');
     });
@@ -82,7 +82,7 @@ describe('instantiate client', () => {
   test('custom fetch', async () => {
     const client = new DodoPayments({
       baseURL: 'http://localhost:5000/',
-      apiKey: 'My API Key',
+      bearerToken: 'My Bearer Token',
       fetch: (url) => {
         return Promise.resolve(
           new Response(JSON.stringify({ url, custom: true }), {
@@ -100,7 +100,7 @@ describe('instantiate client', () => {
     // make sure the global fetch type is assignable to our Fetch type
     const client = new DodoPayments({
       baseURL: 'http://localhost:5000/',
-      apiKey: 'My API Key',
+      bearerToken: 'My Bearer Token',
       fetch: defaultFetch,
     });
   });
@@ -108,7 +108,7 @@ describe('instantiate client', () => {
   test('custom signal', async () => {
     const client = new DodoPayments({
       baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-      apiKey: 'My API Key',
+      bearerToken: 'My Bearer Token',
       fetch: (...args) => {
         return new Promise((resolve, reject) =>
           setTimeout(
@@ -140,7 +140,7 @@ describe('instantiate client', () => {
 
     const client = new DodoPayments({
       baseURL: 'http://localhost:5000/',
-      apiKey: 'My API Key',
+      bearerToken: 'My Bearer Token',
       fetch: testFetch,
     });
 
@@ -152,13 +152,16 @@ describe('instantiate client', () => {
     test('trailing slash', () => {
       const client = new DodoPayments({
         baseURL: 'http://localhost:5000/custom/path/',
-        apiKey: 'My API Key',
+        bearerToken: 'My Bearer Token',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
 
     test('no trailing slash', () => {
-      const client = new DodoPayments({ baseURL: 'http://localhost:5000/custom/path', apiKey: 'My API Key' });
+      const client = new DodoPayments({
+        baseURL: 'http://localhost:5000/custom/path',
+        bearerToken: 'My Bearer Token',
+      });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
 
@@ -167,25 +170,25 @@ describe('instantiate client', () => {
     });
 
     test('explicit option', () => {
-      const client = new DodoPayments({ baseURL: 'https://example.com', apiKey: 'My API Key' });
+      const client = new DodoPayments({ baseURL: 'https://example.com', bearerToken: 'My Bearer Token' });
       expect(client.baseURL).toEqual('https://example.com');
     });
 
     test('env variable', () => {
       process.env['DODO_PAYMENTS_BASE_URL'] = 'https://example.com/from_env';
-      const client = new DodoPayments({ apiKey: 'My API Key' });
+      const client = new DodoPayments({ bearerToken: 'My Bearer Token' });
       expect(client.baseURL).toEqual('https://example.com/from_env');
     });
 
     test('empty env variable', () => {
       process.env['DODO_PAYMENTS_BASE_URL'] = ''; // empty
-      const client = new DodoPayments({ apiKey: 'My API Key' });
+      const client = new DodoPayments({ bearerToken: 'My Bearer Token' });
       expect(client.baseURL).toEqual('https://live.dodopayments.com');
     });
 
     test('blank env variable', () => {
       process.env['DODO_PAYMENTS_BASE_URL'] = '  '; // blank
-      const client = new DodoPayments({ apiKey: 'My API Key' });
+      const client = new DodoPayments({ bearerToken: 'My Bearer Token' });
       expect(client.baseURL).toEqual('https://live.dodopayments.com');
     });
 
@@ -193,42 +196,46 @@ describe('instantiate client', () => {
       process.env['DODO_PAYMENTS_BASE_URL'] = 'https://example.com/from_env';
 
       expect(
-        () => new DodoPayments({ apiKey: 'My API Key', environment: 'live_mode' }),
+        () => new DodoPayments({ bearerToken: 'My Bearer Token', environment: 'live_mode' }),
       ).toThrowErrorMatchingInlineSnapshot(
         `"Ambiguous URL; The \`baseURL\` option (or DODO_PAYMENTS_BASE_URL env var) and the \`environment\` option are given. If you want to use the environment you must pass baseURL: null"`,
       );
 
-      const client = new DodoPayments({ apiKey: 'My API Key', baseURL: null, environment: 'live_mode' });
+      const client = new DodoPayments({
+        bearerToken: 'My Bearer Token',
+        baseURL: null,
+        environment: 'live_mode',
+      });
       expect(client.baseURL).toEqual('https://live.dodopayments.com');
     });
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new DodoPayments({ maxRetries: 4, apiKey: 'My API Key' });
+    const client = new DodoPayments({ maxRetries: 4, bearerToken: 'My Bearer Token' });
     expect(client.maxRetries).toEqual(4);
 
     // default
-    const client2 = new DodoPayments({ apiKey: 'My API Key' });
+    const client2 = new DodoPayments({ bearerToken: 'My Bearer Token' });
     expect(client2.maxRetries).toEqual(2);
   });
 
   test('with environment variable arguments', () => {
     // set options via env var
-    process.env['DODO_PAYMENTS_API_KEY'] = 'My API Key';
+    process.env['DODO_PAYMENTS_API_KEY'] = 'My Bearer Token';
     const client = new DodoPayments();
-    expect(client.apiKey).toBe('My API Key');
+    expect(client.bearerToken).toBe('My Bearer Token');
   });
 
   test('with overridden environment variable arguments', () => {
     // set options via env var
-    process.env['DODO_PAYMENTS_API_KEY'] = 'another My API Key';
-    const client = new DodoPayments({ apiKey: 'My API Key' });
-    expect(client.apiKey).toBe('My API Key');
+    process.env['DODO_PAYMENTS_API_KEY'] = 'another My Bearer Token';
+    const client = new DodoPayments({ bearerToken: 'My Bearer Token' });
+    expect(client.bearerToken).toBe('My Bearer Token');
   });
 });
 
 describe('request building', () => {
-  const client = new DodoPayments({ apiKey: 'My API Key' });
+  const client = new DodoPayments({ bearerToken: 'My Bearer Token' });
 
   describe('Content-Length', () => {
     test('handles multi-byte characters', () => {
@@ -270,7 +277,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new DodoPayments({ apiKey: 'My API Key', timeout: 10, fetch: testFetch });
+    const client = new DodoPayments({ bearerToken: 'My Bearer Token', timeout: 10, fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -300,7 +307,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new DodoPayments({ apiKey: 'My API Key', fetch: testFetch, maxRetries: 4 });
+    const client = new DodoPayments({ bearerToken: 'My Bearer Token', fetch: testFetch, maxRetries: 4 });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
 
@@ -324,7 +331,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new DodoPayments({ apiKey: 'My API Key', fetch: testFetch, maxRetries: 4 });
+    const client = new DodoPayments({ bearerToken: 'My Bearer Token', fetch: testFetch, maxRetries: 4 });
 
     expect(
       await client.request({
@@ -354,7 +361,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
     const client = new DodoPayments({
-      apiKey: 'My API Key',
+      bearerToken: 'My Bearer Token',
       fetch: testFetch,
       maxRetries: 4,
       defaultHeaders: { 'X-Stainless-Retry-Count': null },
@@ -386,7 +393,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new DodoPayments({ apiKey: 'My API Key', fetch: testFetch, maxRetries: 4 });
+    const client = new DodoPayments({ bearerToken: 'My Bearer Token', fetch: testFetch, maxRetries: 4 });
 
     expect(
       await client.request({
@@ -413,7 +420,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new DodoPayments({ apiKey: 'My API Key', fetch: testFetch });
+    const client = new DodoPayments({ bearerToken: 'My Bearer Token', fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -440,7 +447,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new DodoPayments({ apiKey: 'My API Key', fetch: testFetch });
+    const client = new DodoPayments({ bearerToken: 'My Bearer Token', fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
