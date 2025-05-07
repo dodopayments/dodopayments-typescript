@@ -5,6 +5,15 @@ import * as Core from '../core';
 import * as LicenseKeyInstancesAPI from './license-key-instances';
 
 export class Licenses extends APIResource {
+  /**
+   * @example
+   * ```ts
+   * const licenseKeyInstance = await client.licenses.activate({
+   *   license_key: 'license_key',
+   *   name: 'name',
+   * });
+   * ```
+   */
   activate(
     body: LicenseActivateParams,
     options?: Core.RequestOptions,
@@ -12,6 +21,15 @@ export class Licenses extends APIResource {
     return this._client.post('/licenses/activate', { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * await client.licenses.deactivate({
+   *   license_key: 'license_key',
+   *   license_key_instance_id: 'license_key_instance_id',
+   * });
+   * ```
+   */
   deactivate(body: LicenseDeactivateParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.post('/licenses/deactivate', {
       body,
@@ -20,6 +38,14 @@ export class Licenses extends APIResource {
     });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const response = await client.licenses.validate({
+   *   license_key: '2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43',
+   * });
+   * ```
+   */
   validate(
     body: LicenseValidateParams,
     options?: Core.RequestOptions,
