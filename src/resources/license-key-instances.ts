@@ -6,10 +6,26 @@ import * as Core from '../core';
 import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class LicenseKeyInstances extends APIResource {
+  /**
+   * @example
+   * ```ts
+   * const licenseKeyInstance =
+   *   await client.licenseKeyInstances.retrieve('lki_123');
+   * ```
+   */
   retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<LicenseKeyInstance> {
     return this._client.get(`/license_key_instances/${id}`, options);
   }
 
+  /**
+   * @example
+   * ```ts
+   * const licenseKeyInstance =
+   *   await client.licenseKeyInstances.update('lki_123', {
+   *     name: 'name',
+   *   });
+   * ```
+   */
   update(
     id: string,
     body: LicenseKeyInstanceUpdateParams,
@@ -18,6 +34,15 @@ export class LicenseKeyInstances extends APIResource {
     return this._client.patch(`/license_key_instances/${id}`, { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const licenseKeyInstance of client.licenseKeyInstances.list()) {
+   *   // ...
+   * }
+   * ```
+   */
   list(
     query?: LicenseKeyInstanceListParams,
     options?: Core.RequestOptions,
