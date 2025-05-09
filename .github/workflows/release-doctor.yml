@@ -18,6 +18,5 @@ jobs:
         run: |
           bash ./bin/check-release-environment
         env:
-          STAINLESS_API_KEY: ${{ secrets.STAINLESS_API_KEY }}
           NPM_TOKEN: ${{ secrets.DODO_PAYMENTS_NPM_TOKEN || secrets.NPM_TOKEN }}
 

@@ -28,11 +28,13 @@ export {
   type DiscountListParams,
 } from './discounts';
 export {
-  DisputesDefaultPageNumberPagination,
+  DisputeListResponsesDefaultPageNumberPagination,
   Disputes,
   type Dispute,
   type DisputeStage,
   type DisputeStatus,
+  type DisputeRetrieveResponse,
+  type DisputeListResponse,
   type DisputeListParams,
 } from './disputes';
 export { Invoices } from './invoices/invoices';
