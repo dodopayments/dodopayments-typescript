@@ -46,7 +46,7 @@ Methods:
 
 Methods:
 
-- <code title="get /invoices/payments/{payment_id}">client.invoices.payments.<a href="./src/resources/invoices/payments.ts">retrieve</a>(paymentId) -> void</code>
+- <code title="get /invoices/payments/{payment_id}">client.invoices.payments.<a href="./src/resources/invoices/payments.ts">retrieve</a>(paymentId) -> Response</code>
 
 # Licenses
 
@@ -125,11 +125,13 @@ Types:
 - <code><a href="./src/resources/disputes.ts">Dispute</a></code>
 - <code><a href="./src/resources/disputes.ts">DisputeStage</a></code>
 - <code><a href="./src/resources/disputes.ts">DisputeStatus</a></code>
+- <code><a href="./src/resources/disputes.ts">DisputeRetrieveResponse</a></code>
+- <code><a href="./src/resources/disputes.ts">DisputeListResponse</a></code>
 
 Methods:
 
-- <code title="get /disputes/{dispute_id}">client.disputes.<a href="./src/resources/disputes.ts">retrieve</a>(disputeId) -> Dispute</code>
-- <code title="get /disputes">client.disputes.<a href="./src/resources/disputes.ts">list</a>({ ...params }) -> DisputesDefaultPageNumberPagination</code>
+- <code title="get /disputes/{dispute_id}">client.disputes.<a href="./src/resources/disputes.ts">retrieve</a>(disputeId) -> DisputeRetrieveResponse</code>
+- <code title="get /disputes">client.disputes.<a href="./src/resources/disputes.ts">list</a>({ ...params }) -> DisputeListResponsesDefaultPageNumberPagination</code>
 
 # Payouts
 

@@ -181,6 +181,26 @@ export interface Payment {
   total_amount: number;
 
   /**
+   * ISO country code alpha2 variant
+   */
+  card_issuing_country?: MiscAPI.CountryCode | null;
+
+  /**
+   * The last four digits of the card
+   */
+  card_last_four?: string | null;
+
+  /**
+   * Card network like VISA, MASTERCARD etc.
+   */
+  card_network?: string | null;
+
+  /**
+   * The type of card DEBIT or CREDIT
+   */
+  card_type?: string | null;
+
+  /**
    * The discount id if discount is applied
    */
   discount_id?: string | null;

@@ -31,6 +31,22 @@ export const tool: Tool = {
         type: 'integer',
         description: 'Number of units to subscribe for. Must be at least 1.',
       },
+      addons: {
+        type: 'array',
+        description: 'Addons for the new plan.\nNote : Leaving this empty would remove any existing addons',
+        items: {
+          type: 'object',
+          properties: {
+            addon_id: {
+              type: 'string',
+            },
+            quantity: {
+              type: 'integer',
+            },
+          },
+          required: ['addon_id', 'quantity'],
+        },
+      },
     },
   },
 };

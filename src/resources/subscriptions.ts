@@ -482,6 +482,20 @@ export interface SubscriptionChangePlanParams {
    * Number of units to subscribe for. Must be at least 1.
    */
   quantity: number;
+
+  /**
+   * Addons for the new plan. Note : Leaving this empty would remove any existing
+   * addons
+   */
+  addons?: Array<SubscriptionChangePlanParams.Addon> | null;
+}
+
+export namespace SubscriptionChangePlanParams {
+  export interface Addon {
+    addon_id: string;
+
+    quantity: number;
+  }
 }
 
 export interface SubscriptionChargeParams {
