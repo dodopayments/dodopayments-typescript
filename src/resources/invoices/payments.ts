@@ -2,12 +2,14 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
+import { type Response } from '../../_shims/index';
 
 export class Payments extends APIResource {
-  retrieve(paymentId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
+  retrieve(paymentId: string, options?: Core.RequestOptions): Core.APIPromise<Response> {
     return this._client.get(`/invoices/payments/${paymentId}`, {
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: { Accept: 'application/pdf', ...options?.headers },
+      __binaryResponse: true,
     });
   }
 }

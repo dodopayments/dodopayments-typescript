@@ -129,6 +129,7 @@ describe('resource subscriptions', () => {
       product_id: 'product_id',
       proration_billing_mode: 'prorated_immediately',
       quantity: 0,
+      addons: [{ addon_id: 'addon_id', quantity: 0 }],
     });
   });
 

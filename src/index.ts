@@ -28,10 +28,12 @@ import {
 import {
   Dispute,
   DisputeListParams,
+  DisputeListResponse,
+  DisputeListResponsesDefaultPageNumberPagination,
+  DisputeRetrieveResponse,
   DisputeStage,
   DisputeStatus,
   Disputes,
-  DisputesDefaultPageNumberPagination,
 } from './resources/disputes';
 import {
   LicenseKeyInstance,
@@ -341,7 +343,8 @@ DodoPayments.CustomersDefaultPageNumberPagination = CustomersDefaultPageNumberPa
 DodoPayments.Refunds = Refunds;
 DodoPayments.RefundsDefaultPageNumberPagination = RefundsDefaultPageNumberPagination;
 DodoPayments.Disputes = Disputes;
-DodoPayments.DisputesDefaultPageNumberPagination = DisputesDefaultPageNumberPagination;
+DodoPayments.DisputeListResponsesDefaultPageNumberPagination =
+  DisputeListResponsesDefaultPageNumberPagination;
 DodoPayments.Payouts = Payouts;
 DodoPayments.PayoutListResponsesDefaultPageNumberPagination = PayoutListResponsesDefaultPageNumberPagination;
 DodoPayments.WebhookEvents = WebhookEvents;
@@ -448,7 +451,9 @@ export declare namespace DodoPayments {
     type Dispute as Dispute,
     type DisputeStage as DisputeStage,
     type DisputeStatus as DisputeStatus,
-    DisputesDefaultPageNumberPagination as DisputesDefaultPageNumberPagination,
+    type DisputeRetrieveResponse as DisputeRetrieveResponse,
+    type DisputeListResponse as DisputeListResponse,
+    DisputeListResponsesDefaultPageNumberPagination as DisputeListResponsesDefaultPageNumberPagination,
     type DisputeListParams as DisputeListParams,
   };
 
