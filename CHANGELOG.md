@@ -1,5 +1,33 @@
 # Changelog
 
+## 1.22.0 (2025-05-09)
+
+Full Changelog: [v1.20.0...v1.22.0](https://github.com/dodopayments/dodopayments-node/compare/v1.20.0...v1.22.0)
+
+### Features
+
+* **api:** fixed api key schema to bearer ([0e6de1a](https://github.com/dodopayments/dodopayments-node/commit/0e6de1aa04dc734b3c9a8c669b2d47265ad4f055))
+* **api:** manual updates ([e6ef7d2](https://github.com/dodopayments/dodopayments-node/commit/e6ef7d2ae5dab93c474708a1f5320a306288388a))
+* **api:** updated openapi spec ([387911f](https://github.com/dodopayments/dodopayments-node/commit/387911fbb74050c3dd06e953bfcdb85a825ba642))
+
+
+### Bug Fixes
+
+* **mcp:** remove ajv dependency so MCP servers are more compatible with Cloudflare Workers ([6f88e63](https://github.com/dodopayments/dodopayments-node/commit/6f88e632a6f20955584aed3bb78191017ca75508))
+
+
+### Chores
+
+* **ci:** bump node version for release workflows ([9939000](https://github.com/dodopayments/dodopayments-node/commit/9939000e1d7e59a0af3cfa0251e5dc25256a5e69))
+* **internal:** codegen related update ([89b1aae](https://github.com/dodopayments/dodopayments-node/commit/89b1aaefc7a9ce067de4203822fdf3d890418971))
+* **internal:** codegen related update ([b39a15c](https://github.com/dodopayments/dodopayments-node/commit/b39a15cf6cc5c87c4b855eb12e22749dfe6ebdbd))
+* **internal:** update dependency ([144c131](https://github.com/dodopayments/dodopayments-node/commit/144c1318c336ac715bd47ec94983803ca7d8dac7))
+
+
+### Documentation
+
+* add examples to tsdocs ([a134ade](https://github.com/dodopayments/dodopayments-node/commit/a134adef9ba75a6e62ed9da80d06a2935a7a4544))
+
 ## 1.20.0 (2025-05-01)
 
 Full Changelog: [v1.19.0...v1.20.0](https://github.com/dodopayments/dodopayments-node/compare/v1.19.0...v1.20.0)
