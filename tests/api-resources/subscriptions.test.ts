@@ -145,6 +145,9 @@ describe('resource subscriptions', () => {
   });
 
   test('charge: required and optional params', async () => {
-    const response = await client.subscriptions.charge('subscription_id', { product_price: 0 });
+    const response = await client.subscriptions.charge('subscription_id', {
+      product_price: 0,
+      metadata: { foo: 'string' },
+    });
   });
 });
