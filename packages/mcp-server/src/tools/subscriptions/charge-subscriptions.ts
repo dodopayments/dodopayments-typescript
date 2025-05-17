@@ -24,6 +24,9 @@ export const tool: Tool = {
         description:
           'The product price. Represented in the lowest denomination of the currency (e.g., cents for USD).\nFor example, to charge $1.00, pass `100`.',
       },
+      metadata: {
+        type: 'object',
+      },
     },
   },
 };

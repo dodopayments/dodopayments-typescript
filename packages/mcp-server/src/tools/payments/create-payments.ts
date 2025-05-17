@@ -388,7 +388,7 @@ export const tool: Tool = {
       },
       create_new_customer: {
         type: 'object',
-        title: 'Create New Customer',
+        title: 'Attach Existing Customer',
         properties: {
           email: {
             type: 'string',

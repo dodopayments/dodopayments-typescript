@@ -504,6 +504,8 @@ export interface SubscriptionChargeParams {
    * cents for USD). For example, to charge $1.00, pass `100`.
    */
   product_price: number;
+
+  metadata?: Record<string, string> | null;
 }
 
 Subscriptions.SubscriptionListResponsesDefaultPageNumberPagination =
