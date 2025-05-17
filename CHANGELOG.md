@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.25.0 (2025-05-17)
+
+Full Changelog: [v1.22.0...v1.25.0](https://github.com/dodopayments/dodopayments-node/compare/v1.22.0...v1.25.0)
+
+### Features
+
+* **api:** updated openapi spec ([cb27d71](https://github.com/dodopayments/dodopayments-node/commit/cb27d718d2faccbe1d5636c73ab98246a21d2c55))
+* **mcp:** support dynamically discovering and invoking tools for APIs with many endpoints ([ed124f7](https://github.com/dodopayments/dodopayments-node/commit/ed124f74107ad4352ae2bd88b4c56d9d65d668d2))
+
+
+### Bug Fixes
+
+* **mcp:** explicitly include zod and zod-to-json-schema in package.json ([487260a](https://github.com/dodopayments/dodopayments-node/commit/487260a023d319d98a7a53fd2f17ccc27a0c8115))
+
+
+### Chores
+
+* **build:** automatically build subpackages if present ([a324a69](https://github.com/dodopayments/dodopayments-node/commit/a324a693d1c3ceaabacf80970b203315c3db3259))
+* **internal:** codegen related update ([50a6899](https://github.com/dodopayments/dodopayments-node/commit/50a6899676806c1ce8b64d17f13b120edf5fbf72))
+* **tests:** use node 22 for CI tests ([b7aa91b](https://github.com/dodopayments/dodopayments-node/commit/b7aa91b4aabb0676412c8f38aabb2254712a18e1))
+
 ## 1.22.0 (2025-05-09)
 
 Full Changelog: [v1.20.0...v1.22.0](https://github.com/dodopayments/dodopayments-node/compare/v1.20.0...v1.22.0)
