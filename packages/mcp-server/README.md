@@ -268,3 +268,11 @@ The following tools are available in this MCP server.
 - `update_addons` (`write`):
 - `list_addons` (`read`):
 - `update_images_addons` (`write`):
+
+### Resource `brands`:
+
+- `create_brands` (`write`):
+- `retrieve_brands` (`read`): Thin handler just calls `get_brand` and wraps in `Json(...)`
+- `update_brands` (`write`):
+- `list_brands` (`read`):
+- `update_images_brands` (`write`):

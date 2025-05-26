@@ -17,6 +17,16 @@ import {
   Addons,
 } from './resources/addons';
 import {
+  BrandCreateParams,
+  BrandCreateResponse,
+  BrandListResponse,
+  BrandRetrieveResponse,
+  BrandUpdateImagesResponse,
+  BrandUpdateParams,
+  BrandUpdateResponse,
+  Brands,
+} from './resources/brands';
+import {
   Discount,
   DiscountCreateParams,
   DiscountListParams,
@@ -290,6 +300,7 @@ export class DodoPayments extends Core.APIClient {
   misc: API.Misc = new API.Misc(this);
   discounts: API.Discounts = new API.Discounts(this);
   addons: API.Addons = new API.Addons(this);
+  brands: API.Brands = new API.Brands(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -358,6 +369,7 @@ DodoPayments.Discounts = Discounts;
 DodoPayments.DiscountsDefaultPageNumberPagination = DiscountsDefaultPageNumberPagination;
 DodoPayments.Addons = Addons;
 DodoPayments.AddonResponsesDefaultPageNumberPagination = AddonResponsesDefaultPageNumberPagination;
+DodoPayments.Brands = Brands;
 export declare namespace DodoPayments {
   export type RequestOptions = Core.RequestOptions;
 
@@ -511,6 +523,17 @@ export declare namespace DodoPayments {
     type AddonCreateParams as AddonCreateParams,
     type AddonUpdateParams as AddonUpdateParams,
     type AddonListParams as AddonListParams,
+  };
+
+  export {
+    Brands as Brands,
+    type BrandCreateResponse as BrandCreateResponse,
+    type BrandRetrieveResponse as BrandRetrieveResponse,
+    type BrandUpdateResponse as BrandUpdateResponse,
+    type BrandListResponse as BrandListResponse,
+    type BrandUpdateImagesResponse as BrandUpdateImagesResponse,
+    type BrandCreateParams as BrandCreateParams,
+    type BrandUpdateParams as BrandUpdateParams,
   };
 }
 
