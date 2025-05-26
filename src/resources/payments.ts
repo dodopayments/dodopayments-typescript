@@ -36,6 +36,13 @@ export class Payments extends APIResource {
       ...options,
     });
   }
+
+  retrieveLineItems(
+    paymentId: string,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<PaymentRetrieveLineItemsResponse> {
+    return this._client.get(`/payments/${paymentId}/line-items`, options);
+  }
 }
 
 export class PaymentListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<PaymentListResponse> {}
@@ -133,6 +140,11 @@ export interface OneTimeProductCartItem {
 
 export interface Payment {
   billing: BillingAddress;
+
+  /**
+   * brand id this payment belongs to
+   */
+  brand_id: string;
 
   /**
    * Identifier of the business associated with the payment
@@ -301,6 +313,8 @@ export interface PaymentCreateResponse {
 }
 
 export interface PaymentListResponse {
+  brand_id: string;
+
   created_at: string;
 
   currency: MiscAPI.Currency;
@@ -320,6 +334,26 @@ export interface PaymentListResponse {
   status?: IntentStatus | null;
 
   subscription_id?: string | null;
+}
+
+export interface PaymentRetrieveLineItemsResponse {
+  currency: MiscAPI.Currency;
+
+  items: Array<PaymentRetrieveLineItemsResponse.Item>;
+}
+
+export namespace PaymentRetrieveLineItemsResponse {
+  export interface Item {
+    amount: number;
+
+    items_id: string;
+
+    tax: number;
+
+    description?: string | null;
+
+    name?: string | null;
+  }
 }
 
 export interface PaymentCreateParams {
@@ -395,6 +429,11 @@ export interface PaymentCreateParams {
 
 export interface PaymentListParams extends DefaultPageNumberPaginationParams {
   /**
+   * filter by Brand id
+   */
+  brand_id?: string | null;
+
+  /**
    * Get events after this created time
    */
   created_at_gte?: string | null;
@@ -434,6 +473,7 @@ export declare namespace Payments {
     type Payment as Payment,
     type PaymentCreateResponse as PaymentCreateResponse,
     type PaymentListResponse as PaymentListResponse,
+    type PaymentRetrieveLineItemsResponse as PaymentRetrieveLineItemsResponse,
     PaymentListResponsesDefaultPageNumberPagination as PaymentListResponsesDefaultPageNumberPagination,
     type PaymentCreateParams as PaymentCreateParams,
     type PaymentListParams as PaymentListParams,

@@ -20,6 +20,10 @@ export const tool: Tool = {
         type: 'boolean',
         description: 'List archived products',
       },
+      brand_id: {
+        type: 'string',
+        description: 'filter by Brand id',
+      },
       page_number: {
         type: 'integer',
         description: 'Page number default is 0',

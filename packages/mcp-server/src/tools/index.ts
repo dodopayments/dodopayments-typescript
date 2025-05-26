@@ -6,6 +6,7 @@ import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import create_payments from './payments/create-payments';
 import retrieve_payments from './payments/retrieve-payments';
 import list_payments from './payments/list-payments';
+import retrieve_line_items_payments from './payments/retrieve-line-items-payments';
 import create_subscriptions from './subscriptions/create-subscriptions';
 import retrieve_subscriptions from './subscriptions/retrieve-subscriptions';
 import update_subscriptions from './subscriptions/update-subscriptions';
@@ -80,6 +81,7 @@ function addEndpoint(endpoint: Endpoint) {
 addEndpoint(create_payments);
 addEndpoint(retrieve_payments);
 addEndpoint(list_payments);
+addEndpoint(retrieve_line_items_payments);
 addEndpoint(create_subscriptions);
 addEndpoint(retrieve_subscriptions);
 addEndpoint(update_subscriptions);

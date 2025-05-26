@@ -16,6 +16,10 @@ export const tool: Tool = {
   inputSchema: {
     type: 'object',
     properties: {
+      brand_id: {
+        type: 'string',
+        description: 'filter by Brand id',
+      },
       created_at_gte: {
         type: 'string',
         description: 'Get events after this created time',
