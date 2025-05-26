@@ -26,6 +26,9 @@ export const tool: Tool = {
           type: 'string',
         },
       },
+      brand_id: {
+        type: 'string',
+      },
       description: {
         type: 'string',
         description: 'Description of the product, optional and must be at most 1000 characters.',

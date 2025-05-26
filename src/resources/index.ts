@@ -80,6 +80,7 @@ export {
   type Payment,
   type PaymentCreateResponse,
   type PaymentListResponse,
+  type PaymentRetrieveLineItemsResponse,
   type PaymentCreateParams,
   type PaymentListParams,
 } from './payments';

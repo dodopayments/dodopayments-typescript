@@ -12,12 +12,14 @@ Types:
 - <code><a href="./src/resources/payments.ts">Payment</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentCreateResponse</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentListResponse</a></code>
+- <code><a href="./src/resources/payments.ts">PaymentRetrieveLineItemsResponse</a></code>
 
 Methods:
 
 - <code title="post /payments">client.payments.<a href="./src/resources/payments.ts">create</a>({ ...params }) -> PaymentCreateResponse</code>
 - <code title="get /payments/{payment_id}">client.payments.<a href="./src/resources/payments.ts">retrieve</a>(paymentId) -> Payment</code>
 - <code title="get /payments">client.payments.<a href="./src/resources/payments.ts">list</a>({ ...params }) -> PaymentListResponsesDefaultPageNumberPagination</code>
+- <code title="get /payments/{payment_id}/line-items">client.payments.<a href="./src/resources/payments.ts">retrieveLineItems</a>(paymentId) -> PaymentRetrieveLineItemsResponse</code>
 
 # Subscriptions
 

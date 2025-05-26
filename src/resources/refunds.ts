@@ -45,6 +45,11 @@ export interface Refund {
   created_at: string;
 
   /**
+   * If true the refund is a partial refund
+   */
+  is_partial: boolean;
+
+  /**
    * The unique identifier of the payment associated with the refund.
    */
   payment_id: string;
@@ -78,9 +83,33 @@ export interface RefundCreateParams {
   payment_id: string;
 
   /**
+   * Partially Refund an Individual Item
+   */
+  items?: Array<RefundCreateParams.Item> | null;
+
+  /**
    * The reason for the refund, if any. Maximum length is 3000 characters. Optional.
    */
   reason?: string | null;
+}
+
+export namespace RefundCreateParams {
+  export interface Item {
+    /**
+     * The id of the item (i.e. `product_id` or `addon_id`)
+     */
+    item_id: string;
+
+    /**
+     * The amount to refund. if None the whole item is refunded
+     */
+    amount?: number | null;
+
+    /**
+     * Specify if tax is inclusive of the refund. Default true.
+     */
+    tax_inclusive?: boolean;
+  }
 }
 
 export interface RefundListParams extends DefaultPageNumberPaginationParams {

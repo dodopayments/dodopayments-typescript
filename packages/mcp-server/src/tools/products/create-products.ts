@@ -29,6 +29,10 @@ export const tool: Tool = {
           type: 'string',
         },
       },
+      brand_id: {
+        type: 'string',
+        description: 'Brand id for the product, if not provided will default to primary brand',
+      },
       description: {
         type: 'string',
         description: 'Optional description of the product',

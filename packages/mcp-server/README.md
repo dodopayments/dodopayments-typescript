@@ -172,6 +172,7 @@ The following tools are available in this MCP server.
 - `create_payments` (`write`):
 - `retrieve_payments` (`read`):
 - `list_payments` (`read`):
+- `retrieve_line_items_payments` (`read`):
 
 ### Resource `subscriptions`:
 

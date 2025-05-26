@@ -197,6 +197,11 @@ export interface SubscriptionCreateResponse {
   metadata: Record<string, string>;
 
   /**
+   * First payment id for the subscription
+   */
+  payment_id: string;
+
+  /**
    * Tax will be added to the amount and charged to the customer on each billing
    * cycle
    */
@@ -449,6 +454,11 @@ export namespace SubscriptionUpdateParams {
 }
 
 export interface SubscriptionListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * filter by Brand id
+   */
+  brand_id?: string | null;
+
   /**
    * Get events after this created time
    */

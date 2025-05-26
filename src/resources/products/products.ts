@@ -169,6 +169,8 @@ export namespace Price {
 }
 
 export interface Product {
+  brand_id: string;
+
   /**
    * Unique identifier for the business to which the product belongs.
    */
@@ -326,6 +328,11 @@ export interface ProductCreateParams {
   addons?: Array<string> | null;
 
   /**
+   * Brand id for the product, if not provided will default to primary brand
+   */
+  brand_id?: string | null;
+
+  /**
    * Optional description of the product
    */
   description?: string | null;
@@ -358,6 +365,8 @@ export interface ProductUpdateParams {
    * Available Addons for subscription products
    */
   addons?: Array<string> | null;
+
+  brand_id?: string | null;
 
   /**
    * Description of the product, optional and must be at most 1000 characters.
@@ -414,6 +423,11 @@ export interface ProductListParams extends DefaultPageNumberPaginationParams {
    * List archived products
    */
   archived?: boolean;
+
+  /**
+   * filter by Brand id
+   */
+  brand_id?: string | null;
 
   /**
    * Filter products by pricing type:
