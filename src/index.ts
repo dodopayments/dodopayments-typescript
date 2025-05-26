@@ -78,6 +78,7 @@ import {
   PaymentListParams,
   PaymentListResponse,
   PaymentListResponsesDefaultPageNumberPagination,
+  PaymentRetrieveLineItemsResponse,
   Payments,
 } from './resources/payments';
 import {
@@ -378,6 +379,7 @@ export declare namespace DodoPayments {
     type Payment as Payment,
     type PaymentCreateResponse as PaymentCreateResponse,
     type PaymentListResponse as PaymentListResponse,
+    type PaymentRetrieveLineItemsResponse as PaymentRetrieveLineItemsResponse,
     PaymentListResponsesDefaultPageNumberPagination as PaymentListResponsesDefaultPageNumberPagination,
     type PaymentCreateParams as PaymentCreateParams,
     type PaymentListParams as PaymentListParams,
