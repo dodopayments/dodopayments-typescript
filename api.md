@@ -226,3 +226,21 @@ Methods:
 - <code title="patch /addons/{id}">client.addons.<a href="./src/resources/addons.ts">update</a>(id, { ...params }) -> AddonResponse</code>
 - <code title="get /addons">client.addons.<a href="./src/resources/addons.ts">list</a>({ ...params }) -> AddonResponsesDefaultPageNumberPagination</code>
 - <code title="put /addons/{id}/images">client.addons.<a href="./src/resources/addons.ts">updateImages</a>(id) -> AddonUpdateImagesResponse</code>
+
+# Brands
+
+Types:
+
+- <code><a href="./src/resources/brands.ts">BrandCreateResponse</a></code>
+- <code><a href="./src/resources/brands.ts">BrandRetrieveResponse</a></code>
+- <code><a href="./src/resources/brands.ts">BrandUpdateResponse</a></code>
+- <code><a href="./src/resources/brands.ts">BrandListResponse</a></code>
+- <code><a href="./src/resources/brands.ts">BrandUpdateImagesResponse</a></code>
+
+Methods:
+
+- <code title="post /brands">client.brands.<a href="./src/resources/brands.ts">create</a>({ ...params }) -> BrandCreateResponse</code>
+- <code title="get /brands/{id}">client.brands.<a href="./src/resources/brands.ts">retrieve</a>(id) -> BrandRetrieveResponse</code>
+- <code title="patch /brands/{id}">client.brands.<a href="./src/resources/brands.ts">update</a>(id, { ...params }) -> BrandUpdateResponse</code>
+- <code title="get /brands">client.brands.<a href="./src/resources/brands.ts">list</a>() -> BrandListResponse</code>
+- <code title="put /brands/{id}/images">client.brands.<a href="./src/resources/brands.ts">updateImages</a>(id) -> BrandUpdateImagesResponse</code>

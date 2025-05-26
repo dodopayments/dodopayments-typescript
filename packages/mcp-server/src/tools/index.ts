@@ -54,6 +54,11 @@ import retrieve_addons from './addons/retrieve-addons';
 import update_addons from './addons/update-addons';
 import list_addons from './addons/list-addons';
 import update_images_addons from './addons/update-images-addons';
+import create_brands from './brands/create-brands';
+import retrieve_brands from './brands/retrieve-brands';
+import update_brands from './brands/update-brands';
+import list_brands from './brands/list-brands';
+import update_images_brands from './brands/update-images-brands';
 
 export type HandlerFunction = (
   client: DodoPayments,
@@ -129,6 +134,11 @@ addEndpoint(retrieve_addons);
 addEndpoint(update_addons);
 addEndpoint(list_addons);
 addEndpoint(update_images_addons);
+addEndpoint(create_brands);
+addEndpoint(retrieve_brands);
+addEndpoint(update_brands);
+addEndpoint(list_brands);
+addEndpoint(update_images_brands);
 
 export type Filter = {
   type: 'resource' | 'operation' | 'tag' | 'tool';

@@ -10,6 +10,16 @@ export {
   type AddonListParams,
 } from './addons';
 export {
+  Brands,
+  type BrandCreateResponse,
+  type BrandRetrieveResponse,
+  type BrandUpdateResponse,
+  type BrandListResponse,
+  type BrandUpdateImagesResponse,
+  type BrandCreateParams,
+  type BrandUpdateParams,
+} from './brands';
+export {
   CustomersDefaultPageNumberPagination,
   Customers,
   type Customer,
