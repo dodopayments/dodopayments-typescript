@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'customers.customer_portal',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/customers/{customer_id}/customer-portal/session',
+  operationId: 'create_customer_portal_session',
 };
 
 export const tool: Tool = {

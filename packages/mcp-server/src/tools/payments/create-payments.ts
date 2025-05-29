@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'payments',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/payments',
+  operationId: 'create_one_time_payment_handler',
 };
 
 export const tool: Tool = {

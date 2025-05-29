@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'license_key_instances',
   operation: 'write',
   tags: [],
+  httpMethod: 'patch',
+  httpPath: '/license_key_instances/{id}',
+  operationId: 'update_license_key_instance',
 };
 
 export const tool: Tool = {
