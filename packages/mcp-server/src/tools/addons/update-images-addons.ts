@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'addons',
   operation: 'write',
   tags: [],
+  httpMethod: 'put',
+  httpPath: '/addons/{id}/images',
+  operationId: 'update_addon_image',
 };
 
 export const tool: Tool = {

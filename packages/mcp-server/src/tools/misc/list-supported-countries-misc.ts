@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'misc',
   operation: 'read',
   tags: [],
+  httpMethod: 'get',
+  httpPath: '/checkout/supported_countries',
+  operationId: 'get_supported_countries_proxy',
 };
 
 export const tool: Tool = {

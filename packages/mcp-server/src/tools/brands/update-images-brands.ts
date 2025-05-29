@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'brands',
   operation: 'write',
   tags: [],
+  httpMethod: 'put',
+  httpPath: '/brands/{id}/images',
+  operationId: 'update_brand_image',
 };
 
 export const tool: Tool = {

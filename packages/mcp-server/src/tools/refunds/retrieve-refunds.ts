@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'refunds',
   operation: 'read',
   tags: [],
+  httpMethod: 'get',
+  httpPath: '/refunds/{refund_id}',
+  operationId: 'get_refund_handler',
 };
 
 export const tool: Tool = {

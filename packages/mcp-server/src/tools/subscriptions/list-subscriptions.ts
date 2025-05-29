@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'subscriptions',
   operation: 'read',
   tags: [],
+  httpMethod: 'get',
+  httpPath: '/subscriptions',
+  operationId: 'list_subscriptions_handler',
 };
 
 export const tool: Tool = {

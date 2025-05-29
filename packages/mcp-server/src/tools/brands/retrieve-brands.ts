@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'brands',
   operation: 'read',
   tags: [],
+  httpMethod: 'get',
+  httpPath: '/brands/{id}',
+  operationId: 'get_brand_handler',
 };
 
 export const tool: Tool = {

@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'discounts',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/discounts',
+  operationId: 'create_discount_handler',
 };
 
 export const tool: Tool = {
