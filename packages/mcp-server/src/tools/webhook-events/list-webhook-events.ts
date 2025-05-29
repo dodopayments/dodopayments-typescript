@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'webhook_events',
   operation: 'read',
   tags: [],
+  httpMethod: 'get',
+  httpPath: '/webhook_events',
+  operationId: 'list_webhook_events',
 };
 
 export const tool: Tool = {

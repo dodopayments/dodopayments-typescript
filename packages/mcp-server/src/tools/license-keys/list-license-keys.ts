@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'license_keys',
   operation: 'read',
   tags: [],
+  httpMethod: 'get',
+  httpPath: '/license_keys',
+  operationId: 'list_license_keys_handler',
 };
 
 export const tool: Tool = {

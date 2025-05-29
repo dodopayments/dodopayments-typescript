@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'licenses',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/licenses/validate',
+  operationId: 'validate_license_key',
 };
 
 export const tool: Tool = {

@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'addons',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/addons',
+  operationId: 'create_addon',
 };
 
 export const tool: Tool = {

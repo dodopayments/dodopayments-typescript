@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'products',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/products/{id}/unarchive',
+  operationId: 'undelete_product',
 };
 
 export const tool: Tool = {

@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'subscriptions',
   operation: 'write',
   tags: [],
+  httpMethod: 'patch',
+  httpPath: '/subscriptions/{subscription_id}',
+  operationId: 'patch_subscription_handler',
 };
 
 export const tool: Tool = {

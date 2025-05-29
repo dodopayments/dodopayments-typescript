@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'invoices.payments',
   operation: 'read',
   tags: [],
+  httpMethod: 'get',
+  httpPath: '/invoices/payments/{payment_id}',
+  operationId: 'get_payment_invoice_no_auth',
 };
 
 export const tool: Tool = {

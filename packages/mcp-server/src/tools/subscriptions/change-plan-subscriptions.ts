@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'subscriptions',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/subscriptions/{subscription_id}/change-plan',
+  operationId: 'update_subscription_plan_handler',
 };
 
 export const tool: Tool = {
