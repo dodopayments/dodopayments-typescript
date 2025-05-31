@@ -157,13 +157,13 @@ List methods in the DodoPayments API are paginated.
 You can use the `for await … of` syntax to iterate through items across all pages:
 
 ```ts
-async function fetchAllPayments(params) {
-  const allPayments = [];
+async function fetchAllPaymentListResponses(params) {
+  const allPaymentListResponses = [];
   // Automatically fetches more pages as needed.
   for await (const paymentListResponse of client.payments.list()) {
-    allPayments.push(paymentListResponse);
+    allPaymentListResponses.push(paymentListResponse);
   }
-  return allPayments;
+  return allPaymentListResponses;
 }
 ```
 
