@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.30.0 (2025-06-02)
+
+Full Changelog: [v1.27.0...v1.30.0](https://github.com/dodopayments/dodopayments-node/compare/v1.27.0...v1.30.0)
+
+### Features
+
+* **api:** manual updates ([ef4f720](https://github.com/dodopayments/dodopayments-node/commit/ef4f7204bd534590706de090b9ad5ec71fd16ee8))
+* **mcp:** include http information in tools ([afdcea8](https://github.com/dodopayments/dodopayments-node/commit/afdcea8dc743b8dcf8ef21a20689cf890573b936))
+
+
+### Bug Fixes
+
+* **mcp:** include description in dynamic tool search ([8ba2426](https://github.com/dodopayments/dodopayments-node/commit/8ba24264c8fc0c1e2eb456d1dde147f900da24ec))
+
+
+### Chores
+
+* improve publish-npm script --latest tag logic ([af7339c](https://github.com/dodopayments/dodopayments-node/commit/af7339c2afe0d7bdd016aa9002505188d0cf772d))
+* **mcp:** remove duplicate assignment ([c685b50](https://github.com/dodopayments/dodopayments-node/commit/c685b50f407e976988b6ed0b8a9ed87a666c89d0))
+
+
+### Documentation
+
+* **pagination:** improve naming ([68f8a19](https://github.com/dodopayments/dodopayments-node/commit/68f8a199effe15d04ea0559916de5ade633afdbb))
+
 ## 1.27.0 (2025-05-26)
 
 Full Changelog: [v1.25.0...v1.27.0](https://github.com/dodopayments/dodopayments-node/compare/v1.25.0...v1.27.0)
