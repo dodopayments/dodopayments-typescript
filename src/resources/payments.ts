@@ -218,6 +218,11 @@ export interface Payment {
   discount_id?: string | null;
 
   /**
+   * An error code if the payment failed
+   */
+  error_code?: string | null;
+
+  /**
    * An error message if the payment failed
    */
   error_message?: string | null;
