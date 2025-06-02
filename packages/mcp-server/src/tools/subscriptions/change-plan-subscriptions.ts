@@ -22,41 +22,13 @@ export const tool: Tool = {
       subscription_id: {
         type: 'string',
       },
-      product_id: {
-        type: 'string',
-        description: 'Unique identifier of the product to subscribe to',
-      },
-      proration_billing_mode: {
-        type: 'string',
-        enum: ['prorated_immediately'],
-      },
-      quantity: {
-        type: 'integer',
-        description: 'Number of units to subscribe for. Must be at least 1.',
-      },
-      addons: {
-        type: 'array',
-        description: 'Addons for the new plan.\nNote : Leaving this empty would remove any existing addons',
-        items: {
-          type: 'object',
-          properties: {
-            addon_id: {
-              type: 'string',
-            },
-            quantity: {
-              type: 'integer',
-            },
-          },
-          required: ['addon_id', 'quantity'],
-        },
-      },
     },
   },
 };
 
 export const handler = (client: DodoPayments, args: Record<string, unknown> | undefined) => {
   const { subscription_id, ...body } = args as any;
-  return client.subscriptions.changePlan(subscription_id, body);
+  return client.subscriptions.changePlan(subscription_id);
 };
 
 export default { metadata, tool, handler };
