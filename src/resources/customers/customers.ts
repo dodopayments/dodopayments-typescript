@@ -18,12 +18,8 @@ export class Customers extends APIResource {
     return this._client.get(`/customers/${customerId}`, options);
   }
 
-  update(
-    customerId: string,
-    body: CustomerUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<Customer> {
-    return this._client.patch(`/customers/${customerId}`, { body, ...options });
+  update(customerId: string, options?: Core.RequestOptions): Core.APIPromise<Customer> {
+    return this._client.patch(`/customers/${customerId}`, options);
   }
 
   list(
@@ -70,12 +66,6 @@ export interface CustomerCreateParams {
   phone_number?: string | null;
 }
 
-export interface CustomerUpdateParams {
-  name?: string | null;
-
-  phone_number?: string | null;
-}
-
 export interface CustomerListParams extends DefaultPageNumberPaginationParams {}
 
 Customers.CustomersDefaultPageNumberPagination = CustomersDefaultPageNumberPagination;
@@ -87,7 +77,6 @@ export declare namespace Customers {
     type CustomerPortalSession as CustomerPortalSession,
     CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
     type CustomerCreateParams as CustomerCreateParams,
-    type CustomerUpdateParams as CustomerUpdateParams,
     type CustomerListParams as CustomerListParams,
   };
 

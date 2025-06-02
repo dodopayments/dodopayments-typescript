@@ -7,6 +7,5 @@ export {
   type Customer,
   type CustomerPortalSession,
   type CustomerCreateParams,
-  type CustomerUpdateParams,
   type CustomerListParams,
 } from './customers';
