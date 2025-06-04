@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.30.2 (2025-06-04)
+
+Full Changelog: [v1.30.0...v1.30.2](https://github.com/dodopayments/dodopayments-node/compare/v1.30.0...v1.30.2)
+
+### Features
+
+* **api:** fixed openapi spec ([d4e2550](https://github.com/dodopayments/dodopayments-node/commit/d4e255020586557a8f834af37f2f56c8a7195b43))
+
+
+### Chores
+
+* **docs:** use top-level-await in example snippets ([cafdee2](https://github.com/dodopayments/dodopayments-node/commit/cafdee2532819b55cd0ebf89a51706507bf4c32f))
+
 ## 1.30.0 (2025-06-02)
 
 Full Changelog: [v1.27.0...v1.30.0](https://github.com/dodopayments/dodopayments-node/compare/v1.27.0...v1.30.0)
