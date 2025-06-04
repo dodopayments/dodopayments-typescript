@@ -108,6 +108,7 @@ import {
 import {
   AddonCartResponseItem,
   Subscription,
+  SubscriptionChangePlanParams,
   SubscriptionChargeParams,
   SubscriptionChargeResponse,
   SubscriptionCreateParams,
@@ -131,6 +132,7 @@ import {
   CustomerCreateParams,
   CustomerListParams,
   CustomerPortalSession,
+  CustomerUpdateParams,
   Customers,
   CustomersDefaultPageNumberPagination,
 } from './resources/customers/customers';
@@ -408,6 +410,7 @@ export declare namespace DodoPayments {
     type SubscriptionCreateParams as SubscriptionCreateParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionListParams as SubscriptionListParams,
+    type SubscriptionChangePlanParams as SubscriptionChangePlanParams,
     type SubscriptionChargeParams as SubscriptionChargeParams,
   };
 
@@ -444,6 +447,7 @@ export declare namespace DodoPayments {
     type CustomerPortalSession as CustomerPortalSession,
     CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
     type CustomerCreateParams as CustomerCreateParams,
+    type CustomerUpdateParams as CustomerUpdateParams,
     type CustomerListParams as CustomerListParams,
   };
 

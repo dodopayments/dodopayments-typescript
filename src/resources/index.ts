@@ -25,6 +25,7 @@ export {
   type Customer,
   type CustomerPortalSession,
   type CustomerCreateParams,
+  type CustomerUpdateParams,
   type CustomerListParams,
 } from './customers/customers';
 export {
@@ -131,6 +132,7 @@ export {
   type SubscriptionCreateParams,
   type SubscriptionUpdateParams,
   type SubscriptionListParams,
+  type SubscriptionChangePlanParams,
   type SubscriptionChargeParams,
 } from './subscriptions';
 export {

@@ -39,7 +39,7 @@ Methods:
 - <code title="get /subscriptions/{subscription_id}">client.subscriptions.<a href="./src/resources/subscriptions.ts">retrieve</a>(subscriptionId) -> Subscription</code>
 - <code title="patch /subscriptions/{subscription_id}">client.subscriptions.<a href="./src/resources/subscriptions.ts">update</a>(subscriptionId, { ...params }) -> Subscription</code>
 - <code title="get /subscriptions">client.subscriptions.<a href="./src/resources/subscriptions.ts">list</a>({ ...params }) -> SubscriptionListResponsesDefaultPageNumberPagination</code>
-- <code title="post /subscriptions/{subscription_id}/change-plan">client.subscriptions.<a href="./src/resources/subscriptions.ts">changePlan</a>(subscriptionId) -> void</code>
+- <code title="post /subscriptions/{subscription_id}/change-plan">client.subscriptions.<a href="./src/resources/subscriptions.ts">changePlan</a>(subscriptionId, { ...params }) -> void</code>
 - <code title="post /subscriptions/{subscription_id}/charge">client.subscriptions.<a href="./src/resources/subscriptions.ts">charge</a>(subscriptionId, { ...params }) -> SubscriptionChargeResponse</code>
 
 # Invoices
@@ -98,7 +98,7 @@ Methods:
 
 - <code title="post /customers">client.customers.<a href="./src/resources/customers/customers.ts">create</a>({ ...params }) -> Customer</code>
 - <code title="get /customers/{customer_id}">client.customers.<a href="./src/resources/customers/customers.ts">retrieve</a>(customerId) -> Customer</code>
-- <code title="patch /customers/{customer_id}">client.customers.<a href="./src/resources/customers/customers.ts">update</a>(customerId) -> Customer</code>
+- <code title="patch /customers/{customer_id}">client.customers.<a href="./src/resources/customers/customers.ts">update</a>(customerId, { ...params }) -> Customer</code>
 - <code title="get /customers">client.customers.<a href="./src/resources/customers/customers.ts">list</a>({ ...params }) -> CustomersDefaultPageNumberPagination</code>
 
 ## CustomerPortal
