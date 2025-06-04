@@ -19,7 +19,7 @@ export { endpoints } from './tools';
 export const server = new McpServer(
   {
     name: 'dodopayments_api',
-    version: '1.30.0',
+    version: '1.30.2',
   },
   {
     capabilities: {
