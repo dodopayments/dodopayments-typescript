@@ -27,17 +27,13 @@ const client = new DodoPayments({
   environment: 'test_mode', // defaults to 'live_mode'
 });
 
-async function main() {
-  const payment = await client.payments.create({
-    billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
-    customer: { customer_id: 'customer_id' },
-    product_cart: [{ product_id: 'product_id', quantity: 0 }],
-  });
+const payment = await client.payments.create({
+  billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
+  customer: { customer_id: 'customer_id' },
+  product_cart: [{ product_id: 'product_id', quantity: 0 }],
+});
 
-  console.log(payment.payment_id);
-}
-
-main();
+console.log(payment.payment_id);
 ```
 
 ### Request & Response types
@@ -53,16 +49,12 @@ const client = new DodoPayments({
   environment: 'test_mode', // defaults to 'live_mode'
 });
 
-async function main() {
-  const params: DodoPayments.PaymentCreateParams = {
-    billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
-    customer: { customer_id: 'customer_id' },
-    product_cart: [{ product_id: 'product_id', quantity: 0 }],
-  };
-  const payment: DodoPayments.PaymentCreateResponse = await client.payments.create(params);
-}
-
-main();
+const params: DodoPayments.PaymentCreateParams = {
+  billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
+  customer: { customer_id: 'customer_id' },
+  product_cart: [{ product_id: 'product_id', quantity: 0 }],
+};
+const payment: DodoPayments.PaymentCreateResponse = await client.payments.create(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -75,25 +67,21 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-async function main() {
-  const payment = await client.payments
-    .create({
-      billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
-      customer: { customer_id: 'customer_id' },
-      product_cart: [{ product_id: 'product_id', quantity: 0 }],
-    })
-    .catch(async (err) => {
-      if (err instanceof DodoPayments.APIError) {
-        console.log(err.status); // 400
-        console.log(err.name); // BadRequestError
-        console.log(err.headers); // {server: 'nginx', ...}
-      } else {
-        throw err;
-      }
-    });
-}
-
-main();
+const payment = await client.payments
+  .create({
+    billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
+    customer: { customer_id: 'customer_id' },
+    product_cart: [{ product_id: 'product_id', quantity: 0 }],
+  })
+  .catch(async (err) => {
+    if (err instanceof DodoPayments.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 ```
 
 Error codes are as follows:
