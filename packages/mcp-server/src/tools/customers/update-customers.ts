@@ -22,13 +22,19 @@ export const tool: Tool = {
       customer_id: {
         type: 'string',
       },
+      name: {
+        type: 'string',
+      },
+      phone_number: {
+        type: 'string',
+      },
     },
   },
 };
 
 export const handler = (client: DodoPayments, args: Record<string, unknown> | undefined) => {
   const { customer_id, ...body } = args as any;
-  return client.customers.update(customer_id);
+  return client.customers.update(customer_id, body);
 };
 
 export default { metadata, tool, handler };

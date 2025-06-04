@@ -110,8 +110,12 @@ describe('resource subscriptions', () => {
     ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
-  test('changePlan', async () => {
-    const responsePromise = client.subscriptions.changePlan('subscription_id');
+  test('changePlan: only required params', async () => {
+    const responsePromise = client.subscriptions.changePlan('subscription_id', {
+      product_id: 'product_id',
+      proration_billing_mode: 'prorated_immediately',
+      quantity: 0,
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -121,11 +125,13 @@ describe('resource subscriptions', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('changePlan: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.subscriptions.changePlan('subscription_id', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(DodoPayments.NotFoundError);
+  test('changePlan: required and optional params', async () => {
+    const response = await client.subscriptions.changePlan('subscription_id', {
+      product_id: 'product_id',
+      proration_billing_mode: 'prorated_immediately',
+      quantity: 0,
+      addons: [{ addon_id: 'addon_id', quantity: 0 }],
+    });
   });
 
   test('charge: only required params', async () => {
