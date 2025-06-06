@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import DodoPayments from 'dodopayments';
-import { Tool } from '@modelcontextprotocol/sdk/types.js';
+import { Metadata, Endpoint, HandlerFunction } from './types';
+
+export { Metadata, Endpoint, HandlerFunction };
 
 import create_payments from './payments/create-payments';
 import retrieve_payments from './payments/retrieve-payments';
@@ -59,27 +60,6 @@ import retrieve_brands from './brands/retrieve-brands';
 import update_brands from './brands/update-brands';
 import list_brands from './brands/list-brands';
 import update_images_brands from './brands/update-images-brands';
-
-export type HandlerFunction = (
-  client: DodoPayments,
-  args: Record<string, unknown> | undefined,
-) => Promise<any>;
-
-export type Metadata = {
-  resource: string;
-  operation: 'read' | 'write';
-  tags: string[];
-
-  httpMethod?: string;
-  httpPath?: string;
-  operationId?: string;
-};
-
-export type Endpoint = {
-  metadata: Metadata;
-  tool: Tool;
-  handler: HandlerFunction;
-};
 
 export const endpoints: Endpoint[] = [];
 
