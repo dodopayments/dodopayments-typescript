@@ -1,5 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { asTextContentResult } from 'dodopayments-mcp/tools/types';
+
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import type { Metadata } from '../';
 import DodoPayments from 'dodopayments';
@@ -26,9 +28,9 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: DodoPayments, args: Record<string, unknown> | undefined) => {
+export const handler = async (client: DodoPayments, args: Record<string, unknown> | undefined) => {
   const { webhook_event_id, ...body } = args as any;
-  return client.webhookEvents.retrieve(webhook_event_id);
+  return asTextContentResult(await client.webhookEvents.retrieve(webhook_event_id));
 };
 
 export default { metadata, tool, handler };
