@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.32.0 (2025-06-09)
+
+Full Changelog: [v1.30.2...v1.32.0](https://github.com/dodopayments/dodopayments-node/compare/v1.30.2...v1.32.0)
+
+### Features
+
+* **api:** updated openapi spec to v1.32.0 ([7ceb3e7](https://github.com/dodopayments/dodopayments-node/commit/7ceb3e75b8d859ea2d7f5c8004fe7015dc852842))
+* **mcp:** implement support for binary responses ([6c7bfef](https://github.com/dodopayments/dodopayments-node/commit/6c7bfef2203036e20b6b9af7fc2d414c6dacab42))
+
 ## 1.30.2 (2025-06-04)
 
 Full Changelog: [v1.30.0...v1.30.2](https://github.com/dodopayments/dodopayments-node/compare/v1.30.0...v1.30.2)
