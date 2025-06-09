@@ -71,6 +71,11 @@ export interface WebhookEventListParams extends DefaultPageNumberPaginationParam
    * Get events history of a specific object like payment/subscription/refund/dispute
    */
   object_id?: string | null;
+
+  /**
+   * Filter by webhook destination
+   */
+  webhook_id?: string | null;
 }
 
 WebhookEvents.WebhookEventsDefaultPageNumberPagination = WebhookEventsDefaultPageNumberPagination;
