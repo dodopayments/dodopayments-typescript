@@ -91,6 +91,11 @@ export interface Subscription {
   billing: PaymentsAPI.BillingAddress;
 
   /**
+   * Indicates if the subscription will cancel at the next billing date
+   */
+  cancel_at_next_billing_date: boolean;
+
+  /**
    * Timestamp when the subscription was created
    */
   created_at: string;
@@ -234,6 +239,11 @@ export interface SubscriptionCreateResponse {
  */
 export interface SubscriptionListResponse {
   billing: PaymentsAPI.BillingAddress;
+
+  /**
+   * Indicates if the subscription will cancel at the next billing date
+   */
+  cancel_at_next_billing_date: boolean;
 
   /**
    * Timestamp when the subscription was created
@@ -437,6 +447,8 @@ export namespace SubscriptionCreateParams {
 
 export interface SubscriptionUpdateParams {
   billing?: PaymentsAPI.BillingAddress | null;
+
+  cancel_at_next_billing_date?: boolean | null;
 
   disable_on_demand?: SubscriptionUpdateParams.DisableOnDemand | null;
 
