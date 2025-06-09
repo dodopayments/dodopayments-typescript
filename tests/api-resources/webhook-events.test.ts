@@ -56,6 +56,7 @@ describe('resource webhookEvents', () => {
           object_id: 'object_id',
           page_number: 0,
           page_size: 0,
+          webhook_id: 'webhook_id',
         },
         { path: '/_stainless_unknown_path' },
       ),
