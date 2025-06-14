@@ -2,7 +2,7 @@
 
 import type { DodoPayments } from './index';
 
-export class APIResource {
+export abstract class APIResource {
   protected _client: DodoPayments;
 
   constructor(client: DodoPayments) {
