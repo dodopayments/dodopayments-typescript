@@ -67,7 +67,10 @@ export function init(params: {
 
   const client =
     params.client ||
-    new DodoPayments({ environment: (readEnv('DODO_PAYMENTS_ENVIRONMENT') || undefined) as any });
+    new DodoPayments({
+      environment: (readEnv('DODO_PAYMENTS_ENVIRONMENT') || undefined) as any,
+      defaultHeaders: { 'X-Stainless-MCP': 'true' },
+    });
 
   server.setRequestHandler(ListToolsRequestSchema, async () => {
     return {
