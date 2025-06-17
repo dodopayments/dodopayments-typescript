@@ -274,6 +274,7 @@ export class DodoPayments extends Core.APIClient {
 
     super({
       baseURL: options.baseURL || environments[options.environment || 'live_mode'],
+      baseURLOverridden: baseURL ? baseURL !== environments[options.environment || 'live_mode'] : false,
       timeout: options.timeout ?? 60000 /* 1 minute */,
       httpAgent: options.httpAgent,
       maxRetries: options.maxRetries,
@@ -301,6 +302,13 @@ export class DodoPayments extends Core.APIClient {
   discounts: API.Discounts = new API.Discounts(this);
   addons: API.Addons = new API.Addons(this);
   brands: API.Brands = new API.Brands(this);
+
+  /**
+   * Check whether the base URL is set to its default.
+   */
+  #baseURLOverridden(): boolean {
+    return this.baseURL !== environments[this._options.environment || 'live_mode'];
+  }
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
