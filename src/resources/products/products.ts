@@ -61,6 +61,14 @@ export class Products extends APIResource {
       headers: { Accept: '*/*', ...options?.headers },
     });
   }
+
+  updateFiles(
+    id: string,
+    body: ProductUpdateFilesParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<ProductUpdateFilesResponse> {
+    return this._client.put(`/products/${id}/files`, { body, ...options });
+  }
 }
 
 export class ProductListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<ProductListResponse> {}
@@ -219,6 +227,8 @@ export interface Product {
    */
   description?: string | null;
 
+  digital_product_delivery?: Product.DigitalProductDelivery | null;
+
   /**
    * URL of the product image, optional.
    */
@@ -240,6 +250,35 @@ export interface Product {
    * Name of the product, optional.
    */
   name?: string | null;
+}
+
+export namespace Product {
+  export interface DigitalProductDelivery {
+    /**
+     * External URL to digital product
+     */
+    external_url?: string | null;
+
+    /**
+     * Uploaded files ids of digital product
+     */
+    files?: Array<DigitalProductDelivery.File> | null;
+
+    /**
+     * Instructions to download and use the digital product
+     */
+    instructions?: string | null;
+  }
+
+  export namespace DigitalProductDelivery {
+    export interface File {
+      file_id: string;
+
+      file_name: string;
+
+      url: string;
+    }
+  }
 }
 
 export interface ProductListResponse {
@@ -313,6 +352,12 @@ export interface ProductListResponse {
   tax_inclusive?: boolean | null;
 }
 
+export interface ProductUpdateFilesResponse {
+  file_id: string;
+
+  url: string;
+}
+
 export interface ProductCreateParams {
   price: Price;
 
@@ -337,6 +382,8 @@ export interface ProductCreateParams {
    */
   description?: string | null;
 
+  digital_product_delivery?: ProductCreateParams.DigitalProductDelivery | null;
+
   /**
    * Optional message displayed during license key activation
    */
@@ -360,6 +407,20 @@ export interface ProductCreateParams {
   name?: string | null;
 }
 
+export namespace ProductCreateParams {
+  export interface DigitalProductDelivery {
+    /**
+     * External URL to digital product
+     */
+    external_url?: string | null;
+
+    /**
+     * Instructions to download and use the digital product
+     */
+    instructions?: string | null;
+  }
+}
+
 export interface ProductUpdateParams {
   /**
    * Available Addons for subscription products
@@ -372,6 +433,8 @@ export interface ProductUpdateParams {
    * Description of the product, optional and must be at most 1000 characters.
    */
   description?: string | null;
+
+  digital_product_delivery?: ProductUpdateParams.DigitalProductDelivery | null;
 
   /**
    * Product image id after its uploaded to S3
@@ -418,6 +481,25 @@ export interface ProductUpdateParams {
   tax_category?: MiscAPI.TaxCategory | null;
 }
 
+export namespace ProductUpdateParams {
+  export interface DigitalProductDelivery {
+    /**
+     * External URL to digital product
+     */
+    external_url?: string | null;
+
+    /**
+     * Uploaded files ids of digital product
+     */
+    files?: Array<string> | null;
+
+    /**
+     * Instructions to download and use the digital product
+     */
+    instructions?: string | null;
+  }
+}
+
 export interface ProductListParams extends DefaultPageNumberPaginationParams {
   /**
    * List archived products
@@ -439,6 +521,10 @@ export interface ProductListParams extends DefaultPageNumberPaginationParams {
   recurring?: boolean | null;
 }
 
+export interface ProductUpdateFilesParams {
+  file_name: string;
+}
+
 Products.ProductListResponsesDefaultPageNumberPagination = ProductListResponsesDefaultPageNumberPagination;
 Products.Images = Images;
 
@@ -448,10 +534,12 @@ export declare namespace Products {
     type Price as Price,
     type Product as Product,
     type ProductListResponse as ProductListResponse,
+    type ProductUpdateFilesResponse as ProductUpdateFilesResponse,
     ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
     type ProductCreateParams as ProductCreateParams,
     type ProductUpdateParams as ProductUpdateParams,
     type ProductListParams as ProductListParams,
+    type ProductUpdateFilesParams as ProductUpdateFilesParams,
   };
 
   export {

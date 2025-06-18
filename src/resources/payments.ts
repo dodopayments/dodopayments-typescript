@@ -161,6 +161,11 @@ export interface Payment {
   customer: CustomerLimitedDetails;
 
   /**
+   * brand id this payment belongs to
+   */
+  digital_products_delivered: boolean;
+
+  /**
    * List of disputes associated with this payment
    */
   disputes: Array<DisputesAPI.Dispute>;
@@ -325,6 +330,8 @@ export interface PaymentListResponse {
   currency: MiscAPI.Currency;
 
   customer: CustomerLimitedDetails;
+
+  digital_products_delivered: boolean;
 
   metadata: Record<string, string>;
 

@@ -164,6 +164,7 @@ Types:
 - <code><a href="./src/resources/products/products.ts">Price</a></code>
 - <code><a href="./src/resources/products/products.ts">Product</a></code>
 - <code><a href="./src/resources/products/products.ts">ProductListResponse</a></code>
+- <code><a href="./src/resources/products/products.ts">ProductUpdateFilesResponse</a></code>
 
 Methods:
 
@@ -173,6 +174,7 @@ Methods:
 - <code title="get /products">client.products.<a href="./src/resources/products/products.ts">list</a>({ ...params }) -> ProductListResponsesDefaultPageNumberPagination</code>
 - <code title="delete /products/{id}">client.products.<a href="./src/resources/products/products.ts">delete</a>(id) -> void</code>
 - <code title="post /products/{id}/unarchive">client.products.<a href="./src/resources/products/products.ts">unarchive</a>(id) -> void</code>
+- <code title="put /products/{id}/files">client.products.<a href="./src/resources/products/products.ts">updateFiles</a>(id, { ...params }) -> ProductUpdateFilesResponse</code>
 
 ## Images
 

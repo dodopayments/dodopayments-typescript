@@ -107,9 +107,11 @@ export {
   type Price,
   type Product,
   type ProductListResponse,
+  type ProductUpdateFilesResponse,
   type ProductCreateParams,
   type ProductUpdateParams,
   type ProductListParams,
+  type ProductUpdateFilesParams,
 } from './products/products';
 export {
   RefundsDefaultPageNumberPagination,

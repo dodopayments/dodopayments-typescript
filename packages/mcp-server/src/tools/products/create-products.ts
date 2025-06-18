@@ -42,6 +42,20 @@ export const tool: Tool = {
         type: 'string',
         description: 'Optional description of the product',
       },
+      digital_product_delivery: {
+        type: 'object',
+        properties: {
+          external_url: {
+            type: 'string',
+            description: 'External URL to digital product',
+          },
+          instructions: {
+            type: 'string',
+            description: 'Instructions to download and use the digital product',
+          },
+        },
+        required: [],
+      },
       license_key_activation_message: {
         type: 'string',
         description: 'Optional message displayed during license key activation',

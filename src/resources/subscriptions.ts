@@ -498,7 +498,7 @@ export interface SubscriptionChangePlanParams {
    */
   product_id: string;
 
-  proration_billing_mode: 'prorated_immediately';
+  proration_billing_mode: 'prorated_immediately' | 'full_immediately';
 
   /**
    * Number of units to subscribe for. Must be at least 1.

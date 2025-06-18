@@ -244,6 +244,7 @@ The following tools are available in this MCP server.
 - `list_products` (`read`):
 - `delete_products` (`write`):
 - `unarchive_products` (`write`):
+- `update_files_products` (`write`):
 
 ### Resource `products.images`:
 
