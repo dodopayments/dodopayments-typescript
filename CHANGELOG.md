@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.34.0 (2025-06-18)
+
+Full Changelog: [v1.32.0...v1.34.0](https://github.com/dodopayments/dodopayments-node/compare/v1.32.0...v1.34.0)
+
+### Features
+
+* **api:** updated to version 1.34.0 ([5e2b0de](https://github.com/dodopayments/dodopayments-node/commit/5e2b0de9a03f8710c8a0668a98f14de8cbfa615e))
+* **client:** add support for endpoint-specific base URLs ([be757eb](https://github.com/dodopayments/dodopayments-node/commit/be757ebae2d1a9f0f94a9928b78b62bbdaf35fe1))
+* **mcp:** set X-Stainless-MCP header ([b3296b1](https://github.com/dodopayments/dodopayments-node/commit/b3296b109535889fc01687c3134bc3dd5b3846d1))
+
+
+### Bug Fixes
+
+* publish script — handle NPM errors correctly ([032afdd](https://github.com/dodopayments/dodopayments-node/commit/032afddaf6a48ab218d5f7655644aa668446a708))
+
+
+### Chores
+
+* **ci:** enable for pull requests ([2330bc5](https://github.com/dodopayments/dodopayments-node/commit/2330bc5595b85c172bb554b8a3ce97d99b0975ff))
+* **internal:** make base APIResource abstract ([6101db1](https://github.com/dodopayments/dodopayments-node/commit/6101db10e3e77ef0d0afc9fcec8517fc6f4153b9))
+* **mcp:** provides high-level initMcpServer function and exports known clients ([6fe8bae](https://github.com/dodopayments/dodopayments-node/commit/6fe8baeac05503e60ba1a0b2a808530558c62d73))
+
 ## 1.32.0 (2025-06-09)
 
 Full Changelog: [v1.30.2...v1.32.0](https://github.com/dodopayments/dodopayments-node/compare/v1.30.2...v1.32.0)
