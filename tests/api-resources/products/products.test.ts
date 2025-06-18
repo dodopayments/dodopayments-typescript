@@ -45,6 +45,7 @@ describe('resource products', () => {
       addons: ['string'],
       brand_id: 'brand_id',
       description: 'description',
+      digital_product_delivery: { external_url: 'external_url', instructions: 'instructions' },
       license_key_activation_message: 'license_key_activation_message',
       license_key_activations_limit: 0,
       license_key_duration: { count: 0, interval: 'Day' },
@@ -144,5 +145,20 @@ describe('resource products', () => {
     await expect(client.products.unarchive('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
       DodoPayments.NotFoundError,
     );
+  });
+
+  test('updateFiles: only required params', async () => {
+    const responsePromise = client.products.updateFiles('id', { file_name: 'file_name' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('updateFiles: required and optional params', async () => {
+    const response = await client.products.updateFiles('id', { file_name: 'file_name' });
   });
 });
