@@ -30,7 +30,7 @@ export const tool: Tool = {
       },
       proration_billing_mode: {
         type: 'string',
-        enum: ['prorated_immediately'],
+        enum: ['prorated_immediately', 'full_immediately'],
       },
       quantity: {
         type: 'integer',

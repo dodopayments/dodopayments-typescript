@@ -38,6 +38,27 @@ export const tool: Tool = {
         type: 'string',
         description: 'Description of the product, optional and must be at most 1000 characters.',
       },
+      digital_product_delivery: {
+        type: 'object',
+        properties: {
+          external_url: {
+            type: 'string',
+            description: 'External URL to digital product',
+          },
+          files: {
+            type: 'array',
+            description: 'Uploaded files ids of digital product',
+            items: {
+              type: 'string',
+            },
+          },
+          instructions: {
+            type: 'string',
+            description: 'Instructions to download and use the digital product',
+          },
+        },
+        required: [],
+      },
       image_id: {
         type: 'string',
         description: 'Product image id after its uploaded to S3',

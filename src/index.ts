@@ -145,6 +145,8 @@ import {
   ProductListParams,
   ProductListResponse,
   ProductListResponsesDefaultPageNumberPagination,
+  ProductUpdateFilesParams,
+  ProductUpdateFilesResponse,
   ProductUpdateParams,
   Products,
 } from './resources/products/products';
@@ -499,10 +501,12 @@ export declare namespace DodoPayments {
     type Price as Price,
     type Product as Product,
     type ProductListResponse as ProductListResponse,
+    type ProductUpdateFilesResponse as ProductUpdateFilesResponse,
     ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
     type ProductCreateParams as ProductCreateParams,
     type ProductUpdateParams as ProductUpdateParams,
     type ProductListParams as ProductListParams,
+    type ProductUpdateFilesParams as ProductUpdateFilesParams,
   };
 
   export {
