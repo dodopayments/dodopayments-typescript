@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.34.1 (2025-06-21)
+
+Full Changelog: [v1.34.0...v1.34.1](https://github.com/dodopayments/dodopayments-node/compare/v1.34.0...v1.34.1)
+
+### Features
+
+* **api:** added cloudflare worker support for mcp ([92d0bca](https://github.com/dodopayments/dodopayments-node/commit/92d0bca4e826ca35e755329530e31b69646f02e6))
+
 ## 1.34.0 (2025-06-18)
 
 Full Changelog: [v1.32.0...v1.34.0](https://github.com/dodopayments/dodopayments-node/compare/v1.32.0...v1.34.0)
