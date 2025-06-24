@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.34.2 (2025-06-24)
+
+Full Changelog: [v1.34.1...v1.34.2](https://github.com/dodopayments/dodopayments-node/compare/v1.34.1...v1.34.2)
+
+### Refactors
+
+* **types:** replace Record with mapped types ([7863e76](https://github.com/dodopayments/dodopayments-node/commit/7863e762d41150756288cf325528530c40e5870d))
+
 ## 1.34.1 (2025-06-21)
 
 Full Changelog: [v1.34.0...v1.34.1](https://github.com/dodopayments/dodopayments-node/compare/v1.34.0...v1.34.1)
