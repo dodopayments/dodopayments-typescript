@@ -170,7 +170,7 @@ export interface Payment {
    */
   disputes: Array<DisputesAPI.Dispute>;
 
-  metadata: Record<string, string>;
+  metadata: { [key: string]: string };
 
   /**
    * Unique identifier for the payment
@@ -294,7 +294,7 @@ export interface PaymentCreateResponse {
 
   customer: CustomerLimitedDetails;
 
-  metadata: Record<string, string>;
+  metadata: { [key: string]: string };
 
   /**
    * Unique identifier for the payment
@@ -333,7 +333,7 @@ export interface PaymentListResponse {
 
   digital_products_delivered: boolean;
 
-  metadata: Record<string, string>;
+  metadata: { [key: string]: string };
 
   payment_id: string;
 
@@ -414,7 +414,7 @@ export interface PaymentCreateParams {
    */
   discount_code?: string | null;
 
-  metadata?: Record<string, string>;
+  metadata?: { [key: string]: string };
 
   /**
    * Whether to generate a payment link. Defaults to false if not specified.
