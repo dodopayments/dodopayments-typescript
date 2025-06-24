@@ -104,7 +104,7 @@ export interface Subscription {
 
   customer: PaymentsAPI.CustomerLimitedDetails;
 
-  metadata: Record<string, string>;
+  metadata: { [key: string]: string };
 
   /**
    * Timestamp of the next scheduled billing. Indicates the end of current billing
@@ -199,7 +199,7 @@ export interface SubscriptionCreateResponse {
 
   customer: PaymentsAPI.CustomerLimitedDetails;
 
-  metadata: Record<string, string>;
+  metadata: { [key: string]: string };
 
   /**
    * First payment id for the subscription
@@ -254,7 +254,7 @@ export interface SubscriptionListResponse {
 
   customer: PaymentsAPI.CustomerLimitedDetails;
 
-  metadata: Record<string, string>;
+  metadata: { [key: string]: string };
 
   /**
    * Timestamp of the next scheduled billing. Indicates the end of current billing
@@ -390,7 +390,7 @@ export interface SubscriptionCreateParams {
    */
   discount_code?: string | null;
 
-  metadata?: Record<string, string>;
+  metadata?: { [key: string]: string };
 
   on_demand?: SubscriptionCreateParams.OnDemand | null;
 
@@ -452,7 +452,7 @@ export interface SubscriptionUpdateParams {
 
   disable_on_demand?: SubscriptionUpdateParams.DisableOnDemand | null;
 
-  metadata?: Record<string, string> | null;
+  metadata?: { [key: string]: string } | null;
 
   status?: SubscriptionStatus | null;
 
@@ -527,7 +527,7 @@ export interface SubscriptionChargeParams {
    */
   product_price: number;
 
-  metadata?: Record<string, string> | null;
+  metadata?: { [key: string]: string } | null;
 }
 
 Subscriptions.SubscriptionListResponsesDefaultPageNumberPagination =
