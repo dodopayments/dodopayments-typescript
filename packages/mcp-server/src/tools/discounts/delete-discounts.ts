@@ -30,8 +30,8 @@ export const tool: Tool = {
 
 export const handler = async (client: DodoPayments, args: Record<string, unknown> | undefined) => {
   const { discount_id, ...body } = args as any;
-  await client.discounts.delete(discount_id);
-  return asTextContentResult('Successful tool call');
+  const response = await client.discounts.delete(discount_id).asResponse();
+  return asTextContentResult(await response.text());
 };
 
 export default { metadata, tool, handler };

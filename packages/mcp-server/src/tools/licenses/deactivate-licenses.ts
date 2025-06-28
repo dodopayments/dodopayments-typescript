@@ -33,8 +33,8 @@ export const tool: Tool = {
 
 export const handler = async (client: DodoPayments, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  await client.licenses.deactivate(body);
-  return asTextContentResult('Successful tool call');
+  const response = await client.licenses.deactivate(body).asResponse();
+  return asTextContentResult(await response.text());
 };
 
 export default { metadata, tool, handler };
