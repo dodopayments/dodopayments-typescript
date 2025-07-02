@@ -88,6 +88,9 @@ export interface Subscription {
    */
   addons: Array<AddonCartResponseItem>;
 
+  /**
+   * Billing address details for payments
+   */
   billing: PaymentsAPI.BillingAddress;
 
   /**
@@ -100,10 +103,19 @@ export interface Subscription {
    */
   created_at: string;
 
+  /**
+   * Currency used for the subscription payments
+   */
   currency: MiscAPI.Currency;
 
+  /**
+   * Customer details associated with the subscription
+   */
   customer: PaymentsAPI.CustomerLimitedDetails;
 
+  /**
+   * Additional custom data associated with the subscription
+   */
   metadata: { [key: string]: string };
 
   /**
@@ -122,6 +134,9 @@ export interface Subscription {
    */
   payment_frequency_count: number;
 
+  /**
+   * Time interval for payment frequency (e.g. month, year)
+   */
   payment_frequency_interval: TimeInterval;
 
   /**
@@ -145,6 +160,9 @@ export interface Subscription {
    */
   recurring_pre_tax_amount: number;
 
+  /**
+   * Current status of the subscription
+   */
   status: SubscriptionStatus;
 
   /**
@@ -157,6 +175,9 @@ export interface Subscription {
    */
   subscription_period_count: number;
 
+  /**
+   * Time interval for the subscription period (e.g. month, year)
+   */
   subscription_period_interval: TimeInterval;
 
   /**
@@ -197,8 +218,14 @@ export interface SubscriptionCreateResponse {
    */
   addons: Array<AddonCartResponseItem>;
 
+  /**
+   * Customer details associated with this subscription
+   */
   customer: PaymentsAPI.CustomerLimitedDetails;
 
+  /**
+   * Additional metadata associated with the subscription
+   */
   metadata: { [key: string]: string };
 
   /**
@@ -229,6 +256,11 @@ export interface SubscriptionCreateResponse {
   discount_id?: string | null;
 
   /**
+   * Expiry timestamp of the payment link
+   */
+  expires_on?: string | null;
+
+  /**
    * URL to checkout page
    */
   payment_link?: string | null;
@@ -238,6 +270,9 @@ export interface SubscriptionCreateResponse {
  * Response struct representing subscription details
  */
 export interface SubscriptionListResponse {
+  /**
+   * Billing address details for payments
+   */
   billing: PaymentsAPI.BillingAddress;
 
   /**
@@ -250,10 +285,19 @@ export interface SubscriptionListResponse {
    */
   created_at: string;
 
+  /**
+   * Currency used for the subscription payments
+   */
   currency: MiscAPI.Currency;
 
+  /**
+   * Customer details associated with the subscription
+   */
   customer: PaymentsAPI.CustomerLimitedDetails;
 
+  /**
+   * Additional custom data associated with the subscription
+   */
   metadata: { [key: string]: string };
 
   /**
@@ -272,6 +316,9 @@ export interface SubscriptionListResponse {
    */
   payment_frequency_count: number;
 
+  /**
+   * Time interval for payment frequency (e.g. month, year)
+   */
   payment_frequency_interval: TimeInterval;
 
   /**
@@ -295,6 +342,9 @@ export interface SubscriptionListResponse {
    */
   recurring_pre_tax_amount: number;
 
+  /**
+   * Current status of the subscription
+   */
   status: SubscriptionStatus;
 
   /**
@@ -307,6 +357,9 @@ export interface SubscriptionListResponse {
    */
   subscription_period_count: number;
 
+  /**
+   * Time interval for the subscription period (e.g. month, year)
+   */
   subscription_period_interval: TimeInterval;
 
   /**
@@ -335,8 +388,14 @@ export interface SubscriptionChargeResponse {
 }
 
 export interface SubscriptionCreateParams {
+  /**
+   * Billing address information for the subscription
+   */
   billing: PaymentsAPI.BillingAddress;
 
+  /**
+   * Customer details for the subscription
+   */
   customer: PaymentsAPI.CustomerRequest;
 
   /**
@@ -383,6 +442,10 @@ export interface SubscriptionCreateParams {
     | 'afterpay_clearpay'
   > | null;
 
+  /**
+   * Fix the currency in which the end customer is billed. If Dodo Payments cannot
+   * support that currency for this transaction, it will not proceed
+   */
   billing_currency?: MiscAPI.Currency | null;
 
   /**
@@ -390,6 +453,9 @@ export interface SubscriptionCreateParams {
    */
   discount_code?: string | null;
 
+  /**
+   * Additional metadata for the subscription Defaults to empty if not specified
+   */
   metadata?: { [key: string]: string };
 
   on_demand?: SubscriptionCreateParams.OnDemand | null;
@@ -469,27 +535,27 @@ export interface SubscriptionListParams extends DefaultPageNumberPaginationParam
   /**
    * filter by Brand id
    */
-  brand_id?: string | null;
+  brand_id?: string;
 
   /**
    * Get events after this created time
    */
-  created_at_gte?: string | null;
+  created_at_gte?: string;
 
   /**
    * Get events created before this time
    */
-  created_at_lte?: string | null;
+  created_at_lte?: string;
 
   /**
    * Filter by customer id
    */
-  customer_id?: string | null;
+  customer_id?: string;
 
   /**
    * Filter by status
    */
-  status?: SubscriptionStatus | null;
+  status?: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired';
 }
 
 export interface SubscriptionChangePlanParams {
@@ -498,6 +564,9 @@ export interface SubscriptionChangePlanParams {
    */
   product_id: string;
 
+  /**
+   * Proration Billing Mode
+   */
   proration_billing_mode: 'prorated_immediately' | 'full_immediately';
 
   /**
@@ -527,6 +596,10 @@ export interface SubscriptionChargeParams {
    */
   product_price: number;
 
+  /**
+   * Metadata for the payment. If not passed, the metadata of the subscription will
+   * be taken
+   */
   metadata?: { [key: string]: string } | null;
 }
 

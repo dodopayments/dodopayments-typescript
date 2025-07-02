@@ -17,14 +17,15 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'create_discounts',
-  description: 'If `code` is omitted or empty, a random 16-char uppercase code is generated.',
+  description:
+    'POST /discounts\nIf `code` is omitted or empty, a random 16-char uppercase code is generated.',
   inputSchema: {
     type: 'object',
     properties: {
       amount: {
         type: 'integer',
         description:
-          'The discount amount.\n\n- If `discount_type` is **not** `percentage`, `amount` is in **USD cents**. For example, `100` means `$1.00`.\nOnly USD is allowed.\n- If `discount_type` **is** `percentage`, `amount` is in **basis points**. For example, `540` means `5.4%`.\n\nMust be at least 1.',
+          'The discount amount.\n\n- If `discount_type` is **not** `percentage`, `amount` is in **USD cents**. For example, `100` means `$1.00`.\n  Only USD is allowed.\n- If `discount_type` **is** `percentage`, `amount` is in **basis points**. For example, `540` means `5.4%`.\n\nMust be at least 1.',
       },
       type: {
         $ref: '#/$defs/discount_type',

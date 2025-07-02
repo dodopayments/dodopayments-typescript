@@ -61,8 +61,14 @@ export interface Dispute {
    */
   dispute_id: string;
 
+  /**
+   * The current stage of the dispute process.
+   */
   dispute_stage: DisputeStage;
 
+  /**
+   * The current status of the dispute.
+   */
   dispute_status: DisputeStatus;
 
   /**
@@ -109,6 +115,9 @@ export interface DisputeRetrieveResponse {
    */
   currency: string;
 
+  /**
+   * The customer who filed the dispute
+   */
   customer: PaymentsAPI.CustomerLimitedDetails;
 
   /**
@@ -116,8 +125,14 @@ export interface DisputeRetrieveResponse {
    */
   dispute_id: string;
 
+  /**
+   * The current stage of the dispute process.
+   */
   dispute_stage: DisputeStage;
 
+  /**
+   * The current status of the dispute.
+   */
   dispute_status: DisputeStatus;
 
   /**
@@ -163,8 +178,14 @@ export interface DisputeListResponse {
    */
   dispute_id: string;
 
+  /**
+   * The current stage of the dispute process.
+   */
   dispute_stage: DisputeStage;
 
+  /**
+   * The current status of the dispute.
+   */
   dispute_status: DisputeStatus;
 
   /**
@@ -177,27 +198,34 @@ export interface DisputeListParams extends DefaultPageNumberPaginationParams {
   /**
    * Get events after this created time
    */
-  created_at_gte?: string | null;
+  created_at_gte?: string;
 
   /**
    * Get events created before this time
    */
-  created_at_lte?: string | null;
+  created_at_lte?: string;
 
   /**
    * Filter by customer_id
    */
-  customer_id?: string | null;
+  customer_id?: string;
 
   /**
    * Filter by dispute stage
    */
-  dispute_stage?: DisputeStage | null;
+  dispute_stage?: 'pre_dispute' | 'dispute' | 'pre_arbitration';
 
   /**
    * Filter by dispute status
    */
-  dispute_status?: DisputeStatus | null;
+  dispute_status?:
+    | 'dispute_opened'
+    | 'dispute_expired'
+    | 'dispute_accepted'
+    | 'dispute_cancelled'
+    | 'dispute_challenged'
+    | 'dispute_won'
+    | 'dispute_lost';
 }
 
 Disputes.DisputeListResponsesDefaultPageNumberPagination = DisputeListResponsesDefaultPageNumberPagination;

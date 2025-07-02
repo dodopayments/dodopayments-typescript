@@ -62,6 +62,9 @@ export interface AddonResponse {
    */
   created_at: string;
 
+  /**
+   * Currency of the Addon
+   */
   currency: MiscAPI.Currency;
 
   /**
@@ -75,8 +78,7 @@ export interface AddonResponse {
   price: number;
 
   /**
-   * Represents the different categories of taxation applicable to various products
-   * and services.
+   * Tax category applied to this Addon
    */
   tax_category: MiscAPI.TaxCategory;
 
@@ -103,6 +105,9 @@ export interface AddonUpdateImagesResponse {
 }
 
 export interface AddonCreateParams {
+  /**
+   * The currency of the Addon
+   */
   currency: MiscAPI.Currency;
 
   /**
@@ -116,8 +121,7 @@ export interface AddonCreateParams {
   price: number;
 
   /**
-   * Represents the different categories of taxation applicable to various products
-   * and services.
+   * Tax category applied to this Addon
    */
   tax_category: MiscAPI.TaxCategory;
 
@@ -128,6 +132,9 @@ export interface AddonCreateParams {
 }
 
 export interface AddonUpdateParams {
+  /**
+   * The currency of the Addon
+   */
   currency?: MiscAPI.Currency | null;
 
   /**
@@ -151,8 +158,7 @@ export interface AddonUpdateParams {
   price?: number | null;
 
   /**
-   * Represents the different categories of taxation applicable to various products
-   * and services.
+   * Tax category of the Addon.
    */
   tax_category?: MiscAPI.TaxCategory | null;
 }

@@ -6,6 +6,9 @@ import * as Core from '../core';
 import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class WebhookEvents extends APIResource {
+  /**
+   * @deprecated
+   */
   retrieve(webhookEventId: string, options?: Core.RequestOptions): Core.APIPromise<WebhookEvent> {
     return this._client.get(`/webhook_events/${webhookEventId}`, options);
   }
@@ -55,27 +58,32 @@ export interface WebhookEventListParams extends DefaultPageNumberPaginationParam
   /**
    * Get events after this created time
    */
-  created_at_gte?: string | null;
+  created_at_gte?: string;
 
   /**
    * Get events created before this time
    */
-  created_at_lte?: string | null;
+  created_at_lte?: string;
 
   /**
    * Min : 1, Max : 100, default 10
    */
-  limit?: number | null;
+  limit?: number;
 
   /**
    * Get events history of a specific object like payment/subscription/refund/dispute
    */
-  object_id?: string | null;
+  object_id?: string;
+
+  /**
+   * Filter by webhook event id
+   */
+  webhook_event_id?: string;
 
   /**
    * Filter by webhook destination
    */
-  webhook_id?: string | null;
+  webhook_id?: string;
 }
 
 WebhookEvents.WebhookEventsDefaultPageNumberPagination = WebhookEventsDefaultPageNumberPagination;

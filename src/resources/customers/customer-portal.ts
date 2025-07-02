@@ -35,7 +35,7 @@ export interface CustomerPortalCreateParams {
   /**
    * If true, will send link to user.
    */
-  send_email?: boolean | null;
+  send_email?: boolean;
 }
 
 export declare namespace CustomerPortal {

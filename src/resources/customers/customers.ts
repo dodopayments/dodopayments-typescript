@@ -76,7 +76,12 @@ export interface CustomerUpdateParams {
   phone_number?: string | null;
 }
 
-export interface CustomerListParams extends DefaultPageNumberPaginationParams {}
+export interface CustomerListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Filter by customer email
+   */
+  email?: string;
+}
 
 Customers.CustomersDefaultPageNumberPagination = CustomersDefaultPageNumberPagination;
 Customers.CustomerPortal = CustomerPortal;

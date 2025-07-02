@@ -47,6 +47,10 @@ export const tool: Tool = {
         type: 'integer',
         description: 'Page size default is 10 max is 100',
       },
+      webhook_event_id: {
+        type: 'string',
+        description: 'Filter by webhook event id',
+      },
       webhook_id: {
         type: 'string',
         description: 'Filter by webhook destination',
