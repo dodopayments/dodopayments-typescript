@@ -79,10 +79,19 @@ export interface LicenseKeyDuration {
   interval: SubscriptionsAPI.TimeInterval;
 }
 
+/**
+ * One-time price details.
+ */
 export type Price = Price.OneTimePrice | Price.RecurringPrice;
 
 export namespace Price {
+  /**
+   * One-time price details.
+   */
   export interface OneTimePrice {
+    /**
+     * The currency in which the payment is made.
+     */
     currency: MiscAPI.Currency;
 
     /**
@@ -126,7 +135,13 @@ export namespace Price {
     tax_inclusive?: boolean | null;
   }
 
+  /**
+   * Recurring price details.
+   */
   export interface RecurringPrice {
+    /**
+     * The currency in which the payment is made.
+     */
     currency: MiscAPI.Currency;
 
     /**
@@ -140,6 +155,9 @@ export namespace Price {
      */
     payment_frequency_count: number;
 
+    /**
+     * The time interval for the payment frequency (e.g., day, month, year).
+     */
     payment_frequency_interval: SubscriptionsAPI.TimeInterval;
 
     /**
@@ -160,6 +178,9 @@ export namespace Price {
      */
     subscription_period_count: number;
 
+    /**
+     * The time interval for the subscription period (e.g., day, month, year).
+     */
     subscription_period_interval: SubscriptionsAPI.TimeInterval;
 
     type: 'recurring_price';
@@ -199,6 +220,9 @@ export interface Product {
    */
   license_key_enabled: boolean;
 
+  /**
+   * Pricing information for the product.
+   */
   price: Price;
 
   /**
@@ -207,8 +231,7 @@ export interface Product {
   product_id: string;
 
   /**
-   * Represents the different categories of taxation applicable to various products
-   * and services.
+   * Tax category associated with the product.
    */
   tax_category: MiscAPI.TaxCategory;
 
@@ -244,6 +267,9 @@ export interface Product {
    */
   license_key_activations_limit?: number | null;
 
+  /**
+   * Duration of the license key validity, if enabled.
+   */
   license_key_duration?: LicenseKeyDuration | null;
 
   /**
@@ -303,8 +329,7 @@ export interface ProductListResponse {
   product_id: string;
 
   /**
-   * Represents the different categories of taxation applicable to various products
-   * and services.
+   * Tax category associated with the product.
    */
   tax_category: MiscAPI.TaxCategory;
 
@@ -313,6 +338,9 @@ export interface ProductListResponse {
    */
   updated_at: string;
 
+  /**
+   * Currency of the price
+   */
   currency?: MiscAPI.Currency | null;
 
   /**
@@ -344,6 +372,9 @@ export interface ProductListResponse {
    */
   price?: number | null;
 
+  /**
+   * Details of the price
+   */
   price_detail?: Price | null;
 
   /**
@@ -359,11 +390,13 @@ export interface ProductUpdateFilesResponse {
 }
 
 export interface ProductCreateParams {
+  /**
+   * Price configuration for the product
+   */
   price: Price;
 
   /**
-   * Represents the different categories of taxation applicable to various products
-   * and services.
+   * Tax category applied to this product
    */
   tax_category: MiscAPI.TaxCategory;
 
@@ -382,6 +415,9 @@ export interface ProductCreateParams {
    */
   description?: string | null;
 
+  /**
+   * Choose how you would like you digital product delivered
+   */
   digital_product_delivery?: ProductCreateParams.DigitalProductDelivery | null;
 
   /**
@@ -394,6 +430,11 @@ export interface ProductCreateParams {
    */
   license_key_activations_limit?: number | null;
 
+  /**
+   * Duration configuration for the license key. Set to null if you don't want the
+   * license key to expire. For subscriptions, the lifetime of the license key is
+   * tied to the subscription period
+   */
   license_key_duration?: LicenseKeyDuration | null;
 
   /**
@@ -408,6 +449,9 @@ export interface ProductCreateParams {
 }
 
 export namespace ProductCreateParams {
+  /**
+   * Choose how you would like you digital product delivered
+   */
   export interface DigitalProductDelivery {
     /**
      * External URL to digital product
@@ -434,6 +478,9 @@ export interface ProductUpdateParams {
    */
   description?: string | null;
 
+  /**
+   * Choose how you would like you digital product delivered
+   */
   digital_product_delivery?: ProductUpdateParams.DigitalProductDelivery | null;
 
   /**
@@ -457,6 +504,12 @@ export interface ProductUpdateParams {
    */
   license_key_activations_limit?: number | null;
 
+  /**
+   * Duration of the license key if enabled.
+   *
+   * Only applicable if `license_key_enabled` is `true`. Represents the duration in
+   * days for which the license key is valid.
+   */
   license_key_duration?: LicenseKeyDuration | null;
 
   /**
@@ -472,16 +525,21 @@ export interface ProductUpdateParams {
    */
   name?: string | null;
 
+  /**
+   * Price details of the product.
+   */
   price?: Price | null;
 
   /**
-   * Represents the different categories of taxation applicable to various products
-   * and services.
+   * Tax category of the product.
    */
   tax_category?: MiscAPI.TaxCategory | null;
 }
 
 export namespace ProductUpdateParams {
+  /**
+   * Choose how you would like you digital product delivered
+   */
   export interface DigitalProductDelivery {
     /**
      * External URL to digital product
@@ -509,7 +567,7 @@ export interface ProductListParams extends DefaultPageNumberPaginationParams {
   /**
    * filter by Brand id
    */
-  brand_id?: string | null;
+  brand_id?: string;
 
   /**
    * Filter products by pricing type:
@@ -518,7 +576,7 @@ export interface ProductListParams extends DefaultPageNumberPaginationParams {
    * - `false`: Show only one-time price products
    * - `null` or absent: Show both types of products
    */
-  recurring?: boolean | null;
+  recurring?: boolean;
 }
 
 export interface ProductUpdateFilesParams {

@@ -48,16 +48,8 @@ export const tool: Tool = {
         description: 'Page size default is 10 max is 100',
       },
       status: {
-        $ref: '#/$defs/intent_status',
-      },
-      subscription_id: {
         type: 'string',
-        description: 'Filter by subscription id',
-      },
-    },
-    $defs: {
-      intent_status: {
-        type: 'string',
+        description: 'Filter by status',
         enum: [
           'succeeded',
           'failed',
@@ -71,6 +63,10 @@ export const tool: Tool = {
           'partially_captured',
           'partially_captured_and_capturable',
         ],
+      },
+      subscription_id: {
+        type: 'string',
+        description: 'Filter by subscription id',
       },
     },
   },

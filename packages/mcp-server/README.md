@@ -256,7 +256,8 @@ The following tools are available in this MCP server.
 
 ### Resource `discounts`:
 
-- `create_discounts` (`write`): If `code` is omitted or empty, a random 16-char uppercase code is generated.
+- `create_discounts` (`write`): POST /discounts
+  If `code` is omitted or empty, a random 16-char uppercase code is generated.
 - `retrieve_discounts` (`read`): GET /discounts/{discount_id}
 - `update_discounts` (`write`): PATCH /discounts/{discount_id}
 - `list_discounts` (`read`): GET /discounts

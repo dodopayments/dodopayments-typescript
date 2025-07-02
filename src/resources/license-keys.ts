@@ -105,6 +105,9 @@ export interface LicenseKey {
    */
   product_id: string;
 
+  /**
+   * The current status of the license key (e.g., active, inactive, expired).
+   */
   status: LicenseKeyStatus;
 
   /**
@@ -150,17 +153,17 @@ export interface LicenseKeyListParams extends DefaultPageNumberPaginationParams 
   /**
    * Filter by customer ID
    */
-  customer_id?: string | null;
+  customer_id?: string;
 
   /**
    * Filter by product ID
    */
-  product_id?: string | null;
+  product_id?: string;
 
   /**
    * Filter by license key status
    */
-  status?: LicenseKeyStatus | null;
+  status?: 'active' | 'expired' | 'disabled';
 }
 
 LicenseKeys.LicenseKeysDefaultPageNumberPagination = LicenseKeysDefaultPageNumberPagination;

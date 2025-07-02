@@ -38,12 +38,8 @@ export const tool: Tool = {
         description: 'Filter by product ID',
       },
       status: {
-        $ref: '#/$defs/license_key_status',
-      },
-    },
-    $defs: {
-      license_key_status: {
         type: 'string',
+        description: 'Filter by license key status',
         enum: ['active', 'expired', 'disabled'],
       },
     },

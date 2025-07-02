@@ -21,6 +21,10 @@ export const tool: Tool = {
   inputSchema: {
     type: 'object',
     properties: {
+      email: {
+        type: 'string',
+        description: 'Filter by customer email',
+      },
       page_number: {
         type: 'integer',
         description: 'Page number default is 0',

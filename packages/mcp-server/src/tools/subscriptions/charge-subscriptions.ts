@@ -31,6 +31,8 @@ export const tool: Tool = {
       },
       metadata: {
         type: 'object',
+        description:
+          'Metadata for the payment. If not passed, the metadata of the subscription will be taken',
       },
     },
   },

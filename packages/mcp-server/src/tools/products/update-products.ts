@@ -40,6 +40,7 @@ export const tool: Tool = {
       },
       digital_product_delivery: {
         type: 'object',
+        description: 'Choose how you would like you digital product delivered',
         properties: {
           external_url: {
             type: 'string',
@@ -114,6 +115,7 @@ export const tool: Tool = {
           {
             type: 'object',
             title: 'One Time Price',
+            description: 'One-time price details.',
             properties: {
               currency: {
                 $ref: '#/$defs/currency',
@@ -156,6 +158,7 @@ export const tool: Tool = {
           {
             type: 'object',
             title: 'Recurring Price',
+            description: 'Recurring price details.',
             properties: {
               currency: {
                 $ref: '#/$defs/currency',
@@ -216,6 +219,7 @@ export const tool: Tool = {
             ],
           },
         ],
+        description: 'One-time price details.',
       },
       currency: {
         type: 'string',

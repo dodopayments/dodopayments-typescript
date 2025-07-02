@@ -58,7 +58,7 @@ export interface BillingAddress {
   city: string;
 
   /**
-   * ISO country code alpha2 variant
+   * Two-letter ISO country code (ISO 3166-1 alpha-2)
    */
   country: MiscAPI.CountryCode;
 
@@ -139,6 +139,9 @@ export interface OneTimeProductCartItem {
 }
 
 export interface Payment {
+  /**
+   * Billing address details for payments
+   */
   billing: BillingAddress;
 
   /**
@@ -156,8 +159,14 @@ export interface Payment {
    */
   created_at: string;
 
+  /**
+   * Currency used for the payment
+   */
   currency: MiscAPI.Currency;
 
+  /**
+   * Details about the customer who made the payment
+   */
   customer: CustomerLimitedDetails;
 
   /**
@@ -170,6 +179,9 @@ export interface Payment {
    */
   disputes: Array<DisputesAPI.Dispute>;
 
+  /**
+   * Additional custom data associated with the payment
+   */
   metadata: { [key: string]: string };
 
   /**
@@ -189,6 +201,11 @@ export interface Payment {
    */
   settlement_amount: number;
 
+  /**
+   * The currency in which the settlement_amount will be credited to your Dodo
+   * balance. This may differ from the customer's payment currency in adaptive
+   * pricing scenarios.
+   */
   settlement_currency: MiscAPI.Currency;
 
   /**
@@ -198,7 +215,7 @@ export interface Payment {
   total_amount: number;
 
   /**
-   * ISO country code alpha2 variant
+   * ISO2 country code of the card
    */
   card_issuing_country?: MiscAPI.CountryCode | null;
 
@@ -259,6 +276,9 @@ export interface Payment {
    */
   settlement_tax?: number | null;
 
+  /**
+   * Current status of the payment intent
+   */
   status?: IntentStatus | null;
 
   /**
@@ -292,8 +312,14 @@ export interface PaymentCreateResponse {
    */
   client_secret: string;
 
+  /**
+   * Limited details about the customer making the payment
+   */
   customer: CustomerLimitedDetails;
 
+  /**
+   * Additional metadata associated with the payment
+   */
   metadata: { [key: string]: string };
 
   /**
@@ -310,6 +336,11 @@ export interface PaymentCreateResponse {
    * The discount id if discount is applied
    */
   discount_id?: string | null;
+
+  /**
+   * Expiry timestamp of the payment link
+   */
+  expires_on?: string | null;
 
   /**
    * Optional URL to a hosted payment page
@@ -369,8 +400,14 @@ export namespace PaymentRetrieveLineItemsResponse {
 }
 
 export interface PaymentCreateParams {
+  /**
+   * Billing address details for the payment
+   */
   billing: BillingAddress;
 
+  /**
+   * Customer information for the payment
+   */
   customer: CustomerRequest;
 
   /**
@@ -407,6 +444,10 @@ export interface PaymentCreateParams {
     | 'afterpay_clearpay'
   > | null;
 
+  /**
+   * Fix the currency in which the end customer is billed. If Dodo Payments cannot
+   * support that currency for this transaction, it will not proceed
+   */
   billing_currency?: MiscAPI.Currency | null;
 
   /**
@@ -414,6 +455,10 @@ export interface PaymentCreateParams {
    */
   discount_code?: string | null;
 
+  /**
+   * Additional metadata associated with the payment. Defaults to empty if not
+   * provided.
+   */
   metadata?: { [key: string]: string };
 
   /**
@@ -443,32 +488,43 @@ export interface PaymentListParams extends DefaultPageNumberPaginationParams {
   /**
    * filter by Brand id
    */
-  brand_id?: string | null;
+  brand_id?: string;
 
   /**
    * Get events after this created time
    */
-  created_at_gte?: string | null;
+  created_at_gte?: string;
 
   /**
    * Get events created before this time
    */
-  created_at_lte?: string | null;
+  created_at_lte?: string;
 
   /**
    * Filter by customer id
    */
-  customer_id?: string | null;
+  customer_id?: string;
 
   /**
    * Filter by status
    */
-  status?: IntentStatus | null;
+  status?:
+    | 'succeeded'
+    | 'failed'
+    | 'cancelled'
+    | 'processing'
+    | 'requires_customer_action'
+    | 'requires_merchant_action'
+    | 'requires_payment_method'
+    | 'requires_confirmation'
+    | 'requires_capture'
+    | 'partially_captured'
+    | 'partially_captured_and_capturable';
 
   /**
    * Filter by subscription id
    */
-  subscription_id?: string | null;
+  subscription_id?: string;
 }
 
 Payments.PaymentListResponsesDefaultPageNumberPagination = PaymentListResponsesDefaultPageNumberPagination;

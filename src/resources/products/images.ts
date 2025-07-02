@@ -31,7 +31,7 @@ export interface ImageUpdateResponse {
 }
 
 export interface ImageUpdateParams {
-  force_update?: boolean | null;
+  force_update?: boolean;
 }
 
 export declare namespace Images {
