@@ -48,12 +48,8 @@ export const tool: Tool = {
         description: 'Page size default is 10 max is 100',
       },
       status: {
-        $ref: '#/$defs/subscription_status',
-      },
-    },
-    $defs: {
-      subscription_status: {
         type: 'string',
+        description: 'Filter by status',
         enum: ['pending', 'active', 'on_hold', 'paused', 'cancelled', 'failed', 'expired'],
       },
     },

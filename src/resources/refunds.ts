@@ -59,6 +59,9 @@ export interface Refund {
    */
   refund_id: string;
 
+  /**
+   * The current status of the refund.
+   */
   status: RefundStatus;
 
   /**
@@ -66,6 +69,9 @@ export interface Refund {
    */
   amount?: number | null;
 
+  /**
+   * The currency of the refund, represented as an ISO 4217 currency code.
+   */
   currency?: MiscAPI.Currency | null;
 
   /**
@@ -116,22 +122,22 @@ export interface RefundListParams extends DefaultPageNumberPaginationParams {
   /**
    * Get events after this created time
    */
-  created_at_gte?: string | null;
+  created_at_gte?: string;
 
   /**
    * Get events created before this time
    */
-  created_at_lte?: string | null;
+  created_at_lte?: string;
 
   /**
    * Filter by customer_id
    */
-  customer_id?: string | null;
+  customer_id?: string;
 
   /**
    * Filter by status
    */
-  status?: RefundStatus | null;
+  status?: 'succeeded' | 'failed' | 'pending' | 'review';
 }
 
 Refunds.RefundsDefaultPageNumberPagination = RefundsDefaultPageNumberPagination;

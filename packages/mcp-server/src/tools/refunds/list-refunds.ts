@@ -44,12 +44,8 @@ export const tool: Tool = {
         description: 'Page size default is 10 max is 100',
       },
       status: {
-        $ref: '#/$defs/refund_status',
-      },
-    },
-    $defs: {
-      refund_status: {
         type: 'string',
+        description: 'Filter by status',
         enum: ['succeeded', 'failed', 'pending', 'review'],
       },
     },

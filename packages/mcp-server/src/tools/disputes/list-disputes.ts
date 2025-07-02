@@ -36,27 +36,13 @@ export const tool: Tool = {
         description: 'Filter by customer_id',
       },
       dispute_stage: {
-        $ref: '#/$defs/dispute_stage',
-      },
-      dispute_status: {
-        $ref: '#/$defs/dispute_status',
-      },
-      page_number: {
-        type: 'integer',
-        description: 'Page number default is 0',
-      },
-      page_size: {
-        type: 'integer',
-        description: 'Page size default is 10 max is 100',
-      },
-    },
-    $defs: {
-      dispute_stage: {
         type: 'string',
+        description: 'Filter by dispute stage',
         enum: ['pre_dispute', 'dispute', 'pre_arbitration'],
       },
       dispute_status: {
         type: 'string',
+        description: 'Filter by dispute status',
         enum: [
           'dispute_opened',
           'dispute_expired',
@@ -66,6 +52,14 @@ export const tool: Tool = {
           'dispute_won',
           'dispute_lost',
         ],
+      },
+      page_number: {
+        type: 'integer',
+        description: 'Page number default is 0',
+      },
+      page_size: {
+        type: 'integer',
+        description: 'Page size default is 10 max is 100',
       },
     },
   },

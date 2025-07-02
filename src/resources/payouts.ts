@@ -51,6 +51,9 @@ export interface PayoutListResponse {
    */
   created_at: string;
 
+  /**
+   * The currency of the payout, represented as an ISO 4217 currency code.
+   */
   currency: MiscAPI.Currency;
 
   /**
@@ -73,6 +76,9 @@ export interface PayoutListResponse {
    */
   refunds: number;
 
+  /**
+   * The current status of the payout.
+   */
   status: 'not_initiated' | 'in_progress' | 'on_hold' | 'failed' | 'success';
 
   /**

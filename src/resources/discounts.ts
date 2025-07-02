@@ -7,7 +7,8 @@ import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } f
 
 export class Discounts extends APIResource {
   /**
-   * If `code` is omitted or empty, a random 16-char uppercase code is generated.
+   * POST /discounts If `code` is omitted or empty, a random 16-char uppercase code
+   * is generated.
    */
   create(body: DiscountCreateParams, options?: Core.RequestOptions): Core.APIPromise<Discount> {
     return this._client.post('/discounts', { body, ...options });
@@ -102,6 +103,9 @@ export interface Discount {
    */
   times_used: number;
 
+  /**
+   * The type of discount, e.g. `percentage`, `flat`, or `flat_per_unit`.
+   */
   type: DiscountType;
 
   /**
@@ -135,6 +139,9 @@ export interface DiscountCreateParams {
    */
   amount: number;
 
+  /**
+   * The discount type (e.g. `percentage`, `flat`, or `flat_per_unit`).
+   */
   type: DiscountType;
 
   /**
@@ -190,6 +197,9 @@ export interface DiscountUpdateParams {
    */
   restricted_to?: Array<string> | null;
 
+  /**
+   * If present, update the discount type.
+   */
   type?: DiscountType | null;
 
   usage_limit?: number | null;
