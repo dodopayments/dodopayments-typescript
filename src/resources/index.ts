@@ -141,6 +141,7 @@ export {
   WebhookEventsDefaultPageNumberPagination,
   WebhookEvents,
   type WebhookEvent,
+  type WebhookEventType,
   type WebhookPayload,
   type WebhookEventListParams,
 } from './webhook-events';

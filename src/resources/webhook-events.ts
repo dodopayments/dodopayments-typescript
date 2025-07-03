@@ -59,6 +59,33 @@ export interface WebhookEvent {
   response?: string | null;
 }
 
+/**
+ * Event types for Dodo events
+ */
+export type WebhookEventType =
+  | 'payment.succeeded'
+  | 'payment.failed'
+  | 'payment.processing'
+  | 'payment.cancelled'
+  | 'refund.succeeded'
+  | 'refund.failed'
+  | 'dispute.opened'
+  | 'dispute.expired'
+  | 'dispute.accepted'
+  | 'dispute.cancelled'
+  | 'dispute.challenged'
+  | 'dispute.won'
+  | 'dispute.lost'
+  | 'subscription.active'
+  | 'subscription.renewed'
+  | 'subscription.on_hold'
+  | 'subscription.paused'
+  | 'subscription.cancelled'
+  | 'subscription.failed'
+  | 'subscription.expired'
+  | 'subscription.plan_changed'
+  | 'license_key.created';
+
 export interface WebhookPayload {
   business_id: string;
 
@@ -81,29 +108,7 @@ export interface WebhookPayload {
   /**
    * Event types for Dodo events
    */
-  type:
-    | 'payment.succeeded'
-    | 'payment.failed'
-    | 'payment.processing'
-    | 'payment.cancelled'
-    | 'refund.succeeded'
-    | 'refund.failed'
-    | 'dispute.opened'
-    | 'dispute.expired'
-    | 'dispute.accepted'
-    | 'dispute.cancelled'
-    | 'dispute.challenged'
-    | 'dispute.won'
-    | 'dispute.lost'
-    | 'subscription.active'
-    | 'subscription.renewed'
-    | 'subscription.on_hold'
-    | 'subscription.paused'
-    | 'subscription.cancelled'
-    | 'subscription.failed'
-    | 'subscription.expired'
-    | 'subscription.plan_changed'
-    | 'license_key.created';
+  type: WebhookEventType;
 }
 
 export namespace WebhookPayload {
@@ -224,6 +229,7 @@ WebhookEvents.WebhookEventsDefaultPageNumberPagination = WebhookEventsDefaultPag
 export declare namespace WebhookEvents {
   export {
     type WebhookEvent as WebhookEvent,
+    type WebhookEventType as WebhookEventType,
     type WebhookPayload as WebhookPayload,
     WebhookEventsDefaultPageNumberPagination as WebhookEventsDefaultPageNumberPagination,
     type WebhookEventListParams as WebhookEventListParams,
