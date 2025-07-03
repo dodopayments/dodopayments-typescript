@@ -150,6 +150,7 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/webhook-events.ts">WebhookEvent</a></code>
+- <code><a href="./src/resources/webhook-events.ts">WebhookPayload</a></code>
 
 Methods:
 
