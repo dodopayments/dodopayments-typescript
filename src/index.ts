@@ -124,6 +124,7 @@ import {
 import {
   WebhookEvent,
   WebhookEventListParams,
+  WebhookEventType,
   WebhookEvents,
   WebhookEventsDefaultPageNumberPagination,
   WebhookPayload,
@@ -494,6 +495,7 @@ export declare namespace DodoPayments {
   export {
     WebhookEvents as WebhookEvents,
     type WebhookEvent as WebhookEvent,
+    type WebhookEventType as WebhookEventType,
     type WebhookPayload as WebhookPayload,
     WebhookEventsDefaultPageNumberPagination as WebhookEventsDefaultPageNumberPagination,
     type WebhookEventListParams as WebhookEventListParams,
