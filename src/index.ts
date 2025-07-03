@@ -126,6 +126,7 @@ import {
   WebhookEventListParams,
   WebhookEvents,
   WebhookEventsDefaultPageNumberPagination,
+  WebhookPayload,
 } from './resources/webhook-events';
 import {
   Customer,
@@ -493,6 +494,7 @@ export declare namespace DodoPayments {
   export {
     WebhookEvents as WebhookEvents,
     type WebhookEvent as WebhookEvent,
+    type WebhookPayload as WebhookPayload,
     WebhookEventsDefaultPageNumberPagination as WebhookEventsDefaultPageNumberPagination,
     type WebhookEventListParams as WebhookEventListParams,
   };
