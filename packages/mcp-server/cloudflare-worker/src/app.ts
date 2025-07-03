@@ -82,5 +82,25 @@ export function makeOAuthConsent(config: ServerConfig, defaultOptions?: Partial<
     return c.html(layout(content, 'Authorization', config));
   });
 
+  // Add a resource server .well-known to point clients to the correct auth server
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Allow-Headers': '*',
+    'Access-Control-Max-Age': '86400',
+  };
+  app.options('/.well-known/oauth-protected-resource', async (c) => {
+    Object.entries(corsHeaders).forEach(([key, value]) => c.header(key, value));
+    return c.body(null, 204);
+  });
+  app.get('/.well-known/oauth-protected-resource', async (c) => {
+    Object.entries(corsHeaders).forEach(([key, value]) => c.header(key, value));
+    const baseURL = new URL('/', c.req.url).toString();
+    return c.json({
+      resource: baseURL,
+      authorization_servers: [baseURL],
+    });
+  });
+
   return app;
 }
