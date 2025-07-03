@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.37.1 (2025-07-03)
+
+Full Changelog: [v1.37.0...v1.37.1](https://github.com/dodopayments/dodopayments-node/compare/v1.37.0...v1.37.1)
+
+### Bug Fixes
+
+* **client:** don't send `Content-Type` for bodyless methods ([4503d7b](https://github.com/dodopayments/dodopayments-node/commit/4503d7bec52fdf898bc0ec83fd5d052422ae0ddc))
+* **mcp:** define `.well-known/oauth-protected-resource` ([4822976](https://github.com/dodopayments/dodopayments-node/commit/48229763c0d88a056e1b291b661491bca11e682e))
+
+
+### Chores
+
+* mention unit type in timeout docs ([4a8e9b7](https://github.com/dodopayments/dodopayments-node/commit/4a8e9b730cb63801a7b8f8066d869f6865126e6e))
+
 ## 1.37.0 (2025-07-02)
 
 Full Changelog: [v1.34.2...v1.37.0](https://github.com/dodopayments/dodopayments-node/compare/v1.34.2...v1.37.0)
