@@ -2,6 +2,15 @@
 
 ## 1.37.1 (2025-07-03)
 
+Full Changelog: [v1.37.1...v1.37.1](https://github.com/dodopayments/dodopayments-node/compare/v1.37.1...v1.37.1)
+
+### Features
+
+* **api:** added webhook event type model ([c82129b](https://github.com/dodopayments/dodopayments-node/commit/c82129b3cc45a79e9a8e113b50671837800f48f0))
+* **api:** added webhook payload model ([978db2b](https://github.com/dodopayments/dodopayments-node/commit/978db2b2772d6b36ac850454db132f224087f28a))
+
+## 1.37.1 (2025-07-03)
+
 Full Changelog: [v1.37.0...v1.37.1](https://github.com/dodopayments/dodopayments-node/compare/v1.37.0...v1.37.1)
 
 ### Bug Fixes
