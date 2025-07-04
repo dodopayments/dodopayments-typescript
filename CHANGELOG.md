@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.37.2 (2025-07-04)
+
+Full Changelog: [v1.37.1...v1.37.2](https://github.com/dodopayments/dodopayments-node/compare/v1.37.1...v1.37.2)
+
+### Bug Fixes
+
+* **build:** bump node version in CI build to 20 to be compatible with MCP package ([8d52f93](https://github.com/dodopayments/dodopayments-node/commit/8d52f93c06c7461a2ad5add9d26f36f88ddd1fc9))
+
 ## 1.37.1 (2025-07-03)
 
 Full Changelog: [v1.37.1...v1.37.1](https://github.com/dodopayments/dodopayments-node/compare/v1.37.1...v1.37.1)
