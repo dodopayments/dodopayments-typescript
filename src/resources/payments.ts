@@ -391,6 +391,8 @@ export namespace PaymentRetrieveLineItemsResponse {
 
     items_id: string;
 
+    refundable_amount: number;
+
     tax: number;
 
     description?: string | null;
