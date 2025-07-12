@@ -11,8 +11,8 @@ This MCP server is available at:
 To connect Claude Web to this MCP server:
 
 1. Open Claude Web
-2. Go to Settings -> Integrations
-3. Click "+ Add Integration"
+2. Go to Settings -> Connectors
+3. Click "+ Add Custom Connector"
 4. Add the MCP server URL: `{{cloudflareWorkerUrl}}`
 
 ### Claude Desktop
