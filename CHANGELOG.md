@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.38.1 (2025-07-12)
+
+Full Changelog: [v1.38.0...v1.38.1](https://github.com/dodopayments/dodopayments-node/compare/v1.38.0...v1.38.1)
+
+### Features
+
+* **mcp:** support filtering tool results by a jq expression ([f390045](https://github.com/dodopayments/dodopayments-node/commit/f390045e4d258218104616c68ba1c46fbebefd3b))
+
+
+### Bug Fixes
+
+* **mcp:** relax input type for asTextContextResult ([67a88e1](https://github.com/dodopayments/dodopayments-node/commit/67a88e17d91c4be59c6dbeb8895087a83508e512))
+
+
+### Chores
+
+* make some internal functions async ([04c263c](https://github.com/dodopayments/dodopayments-node/commit/04c263c8a4fc6a7bc19735da976d20d8986c0c72))
+
+
+### Documentation
+
+* **mcp:** correct instructions for adding to claude web ([4e68d7d](https://github.com/dodopayments/dodopayments-node/commit/4e68d7d3c6be9abdf0f3196ff475ce356ef4c9e2))
+
 ## 1.38.0 (2025-07-05)
 
 Full Changelog: [v1.37.2...v1.38.0](https://github.com/dodopayments/dodopayments-node/compare/v1.37.2...v1.38.0)
