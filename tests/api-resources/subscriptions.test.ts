@@ -36,7 +36,12 @@ describe('resource subscriptions', () => {
       billing_currency: 'AED',
       discount_code: 'discount_code',
       metadata: { foo: 'string' },
-      on_demand: { mandate_only: true, product_price: 0 },
+      on_demand: {
+        mandate_only: true,
+        adaptive_currency_fees_inclusive: true,
+        product_currency: 'AED',
+        product_price: 0,
+      },
       payment_link: true,
       return_url: 'return_url',
       show_saved_payment_methods: true,
@@ -148,7 +153,9 @@ describe('resource subscriptions', () => {
   test('charge: required and optional params', async () => {
     const response = await client.subscriptions.charge('subscription_id', {
       product_price: 0,
+      adaptive_currency_fees_inclusive: true,
       metadata: { foo: 'string' },
+      product_currency: 'AED',
     });
   });
 });
