@@ -99,6 +99,14 @@ export const tool: Tool = {
             description:
               'If set as True, does not perform any charge and only authorizes payment method details for future use.',
           },
+          adaptive_currency_fees_inclusive: {
+            type: 'boolean',
+            description:
+              'Whether adaptive currency fees should be included in the product_price (true) or added on top (false).\nThis field is ignored if adaptive pricing is not enabled for the business.',
+          },
+          product_currency: {
+            $ref: '#/$defs/currency',
+          },
           product_price: {
             type: 'integer',
             description:
