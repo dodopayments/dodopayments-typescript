@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.42.0 (2025-07-16)
+
+Full Changelog: [v1.39.0...v1.42.0](https://github.com/dodopayments/dodopayments-node/compare/v1.39.0...v1.42.0)
+
+### Features
+
+* **api:** updated open api spec to v1.42.0 ([f683f47](https://github.com/dodopayments/dodopayments-node/commit/f683f47856c6071ccb55d973f1531e6c954d6944))
+
+
+### Bug Fixes
+
+* **mcp:** support jq filtering on cloudflare workers ([d64da19](https://github.com/dodopayments/dodopayments-node/commit/d64da19e0ff9ac8079e93aaf871742abc2fce245))
+
+
+### Chores
+
+* **mcp:** rework imports in tools ([94907f5](https://github.com/dodopayments/dodopayments-node/commit/94907f5cb601a670762daa63f0c0ef59db1e7f01))
+
 ## 1.39.0 (2025-07-15)
 
 Full Changelog: [v1.38.1...v1.39.0](https://github.com/dodopayments/dodopayments-node/compare/v1.38.1...v1.39.0)
