@@ -43,6 +43,11 @@ export const tool: Tool = {
       product_currency: {
         $ref: '#/$defs/currency',
       },
+      product_description: {
+        type: 'string',
+        description:
+          'Optional product description override for billing and line items.\nIf not specified, the stored description of the product will be used.',
+      },
       jq_filter: {
         type: 'string',
         title: 'jq Filter',
