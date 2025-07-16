@@ -516,6 +516,12 @@ export namespace SubscriptionCreateParams {
     product_currency?: MiscAPI.Currency | null;
 
     /**
+     * Optional product description override for billing and line items. If not
+     * specified, the stored description of the product will be used.
+     */
+    product_description?: string | null;
+
+    /**
      * Product price for the initial charge to customer If not specified the stored
      * price of the product will be used Represented in the lowest denomination of the
      * currency (e.g., cents for USD). For example, to charge $1.00, pass `100`.
@@ -627,6 +633,12 @@ export interface SubscriptionChargeParams {
    * currency of the product.
    */
   product_currency?: MiscAPI.Currency | null;
+
+  /**
+   * Optional product description override for billing and line items. If not
+   * specified, the stored description of the product will be used.
+   */
+  product_description?: string | null;
 }
 
 Subscriptions.SubscriptionListResponsesDefaultPageNumberPagination =
