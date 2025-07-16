@@ -40,6 +40,7 @@ describe('resource subscriptions', () => {
         mandate_only: true,
         adaptive_currency_fees_inclusive: true,
         product_currency: 'AED',
+        product_description: 'product_description',
         product_price: 0,
       },
       payment_link: true,
@@ -156,6 +157,7 @@ describe('resource subscriptions', () => {
       adaptive_currency_fees_inclusive: true,
       metadata: { foo: 'string' },
       product_currency: 'AED',
+      product_description: 'product_description',
     });
   });
 });
