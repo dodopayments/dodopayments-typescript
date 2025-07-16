@@ -1,10 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { maybeFilter } from 'dodopayments-mcp/filtering';
-import { asTextContentResult } from 'dodopayments-mcp/tools/types';
+import { Metadata, asTextContentResult } from 'dodopayments-mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import type { Metadata } from '../../';
 import DodoPayments from 'dodopayments';
 
 export const metadata: Metadata = {
