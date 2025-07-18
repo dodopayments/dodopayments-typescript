@@ -53,6 +53,7 @@ export const tool: Tool = {
         enum: ['pending', 'active', 'on_hold', 'paused', 'cancelled', 'failed', 'expired'],
       },
     },
+    required: [],
   },
 };
 
