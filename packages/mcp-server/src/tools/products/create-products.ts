@@ -55,7 +55,6 @@ export const tool: Tool = {
             description: 'Instructions to download and use the digital product',
           },
         },
-        required: [],
       },
       license_key_activation_message: {
         type: 'string',
@@ -77,6 +76,7 @@ export const tool: Tool = {
         description: 'Optional name of the product',
       },
     },
+    required: ['price', 'tax_category'],
     $defs: {
       price: {
         anyOf: [
