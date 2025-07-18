@@ -142,6 +142,7 @@ export const tool: Tool = {
           "Optional trial period in days\nIf specified, this value overrides the trial period set in the product's price\nMust be between 0 and 10000 days",
       },
     },
+    required: ['billing', 'customer', 'product_id', 'quantity'],
     $defs: {
       billing_address: {
         type: 'object',

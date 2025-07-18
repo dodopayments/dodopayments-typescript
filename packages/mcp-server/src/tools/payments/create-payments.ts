@@ -91,6 +91,7 @@ export const tool: Tool = {
           'Tax ID in case the payment is B2B. If tax id validation fails the payment creation will fail',
       },
     },
+    required: ['billing', 'customer', 'product_cart'],
     $defs: {
       billing_address: {
         type: 'object',

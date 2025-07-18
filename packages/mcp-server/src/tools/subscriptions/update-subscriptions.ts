@@ -50,6 +50,7 @@ export const tool: Tool = {
         type: 'string',
       },
     },
+    required: ['subscription_id'],
     $defs: {
       billing_address: {
         type: 'object',

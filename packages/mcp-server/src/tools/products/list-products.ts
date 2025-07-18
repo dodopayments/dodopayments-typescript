@@ -43,6 +43,7 @@ export const tool: Tool = {
           'Filter products by pricing type:\n- `true`: Show only recurring pricing products (e.g. subscriptions)\n- `false`: Show only one-time price products\n- `null` or absent: Show both types of products',
       },
     },
+    required: [],
   },
 };
 
