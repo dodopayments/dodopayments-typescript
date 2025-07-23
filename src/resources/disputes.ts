@@ -7,7 +7,7 @@ import * as PaymentsAPI from './payments';
 import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class Disputes extends APIResource {
-  retrieve(disputeId: string, options?: Core.RequestOptions): Core.APIPromise<DisputeRetrieveResponse> {
+  retrieve(disputeId: string, options?: Core.RequestOptions): Core.APIPromise<GetDispute> {
     return this._client.get(`/disputes/${disputeId}`, options);
   }
 
@@ -93,7 +93,7 @@ export type DisputeStatus =
   | 'dispute_won'
   | 'dispute_lost';
 
-export interface DisputeRetrieveResponse {
+export interface GetDispute {
   /**
    * The amount involved in the dispute, represented as a string to accommodate
    * precision.
@@ -235,7 +235,7 @@ export declare namespace Disputes {
     type Dispute as Dispute,
     type DisputeStage as DisputeStage,
     type DisputeStatus as DisputeStatus,
-    type DisputeRetrieveResponse as DisputeRetrieveResponse,
+    type GetDispute as GetDispute,
     type DisputeListResponse as DisputeListResponse,
     DisputeListResponsesDefaultPageNumberPagination as DisputeListResponsesDefaultPageNumberPagination,
     type DisputeListParams as DisputeListParams,

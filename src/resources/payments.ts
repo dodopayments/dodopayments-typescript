@@ -305,6 +305,26 @@ export namespace Payment {
   }
 }
 
+export type PaymentMethodTypes =
+  | 'credit'
+  | 'debit'
+  | 'upi_collect'
+  | 'upi_intent'
+  | 'apple_pay'
+  | 'cashapp'
+  | 'google_pay'
+  | 'multibanco'
+  | 'bancontact_card'
+  | 'eps'
+  | 'ideal'
+  | 'przelewy24'
+  | 'affirm'
+  | 'klarna'
+  | 'sepa'
+  | 'ach'
+  | 'amazon_pay'
+  | 'afterpay_clearpay';
+
 export interface PaymentCreateResponse {
   /**
    * Client secret used to load Dodo checkout SDK NOTE : Dodo checkout SDK will be
@@ -425,26 +445,7 @@ export interface PaymentCreateParams {
    * Availability still depends on other factors (e.g., customer location, merchant
    * settings).
    */
-  allowed_payment_method_types?: Array<
-    | 'credit'
-    | 'debit'
-    | 'upi_collect'
-    | 'upi_intent'
-    | 'apple_pay'
-    | 'cashapp'
-    | 'google_pay'
-    | 'multibanco'
-    | 'bancontact_card'
-    | 'eps'
-    | 'ideal'
-    | 'przelewy24'
-    | 'affirm'
-    | 'klarna'
-    | 'sepa'
-    | 'ach'
-    | 'amazon_pay'
-    | 'afterpay_clearpay'
-  > | null;
+  allowed_payment_method_types?: Array<PaymentMethodTypes> | null;
 
   /**
    * Fix the currency in which the end customer is billed. If Dodo Payments cannot
@@ -541,6 +542,7 @@ export declare namespace Payments {
     type IntentStatus as IntentStatus,
     type OneTimeProductCartItem as OneTimeProductCartItem,
     type Payment as Payment,
+    type PaymentMethodTypes as PaymentMethodTypes,
     type PaymentCreateResponse as PaymentCreateResponse,
     type PaymentListResponse as PaymentListResponse,
     type PaymentRetrieveLineItemsResponse as PaymentRetrieveLineItemsResponse,

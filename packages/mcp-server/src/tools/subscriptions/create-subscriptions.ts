@@ -39,16 +39,7 @@ export const tool: Tool = {
         type: 'array',
         description: 'Attach addons to this subscription',
         items: {
-          type: 'object',
-          properties: {
-            addon_id: {
-              type: 'string',
-            },
-            quantity: {
-              type: 'integer',
-            },
-          },
-          required: ['addon_id', 'quantity'],
+          $ref: '#/$defs/attach_addon',
         },
       },
       allowed_payment_method_types: {
@@ -56,27 +47,7 @@ export const tool: Tool = {
         description:
           'List of payment methods allowed during checkout.\n\nCustomers will **never** see payment methods that are **not** in this list.\nHowever, adding a method here **does not guarantee** customers will see it.\nAvailability still depends on other factors (e.g., customer location, merchant settings).',
         items: {
-          type: 'string',
-          enum: [
-            'credit',
-            'debit',
-            'upi_collect',
-            'upi_intent',
-            'apple_pay',
-            'cashapp',
-            'google_pay',
-            'multibanco',
-            'bancontact_card',
-            'eps',
-            'ideal',
-            'przelewy24',
-            'affirm',
-            'klarna',
-            'sepa',
-            'ach',
-            'amazon_pay',
-            'afterpay_clearpay',
-          ],
+          $ref: '#/$defs/payment_method_types',
         },
       },
       billing_currency: {
@@ -464,6 +435,41 @@ export const tool: Tool = {
           },
         },
         required: ['email', 'name'],
+      },
+      attach_addon: {
+        type: 'object',
+        properties: {
+          addon_id: {
+            type: 'string',
+          },
+          quantity: {
+            type: 'integer',
+          },
+        },
+        required: ['addon_id', 'quantity'],
+      },
+      payment_method_types: {
+        type: 'string',
+        enum: [
+          'credit',
+          'debit',
+          'upi_collect',
+          'upi_intent',
+          'apple_pay',
+          'cashapp',
+          'google_pay',
+          'multibanco',
+          'bancontact_card',
+          'eps',
+          'ideal',
+          'przelewy24',
+          'affirm',
+          'klarna',
+          'sepa',
+          'ach',
+          'amazon_pay',
+          'afterpay_clearpay',
+        ],
       },
       currency: {
         type: 'string',

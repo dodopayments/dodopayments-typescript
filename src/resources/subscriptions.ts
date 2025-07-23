@@ -79,6 +79,12 @@ export interface AddonCartResponseItem {
   quantity: number;
 }
 
+export interface AttachAddon {
+  addon_id: string;
+
+  quantity: number;
+}
+
 /**
  * Response struct representing subscription details
  */
@@ -411,7 +417,7 @@ export interface SubscriptionCreateParams {
   /**
    * Attach addons to this subscription
    */
-  addons?: Array<SubscriptionCreateParams.Addon> | null;
+  addons?: Array<AttachAddon> | null;
 
   /**
    * List of payment methods allowed during checkout.
@@ -421,26 +427,7 @@ export interface SubscriptionCreateParams {
    * Availability still depends on other factors (e.g., customer location, merchant
    * settings).
    */
-  allowed_payment_method_types?: Array<
-    | 'credit'
-    | 'debit'
-    | 'upi_collect'
-    | 'upi_intent'
-    | 'apple_pay'
-    | 'cashapp'
-    | 'google_pay'
-    | 'multibanco'
-    | 'bancontact_card'
-    | 'eps'
-    | 'ideal'
-    | 'przelewy24'
-    | 'affirm'
-    | 'klarna'
-    | 'sepa'
-    | 'ach'
-    | 'amazon_pay'
-    | 'afterpay_clearpay'
-  > | null;
+  allowed_payment_method_types?: Array<PaymentsAPI.PaymentMethodTypes> | null;
 
   /**
    * Fix the currency in which the end customer is billed. If Dodo Payments cannot
@@ -489,12 +476,6 @@ export interface SubscriptionCreateParams {
 }
 
 export namespace SubscriptionCreateParams {
-  export interface Addon {
-    addon_id: string;
-
-    quantity: number;
-  }
-
   export interface OnDemand {
     /**
      * If set as True, does not perform any charge and only authorizes payment method
@@ -597,15 +578,7 @@ export interface SubscriptionChangePlanParams {
    * Addons for the new plan. Note : Leaving this empty would remove any existing
    * addons
    */
-  addons?: Array<SubscriptionChangePlanParams.Addon> | null;
-}
-
-export namespace SubscriptionChangePlanParams {
-  export interface Addon {
-    addon_id: string;
-
-    quantity: number;
-  }
+  addons?: Array<AttachAddon> | null;
 }
 
 export interface SubscriptionChargeParams {
@@ -647,6 +620,7 @@ Subscriptions.SubscriptionListResponsesDefaultPageNumberPagination =
 export declare namespace Subscriptions {
   export {
     type AddonCartResponseItem as AddonCartResponseItem,
+    type AttachAddon as AttachAddon,
     type Subscription as Subscription,
     type SubscriptionStatus as SubscriptionStatus,
     type TimeInterval as TimeInterval,
