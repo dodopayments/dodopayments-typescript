@@ -4,22 +4,18 @@ import { APIResource } from '../resource';
 import * as Core from '../core';
 
 export class Brands extends APIResource {
-  create(body: BrandCreateParams, options?: Core.RequestOptions): Core.APIPromise<BrandCreateResponse> {
+  create(body: BrandCreateParams, options?: Core.RequestOptions): Core.APIPromise<Brand> {
     return this._client.post('/brands', { body, ...options });
   }
 
   /**
    * Thin handler just calls `get_brand` and wraps in `Json(...)`
    */
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<BrandRetrieveResponse> {
+  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<Brand> {
     return this._client.get(`/brands/${id}`, options);
   }
 
-  update(
-    id: string,
-    body: BrandUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BrandUpdateResponse> {
+  update(id: string, body: BrandUpdateParams, options?: Core.RequestOptions): Core.APIPromise<Brand> {
     return this._client.patch(`/brands/${id}`, { body, ...options });
   }
 
@@ -32,65 +28,7 @@ export class Brands extends APIResource {
   }
 }
 
-export interface BrandCreateResponse {
-  brand_id: string;
-
-  business_id: string;
-
-  enabled: boolean;
-
-  statement_descriptor: string;
-
-  verification_enabled: boolean;
-
-  verification_status: 'Success' | 'Fail' | 'Review' | 'Hold';
-
-  description?: string | null;
-
-  image?: string | null;
-
-  name?: string | null;
-
-  /**
-   * Incase the brand verification fails or is put on hold
-   */
-  reason_for_hold?: string | null;
-
-  support_email?: string | null;
-
-  url?: string | null;
-}
-
-export interface BrandRetrieveResponse {
-  brand_id: string;
-
-  business_id: string;
-
-  enabled: boolean;
-
-  statement_descriptor: string;
-
-  verification_enabled: boolean;
-
-  verification_status: 'Success' | 'Fail' | 'Review' | 'Hold';
-
-  description?: string | null;
-
-  image?: string | null;
-
-  name?: string | null;
-
-  /**
-   * Incase the brand verification fails or is put on hold
-   */
-  reason_for_hold?: string | null;
-
-  support_email?: string | null;
-
-  url?: string | null;
-}
-
-export interface BrandUpdateResponse {
+export interface Brand {
   brand_id: string;
 
   business_id: string;
@@ -123,38 +61,7 @@ export interface BrandListResponse {
   /**
    * List of brands for this business
    */
-  items: Array<BrandListResponse.Item>;
-}
-
-export namespace BrandListResponse {
-  export interface Item {
-    brand_id: string;
-
-    business_id: string;
-
-    enabled: boolean;
-
-    statement_descriptor: string;
-
-    verification_enabled: boolean;
-
-    verification_status: 'Success' | 'Fail' | 'Review' | 'Hold';
-
-    description?: string | null;
-
-    image?: string | null;
-
-    name?: string | null;
-
-    /**
-     * Incase the brand verification fails or is put on hold
-     */
-    reason_for_hold?: string | null;
-
-    support_email?: string | null;
-
-    url?: string | null;
-  }
+  items: Array<Brand>;
 }
 
 export interface BrandUpdateImagesResponse {
@@ -196,9 +103,7 @@ export interface BrandUpdateParams {
 
 export declare namespace Brands {
   export {
-    type BrandCreateResponse as BrandCreateResponse,
-    type BrandRetrieveResponse as BrandRetrieveResponse,
-    type BrandUpdateResponse as BrandUpdateResponse,
+    type Brand as Brand,
     type BrandListResponse as BrandListResponse,
     type BrandUpdateImagesResponse as BrandUpdateImagesResponse,
     type BrandCreateParams as BrandCreateParams,

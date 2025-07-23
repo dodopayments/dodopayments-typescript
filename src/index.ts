@@ -17,13 +17,11 @@ import {
   Addons,
 } from './resources/addons';
 import {
+  Brand,
   BrandCreateParams,
-  BrandCreateResponse,
   BrandListResponse,
-  BrandRetrieveResponse,
   BrandUpdateImagesResponse,
   BrandUpdateParams,
-  BrandUpdateResponse,
   Brands,
 } from './resources/brands';
 import {
@@ -40,10 +38,10 @@ import {
   DisputeListParams,
   DisputeListResponse,
   DisputeListResponsesDefaultPageNumberPagination,
-  DisputeRetrieveResponse,
   DisputeStage,
   DisputeStatus,
   Disputes,
+  GetDispute,
 } from './resources/disputes';
 import {
   LicenseKeyInstance,
@@ -88,6 +86,7 @@ import {
   PaymentListParams,
   PaymentListResponse,
   PaymentListResponsesDefaultPageNumberPagination,
+  PaymentMethodTypes,
   PaymentRetrieveLineItemsResponse,
   Payments,
 } from './resources/payments';
@@ -107,6 +106,7 @@ import {
 } from './resources/refunds';
 import {
   AddonCartResponseItem,
+  AttachAddon,
   Subscription,
   SubscriptionChangePlanParams,
   SubscriptionChargeParams,
@@ -403,6 +403,7 @@ export declare namespace DodoPayments {
     type IntentStatus as IntentStatus,
     type OneTimeProductCartItem as OneTimeProductCartItem,
     type Payment as Payment,
+    type PaymentMethodTypes as PaymentMethodTypes,
     type PaymentCreateResponse as PaymentCreateResponse,
     type PaymentListResponse as PaymentListResponse,
     type PaymentRetrieveLineItemsResponse as PaymentRetrieveLineItemsResponse,
@@ -414,6 +415,7 @@ export declare namespace DodoPayments {
   export {
     Subscriptions as Subscriptions,
     type AddonCartResponseItem as AddonCartResponseItem,
+    type AttachAddon as AttachAddon,
     type Subscription as Subscription,
     type SubscriptionStatus as SubscriptionStatus,
     type TimeInterval as TimeInterval,
@@ -479,7 +481,7 @@ export declare namespace DodoPayments {
     type Dispute as Dispute,
     type DisputeStage as DisputeStage,
     type DisputeStatus as DisputeStatus,
-    type DisputeRetrieveResponse as DisputeRetrieveResponse,
+    type GetDispute as GetDispute,
     type DisputeListResponse as DisputeListResponse,
     DisputeListResponsesDefaultPageNumberPagination as DisputeListResponsesDefaultPageNumberPagination,
     type DisputeListParams as DisputeListParams,
@@ -545,9 +547,7 @@ export declare namespace DodoPayments {
 
   export {
     Brands as Brands,
-    type BrandCreateResponse as BrandCreateResponse,
-    type BrandRetrieveResponse as BrandRetrieveResponse,
-    type BrandUpdateResponse as BrandUpdateResponse,
+    type Brand as Brand,
     type BrandListResponse as BrandListResponse,
     type BrandUpdateImagesResponse as BrandUpdateImagesResponse,
     type BrandCreateParams as BrandCreateParams,

@@ -41,16 +41,7 @@ export const tool: Tool = {
         type: 'array',
         description: 'Addons for the new plan.\nNote : Leaving this empty would remove any existing addons',
         items: {
-          type: 'object',
-          properties: {
-            addon_id: {
-              type: 'string',
-            },
-            quantity: {
-              type: 'integer',
-            },
-          },
-          required: ['addon_id', 'quantity'],
+          $ref: '#/$defs/attach_addon',
         },
       },
       jq_filter: {
@@ -61,6 +52,20 @@ export const tool: Tool = {
       },
     },
     required: ['subscription_id', 'product_id', 'proration_billing_mode', 'quantity'],
+    $defs: {
+      attach_addon: {
+        type: 'object',
+        properties: {
+          addon_id: {
+            type: 'string',
+          },
+          quantity: {
+            type: 'integer',
+          },
+        },
+        required: ['addon_id', 'quantity'],
+      },
+    },
   },
 };
 

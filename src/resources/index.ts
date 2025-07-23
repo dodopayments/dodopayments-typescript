@@ -11,9 +11,7 @@ export {
 } from './addons';
 export {
   Brands,
-  type BrandCreateResponse,
-  type BrandRetrieveResponse,
-  type BrandUpdateResponse,
+  type Brand,
   type BrandListResponse,
   type BrandUpdateImagesResponse,
   type BrandCreateParams,
@@ -43,7 +41,7 @@ export {
   type Dispute,
   type DisputeStage,
   type DisputeStatus,
-  type DisputeRetrieveResponse,
+  type GetDispute,
   type DisputeListResponse,
   type DisputeListParams,
 } from './disputes';
@@ -88,6 +86,7 @@ export {
   type IntentStatus,
   type OneTimeProductCartItem,
   type Payment,
+  type PaymentMethodTypes,
   type PaymentCreateResponse,
   type PaymentListResponse,
   type PaymentRetrieveLineItemsResponse,
@@ -125,6 +124,7 @@ export {
   SubscriptionListResponsesDefaultPageNumberPagination,
   Subscriptions,
   type AddonCartResponseItem,
+  type AttachAddon,
   type Subscription,
   type SubscriptionStatus,
   type TimeInterval,
