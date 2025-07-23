@@ -127,64 +127,8 @@ export namespace WebhookPayload {
     payload_type: 'Refund';
   }
 
-  export interface Dispute {
-    /**
-     * The amount involved in the dispute, represented as a string to accommodate
-     * precision.
-     */
-    amount: string;
-
-    /**
-     * The unique identifier of the business involved in the dispute.
-     */
-    business_id: string;
-
-    /**
-     * The timestamp of when the dispute was created, in UTC.
-     */
-    created_at: string;
-
-    /**
-     * The currency of the disputed amount, represented as an ISO 4217 currency code.
-     */
-    currency: string;
-
-    /**
-     * The customer who filed the dispute
-     */
-    customer: PaymentsAPI.CustomerLimitedDetails;
-
-    /**
-     * The unique identifier of the dispute.
-     */
-    dispute_id: string;
-
-    /**
-     * The current stage of the dispute process.
-     */
-    dispute_stage: DisputesAPI.DisputeStage;
-
-    /**
-     * The current status of the dispute.
-     */
-    dispute_status: DisputesAPI.DisputeStatus;
-
+  export interface Dispute extends DisputesAPI.GetDispute {
     payload_type: 'Dispute';
-
-    /**
-     * The unique identifier of the payment associated with the dispute.
-     */
-    payment_id: string;
-
-    /**
-     * Reason for the dispute
-     */
-    reason?: string | null;
-
-    /**
-     * Remarks
-     */
-    remarks?: string | null;
   }
 
   export interface LicenseKey extends LicenseKeysAPI.LicenseKey {

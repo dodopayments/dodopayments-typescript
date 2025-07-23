@@ -10,6 +10,7 @@ Types:
 - <code><a href="./src/resources/payments.ts">IntentStatus</a></code>
 - <code><a href="./src/resources/payments.ts">OneTimeProductCartItem</a></code>
 - <code><a href="./src/resources/payments.ts">Payment</a></code>
+- <code><a href="./src/resources/payments.ts">PaymentMethodTypes</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentCreateResponse</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentListResponse</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentRetrieveLineItemsResponse</a></code>
@@ -26,6 +27,7 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/subscriptions.ts">AddonCartResponseItem</a></code>
+- <code><a href="./src/resources/subscriptions.ts">AttachAddon</a></code>
 - <code><a href="./src/resources/subscriptions.ts">Subscription</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionStatus</a></code>
 - <code><a href="./src/resources/subscriptions.ts">TimeInterval</a></code>
@@ -127,12 +129,12 @@ Types:
 - <code><a href="./src/resources/disputes.ts">Dispute</a></code>
 - <code><a href="./src/resources/disputes.ts">DisputeStage</a></code>
 - <code><a href="./src/resources/disputes.ts">DisputeStatus</a></code>
-- <code><a href="./src/resources/disputes.ts">DisputeRetrieveResponse</a></code>
+- <code><a href="./src/resources/disputes.ts">GetDispute</a></code>
 - <code><a href="./src/resources/disputes.ts">DisputeListResponse</a></code>
 
 Methods:
 
-- <code title="get /disputes/{dispute_id}">client.disputes.<a href="./src/resources/disputes.ts">retrieve</a>(disputeId) -> DisputeRetrieveResponse</code>
+- <code title="get /disputes/{dispute_id}">client.disputes.<a href="./src/resources/disputes.ts">retrieve</a>(disputeId) -> GetDispute</code>
 - <code title="get /disputes">client.disputes.<a href="./src/resources/disputes.ts">list</a>({ ...params }) -> DisputeListResponsesDefaultPageNumberPagination</code>
 
 # Payouts
@@ -235,16 +237,14 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/brands.ts">BrandCreateResponse</a></code>
-- <code><a href="./src/resources/brands.ts">BrandRetrieveResponse</a></code>
-- <code><a href="./src/resources/brands.ts">BrandUpdateResponse</a></code>
+- <code><a href="./src/resources/brands.ts">Brand</a></code>
 - <code><a href="./src/resources/brands.ts">BrandListResponse</a></code>
 - <code><a href="./src/resources/brands.ts">BrandUpdateImagesResponse</a></code>
 
 Methods:
 
-- <code title="post /brands">client.brands.<a href="./src/resources/brands.ts">create</a>({ ...params }) -> BrandCreateResponse</code>
-- <code title="get /brands/{id}">client.brands.<a href="./src/resources/brands.ts">retrieve</a>(id) -> BrandRetrieveResponse</code>
-- <code title="patch /brands/{id}">client.brands.<a href="./src/resources/brands.ts">update</a>(id, { ...params }) -> BrandUpdateResponse</code>
+- <code title="post /brands">client.brands.<a href="./src/resources/brands.ts">create</a>({ ...params }) -> Brand</code>
+- <code title="get /brands/{id}">client.brands.<a href="./src/resources/brands.ts">retrieve</a>(id) -> Brand</code>
+- <code title="patch /brands/{id}">client.brands.<a href="./src/resources/brands.ts">update</a>(id, { ...params }) -> Brand</code>
 - <code title="get /brands">client.brands.<a href="./src/resources/brands.ts">list</a>() -> BrandListResponse</code>
 - <code title="put /brands/{id}/images">client.brands.<a href="./src/resources/brands.ts">updateImages</a>(id) -> BrandUpdateImagesResponse</code>
