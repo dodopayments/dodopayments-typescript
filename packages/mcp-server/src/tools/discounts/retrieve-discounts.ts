@@ -34,6 +34,9 @@ export const tool: Tool = {
     },
     required: ['discount_id'],
   },
+  annotations: {
+    readOnlyHint: true,
+  },
 };
 
 export const handler = async (client: DodoPayments, args: Record<string, unknown> | undefined) => {

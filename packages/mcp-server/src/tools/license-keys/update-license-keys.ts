@@ -50,6 +50,7 @@ export const tool: Tool = {
     },
     required: ['id'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: DodoPayments, args: Record<string, unknown> | undefined) => {
