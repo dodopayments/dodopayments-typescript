@@ -40,8 +40,10 @@ export const tool: Tool = {
 };
 
 export const handler = async (client: DodoPayments, args: Record<string, unknown> | undefined) => {
-  const { payment_id, ...body } = args as any;
-  return asTextContentResult(await maybeFilter(args, await client.payments.retrieveLineItems(payment_id)));
+  const { payment_id, jq_filter, ...body } = args as any;
+  return asTextContentResult(
+    await maybeFilter(jq_filter, await client.payments.retrieveLineItems(payment_id)),
+  );
 };
 
 export default { metadata, tool, handler };
