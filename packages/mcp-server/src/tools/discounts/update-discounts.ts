@@ -74,8 +74,8 @@ export const tool: Tool = {
 };
 
 export const handler = async (client: DodoPayments, args: Record<string, unknown> | undefined) => {
-  const { discount_id, ...body } = args as any;
-  return asTextContentResult(await maybeFilter(args, await client.discounts.update(discount_id, body)));
+  const { discount_id, jq_filter, ...body } = args as any;
+  return asTextContentResult(await maybeFilter(jq_filter, await client.discounts.update(discount_id, body)));
 };
 
 export default { metadata, tool, handler };
