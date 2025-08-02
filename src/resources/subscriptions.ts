@@ -207,14 +207,7 @@ export interface Subscription {
   discount_id?: string | null;
 }
 
-export type SubscriptionStatus =
-  | 'pending'
-  | 'active'
-  | 'on_hold'
-  | 'paused'
-  | 'cancelled'
-  | 'failed'
-  | 'expired';
+export type SubscriptionStatus = 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired';
 
 export type TimeInterval = 'Day' | 'Week' | 'Month' | 'Year';
 
@@ -555,7 +548,7 @@ export interface SubscriptionListParams extends DefaultPageNumberPaginationParam
   /**
    * Filter by status
    */
-  status?: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired';
+  status?: 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired';
 }
 
 export interface SubscriptionChangePlanParams {
@@ -567,7 +560,7 @@ export interface SubscriptionChangePlanParams {
   /**
    * Proration Billing Mode
    */
-  proration_billing_mode: 'prorated_immediately' | 'full_immediately';
+  proration_billing_mode: 'prorated_immediately' | 'full_immediately' | 'difference_immediately';
 
   /**
    * Number of units to subscribe for. Must be at least 1.

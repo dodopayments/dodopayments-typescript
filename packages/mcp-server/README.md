@@ -231,11 +231,6 @@ The following tools are available in this MCP server.
 
 - `list_payouts` (`read`):
 
-### Resource `webhook_events`:
-
-- `retrieve_webhook_events` (`read`):
-- `list_webhook_events` (`read`):
-
 ### Resource `products`:
 
 - `create_products` (`write`):

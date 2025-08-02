@@ -121,14 +121,7 @@ import {
   Subscriptions,
   TimeInterval,
 } from './resources/subscriptions';
-import {
-  WebhookEvent,
-  WebhookEventListParams,
-  WebhookEventType,
-  WebhookEvents,
-  WebhookEventsDefaultPageNumberPagination,
-  WebhookPayload,
-} from './resources/webhook-events';
+import { WebhookEventType, WebhookEvents, WebhookPayload } from './resources/webhook-events';
 import {
   Customer,
   CustomerCreateParams,
@@ -374,7 +367,6 @@ DodoPayments.DisputeListResponsesDefaultPageNumberPagination =
 DodoPayments.Payouts = Payouts;
 DodoPayments.PayoutListResponsesDefaultPageNumberPagination = PayoutListResponsesDefaultPageNumberPagination;
 DodoPayments.WebhookEvents = WebhookEvents;
-DodoPayments.WebhookEventsDefaultPageNumberPagination = WebhookEventsDefaultPageNumberPagination;
 DodoPayments.Products = Products;
 DodoPayments.ProductListResponsesDefaultPageNumberPagination =
   ProductListResponsesDefaultPageNumberPagination;
@@ -496,11 +488,8 @@ export declare namespace DodoPayments {
 
   export {
     WebhookEvents as WebhookEvents,
-    type WebhookEvent as WebhookEvent,
     type WebhookEventType as WebhookEventType,
     type WebhookPayload as WebhookPayload,
-    WebhookEventsDefaultPageNumberPagination as WebhookEventsDefaultPageNumberPagination,
-    type WebhookEventListParams as WebhookEventListParams,
   };
 
   export {
