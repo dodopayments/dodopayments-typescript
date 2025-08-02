@@ -137,11 +137,4 @@ export {
   type SubscriptionChangePlanParams,
   type SubscriptionChargeParams,
 } from './subscriptions';
-export {
-  WebhookEventsDefaultPageNumberPagination,
-  WebhookEvents,
-  type WebhookEvent,
-  type WebhookEventType,
-  type WebhookPayload,
-  type WebhookEventListParams,
-} from './webhook-events';
+export { WebhookEvents, type WebhookEventType, type WebhookPayload } from './webhook-events';

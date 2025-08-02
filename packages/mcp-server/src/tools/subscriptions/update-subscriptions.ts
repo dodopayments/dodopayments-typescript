@@ -333,7 +333,7 @@ export const tool: Tool = {
       },
       subscription_status: {
         type: 'string',
-        enum: ['pending', 'active', 'on_hold', 'paused', 'cancelled', 'failed', 'expired'],
+        enum: ['pending', 'active', 'on_hold', 'cancelled', 'failed', 'expired'],
       },
     },
   },

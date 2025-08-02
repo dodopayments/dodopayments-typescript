@@ -49,7 +49,7 @@ export const tool: Tool = {
       status: {
         type: 'string',
         description: 'Filter by status',
-        enum: ['pending', 'active', 'on_hold', 'paused', 'cancelled', 'failed', 'expired'],
+        enum: ['pending', 'active', 'on_hold', 'cancelled', 'failed', 'expired'],
       },
     },
     required: [],
