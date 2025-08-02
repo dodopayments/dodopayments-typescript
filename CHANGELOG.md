@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.44.0 (2025-08-02)
+
+Full Changelog: [v1.43.1...v1.44.0](https://github.com/dodopayments/dodopayments-node/compare/v1.43.1...v1.44.0)
+
+### Features
+
+* **api:** updated openapi spec to 1.44.0 ([db97e62](https://github.com/dodopayments/dodopayments-node/commit/db97e623b97ed8302ed40a20a91f29c8b30fea1e))
+* **mcp:** add logging when environment variable is set ([db7818f](https://github.com/dodopayments/dodopayments-node/commit/db7818f85d3f4a25cf81b418dee31c901a09a898))
+
+
+### Bug Fixes
+
+* **mcp:** avoid sending `jq_filter` to base API ([2ad3c06](https://github.com/dodopayments/dodopayments-node/commit/2ad3c06fcfbf991cc0aa6c4eebdc2bdbc084ebc7))
+* **mcp:** fix tool description of jq_filter ([984671c](https://github.com/dodopayments/dodopayments-node/commit/984671c7b04460aba5685d815e20a251b9fc3ca2))
+* **mcp:** reverse validJson capability option and limit scope ([f86edb8](https://github.com/dodopayments/dodopayments-node/commit/f86edb8cd9e585555b3e8a3eec2134e26d3f5233))
+
+
+### Chores
+
+* **internal:** remove redundant imports config ([925d5dd](https://github.com/dodopayments/dodopayments-node/commit/925d5dd8d23f9c742f2e62d5661b986eeab898a6))
+
 ## 1.43.1 (2025-07-24)
 
 Full Changelog: [v1.43.0...v1.43.1](https://github.com/dodopayments/dodopayments-node/compare/v1.43.0...v1.43.1)
