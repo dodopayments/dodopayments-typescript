@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.47.0 (2025-08-11)
+
+Full Changelog: [v1.44.0...v1.47.0](https://github.com/dodopayments/dodopayments-node/compare/v1.44.0...v1.47.0)
+
+### Features
+
+* **api:** updated openapi spec to 1.47.0 ([93680ff](https://github.com/dodopayments/dodopayments-node/commit/93680fff0db339f25e3566d3dd04d58592121009))
+
 ## 1.44.0 (2025-08-02)
 
 Full Changelog: [v1.43.1...v1.44.0](https://github.com/dodopayments/dodopayments-node/compare/v1.43.1...v1.44.0)
