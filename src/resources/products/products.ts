@@ -221,6 +221,11 @@ export interface Product {
   license_key_enabled: boolean;
 
   /**
+   * Additional custom data associated with the product
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * Pricing information for the product.
    */
   price: Price;
@@ -322,6 +327,11 @@ export interface ProductListResponse {
    * Indicates if the product is recurring (e.g., subscriptions).
    */
   is_recurring: boolean;
+
+  /**
+   * Additional custom data associated with the product
+   */
+  metadata: { [key: string]: string };
 
   /**
    * Unique identifier for the product.
@@ -443,6 +453,11 @@ export interface ProductCreateParams {
   license_key_enabled?: boolean | null;
 
   /**
+   * Additional metadata for the product
+   */
+  metadata?: { [key: string]: string };
+
+  /**
    * Optional name of the product
    */
   name?: string | null;
@@ -519,6 +534,11 @@ export interface ProductUpdateParams {
    * limit, activation message) become applicable.
    */
   license_key_enabled?: boolean | null;
+
+  /**
+   * Additional metadata for the product
+   */
+  metadata?: { [key: string]: string } | null;
 
   /**
    * Name of the product, optional and must be at most 100 characters.
