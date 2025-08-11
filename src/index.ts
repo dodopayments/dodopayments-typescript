@@ -4,7 +4,12 @@ import { type Agent } from './_shims/index';
 import * as Core from './core';
 import * as Errors from './error';
 import * as Pagination from './pagination';
-import { type DefaultPageNumberPaginationParams, DefaultPageNumberPaginationResponse } from './pagination';
+import {
+  type CursorPagePaginationParams,
+  CursorPagePaginationResponse,
+  type DefaultPageNumberPaginationParams,
+  DefaultPageNumberPaginationResponse,
+} from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import {
@@ -79,6 +84,7 @@ import {
   CustomerLimitedDetails,
   CustomerRequest,
   IntentStatus,
+  NewCustomer,
   OneTimeProductCartItem,
   Payment,
   PaymentCreateParams,
@@ -122,6 +128,7 @@ import {
   TimeInterval,
 } from './resources/subscriptions';
 import { WebhookEventType, WebhookEvents, WebhookPayload } from './resources/webhook-events';
+import { YourWebhookURL, YourWebhookURLCreateParams } from './resources/your-webhook-url';
 import {
   Customer,
   CustomerCreateParams,
@@ -145,6 +152,17 @@ import {
   ProductUpdateParams,
   Products,
 } from './resources/products/products';
+import {
+  WebhookCreateParams,
+  WebhookCreateResponse,
+  WebhookListParams,
+  WebhookListResponse,
+  WebhookListResponsesCursorPagePagination,
+  WebhookRetrieveResponse,
+  WebhookUpdateParams,
+  WebhookUpdateResponse,
+  Webhooks,
+} from './resources/webhooks/webhooks';
 
 const environments = {
   live_mode: 'https://live.dodopayments.com',
@@ -301,6 +319,8 @@ export class DodoPayments extends Core.APIClient {
   discounts: API.Discounts = new API.Discounts(this);
   addons: API.Addons = new API.Addons(this);
   brands: API.Brands = new API.Brands(this);
+  webhooks: API.Webhooks = new API.Webhooks(this);
+  yourWebhookURL: API.YourWebhookURL = new API.YourWebhookURL(this);
 
   /**
    * Check whether the base URL is set to its default.
@@ -376,6 +396,9 @@ DodoPayments.DiscountsDefaultPageNumberPagination = DiscountsDefaultPageNumberPa
 DodoPayments.Addons = Addons;
 DodoPayments.AddonResponsesDefaultPageNumberPagination = AddonResponsesDefaultPageNumberPagination;
 DodoPayments.Brands = Brands;
+DodoPayments.Webhooks = Webhooks;
+DodoPayments.WebhookListResponsesCursorPagePagination = WebhookListResponsesCursorPagePagination;
+DodoPayments.YourWebhookURL = YourWebhookURL;
 export declare namespace DodoPayments {
   export type RequestOptions = Core.RequestOptions;
 
@@ -383,6 +406,12 @@ export declare namespace DodoPayments {
   export {
     type DefaultPageNumberPaginationParams as DefaultPageNumberPaginationParams,
     type DefaultPageNumberPaginationResponse as DefaultPageNumberPaginationResponse,
+  };
+
+  export import CursorPagePagination = Pagination.CursorPagePagination;
+  export {
+    type CursorPagePaginationParams as CursorPagePaginationParams,
+    type CursorPagePaginationResponse as CursorPagePaginationResponse,
   };
 
   export {
@@ -393,6 +422,7 @@ export declare namespace DodoPayments {
     type CustomerLimitedDetails as CustomerLimitedDetails,
     type CustomerRequest as CustomerRequest,
     type IntentStatus as IntentStatus,
+    type NewCustomer as NewCustomer,
     type OneTimeProductCartItem as OneTimeProductCartItem,
     type Payment as Payment,
     type PaymentMethodTypes as PaymentMethodTypes,
@@ -542,6 +572,20 @@ export declare namespace DodoPayments {
     type BrandCreateParams as BrandCreateParams,
     type BrandUpdateParams as BrandUpdateParams,
   };
+
+  export {
+    Webhooks as Webhooks,
+    type WebhookCreateResponse as WebhookCreateResponse,
+    type WebhookRetrieveResponse as WebhookRetrieveResponse,
+    type WebhookUpdateResponse as WebhookUpdateResponse,
+    type WebhookListResponse as WebhookListResponse,
+    WebhookListResponsesCursorPagePagination as WebhookListResponsesCursorPagePagination,
+    type WebhookCreateParams as WebhookCreateParams,
+    type WebhookUpdateParams as WebhookUpdateParams,
+    type WebhookListParams as WebhookListParams,
+  };
+
+  export { YourWebhookURL as YourWebhookURL, type YourWebhookURLCreateParams as YourWebhookURLCreateParams };
 }
 
 export { toFile, fileFromPath } from './uploads';

@@ -400,7 +400,7 @@ export const tool: Tool = {
             $ref: '#/$defs/attach_existing_customer',
           },
           {
-            $ref: '#/$defs/create_new_customer',
+            $ref: '#/$defs/new_customer',
           },
         ],
       },
@@ -414,20 +414,14 @@ export const tool: Tool = {
         },
         required: ['customer_id'],
       },
-      create_new_customer: {
+      new_customer: {
         type: 'object',
-        title: 'Create New Customer',
         properties: {
           email: {
             type: 'string',
           },
           name: {
             type: 'string',
-          },
-          create_new_customer: {
-            type: 'boolean',
-            description:
-              'When false, the most recently created customer object with the given email is used if exists.\nWhen true, a new customer object is always created\nFalse by default',
           },
           phone_number: {
             type: 'string',

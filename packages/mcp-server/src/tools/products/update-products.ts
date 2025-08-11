@@ -80,6 +80,10 @@ export const tool: Tool = {
         description:
           'Whether the product requires a license key.\n\nIf `true`, additional fields related to license key (duration, activations limit, activation message)\nbecome applicable.',
       },
+      metadata: {
+        type: 'object',
+        description: 'Additional metadata for the product',
+      },
       name: {
         type: 'string',
         description: 'Name of the product, optional and must be at most 100 characters.',

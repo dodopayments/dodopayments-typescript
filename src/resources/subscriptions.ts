@@ -202,6 +202,11 @@ export interface Subscription {
   cancelled_at?: string | null;
 
   /**
+   * Number of remaining discount cycles if discount is applied
+   */
+  discount_cycles_remaining?: number | null;
+
+  /**
    * The discount id if discount is applied
    */
   discount_id?: string | null;
@@ -375,6 +380,11 @@ export interface SubscriptionListResponse {
    * Cancelled timestamp if the subscription is cancelled
    */
   cancelled_at?: string | null;
+
+  /**
+   * Number of remaining discount cycles if discount is applied
+   */
+  discount_cycles_remaining?: number | null;
 
   /**
    * The discount id if discount is applied

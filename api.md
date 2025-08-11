@@ -8,6 +8,7 @@ Types:
 - <code><a href="./src/resources/payments.ts">CustomerLimitedDetails</a></code>
 - <code><a href="./src/resources/payments.ts">CustomerRequest</a></code>
 - <code><a href="./src/resources/payments.ts">IntentStatus</a></code>
+- <code><a href="./src/resources/payments.ts">NewCustomer</a></code>
 - <code><a href="./src/resources/payments.ts">OneTimeProductCartItem</a></code>
 - <code><a href="./src/resources/payments.ts">Payment</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentMethodTypes</a></code>
@@ -242,3 +243,37 @@ Methods:
 - <code title="patch /brands/{id}">client.brands.<a href="./src/resources/brands.ts">update</a>(id, { ...params }) -> Brand</code>
 - <code title="get /brands">client.brands.<a href="./src/resources/brands.ts">list</a>() -> BrandListResponse</code>
 - <code title="put /brands/{id}/images">client.brands.<a href="./src/resources/brands.ts">updateImages</a>(id) -> BrandUpdateImagesResponse</code>
+
+# Webhooks
+
+Types:
+
+- <code><a href="./src/resources/webhooks/webhooks.ts">WebhookCreateResponse</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">WebhookRetrieveResponse</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">WebhookUpdateResponse</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">WebhookListResponse</a></code>
+
+Methods:
+
+- <code title="post /webhooks">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">create</a>({ ...params }) -> WebhookCreateResponse</code>
+- <code title="get /webhooks/{webhook_id}">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">retrieve</a>(webhookId) -> WebhookRetrieveResponse</code>
+- <code title="patch /webhooks/{webhook_id}">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">update</a>(webhookId, { ...params }) -> WebhookUpdateResponse</code>
+- <code title="get /webhooks">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">list</a>({ ...params }) -> WebhookListResponsesCursorPagePagination</code>
+- <code title="delete /webhooks/{webhook_id}">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">delete</a>(webhookId) -> void</code>
+
+## Headers
+
+Types:
+
+- <code><a href="./src/resources/webhooks/headers.ts">HeaderRetrieveResponse</a></code>
+
+Methods:
+
+- <code title="get /webhooks/{webhook_id}/headers">client.webhooks.headers.<a href="./src/resources/webhooks/headers.ts">retrieve</a>(webhookId) -> HeaderRetrieveResponse</code>
+- <code title="patch /webhooks/{webhook_id}/headers">client.webhooks.headers.<a href="./src/resources/webhooks/headers.ts">update</a>(webhookId, { ...params }) -> void</code>
+
+# YourWebhookURL
+
+Methods:
+
+- <code title="post /your-webhook-url">client.yourWebhookURL.<a href="./src/resources/your-webhook-url.ts">create</a>({ ...params }) -> void</code>

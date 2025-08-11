@@ -70,6 +70,10 @@ export const tool: Tool = {
         type: 'boolean',
         description: 'When true, generates and sends a license key to your customer.\nDefaults to false',
       },
+      metadata: {
+        type: 'object',
+        description: 'Additional metadata for the product',
+      },
       name: {
         type: 'string',
         description: 'Optional name of the product',

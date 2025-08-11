@@ -119,6 +119,13 @@ export interface Discount {
   name?: string | null;
 
   /**
+   * Number of subscription billing cycles this discount is valid for. If not
+   * provided, the discount will be applied indefinitely to all recurring payments
+   * related to the subscription.
+   */
+  subscription_cycles?: number | null;
+
+  /**
    * Usage limit for this discount, if any.
    */
   usage_limit?: number | null;
@@ -165,6 +172,13 @@ export interface DiscountCreateParams {
   restricted_to?: Array<string> | null;
 
   /**
+   * Number of subscription billing cycles this discount is valid for. If not
+   * provided, the discount will be applied indefinitely to all recurring payments
+   * related to the subscription.
+   */
+  subscription_cycles?: number | null;
+
+  /**
    * How many times this discount can be used (if any). Must be >= 1 if provided.
    */
   usage_limit?: number | null;
@@ -196,6 +210,13 @@ export interface DiscountUpdateParams {
    * restrictions, send empty array
    */
   restricted_to?: Array<string> | null;
+
+  /**
+   * Number of subscription billing cycles this discount is valid for. If not
+   * provided, the discount will be applied indefinitely to all recurring payments
+   * related to the subscription.
+   */
+  subscription_cycles?: number | null;
 
   /**
    * If present, update the discount type.

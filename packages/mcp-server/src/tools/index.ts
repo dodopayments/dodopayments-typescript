@@ -59,6 +59,14 @@ import retrieve_brands from './brands/retrieve-brands';
 import update_brands from './brands/update-brands';
 import list_brands from './brands/list-brands';
 import update_images_brands from './brands/update-images-brands';
+import create_webhooks from './webhooks/create-webhooks';
+import retrieve_webhooks from './webhooks/retrieve-webhooks';
+import update_webhooks from './webhooks/update-webhooks';
+import list_webhooks from './webhooks/list-webhooks';
+import delete_webhooks from './webhooks/delete-webhooks';
+import retrieve_webhooks_headers from './webhooks/headers/retrieve-webhooks-headers';
+import update_webhooks_headers from './webhooks/headers/update-webhooks-headers';
+import create_your_webhook_url from './your-webhook-url/create-your-webhook-url';
 
 export const endpoints: Endpoint[] = [];
 
@@ -121,6 +129,14 @@ addEndpoint(retrieve_brands);
 addEndpoint(update_brands);
 addEndpoint(list_brands);
 addEndpoint(update_images_brands);
+addEndpoint(create_webhooks);
+addEndpoint(retrieve_webhooks);
+addEndpoint(update_webhooks);
+addEndpoint(list_webhooks);
+addEndpoint(delete_webhooks);
+addEndpoint(retrieve_webhooks_headers);
+addEndpoint(update_webhooks_headers);
+addEndpoint(create_your_webhook_url);
 
 export type Filter = {
   type: 'resource' | 'operation' | 'tag' | 'tool';

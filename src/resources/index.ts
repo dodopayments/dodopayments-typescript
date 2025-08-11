@@ -84,6 +84,7 @@ export {
   type CustomerLimitedDetails,
   type CustomerRequest,
   type IntentStatus,
+  type NewCustomer,
   type OneTimeProductCartItem,
   type Payment,
   type PaymentMethodTypes,
@@ -138,3 +139,15 @@ export {
   type SubscriptionChargeParams,
 } from './subscriptions';
 export { WebhookEvents, type WebhookEventType, type WebhookPayload } from './webhook-events';
+export {
+  WebhookListResponsesCursorPagePagination,
+  Webhooks,
+  type WebhookCreateResponse,
+  type WebhookRetrieveResponse,
+  type WebhookUpdateResponse,
+  type WebhookListResponse,
+  type WebhookCreateParams,
+  type WebhookUpdateParams,
+  type WebhookListParams,
+} from './webhooks/webhooks';
+export { YourWebhookURL, type YourWebhookURLCreateParams } from './your-webhook-url';
