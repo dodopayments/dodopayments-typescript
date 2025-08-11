@@ -8,18 +8,9 @@ const client = new DodoPayments({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource products', () => {
+describe('resource webhooks', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.products.create({
-      price: {
-        currency: 'AED',
-        discount: 0,
-        price: 0,
-        purchasing_power_parity: true,
-        type: 'one_time_price',
-      },
-      tax_category: 'digital_products',
-    });
+    const responsePromise = client.webhooks.create({ url: 'url' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -30,33 +21,20 @@ describe('resource products', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.products.create({
-      price: {
-        currency: 'AED',
-        discount: 0,
-        price: 0,
-        purchasing_power_parity: true,
-        type: 'one_time_price',
-        pay_what_you_want: true,
-        suggested_price: 0,
-        tax_inclusive: true,
-      },
-      tax_category: 'digital_products',
-      addons: ['string'],
-      brand_id: 'brand_id',
+    const response = await client.webhooks.create({
+      url: 'url',
       description: 'description',
-      digital_product_delivery: { external_url: 'external_url', instructions: 'instructions' },
-      license_key_activation_message: 'license_key_activation_message',
-      license_key_activations_limit: 0,
-      license_key_duration: { count: 0, interval: 'Day' },
-      license_key_enabled: true,
+      disabled: true,
+      filter_types: ['payment.succeeded'],
+      headers: { foo: 'string' },
+      idempotency_key: 'idempotency_key',
       metadata: { foo: 'string' },
-      name: 'name',
+      rate_limit: 0,
     });
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.products.retrieve('id');
+    const responsePromise = client.webhooks.retrieve('webhook_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -68,13 +46,13 @@ describe('resource products', () => {
 
   test('retrieve: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.products.retrieve('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      DodoPayments.NotFoundError,
-    );
+    await expect(
+      client.webhooks.retrieve('webhook_id', { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
   test('update', async () => {
-    const responsePromise = client.products.update('id', {});
+    const responsePromise = client.webhooks.update('webhook_id', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -85,7 +63,7 @@ describe('resource products', () => {
   });
 
   test('list', async () => {
-    const responsePromise = client.products.list();
+    const responsePromise = client.webhooks.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -97,7 +75,7 @@ describe('resource products', () => {
 
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.products.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.webhooks.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       DodoPayments.NotFoundError,
     );
   });
@@ -105,15 +83,12 @@ describe('resource products', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.products.list(
-        { archived: true, brand_id: 'brand_id', page_number: 0, page_size: 0, recurring: true },
-        { path: '/_stainless_unknown_path' },
-      ),
+      client.webhooks.list({ iterator: 'iterator', limit: 0 }, { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
   test('delete', async () => {
-    const responsePromise = client.products.delete('id');
+    const responsePromise = client.webhooks.delete('webhook_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -125,41 +100,8 @@ describe('resource products', () => {
 
   test('delete: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.products.delete('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.webhooks.delete('webhook_id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
       DodoPayments.NotFoundError,
     );
-  });
-
-  test('unarchive', async () => {
-    const responsePromise = client.products.unarchive('id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('unarchive: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.products.unarchive('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      DodoPayments.NotFoundError,
-    );
-  });
-
-  test('updateFiles: only required params', async () => {
-    const responsePromise = client.products.updateFiles('id', { file_name: 'file_name' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('updateFiles: required and optional params', async () => {
-    const response = await client.products.updateFiles('id', { file_name: 'file_name' });
   });
 });

@@ -50,3 +50,76 @@ export class DefaultPageNumberPagination<Item>
     return { params: { page_number: currentPage + 1 } };
   }
 }
+
+export interface CursorPagePaginationResponse<Item> {
+  data: Array<Item>;
+
+  iterator: string;
+
+  done: boolean;
+}
+
+export interface CursorPagePaginationParams {
+  iterator?: string;
+
+  limit?: number;
+}
+
+export class CursorPagePagination<Item>
+  extends AbstractPage<Item>
+  implements CursorPagePaginationResponse<Item>
+{
+  data: Array<Item>;
+
+  iterator: string;
+
+  done: boolean;
+
+  constructor(
+    client: APIClient,
+    response: Response,
+    body: CursorPagePaginationResponse<Item>,
+    options: FinalRequestOptions,
+  ) {
+    super(client, response, body, options);
+
+    this.data = body.data || [];
+    this.iterator = body.iterator || '';
+    this.done = body.done || false;
+  }
+
+  getPaginatedItems(): Item[] {
+    return this.data ?? [];
+  }
+
+  override hasNextPage(): boolean {
+    if (this.done === false) {
+      return false;
+    }
+
+    return super.hasNextPage();
+  }
+
+  // @deprecated Please use `nextPageInfo()` instead
+  nextPageParams(): Partial<CursorPagePaginationParams> | null {
+    const info = this.nextPageInfo();
+    if (!info) return null;
+    if ('params' in info) return info.params;
+    const params = Object.fromEntries(info.url.searchParams);
+    if (!Object.keys(params).length) return null;
+    return params;
+  }
+
+  nextPageInfo(): PageInfo | null {
+    const cursor = this.iterator;
+    if (!cursor) {
+      return null;
+    }
+
+    return {
+      params: {
+        iterator: cursor,
+      },
+    };
+  }
+}

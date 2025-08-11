@@ -110,7 +110,7 @@ export interface CustomerLimitedDetails {
   name: string;
 }
 
-export type CustomerRequest = AttachExistingCustomer | CreateNewCustomer;
+export type CustomerRequest = AttachExistingCustomer | NewCustomer;
 
 export type IntentStatus =
   | 'succeeded'
@@ -124,6 +124,14 @@ export type IntentStatus =
   | 'requires_capture'
   | 'partially_captured'
   | 'partially_captured_and_capturable';
+
+export interface NewCustomer {
+  email: string;
+
+  name: string;
+
+  phone_number?: string | null;
+}
 
 export interface OneTimeProductCartItem {
   product_id: string;
@@ -540,6 +548,7 @@ export declare namespace Payments {
     type CustomerLimitedDetails as CustomerLimitedDetails,
     type CustomerRequest as CustomerRequest,
     type IntentStatus as IntentStatus,
+    type NewCustomer as NewCustomer,
     type OneTimeProductCartItem as OneTimeProductCartItem,
     type Payment as Payment,
     type PaymentMethodTypes as PaymentMethodTypes,

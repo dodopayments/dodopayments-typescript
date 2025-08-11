@@ -28,6 +28,7 @@ describe('resource discounts', () => {
       expires_at: '2019-12-27T18:11:19.117Z',
       name: 'name',
       restricted_to: ['string'],
+      subscription_cycles: 0,
       usage_limit: 0,
     });
   });

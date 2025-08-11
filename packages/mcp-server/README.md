@@ -273,3 +273,20 @@ The following tools are available in this MCP server.
 - `update_brands` (`write`):
 - `list_brands` (`read`):
 - `update_images_brands` (`write`):
+
+### Resource `webhooks`:
+
+- `create_webhooks` (`write`): Create a new webhook
+- `retrieve_webhooks` (`read`): Get a webhook by id
+- `update_webhooks` (`write`): Patch a webhook by id
+- `list_webhooks` (`read`): List all webhooks
+- `delete_webhooks` (`write`): Delete a webhook by id
+
+### Resource `webhooks.headers`:
+
+- `retrieve_webhooks_headers` (`read`): Get a webhook by id
+- `update_webhooks_headers` (`write`): Patch a webhook by id
+
+### Resource `your_webhook_url`:
+
+- `create_your_webhook_url` (`write`):
