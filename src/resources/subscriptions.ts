@@ -523,6 +523,8 @@ export interface SubscriptionUpdateParams {
 
   metadata?: { [key: string]: string } | null;
 
+  next_billing_date?: string | null;
+
   status?: SubscriptionStatus | null;
 
   tax_id?: string | null;
