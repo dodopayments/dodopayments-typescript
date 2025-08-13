@@ -282,11 +282,6 @@ export interface WebhookCreateParams {
    */
   url: string;
 
-  /**
-   * Filter events to the webhook.
-   *
-   * Webhook event will only be sent for events in the list.
-   */
   description?: string | null;
 
   /**
@@ -296,6 +291,11 @@ export interface WebhookCreateParams {
    */
   disabled?: boolean | null;
 
+  /**
+   * Filter events to the webhook.
+   *
+   * Webhook event will only be sent for events in the list.
+   */
   filter_types?: Array<WebhookEventsAPI.WebhookEventType>;
 
   /**

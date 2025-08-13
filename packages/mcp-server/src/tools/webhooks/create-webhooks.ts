@@ -28,8 +28,6 @@ export const tool: Tool = {
       },
       description: {
         type: 'string',
-        description:
-          'Filter events to the webhook.\n\nWebhook event will only be sent for events in the list.',
       },
       disabled: {
         type: 'boolean',
@@ -37,6 +35,8 @@ export const tool: Tool = {
       },
       filter_types: {
         type: 'array',
+        description:
+          'Filter events to the webhook.\n\nWebhook event will only be sent for events in the list.',
         items: {
           $ref: '#/$defs/webhook_event_type',
         },

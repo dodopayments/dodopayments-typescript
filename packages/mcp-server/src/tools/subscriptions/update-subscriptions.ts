@@ -42,6 +42,10 @@ export const tool: Tool = {
       metadata: {
         type: 'object',
       },
+      next_billing_date: {
+        type: 'string',
+        format: 'date-time',
+      },
       status: {
         $ref: '#/$defs/subscription_status',
       },
