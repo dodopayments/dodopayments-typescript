@@ -68,6 +68,16 @@ export class Webhooks extends APIResource {
       headers: { Accept: '*/*', ...options?.headers },
     });
   }
+
+  /**
+   * Get webhook secret by id
+   */
+  retrieveSecret(
+    webhookId: string,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<WebhookRetrieveSecretResponse> {
+    return this._client.get(`/webhooks/${webhookId}/secret`, options);
+  }
 }
 
 export class WebhookListResponsesCursorPagePagination extends CursorPagePagination<WebhookListResponse> {}
@@ -276,6 +286,10 @@ export interface WebhookListResponse {
   rate_limit?: number | null;
 }
 
+export interface WebhookRetrieveSecretResponse {
+  secret: string;
+}
+
 export interface WebhookCreateParams {
   /**
    * Url of the webhook
@@ -361,6 +375,7 @@ export declare namespace Webhooks {
     type WebhookRetrieveResponse as WebhookRetrieveResponse,
     type WebhookUpdateResponse as WebhookUpdateResponse,
     type WebhookListResponse as WebhookListResponse,
+    type WebhookRetrieveSecretResponse as WebhookRetrieveSecretResponse,
     WebhookListResponsesCursorPagePagination as WebhookListResponsesCursorPagePagination,
     type WebhookCreateParams as WebhookCreateParams,
     type WebhookUpdateParams as WebhookUpdateParams,
