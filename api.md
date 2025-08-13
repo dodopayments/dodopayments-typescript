@@ -252,6 +252,7 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">WebhookRetrieveResponse</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">WebhookUpdateResponse</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">WebhookListResponse</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">WebhookRetrieveSecretResponse</a></code>
 
 Methods:
 
@@ -260,6 +261,7 @@ Methods:
 - <code title="patch /webhooks/{webhook_id}">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">update</a>(webhookId, { ...params }) -> WebhookUpdateResponse</code>
 - <code title="get /webhooks">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">list</a>({ ...params }) -> WebhookListResponsesCursorPagePagination</code>
 - <code title="delete /webhooks/{webhook_id}">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">delete</a>(webhookId) -> void</code>
+- <code title="get /webhooks/{webhook_id}/secret">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">retrieveSecret</a>(webhookId) -> WebhookRetrieveSecretResponse</code>
 
 ## Headers
 

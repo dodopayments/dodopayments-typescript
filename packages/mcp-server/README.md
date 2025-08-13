@@ -281,6 +281,7 @@ The following tools are available in this MCP server.
 - `update_webhooks` (`write`): Patch a webhook by id
 - `list_webhooks` (`read`): List all webhooks
 - `delete_webhooks` (`write`): Delete a webhook by id
+- `retrieve_secret_webhooks` (`read`): Get webhook secret by id
 
 ### Resource `webhooks.headers`:
 
