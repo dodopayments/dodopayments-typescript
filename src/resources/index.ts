@@ -146,6 +146,7 @@ export {
   type WebhookRetrieveResponse,
   type WebhookUpdateResponse,
   type WebhookListResponse,
+  type WebhookRetrieveSecretResponse,
   type WebhookCreateParams,
   type WebhookUpdateParams,
   type WebhookListParams,
