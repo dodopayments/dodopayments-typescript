@@ -26,6 +26,7 @@ export const tool: Tool = {
       headers: {
         type: 'object',
         description: 'Object of header-value pair to update or add',
+        additionalProperties: true,
       },
     },
     required: ['webhook_id', 'headers'],

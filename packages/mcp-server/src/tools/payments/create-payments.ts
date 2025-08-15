@@ -51,6 +51,7 @@ export const tool: Tool = {
       metadata: {
         type: 'object',
         description: 'Additional metadata associated with the payment.\nDefaults to empty if not provided.',
+        additionalProperties: true,
       },
       payment_link: {
         type: 'boolean',

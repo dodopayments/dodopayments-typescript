@@ -83,6 +83,7 @@ export const tool: Tool = {
       metadata: {
         type: 'object',
         description: 'Additional metadata for the product',
+        additionalProperties: true,
       },
       name: {
         type: 'string',

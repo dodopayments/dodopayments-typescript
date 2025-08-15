@@ -41,6 +41,7 @@ export const tool: Tool = {
       },
       metadata: {
         type: 'object',
+        additionalProperties: true,
       },
       next_billing_date: {
         type: 'string',

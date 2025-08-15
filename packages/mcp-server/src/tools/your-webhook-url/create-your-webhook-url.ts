@@ -137,6 +137,7 @@ export const tool: Tool = {
           metadata: {
             type: 'object',
             description: 'Additional custom data associated with the payment',
+            additionalProperties: true,
           },
           payment_id: {
             type: 'string',
@@ -864,6 +865,7 @@ export const tool: Tool = {
           metadata: {
             type: 'object',
             description: 'Additional custom data associated with the subscription',
+            additionalProperties: true,
           },
           next_billing_date: {
             type: 'string',
