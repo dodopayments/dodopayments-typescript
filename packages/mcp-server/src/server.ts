@@ -22,14 +22,17 @@ export { Filter } from './tools';
 export { ClientOptions } from 'dodopayments';
 export { endpoints } from './tools';
 
+export const newMcpServer = () =>
+  new McpServer(
+    {
+      name: 'dodopayments_api',
+      version: '1.49.0',
+    },
+    { capabilities: { tools: {}, logging: {} } },
+  );
+
 // Create server instance
-export const server = new McpServer(
-  {
-    name: 'dodopayments_api',
-    version: '1.49.0',
-  },
-  { capabilities: { tools: {}, logging: {} } },
-);
+export const server = newMcpServer();
 
 /**
  * Initializes the provided MCP Server with the given tools and handlers.
@@ -88,7 +91,7 @@ export function init(params: {
 /**
  * Selects the tools to include in the MCP Server based on the provided options.
  */
-export function selectTools(endpoints: Endpoint[], options: McpOptions) {
+export function selectTools(endpoints: Endpoint[], options: McpOptions): Endpoint[] {
   const filteredEndpoints = query(options.filters, endpoints);
 
   let includedTools = filteredEndpoints;

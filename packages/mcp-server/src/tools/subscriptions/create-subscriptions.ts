@@ -59,6 +59,7 @@ export const tool: Tool = {
       metadata: {
         type: 'object',
         description: 'Additional metadata for the subscription\nDefaults to empty if not specified',
+        additionalProperties: true,
       },
       on_demand: {
         type: 'object',
