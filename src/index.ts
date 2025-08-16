@@ -400,6 +400,7 @@ DodoPayments.Brands = Brands;
 DodoPayments.Webhooks = Webhooks;
 DodoPayments.WebhookListResponsesCursorPagePagination = WebhookListResponsesCursorPagePagination;
 DodoPayments.YourWebhookURL = YourWebhookURL;
+
 export declare namespace DodoPayments {
   export type RequestOptions = Core.RequestOptions;
 
