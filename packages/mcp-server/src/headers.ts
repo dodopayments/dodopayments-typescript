@@ -17,7 +17,7 @@ export const parseAuthHeaders = (req: IncomingMessage): Partial<ClientOptions> =
   }
 
   const bearerToken =
-    req.headers['x-dodo-payments-api-key'] instanceof Array ?
+    Array.isArray(req.headers['x-dodo-payments-api-key']) ?
       req.headers['x-dodo-payments-api-key'][0]
     : req.headers['x-dodo-payments-api-key'];
   return { bearerToken };
