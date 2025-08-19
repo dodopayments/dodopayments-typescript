@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.50.0 (2025-08-19)
+
+Full Changelog: [v1.49.0...v1.50.0](https://github.com/dodopayments/dodopayments-node/compare/v1.49.0...v1.50.0)
+
+### Features
+
+* **mcp:** parse query string as mcp client options in mcp server ([437576b](https://github.com/dodopayments/dodopayments-node/commit/437576ba21fbb0b4af499d36e42968bb3f1e9ec8))
+
+
+### Chores
+
+* **internal:** codegen related update ([cf27f35](https://github.com/dodopayments/dodopayments-node/commit/cf27f35ae4962cf8518c987adecbc299665831b7))
+* **internal:** formatting change ([a205553](https://github.com/dodopayments/dodopayments-node/commit/a205553b4b08e01d2baef2c4a2bcc17182488220))
+* **internal:** refactor array check ([e6493fd](https://github.com/dodopayments/dodopayments-node/commit/e6493fd69e4c6d34c8e236918fc210affd6d70b5))
+* **mcp:** update README ([a47e159](https://github.com/dodopayments/dodopayments-node/commit/a47e1595012064cbfea21503cc648782dd0a5233))
+
 ## 1.49.0 (2025-08-13)
 
 Full Changelog: [v1.47.0...v1.49.0](https://github.com/dodopayments/dodopayments-node/compare/v1.47.0...v1.49.0)
