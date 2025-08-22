@@ -1,3 +1,14 @@
+# CheckoutSessions
+
+Types:
+
+- <code><a href="./src/resources/checkout-sessions.ts">CheckoutSessionRequest</a></code>
+- <code><a href="./src/resources/checkout-sessions.ts">CheckoutSessionResponse</a></code>
+
+Methods:
+
+- <code title="post /checkouts">client.checkoutSessions.<a href="./src/resources/checkout-sessions.ts">create</a>({ ...params }) -> CheckoutSessionResponse</code>
+
 # Payments
 
 Types:
@@ -29,6 +40,7 @@ Types:
 
 - <code><a href="./src/resources/subscriptions.ts">AddonCartResponseItem</a></code>
 - <code><a href="./src/resources/subscriptions.ts">AttachAddon</a></code>
+- <code><a href="./src/resources/subscriptions.ts">OnDemandSubscription</a></code>
 - <code><a href="./src/resources/subscriptions.ts">Subscription</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionStatus</a></code>
 - <code><a href="./src/resources/subscriptions.ts">TimeInterval</a></code>
@@ -248,18 +260,15 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/webhooks/webhooks.ts">WebhookCreateResponse</a></code>
-- <code><a href="./src/resources/webhooks/webhooks.ts">WebhookRetrieveResponse</a></code>
-- <code><a href="./src/resources/webhooks/webhooks.ts">WebhookUpdateResponse</a></code>
-- <code><a href="./src/resources/webhooks/webhooks.ts">WebhookListResponse</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">WebhookDetails</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">WebhookRetrieveSecretResponse</a></code>
 
 Methods:
 
-- <code title="post /webhooks">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">create</a>({ ...params }) -> WebhookCreateResponse</code>
-- <code title="get /webhooks/{webhook_id}">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">retrieve</a>(webhookId) -> WebhookRetrieveResponse</code>
-- <code title="patch /webhooks/{webhook_id}">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">update</a>(webhookId, { ...params }) -> WebhookUpdateResponse</code>
-- <code title="get /webhooks">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">list</a>({ ...params }) -> WebhookListResponsesCursorPagePagination</code>
+- <code title="post /webhooks">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">create</a>({ ...params }) -> WebhookDetails</code>
+- <code title="get /webhooks/{webhook_id}">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">retrieve</a>(webhookId) -> WebhookDetails</code>
+- <code title="patch /webhooks/{webhook_id}">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">update</a>(webhookId, { ...params }) -> WebhookDetails</code>
+- <code title="get /webhooks">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">list</a>({ ...params }) -> WebhookDetailsCursorPagePagination</code>
 - <code title="delete /webhooks/{webhook_id}">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">delete</a>(webhookId) -> void</code>
 - <code title="get /webhooks/{webhook_id}/secret">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">retrieveSecret</a>(webhookId) -> WebhookRetrieveSecretResponse</code>
 
@@ -273,9 +282,3 @@ Methods:
 
 - <code title="get /webhooks/{webhook_id}/headers">client.webhooks.headers.<a href="./src/resources/webhooks/headers.ts">retrieve</a>(webhookId) -> HeaderRetrieveResponse</code>
 - <code title="patch /webhooks/{webhook_id}/headers">client.webhooks.headers.<a href="./src/resources/webhooks/headers.ts">update</a>(webhookId, { ...params }) -> void</code>
-
-# YourWebhookURL
-
-Methods:
-
-- <code title="post /your-webhook-url">client.yourWebhookURL.<a href="./src/resources/your-webhook-url.ts">create</a>({ ...params }) -> void</code>

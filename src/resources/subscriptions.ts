@@ -85,6 +85,40 @@ export interface AttachAddon {
   quantity: number;
 }
 
+export interface OnDemandSubscription {
+  /**
+   * If set as True, does not perform any charge and only authorizes payment method
+   * details for future use.
+   */
+  mandate_only: boolean;
+
+  /**
+   * Whether adaptive currency fees should be included in the product_price (true) or
+   * added on top (false). This field is ignored if adaptive pricing is not enabled
+   * for the business.
+   */
+  adaptive_currency_fees_inclusive?: boolean | null;
+
+  /**
+   * Optional currency of the product price. If not specified, defaults to the
+   * currency of the product.
+   */
+  product_currency?: MiscAPI.Currency | null;
+
+  /**
+   * Optional product description override for billing and line items. If not
+   * specified, the stored description of the product will be used.
+   */
+  product_description?: string | null;
+
+  /**
+   * Product price for the initial charge to customer If not specified the stored
+   * price of the product will be used Represented in the lowest denomination of the
+   * currency (e.g., cents for USD). For example, to charge $1.00, pass `100`.
+   */
+  product_price?: number | null;
+}
+
 /**
  * Response struct representing subscription details
  */
@@ -210,6 +244,11 @@ export interface Subscription {
    * The discount id if discount is applied
    */
   discount_id?: string | null;
+
+  /**
+   * Timestamp when the subscription will expire
+   */
+  expires_at?: string | null;
 }
 
 export type SubscriptionStatus = 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired';
@@ -448,7 +487,7 @@ export interface SubscriptionCreateParams {
    */
   metadata?: { [key: string]: string };
 
-  on_demand?: SubscriptionCreateParams.OnDemand | null;
+  on_demand?: OnDemandSubscription | null;
 
   /**
    * If true, generates a payment link. Defaults to false if not specified.
@@ -478,45 +517,12 @@ export interface SubscriptionCreateParams {
   trial_period_days?: number | null;
 }
 
-export namespace SubscriptionCreateParams {
-  export interface OnDemand {
-    /**
-     * If set as True, does not perform any charge and only authorizes payment method
-     * details for future use.
-     */
-    mandate_only: boolean;
-
-    /**
-     * Whether adaptive currency fees should be included in the product_price (true) or
-     * added on top (false). This field is ignored if adaptive pricing is not enabled
-     * for the business.
-     */
-    adaptive_currency_fees_inclusive?: boolean | null;
-
-    /**
-     * Optional currency of the product price. If not specified, defaults to the
-     * currency of the product.
-     */
-    product_currency?: MiscAPI.Currency | null;
-
-    /**
-     * Optional product description override for billing and line items. If not
-     * specified, the stored description of the product will be used.
-     */
-    product_description?: string | null;
-
-    /**
-     * Product price for the initial charge to customer If not specified the stored
-     * price of the product will be used Represented in the lowest denomination of the
-     * currency (e.g., cents for USD). For example, to charge $1.00, pass `100`.
-     */
-    product_price?: number | null;
-  }
-}
-
 export interface SubscriptionUpdateParams {
   billing?: PaymentsAPI.BillingAddress | null;
 
+  /**
+   * When set, the subscription will remain active until the end of billing period
+   */
   cancel_at_next_billing_date?: boolean | null;
 
   disable_on_demand?: SubscriptionUpdateParams.DisableOnDemand | null;
@@ -626,6 +632,7 @@ export declare namespace Subscriptions {
   export {
     type AddonCartResponseItem as AddonCartResponseItem,
     type AttachAddon as AttachAddon,
+    type OnDemandSubscription as OnDemandSubscription,
     type Subscription as Subscription,
     type SubscriptionStatus as SubscriptionStatus,
     type TimeInterval as TimeInterval,

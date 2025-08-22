@@ -2,12 +2,9 @@
 
 export { Headers, type HeaderRetrieveResponse, type HeaderUpdateParams } from './headers';
 export {
-  WebhookListResponsesCursorPagePagination,
+  WebhookDetailsCursorPagePagination,
   Webhooks,
-  type WebhookCreateResponse,
-  type WebhookRetrieveResponse,
-  type WebhookUpdateResponse,
-  type WebhookListResponse,
+  type WebhookDetails,
   type WebhookRetrieveSecretResponse,
   type WebhookCreateParams,
   type WebhookUpdateParams,

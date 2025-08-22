@@ -14,14 +14,14 @@ export class Webhooks extends APIResource {
   /**
    * Create a new webhook
    */
-  create(body: WebhookCreateParams, options?: Core.RequestOptions): Core.APIPromise<WebhookCreateResponse> {
+  create(body: WebhookCreateParams, options?: Core.RequestOptions): Core.APIPromise<WebhookDetails> {
     return this._client.post('/webhooks', { body, ...options });
   }
 
   /**
    * Get a webhook by id
    */
-  retrieve(webhookId: string, options?: Core.RequestOptions): Core.APIPromise<WebhookRetrieveResponse> {
+  retrieve(webhookId: string, options?: Core.RequestOptions): Core.APIPromise<WebhookDetails> {
     return this._client.get(`/webhooks/${webhookId}`, options);
   }
 
@@ -32,7 +32,7 @@ export class Webhooks extends APIResource {
     webhookId: string,
     body: WebhookUpdateParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<WebhookUpdateResponse> {
+  ): Core.APIPromise<WebhookDetails> {
     return this._client.patch(`/webhooks/${webhookId}`, { body, ...options });
   }
 
@@ -42,21 +42,16 @@ export class Webhooks extends APIResource {
   list(
     query?: WebhookListParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<WebhookListResponsesCursorPagePagination, WebhookListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<WebhookListResponsesCursorPagePagination, WebhookListResponse>;
+  ): Core.PagePromise<WebhookDetailsCursorPagePagination, WebhookDetails>;
+  list(options?: Core.RequestOptions): Core.PagePromise<WebhookDetailsCursorPagePagination, WebhookDetails>;
   list(
     query: WebhookListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<WebhookListResponsesCursorPagePagination, WebhookListResponse> {
+  ): Core.PagePromise<WebhookDetailsCursorPagePagination, WebhookDetails> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/webhooks', WebhookListResponsesCursorPagePagination, {
-      query,
-      ...options,
-    });
+    return this._client.getAPIList('/webhooks', WebhookDetailsCursorPagePagination, { query, ...options });
   }
 
   /**
@@ -80,162 +75,9 @@ export class Webhooks extends APIResource {
   }
 }
 
-export class WebhookListResponsesCursorPagePagination extends CursorPagePagination<WebhookListResponse> {}
+export class WebhookDetailsCursorPagePagination extends CursorPagePagination<WebhookDetails> {}
 
-export interface WebhookCreateResponse {
-  /**
-   * The webhook's ID.
-   */
-  id: string;
-
-  /**
-   * Created at timestamp
-   */
-  created_at: string;
-
-  /**
-   * An example webhook name.
-   */
-  description: string;
-
-  /**
-   * Metadata of the webhook
-   */
-  metadata: { [key: string]: string };
-
-  /**
-   * Updated at timestamp
-   */
-  updated_at: string;
-
-  /**
-   * Url endpoint of the webhook
-   */
-  url: string;
-
-  /**
-   * Status of the webhook.
-   *
-   * If true, events are not sent
-   */
-  disabled?: boolean | null;
-
-  /**
-   * Filter events to the webhook.
-   *
-   * Webhook event will only be sent for events in the list.
-   */
-  filter_types?: Array<string> | null;
-
-  /**
-   * Configured rate limit
-   */
-  rate_limit?: number | null;
-}
-
-export interface WebhookRetrieveResponse {
-  /**
-   * The webhook's ID.
-   */
-  id: string;
-
-  /**
-   * Created at timestamp
-   */
-  created_at: string;
-
-  /**
-   * An example webhook name.
-   */
-  description: string;
-
-  /**
-   * Metadata of the webhook
-   */
-  metadata: { [key: string]: string };
-
-  /**
-   * Updated at timestamp
-   */
-  updated_at: string;
-
-  /**
-   * Url endpoint of the webhook
-   */
-  url: string;
-
-  /**
-   * Status of the webhook.
-   *
-   * If true, events are not sent
-   */
-  disabled?: boolean | null;
-
-  /**
-   * Filter events to the webhook.
-   *
-   * Webhook event will only be sent for events in the list.
-   */
-  filter_types?: Array<string> | null;
-
-  /**
-   * Configured rate limit
-   */
-  rate_limit?: number | null;
-}
-
-export interface WebhookUpdateResponse {
-  /**
-   * The webhook's ID.
-   */
-  id: string;
-
-  /**
-   * Created at timestamp
-   */
-  created_at: string;
-
-  /**
-   * An example webhook name.
-   */
-  description: string;
-
-  /**
-   * Metadata of the webhook
-   */
-  metadata: { [key: string]: string };
-
-  /**
-   * Updated at timestamp
-   */
-  updated_at: string;
-
-  /**
-   * Url endpoint of the webhook
-   */
-  url: string;
-
-  /**
-   * Status of the webhook.
-   *
-   * If true, events are not sent
-   */
-  disabled?: boolean | null;
-
-  /**
-   * Filter events to the webhook.
-   *
-   * Webhook event will only be sent for events in the list.
-   */
-  filter_types?: Array<string> | null;
-
-  /**
-   * Configured rate limit
-   */
-  rate_limit?: number | null;
-}
-
-export interface WebhookListResponse {
+export interface WebhookDetails {
   /**
    * The webhook's ID.
    */
@@ -366,17 +208,14 @@ export interface WebhookUpdateParams {
 
 export interface WebhookListParams extends CursorPagePaginationParams {}
 
-Webhooks.WebhookListResponsesCursorPagePagination = WebhookListResponsesCursorPagePagination;
+Webhooks.WebhookDetailsCursorPagePagination = WebhookDetailsCursorPagePagination;
 Webhooks.Headers = Headers;
 
 export declare namespace Webhooks {
   export {
-    type WebhookCreateResponse as WebhookCreateResponse,
-    type WebhookRetrieveResponse as WebhookRetrieveResponse,
-    type WebhookUpdateResponse as WebhookUpdateResponse,
-    type WebhookListResponse as WebhookListResponse,
+    type WebhookDetails as WebhookDetails,
     type WebhookRetrieveSecretResponse as WebhookRetrieveSecretResponse,
-    WebhookListResponsesCursorPagePagination as WebhookListResponsesCursorPagePagination,
+    WebhookDetailsCursorPagePagination as WebhookDetailsCursorPagePagination,
     type WebhookCreateParams as WebhookCreateParams,
     type WebhookUpdateParams as WebhookUpdateParams,
     type WebhookListParams as WebhookListParams,
