@@ -18,6 +18,12 @@ export {
   type BrandUpdateParams,
 } from './brands';
 export {
+  CheckoutSessions,
+  type CheckoutSessionRequest,
+  type CheckoutSessionResponse,
+  type CheckoutSessionCreateParams,
+} from './checkout-sessions';
+export {
   CustomersDefaultPageNumberPagination,
   Customers,
   type Customer,
@@ -126,6 +132,7 @@ export {
   Subscriptions,
   type AddonCartResponseItem,
   type AttachAddon,
+  type OnDemandSubscription,
   type Subscription,
   type SubscriptionStatus,
   type TimeInterval,
@@ -138,17 +145,13 @@ export {
   type SubscriptionChangePlanParams,
   type SubscriptionChargeParams,
 } from './subscriptions';
-export { WebhookEvents, type WebhookEventType, type WebhookPayload } from './webhook-events';
 export {
-  WebhookListResponsesCursorPagePagination,
+  WebhookDetailsCursorPagePagination,
   Webhooks,
-  type WebhookCreateResponse,
-  type WebhookRetrieveResponse,
-  type WebhookUpdateResponse,
-  type WebhookListResponse,
+  type WebhookDetails,
   type WebhookRetrieveSecretResponse,
   type WebhookCreateParams,
   type WebhookUpdateParams,
   type WebhookListParams,
 } from './webhooks/webhooks';
-export { YourWebhookURL, type YourWebhookURLCreateParams } from './your-webhook-url';
+export { WebhookEvents, type WebhookEventType, type WebhookPayload } from './webhook-events';

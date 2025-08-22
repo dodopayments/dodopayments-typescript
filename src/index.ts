@@ -30,6 +30,12 @@ import {
   Brands,
 } from './resources/brands';
 import {
+  CheckoutSessionCreateParams,
+  CheckoutSessionRequest,
+  CheckoutSessionResponse,
+  CheckoutSessions,
+} from './resources/checkout-sessions';
+import {
   Discount,
   DiscountCreateParams,
   DiscountListParams,
@@ -113,6 +119,7 @@ import {
 import {
   AddonCartResponseItem,
   AttachAddon,
+  OnDemandSubscription,
   Subscription,
   SubscriptionChangePlanParams,
   SubscriptionChargeParams,
@@ -128,7 +135,6 @@ import {
   TimeInterval,
 } from './resources/subscriptions';
 import { WebhookEventType, WebhookEvents, WebhookPayload } from './resources/webhook-events';
-import { YourWebhookURL, YourWebhookURLCreateParams } from './resources/your-webhook-url';
 import {
   Customer,
   CustomerCreateParams,
@@ -154,14 +160,11 @@ import {
 } from './resources/products/products';
 import {
   WebhookCreateParams,
-  WebhookCreateResponse,
+  WebhookDetails,
+  WebhookDetailsCursorPagePagination,
   WebhookListParams,
-  WebhookListResponse,
-  WebhookListResponsesCursorPagePagination,
-  WebhookRetrieveResponse,
   WebhookRetrieveSecretResponse,
   WebhookUpdateParams,
-  WebhookUpdateResponse,
   Webhooks,
 } from './resources/webhooks/webhooks';
 
@@ -304,6 +307,7 @@ export class DodoPayments extends Core.APIClient {
     this.bearerToken = bearerToken;
   }
 
+  checkoutSessions: API.CheckoutSessions = new API.CheckoutSessions(this);
   payments: API.Payments = new API.Payments(this);
   subscriptions: API.Subscriptions = new API.Subscriptions(this);
   invoices: API.Invoices = new API.Invoices(this);
@@ -321,7 +325,6 @@ export class DodoPayments extends Core.APIClient {
   addons: API.Addons = new API.Addons(this);
   brands: API.Brands = new API.Brands(this);
   webhooks: API.Webhooks = new API.Webhooks(this);
-  yourWebhookURL: API.YourWebhookURL = new API.YourWebhookURL(this);
 
   /**
    * Check whether the base URL is set to its default.
@@ -366,6 +369,7 @@ export class DodoPayments extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
+DodoPayments.CheckoutSessions = CheckoutSessions;
 DodoPayments.Payments = Payments;
 DodoPayments.PaymentListResponsesDefaultPageNumberPagination =
   PaymentListResponsesDefaultPageNumberPagination;
@@ -398,8 +402,7 @@ DodoPayments.Addons = Addons;
 DodoPayments.AddonResponsesDefaultPageNumberPagination = AddonResponsesDefaultPageNumberPagination;
 DodoPayments.Brands = Brands;
 DodoPayments.Webhooks = Webhooks;
-DodoPayments.WebhookListResponsesCursorPagePagination = WebhookListResponsesCursorPagePagination;
-DodoPayments.YourWebhookURL = YourWebhookURL;
+DodoPayments.WebhookDetailsCursorPagePagination = WebhookDetailsCursorPagePagination;
 
 export declare namespace DodoPayments {
   export type RequestOptions = Core.RequestOptions;
@@ -414,6 +417,13 @@ export declare namespace DodoPayments {
   export {
     type CursorPagePaginationParams as CursorPagePaginationParams,
     type CursorPagePaginationResponse as CursorPagePaginationResponse,
+  };
+
+  export {
+    CheckoutSessions as CheckoutSessions,
+    type CheckoutSessionRequest as CheckoutSessionRequest,
+    type CheckoutSessionResponse as CheckoutSessionResponse,
+    type CheckoutSessionCreateParams as CheckoutSessionCreateParams,
   };
 
   export {
@@ -440,6 +450,7 @@ export declare namespace DodoPayments {
     Subscriptions as Subscriptions,
     type AddonCartResponseItem as AddonCartResponseItem,
     type AttachAddon as AttachAddon,
+    type OnDemandSubscription as OnDemandSubscription,
     type Subscription as Subscription,
     type SubscriptionStatus as SubscriptionStatus,
     type TimeInterval as TimeInterval,
@@ -577,18 +588,13 @@ export declare namespace DodoPayments {
 
   export {
     Webhooks as Webhooks,
-    type WebhookCreateResponse as WebhookCreateResponse,
-    type WebhookRetrieveResponse as WebhookRetrieveResponse,
-    type WebhookUpdateResponse as WebhookUpdateResponse,
-    type WebhookListResponse as WebhookListResponse,
+    type WebhookDetails as WebhookDetails,
     type WebhookRetrieveSecretResponse as WebhookRetrieveSecretResponse,
-    WebhookListResponsesCursorPagePagination as WebhookListResponsesCursorPagePagination,
+    WebhookDetailsCursorPagePagination as WebhookDetailsCursorPagePagination,
     type WebhookCreateParams as WebhookCreateParams,
     type WebhookUpdateParams as WebhookUpdateParams,
     type WebhookListParams as WebhookListParams,
   };
-
-  export { YourWebhookURL as YourWebhookURL, type YourWebhookURLCreateParams as YourWebhookURLCreateParams };
 }
 
 export { toFile, fileFromPath } from './uploads';
