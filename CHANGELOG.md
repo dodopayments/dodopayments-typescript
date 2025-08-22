@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.51.0 (2025-08-22)
+
+Full Changelog: [v1.50.0...v1.51.0](https://github.com/dodopayments/dodopayments-node/compare/v1.50.0...v1.51.0)
+
+### Features
+
+* **api:** updated example ([151f228](https://github.com/dodopayments/dodopayments-node/commit/151f228a14708fbe310759a6bf3a8f8ae5c7bf05))
+* **api:** updated openapi spec to v1.51.0 and added checkout sessions ([a6112d2](https://github.com/dodopayments/dodopayments-node/commit/a6112d233096c7965cadc198ea24bd97cb5fe7c1))
+* **mcp:** add code execution tool ([4078bec](https://github.com/dodopayments/dodopayments-node/commit/4078becd78ac85ca3c02979e64c50762ffa98ff4))
+* **mcp:** add option to infer mcp client ([a8e60df](https://github.com/dodopayments/dodopayments-node/commit/a8e60df1a59e578dee481d59a47808e7cf54bdc8))
+
+
+### Chores
+
+* **internal:** make mcp-server publishing public by defaut ([016ca5d](https://github.com/dodopayments/dodopayments-node/commit/016ca5dfe898dd368284ba0ca1021f5ba7ca8a03))
+* **mcp:** add cors to oauth metadata route ([7a1dfab](https://github.com/dodopayments/dodopayments-node/commit/7a1dfab7417af634831e17ade3d230ad9c669efe))
+* **mcp:** update package.json ([178dc54](https://github.com/dodopayments/dodopayments-node/commit/178dc547856924dc78e53476a476b2e094b17e13))
+* **mcp:** update types ([4a5334a](https://github.com/dodopayments/dodopayments-node/commit/4a5334aa6ffe45df5a838f0e1adf0729e8774124))
+
 ## 1.50.0 (2025-08-19)
 
 Full Changelog: [v1.49.0...v1.50.0](https://github.com/dodopayments/dodopayments-node/compare/v1.49.0...v1.50.0)
