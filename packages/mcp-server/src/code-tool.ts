@@ -1,10 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { type ClientOptions } from 'dodopayments/index';
-
 import { dirname } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import DodoPayments from 'dodopayments';
+import DodoPayments, { ClientOptions } from 'dodopayments';
 import { Endpoint, ContentBlock, Metadata } from './tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
