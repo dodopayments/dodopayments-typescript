@@ -27,13 +27,11 @@ const client = new DodoPayments({
   environment: 'test_mode', // defaults to 'live_mode'
 });
 
-const payment = await client.payments.create({
-  billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
-  customer: { customer_id: 'customer_id' },
+const checkoutSessionResponse = await client.checkoutSessions.create({
   product_cart: [{ product_id: 'product_id', quantity: 0 }],
 });
 
-console.log(payment.payment_id);
+console.log(checkoutSessionResponse.session_id);
 ```
 
 ### Request & Response types
@@ -49,12 +47,12 @@ const client = new DodoPayments({
   environment: 'test_mode', // defaults to 'live_mode'
 });
 
-const params: DodoPayments.PaymentCreateParams = {
-  billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
-  customer: { customer_id: 'customer_id' },
+const params: DodoPayments.CheckoutSessionCreateParams = {
   product_cart: [{ product_id: 'product_id', quantity: 0 }],
 };
-const payment: DodoPayments.PaymentCreateResponse = await client.payments.create(params);
+const checkoutSessionResponse: DodoPayments.CheckoutSessionResponse = await client.checkoutSessions.create(
+  params,
+);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -67,12 +65,8 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const payment = await client.payments
-  .create({
-    billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
-    customer: { customer_id: 'customer_id' },
-    product_cart: [{ product_id: 'product_id', quantity: 0 }],
-  })
+const checkoutSessionResponse = await client.checkoutSessions
+  .create({ product_cart: [{ product_id: 'product_id', quantity: 0 }] })
   .catch(async (err) => {
     if (err instanceof DodoPayments.APIError) {
       console.log(err.status); // 400
@@ -113,7 +107,7 @@ const client = new DodoPayments({
 });
 
 // Or, configure per-request:
-await client.payments.create({ billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' }, customer: { customer_id: 'customer_id' }, product_cart: [{ product_id: 'product_id', quantity: 0 }] }, {
+await client.checkoutSessions.create({ product_cart: [{ product_id: 'product_id', quantity: 0 }] }, {
   maxRetries: 5,
 });
 ```
@@ -130,7 +124,7 @@ const client = new DodoPayments({
 });
 
 // Override per-request:
-await client.payments.create({ billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' }, customer: { customer_id: 'customer_id' }, product_cart: [{ product_id: 'product_id', quantity: 0 }] }, {
+await client.checkoutSessions.create({ product_cart: [{ product_id: 'product_id', quantity: 0 }] }, {
   timeout: 5 * 1000,
 });
 ```
@@ -182,25 +176,17 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new DodoPayments();
 
-const response = await client.payments
-  .create({
-    billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
-    customer: { customer_id: 'customer_id' },
-    product_cart: [{ product_id: 'product_id', quantity: 0 }],
-  })
+const response = await client.checkoutSessions
+  .create({ product_cart: [{ product_id: 'product_id', quantity: 0 }] })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: payment, response: raw } = await client.payments
-  .create({
-    billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
-    customer: { customer_id: 'customer_id' },
-    product_cart: [{ product_id: 'product_id', quantity: 0 }],
-  })
+const { data: checkoutSessionResponse, response: raw } = await client.checkoutSessions
+  .create({ product_cart: [{ product_id: 'product_id', quantity: 0 }] })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(payment.payment_id);
+console.log(checkoutSessionResponse.session_id);
 ```
 
 ### Making custom/undocumented requests
@@ -304,12 +290,8 @@ const client = new DodoPayments({
 });
 
 // Override per-request:
-await client.payments.create(
-  {
-    billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
-    customer: { customer_id: 'customer_id' },
-    product_cart: [{ product_id: 'product_id', quantity: 0 }],
-  },
+await client.checkoutSessions.create(
+  { product_cart: [{ product_id: 'product_id', quantity: 0 }] },
   {
     httpAgent: new http.Agent({ keepAlive: false }),
   },
