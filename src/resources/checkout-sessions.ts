@@ -1,0 +1,422 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import { APIResource } from '../resource';
+import * as Core from '../core';
+import * as MiscAPI from './misc';
+import * as PaymentsAPI from './payments';
+import * as SubscriptionsAPI from './subscriptions';
+
+export class CheckoutSessions extends APIResource {
+  create(
+    body: CheckoutSessionCreateParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<CheckoutSessionResponse> {
+    return this._client.post('/checkouts', { body, ...options });
+  }
+}
+
+export interface CheckoutSessionRequest {
+  product_cart: Array<CheckoutSessionRequest.ProductCart>;
+
+  /**
+   * Customers will never see payment methods that are not in this list. However,
+   * adding a method here does not guarantee customers will see it. Availability
+   * still depends on other factors (e.g., customer location, merchant settings).
+   *
+   * Disclaimar: Always provide 'credit' and 'debit' as a fallback. If all payment
+   * methods are unavailable, checkout session will fail.
+   */
+  allowed_payment_method_types?: Array<PaymentsAPI.PaymentMethodTypes> | null;
+
+  /**
+   * Billing address information for the session
+   */
+  billing_address?: CheckoutSessionRequest.BillingAddress | null;
+
+  /**
+   * This field is ingored if adaptive pricing is disabled
+   */
+  billing_currency?: MiscAPI.Currency | null;
+
+  /**
+   * If confirm is true, all the details will be finalized. If required data is
+   * missing, an API error is thrown.
+   */
+  confirm?: boolean;
+
+  /**
+   * Customer details for the session
+   */
+  customer?: PaymentsAPI.CustomerRequest | null;
+
+  /**
+   * Customization for the checkout session page
+   */
+  customization?: CheckoutSessionRequest.Customization;
+
+  discount_code?: string | null;
+
+  feature_flags?: CheckoutSessionRequest.FeatureFlags;
+
+  /**
+   * Additional metadata associated with the payment. Defaults to empty if not
+   * provided.
+   */
+  metadata?: { [key: string]: string } | null;
+
+  /**
+   * The url to redirect after payment failure or success.
+   */
+  return_url?: string | null;
+
+  /**
+   * Display saved payment methods of a returning customer False by default
+   */
+  show_saved_payment_methods?: boolean;
+
+  subscription_data?: CheckoutSessionRequest.SubscriptionData | null;
+}
+
+export namespace CheckoutSessionRequest {
+  export interface ProductCart {
+    /**
+     * unique id of the product
+     */
+    product_id: string;
+
+    quantity: number;
+
+    /**
+     * only valid if product is a subscription
+     */
+    addons?: Array<SubscriptionsAPI.AttachAddon> | null;
+
+    /**
+     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
+     * amount will be ignored Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`. Only applicable
+     * for one time payments
+     *
+     * If amount is not set for pay_what_you_want product, customer is allowed to
+     * select the amount.
+     */
+    amount?: number | null;
+  }
+
+  /**
+   * Billing address information for the session
+   */
+  export interface BillingAddress {
+    /**
+     * Two-letter ISO country code (ISO 3166-1 alpha-2)
+     */
+    country: MiscAPI.CountryCode;
+
+    /**
+     * City name
+     */
+    city?: string | null;
+
+    /**
+     * State or province name
+     */
+    state?: string | null;
+
+    /**
+     * Street address including house number and unit/apartment if applicable
+     */
+    street?: string | null;
+
+    /**
+     * Postal code or ZIP code
+     */
+    zipcode?: string | null;
+  }
+
+  /**
+   * Customization for the checkout session page
+   */
+  export interface Customization {
+    /**
+     * Show on demand tag
+     *
+     * Default is true
+     */
+    show_on_demand_tag?: boolean;
+
+    /**
+     * Show order details by default
+     *
+     * Default is true
+     */
+    show_order_details?: boolean;
+
+    /**
+     * Theme of the page
+     *
+     * Default is `System`.
+     */
+    theme?: 'dark' | 'light' | 'system';
+  }
+
+  export interface FeatureFlags {
+    /**
+     * if customer is allowed to change currency, set it to true
+     *
+     * Default is true
+     */
+    allow_currency_selection?: boolean;
+
+    /**
+     * If the customer is allowed to apply discount code, set it to true.
+     *
+     * Default is true
+     */
+    allow_discount_code?: boolean;
+
+    /**
+     * If phone number is collected from customer, set it to rue
+     *
+     * Default is true
+     */
+    allow_phone_number_collection?: boolean;
+
+    /**
+     * If the customer is allowed to add tax id, set it to true
+     *
+     * Default is true
+     */
+    allow_tax_id?: boolean;
+
+    /**
+     * Set to true if a new customer object should be created. By default email is used
+     * to find an existing customer to attach the session to
+     *
+     * Default is false
+     */
+    always_create_new_customer?: boolean;
+  }
+
+  export interface SubscriptionData {
+    on_demand?: SubscriptionsAPI.OnDemandSubscription | null;
+
+    /**
+     * Optional trial period in days If specified, this value overrides the trial
+     * period set in the product's price Must be between 0 and 10000 days
+     */
+    trial_period_days?: number | null;
+  }
+}
+
+export interface CheckoutSessionResponse {
+  /**
+   * Checkout url
+   */
+  checkout_url: string;
+
+  /**
+   * The ID of the created checkout session
+   */
+  session_id: string;
+}
+
+export interface CheckoutSessionCreateParams {
+  product_cart: Array<CheckoutSessionCreateParams.ProductCart>;
+
+  /**
+   * Customers will never see payment methods that are not in this list. However,
+   * adding a method here does not guarantee customers will see it. Availability
+   * still depends on other factors (e.g., customer location, merchant settings).
+   *
+   * Disclaimar: Always provide 'credit' and 'debit' as a fallback. If all payment
+   * methods are unavailable, checkout session will fail.
+   */
+  allowed_payment_method_types?: Array<PaymentsAPI.PaymentMethodTypes> | null;
+
+  /**
+   * Billing address information for the session
+   */
+  billing_address?: CheckoutSessionCreateParams.BillingAddress | null;
+
+  /**
+   * This field is ingored if adaptive pricing is disabled
+   */
+  billing_currency?: MiscAPI.Currency | null;
+
+  /**
+   * If confirm is true, all the details will be finalized. If required data is
+   * missing, an API error is thrown.
+   */
+  confirm?: boolean;
+
+  /**
+   * Customer details for the session
+   */
+  customer?: PaymentsAPI.CustomerRequest | null;
+
+  /**
+   * Customization for the checkout session page
+   */
+  customization?: CheckoutSessionCreateParams.Customization;
+
+  discount_code?: string | null;
+
+  feature_flags?: CheckoutSessionCreateParams.FeatureFlags;
+
+  /**
+   * Additional metadata associated with the payment. Defaults to empty if not
+   * provided.
+   */
+  metadata?: { [key: string]: string } | null;
+
+  /**
+   * The url to redirect after payment failure or success.
+   */
+  return_url?: string | null;
+
+  /**
+   * Display saved payment methods of a returning customer False by default
+   */
+  show_saved_payment_methods?: boolean;
+
+  subscription_data?: CheckoutSessionCreateParams.SubscriptionData | null;
+}
+
+export namespace CheckoutSessionCreateParams {
+  export interface ProductCart {
+    /**
+     * unique id of the product
+     */
+    product_id: string;
+
+    quantity: number;
+
+    /**
+     * only valid if product is a subscription
+     */
+    addons?: Array<SubscriptionsAPI.AttachAddon> | null;
+
+    /**
+     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
+     * amount will be ignored Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`. Only applicable
+     * for one time payments
+     *
+     * If amount is not set for pay_what_you_want product, customer is allowed to
+     * select the amount.
+     */
+    amount?: number | null;
+  }
+
+  /**
+   * Billing address information for the session
+   */
+  export interface BillingAddress {
+    /**
+     * Two-letter ISO country code (ISO 3166-1 alpha-2)
+     */
+    country: MiscAPI.CountryCode;
+
+    /**
+     * City name
+     */
+    city?: string | null;
+
+    /**
+     * State or province name
+     */
+    state?: string | null;
+
+    /**
+     * Street address including house number and unit/apartment if applicable
+     */
+    street?: string | null;
+
+    /**
+     * Postal code or ZIP code
+     */
+    zipcode?: string | null;
+  }
+
+  /**
+   * Customization for the checkout session page
+   */
+  export interface Customization {
+    /**
+     * Show on demand tag
+     *
+     * Default is true
+     */
+    show_on_demand_tag?: boolean;
+
+    /**
+     * Show order details by default
+     *
+     * Default is true
+     */
+    show_order_details?: boolean;
+
+    /**
+     * Theme of the page
+     *
+     * Default is `System`.
+     */
+    theme?: 'dark' | 'light' | 'system';
+  }
+
+  export interface FeatureFlags {
+    /**
+     * if customer is allowed to change currency, set it to true
+     *
+     * Default is true
+     */
+    allow_currency_selection?: boolean;
+
+    /**
+     * If the customer is allowed to apply discount code, set it to true.
+     *
+     * Default is true
+     */
+    allow_discount_code?: boolean;
+
+    /**
+     * If phone number is collected from customer, set it to rue
+     *
+     * Default is true
+     */
+    allow_phone_number_collection?: boolean;
+
+    /**
+     * If the customer is allowed to add tax id, set it to true
+     *
+     * Default is true
+     */
+    allow_tax_id?: boolean;
+
+    /**
+     * Set to true if a new customer object should be created. By default email is used
+     * to find an existing customer to attach the session to
+     *
+     * Default is false
+     */
+    always_create_new_customer?: boolean;
+  }
+
+  export interface SubscriptionData {
+    on_demand?: SubscriptionsAPI.OnDemandSubscription | null;
+
+    /**
+     * Optional trial period in days If specified, this value overrides the trial
+     * period set in the product's price Must be between 0 and 10000 days
+     */
+    trial_period_days?: number | null;
+  }
+}
+
+export declare namespace CheckoutSessions {
+  export {
+    type CheckoutSessionRequest as CheckoutSessionRequest,
+    type CheckoutSessionResponse as CheckoutSessionResponse,
+    type CheckoutSessionCreateParams as CheckoutSessionCreateParams,
+  };
+}

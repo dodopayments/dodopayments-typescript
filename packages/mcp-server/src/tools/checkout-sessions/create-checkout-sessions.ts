@@ -6,98 +6,66 @@ import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import DodoPayments from 'dodopayments';
 
 export const metadata: Metadata = {
-  resource: 'subscriptions',
+  resource: 'checkout_sessions',
   operation: 'write',
   tags: [],
   httpMethod: 'post',
-  httpPath: '/subscriptions',
-  operationId: 'create_subscription_handler',
+  httpPath: '/checkouts',
+  operationId: 'create_session',
 };
 
 export const tool: Tool = {
-  name: 'create_subscriptions',
+  name: 'create_checkout_sessions',
   description: '',
   inputSchema: {
     type: 'object',
     properties: {
-      billing: {
-        $ref: '#/$defs/billing_address',
-      },
-      customer: {
-        $ref: '#/$defs/customer_request',
-      },
-      product_id: {
-        type: 'string',
-        description: 'Unique identifier of the product to subscribe to',
-      },
-      quantity: {
-        type: 'integer',
-        description: 'Number of units to subscribe for. Must be at least 1.',
-      },
-      addons: {
+      product_cart: {
         type: 'array',
-        description: 'Attach addons to this subscription',
         items: {
-          $ref: '#/$defs/attach_addon',
+          type: 'object',
+          properties: {
+            product_id: {
+              type: 'string',
+              description: 'unique id of the product',
+            },
+            quantity: {
+              type: 'integer',
+            },
+            addons: {
+              type: 'array',
+              description: 'only valid if product is a subscription',
+              items: {
+                $ref: '#/$defs/attach_addon',
+              },
+            },
+            amount: {
+              type: 'integer',
+              description:
+                'Amount the customer pays if pay_what_you_want is enabled. If disabled then amount will be ignored\nRepresented in the lowest denomination of the currency (e.g., cents for USD).\nFor example, to charge $1.00, pass `100`.\nOnly applicable for one time payments\n\nIf amount is not set for pay_what_you_want product,\ncustomer is allowed to select the amount.',
+            },
+          },
+          required: ['product_id', 'quantity'],
         },
       },
       allowed_payment_method_types: {
         type: 'array',
         description:
-          'List of payment methods allowed during checkout.\n\nCustomers will **never** see payment methods that are **not** in this list.\nHowever, adding a method here **does not guarantee** customers will see it.\nAvailability still depends on other factors (e.g., customer location, merchant settings).',
+          "Customers will never see payment methods that are not in this list.\nHowever, adding a method here does not guarantee customers will see it.\nAvailability still depends on other factors (e.g., customer location, merchant settings).\n\nDisclaimar: Always provide 'credit' and 'debit' as a fallback.\nIf all payment methods are unavailable, checkout session will fail.",
         items: {
           $ref: '#/$defs/payment_method_types',
         },
       },
-      billing_currency: {
-        $ref: '#/$defs/currency',
-      },
-      discount_code: {
-        type: 'string',
-        description: 'Discount Code to apply to the subscription',
-      },
-      metadata: {
-        type: 'object',
-        description: 'Additional metadata for the subscription\nDefaults to empty if not specified',
-        additionalProperties: true,
-      },
-      on_demand: {
-        $ref: '#/$defs/on_demand_subscription',
-      },
-      payment_link: {
-        type: 'boolean',
-        description: 'If true, generates a payment link.\nDefaults to false if not specified.',
-      },
-      return_url: {
-        type: 'string',
-        description: 'Optional URL to redirect after successful subscription creation',
-      },
-      show_saved_payment_methods: {
-        type: 'boolean',
-        description: 'Display saved payment methods of a returning customer\nFalse by default',
-      },
-      tax_id: {
-        type: 'string',
-        description:
-          'Tax ID in case the payment is B2B. If tax id validation fails the payment creation will fail',
-      },
-      trial_period_days: {
-        type: 'integer',
-        description:
-          "Optional trial period in days\nIf specified, this value overrides the trial period set in the product's price\nMust be between 0 and 10000 days",
-      },
-    },
-    required: ['billing', 'customer', 'product_id', 'quantity'],
-    $defs: {
       billing_address: {
         type: 'object',
+        description: 'Billing address information for the session',
         properties: {
+          country: {
+            $ref: '#/$defs/country_code',
+          },
           city: {
             type: 'string',
             description: 'City name',
-          },
-          country: {
-            $ref: '#/$defs/country_code',
           },
           state: {
             type: 'string',
@@ -112,7 +80,131 @@ export const tool: Tool = {
             description: 'Postal code or ZIP code',
           },
         },
-        required: ['city', 'country', 'state', 'street', 'zipcode'],
+        required: ['country'],
+      },
+      billing_currency: {
+        $ref: '#/$defs/currency',
+      },
+      confirm: {
+        type: 'boolean',
+        description:
+          'If confirm is true, all the details will be finalized. If required data is missing, an API error is thrown.',
+      },
+      customer: {
+        $ref: '#/$defs/customer_request',
+      },
+      customization: {
+        type: 'object',
+        description: 'Customization for the checkout session page',
+        properties: {
+          show_on_demand_tag: {
+            type: 'boolean',
+            description: 'Show on demand tag\n\nDefault is true',
+          },
+          show_order_details: {
+            type: 'boolean',
+            description: 'Show order details by default\n\nDefault is true',
+          },
+          theme: {
+            type: 'string',
+            description: 'Theme of the page\n\nDefault is `System`.',
+            enum: ['dark', 'light', 'system'],
+          },
+        },
+      },
+      discount_code: {
+        type: 'string',
+      },
+      feature_flags: {
+        type: 'object',
+        properties: {
+          allow_currency_selection: {
+            type: 'boolean',
+            description: 'if customer is allowed to change currency, set it to true\n\nDefault is true',
+          },
+          allow_discount_code: {
+            type: 'boolean',
+            description:
+              'If the customer is allowed to apply discount code, set it to true.\n\nDefault is true',
+          },
+          allow_phone_number_collection: {
+            type: 'boolean',
+            description: 'If phone number is collected from customer, set it to rue\n\nDefault is true',
+          },
+          allow_tax_id: {
+            type: 'boolean',
+            description: 'If the customer is allowed to add tax id, set it to true\n\nDefault is true',
+          },
+          always_create_new_customer: {
+            type: 'boolean',
+            description:
+              'Set to true if a new customer object should be created.\nBy default email is used to find an existing customer to attach the session to\n\nDefault is false',
+          },
+        },
+      },
+      metadata: {
+        type: 'object',
+        description: 'Additional metadata associated with the payment. Defaults to empty if not provided.',
+        additionalProperties: true,
+      },
+      return_url: {
+        type: 'string',
+        description: 'The url to redirect after payment failure or success.',
+      },
+      show_saved_payment_methods: {
+        type: 'boolean',
+        description: 'Display saved payment methods of a returning customer False by default',
+      },
+      subscription_data: {
+        type: 'object',
+        properties: {
+          on_demand: {
+            $ref: '#/$defs/on_demand_subscription',
+          },
+          trial_period_days: {
+            type: 'integer',
+            description:
+              "Optional trial period in days If specified, this value overrides the trial period set in the product's price Must be between 0 and 10000 days",
+          },
+        },
+      },
+    },
+    required: ['product_cart'],
+    $defs: {
+      attach_addon: {
+        type: 'object',
+        properties: {
+          addon_id: {
+            type: 'string',
+          },
+          quantity: {
+            type: 'integer',
+          },
+        },
+        required: ['addon_id', 'quantity'],
+      },
+      payment_method_types: {
+        type: 'string',
+        enum: [
+          'credit',
+          'debit',
+          'upi_collect',
+          'upi_intent',
+          'apple_pay',
+          'cashapp',
+          'google_pay',
+          'multibanco',
+          'bancontact_card',
+          'eps',
+          'ideal',
+          'przelewy24',
+          'affirm',
+          'klarna',
+          'sepa',
+          'ach',
+          'amazon_pay',
+          'afterpay_clearpay',
+        ],
       },
       country_code: {
         type: 'string',
@@ -369,76 +461,6 @@ export const tool: Tool = {
           'ZW',
         ],
       },
-      customer_request: {
-        anyOf: [
-          {
-            $ref: '#/$defs/attach_existing_customer',
-          },
-          {
-            $ref: '#/$defs/new_customer',
-          },
-        ],
-      },
-      attach_existing_customer: {
-        type: 'object',
-        title: 'Attach Existing Customer',
-        properties: {
-          customer_id: {
-            type: 'string',
-          },
-        },
-        required: ['customer_id'],
-      },
-      new_customer: {
-        type: 'object',
-        properties: {
-          email: {
-            type: 'string',
-          },
-          name: {
-            type: 'string',
-          },
-          phone_number: {
-            type: 'string',
-          },
-        },
-        required: ['email', 'name'],
-      },
-      attach_addon: {
-        type: 'object',
-        properties: {
-          addon_id: {
-            type: 'string',
-          },
-          quantity: {
-            type: 'integer',
-          },
-        },
-        required: ['addon_id', 'quantity'],
-      },
-      payment_method_types: {
-        type: 'string',
-        enum: [
-          'credit',
-          'debit',
-          'upi_collect',
-          'upi_intent',
-          'apple_pay',
-          'cashapp',
-          'google_pay',
-          'multibanco',
-          'bancontact_card',
-          'eps',
-          'ideal',
-          'przelewy24',
-          'affirm',
-          'klarna',
-          'sepa',
-          'ach',
-          'amazon_pay',
-          'afterpay_clearpay',
-        ],
-      },
       currency: {
         type: 'string',
         enum: [
@@ -589,6 +611,41 @@ export const tool: Tool = {
           'ZMW',
         ],
       },
+      customer_request: {
+        anyOf: [
+          {
+            $ref: '#/$defs/attach_existing_customer',
+          },
+          {
+            $ref: '#/$defs/new_customer',
+          },
+        ],
+      },
+      attach_existing_customer: {
+        type: 'object',
+        title: 'Attach Existing Customer',
+        properties: {
+          customer_id: {
+            type: 'string',
+          },
+        },
+        required: ['customer_id'],
+      },
+      new_customer: {
+        type: 'object',
+        properties: {
+          email: {
+            type: 'string',
+          },
+          name: {
+            type: 'string',
+          },
+          phone_number: {
+            type: 'string',
+          },
+        },
+        required: ['email', 'name'],
+      },
       on_demand_subscription: {
         type: 'object',
         properties: {
@@ -625,7 +682,7 @@ export const tool: Tool = {
 
 export const handler = async (client: DodoPayments, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return asTextContentResult(await client.subscriptions.create(body));
+  return asTextContentResult(await client.checkoutSessions.create(body));
 };
 
 export default { metadata, tool, handler };

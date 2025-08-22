@@ -174,7 +174,7 @@ http://localhost:3000?client=cursor&capability=tool-name-length%3D40
 import { server, endpoints, init } from "dodopayments-mcp/server";
 
 // import a specific tool
-import createPayments from "dodopayments-mcp/tools/payments/create-payments";
+import createCheckoutSessions from "dodopayments-mcp/tools/checkout-sessions/create-checkout-sessions";
 
 // initialize the server and all endpoints
 init({ server, endpoints });
@@ -199,12 +199,16 @@ const myCustomEndpoint = {
 };
 
 // initialize the server with your custom endpoints
-init({ server: myServer, endpoints: [createPayments, myCustomEndpoint] });
+init({ server: myServer, endpoints: [createCheckoutSessions, myCustomEndpoint] });
 ```
 
 ## Available Tools
 
 The following tools are available in this MCP server.
+
+### Resource `checkout_sessions`:
+
+- `create_checkout_sessions` (`write`):
 
 ### Resource `payments`:
 
@@ -326,7 +330,3 @@ The following tools are available in this MCP server.
 
 - `retrieve_webhooks_headers` (`read`): Get a webhook by id
 - `update_webhooks_headers` (`write`): Patch a webhook by id
-
-### Resource `your_webhook_url`:
-
-- `create_your_webhook_url` (`write`):

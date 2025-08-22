@@ -4,6 +4,7 @@ import { Metadata, Endpoint, HandlerFunction } from './types';
 
 export { Metadata, Endpoint, HandlerFunction };
 
+import create_checkout_sessions from './checkout-sessions/create-checkout-sessions';
 import create_payments from './payments/create-payments';
 import retrieve_payments from './payments/retrieve-payments';
 import list_payments from './payments/list-payments';
@@ -67,7 +68,6 @@ import delete_webhooks from './webhooks/delete-webhooks';
 import retrieve_secret_webhooks from './webhooks/retrieve-secret-webhooks';
 import retrieve_webhooks_headers from './webhooks/headers/retrieve-webhooks-headers';
 import update_webhooks_headers from './webhooks/headers/update-webhooks-headers';
-import create_your_webhook_url from './your-webhook-url/create-your-webhook-url';
 
 export const endpoints: Endpoint[] = [];
 
@@ -75,6 +75,7 @@ function addEndpoint(endpoint: Endpoint) {
   endpoints.push(endpoint);
 }
 
+addEndpoint(create_checkout_sessions);
 addEndpoint(create_payments);
 addEndpoint(retrieve_payments);
 addEndpoint(list_payments);
@@ -138,7 +139,6 @@ addEndpoint(delete_webhooks);
 addEndpoint(retrieve_secret_webhooks);
 addEndpoint(retrieve_webhooks_headers);
 addEndpoint(update_webhooks_headers);
-addEndpoint(create_your_webhook_url);
 
 export type Filter = {
   type: 'resource' | 'operation' | 'tag' | 'tool';

@@ -28,6 +28,7 @@ export const tool: Tool = {
       },
       cancel_at_next_billing_date: {
         type: 'boolean',
+        description: 'When set, the subscription will remain active until the end of billing period',
       },
       disable_on_demand: {
         type: 'object',
