@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { type ClientOptions } from 'dodopayments/index';
+import { ClientOptions } from 'dodopayments';
 
 export type WorkerInput = {
   opts: ClientOptions;
