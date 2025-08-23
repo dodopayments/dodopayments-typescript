@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.51.1 (2025-08-23)
+
+Full Changelog: [v1.51.0...v1.51.1](https://github.com/dodopayments/dodopayments-node/compare/v1.51.0...v1.51.1)
+
+### Chores
+
+* update CI script ([aaa4323](https://github.com/dodopayments/dodopayments-node/commit/aaa4323ec1514c6da767ecb85b8431eb5f0be055))
+
 ## 1.51.0 (2025-08-22)
 
 Full Changelog: [v1.50.0...v1.51.0](https://github.com/dodopayments/dodopayments-node/compare/v1.50.0...v1.51.0)
