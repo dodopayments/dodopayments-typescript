@@ -49,7 +49,7 @@ export class Products extends APIResource {
     });
   }
 
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<void> {
+  archive(id: string, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.delete(`/products/${id}`, {
       ...options,
       headers: { Accept: '*/*', ...options?.headers },

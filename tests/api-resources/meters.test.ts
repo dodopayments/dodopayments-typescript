@@ -88,8 +88,8 @@ describe('resource meters', () => {
     ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
-  test('delete', async () => {
-    const responsePromise = client.meters.delete('id');
+  test('archive', async () => {
+    const responsePromise = client.meters.archive('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -99,9 +99,9 @@ describe('resource meters', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('delete: request options instead of params are passed correctly', async () => {
+  test('archive: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.meters.delete('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.meters.archive('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
       DodoPayments.NotFoundError,
     );
   });
