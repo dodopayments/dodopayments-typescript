@@ -187,7 +187,7 @@ Methods:
 - <code title="get /products/{id}">client.products.<a href="./src/resources/products/products.ts">retrieve</a>(id) -> Product</code>
 - <code title="patch /products/{id}">client.products.<a href="./src/resources/products/products.ts">update</a>(id, { ...params }) -> void</code>
 - <code title="get /products">client.products.<a href="./src/resources/products/products.ts">list</a>({ ...params }) -> ProductListResponsesDefaultPageNumberPagination</code>
-- <code title="delete /products/{id}">client.products.<a href="./src/resources/products/products.ts">delete</a>(id) -> void</code>
+- <code title="delete /products/{id}">client.products.<a href="./src/resources/products/products.ts">archive</a>(id) -> void</code>
 - <code title="post /products/{id}/unarchive">client.products.<a href="./src/resources/products/products.ts">unarchive</a>(id) -> void</code>
 - <code title="put /products/{id}/files">client.products.<a href="./src/resources/products/products.ts">updateFiles</a>(id, { ...params }) -> ProductUpdateFilesResponse</code>
 
@@ -314,5 +314,5 @@ Methods:
 - <code title="post /meters">client.meters.<a href="./src/resources/meters.ts">create</a>({ ...params }) -> Meter</code>
 - <code title="get /meters/{id}">client.meters.<a href="./src/resources/meters.ts">retrieve</a>(id) -> Meter</code>
 - <code title="get /meters">client.meters.<a href="./src/resources/meters.ts">list</a>({ ...params }) -> MetersDefaultPageNumberPagination</code>
-- <code title="delete /meters/{id}">client.meters.<a href="./src/resources/meters.ts">delete</a>(id) -> void</code>
+- <code title="delete /meters/{id}">client.meters.<a href="./src/resources/meters.ts">archive</a>(id) -> void</code>
 - <code title="post /meters/{id}/unarchive">client.meters.<a href="./src/resources/meters.ts">unarchive</a>(id) -> void</code>

@@ -42,7 +42,7 @@ import create_products from './products/create-products';
 import retrieve_products from './products/retrieve-products';
 import update_products from './products/update-products';
 import list_products from './products/list-products';
-import delete_products from './products/delete-products';
+import archive_products from './products/archive-products';
 import unarchive_products from './products/unarchive-products';
 import update_files_products from './products/update-files-products';
 import update_products_images from './products/images/update-products-images';
@@ -76,7 +76,7 @@ import ingest_usage_events from './usage-events/ingest-usage-events';
 import create_meters from './meters/create-meters';
 import retrieve_meters from './meters/retrieve-meters';
 import list_meters from './meters/list-meters';
-import delete_meters from './meters/delete-meters';
+import archive_meters from './meters/archive-meters';
 import unarchive_meters from './meters/unarchive-meters';
 
 export const endpoints: Endpoint[] = [];
@@ -123,7 +123,7 @@ addEndpoint(create_products);
 addEndpoint(retrieve_products);
 addEndpoint(update_products);
 addEndpoint(list_products);
-addEndpoint(delete_products);
+addEndpoint(archive_products);
 addEndpoint(unarchive_products);
 addEndpoint(update_files_products);
 addEndpoint(update_products_images);
@@ -157,7 +157,7 @@ addEndpoint(ingest_usage_events);
 addEndpoint(create_meters);
 addEndpoint(retrieve_meters);
 addEndpoint(list_meters);
-addEndpoint(delete_meters);
+addEndpoint(archive_meters);
 addEndpoint(unarchive_meters);
 
 export type Filter = {

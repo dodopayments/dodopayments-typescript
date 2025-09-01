@@ -317,7 +317,7 @@ The following tools are available in this MCP server.
 - `retrieve_products` (`read`):
 - `update_products` (`write`):
 - `list_products` (`read`):
-- `delete_products` (`write`):
+- `archive_products` (`write`):
 - `unarchive_products` (`write`):
 - `update_files_products` (`write`):
 
@@ -468,5 +468,5 @@ The following tools are available in this MCP server.
 - `create_meters` (`write`):
 - `retrieve_meters` (`read`):
 - `list_meters` (`read`):
-- `delete_meters` (`write`):
+- `archive_meters` (`write`):
 - `unarchive_meters` (`write`):
