@@ -51,6 +51,15 @@ export {
   type DisputeListResponse,
   type DisputeListParams,
 } from './disputes';
+export {
+  EventsDefaultPageNumberPagination,
+  UsageEvents,
+  type Event,
+  type EventInput,
+  type UsageEventIngestResponse,
+  type UsageEventListParams,
+  type UsageEventIngestParams,
+} from './usage-events';
 export { Invoices } from './invoices/invoices';
 export {
   LicenseKeyInstancesDefaultPageNumberPagination,
@@ -74,6 +83,15 @@ export {
   type LicenseDeactivateParams,
   type LicenseValidateParams,
 } from './licenses';
+export {
+  MetersDefaultPageNumberPagination,
+  Meters,
+  type Meter,
+  type MeterAggregation,
+  type MeterFilter,
+  type MeterCreateParams,
+  type MeterListParams,
+} from './meters';
 export {
   Misc,
   type CountryCode,
@@ -109,6 +127,7 @@ export {
 export {
   ProductListResponsesDefaultPageNumberPagination,
   Products,
+  type AddMeterToPrice,
   type LicenseKeyDuration,
   type Price,
   type Product,
@@ -129,6 +148,7 @@ export {
 } from './refunds';
 export {
   SubscriptionListResponsesDefaultPageNumberPagination,
+  SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
   Subscriptions,
   type AddonCartResponseItem,
   type AttachAddon,
@@ -139,11 +159,13 @@ export {
   type SubscriptionCreateResponse,
   type SubscriptionListResponse,
   type SubscriptionChargeResponse,
+  type SubscriptionRetrieveUsageHistoryResponse,
   type SubscriptionCreateParams,
   type SubscriptionUpdateParams,
   type SubscriptionListParams,
   type SubscriptionChangePlanParams,
   type SubscriptionChargeParams,
+  type SubscriptionRetrieveUsageHistoryParams,
 } from './subscriptions';
 export {
   WebhookDetailsCursorPagePagination,

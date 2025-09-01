@@ -14,4 +14,11 @@ describe('resource payments', () => {
       client.invoices.payments.retrieve('payment_id', { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(DodoPayments.NotFoundError);
   });
+
+  test('retrieveRefund: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.invoices.payments.retrieveRefund('refund_id', { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
 });

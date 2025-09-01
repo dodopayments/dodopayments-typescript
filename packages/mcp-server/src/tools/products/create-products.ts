@@ -43,6 +43,7 @@ export const tool: Tool = {
       },
       digital_product_delivery: {
         type: 'object',
+        title: 'Create Digital Product Delivery Request',
         description: 'Choose how you would like you digital product delivered',
         properties: {
           external_url: {
@@ -93,7 +94,7 @@ export const tool: Tool = {
                 $ref: '#/$defs/currency',
               },
               discount: {
-                type: 'number',
+                type: 'integer',
                 description: 'Discount applied to the price, represented as a percentage (0 to 100).',
               },
               price: {
@@ -136,7 +137,7 @@ export const tool: Tool = {
                 $ref: '#/$defs/currency',
               },
               discount: {
-                type: 'number',
+                type: 'integer',
                 description: 'Discount applied to the price, represented as a percentage (0 to 100).',
               },
               payment_frequency_count: {
@@ -184,6 +185,71 @@ export const tool: Tool = {
               'payment_frequency_count',
               'payment_frequency_interval',
               'price',
+              'purchasing_power_parity',
+              'subscription_period_count',
+              'subscription_period_interval',
+              'type',
+            ],
+          },
+          {
+            type: 'object',
+            title: 'Usage Based Price',
+            description: 'Usage Based price details.',
+            properties: {
+              currency: {
+                $ref: '#/$defs/currency',
+              },
+              discount: {
+                type: 'integer',
+                description: 'Discount applied to the price, represented as a percentage (0 to 100).',
+              },
+              fixed_price: {
+                type: 'integer',
+                description:
+                  'The fixed payment amount. Represented in the lowest denomination of the currency (e.g., cents for USD).\nFor example, to charge $1.00, pass `100`.',
+              },
+              payment_frequency_count: {
+                type: 'integer',
+                description:
+                  'Number of units for the payment frequency.\nFor example, a value of `1` with a `payment_frequency_interval` of `month` represents monthly payments.',
+              },
+              payment_frequency_interval: {
+                $ref: '#/$defs/time_interval',
+              },
+              purchasing_power_parity: {
+                type: 'boolean',
+                description:
+                  'Indicates if purchasing power parity adjustments are applied to the price.\nPurchasing power parity feature is not available as of now',
+              },
+              subscription_period_count: {
+                type: 'integer',
+                description:
+                  'Number of units for the subscription period.\nFor example, a value of `12` with a `subscription_period_interval` of `month` represents a one-year subscription.',
+              },
+              subscription_period_interval: {
+                $ref: '#/$defs/time_interval',
+              },
+              type: {
+                type: 'string',
+                enum: ['usage_based_price'],
+              },
+              meters: {
+                type: 'array',
+                items: {
+                  $ref: '#/$defs/add_meter_to_price',
+                },
+              },
+              tax_inclusive: {
+                type: 'boolean',
+                description: 'Indicates if the price is tax inclusive',
+              },
+            },
+            required: [
+              'currency',
+              'discount',
+              'fixed_price',
+              'payment_frequency_count',
+              'payment_frequency_interval',
               'purchasing_power_parity',
               'subscription_period_count',
               'subscription_period_interval',
@@ -347,6 +413,36 @@ export const tool: Tool = {
         type: 'string',
         enum: ['Day', 'Week', 'Month', 'Year'],
       },
+      add_meter_to_price: {
+        type: 'object',
+        title: 'Add Meter To Price',
+        properties: {
+          meter_id: {
+            type: 'string',
+          },
+          price_per_unit: {
+            type: 'string',
+            description:
+              'The price per unit in lowest denomination. Must be greater than zero. Supports up to 5 digits before decimal point and 12 decimal places.',
+          },
+          description: {
+            type: 'string',
+            description: 'Meter description. Will ignored on Request, but will be shown in response',
+          },
+          free_threshold: {
+            type: 'integer',
+          },
+          measurement_unit: {
+            type: 'string',
+            description: 'Meter measurement unit. Will ignored on Request, but will be shown in response',
+          },
+          name: {
+            type: 'string',
+            description: 'Meter name. Will ignored on Request, but will be shown in response',
+          },
+        },
+        required: ['meter_id', 'price_per_unit'],
+      },
       tax_category: {
         type: 'string',
         description:
@@ -355,6 +451,7 @@ export const tool: Tool = {
       },
       license_key_duration: {
         type: 'object',
+        title: 'License Key Duration',
         properties: {
           count: {
             type: 'integer',

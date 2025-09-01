@@ -12,4 +12,12 @@ export class Payments extends APIResource {
       __binaryResponse: true,
     });
   }
+
+  retrieveRefund(refundId: string, options?: Core.RequestOptions): Core.APIPromise<Response> {
+    return this._client.get(`/invoices/refunds/${refundId}`, {
+      ...options,
+      headers: { Accept: 'application/pdf', ...options?.headers },
+      __binaryResponse: true,
+    });
+  }
 }
