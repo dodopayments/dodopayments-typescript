@@ -47,6 +47,7 @@ Types:
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionCreateResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionListResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionChargeResponse</a></code>
+- <code><a href="./src/resources/subscriptions.ts">SubscriptionRetrieveUsageHistoryResponse</a></code>
 
 Methods:
 
@@ -56,6 +57,7 @@ Methods:
 - <code title="get /subscriptions">client.subscriptions.<a href="./src/resources/subscriptions.ts">list</a>({ ...params }) -> SubscriptionListResponsesDefaultPageNumberPagination</code>
 - <code title="post /subscriptions/{subscription_id}/change-plan">client.subscriptions.<a href="./src/resources/subscriptions.ts">changePlan</a>(subscriptionId, { ...params }) -> void</code>
 - <code title="post /subscriptions/{subscription_id}/charge">client.subscriptions.<a href="./src/resources/subscriptions.ts">charge</a>(subscriptionId, { ...params }) -> SubscriptionChargeResponse</code>
+- <code title="get /subscriptions/{subscription_id}/usage-history">client.subscriptions.<a href="./src/resources/subscriptions.ts">retrieveUsageHistory</a>(subscriptionId, { ...params }) -> SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination</code>
 
 # Invoices
 
@@ -64,6 +66,7 @@ Methods:
 Methods:
 
 - <code title="get /invoices/payments/{payment_id}">client.invoices.payments.<a href="./src/resources/invoices/payments.ts">retrieve</a>(paymentId) -> Response</code>
+- <code title="get /invoices/refunds/{refund_id}">client.invoices.payments.<a href="./src/resources/invoices/payments.ts">retrieveRefund</a>(refundId) -> Response</code>
 
 # Licenses
 
@@ -171,6 +174,7 @@ Types:
 
 Types:
 
+- <code><a href="./src/resources/products/products.ts">AddMeterToPrice</a></code>
 - <code><a href="./src/resources/products/products.ts">LicenseKeyDuration</a></code>
 - <code><a href="./src/resources/products/products.ts">Price</a></code>
 - <code><a href="./src/resources/products/products.ts">Product</a></code>
@@ -282,3 +286,33 @@ Methods:
 
 - <code title="get /webhooks/{webhook_id}/headers">client.webhooks.headers.<a href="./src/resources/webhooks/headers.ts">retrieve</a>(webhookId) -> HeaderRetrieveResponse</code>
 - <code title="patch /webhooks/{webhook_id}/headers">client.webhooks.headers.<a href="./src/resources/webhooks/headers.ts">update</a>(webhookId, { ...params }) -> void</code>
+
+# UsageEvents
+
+Types:
+
+- <code><a href="./src/resources/usage-events.ts">Event</a></code>
+- <code><a href="./src/resources/usage-events.ts">EventInput</a></code>
+- <code><a href="./src/resources/usage-events.ts">UsageEventIngestResponse</a></code>
+
+Methods:
+
+- <code title="get /events/{event_id}">client.usageEvents.<a href="./src/resources/usage-events.ts">retrieve</a>(eventId) -> Event</code>
+- <code title="get /events">client.usageEvents.<a href="./src/resources/usage-events.ts">list</a>({ ...params }) -> EventsDefaultPageNumberPagination</code>
+- <code title="post /events/ingest">client.usageEvents.<a href="./src/resources/usage-events.ts">ingest</a>({ ...params }) -> UsageEventIngestResponse</code>
+
+# Meters
+
+Types:
+
+- <code><a href="./src/resources/meters.ts">Meter</a></code>
+- <code><a href="./src/resources/meters.ts">MeterAggregation</a></code>
+- <code><a href="./src/resources/meters.ts">MeterFilter</a></code>
+
+Methods:
+
+- <code title="post /meters">client.meters.<a href="./src/resources/meters.ts">create</a>({ ...params }) -> Meter</code>
+- <code title="get /meters/{id}">client.meters.<a href="./src/resources/meters.ts">retrieve</a>(id) -> Meter</code>
+- <code title="get /meters">client.meters.<a href="./src/resources/meters.ts">list</a>({ ...params }) -> MetersDefaultPageNumberPagination</code>
+- <code title="delete /meters/{id}">client.meters.<a href="./src/resources/meters.ts">delete</a>(id) -> void</code>
+- <code title="post /meters/{id}/unarchive">client.meters.<a href="./src/resources/meters.ts">unarchive</a>(id) -> void</code>

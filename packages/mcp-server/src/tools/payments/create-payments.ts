@@ -362,6 +362,7 @@ export const tool: Tool = {
             $ref: '#/$defs/new_customer',
           },
         ],
+        title: 'Customer Request',
       },
       attach_existing_customer: {
         type: 'object',
@@ -375,6 +376,7 @@ export const tool: Tool = {
       },
       new_customer: {
         type: 'object',
+        title: 'New Customer',
         properties: {
           email: {
             type: 'string',
@@ -390,6 +392,7 @@ export const tool: Tool = {
       },
       one_time_product_cart_item: {
         type: 'object',
+        title: 'One-Time Product Cart Item',
         properties: {
           product_id: {
             type: 'string',

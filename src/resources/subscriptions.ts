@@ -66,9 +66,88 @@ export class Subscriptions extends APIResource {
   ): Core.APIPromise<SubscriptionChargeResponse> {
     return this._client.post(`/subscriptions/${subscriptionId}/charge`, { body, ...options });
   }
+
+  /**
+   * Get detailed usage history for a subscription that includes usage-based billing
+   * (metered components). This endpoint provides insights into customer usage
+   * patterns and billing calculations over time.
+   *
+   * ## What You'll Get:
+   *
+   * - **Billing periods**: Each item represents a billing cycle with start and end
+   *   dates
+   * - **Meter usage**: Detailed breakdown of usage for each meter configured on the
+   *   subscription
+   * - **Usage calculations**: Total units consumed, free threshold units, and
+   *   chargeable units
+   * - **Historical tracking**: Complete audit trail of usage-based charges
+   *
+   * ## Use Cases:
+   *
+   * - **Customer support**: Investigate billing questions and usage discrepancies
+   * - **Usage analytics**: Analyze customer consumption patterns over time
+   * - **Billing transparency**: Provide customers with detailed usage breakdowns
+   * - **Revenue optimization**: Identify usage trends to optimize pricing strategies
+   *
+   * ## Filtering Options:
+   *
+   * - **Date range filtering**: Get usage history for specific time periods
+   * - **Meter-specific filtering**: Focus on usage for a particular meter
+   * - **Pagination**: Navigate through large usage histories efficiently
+   *
+   * ## Important Notes:
+   *
+   * - Only returns data for subscriptions with usage-based (metered) components
+   * - Usage history is organized by billing periods (subscription cycles)
+   * - Free threshold units are calculated and displayed separately from chargeable
+   *   units
+   * - Historical data is preserved even if meter configurations change
+   *
+   * ## Example Query Patterns:
+   *
+   * - Get last 3 months:
+   *   `?start_date=2024-01-01T00:00:00Z&end_date=2024-03-31T23:59:59Z`
+   * - Filter by meter: `?meter_id=mtr_api_requests`
+   * - Paginate results: `?page_size=20&page_number=1`
+   * - Recent usage: `?start_date=2024-03-01T00:00:00Z` (from March 1st to now)
+   */
+  retrieveUsageHistory(
+    subscriptionId: string,
+    query?: SubscriptionRetrieveUsageHistoryParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<
+    SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
+    SubscriptionRetrieveUsageHistoryResponse
+  >;
+  retrieveUsageHistory(
+    subscriptionId: string,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<
+    SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
+    SubscriptionRetrieveUsageHistoryResponse
+  >;
+  retrieveUsageHistory(
+    subscriptionId: string,
+    query: SubscriptionRetrieveUsageHistoryParams | Core.RequestOptions = {},
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<
+    SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
+    SubscriptionRetrieveUsageHistoryResponse
+  > {
+    if (isRequestOptions(query)) {
+      return this.retrieveUsageHistory(subscriptionId, {}, query);
+    }
+    return this._client.getAPIList(
+      `/subscriptions/${subscriptionId}/usage-history`,
+      SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
+      { query, ...options },
+    );
+  }
 }
 
 export class SubscriptionListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<SubscriptionListResponse> {}
+
+export class SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<SubscriptionRetrieveUsageHistoryResponse> {}
 
 /**
  * Response struct representing subscription details
@@ -435,6 +514,67 @@ export interface SubscriptionChargeResponse {
   payment_id: string;
 }
 
+export interface SubscriptionRetrieveUsageHistoryResponse {
+  /**
+   * End date of the billing period
+   */
+  end_date: string;
+
+  /**
+   * List of meters and their usage for this billing period
+   */
+  meters: Array<SubscriptionRetrieveUsageHistoryResponse.Meter>;
+
+  /**
+   * Start date of the billing period
+   */
+  start_date: string;
+}
+
+export namespace SubscriptionRetrieveUsageHistoryResponse {
+  export interface Meter {
+    /**
+     * Meter identifier
+     */
+    id: string;
+
+    /**
+     * Chargeable units (after free threshold) as string for precision
+     */
+    chargeable_units: string;
+
+    /**
+     * Total units consumed as string for precision
+     */
+    consumed_units: string;
+
+    /**
+     * Currency for the price per unit
+     */
+    currency: MiscAPI.Currency;
+
+    /**
+     * Free threshold units for this meter
+     */
+    free_threshold: number;
+
+    /**
+     * Meter name
+     */
+    name: string;
+
+    /**
+     * Price per unit in string format for precision
+     */
+    price_per_unit: string;
+
+    /**
+     * Total price charged for this meter in smallest currency unit (cents)
+     */
+    total_price: number;
+  }
+}
+
 export interface SubscriptionCreateParams {
   /**
    * Billing address information for the subscription
@@ -625,8 +765,27 @@ export interface SubscriptionChargeParams {
   product_description?: string | null;
 }
 
+export interface SubscriptionRetrieveUsageHistoryParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Filter by end date (inclusive)
+   */
+  end_date?: string | null;
+
+  /**
+   * Filter by specific meter ID
+   */
+  meter_id?: string | null;
+
+  /**
+   * Filter by start date (inclusive)
+   */
+  start_date?: string | null;
+}
+
 Subscriptions.SubscriptionListResponsesDefaultPageNumberPagination =
   SubscriptionListResponsesDefaultPageNumberPagination;
+Subscriptions.SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination =
+  SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination;
 
 export declare namespace Subscriptions {
   export {
@@ -639,11 +798,14 @@ export declare namespace Subscriptions {
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
     type SubscriptionListResponse as SubscriptionListResponse,
     type SubscriptionChargeResponse as SubscriptionChargeResponse,
+    type SubscriptionRetrieveUsageHistoryResponse as SubscriptionRetrieveUsageHistoryResponse,
     SubscriptionListResponsesDefaultPageNumberPagination as SubscriptionListResponsesDefaultPageNumberPagination,
+    SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination as SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
     type SubscriptionCreateParams as SubscriptionCreateParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionListParams as SubscriptionListParams,
     type SubscriptionChangePlanParams as SubscriptionChangePlanParams,
     type SubscriptionChargeParams as SubscriptionChargeParams,
+    type SubscriptionRetrieveUsageHistoryParams as SubscriptionRetrieveUsageHistoryParams,
   };
 }
