@@ -29,6 +29,7 @@ export const tool: Tool = {
       },
       proration_billing_mode: {
         type: 'string',
+        title: 'Proration Billing Mode',
         description: 'Proration Billing Mode',
         enum: ['prorated_immediately', 'full_immediately', 'difference_immediately'],
       },
@@ -48,6 +49,7 @@ export const tool: Tool = {
     $defs: {
       attach_addon: {
         type: 'object',
+        title: 'Attach Addon Request',
         properties: {
           addon_id: {
             type: 'string',

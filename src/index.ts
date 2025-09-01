@@ -77,6 +77,15 @@ import {
   Licenses,
 } from './resources/licenses';
 import {
+  Meter,
+  MeterAggregation,
+  MeterCreateParams,
+  MeterFilter,
+  MeterListParams,
+  Meters,
+  MetersDefaultPageNumberPagination,
+} from './resources/meters';
+import {
   CountryCode,
   Currency,
   Misc,
@@ -129,11 +138,23 @@ import {
   SubscriptionListParams,
   SubscriptionListResponse,
   SubscriptionListResponsesDefaultPageNumberPagination,
+  SubscriptionRetrieveUsageHistoryParams,
+  SubscriptionRetrieveUsageHistoryResponse,
+  SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
   SubscriptionStatus,
   SubscriptionUpdateParams,
   Subscriptions,
   TimeInterval,
 } from './resources/subscriptions';
+import {
+  Event,
+  EventInput,
+  EventsDefaultPageNumberPagination,
+  UsageEventIngestParams,
+  UsageEventIngestResponse,
+  UsageEventListParams,
+  UsageEvents,
+} from './resources/usage-events';
 import { WebhookEventType, WebhookEvents, WebhookPayload } from './resources/webhook-events';
 import {
   Customer,
@@ -146,6 +167,7 @@ import {
 } from './resources/customers/customers';
 import { Invoices } from './resources/invoices/invoices';
 import {
+  AddMeterToPrice,
   LicenseKeyDuration,
   Price,
   Product,
@@ -325,6 +347,8 @@ export class DodoPayments extends Core.APIClient {
   addons: API.Addons = new API.Addons(this);
   brands: API.Brands = new API.Brands(this);
   webhooks: API.Webhooks = new API.Webhooks(this);
+  usageEvents: API.UsageEvents = new API.UsageEvents(this);
+  meters: API.Meters = new API.Meters(this);
 
   /**
    * Check whether the base URL is set to its default.
@@ -376,6 +400,8 @@ DodoPayments.PaymentListResponsesDefaultPageNumberPagination =
 DodoPayments.Subscriptions = Subscriptions;
 DodoPayments.SubscriptionListResponsesDefaultPageNumberPagination =
   SubscriptionListResponsesDefaultPageNumberPagination;
+DodoPayments.SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination =
+  SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination;
 DodoPayments.Invoices = Invoices;
 DodoPayments.Licenses = Licenses;
 DodoPayments.LicenseKeys = LicenseKeys;
@@ -403,6 +429,10 @@ DodoPayments.AddonResponsesDefaultPageNumberPagination = AddonResponsesDefaultPa
 DodoPayments.Brands = Brands;
 DodoPayments.Webhooks = Webhooks;
 DodoPayments.WebhookDetailsCursorPagePagination = WebhookDetailsCursorPagePagination;
+DodoPayments.UsageEvents = UsageEvents;
+DodoPayments.EventsDefaultPageNumberPagination = EventsDefaultPageNumberPagination;
+DodoPayments.Meters = Meters;
+DodoPayments.MetersDefaultPageNumberPagination = MetersDefaultPageNumberPagination;
 
 export declare namespace DodoPayments {
   export type RequestOptions = Core.RequestOptions;
@@ -457,12 +487,15 @@ export declare namespace DodoPayments {
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
     type SubscriptionListResponse as SubscriptionListResponse,
     type SubscriptionChargeResponse as SubscriptionChargeResponse,
+    type SubscriptionRetrieveUsageHistoryResponse as SubscriptionRetrieveUsageHistoryResponse,
     SubscriptionListResponsesDefaultPageNumberPagination as SubscriptionListResponsesDefaultPageNumberPagination,
+    SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination as SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
     type SubscriptionCreateParams as SubscriptionCreateParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionListParams as SubscriptionListParams,
     type SubscriptionChangePlanParams as SubscriptionChangePlanParams,
     type SubscriptionChargeParams as SubscriptionChargeParams,
+    type SubscriptionRetrieveUsageHistoryParams as SubscriptionRetrieveUsageHistoryParams,
   };
 
   export { Invoices as Invoices };
@@ -537,6 +570,7 @@ export declare namespace DodoPayments {
 
   export {
     Products as Products,
+    type AddMeterToPrice as AddMeterToPrice,
     type LicenseKeyDuration as LicenseKeyDuration,
     type Price as Price,
     type Product as Product,
@@ -594,6 +628,26 @@ export declare namespace DodoPayments {
     type WebhookCreateParams as WebhookCreateParams,
     type WebhookUpdateParams as WebhookUpdateParams,
     type WebhookListParams as WebhookListParams,
+  };
+
+  export {
+    UsageEvents as UsageEvents,
+    type Event as Event,
+    type EventInput as EventInput,
+    type UsageEventIngestResponse as UsageEventIngestResponse,
+    EventsDefaultPageNumberPagination as EventsDefaultPageNumberPagination,
+    type UsageEventListParams as UsageEventListParams,
+    type UsageEventIngestParams as UsageEventIngestParams,
+  };
+
+  export {
+    Meters as Meters,
+    type Meter as Meter,
+    type MeterAggregation as MeterAggregation,
+    type MeterFilter as MeterFilter,
+    MetersDefaultPageNumberPagination as MetersDefaultPageNumberPagination,
+    type MeterCreateParams as MeterCreateParams,
+    type MeterListParams as MeterListParams,
   };
 }
 

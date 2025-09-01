@@ -378,6 +378,7 @@ export const tool: Tool = {
             $ref: '#/$defs/new_customer',
           },
         ],
+        title: 'Customer Request',
       },
       attach_existing_customer: {
         type: 'object',
@@ -391,6 +392,7 @@ export const tool: Tool = {
       },
       new_customer: {
         type: 'object',
+        title: 'New Customer',
         properties: {
           email: {
             type: 'string',
@@ -406,6 +408,7 @@ export const tool: Tool = {
       },
       attach_addon: {
         type: 'object',
+        title: 'Attach Addon Request',
         properties: {
           addon_id: {
             type: 'string',
@@ -591,6 +594,7 @@ export const tool: Tool = {
       },
       on_demand_subscription: {
         type: 'object',
+        title: 'On Demand Subscription Request',
         properties: {
           mandate_only: {
             type: 'boolean',

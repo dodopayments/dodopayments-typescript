@@ -32,6 +32,7 @@ export const tool: Tool = {
       },
       disable_on_demand: {
         type: 'object',
+        title: 'Disable On Demand Request',
         properties: {
           next_billing_date: {
             type: 'string',

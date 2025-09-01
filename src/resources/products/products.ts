@@ -3,6 +3,7 @@
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
+import * as ProductsAPI from './products';
 import * as MiscAPI from '../misc';
 import * as SubscriptionsAPI from '../subscriptions';
 import * as ImagesAPI from './images';
@@ -73,6 +74,33 @@ export class Products extends APIResource {
 
 export class ProductListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<ProductListResponse> {}
 
+export interface AddMeterToPrice {
+  meter_id: string;
+
+  /**
+   * The price per unit in lowest denomination. Must be greater than zero. Supports
+   * up to 5 digits before decimal point and 12 decimal places.
+   */
+  price_per_unit: string;
+
+  /**
+   * Meter description. Will ignored on Request, but will be shown in response
+   */
+  description?: string | null;
+
+  free_threshold?: number | null;
+
+  /**
+   * Meter measurement unit. Will ignored on Request, but will be shown in response
+   */
+  measurement_unit?: string | null;
+
+  /**
+   * Meter name. Will ignored on Request, but will be shown in response
+   */
+  name?: string | null;
+}
+
 export interface LicenseKeyDuration {
   count: number;
 
@@ -82,7 +110,7 @@ export interface LicenseKeyDuration {
 /**
  * One-time price details.
  */
-export type Price = Price.OneTimePrice | Price.RecurringPrice;
+export type Price = Price.OneTimePrice | Price.RecurringPrice | Price.UsageBasedPrice;
 
 export namespace Price {
   /**
@@ -194,6 +222,64 @@ export namespace Price {
      * Number of days for the trial period. A value of `0` indicates no trial period.
      */
     trial_period_days?: number;
+  }
+
+  /**
+   * Usage Based price details.
+   */
+  export interface UsageBasedPrice {
+    /**
+     * The currency in which the payment is made.
+     */
+    currency: MiscAPI.Currency;
+
+    /**
+     * Discount applied to the price, represented as a percentage (0 to 100).
+     */
+    discount: number;
+
+    /**
+     * The fixed payment amount. Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
+     */
+    fixed_price: number;
+
+    /**
+     * Number of units for the payment frequency. For example, a value of `1` with a
+     * `payment_frequency_interval` of `month` represents monthly payments.
+     */
+    payment_frequency_count: number;
+
+    /**
+     * The time interval for the payment frequency (e.g., day, month, year).
+     */
+    payment_frequency_interval: SubscriptionsAPI.TimeInterval;
+
+    /**
+     * Indicates if purchasing power parity adjustments are applied to the price.
+     * Purchasing power parity feature is not available as of now
+     */
+    purchasing_power_parity: boolean;
+
+    /**
+     * Number of units for the subscription period. For example, a value of `12` with a
+     * `subscription_period_interval` of `month` represents a one-year subscription.
+     */
+    subscription_period_count: number;
+
+    /**
+     * The time interval for the subscription period (e.g., day, month, year).
+     */
+    subscription_period_interval: SubscriptionsAPI.TimeInterval;
+
+    type: 'usage_based_price';
+
+    meters?: Array<ProductsAPI.AddMeterToPrice> | null;
+
+    /**
+     * Indicates if the price is tax inclusive
+     */
+    tax_inclusive?: boolean | null;
   }
 }
 
@@ -608,6 +694,7 @@ Products.Images = Images;
 
 export declare namespace Products {
   export {
+    type AddMeterToPrice as AddMeterToPrice,
     type LicenseKeyDuration as LicenseKeyDuration,
     type Price as Price,
     type Product as Product,

@@ -24,6 +24,7 @@ export const tool: Tool = {
         type: 'array',
         items: {
           type: 'object',
+          title: 'Product Item Request',
           properties: {
             product_id: {
               type: 'string',
@@ -58,6 +59,7 @@ export const tool: Tool = {
       },
       billing_address: {
         type: 'object',
+        title: 'Checkout Session Billing Address',
         description: 'Billing address information for the session',
         properties: {
           country: {
@@ -95,6 +97,7 @@ export const tool: Tool = {
       },
       customization: {
         type: 'object',
+        title: 'Checkout Session Customization',
         description: 'Customization for the checkout session page',
         properties: {
           show_on_demand_tag: {
@@ -117,6 +120,7 @@ export const tool: Tool = {
       },
       feature_flags: {
         type: 'object',
+        title: 'Checkout Session Flags',
         properties: {
           allow_currency_selection: {
             type: 'boolean',
@@ -157,6 +161,7 @@ export const tool: Tool = {
       },
       subscription_data: {
         type: 'object',
+        title: 'Subscription Data',
         properties: {
           on_demand: {
             $ref: '#/$defs/on_demand_subscription',
@@ -173,6 +178,7 @@ export const tool: Tool = {
     $defs: {
       attach_addon: {
         type: 'object',
+        title: 'Attach Addon Request',
         properties: {
           addon_id: {
             type: 'string',
@@ -620,6 +626,7 @@ export const tool: Tool = {
             $ref: '#/$defs/new_customer',
           },
         ],
+        title: 'Customer Request',
       },
       attach_existing_customer: {
         type: 'object',
@@ -633,6 +640,7 @@ export const tool: Tool = {
       },
       new_customer: {
         type: 'object',
+        title: 'New Customer',
         properties: {
           email: {
             type: 'string',
@@ -648,6 +656,7 @@ export const tool: Tool = {
       },
       on_demand_subscription: {
         type: 'object',
+        title: 'On Demand Subscription Request',
         properties: {
           mandate_only: {
             type: 'boolean',
