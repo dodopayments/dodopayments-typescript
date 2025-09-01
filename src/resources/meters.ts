@@ -29,7 +29,7 @@ export class Meters extends APIResource {
     return this._client.getAPIList('/meters', MetersDefaultPageNumberPagination, { query, ...options });
   }
 
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<void> {
+  archive(id: string, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.delete(`/meters/${id}`, {
       ...options,
       headers: { Accept: '*/*', ...options?.headers },

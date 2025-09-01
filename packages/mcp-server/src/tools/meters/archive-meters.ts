@@ -6,16 +6,16 @@ import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import DodoPayments from 'dodopayments';
 
 export const metadata: Metadata = {
-  resource: 'products',
+  resource: 'meters',
   operation: 'write',
   tags: [],
   httpMethod: 'delete',
-  httpPath: '/products/{id}',
-  operationId: 'delete_product',
+  httpPath: '/meters/{id}',
+  operationId: 'delete_meter',
 };
 
 export const tool: Tool = {
-  name: 'delete_products',
+  name: 'archive_meters',
   description: '',
   inputSchema: {
     type: 'object',
@@ -33,7 +33,7 @@ export const tool: Tool = {
 
 export const handler = async (client: DodoPayments, args: Record<string, unknown> | undefined) => {
   const { id, ...body } = args as any;
-  const response = await client.products.delete(id).asResponse();
+  const response = await client.meters.archive(id).asResponse();
   return asTextContentResult(await response.text());
 };
 

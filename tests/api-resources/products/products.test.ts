@@ -112,8 +112,8 @@ describe('resource products', () => {
     ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
-  test('delete', async () => {
-    const responsePromise = client.products.delete('id');
+  test('archive', async () => {
+    const responsePromise = client.products.archive('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -123,9 +123,9 @@ describe('resource products', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('delete: request options instead of params are passed correctly', async () => {
+  test('archive: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.products.delete('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.products.archive('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
       DodoPayments.NotFoundError,
     );
   });
