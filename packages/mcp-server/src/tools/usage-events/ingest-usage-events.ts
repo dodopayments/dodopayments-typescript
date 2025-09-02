@@ -56,6 +56,7 @@ export const tool: Tool = {
           },
           metadata: {
             type: 'object',
+            title: 'EventMetadata',
             description:
               'Custom metadata. Only key value pairs are accepted, objects or arrays submitted will be rejected.',
             additionalProperties: true,

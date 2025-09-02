@@ -83,7 +83,7 @@ describe('resource usageEvents', () => {
           customer_id: 'customer_id',
           event_id: 'event_id',
           event_name: 'event_name',
-          metadata: { foo: 'bar' },
+          metadata: { foo: 'string' },
           timestamp: '2019-12-27T18:11:19.117Z',
         },
       ],

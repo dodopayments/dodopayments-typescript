@@ -151,7 +151,10 @@ export interface Event {
 
   timestamp: string;
 
-  metadata?: { [key: string]: unknown } | null;
+  /**
+   * Arbitrary key-value metadata. Values can be string, integer, number, or boolean.
+   */
+  metadata?: { [key: string]: string | number | boolean } | null;
 }
 
 export interface EventInput {
@@ -175,7 +178,7 @@ export interface EventInput {
    * Custom metadata. Only key value pairs are accepted, objects or arrays submitted
    * will be rejected.
    */
-  metadata?: { [key: string]: unknown } | null;
+  metadata?: { [key: string]: string | number | boolean } | null;
 
   /**
    * Custom Timestamp. Defaults to current timestamp in UTC. Timestamps that are
