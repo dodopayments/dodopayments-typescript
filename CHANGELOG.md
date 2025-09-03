@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.52.3 (2025-09-03)
+
+Full Changelog: [v1.51.2...v1.52.3](https://github.com/dodopayments/dodopayments-node/compare/v1.51.2...v1.52.3)
+
+### Features
+
+* **api:** manual updates ([7a7db07](https://github.com/dodopayments/dodopayments-node/commit/7a7db0762a1020d0728d9da846a3d65b5d0d4c0a))
+* **api:** updated openapi spec ([db99ebf](https://github.com/dodopayments/dodopayments-node/commit/db99ebfb265529a3997b873722a0aaf80b314279))
+* **mcp:** add client infer to cloudflare oauth screen ([335f078](https://github.com/dodopayments/dodopayments-node/commit/335f078f1d66afe41532d29558aed3d8a5c118eb))
+* **mcp:** allow setting logging level ([b3850a4](https://github.com/dodopayments/dodopayments-node/commit/b3850a4f6c383c3bd60c5dc23f9af6e5bf7a69d5))
+* **mcp:** expose client options in `streamableHTTPApp` ([621a46f](https://github.com/dodopayments/dodopayments-node/commit/621a46f4b907fae51e1b515b2e492ba8cee4dd3e))
+* updated openapi spec and added model and API functions for Usage Based Billing ([1714ff8](https://github.com/dodopayments/dodopayments-node/commit/1714ff822ddd24afe7d979710f20dac30630faaf))
+
+
+### Chores
+
+* **internal:** codegen related update ([b5228cd](https://github.com/dodopayments/dodopayments-node/commit/b5228cd2b0e92ca723cbb21fc5dc6de90adb472d))
+
 ## 1.51.2 (2025-08-24)
 
 Full Changelog: [v1.51.1...v1.51.2](https://github.com/dodopayments/dodopayments-node/compare/v1.51.1...v1.51.2)
