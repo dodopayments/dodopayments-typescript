@@ -238,6 +238,11 @@ export interface Subscription {
   metadata: { [key: string]: string };
 
   /**
+   * Meters associated with this subscription (for usage-based billing)
+   */
+  meters: Array<Subscription.Meter>;
+
+  /**
    * Timestamp of the next scheduled billing. Indicates the end of current billing
    * period
    */
@@ -328,6 +333,27 @@ export interface Subscription {
    * Timestamp when the subscription will expire
    */
   expires_at?: string | null;
+}
+
+export namespace Subscription {
+  /**
+   * Response struct representing usage-based meter cart details for a subscription
+   */
+  export interface Meter {
+    currency: MiscAPI.Currency;
+
+    free_threshold: number;
+
+    measurement_unit: string;
+
+    meter_id: string;
+
+    name: string;
+
+    price_per_unit: string;
+
+    description?: string | null;
+  }
 }
 
 export type SubscriptionStatus = 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired';

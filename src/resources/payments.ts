@@ -243,6 +243,12 @@ export interface Payment {
   card_type?: string | null;
 
   /**
+   * If payment is made using a checkout session, this field is set to the id of the
+   * session.
+   */
+  checkout_session_id?: string | null;
+
+  /**
    * The discount id if discount is applied
    */
   discount_id?: string | null;
