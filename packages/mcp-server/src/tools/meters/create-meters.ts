@@ -52,7 +52,7 @@ export const tool: Tool = {
           type: {
             type: 'string',
             description: 'Aggregation type for the meter',
-            enum: ['count', 'sum', 'unique_count', 'max', 'last'],
+            enum: ['count', 'sum', 'max', 'last'],
           },
           key: {
             type: 'string',

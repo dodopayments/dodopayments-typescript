@@ -80,7 +80,7 @@ export interface MeterAggregation {
   /**
    * Aggregation type for the meter
    */
-  type: 'count' | 'sum' | 'unique_count' | 'max' | 'last';
+  type: 'count' | 'sum' | 'max' | 'last';
 
   /**
    * Required when type is not COUNT
