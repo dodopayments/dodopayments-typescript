@@ -1,0 +1,46 @@
+{
+  "dxt_version": "0.1",
+  "name": "dodopayments-mcp",
+  "version": "1.52.5",
+  "description": "The official MCP Server for the Dodo Payments API",
+  "author": {
+    "name": "Dodo Payments",
+    "email": "founders@dodopayments.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dodopayments/dodopayments-node.git"
+  },
+  "homepage": "https://github.com/dodopayments/dodopayments-node/tree/main/packages/mcp-server#readme",
+  "documentation": "https://docs.dodopayments.com",
+  "server": {
+    "type": "node",
+    "entry_point": "${"templates/TypeScriptSDK/mcp"}/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${"templates/TypeScriptSDK/mcp"}/index.js"
+      ],
+      "env": {
+        "DODO_PAYMENTS_API_KEY": "${user_config.DODO_PAYMENTS_API_KEY}"
+      }
+    }
+  },
+  "user_config": {
+    "DODO_PAYMENTS_API_KEY": {
+      "title": "bearer_token",
+      "description": "Bearer Token for API authentication",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "tools_generated": true,
+  "compatibility": {
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  },
+  "keywords": [
+    "api"
+  ]
+}
