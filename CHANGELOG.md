@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0.0 (2025-09-13)
+
+Full Changelog: [v1.53.2...v2.0.0](https://github.com/dodopayments/dodopayments-typescript/compare/v1.53.2...v2.0.0)
+
+### Features
+
+* **api:** added typescript sdk for migration and updated org info ([3806e38](https://github.com/dodopayments/dodopayments-typescript/commit/3806e38ac7f1aab12d728357201f9c37d704e2e2))
+* **api:** changed target version for typescript sdk to 2.0.0 ([eedbc6f](https://github.com/dodopayments/dodopayments-typescript/commit/eedbc6f492fdfe9cba6ce592f57570a7e6a36233))
+* **api:** manual updates ([cce60af](https://github.com/dodopayments/dodopayments-typescript/commit/cce60af560973e4cd56bd3d8f07a0a6f088964b5))
+
 ## 1.53.2 (2025-09-13)
 
 Full Changelog: [v1.52.6...v1.53.2](https://github.com/dodopayments/dodopayments-node/compare/v1.52.6...v1.53.2)
