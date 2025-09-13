@@ -1,34 +1,27 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as MiscAPI from './misc';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
 
 export class Payouts extends APIResource {
   list(
-    query?: PayoutListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PayoutListResponsesDefaultPageNumberPagination, PayoutListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PayoutListResponsesDefaultPageNumberPagination, PayoutListResponse>;
-  list(
-    query: PayoutListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PayoutListResponsesDefaultPageNumberPagination, PayoutListResponse> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/payouts', PayoutListResponsesDefaultPageNumberPagination, {
+    query: PayoutListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<PayoutListResponsesDefaultPageNumberPagination, PayoutListResponse> {
+    return this._client.getAPIList('/payouts', DefaultPageNumberPagination<PayoutListResponse>, {
       query,
       ...options,
     });
   }
 }
 
-export class PayoutListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<PayoutListResponse> {}
+export type PayoutListResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<PayoutListResponse>;
 
 export interface PayoutListResponse {
   /**
@@ -109,12 +102,10 @@ export interface PayoutListResponse {
 
 export interface PayoutListParams extends DefaultPageNumberPaginationParams {}
 
-Payouts.PayoutListResponsesDefaultPageNumberPagination = PayoutListResponsesDefaultPageNumberPagination;
-
 export declare namespace Payouts {
   export {
     type PayoutListResponse as PayoutListResponse,
-    PayoutListResponsesDefaultPageNumberPagination as PayoutListResponsesDefaultPageNumberPagination,
+    type PayoutListResponsesDefaultPageNumberPagination as PayoutListResponsesDefaultPageNumberPagination,
     type PayoutListParams as PayoutListParams,
   };
 }

@@ -1,26 +1,18 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Images extends APIResource {
   update(
     id: string,
-    params?: ImageUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ImageUpdateResponse>;
-  update(id: string, options?: Core.RequestOptions): Core.APIPromise<ImageUpdateResponse>;
-  update(
-    id: string,
-    params: ImageUpdateParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ImageUpdateResponse> {
-    if (isRequestOptions(params)) {
-      return this.update(id, {}, params);
-    }
-    const { force_update } = params;
-    return this._client.put(`/products/${id}/images`, { query: { force_update }, ...options });
+    params: ImageUpdateParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ImageUpdateResponse> {
+    const { force_update } = params ?? {};
+    return this._client.put(path`/products/${id}/images`, { query: { force_update }, ...options });
   }
 }
 

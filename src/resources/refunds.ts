@@ -1,43 +1,38 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as MiscAPI from './misc';
 import * as PaymentsAPI from './payments';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
+import { APIPromise } from '../core/api-promise';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Refunds extends APIResource {
-  create(body: RefundCreateParams, options?: Core.RequestOptions): Core.APIPromise<Refund> {
+  create(body: RefundCreateParams, options?: RequestOptions): APIPromise<Refund> {
     return this._client.post('/refunds', { body, ...options });
   }
 
-  retrieve(refundId: string, options?: Core.RequestOptions): Core.APIPromise<Refund> {
-    return this._client.get(`/refunds/${refundId}`, options);
+  retrieve(refundID: string, options?: RequestOptions): APIPromise<Refund> {
+    return this._client.get(path`/refunds/${refundID}`, options);
   }
 
   list(
-    query?: RefundListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<RefundListResponsesDefaultPageNumberPagination, RefundListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<RefundListResponsesDefaultPageNumberPagination, RefundListResponse>;
-  list(
-    query: RefundListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<RefundListResponsesDefaultPageNumberPagination, RefundListResponse> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/refunds', RefundListResponsesDefaultPageNumberPagination, {
+    query: RefundListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<RefundListResponsesDefaultPageNumberPagination, RefundListResponse> {
+    return this._client.getAPIList('/refunds', DefaultPageNumberPagination<RefundListResponse>, {
       query,
       ...options,
     });
   }
 }
 
-export class RefundListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<RefundListResponse> {}
+export type RefundListResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<RefundListResponse>;
 
 export interface Refund {
   /**
@@ -198,14 +193,12 @@ export interface RefundListParams extends DefaultPageNumberPaginationParams {
   status?: 'succeeded' | 'failed' | 'pending' | 'review';
 }
 
-Refunds.RefundListResponsesDefaultPageNumberPagination = RefundListResponsesDefaultPageNumberPagination;
-
 export declare namespace Refunds {
   export {
     type Refund as Refund,
     type RefundStatus as RefundStatus,
     type RefundListResponse as RefundListResponse,
-    RefundListResponsesDefaultPageNumberPagination as RefundListResponsesDefaultPageNumberPagination,
+    type RefundListResponsesDefaultPageNumberPagination as RefundListResponsesDefaultPageNumberPagination,
     type RefundCreateParams as RefundCreateParams,
     type RefundListParams as RefundListParams,
   };

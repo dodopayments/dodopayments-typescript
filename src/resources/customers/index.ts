@@ -2,12 +2,12 @@
 
 export { CustomerPortal, type CustomerPortalCreateParams } from './customer-portal';
 export {
-  CustomersDefaultPageNumberPagination,
   Customers,
   type Customer,
   type CustomerPortalSession,
   type CustomerCreateParams,
   type CustomerUpdateParams,
   type CustomerListParams,
+  type CustomersDefaultPageNumberPagination,
 } from './customers';
 export { Wallets, type CustomerWallet, type WalletListResponse } from './wallets/index';

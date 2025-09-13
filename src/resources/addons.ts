@@ -1,50 +1,45 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as MiscAPI from './misc';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
+import { APIPromise } from '../core/api-promise';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Addons extends APIResource {
-  create(body: AddonCreateParams, options?: Core.RequestOptions): Core.APIPromise<AddonResponse> {
+  create(body: AddonCreateParams, options?: RequestOptions): APIPromise<AddonResponse> {
     return this._client.post('/addons', { body, ...options });
   }
 
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<AddonResponse> {
-    return this._client.get(`/addons/${id}`, options);
+  retrieve(id: string, options?: RequestOptions): APIPromise<AddonResponse> {
+    return this._client.get(path`/addons/${id}`, options);
   }
 
-  update(id: string, body: AddonUpdateParams, options?: Core.RequestOptions): Core.APIPromise<AddonResponse> {
-    return this._client.patch(`/addons/${id}`, { body, ...options });
+  update(id: string, body: AddonUpdateParams, options?: RequestOptions): APIPromise<AddonResponse> {
+    return this._client.patch(path`/addons/${id}`, { body, ...options });
   }
 
   list(
-    query?: AddonListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<AddonResponsesDefaultPageNumberPagination, AddonResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<AddonResponsesDefaultPageNumberPagination, AddonResponse>;
-  list(
-    query: AddonListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<AddonResponsesDefaultPageNumberPagination, AddonResponse> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/addons', AddonResponsesDefaultPageNumberPagination, {
+    query: AddonListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<AddonResponsesDefaultPageNumberPagination, AddonResponse> {
+    return this._client.getAPIList('/addons', DefaultPageNumberPagination<AddonResponse>, {
       query,
       ...options,
     });
   }
 
-  updateImages(id: string, options?: Core.RequestOptions): Core.APIPromise<AddonUpdateImagesResponse> {
-    return this._client.put(`/addons/${id}/images`, options);
+  updateImages(id: string, options?: RequestOptions): APIPromise<AddonUpdateImagesResponse> {
+    return this._client.put(path`/addons/${id}/images`, options);
   }
 }
 
-export class AddonResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<AddonResponse> {}
+export type AddonResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<AddonResponse>;
 
 export interface AddonResponse {
   /**
@@ -165,13 +160,11 @@ export interface AddonUpdateParams {
 
 export interface AddonListParams extends DefaultPageNumberPaginationParams {}
 
-Addons.AddonResponsesDefaultPageNumberPagination = AddonResponsesDefaultPageNumberPagination;
-
 export declare namespace Addons {
   export {
     type AddonResponse as AddonResponse,
     type AddonUpdateImagesResponse as AddonUpdateImagesResponse,
-    AddonResponsesDefaultPageNumberPagination as AddonResponsesDefaultPageNumberPagination,
+    type AddonResponsesDefaultPageNumberPagination as AddonResponsesDefaultPageNumberPagination,
     type AddonCreateParams as AddonCreateParams,
     type AddonUpdateParams as AddonUpdateParams,
     type AddonListParams as AddonListParams,

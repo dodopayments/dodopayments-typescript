@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import DodoPayments from 'dodopayments';
-import { Response } from 'node-fetch';
 
 const client = new DodoPayments({
   bearerToken: 'My Bearer Token',
@@ -44,13 +43,6 @@ describe('resource webhooks', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('retrieve: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.webhooks.retrieve('webhook_id', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(DodoPayments.NotFoundError);
-  });
-
   test('update', async () => {
     const responsePromise = client.webhooks.update('webhook_id', {});
     const rawResponse = await responsePromise.asResponse();
@@ -73,13 +65,6 @@ describe('resource webhooks', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('list: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.webhooks.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      DodoPayments.NotFoundError,
-    );
-  });
-
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -98,13 +83,6 @@ describe('resource webhooks', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('delete: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.webhooks.delete('webhook_id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      DodoPayments.NotFoundError,
-    );
-  });
-
   test('retrieveSecret', async () => {
     const responsePromise = client.webhooks.retrieveSecret('webhook_id');
     const rawResponse = await responsePromise.asResponse();
@@ -114,12 +92,5 @@ describe('resource webhooks', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieveSecret: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.webhooks.retrieveSecret('webhook_id', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 });
