@@ -155,6 +155,7 @@ describe('resource subscriptions', () => {
     const response = await client.subscriptions.charge('subscription_id', {
       product_price: 0,
       adaptive_currency_fees_inclusive: true,
+      customer_balance_config: { allow_customer_credits_purchase: true, allow_customer_credits_usage: true },
       metadata: { foo: 'string' },
       product_currency: 'AED',
       product_description: 'product_description',

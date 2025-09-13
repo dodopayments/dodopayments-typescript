@@ -78,6 +78,7 @@ export {
 } from './license-keys';
 export {
   Licenses,
+  type LicenseActivateResponse,
   type LicenseValidateResponse,
   type LicenseActivateParams,
   type LicenseDeactivateParams,
@@ -139,10 +140,11 @@ export {
   type ProductUpdateFilesParams,
 } from './products/products';
 export {
-  RefundsDefaultPageNumberPagination,
+  RefundListResponsesDefaultPageNumberPagination,
   Refunds,
   type Refund,
   type RefundStatus,
+  type RefundListResponse,
   type RefundCreateParams,
   type RefundListParams,
 } from './refunds';
