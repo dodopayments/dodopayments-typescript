@@ -6,6 +6,10 @@ if [ -z "${NPM_TOKEN}" ]; then
   errors+=("The NPM_TOKEN secret has not been set. Please set it in either this repository's secrets or your organization secrets")
 fi
 
+if [ -z "${DOCKERHUB_TOKEN}" ]; then
+  errors+=("The DOCKERHUB_TOKEN secret has not been set. Please set it in either this repository's secrets or your organization secrets")
+fi
+
 lenErrors=${#errors[@]}
 
 if [[ lenErrors -gt 0 ]]; then

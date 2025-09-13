@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# This script determines which Docker tags to use based on the version
+# It outputs a newline-separated list of tags
+
+# Get version from mcp-server package.json
+if [ -f "packages/mcp-server/package.json" ]; then
+  VERSION="$(jq -r -e '.version' ./packages/mcp-server/package.json)"
+else
+  echo "ERROR: Could not determine version from packages/mcp-server/package.json" >&2
+  exit 1
+fi
+
+# Check if current version is pre-release (e.g. alpha / beta / rc)
+CURRENT_IS_PRERELEASE=false
+PRERELEASE_TAG=""
+if [[ "$VERSION" =~ -([a-zA-Z]+) ]]; then
+  CURRENT_IS_PRERELEASE=true
+  PRERELEASE_TAG="${BASH_REMATCH[1]}"
+fi
+
+# Check if there's any stable release in Docker Hub
+# This matches the npm logic: check if ANY stable version exists
+DOCKER_IMAGE="${DOCKER_IMAGE:-dodopayments/mcp}"
+HAS_STABLE_RELEASE=false
+
+PAGE=1
+PAGE_SIZE=100
+
+while true; do
+  RESPONSE=$(curl -s --max-time 30 "https://hub.docker.com/v2/repositories/${DOCKER_IMAGE}/tags?page=${PAGE}&page_size=${PAGE_SIZE}")
+
+  if [ $? -ne 0 ]; then
+    echo "ERROR: Failed to fetch tags from Docker Hub" >&2
+    exit 1
+  fi
+
+  # Check for 404 error - repository doesn't exist yet
+  if echo "$RESPONSE" | jq -e '.message == "httperror 404: object not found"' >/dev/null 2>&1; then
+    # Repository doesn't exist, no stable releases
+    HAS_STABLE_RELEASE=false
+    break
+  fi
+
+  if ! echo "$RESPONSE" | jq -e '.results' >/dev/null 2>&1; then
+    echo "ERROR: Invalid JSON response from Docker Hub" >&2
+    echo "Response: $RESPONSE" >&2
+    exit 1
+  fi
+
+  # Check if any tags are stable versions (no pre-release suffix)
+  STABLE_TAGS=$(echo "$RESPONSE" | jq -r '.results[].name | select(test("^[0-9]+\\.[0-9]+\\.[0-9]+$"))' 2>/dev/null || true)
+  if [ -n "$STABLE_TAGS" ]; then
+    HAS_STABLE_RELEASE=true
+    break
+  fi
+
+  NEXT_URL=$(echo "$RESPONSE" | jq -r '.next // empty')
+  if [ -z "$NEXT_URL" ]; then
+    break
+  fi
+
+  PAGE=$((PAGE + 1))
+done
+
+# Output tags based on the logic (matching npm):
+# 1. Always output the exact version tag
+echo "$VERSION"
+
+# 2. Use pre-release tag (alpha/beta) if there's already a stable release and we're publishing a pre-release
+# Otherwise use 'latest'
+if $CURRENT_IS_PRERELEASE && $HAS_STABLE_RELEASE; then
+  # Only tag with pre-release type, not latest
+  echo "$PRERELEASE_TAG"
+else
+  # Tag as latest (either it's a stable release, or it's a pre-release but no stable exists yet)
+  echo "latest"
+
+  # For stable releases, also add major and major.minor tags
+  if ! $CURRENT_IS_PRERELEASE && [[ "$VERSION" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+    MAJOR="${BASH_REMATCH[1]}"
+    MINOR="${BASH_REMATCH[2]}"
+    echo "$MAJOR"
+    echo "$MAJOR.$MINOR"
+  fi
+fi
