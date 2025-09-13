@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.54.0 (2025-09-13)
+
+Full Changelog: [v1.53.2...v1.54.0](https://github.com/dodopayments/dodopayments-node/compare/v1.53.2...v1.54.0)
+
+### Features
+
+* **api:** added typescript sdk for migration and updated org info ([6744727](https://github.com/dodopayments/dodopayments-node/commit/6744727972f2c416dfabf459cc776af6442fdb3c))
+
 ## 1.53.2 (2025-09-13)
 
 Full Changelog: [v1.52.6...v1.53.2](https://github.com/dodopayments/dodopayments-node/compare/v1.52.6...v1.53.2)
