@@ -1,7 +1,7 @@
 {
   "dxt_version": "0.1",
   "name": "dodopayments-mcp",
-  "version": "1.52.5",
+  "version": "1.52.6",
   "description": "The official MCP Server for the Dodo Payments API",
   "author": {
     "name": "Dodo Payments",
