@@ -4,6 +4,7 @@ import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
 import * as MiscAPI from './misc';
+import * as PaymentsAPI from './payments';
 import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
 
 export class Refunds extends APIResource {
@@ -18,22 +19,81 @@ export class Refunds extends APIResource {
   list(
     query?: RefundListParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<RefundsDefaultPageNumberPagination, Refund>;
-  list(options?: Core.RequestOptions): Core.PagePromise<RefundsDefaultPageNumberPagination, Refund>;
+  ): Core.PagePromise<RefundListResponsesDefaultPageNumberPagination, RefundListResponse>;
+  list(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<RefundListResponsesDefaultPageNumberPagination, RefundListResponse>;
   list(
     query: RefundListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<RefundsDefaultPageNumberPagination, Refund> {
+  ): Core.PagePromise<RefundListResponsesDefaultPageNumberPagination, RefundListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/refunds', RefundsDefaultPageNumberPagination, { query, ...options });
+    return this._client.getAPIList('/refunds', RefundListResponsesDefaultPageNumberPagination, {
+      query,
+      ...options,
+    });
   }
 }
 
-export class RefundsDefaultPageNumberPagination extends DefaultPageNumberPagination<Refund> {}
+export class RefundListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<RefundListResponse> {}
 
 export interface Refund {
+  /**
+   * The unique identifier of the business issuing the refund.
+   */
+  business_id: string;
+
+  /**
+   * The timestamp of when the refund was created in UTC.
+   */
+  created_at: string;
+
+  /**
+   * Details about the customer for this refund (from the associated payment)
+   */
+  customer: PaymentsAPI.CustomerLimitedDetails;
+
+  /**
+   * If true the refund is a partial refund
+   */
+  is_partial: boolean;
+
+  /**
+   * The unique identifier of the payment associated with the refund.
+   */
+  payment_id: string;
+
+  /**
+   * The unique identifier of the refund.
+   */
+  refund_id: string;
+
+  /**
+   * The current status of the refund.
+   */
+  status: RefundStatus;
+
+  /**
+   * The refunded amount.
+   */
+  amount?: number | null;
+
+  /**
+   * The currency of the refund, represented as an ISO 4217 currency code.
+   */
+  currency?: MiscAPI.Currency | null;
+
+  /**
+   * The reason provided for the refund, if any. Optional.
+   */
+  reason?: string | null;
+}
+
+export type RefundStatus = 'succeeded' | 'failed' | 'pending' | 'review';
+
+export interface RefundListResponse {
   /**
    * The unique identifier of the business issuing the refund.
    */
@@ -79,8 +139,6 @@ export interface Refund {
    */
   reason?: string | null;
 }
-
-export type RefundStatus = 'succeeded' | 'failed' | 'pending' | 'review';
 
 export interface RefundCreateParams {
   /**
@@ -140,13 +198,14 @@ export interface RefundListParams extends DefaultPageNumberPaginationParams {
   status?: 'succeeded' | 'failed' | 'pending' | 'review';
 }
 
-Refunds.RefundsDefaultPageNumberPagination = RefundsDefaultPageNumberPagination;
+Refunds.RefundListResponsesDefaultPageNumberPagination = RefundListResponsesDefaultPageNumberPagination;
 
 export declare namespace Refunds {
   export {
     type Refund as Refund,
     type RefundStatus as RefundStatus,
-    RefundsDefaultPageNumberPagination as RefundsDefaultPageNumberPagination,
+    type RefundListResponse as RefundListResponse,
+    RefundListResponsesDefaultPageNumberPagination as RefundListResponsesDefaultPageNumberPagination,
     type RefundCreateParams as RefundCreateParams,
     type RefundListParams as RefundListParams,
   };

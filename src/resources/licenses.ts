@@ -2,13 +2,13 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as LicenseKeyInstancesAPI from './license-key-instances';
+import * as PaymentsAPI from './payments';
 
 export class Licenses extends APIResource {
   /**
    * @example
    * ```ts
-   * const licenseKeyInstance = await client.licenses.activate({
+   * const response = await client.licenses.activate({
    *   license_key: 'license_key',
    *   name: 'name',
    * });
@@ -17,7 +17,7 @@ export class Licenses extends APIResource {
   activate(
     body: LicenseActivateParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<LicenseKeyInstancesAPI.LicenseKeyInstance> {
+  ): Core.APIPromise<LicenseActivateResponse> {
     return this._client.post('/licenses/activate', { body, ...options });
   }
 
@@ -54,6 +54,60 @@ export class Licenses extends APIResource {
   }
 }
 
+export interface LicenseActivateResponse {
+  /**
+   * License key instance ID
+   */
+  id: string;
+
+  /**
+   * Business ID
+   */
+  business_id: string;
+
+  /**
+   * Creation timestamp
+   */
+  created_at: string;
+
+  /**
+   * Limited customer details associated with the license key.
+   */
+  customer: PaymentsAPI.CustomerLimitedDetails;
+
+  /**
+   * Associated license key ID
+   */
+  license_key_id: string;
+
+  /**
+   * Instance name
+   */
+  name: string;
+
+  /**
+   * Related product info. Present if the license key is tied to a product.
+   */
+  product: LicenseActivateResponse.Product;
+}
+
+export namespace LicenseActivateResponse {
+  /**
+   * Related product info. Present if the license key is tied to a product.
+   */
+  export interface Product {
+    /**
+     * Unique identifier for the product.
+     */
+    product_id: string;
+
+    /**
+     * Name of the product, if set by the merchant.
+     */
+    name?: string | null;
+  }
+}
+
 export interface LicenseValidateResponse {
   valid: boolean;
 }
@@ -78,6 +132,7 @@ export interface LicenseValidateParams {
 
 export declare namespace Licenses {
   export {
+    type LicenseActivateResponse as LicenseActivateResponse,
     type LicenseValidateResponse as LicenseValidateResponse,
     type LicenseActivateParams as LicenseActivateParams,
     type LicenseDeactivateParams as LicenseDeactivateParams,

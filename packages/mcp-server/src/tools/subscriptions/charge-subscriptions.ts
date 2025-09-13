@@ -35,6 +35,20 @@ export const tool: Tool = {
         description:
           'Whether adaptive currency fees should be included in the product_price (true) or added on top (false).\nThis field is ignored if adaptive pricing is not enabled for the business.',
       },
+      customer_balance_config: {
+        type: 'object',
+        description: 'Specify how customer balance is used for the payment',
+        properties: {
+          allow_customer_credits_purchase: {
+            type: 'boolean',
+            description: 'Allows Customer Credit to be purchased to settle payments',
+          },
+          allow_customer_credits_usage: {
+            type: 'boolean',
+            description: 'Allows Customer Credit Balance to be used to settle payments',
+          },
+        },
+      },
       metadata: {
         type: 'object',
         description:

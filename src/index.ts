@@ -71,6 +71,7 @@ import {
 } from './resources/license-keys';
 import {
   LicenseActivateParams,
+  LicenseActivateResponse,
   LicenseDeactivateParams,
   LicenseValidateParams,
   LicenseValidateResponse,
@@ -121,9 +122,10 @@ import {
   Refund,
   RefundCreateParams,
   RefundListParams,
+  RefundListResponse,
+  RefundListResponsesDefaultPageNumberPagination,
   RefundStatus,
   Refunds,
-  RefundsDefaultPageNumberPagination,
 } from './resources/refunds';
 import {
   AddonCartResponseItem,
@@ -411,7 +413,7 @@ DodoPayments.LicenseKeyInstancesDefaultPageNumberPagination = LicenseKeyInstance
 DodoPayments.Customers = Customers;
 DodoPayments.CustomersDefaultPageNumberPagination = CustomersDefaultPageNumberPagination;
 DodoPayments.Refunds = Refunds;
-DodoPayments.RefundsDefaultPageNumberPagination = RefundsDefaultPageNumberPagination;
+DodoPayments.RefundListResponsesDefaultPageNumberPagination = RefundListResponsesDefaultPageNumberPagination;
 DodoPayments.Disputes = Disputes;
 DodoPayments.DisputeListResponsesDefaultPageNumberPagination =
   DisputeListResponsesDefaultPageNumberPagination;
@@ -502,6 +504,7 @@ export declare namespace DodoPayments {
 
   export {
     Licenses as Licenses,
+    type LicenseActivateResponse as LicenseActivateResponse,
     type LicenseValidateResponse as LicenseValidateResponse,
     type LicenseActivateParams as LicenseActivateParams,
     type LicenseDeactivateParams as LicenseDeactivateParams,
@@ -539,7 +542,8 @@ export declare namespace DodoPayments {
     Refunds as Refunds,
     type Refund as Refund,
     type RefundStatus as RefundStatus,
-    RefundsDefaultPageNumberPagination as RefundsDefaultPageNumberPagination,
+    type RefundListResponse as RefundListResponse,
+    RefundListResponsesDefaultPageNumberPagination as RefundListResponsesDefaultPageNumberPagination,
     type RefundCreateParams as RefundCreateParams,
     type RefundListParams as RefundListParams,
   };

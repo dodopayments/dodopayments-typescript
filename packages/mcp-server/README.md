@@ -296,6 +296,15 @@ The following tools are available in this MCP server.
 
 - `create_customers_customer_portal` (`write`):
 
+### Resource `customers.wallets`:
+
+- `list_customers_wallets` (`read`):
+
+### Resource `customers.wallets.ledger_entries`:
+
+- `create_wallets_customers_ledger_entries` (`write`):
+- `list_wallets_customers_ledger_entries` (`read`):
+
 ### Resource `refunds`:
 
 - `create_refunds` (`write`):
