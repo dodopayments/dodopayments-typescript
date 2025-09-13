@@ -5,7 +5,7 @@ const { spawnSync } = require('child_process');
 const commands = {
   migrate: {
     description:
-      'Run migrations to update your code using dodopayments@1.53.2 to be compatible with dodopayments@1.54.0',
+      'Run migrations to update your code using dodopayments@1.53.2 to be compatible with dodopayments@2.0.0',
     fn: () => {
       const result = spawnSync(
         'npx',
