@@ -1,12 +1,14 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
 import * as WebhookEventsAPI from '../webhook-events';
 import * as HeadersAPI from './headers';
 import { HeaderRetrieveResponse, HeaderUpdateParams, Headers } from './headers';
-import { CursorPagePagination, type CursorPagePaginationParams } from '../../pagination';
+import { APIPromise } from '../../core/api-promise';
+import { CursorPagePagination, type CursorPagePaginationParams, PagePromise } from '../../core/pagination';
+import { buildHeaders } from '../../internal/headers';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Webhooks extends APIResource {
   headers: HeadersAPI.Headers = new HeadersAPI.Headers(this._client);
@@ -14,68 +16,53 @@ export class Webhooks extends APIResource {
   /**
    * Create a new webhook
    */
-  create(body: WebhookCreateParams, options?: Core.RequestOptions): Core.APIPromise<WebhookDetails> {
+  create(body: WebhookCreateParams, options?: RequestOptions): APIPromise<WebhookDetails> {
     return this._client.post('/webhooks', { body, ...options });
   }
 
   /**
    * Get a webhook by id
    */
-  retrieve(webhookId: string, options?: Core.RequestOptions): Core.APIPromise<WebhookDetails> {
-    return this._client.get(`/webhooks/${webhookId}`, options);
+  retrieve(webhookID: string, options?: RequestOptions): APIPromise<WebhookDetails> {
+    return this._client.get(path`/webhooks/${webhookID}`, options);
   }
 
   /**
    * Patch a webhook by id
    */
-  update(
-    webhookId: string,
-    body: WebhookUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<WebhookDetails> {
-    return this._client.patch(`/webhooks/${webhookId}`, { body, ...options });
+  update(webhookID: string, body: WebhookUpdateParams, options?: RequestOptions): APIPromise<WebhookDetails> {
+    return this._client.patch(path`/webhooks/${webhookID}`, { body, ...options });
   }
 
   /**
    * List all webhooks
    */
   list(
-    query?: WebhookListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<WebhookDetailsCursorPagePagination, WebhookDetails>;
-  list(options?: Core.RequestOptions): Core.PagePromise<WebhookDetailsCursorPagePagination, WebhookDetails>;
-  list(
-    query: WebhookListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<WebhookDetailsCursorPagePagination, WebhookDetails> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/webhooks', WebhookDetailsCursorPagePagination, { query, ...options });
+    query: WebhookListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<WebhookDetailsCursorPagePagination, WebhookDetails> {
+    return this._client.getAPIList('/webhooks', CursorPagePagination<WebhookDetails>, { query, ...options });
   }
 
   /**
    * Delete a webhook by id
    */
-  delete(webhookId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.delete(`/webhooks/${webhookId}`, {
+  delete(webhookID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.delete(path`/webhooks/${webhookID}`, {
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
   /**
    * Get webhook secret by id
    */
-  retrieveSecret(
-    webhookId: string,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<WebhookRetrieveSecretResponse> {
-    return this._client.get(`/webhooks/${webhookId}/secret`, options);
+  retrieveSecret(webhookID: string, options?: RequestOptions): APIPromise<WebhookRetrieveSecretResponse> {
+    return this._client.get(path`/webhooks/${webhookID}/secret`, options);
   }
 }
 
-export class WebhookDetailsCursorPagePagination extends CursorPagePagination<WebhookDetails> {}
+export type WebhookDetailsCursorPagePagination = CursorPagePagination<WebhookDetails>;
 
 export interface WebhookDetails {
   /**
@@ -208,14 +195,13 @@ export interface WebhookUpdateParams {
 
 export interface WebhookListParams extends CursorPagePaginationParams {}
 
-Webhooks.WebhookDetailsCursorPagePagination = WebhookDetailsCursorPagePagination;
 Webhooks.Headers = Headers;
 
 export declare namespace Webhooks {
   export {
     type WebhookDetails as WebhookDetails,
     type WebhookRetrieveSecretResponse as WebhookRetrieveSecretResponse,
-    WebhookDetailsCursorPagePagination as WebhookDetailsCursorPagePagination,
+    type WebhookDetailsCursorPagePagination as WebhookDetailsCursorPagePagination,
     type WebhookCreateParams as WebhookCreateParams,
     type WebhookUpdateParams as WebhookUpdateParams,
     type WebhookListParams as WebhookListParams,

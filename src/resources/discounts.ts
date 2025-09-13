@@ -1,67 +1,64 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../core/pagination';
+import { buildHeaders } from '../internal/headers';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Discounts extends APIResource {
   /**
    * POST /discounts If `code` is omitted or empty, a random 16-char uppercase code
    * is generated.
    */
-  create(body: DiscountCreateParams, options?: Core.RequestOptions): Core.APIPromise<Discount> {
+  create(body: DiscountCreateParams, options?: RequestOptions): APIPromise<Discount> {
     return this._client.post('/discounts', { body, ...options });
   }
 
   /**
    * GET /discounts/{discount_id}
    */
-  retrieve(discountId: string, options?: Core.RequestOptions): Core.APIPromise<Discount> {
-    return this._client.get(`/discounts/${discountId}`, options);
+  retrieve(discountID: string, options?: RequestOptions): APIPromise<Discount> {
+    return this._client.get(path`/discounts/${discountID}`, options);
   }
 
   /**
    * PATCH /discounts/{discount_id}
    */
-  update(
-    discountId: string,
-    body: DiscountUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<Discount> {
-    return this._client.patch(`/discounts/${discountId}`, { body, ...options });
+  update(discountID: string, body: DiscountUpdateParams, options?: RequestOptions): APIPromise<Discount> {
+    return this._client.patch(path`/discounts/${discountID}`, { body, ...options });
   }
 
   /**
    * GET /discounts
    */
   list(
-    query?: DiscountListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<DiscountsDefaultPageNumberPagination, Discount>;
-  list(options?: Core.RequestOptions): Core.PagePromise<DiscountsDefaultPageNumberPagination, Discount>;
-  list(
-    query: DiscountListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<DiscountsDefaultPageNumberPagination, Discount> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/discounts', DiscountsDefaultPageNumberPagination, { query, ...options });
+    query: DiscountListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<DiscountsDefaultPageNumberPagination, Discount> {
+    return this._client.getAPIList('/discounts', DefaultPageNumberPagination<Discount>, {
+      query,
+      ...options,
+    });
   }
 
   /**
    * DELETE /discounts/{discount_id}
    */
-  delete(discountId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.delete(`/discounts/${discountId}`, {
+  delete(discountID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.delete(path`/discounts/${discountID}`, {
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 }
 
-export class DiscountsDefaultPageNumberPagination extends DefaultPageNumberPagination<Discount> {}
+export type DiscountsDefaultPageNumberPagination = DefaultPageNumberPagination<Discount>;
 
 export interface Discount {
   /**
@@ -228,13 +225,11 @@ export interface DiscountUpdateParams {
 
 export interface DiscountListParams extends DefaultPageNumberPaginationParams {}
 
-Discounts.DiscountsDefaultPageNumberPagination = DiscountsDefaultPageNumberPagination;
-
 export declare namespace Discounts {
   export {
     type Discount as Discount,
     type DiscountType as DiscountType,
-    DiscountsDefaultPageNumberPagination as DiscountsDefaultPageNumberPagination,
+    type DiscountsDefaultPageNumberPagination as DiscountsDefaultPageNumberPagination,
     type DiscountCreateParams as DiscountCreateParams,
     type DiscountUpdateParams as DiscountUpdateParams,
     type DiscountListParams as DiscountListParams,

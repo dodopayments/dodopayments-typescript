@@ -1,78 +1,75 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
 import * as ProductsAPI from './products';
 import * as MiscAPI from '../misc';
 import * as SubscriptionsAPI from '../subscriptions';
 import * as ImagesAPI from './images';
 import { ImageUpdateParams, ImageUpdateResponse, Images } from './images';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../../pagination';
+import { APIPromise } from '../../core/api-promise';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../../core/pagination';
+import { buildHeaders } from '../../internal/headers';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Products extends APIResource {
   images: ImagesAPI.Images = new ImagesAPI.Images(this._client);
 
-  create(body: ProductCreateParams, options?: Core.RequestOptions): Core.APIPromise<Product> {
+  create(body: ProductCreateParams, options?: RequestOptions): APIPromise<Product> {
     return this._client.post('/products', { body, ...options });
   }
 
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<Product> {
-    return this._client.get(`/products/${id}`, options);
+  retrieve(id: string, options?: RequestOptions): APIPromise<Product> {
+    return this._client.get(path`/products/${id}`, options);
   }
 
-  update(id: string, body: ProductUpdateParams, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.patch(`/products/${id}`, {
+  update(id: string, body: ProductUpdateParams, options?: RequestOptions): APIPromise<void> {
+    return this._client.patch(path`/products/${id}`, {
       body,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
   list(
-    query?: ProductListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ProductListResponsesDefaultPageNumberPagination, ProductListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ProductListResponsesDefaultPageNumberPagination, ProductListResponse>;
-  list(
-    query: ProductListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ProductListResponsesDefaultPageNumberPagination, ProductListResponse> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/products', ProductListResponsesDefaultPageNumberPagination, {
+    query: ProductListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<ProductListResponsesDefaultPageNumberPagination, ProductListResponse> {
+    return this._client.getAPIList('/products', DefaultPageNumberPagination<ProductListResponse>, {
       query,
       ...options,
     });
   }
 
-  archive(id: string, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.delete(`/products/${id}`, {
+  archive(id: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.delete(path`/products/${id}`, {
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
-  unarchive(id: string, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.post(`/products/${id}/unarchive`, {
+  unarchive(id: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.post(path`/products/${id}/unarchive`, {
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
   updateFiles(
     id: string,
     body: ProductUpdateFilesParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ProductUpdateFilesResponse> {
-    return this._client.put(`/products/${id}/files`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<ProductUpdateFilesResponse> {
+    return this._client.put(path`/products/${id}/files`, { body, ...options });
   }
 }
 
-export class ProductListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<ProductListResponse> {}
+export type ProductListResponsesDefaultPageNumberPagination =
+  DefaultPageNumberPagination<ProductListResponse>;
 
 export interface AddMeterToPrice {
   meter_id: string;
@@ -689,7 +686,6 @@ export interface ProductUpdateFilesParams {
   file_name: string;
 }
 
-Products.ProductListResponsesDefaultPageNumberPagination = ProductListResponsesDefaultPageNumberPagination;
 Products.Images = Images;
 
 export declare namespace Products {
@@ -700,7 +696,7 @@ export declare namespace Products {
     type Product as Product,
     type ProductListResponse as ProductListResponse,
     type ProductUpdateFilesResponse as ProductUpdateFilesResponse,
-    ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
+    type ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
     type ProductCreateParams as ProductCreateParams,
     type ProductUpdateParams as ProductUpdateParams,
     type ProductListParams as ProductListParams,

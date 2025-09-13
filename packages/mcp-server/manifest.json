@@ -9,18 +9,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dodopayments/dodopayments-node.git"
+    "url": "git+https://github.com/stainless-sdks/dodo-payments-typescript.git"
   },
-  "homepage": "https://github.com/dodopayments/dodopayments-node/tree/main/packages/mcp-server#readme",
-  "documentation": "https://docs.dodopayments.com",
+  "homepage": "https://github.com/stainless-sdks/dodo-payments-typescript/tree/main/packages/mcp-server#readme",
+  "documentation": "https://docs.dodopayments.com/api-reference/introduction",
   "server": {
     "type": "node",
     "entry_point": "${__dirname}/index.js",
     "mcp_config": {
       "command": "node",
-      "args": [
-        "${__dirname}/index.js"
-      ],
+      "args": ["${__dirname}/index.js"],
       "env": {
         "DODO_PAYMENTS_API_KEY": "${user_config.DODO_PAYMENTS_API_KEY}"
       }
@@ -40,7 +38,5 @@
       "node": ">=18.0.0"
     }
   },
-  "keywords": [
-    "api"
-  ]
+  "keywords": ["api"]
 }

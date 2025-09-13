@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../resource';
-import * as Core from '../../../core';
+import { APIResource } from '../../../core/resource';
 import * as MiscAPI from '../../misc';
 import * as LedgerEntriesAPI from './ledger-entries';
 import {
@@ -11,12 +10,15 @@ import {
   LedgerEntryCreateParams,
   LedgerEntryListParams,
 } from './ledger-entries';
+import { APIPromise } from '../../../core/api-promise';
+import { RequestOptions } from '../../../internal/request-options';
+import { path } from '../../../internal/utils/path';
 
 export class Wallets extends APIResource {
   ledgerEntries: LedgerEntriesAPI.LedgerEntries = new LedgerEntriesAPI.LedgerEntries(this._client);
 
-  list(customerId: string, options?: Core.RequestOptions): Core.APIPromise<WalletListResponse> {
-    return this._client.get(`/customers/${customerId}/wallets`, options);
+  list(customerID: string, options?: RequestOptions): APIPromise<WalletListResponse> {
+    return this._client.get(path`/customers/${customerID}/wallets`, options);
   }
 }
 
@@ -42,8 +44,6 @@ export interface WalletListResponse {
 }
 
 Wallets.LedgerEntries = LedgerEntries;
-Wallets.CustomerWalletTransactionsDefaultPageNumberPagination =
-  CustomerWalletTransactionsDefaultPageNumberPagination;
 
 export declare namespace Wallets {
   export { type CustomerWallet as CustomerWallet, type WalletListResponse as WalletListResponse };
@@ -51,7 +51,7 @@ export declare namespace Wallets {
   export {
     LedgerEntries as LedgerEntries,
     type CustomerWalletTransaction as CustomerWalletTransaction,
-    CustomerWalletTransactionsDefaultPageNumberPagination as CustomerWalletTransactionsDefaultPageNumberPagination,
+    type CustomerWalletTransactionsDefaultPageNumberPagination as CustomerWalletTransactionsDefaultPageNumberPagination,
     type LedgerEntryCreateParams as LedgerEntryCreateParams,
     type LedgerEntryListParams as LedgerEntryListParams,
   };

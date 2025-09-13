@@ -1,38 +1,34 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as PaymentsAPI from './payments';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
+import { APIPromise } from '../core/api-promise';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Disputes extends APIResource {
-  retrieve(disputeId: string, options?: Core.RequestOptions): Core.APIPromise<GetDispute> {
-    return this._client.get(`/disputes/${disputeId}`, options);
+  retrieve(disputeID: string, options?: RequestOptions): APIPromise<GetDispute> {
+    return this._client.get(path`/disputes/${disputeID}`, options);
   }
 
   list(
-    query?: DisputeListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<DisputeListResponsesDefaultPageNumberPagination, DisputeListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<DisputeListResponsesDefaultPageNumberPagination, DisputeListResponse>;
-  list(
-    query: DisputeListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<DisputeListResponsesDefaultPageNumberPagination, DisputeListResponse> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/disputes', DisputeListResponsesDefaultPageNumberPagination, {
+    query: DisputeListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<DisputeListResponsesDefaultPageNumberPagination, DisputeListResponse> {
+    return this._client.getAPIList('/disputes', DefaultPageNumberPagination<DisputeListResponse>, {
       query,
       ...options,
     });
   }
 }
 
-export class DisputeListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<DisputeListResponse> {}
+export type DisputeListResponsesDefaultPageNumberPagination =
+  DefaultPageNumberPagination<DisputeListResponse>;
 
 export interface Dispute {
   /**
@@ -228,8 +224,6 @@ export interface DisputeListParams extends DefaultPageNumberPaginationParams {
     | 'dispute_lost';
 }
 
-Disputes.DisputeListResponsesDefaultPageNumberPagination = DisputeListResponsesDefaultPageNumberPagination;
-
 export declare namespace Disputes {
   export {
     type Dispute as Dispute,
@@ -237,7 +231,7 @@ export declare namespace Disputes {
     type DisputeStatus as DisputeStatus,
     type GetDispute as GetDispute,
     type DisputeListResponse as DisputeListResponse,
-    DisputeListResponsesDefaultPageNumberPagination as DisputeListResponsesDefaultPageNumberPagination,
+    type DisputeListResponsesDefaultPageNumberPagination as DisputeListResponsesDefaultPageNumberPagination,
     type DisputeListParams as DisputeListParams,
   };
 }

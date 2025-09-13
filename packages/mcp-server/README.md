@@ -1,20 +1,35 @@
-# Dodo Payments Node MCP Server
+# Dodo Payments TypeScript MCP Server
 
 It is generated with [Stainless](https://www.stainless.com/).
 
 ## Installation
 
-### Direct invocation
+### Building
 
-You can run the MCP Server directly via `npx`:
+Because it's not published yet, clone the repo and build it:
 
 ```sh
-export DODO_PAYMENTS_API_KEY="My Bearer Token"
-export DODO_PAYMENTS_ENVIRONMENT="live_mode"
-npx -y dodopayments-mcp@latest
+git clone git@github.com:stainless-sdks/dodo-payments-typescript.git
+cd dodo-payments-typescript
+./scripts/bootstrap
+./scripts/build
 ```
 
+### Running
+
+```sh
+# set env vars as needed
+export DODO_PAYMENTS_API_KEY="My Bearer Token"
+export DODO_PAYMENTS_ENVIRONMENT="live_mode"
+node ./packages/mcp-server/dist/index.js
+```
+
+> [!NOTE]
+> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npx -y dodopayments-mcp`
+
 ### Via MCP Client
+
+[Build the project](#building) as mentioned above.
 
 There is a partial list of existing clients at [modelcontextprotocol.io](https://modelcontextprotocol.io/clients). If you already
 have a client, consult their documentation to install the MCP server.
@@ -25,8 +40,12 @@ For clients with a configuration JSON, it might look something like this:
 {
   "mcpServers": {
     "dodopayments_api": {
-      "command": "npx",
-      "args": ["-y", "dodopayments-mcp", "--client=claude", "--tools=dynamic"],
+      "command": "node",
+      "args": [
+        "/path/to/local/dodo-payments-typescript/packages/mcp-server",
+        "--client=claude",
+        "--tools=dynamic"
+      ],
       "env": {
         "DODO_PAYMENTS_API_KEY": "My Bearer Token",
         "DODO_PAYMENTS_ENVIRONMENT": "live_mode"

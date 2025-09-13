@@ -1,12 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "include": ["dist/src"],
-  "exclude": ["dist/src/_shims/*-deno.ts"],
+  "exclude": [],
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
       "dodopayments/*": ["dist/src/*"],
-      "dodopayments": ["dist/src/index.ts"],
+      "dodopayments": ["dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,

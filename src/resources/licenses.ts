@@ -1,8 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as PaymentsAPI from './payments';
+import { APIPromise } from '../core/api-promise';
+import { buildHeaders } from '../internal/headers';
+import { RequestOptions } from '../internal/request-options';
 
 export class Licenses extends APIResource {
   /**
@@ -14,10 +16,7 @@ export class Licenses extends APIResource {
    * });
    * ```
    */
-  activate(
-    body: LicenseActivateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<LicenseActivateResponse> {
+  activate(body: LicenseActivateParams, options?: RequestOptions): APIPromise<LicenseActivateResponse> {
     return this._client.post('/licenses/activate', { body, ...options });
   }
 
@@ -30,11 +29,11 @@ export class Licenses extends APIResource {
    * });
    * ```
    */
-  deactivate(body: LicenseDeactivateParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+  deactivate(body: LicenseDeactivateParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post('/licenses/deactivate', {
       body,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
@@ -46,10 +45,7 @@ export class Licenses extends APIResource {
    * });
    * ```
    */
-  validate(
-    body: LicenseValidateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<LicenseValidateResponse> {
+  validate(body: LicenseValidateParams, options?: RequestOptions): APIPromise<LicenseValidateResponse> {
     return this._client.post('/licenses/validate', { body, ...options });
   }
 }

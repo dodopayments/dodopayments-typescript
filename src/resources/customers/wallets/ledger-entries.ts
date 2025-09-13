@@ -1,47 +1,41 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../resource';
-import { isRequestOptions } from '../../../core';
-import * as Core from '../../../core';
+import { APIResource } from '../../../core/resource';
 import * as MiscAPI from '../../misc';
 import * as WalletsAPI from './wallets';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../../../pagination';
+import { APIPromise } from '../../../core/api-promise';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../../../core/pagination';
+import { RequestOptions } from '../../../internal/request-options';
+import { path } from '../../../internal/utils/path';
 
 export class LedgerEntries extends APIResource {
   create(
-    customerId: string,
+    customerID: string,
     body: LedgerEntryCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<WalletsAPI.CustomerWallet> {
-    return this._client.post(`/customers/${customerId}/wallets/ledger-entries`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<WalletsAPI.CustomerWallet> {
+    return this._client.post(path`/customers/${customerID}/wallets/ledger-entries`, { body, ...options });
   }
 
   list(
-    customerId: string,
-    query?: LedgerEntryListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerWalletTransactionsDefaultPageNumberPagination, CustomerWalletTransaction>;
-  list(
-    customerId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerWalletTransactionsDefaultPageNumberPagination, CustomerWalletTransaction>;
-  list(
-    customerId: string,
-    query: LedgerEntryListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CustomerWalletTransactionsDefaultPageNumberPagination, CustomerWalletTransaction> {
-    if (isRequestOptions(query)) {
-      return this.list(customerId, {}, query);
-    }
+    customerID: string,
+    query: LedgerEntryListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<CustomerWalletTransactionsDefaultPageNumberPagination, CustomerWalletTransaction> {
     return this._client.getAPIList(
-      `/customers/${customerId}/wallets/ledger-entries`,
-      CustomerWalletTransactionsDefaultPageNumberPagination,
+      path`/customers/${customerID}/wallets/ledger-entries`,
+      DefaultPageNumberPagination<CustomerWalletTransaction>,
       { query, ...options },
     );
   }
 }
 
-export class CustomerWalletTransactionsDefaultPageNumberPagination extends DefaultPageNumberPagination<CustomerWalletTransaction> {}
+export type CustomerWalletTransactionsDefaultPageNumberPagination =
+  DefaultPageNumberPagination<CustomerWalletTransaction>;
 
 export interface CustomerWalletTransaction {
   id: string;
@@ -104,13 +98,10 @@ export interface LedgerEntryListParams extends DefaultPageNumberPaginationParams
   currency?: MiscAPI.Currency;
 }
 
-LedgerEntries.CustomerWalletTransactionsDefaultPageNumberPagination =
-  CustomerWalletTransactionsDefaultPageNumberPagination;
-
 export declare namespace LedgerEntries {
   export {
     type CustomerWalletTransaction as CustomerWalletTransaction,
-    CustomerWalletTransactionsDefaultPageNumberPagination as CustomerWalletTransactionsDefaultPageNumberPagination,
+    type CustomerWalletTransactionsDefaultPageNumberPagination as CustomerWalletTransactionsDefaultPageNumberPagination,
     type LedgerEntryCreateParams as LedgerEntryCreateParams,
     type LedgerEntryListParams as LedgerEntryListParams,
   };
