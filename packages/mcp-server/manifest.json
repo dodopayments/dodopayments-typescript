@@ -12,7 +12,7 @@
     "url": "git+https://github.com/dodopayments/dodopayments-node.git"
   },
   "homepage": "https://github.com/dodopayments/dodopayments-node/tree/main/packages/mcp-server#readme",
-  "documentation": "https://docs.dodopayments.com",
+  "documentation": "https://docs.dodopayments.com/api-reference/introduction",
   "server": {
     "type": "node",
     "entry_point": "${__dirname}/index.js",
