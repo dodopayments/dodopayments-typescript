@@ -50,6 +50,9 @@
     "typescript": "5.8.3",
     "typescript-eslint": "8.31.1"
   },
+  "bin": {
+    "dodopayments": "bin/cli"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
