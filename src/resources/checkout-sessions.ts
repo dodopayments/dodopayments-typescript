@@ -1,16 +1,14 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as MiscAPI from './misc';
 import * as PaymentsAPI from './payments';
 import * as SubscriptionsAPI from './subscriptions';
+import { APIPromise } from '../core/api-promise';
+import { RequestOptions } from '../internal/request-options';
 
 export class CheckoutSessions extends APIResource {
-  create(
-    body: CheckoutSessionCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CheckoutSessionResponse> {
+  create(body: CheckoutSessionCreateParams, options?: RequestOptions): APIPromise<CheckoutSessionResponse> {
     return this._client.post('/checkouts', { body, ...options });
   }
 }

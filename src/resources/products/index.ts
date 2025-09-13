@@ -2,7 +2,6 @@
 
 export { Images, type ImageUpdateResponse, type ImageUpdateParams } from './images';
 export {
-  ProductListResponsesDefaultPageNumberPagination,
   Products,
   type AddMeterToPrice,
   type LicenseKeyDuration,
@@ -14,4 +13,5 @@ export {
   type ProductUpdateParams,
   type ProductListParams,
   type ProductUpdateFilesParams,
+  type ProductListResponsesDefaultPageNumberPagination,
 } from './products';

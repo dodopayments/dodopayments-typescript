@@ -1,9 +1,14 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class LicenseKeys extends APIResource {
   /**
@@ -14,8 +19,8 @@ export class LicenseKeys extends APIResource {
    * );
    * ```
    */
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<LicenseKey> {
-    return this._client.get(`/license_keys/${id}`, options);
+  retrieve(id: string, options?: RequestOptions): APIPromise<LicenseKey> {
+    return this._client.get(path`/license_keys/${id}`, options);
   }
 
   /**
@@ -26,12 +31,8 @@ export class LicenseKeys extends APIResource {
    * );
    * ```
    */
-  update(
-    id: string,
-    body: LicenseKeyUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<LicenseKey> {
-    return this._client.patch(`/license_keys/${id}`, { body, ...options });
+  update(id: string, body: LicenseKeyUpdateParams, options?: RequestOptions): APIPromise<LicenseKey> {
+    return this._client.patch(path`/license_keys/${id}`, { body, ...options });
   }
 
   /**
@@ -44,25 +45,17 @@ export class LicenseKeys extends APIResource {
    * ```
    */
   list(
-    query?: LicenseKeyListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<LicenseKeysDefaultPageNumberPagination, LicenseKey>;
-  list(options?: Core.RequestOptions): Core.PagePromise<LicenseKeysDefaultPageNumberPagination, LicenseKey>;
-  list(
-    query: LicenseKeyListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<LicenseKeysDefaultPageNumberPagination, LicenseKey> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/license_keys', LicenseKeysDefaultPageNumberPagination, {
+    query: LicenseKeyListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<LicenseKeysDefaultPageNumberPagination, LicenseKey> {
+    return this._client.getAPIList('/license_keys', DefaultPageNumberPagination<LicenseKey>, {
       query,
       ...options,
     });
   }
 }
 
-export class LicenseKeysDefaultPageNumberPagination extends DefaultPageNumberPagination<LicenseKey> {}
+export type LicenseKeysDefaultPageNumberPagination = DefaultPageNumberPagination<LicenseKey>;
 
 export interface LicenseKey {
   /**
@@ -166,13 +159,11 @@ export interface LicenseKeyListParams extends DefaultPageNumberPaginationParams 
   status?: 'active' | 'expired' | 'disabled';
 }
 
-LicenseKeys.LicenseKeysDefaultPageNumberPagination = LicenseKeysDefaultPageNumberPagination;
-
 export declare namespace LicenseKeys {
   export {
     type LicenseKey as LicenseKey,
     type LicenseKeyStatus as LicenseKeyStatus,
-    LicenseKeysDefaultPageNumberPagination as LicenseKeysDefaultPageNumberPagination,
+    type LicenseKeysDefaultPageNumberPagination as LicenseKeysDefaultPageNumberPagination,
     type LicenseKeyUpdateParams as LicenseKeyUpdateParams,
     type LicenseKeyListParams as LicenseKeyListParams,
   };

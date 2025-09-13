@@ -1,9 +1,14 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class UsageEvents extends APIResource {
   /**
@@ -36,8 +41,8 @@ export class UsageEvents extends APIResource {
    * GET /events/api_call_12345
    * ```
    */
-  retrieve(eventId: string, options?: Core.RequestOptions): Core.APIPromise<Event> {
-    return this._client.get(`/events/${eventId}`, options);
+  retrieve(eventID: string, options?: RequestOptions): APIPromise<Event> {
+    return this._client.get(path`/events/${eventID}`, options);
   }
 
   /**
@@ -76,18 +81,10 @@ export class UsageEvents extends APIResource {
    * - Paginate results: `?page_size=50&page_number=2`
    */
   list(
-    query?: UsageEventListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<EventsDefaultPageNumberPagination, Event>;
-  list(options?: Core.RequestOptions): Core.PagePromise<EventsDefaultPageNumberPagination, Event>;
-  list(
-    query: UsageEventListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<EventsDefaultPageNumberPagination, Event> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/events', EventsDefaultPageNumberPagination, { query, ...options });
+    query: UsageEventListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<EventsDefaultPageNumberPagination, Event> {
+    return this._client.getAPIList('/events', DefaultPageNumberPagination<Event>, { query, ...options });
   }
 
   /**
@@ -130,15 +127,12 @@ export class UsageEvents extends APIResource {
    * }
    * ```
    */
-  ingest(
-    body: UsageEventIngestParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<UsageEventIngestResponse> {
+  ingest(body: UsageEventIngestParams, options?: RequestOptions): APIPromise<UsageEventIngestResponse> {
     return this._client.post('/events/ingest', { body, ...options });
   }
 }
 
-export class EventsDefaultPageNumberPagination extends DefaultPageNumberPagination<Event> {}
+export type EventsDefaultPageNumberPagination = DefaultPageNumberPagination<Event>;
 
 export interface Event {
   business_id: string;
@@ -227,14 +221,12 @@ export interface UsageEventIngestParams {
   events: Array<EventInput>;
 }
 
-UsageEvents.EventsDefaultPageNumberPagination = EventsDefaultPageNumberPagination;
-
 export declare namespace UsageEvents {
   export {
     type Event as Event,
     type EventInput as EventInput,
     type UsageEventIngestResponse as UsageEventIngestResponse,
-    EventsDefaultPageNumberPagination as EventsDefaultPageNumberPagination,
+    type EventsDefaultPageNumberPagination as EventsDefaultPageNumberPagination,
     type UsageEventListParams as UsageEventListParams,
     type UsageEventIngestParams as UsageEventIngestParams,
   };

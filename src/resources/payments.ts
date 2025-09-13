@@ -1,51 +1,47 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as DisputesAPI from './disputes';
 import * as MiscAPI from './misc';
 import * as RefundsAPI from './refunds';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
+import { APIPromise } from '../core/api-promise';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Payments extends APIResource {
-  create(body: PaymentCreateParams, options?: Core.RequestOptions): Core.APIPromise<PaymentCreateResponse> {
+  create(body: PaymentCreateParams, options?: RequestOptions): APIPromise<PaymentCreateResponse> {
     return this._client.post('/payments', { body, ...options });
   }
 
-  retrieve(paymentId: string, options?: Core.RequestOptions): Core.APIPromise<Payment> {
-    return this._client.get(`/payments/${paymentId}`, options);
+  retrieve(paymentID: string, options?: RequestOptions): APIPromise<Payment> {
+    return this._client.get(path`/payments/${paymentID}`, options);
   }
 
   list(
-    query?: PaymentListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PaymentListResponsesDefaultPageNumberPagination, PaymentListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PaymentListResponsesDefaultPageNumberPagination, PaymentListResponse>;
-  list(
-    query: PaymentListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PaymentListResponsesDefaultPageNumberPagination, PaymentListResponse> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/payments', PaymentListResponsesDefaultPageNumberPagination, {
+    query: PaymentListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<PaymentListResponsesDefaultPageNumberPagination, PaymentListResponse> {
+    return this._client.getAPIList('/payments', DefaultPageNumberPagination<PaymentListResponse>, {
       query,
       ...options,
     });
   }
 
   retrieveLineItems(
-    paymentId: string,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PaymentRetrieveLineItemsResponse> {
-    return this._client.get(`/payments/${paymentId}/line-items`, options);
+    paymentID: string,
+    options?: RequestOptions,
+  ): APIPromise<PaymentRetrieveLineItemsResponse> {
+    return this._client.get(path`/payments/${paymentID}/line-items`, options);
   }
 }
 
-export class PaymentListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<PaymentListResponse> {}
+export type PaymentListResponsesDefaultPageNumberPagination =
+  DefaultPageNumberPagination<PaymentListResponse>;
 
 export interface AttachExistingCustomer {
   customer_id: string;
@@ -591,8 +587,6 @@ export interface PaymentListParams extends DefaultPageNumberPaginationParams {
   subscription_id?: string;
 }
 
-Payments.PaymentListResponsesDefaultPageNumberPagination = PaymentListResponsesDefaultPageNumberPagination;
-
 export declare namespace Payments {
   export {
     type AttachExistingCustomer as AttachExistingCustomer,
@@ -608,7 +602,7 @@ export declare namespace Payments {
     type PaymentCreateResponse as PaymentCreateResponse,
     type PaymentListResponse as PaymentListResponse,
     type PaymentRetrieveLineItemsResponse as PaymentRetrieveLineItemsResponse,
-    PaymentListResponsesDefaultPageNumberPagination as PaymentListResponsesDefaultPageNumberPagination,
+    type PaymentListResponsesDefaultPageNumberPagination as PaymentListResponsesDefaultPageNumberPagination,
     type PaymentCreateParams as PaymentCreateParams,
     type PaymentListParams as PaymentListParams,
   };

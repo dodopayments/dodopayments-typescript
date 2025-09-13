@@ -1,30 +1,32 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Brands extends APIResource {
-  create(body: BrandCreateParams, options?: Core.RequestOptions): Core.APIPromise<Brand> {
+  create(body: BrandCreateParams, options?: RequestOptions): APIPromise<Brand> {
     return this._client.post('/brands', { body, ...options });
   }
 
   /**
    * Thin handler just calls `get_brand` and wraps in `Json(...)`
    */
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<Brand> {
-    return this._client.get(`/brands/${id}`, options);
+  retrieve(id: string, options?: RequestOptions): APIPromise<Brand> {
+    return this._client.get(path`/brands/${id}`, options);
   }
 
-  update(id: string, body: BrandUpdateParams, options?: Core.RequestOptions): Core.APIPromise<Brand> {
-    return this._client.patch(`/brands/${id}`, { body, ...options });
+  update(id: string, body: BrandUpdateParams, options?: RequestOptions): APIPromise<Brand> {
+    return this._client.patch(path`/brands/${id}`, { body, ...options });
   }
 
-  list(options?: Core.RequestOptions): Core.APIPromise<BrandListResponse> {
+  list(options?: RequestOptions): APIPromise<BrandListResponse> {
     return this._client.get('/brands', options);
   }
 
-  updateImages(id: string, options?: Core.RequestOptions): Core.APIPromise<BrandUpdateImagesResponse> {
-    return this._client.put(`/brands/${id}/images`, options);
+  updateImages(id: string, options?: RequestOptions): APIPromise<BrandUpdateImagesResponse> {
+    return this._client.put(path`/brands/${id}/images`, options);
   }
 }
 

@@ -1,24 +1,27 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { buildHeaders } from '../../internal/headers';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Headers extends APIResource {
   /**
    * Get a webhook by id
    */
-  retrieve(webhookId: string, options?: Core.RequestOptions): Core.APIPromise<HeaderRetrieveResponse> {
-    return this._client.get(`/webhooks/${webhookId}/headers`, options);
+  retrieve(webhookID: string, options?: RequestOptions): APIPromise<HeaderRetrieveResponse> {
+    return this._client.get(path`/webhooks/${webhookID}/headers`, options);
   }
 
   /**
    * Patch a webhook by id
    */
-  update(webhookId: string, body: HeaderUpdateParams, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.patch(`/webhooks/${webhookId}/headers`, {
+  update(webhookID: string, body: HeaderUpdateParams, options?: RequestOptions): APIPromise<void> {
+    return this._client.patch(path`/webhooks/${webhookID}/headers`, {
       body,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 }

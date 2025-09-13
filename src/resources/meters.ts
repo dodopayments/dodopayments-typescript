@@ -1,50 +1,48 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../core/pagination';
+import { buildHeaders } from '../internal/headers';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Meters extends APIResource {
-  create(body: MeterCreateParams, options?: Core.RequestOptions): Core.APIPromise<Meter> {
+  create(body: MeterCreateParams, options?: RequestOptions): APIPromise<Meter> {
     return this._client.post('/meters', { body, ...options });
   }
 
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<Meter> {
-    return this._client.get(`/meters/${id}`, options);
+  retrieve(id: string, options?: RequestOptions): APIPromise<Meter> {
+    return this._client.get(path`/meters/${id}`, options);
   }
 
   list(
-    query?: MeterListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<MetersDefaultPageNumberPagination, Meter>;
-  list(options?: Core.RequestOptions): Core.PagePromise<MetersDefaultPageNumberPagination, Meter>;
-  list(
-    query: MeterListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<MetersDefaultPageNumberPagination, Meter> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/meters', MetersDefaultPageNumberPagination, { query, ...options });
+    query: MeterListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<MetersDefaultPageNumberPagination, Meter> {
+    return this._client.getAPIList('/meters', DefaultPageNumberPagination<Meter>, { query, ...options });
   }
 
-  archive(id: string, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.delete(`/meters/${id}`, {
+  archive(id: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.delete(path`/meters/${id}`, {
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
-  unarchive(id: string, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.post(`/meters/${id}/unarchive`, {
+  unarchive(id: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.post(path`/meters/${id}/unarchive`, {
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 }
 
-export class MetersDefaultPageNumberPagination extends DefaultPageNumberPagination<Meter> {}
+export type MetersDefaultPageNumberPagination = DefaultPageNumberPagination<Meter>;
 
 export interface Meter {
   id: string;
@@ -292,14 +290,12 @@ export interface MeterListParams extends DefaultPageNumberPaginationParams {
   archived?: boolean;
 }
 
-Meters.MetersDefaultPageNumberPagination = MetersDefaultPageNumberPagination;
-
 export declare namespace Meters {
   export {
     type Meter as Meter,
     type MeterAggregation as MeterAggregation,
     type MeterFilter as MeterFilter,
-    MetersDefaultPageNumberPagination as MetersDefaultPageNumberPagination,
+    type MetersDefaultPageNumberPagination as MetersDefaultPageNumberPagination,
     type MeterCreateParams as MeterCreateParams,
     type MeterListParams as MeterListParams,
   };

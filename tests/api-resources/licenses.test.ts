@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import DodoPayments from 'dodopayments';
-import { Response } from 'node-fetch';
 
 const client = new DodoPayments({
   bearerToken: 'My Bearer Token',

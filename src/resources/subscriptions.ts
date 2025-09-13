@@ -1,70 +1,63 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as MiscAPI from './misc';
 import * as PaymentsAPI from './payments';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../pagination';
+import { APIPromise } from '../core/api-promise';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../core/pagination';
+import { buildHeaders } from '../internal/headers';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Subscriptions extends APIResource {
-  create(
-    body: SubscriptionCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<SubscriptionCreateResponse> {
+  create(body: SubscriptionCreateParams, options?: RequestOptions): APIPromise<SubscriptionCreateResponse> {
     return this._client.post('/subscriptions', { body, ...options });
   }
 
-  retrieve(subscriptionId: string, options?: Core.RequestOptions): Core.APIPromise<Subscription> {
-    return this._client.get(`/subscriptions/${subscriptionId}`, options);
+  retrieve(subscriptionID: string, options?: RequestOptions): APIPromise<Subscription> {
+    return this._client.get(path`/subscriptions/${subscriptionID}`, options);
   }
 
   update(
-    subscriptionId: string,
+    subscriptionID: string,
     body: SubscriptionUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<Subscription> {
-    return this._client.patch(`/subscriptions/${subscriptionId}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<Subscription> {
+    return this._client.patch(path`/subscriptions/${subscriptionID}`, { body, ...options });
   }
 
   list(
-    query?: SubscriptionListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<SubscriptionListResponsesDefaultPageNumberPagination, SubscriptionListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<SubscriptionListResponsesDefaultPageNumberPagination, SubscriptionListResponse>;
-  list(
-    query: SubscriptionListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<SubscriptionListResponsesDefaultPageNumberPagination, SubscriptionListResponse> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/subscriptions', SubscriptionListResponsesDefaultPageNumberPagination, {
+    query: SubscriptionListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<SubscriptionListResponsesDefaultPageNumberPagination, SubscriptionListResponse> {
+    return this._client.getAPIList('/subscriptions', DefaultPageNumberPagination<SubscriptionListResponse>, {
       query,
       ...options,
     });
   }
 
   changePlan(
-    subscriptionId: string,
+    subscriptionID: string,
     body: SubscriptionChangePlanParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<void> {
-    return this._client.post(`/subscriptions/${subscriptionId}/change-plan`, {
+    options?: RequestOptions,
+  ): APIPromise<void> {
+    return this._client.post(path`/subscriptions/${subscriptionID}/change-plan`, {
       body,
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
   charge(
-    subscriptionId: string,
+    subscriptionID: string,
     body: SubscriptionChargeParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<SubscriptionChargeResponse> {
-    return this._client.post(`/subscriptions/${subscriptionId}/charge`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<SubscriptionChargeResponse> {
+    return this._client.post(path`/subscriptions/${subscriptionID}/charge`, { body, ...options });
   }
 
   /**
@@ -112,42 +105,26 @@ export class Subscriptions extends APIResource {
    * - Recent usage: `?start_date=2024-03-01T00:00:00Z` (from March 1st to now)
    */
   retrieveUsageHistory(
-    subscriptionId: string,
-    query?: SubscriptionRetrieveUsageHistoryParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<
-    SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
-    SubscriptionRetrieveUsageHistoryResponse
-  >;
-  retrieveUsageHistory(
-    subscriptionId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<
-    SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
-    SubscriptionRetrieveUsageHistoryResponse
-  >;
-  retrieveUsageHistory(
-    subscriptionId: string,
-    query: SubscriptionRetrieveUsageHistoryParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<
+    subscriptionID: string,
+    query: SubscriptionRetrieveUsageHistoryParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<
     SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
     SubscriptionRetrieveUsageHistoryResponse
   > {
-    if (isRequestOptions(query)) {
-      return this.retrieveUsageHistory(subscriptionId, {}, query);
-    }
     return this._client.getAPIList(
-      `/subscriptions/${subscriptionId}/usage-history`,
-      SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
+      path`/subscriptions/${subscriptionID}/usage-history`,
+      DefaultPageNumberPagination<SubscriptionRetrieveUsageHistoryResponse>,
       { query, ...options },
     );
   }
 }
 
-export class SubscriptionListResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<SubscriptionListResponse> {}
+export type SubscriptionListResponsesDefaultPageNumberPagination =
+  DefaultPageNumberPagination<SubscriptionListResponse>;
 
-export class SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination extends DefaultPageNumberPagination<SubscriptionRetrieveUsageHistoryResponse> {}
+export type SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination =
+  DefaultPageNumberPagination<SubscriptionRetrieveUsageHistoryResponse>;
 
 /**
  * Response struct representing subscription details
@@ -830,11 +807,6 @@ export interface SubscriptionRetrieveUsageHistoryParams extends DefaultPageNumbe
   start_date?: string | null;
 }
 
-Subscriptions.SubscriptionListResponsesDefaultPageNumberPagination =
-  SubscriptionListResponsesDefaultPageNumberPagination;
-Subscriptions.SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination =
-  SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination;
-
 export declare namespace Subscriptions {
   export {
     type AddonCartResponseItem as AddonCartResponseItem,
@@ -847,8 +819,8 @@ export declare namespace Subscriptions {
     type SubscriptionListResponse as SubscriptionListResponse,
     type SubscriptionChargeResponse as SubscriptionChargeResponse,
     type SubscriptionRetrieveUsageHistoryResponse as SubscriptionRetrieveUsageHistoryResponse,
-    SubscriptionListResponsesDefaultPageNumberPagination as SubscriptionListResponsesDefaultPageNumberPagination,
-    SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination as SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
+    type SubscriptionListResponsesDefaultPageNumberPagination as SubscriptionListResponsesDefaultPageNumberPagination,
+    type SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination as SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
     type SubscriptionCreateParams as SubscriptionCreateParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionListParams as SubscriptionListParams,

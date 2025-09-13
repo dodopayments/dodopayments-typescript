@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import DodoPayments from 'dodopayments';
-import { Response } from 'node-fetch';
 
 const client = new DodoPayments({
   bearerToken: 'My Bearer Token',
@@ -66,13 +65,6 @@ describe('resource products', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('retrieve: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.products.retrieve('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      DodoPayments.NotFoundError,
-    );
-  });
-
   test('update', async () => {
     const responsePromise = client.products.update('id', {});
     const rawResponse = await responsePromise.asResponse();
@@ -93,13 +85,6 @@ describe('resource products', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.products.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      DodoPayments.NotFoundError,
-    );
   });
 
   test('list: request options and params are passed correctly', async () => {
@@ -123,13 +108,6 @@ describe('resource products', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('archive: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.products.archive('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      DodoPayments.NotFoundError,
-    );
-  });
-
   test('unarchive', async () => {
     const responsePromise = client.products.unarchive('id');
     const rawResponse = await responsePromise.asResponse();
@@ -139,13 +117,6 @@ describe('resource products', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('unarchive: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.products.unarchive('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      DodoPayments.NotFoundError,
-    );
   });
 
   test('updateFiles: only required params', async () => {

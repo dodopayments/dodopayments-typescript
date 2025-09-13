@@ -1,0 +1,6 @@
+{
+  "pkg": "dodopayments",
+  "githubRepo": "https://github.com/stainless-sdks/dodo-payments-typescript",
+  "clientClass": "DodoPayments",
+  "methods": []
+}
