@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.1 (2025-09-13)
+
+Full Changelog: [v2.0.0...v2.0.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.0.0...v2.0.1)
+
+### Features
+
+* **api:** added ghcr deployment for mcp ([f341bc9](https://github.com/dodopayments/dodopayments-typescript/commit/f341bc993ac6d3f1456d2e00a6071c1549112cf4))
+* **api:** manual updates ([885eba9](https://github.com/dodopayments/dodopayments-typescript/commit/885eba915dd27ff9e3adaef2653d89a59c7c7aab))
+
 ## 2.0.0 (2025-09-13)
 
 Full Changelog: [v1.53.2...v2.0.0](https://github.com/dodopayments/dodopayments-typescript/compare/v1.53.2...v2.0.0)
