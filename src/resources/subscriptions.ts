@@ -773,6 +773,11 @@ export interface SubscriptionChargeParams {
   adaptive_currency_fees_inclusive?: boolean | null;
 
   /**
+   * Specify how customer balance is used for the payment
+   */
+  customer_balance_config?: SubscriptionChargeParams.CustomerBalanceConfig | null;
+
+  /**
    * Metadata for the payment. If not passed, the metadata of the subscription will
    * be taken
    */
@@ -789,6 +794,23 @@ export interface SubscriptionChargeParams {
    * specified, the stored description of the product will be used.
    */
   product_description?: string | null;
+}
+
+export namespace SubscriptionChargeParams {
+  /**
+   * Specify how customer balance is used for the payment
+   */
+  export interface CustomerBalanceConfig {
+    /**
+     * Allows Customer Credit to be purchased to settle payments
+     */
+    allow_customer_credits_purchase?: boolean | null;
+
+    /**
+     * Allows Customer Credit Balance to be used to settle payments
+     */
+    allow_customer_credits_usage?: boolean | null;
+  }
 }
 
 export interface SubscriptionRetrieveUsageHistoryParams extends DefaultPageNumberPaginationParams {

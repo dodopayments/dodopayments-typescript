@@ -10,3 +10,4 @@ export {
   type CustomerUpdateParams,
   type CustomerListParams,
 } from './customers';
+export { Wallets, type CustomerWallet, type WalletListResponse } from './wallets/index';

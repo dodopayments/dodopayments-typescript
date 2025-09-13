@@ -5,10 +5,13 @@ import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
 import * as CustomerPortalAPI from './customer-portal';
 import { CustomerPortal, CustomerPortalCreateParams } from './customer-portal';
+import * as WalletsAPI from './wallets/wallets';
+import { CustomerWallet, WalletListResponse, Wallets } from './wallets/wallets';
 import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams } from '../../pagination';
 
 export class Customers extends APIResource {
   customerPortal: CustomerPortalAPI.CustomerPortal = new CustomerPortalAPI.CustomerPortal(this._client);
+  wallets: WalletsAPI.Wallets = new WalletsAPI.Wallets(this._client);
 
   create(body: CustomerCreateParams, options?: Core.RequestOptions): Core.APIPromise<Customer> {
     return this._client.post('/customers', { body, ...options });
@@ -85,6 +88,7 @@ export interface CustomerListParams extends DefaultPageNumberPaginationParams {
 
 Customers.CustomersDefaultPageNumberPagination = CustomersDefaultPageNumberPagination;
 Customers.CustomerPortal = CustomerPortal;
+Customers.Wallets = Wallets;
 
 export declare namespace Customers {
   export {
@@ -97,4 +101,10 @@ export declare namespace Customers {
   };
 
   export { CustomerPortal as CustomerPortal, type CustomerPortalCreateParams as CustomerPortalCreateParams };
+
+  export {
+    Wallets as Wallets,
+    type CustomerWallet as CustomerWallet,
+    type WalletListResponse as WalletListResponse,
+  };
 }

@@ -200,7 +200,7 @@ export interface Payment {
   /**
    * List of refunds issued for this payment
    */
-  refunds: Array<RefundsAPI.Refund>;
+  refunds: Array<Payment.Refund>;
 
   /**
    * The amount that will be credited to your Dodo balance after currency conversion
@@ -312,6 +312,53 @@ export interface Payment {
 }
 
 export namespace Payment {
+  export interface Refund {
+    /**
+     * The unique identifier of the business issuing the refund.
+     */
+    business_id: string;
+
+    /**
+     * The timestamp of when the refund was created in UTC.
+     */
+    created_at: string;
+
+    /**
+     * If true the refund is a partial refund
+     */
+    is_partial: boolean;
+
+    /**
+     * The unique identifier of the payment associated with the refund.
+     */
+    payment_id: string;
+
+    /**
+     * The unique identifier of the refund.
+     */
+    refund_id: string;
+
+    /**
+     * The current status of the refund.
+     */
+    status: RefundsAPI.RefundStatus;
+
+    /**
+     * The refunded amount.
+     */
+    amount?: number | null;
+
+    /**
+     * The currency of the refund, represented as an ISO 4217 currency code.
+     */
+    currency?: MiscAPI.Currency | null;
+
+    /**
+     * The reason provided for the refund, if any. Optional.
+     */
+    reason?: string | null;
+  }
+
   export interface ProductCart {
     product_id: string;
 

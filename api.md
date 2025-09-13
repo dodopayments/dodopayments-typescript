@@ -72,11 +72,12 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/licenses.ts">LicenseActivateResponse</a></code>
 - <code><a href="./src/resources/licenses.ts">LicenseValidateResponse</a></code>
 
 Methods:
 
-- <code title="post /licenses/activate">client.licenses.<a href="./src/resources/licenses.ts">activate</a>({ ...params }) -> LicenseKeyInstance</code>
+- <code title="post /licenses/activate">client.licenses.<a href="./src/resources/licenses.ts">activate</a>({ ...params }) -> LicenseActivateResponse</code>
 - <code title="post /licenses/deactivate">client.licenses.<a href="./src/resources/licenses.ts">deactivate</a>({ ...params }) -> void</code>
 - <code title="post /licenses/validate">client.licenses.<a href="./src/resources/licenses.ts">validate</a>({ ...params }) -> LicenseValidateResponse</code>
 
@@ -125,18 +126,41 @@ Methods:
 
 - <code title="post /customers/{customer_id}/customer-portal/session">client.customers.customerPortal.<a href="./src/resources/customers/customer-portal.ts">create</a>(customerId, { ...params }) -> CustomerPortalSession</code>
 
+## Wallets
+
+Types:
+
+- <code><a href="./src/resources/customers/wallets/wallets.ts">CustomerWallet</a></code>
+- <code><a href="./src/resources/customers/wallets/wallets.ts">WalletListResponse</a></code>
+
+Methods:
+
+- <code title="get /customers/{customer_id}/wallets">client.customers.wallets.<a href="./src/resources/customers/wallets/wallets.ts">list</a>(customerId) -> WalletListResponse</code>
+
+### LedgerEntries
+
+Types:
+
+- <code><a href="./src/resources/customers/wallets/ledger-entries.ts">CustomerWalletTransaction</a></code>
+
+Methods:
+
+- <code title="post /customers/{customer_id}/wallets/ledger-entries">client.customers.wallets.ledgerEntries.<a href="./src/resources/customers/wallets/ledger-entries.ts">create</a>(customerId, { ...params }) -> CustomerWallet</code>
+- <code title="get /customers/{customer_id}/wallets/ledger-entries">client.customers.wallets.ledgerEntries.<a href="./src/resources/customers/wallets/ledger-entries.ts">list</a>(customerId, { ...params }) -> CustomerWalletTransactionsDefaultPageNumberPagination</code>
+
 # Refunds
 
 Types:
 
 - <code><a href="./src/resources/refunds.ts">Refund</a></code>
 - <code><a href="./src/resources/refunds.ts">RefundStatus</a></code>
+- <code><a href="./src/resources/refunds.ts">RefundListResponse</a></code>
 
 Methods:
 
 - <code title="post /refunds">client.refunds.<a href="./src/resources/refunds.ts">create</a>({ ...params }) -> Refund</code>
 - <code title="get /refunds/{refund_id}">client.refunds.<a href="./src/resources/refunds.ts">retrieve</a>(refundId) -> Refund</code>
-- <code title="get /refunds">client.refunds.<a href="./src/resources/refunds.ts">list</a>({ ...params }) -> RefundsDefaultPageNumberPagination</code>
+- <code title="get /refunds">client.refunds.<a href="./src/resources/refunds.ts">list</a>({ ...params }) -> RefundListResponsesDefaultPageNumberPagination</code>
 
 # Disputes
 
