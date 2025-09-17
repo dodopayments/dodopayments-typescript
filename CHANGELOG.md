@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.2 (2025-09-17)
+
+Full Changelog: [v2.0.1...v2.0.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.0.1...v2.0.2)
+
+### Bug Fixes
+
+* **ci:** set permissions for DXT publish action ([b317617](https://github.com/dodopayments/dodopayments-typescript/commit/b317617e8ec64a23713562dc479e0fb62bd07fd0))
+
 ## 2.0.1 (2025-09-13)
 
 Full Changelog: [v2.0.0...v2.0.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.0.0...v2.0.1)
