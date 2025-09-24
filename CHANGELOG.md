@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.1.0 (2025-09-24)
+
+Full Changelog: [v2.0.2...v2.1.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.0.2...v2.1.0)
+
+### Features
+
+* **mcp:** add docs search tool ([5c9347e](https://github.com/dodopayments/dodopayments-typescript/commit/5c9347e55e8a8a3bff47ba6da1a31c4f43ecc073))
+* **mcp:** add option for including docs tools ([99f2b78](https://github.com/dodopayments/dodopayments-typescript/commit/99f2b786c82b708687362f45ccaed1638c851cea))
+* **mcp:** enable experimental docs search tool ([0bb2426](https://github.com/dodopayments/dodopayments-typescript/commit/0bb2426ade3fe591c64eae721d44fb7404bcaca1))
+
+
+### Chores
+
+* **codegen:** internal codegen update ([9a2cf7d](https://github.com/dodopayments/dodopayments-typescript/commit/9a2cf7d75677004865f13e9b21663729549cdf0b))
+* do not install brew dependencies in ./scripts/bootstrap by default ([d9dd55f](https://github.com/dodopayments/dodopayments-typescript/commit/d9dd55fb53e50f8fded47696b2621969b3539d06))
+* **internal:** gitignore .mcpb files ([a71c421](https://github.com/dodopayments/dodopayments-typescript/commit/a71c421ffcfcdc203f127dd7a691b6a99e5a5fd5))
+* **mcp:** rename dxt to mcpb ([0622aa1](https://github.com/dodopayments/dodopayments-typescript/commit/0622aa1a6805aa1e81ed4004bcdab7e8b5034c43))
+
 ## 2.0.2 (2025-09-17)
 
 Full Changelog: [v2.0.1...v2.0.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.0.1...v2.0.2)
