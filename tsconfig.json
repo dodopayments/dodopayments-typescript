@@ -7,10 +7,9 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "baseUrl": "./",
     "paths": {
-      "dodopayments/*": ["src/*"],
-      "dodopayments": ["src/index.ts"]
+      "dodopayments/*": ["./src/*"],
+      "dodopayments": ["./src/index.ts"]
     },
     "noEmit": true,
 
