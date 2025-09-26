@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "dodopayments/*": ["dist/src/*"],
-      "dodopayments": ["dist/src/index.ts"]
+      "dodopayments/*": ["./dist/src/*"],
+      "dodopayments": ["./dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,
