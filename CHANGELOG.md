@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.1.1 (2025-09-27)
+
+Full Changelog: [v2.1.0...v2.1.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.1.0...v2.1.1)
+
+### Performance Improvements
+
+* faster formatting ([724b1c7](https://github.com/dodopayments/dodopayments-typescript/commit/724b1c7048ab6fbdfe0233813d59faccd185a152))
+
+
+### Chores
+
+* **internal:** codegen related update ([e8818ea](https://github.com/dodopayments/dodopayments-typescript/commit/e8818eaedce15ea0c39f34174439587ae520b124))
+* **internal:** fix incremental formatting in some cases ([5aeafd4](https://github.com/dodopayments/dodopayments-typescript/commit/5aeafd41fd072e24d91f4ae766bd1c13052ba4e6))
+* **internal:** ignore .eslintcache ([33aff0d](https://github.com/dodopayments/dodopayments-typescript/commit/33aff0d2e3d901120aab9ca65802a55f17056412))
+* **internal:** remove deprecated `compilerOptions.baseUrl` from tsconfig.json ([635fe9f](https://github.com/dodopayments/dodopayments-typescript/commit/635fe9fbe1c3fb542d3aa220eee0ef2a73b4daa5))
+* **mcp:** allow pointing `docs_search` tool at other URLs ([4e76510](https://github.com/dodopayments/dodopayments-typescript/commit/4e76510b44d5ba65444d5209bf45f4edf3630b72))
+
 ## 2.1.0 (2025-09-24)
 
 Full Changelog: [v2.0.2...v2.1.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.0.2...v2.1.0)
