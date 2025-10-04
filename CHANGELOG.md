@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.1.2 (2025-10-04)
+
+Full Changelog: [v2.1.1...v2.1.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.1.1...v2.1.2)
+
+### Bug Fixes
+
+* **mcp:** fix cli argument parsing logic ([be71da4](https://github.com/dodopayments/dodopayments-typescript/commit/be71da4e2d5b2d031ede89fc4ee81fc0a0e7cd8b))
+* **mcp:** resolve a linting issue in server code ([210cc3b](https://github.com/dodopayments/dodopayments-typescript/commit/210cc3b45f351ceeb07fa397000bbf7021b2b09d))
+
+
+### Chores
+
+* **internal:** install openssl in mcp dockerfile ([376336e](https://github.com/dodopayments/dodopayments-typescript/commit/376336e9743637eadfa051becc8f1c21d56febce))
+* **internal:** remove .eslintcache ([6b291aa](https://github.com/dodopayments/dodopayments-typescript/commit/6b291aa43ec692f85fa557cda16e3711aa993cc6))
+* **jsdoc:** fix [@link](https://github.com/link) annotations to refer only to parts of the package‘s public interface ([1b777fc](https://github.com/dodopayments/dodopayments-typescript/commit/1b777fc9fc10cd87e01dff0cb21b8788cab4113d))
+* update lockfile ([75b31af](https://github.com/dodopayments/dodopayments-typescript/commit/75b31afb0abee6ecf3b58dd2102235aa3dd8c9b4))
+
 ## 2.1.1 (2025-09-27)
 
 Full Changelog: [v2.1.0...v2.1.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.1.0...v2.1.1)
