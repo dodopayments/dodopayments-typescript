@@ -100,6 +100,10 @@ export const tool: Tool = {
         title: 'Checkout Session Customization',
         description: 'Customization for the checkout session page',
         properties: {
+          force_language: {
+            type: 'string',
+            description: 'Force the checkout interface to render in a specific language (e.g. `en`, `es`)',
+          },
           show_on_demand_tag: {
             type: 'boolean',
             description: 'Show on demand tag\n\nDefault is true',
@@ -145,6 +149,10 @@ export const tool: Tool = {
               'Set to true if a new customer object should be created.\nBy default email is used to find an existing customer to attach the session to\n\nDefault is false',
           },
         },
+      },
+      force_3ds: {
+        type: 'boolean',
+        description: 'Override merchant default 3DS behaviour for this session',
       },
       metadata: {
         type: 'object',

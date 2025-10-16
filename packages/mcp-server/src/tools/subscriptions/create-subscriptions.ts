@@ -56,6 +56,10 @@ export const tool: Tool = {
         type: 'string',
         description: 'Discount Code to apply to the subscription',
       },
+      force_3ds: {
+        type: 'boolean',
+        description: 'Override merchant default 3DS behaviour for this subscription',
+      },
       metadata: {
         type: 'object',
         description: 'Additional metadata for the subscription\nDefaults to empty if not specified',

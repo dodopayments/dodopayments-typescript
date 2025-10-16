@@ -104,6 +104,11 @@ export interface CustomerLimitedDetails {
    * Full name of the customer
    */
   name: string;
+
+  /**
+   * Phone number of the customer
+   */
+  phone_number?: string | null;
 }
 
 export type CustomerRequest = AttachExistingCustomer | NewCustomer;
@@ -514,6 +519,11 @@ export interface PaymentCreateParams {
    * Discount Code to apply to the transaction
    */
   discount_code?: string | null;
+
+  /**
+   * Override merchant default 3DS behaviour for this payment
+   */
+  force_3ds?: boolean | null;
 
   /**
    * Additional metadata associated with the payment. Defaults to empty if not

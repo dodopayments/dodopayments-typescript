@@ -310,6 +310,11 @@ export interface Subscription {
    * Timestamp when the subscription will expire
    */
   expires_at?: string | null;
+
+  /**
+   * Tax identifier provided for this subscription (if applicable)
+   */
+  tax_id?: string | null;
 }
 
 export namespace Subscription {
@@ -511,6 +516,11 @@ export interface SubscriptionListResponse {
    * The discount id if discount is applied
    */
   discount_id?: string | null;
+
+  /**
+   * Tax identifier provided for this subscription (if applicable)
+   */
+  tax_id?: string | null;
 }
 
 export interface SubscriptionChargeResponse {
@@ -624,6 +634,11 @@ export interface SubscriptionCreateParams {
    * Discount Code to apply to the subscription
    */
   discount_code?: string | null;
+
+  /**
+   * Override merchant default 3DS behaviour for this subscription
+   */
+  force_3ds?: boolean | null;
 
   /**
    * Additional metadata for the subscription Defaults to empty if not specified
