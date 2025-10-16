@@ -31,6 +31,7 @@ describe('resource payments', () => {
       allowed_payment_method_types: ['credit'],
       billing_currency: 'AED',
       discount_code: 'discount_code',
+      force_3ds: true,
       metadata: { foo: 'string' },
       payment_link: true,
       return_url: 'return_url',

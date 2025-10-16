@@ -34,6 +34,7 @@ describe('resource subscriptions', () => {
       allowed_payment_method_types: ['credit'],
       billing_currency: 'AED',
       discount_code: 'discount_code',
+      force_3ds: true,
       metadata: { foo: 'string' },
       on_demand: {
         mandate_only: true,

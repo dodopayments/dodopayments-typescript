@@ -57,6 +57,11 @@ export interface CheckoutSessionRequest {
   feature_flags?: CheckoutSessionRequest.FeatureFlags;
 
   /**
+   * Override merchant default 3DS behaviour for this session
+   */
+  force_3ds?: boolean | null;
+
+  /**
    * Additional metadata associated with the payment. Defaults to empty if not
    * provided.
    */
@@ -135,6 +140,11 @@ export namespace CheckoutSessionRequest {
    * Customization for the checkout session page
    */
   export interface Customization {
+    /**
+     * Force the checkout interface to render in a specific language (e.g. `en`, `es`)
+     */
+    force_language?: string | null;
+
     /**
      * Show on demand tag
      *
@@ -262,6 +272,11 @@ export interface CheckoutSessionCreateParams {
   feature_flags?: CheckoutSessionCreateParams.FeatureFlags;
 
   /**
+   * Override merchant default 3DS behaviour for this session
+   */
+  force_3ds?: boolean | null;
+
+  /**
    * Additional metadata associated with the payment. Defaults to empty if not
    * provided.
    */
@@ -340,6 +355,11 @@ export namespace CheckoutSessionCreateParams {
    * Customization for the checkout session page
    */
   export interface Customization {
+    /**
+     * Force the checkout interface to render in a specific language (e.g. `en`, `es`)
+     */
+    force_language?: string | null;
+
     /**
      * Show on demand tag
      *

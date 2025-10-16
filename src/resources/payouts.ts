@@ -35,7 +35,7 @@ export interface PayoutListResponse {
   business_id: string;
 
   /**
-   * The total value of chargebacks associated with the payout.
+   * @deprecated The total value of chargebacks associated with the payout.
    */
   chargebacks: number;
 
@@ -65,7 +65,7 @@ export interface PayoutListResponse {
   payout_id: string;
 
   /**
-   * The total value of refunds associated with the payout.
+   * @deprecated The total value of refunds associated with the payout.
    */
   refunds: number;
 
@@ -75,7 +75,7 @@ export interface PayoutListResponse {
   status: 'not_initiated' | 'in_progress' | 'on_hold' | 'failed' | 'success';
 
   /**
-   * The tax applied to the payout.
+   * @deprecated The tax applied to the payout.
    */
   tax: number;
 
@@ -100,7 +100,17 @@ export interface PayoutListResponse {
   remarks?: string | null;
 }
 
-export interface PayoutListParams extends DefaultPageNumberPaginationParams {}
+export interface PayoutListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Get payouts created after this time (inclusive)
+   */
+  created_at_gte?: string;
+
+  /**
+   * Get payouts created before this time (inclusive)
+   */
+  created_at_lte?: string;
+}
 
 export declare namespace Payouts {
   export {

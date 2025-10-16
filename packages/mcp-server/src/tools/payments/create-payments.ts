@@ -48,6 +48,10 @@ export const tool: Tool = {
         type: 'string',
         description: 'Discount Code to apply to the transaction',
       },
+      force_3ds: {
+        type: 'boolean',
+        description: 'Override merchant default 3DS behaviour for this payment',
+      },
       metadata: {
         type: 'object',
         description: 'Additional metadata associated with the payment.\nDefaults to empty if not provided.',

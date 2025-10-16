@@ -31,7 +31,12 @@ describe('resource checkoutSessions', () => {
       billing_currency: 'AED',
       confirm: true,
       customer: { customer_id: 'customer_id' },
-      customization: { show_on_demand_tag: true, show_order_details: true, theme: 'dark' },
+      customization: {
+        force_language: 'force_language',
+        show_on_demand_tag: true,
+        show_order_details: true,
+        theme: 'dark',
+      },
       discount_code: 'discount_code',
       feature_flags: {
         allow_currency_selection: true,
@@ -40,6 +45,7 @@ describe('resource checkoutSessions', () => {
         allow_tax_id: true,
         always_create_new_customer: true,
       },
+      force_3ds: true,
       metadata: { foo: 'string' },
       return_url: 'return_url',
       show_saved_payment_methods: true,

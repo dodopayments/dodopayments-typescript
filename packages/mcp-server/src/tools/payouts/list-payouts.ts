@@ -22,6 +22,16 @@ export const tool: Tool = {
   inputSchema: {
     type: 'object',
     properties: {
+      created_at_gte: {
+        type: 'string',
+        description: 'Get payouts created after this time (inclusive)',
+        format: 'date-time',
+      },
+      created_at_lte: {
+        type: 'string',
+        description: 'Get payouts created before this time (inclusive)',
+        format: 'date-time',
+      },
       page_number: {
         type: 'integer',
         description: 'Page number default is 0',
