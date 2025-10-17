@@ -127,9 +127,17 @@ export type IntentStatus =
   | 'partially_captured_and_capturable';
 
 export interface NewCustomer {
+  /**
+   * Email is required for creating a new customer
+   */
   email: string;
 
-  name: string;
+  /**
+   * Optional full name of the customer. If provided during session creation, it is
+   * persisted and becomes immutable for the session. If omitted here, it can be
+   * provided later via the confirm API.
+   */
+  name?: string | null;
 
   phone_number?: string | null;
 }

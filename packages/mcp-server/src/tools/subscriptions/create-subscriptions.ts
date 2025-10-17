@@ -400,15 +400,18 @@ export const tool: Tool = {
         properties: {
           email: {
             type: 'string',
+            description: 'Email is required for creating a new customer',
           },
           name: {
             type: 'string',
+            description:
+              'Optional full name of the customer. If provided during session creation,\nit is persisted and becomes immutable for the session. If omitted here,\nit can be provided later via the confirm API.',
           },
           phone_number: {
             type: 'string',
           },
         },
-        required: ['email', 'name'],
+        required: ['email'],
       },
       attach_addon: {
         type: 'object',
