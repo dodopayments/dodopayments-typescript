@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.3.0 (2025-10-25)
+
+Full Changelog: [v2.2.1...v2.3.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.2.1...v2.3.0)
+
+### Features
+
+* **api:** added unwrap functions for webhooks ([0d29085](https://github.com/dodopayments/dodopayments-typescript/commit/0d29085bd32fdeebdb36762e61f1a5e3a365e5b1))
+
 ## 2.2.1 (2025-10-17)
 
 Full Changelog: [v2.2.0...v2.2.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.2.0...v2.2.1)
