@@ -20,7 +20,8 @@
       "command": "node",
       "args": ["${__dirname}/index.js"],
       "env": {
-        "DODO_PAYMENTS_API_KEY": "${user_config.DODO_PAYMENTS_API_KEY}"
+        "DODO_PAYMENTS_API_KEY": "${user_config.DODO_PAYMENTS_API_KEY}",
+        "DODO_PAYMENTS_WEBHOOK_KEY": "${user_config.DODO_PAYMENTS_WEBHOOK_KEY}"
       }
     }
   },
@@ -29,6 +30,12 @@
       "title": "bearer_token",
       "description": "Bearer Token for API authentication",
       "required": true,
+      "type": "string"
+    },
+    "DODO_PAYMENTS_WEBHOOK_KEY": {
+      "title": "webhook_key",
+      "description": "",
+      "required": false,
       "type": "string"
     }
   },

@@ -59,6 +59,7 @@ export async function codeTool(): Promise<Endpoint> {
         const opts: ClientOptions = {
           baseURL: client.baseURL,
           bearerToken: client.bearerToken,
+          webhookKey: client.webhookKey,
           defaultHeaders: {
             'X-Stainless-MCP': 'true',
           },

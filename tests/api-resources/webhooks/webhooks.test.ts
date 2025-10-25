@@ -1,5 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Webhook } from 'standardwebhooks';
+
 import DodoPayments from 'dodopayments';
 
 const client = new DodoPayments({
@@ -92,5 +94,35 @@ describe('resource webhooks', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('unwrap', async () => {
+    const key = 'whsec_c2VjcmV0Cg==';
+    const payload =
+      '{"business_id":"business_id","data":{"amount":"amount","business_id":"business_id","created_at":"2019-12-27T18:11:19.117Z","currency":"currency","dispute_id":"dispute_id","dispute_stage":"pre_dispute","dispute_status":"dispute_opened","payment_id":"payment_id","remarks":"remarks","payload_type":"Dispute"},"timestamp":"2019-12-27T18:11:19.117Z","type":"dispute.accepted"}';
+    const msgID = '1';
+    const timestamp = new Date();
+    const wh = new Webhook(key);
+    const signature = wh.sign(msgID, timestamp, payload);
+    const headers: Record<string, string> = {
+      'webhook-signature': signature,
+      'webhook-id': msgID,
+      'webhook-timestamp': String(Math.floor(timestamp.getTime() / 1000)),
+    };
+    client.webhooks.unwrap(payload, { headers, key });
+    expect(() => {
+      const wrongKey = 'whsec_aaaaaaaaaa==';
+      client.webhooks.unwrap(payload, { headers, key: wrongKey });
+    }).toThrow('No matching signature found');
+    expect(() => {
+      const badSig = wh.sign(msgID, timestamp, 'some other payload');
+      client.webhooks.unwrap(payload, { headers: { ...headers, 'webhook-signature': badSig }, key });
+    }).toThrow('No matching signature found');
+    expect(() => {
+      client.webhooks.unwrap(payload, { headers: { ...headers, 'webhook-timestamp': '5' }, key });
+    }).toThrow('Message timestamp too old');
+    expect(() => {
+      client.webhooks.unwrap(payload, { headers: { ...headers, 'webhook-id': 'wrong' }, key });
+    }).toThrow('No matching signature found');
   });
 });

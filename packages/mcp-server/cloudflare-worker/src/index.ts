@@ -26,6 +26,15 @@ const serverConfig: ServerConfig = {
       type: 'password',
     },
     {
+      key: 'webhookKey',
+      label: 'Webhook Key',
+      description: '',
+      required: false,
+      default: null,
+      placeholder: 'My Webhook Key',
+      type: 'string',
+    },
+    {
       key: 'environment',
       label: 'Environment',
       description: 'The environment to use for the client',
