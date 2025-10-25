@@ -1,9 +1,15 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as DisputesAPI from '../disputes';
+import * as LicenseKeysAPI from '../license-keys';
+import * as PaymentsAPI from '../payments';
+import * as RefundsAPI from '../refunds';
+import * as SubscriptionsAPI from '../subscriptions';
 import * as WebhookEventsAPI from '../webhook-events';
 import * as HeadersAPI from './headers';
 import { HeaderRetrieveResponse, HeaderUpdateParams, Headers } from './headers';
+import { Webhook } from 'standardwebhooks';
 import { APIPromise } from '../../core/api-promise';
 import { CursorPagePagination, type CursorPagePaginationParams, PagePromise } from '../../core/pagination';
 import { buildHeaders } from '../../internal/headers';
@@ -59,6 +65,23 @@ export class Webhooks extends APIResource {
    */
   retrieveSecret(webhookID: string, options?: RequestOptions): APIPromise<WebhookRetrieveSecretResponse> {
     return this._client.get(path`/webhooks/${webhookID}/secret`, options);
+  }
+
+  unsafeUnwrap(body: string): UnsafeUnwrapWebhookEvent {
+    return JSON.parse(body) as UnsafeUnwrapWebhookEvent;
+  }
+
+  unwrap(
+    body: string,
+    { headers, key }: { headers: Record<string, string>; key?: string },
+  ): UnwrapWebhookEvent {
+    if (headers !== undefined) {
+      const keyStr: string | null = key === undefined ? this._client.webhookKey : key;
+      if (keyStr === null) throw new Error('Webhook key must not be null in order to unwrap');
+      const wh = new Webhook(keyStr);
+      wh.verify(body, headers);
+    }
+    return JSON.parse(body) as UnwrapWebhookEvent;
   }
 }
 
@@ -118,6 +141,1480 @@ export interface WebhookDetails {
 export interface WebhookRetrieveSecretResponse {
   secret: string;
 }
+
+export interface DisputeAcceptedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: DisputeAcceptedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dispute.accepted';
+}
+
+export namespace DisputeAcceptedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends DisputesAPI.Dispute {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Dispute';
+  }
+}
+
+export interface DisputeCancelledWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: DisputeCancelledWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dispute.cancelled';
+}
+
+export namespace DisputeCancelledWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends DisputesAPI.Dispute {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Dispute';
+  }
+}
+
+export interface DisputeChallengedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: DisputeChallengedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dispute.challenged';
+}
+
+export namespace DisputeChallengedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends DisputesAPI.Dispute {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Dispute';
+  }
+}
+
+export interface DisputeExpiredWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: DisputeExpiredWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dispute.expired';
+}
+
+export namespace DisputeExpiredWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends DisputesAPI.Dispute {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Dispute';
+  }
+}
+
+export interface DisputeLostWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: DisputeLostWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dispute.lost';
+}
+
+export namespace DisputeLostWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends DisputesAPI.Dispute {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Dispute';
+  }
+}
+
+export interface DisputeOpenedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: DisputeOpenedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dispute.opened';
+}
+
+export namespace DisputeOpenedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends DisputesAPI.Dispute {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Dispute';
+  }
+}
+
+export interface DisputeWonWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: DisputeWonWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dispute.won';
+}
+
+export namespace DisputeWonWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends DisputesAPI.Dispute {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Dispute';
+  }
+}
+
+export interface LicenseKeyCreatedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: LicenseKeyCreatedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'license_key.created';
+}
+
+export namespace LicenseKeyCreatedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends LicenseKeysAPI.LicenseKey {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'LicenseKey';
+  }
+}
+
+export interface PaymentCancelledWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: PaymentCancelledWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payment.cancelled';
+}
+
+export namespace PaymentCancelledWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends PaymentsAPI.Payment {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Payment';
+  }
+}
+
+export interface PaymentFailedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: PaymentFailedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payment.failed';
+}
+
+export namespace PaymentFailedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends PaymentsAPI.Payment {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Payment';
+  }
+}
+
+export interface PaymentProcessingWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: PaymentProcessingWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payment.processing';
+}
+
+export namespace PaymentProcessingWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends PaymentsAPI.Payment {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Payment';
+  }
+}
+
+export interface PaymentSucceededWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: PaymentSucceededWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payment.succeeded';
+}
+
+export namespace PaymentSucceededWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends PaymentsAPI.Payment {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Payment';
+  }
+}
+
+export interface RefundFailedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: RefundFailedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'refund.failed';
+}
+
+export namespace RefundFailedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends RefundsAPI.Refund {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Refund';
+  }
+}
+
+export interface RefundSucceededWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: RefundSucceededWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'refund.succeeded';
+}
+
+export namespace RefundSucceededWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends RefundsAPI.Refund {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Refund';
+  }
+}
+
+export interface SubscriptionActiveWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: SubscriptionActiveWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.active';
+}
+
+export namespace SubscriptionActiveWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Subscription';
+  }
+}
+
+export interface SubscriptionCancelledWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: SubscriptionCancelledWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.cancelled';
+}
+
+export namespace SubscriptionCancelledWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Subscription';
+  }
+}
+
+export interface SubscriptionExpiredWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: SubscriptionExpiredWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.expired';
+}
+
+export namespace SubscriptionExpiredWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Subscription';
+  }
+}
+
+export interface SubscriptionFailedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: SubscriptionFailedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.failed';
+}
+
+export namespace SubscriptionFailedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Subscription';
+  }
+}
+
+export interface SubscriptionOnHoldWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: SubscriptionOnHoldWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.on_hold';
+}
+
+export namespace SubscriptionOnHoldWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Subscription';
+  }
+}
+
+export interface SubscriptionPlanChangedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: SubscriptionPlanChangedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.plan_changed';
+}
+
+export namespace SubscriptionPlanChangedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Subscription';
+  }
+}
+
+export interface SubscriptionRenewedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: SubscriptionRenewedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.renewed';
+}
+
+export namespace SubscriptionRenewedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Subscription';
+  }
+}
+
+export interface DisputeAcceptedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: DisputeAcceptedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dispute.accepted';
+}
+
+export namespace DisputeAcceptedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends DisputesAPI.Dispute {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Dispute';
+  }
+}
+
+export interface DisputeCancelledWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: DisputeCancelledWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dispute.cancelled';
+}
+
+export namespace DisputeCancelledWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends DisputesAPI.Dispute {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Dispute';
+  }
+}
+
+export interface DisputeChallengedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: DisputeChallengedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dispute.challenged';
+}
+
+export namespace DisputeChallengedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends DisputesAPI.Dispute {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Dispute';
+  }
+}
+
+export interface DisputeExpiredWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: DisputeExpiredWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dispute.expired';
+}
+
+export namespace DisputeExpiredWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends DisputesAPI.Dispute {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Dispute';
+  }
+}
+
+export interface DisputeLostWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: DisputeLostWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dispute.lost';
+}
+
+export namespace DisputeLostWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends DisputesAPI.Dispute {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Dispute';
+  }
+}
+
+export interface DisputeOpenedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: DisputeOpenedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dispute.opened';
+}
+
+export namespace DisputeOpenedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends DisputesAPI.Dispute {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Dispute';
+  }
+}
+
+export interface DisputeWonWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: DisputeWonWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dispute.won';
+}
+
+export namespace DisputeWonWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends DisputesAPI.Dispute {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Dispute';
+  }
+}
+
+export interface LicenseKeyCreatedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: LicenseKeyCreatedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'license_key.created';
+}
+
+export namespace LicenseKeyCreatedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends LicenseKeysAPI.LicenseKey {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'LicenseKey';
+  }
+}
+
+export interface PaymentCancelledWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: PaymentCancelledWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payment.cancelled';
+}
+
+export namespace PaymentCancelledWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends PaymentsAPI.Payment {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Payment';
+  }
+}
+
+export interface PaymentFailedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: PaymentFailedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payment.failed';
+}
+
+export namespace PaymentFailedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends PaymentsAPI.Payment {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Payment';
+  }
+}
+
+export interface PaymentProcessingWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: PaymentProcessingWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payment.processing';
+}
+
+export namespace PaymentProcessingWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends PaymentsAPI.Payment {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Payment';
+  }
+}
+
+export interface PaymentSucceededWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: PaymentSucceededWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payment.succeeded';
+}
+
+export namespace PaymentSucceededWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends PaymentsAPI.Payment {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Payment';
+  }
+}
+
+export interface RefundFailedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: RefundFailedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'refund.failed';
+}
+
+export namespace RefundFailedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends RefundsAPI.Refund {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Refund';
+  }
+}
+
+export interface RefundSucceededWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: RefundSucceededWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'refund.succeeded';
+}
+
+export namespace RefundSucceededWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends RefundsAPI.Refund {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Refund';
+  }
+}
+
+export interface SubscriptionActiveWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: SubscriptionActiveWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.active';
+}
+
+export namespace SubscriptionActiveWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Subscription';
+  }
+}
+
+export interface SubscriptionCancelledWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: SubscriptionCancelledWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.cancelled';
+}
+
+export namespace SubscriptionCancelledWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Subscription';
+  }
+}
+
+export interface SubscriptionExpiredWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: SubscriptionExpiredWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.expired';
+}
+
+export namespace SubscriptionExpiredWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Subscription';
+  }
+}
+
+export interface SubscriptionFailedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: SubscriptionFailedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.failed';
+}
+
+export namespace SubscriptionFailedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Subscription';
+  }
+}
+
+export interface SubscriptionOnHoldWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: SubscriptionOnHoldWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.on_hold';
+}
+
+export namespace SubscriptionOnHoldWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Subscription';
+  }
+}
+
+export interface SubscriptionPlanChangedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: SubscriptionPlanChangedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.plan_changed';
+}
+
+export namespace SubscriptionPlanChangedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Subscription';
+  }
+}
+
+export interface SubscriptionRenewedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: SubscriptionRenewedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.renewed';
+}
+
+export namespace SubscriptionRenewedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Subscription';
+  }
+}
+
+export type UnsafeUnwrapWebhookEvent =
+  | DisputeAcceptedWebhookEvent
+  | DisputeCancelledWebhookEvent
+  | DisputeChallengedWebhookEvent
+  | DisputeExpiredWebhookEvent
+  | DisputeLostWebhookEvent
+  | DisputeOpenedWebhookEvent
+  | DisputeWonWebhookEvent
+  | LicenseKeyCreatedWebhookEvent
+  | PaymentCancelledWebhookEvent
+  | PaymentFailedWebhookEvent
+  | PaymentProcessingWebhookEvent
+  | PaymentSucceededWebhookEvent
+  | RefundFailedWebhookEvent
+  | RefundSucceededWebhookEvent
+  | SubscriptionActiveWebhookEvent
+  | SubscriptionCancelledWebhookEvent
+  | SubscriptionExpiredWebhookEvent
+  | SubscriptionFailedWebhookEvent
+  | SubscriptionOnHoldWebhookEvent
+  | SubscriptionPlanChangedWebhookEvent
+  | SubscriptionRenewedWebhookEvent;
+
+export type UnwrapWebhookEvent =
+  | DisputeAcceptedWebhookEvent
+  | DisputeCancelledWebhookEvent
+  | DisputeChallengedWebhookEvent
+  | DisputeExpiredWebhookEvent
+  | DisputeLostWebhookEvent
+  | DisputeOpenedWebhookEvent
+  | DisputeWonWebhookEvent
+  | LicenseKeyCreatedWebhookEvent
+  | PaymentCancelledWebhookEvent
+  | PaymentFailedWebhookEvent
+  | PaymentProcessingWebhookEvent
+  | PaymentSucceededWebhookEvent
+  | RefundFailedWebhookEvent
+  | RefundSucceededWebhookEvent
+  | SubscriptionActiveWebhookEvent
+  | SubscriptionCancelledWebhookEvent
+  | SubscriptionExpiredWebhookEvent
+  | SubscriptionFailedWebhookEvent
+  | SubscriptionOnHoldWebhookEvent
+  | SubscriptionPlanChangedWebhookEvent
+  | SubscriptionRenewedWebhookEvent;
 
 export interface WebhookCreateParams {
   /**
@@ -201,6 +1698,29 @@ export declare namespace Webhooks {
   export {
     type WebhookDetails as WebhookDetails,
     type WebhookRetrieveSecretResponse as WebhookRetrieveSecretResponse,
+    type DisputeAcceptedWebhookEvent as DisputeAcceptedWebhookEvent,
+    type DisputeCancelledWebhookEvent as DisputeCancelledWebhookEvent,
+    type DisputeChallengedWebhookEvent as DisputeChallengedWebhookEvent,
+    type DisputeExpiredWebhookEvent as DisputeExpiredWebhookEvent,
+    type DisputeLostWebhookEvent as DisputeLostWebhookEvent,
+    type DisputeOpenedWebhookEvent as DisputeOpenedWebhookEvent,
+    type DisputeWonWebhookEvent as DisputeWonWebhookEvent,
+    type LicenseKeyCreatedWebhookEvent as LicenseKeyCreatedWebhookEvent,
+    type PaymentCancelledWebhookEvent as PaymentCancelledWebhookEvent,
+    type PaymentFailedWebhookEvent as PaymentFailedWebhookEvent,
+    type PaymentProcessingWebhookEvent as PaymentProcessingWebhookEvent,
+    type PaymentSucceededWebhookEvent as PaymentSucceededWebhookEvent,
+    type RefundFailedWebhookEvent as RefundFailedWebhookEvent,
+    type RefundSucceededWebhookEvent as RefundSucceededWebhookEvent,
+    type SubscriptionActiveWebhookEvent as SubscriptionActiveWebhookEvent,
+    type SubscriptionCancelledWebhookEvent as SubscriptionCancelledWebhookEvent,
+    type SubscriptionExpiredWebhookEvent as SubscriptionExpiredWebhookEvent,
+    type SubscriptionFailedWebhookEvent as SubscriptionFailedWebhookEvent,
+    type SubscriptionOnHoldWebhookEvent as SubscriptionOnHoldWebhookEvent,
+    type SubscriptionPlanChangedWebhookEvent as SubscriptionPlanChangedWebhookEvent,
+    type SubscriptionRenewedWebhookEvent as SubscriptionRenewedWebhookEvent,
+    type UnsafeUnwrapWebhookEvent as UnsafeUnwrapWebhookEvent,
+    type UnwrapWebhookEvent as UnwrapWebhookEvent,
     type WebhookDetailsCursorPagePagination as WebhookDetailsCursorPagePagination,
     type WebhookCreateParams as WebhookCreateParams,
     type WebhookUpdateParams as WebhookUpdateParams,

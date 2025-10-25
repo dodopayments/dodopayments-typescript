@@ -195,6 +195,29 @@ import {
   Products,
 } from './resources/products/products';
 import {
+  DisputeAcceptedWebhookEvent,
+  DisputeCancelledWebhookEvent,
+  DisputeChallengedWebhookEvent,
+  DisputeExpiredWebhookEvent,
+  DisputeLostWebhookEvent,
+  DisputeOpenedWebhookEvent,
+  DisputeWonWebhookEvent,
+  LicenseKeyCreatedWebhookEvent,
+  PaymentCancelledWebhookEvent,
+  PaymentFailedWebhookEvent,
+  PaymentProcessingWebhookEvent,
+  PaymentSucceededWebhookEvent,
+  RefundFailedWebhookEvent,
+  RefundSucceededWebhookEvent,
+  SubscriptionActiveWebhookEvent,
+  SubscriptionCancelledWebhookEvent,
+  SubscriptionExpiredWebhookEvent,
+  SubscriptionFailedWebhookEvent,
+  SubscriptionOnHoldWebhookEvent,
+  SubscriptionPlanChangedWebhookEvent,
+  SubscriptionRenewedWebhookEvent,
+  UnsafeUnwrapWebhookEvent,
+  UnwrapWebhookEvent,
   WebhookCreateParams,
   WebhookDetails,
   WebhookDetailsCursorPagePagination,
@@ -227,6 +250,11 @@ export interface ClientOptions {
    * Bearer Token for API authentication
    */
   bearerToken?: string | undefined;
+
+  /**
+   * Defaults to process.env['DODO_PAYMENTS_WEBHOOK_KEY'].
+   */
+  webhookKey?: string | null | undefined;
 
   /**
    * Specifies the environment to use for the API.
@@ -311,6 +339,7 @@ export interface ClientOptions {
  */
 export class DodoPayments {
   bearerToken: string;
+  webhookKey: string | null;
 
   baseURL: string;
   maxRetries: number;
@@ -328,6 +357,7 @@ export class DodoPayments {
    * API Client for interfacing with the Dodo Payments API.
    *
    * @param {string | undefined} [opts.bearerToken=process.env['DODO_PAYMENTS_API_KEY'] ?? undefined]
+   * @param {string | null | undefined} [opts.webhookKey=process.env['DODO_PAYMENTS_WEBHOOK_KEY'] ?? null]
    * @param {Environment} [opts.environment=live_mode] - Specifies the environment URL to use for the API.
    * @param {string} [opts.baseURL=process.env['DODO_PAYMENTS_BASE_URL'] ?? https://live.dodopayments.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
@@ -340,6 +370,7 @@ export class DodoPayments {
   constructor({
     baseURL = readEnv('DODO_PAYMENTS_BASE_URL'),
     bearerToken = readEnv('DODO_PAYMENTS_API_KEY'),
+    webhookKey = readEnv('DODO_PAYMENTS_WEBHOOK_KEY') ?? null,
     ...opts
   }: ClientOptions = {}) {
     if (bearerToken === undefined) {
@@ -350,6 +381,7 @@ export class DodoPayments {
 
     const options: ClientOptions = {
       bearerToken,
+      webhookKey,
       ...opts,
       baseURL,
       environment: opts.environment ?? 'live_mode',
@@ -379,6 +411,7 @@ export class DodoPayments {
     this._options = options;
 
     this.bearerToken = bearerToken;
+    this.webhookKey = webhookKey;
   }
 
   /**
@@ -396,6 +429,7 @@ export class DodoPayments {
       fetch: this.fetch,
       fetchOptions: this.fetchOptions,
       bearerToken: this.bearerToken,
+      webhookKey: this.webhookKey,
       ...options,
     });
     return client;
@@ -954,13 +988,13 @@ export class DodoPayments {
   refunds: API.Refunds = new API.Refunds(this);
   disputes: API.Disputes = new API.Disputes(this);
   payouts: API.Payouts = new API.Payouts(this);
-  webhookEvents: API.WebhookEvents = new API.WebhookEvents(this);
   products: API.Products = new API.Products(this);
   misc: API.Misc = new API.Misc(this);
   discounts: API.Discounts = new API.Discounts(this);
   addons: API.Addons = new API.Addons(this);
   brands: API.Brands = new API.Brands(this);
   webhooks: API.Webhooks = new API.Webhooks(this);
+  webhookEvents: API.WebhookEvents = new API.WebhookEvents(this);
   usageEvents: API.UsageEvents = new API.UsageEvents(this);
   meters: API.Meters = new API.Meters(this);
 }
@@ -976,13 +1010,13 @@ DodoPayments.Customers = Customers;
 DodoPayments.Refunds = Refunds;
 DodoPayments.Disputes = Disputes;
 DodoPayments.Payouts = Payouts;
-DodoPayments.WebhookEvents = WebhookEvents;
 DodoPayments.Products = Products;
 DodoPayments.Misc = Misc;
 DodoPayments.Discounts = Discounts;
 DodoPayments.Addons = Addons;
 DodoPayments.Brands = Brands;
 DodoPayments.Webhooks = Webhooks;
+DodoPayments.WebhookEvents = WebhookEvents;
 DodoPayments.UsageEvents = UsageEvents;
 DodoPayments.Meters = Meters;
 
@@ -1117,12 +1151,6 @@ export declare namespace DodoPayments {
   };
 
   export {
-    WebhookEvents as WebhookEvents,
-    type WebhookEventType as WebhookEventType,
-    type WebhookPayload as WebhookPayload,
-  };
-
-  export {
     Products as Products,
     type AddMeterToPrice as AddMeterToPrice,
     type LicenseKeyDuration as LicenseKeyDuration,
@@ -1178,10 +1206,39 @@ export declare namespace DodoPayments {
     Webhooks as Webhooks,
     type WebhookDetails as WebhookDetails,
     type WebhookRetrieveSecretResponse as WebhookRetrieveSecretResponse,
+    type DisputeAcceptedWebhookEvent as DisputeAcceptedWebhookEvent,
+    type DisputeCancelledWebhookEvent as DisputeCancelledWebhookEvent,
+    type DisputeChallengedWebhookEvent as DisputeChallengedWebhookEvent,
+    type DisputeExpiredWebhookEvent as DisputeExpiredWebhookEvent,
+    type DisputeLostWebhookEvent as DisputeLostWebhookEvent,
+    type DisputeOpenedWebhookEvent as DisputeOpenedWebhookEvent,
+    type DisputeWonWebhookEvent as DisputeWonWebhookEvent,
+    type LicenseKeyCreatedWebhookEvent as LicenseKeyCreatedWebhookEvent,
+    type PaymentCancelledWebhookEvent as PaymentCancelledWebhookEvent,
+    type PaymentFailedWebhookEvent as PaymentFailedWebhookEvent,
+    type PaymentProcessingWebhookEvent as PaymentProcessingWebhookEvent,
+    type PaymentSucceededWebhookEvent as PaymentSucceededWebhookEvent,
+    type RefundFailedWebhookEvent as RefundFailedWebhookEvent,
+    type RefundSucceededWebhookEvent as RefundSucceededWebhookEvent,
+    type SubscriptionActiveWebhookEvent as SubscriptionActiveWebhookEvent,
+    type SubscriptionCancelledWebhookEvent as SubscriptionCancelledWebhookEvent,
+    type SubscriptionExpiredWebhookEvent as SubscriptionExpiredWebhookEvent,
+    type SubscriptionFailedWebhookEvent as SubscriptionFailedWebhookEvent,
+    type SubscriptionOnHoldWebhookEvent as SubscriptionOnHoldWebhookEvent,
+    type SubscriptionPlanChangedWebhookEvent as SubscriptionPlanChangedWebhookEvent,
+    type SubscriptionRenewedWebhookEvent as SubscriptionRenewedWebhookEvent,
+    type UnsafeUnwrapWebhookEvent as UnsafeUnwrapWebhookEvent,
+    type UnwrapWebhookEvent as UnwrapWebhookEvent,
     type WebhookDetailsCursorPagePagination as WebhookDetailsCursorPagePagination,
     type WebhookCreateParams as WebhookCreateParams,
     type WebhookUpdateParams as WebhookUpdateParams,
     type WebhookListParams as WebhookListParams,
+  };
+
+  export {
+    WebhookEvents as WebhookEvents,
+    type WebhookEventType as WebhookEventType,
+    type WebhookPayload as WebhookPayload,
   };
 
   export {

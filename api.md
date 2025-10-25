@@ -187,13 +187,6 @@ Methods:
 
 - <code title="get /payouts">client.payouts.<a href="./src/resources/payouts.ts">list</a>({ ...params }) -> PayoutListResponsesDefaultPageNumberPagination</code>
 
-# WebhookEvents
-
-Types:
-
-- <code><a href="./src/resources/webhook-events.ts">WebhookEventType</a></code>
-- <code><a href="./src/resources/webhook-events.ts">WebhookPayload</a></code>
-
 # Products
 
 Types:
@@ -290,6 +283,50 @@ Types:
 
 - <code><a href="./src/resources/webhooks/webhooks.ts">WebhookDetails</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">WebhookRetrieveSecretResponse</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DisputeAcceptedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DisputeCancelledWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DisputeChallengedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DisputeExpiredWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DisputeLostWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DisputeOpenedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DisputeWonWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">LicenseKeyCreatedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PaymentCancelledWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PaymentFailedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PaymentProcessingWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PaymentSucceededWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">RefundFailedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">RefundSucceededWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionActiveWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionCancelledWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionExpiredWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionFailedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionOnHoldWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionPlanChangedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionRenewedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DisputeAcceptedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DisputeCancelledWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DisputeChallengedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DisputeExpiredWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DisputeLostWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DisputeOpenedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DisputeWonWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">LicenseKeyCreatedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PaymentCancelledWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PaymentFailedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PaymentProcessingWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PaymentSucceededWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">RefundFailedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">RefundSucceededWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionActiveWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionCancelledWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionExpiredWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionFailedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionOnHoldWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionPlanChangedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionRenewedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">UnsafeUnwrapWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">UnwrapWebhookEvent</a></code>
 
 Methods:
 
@@ -299,6 +336,8 @@ Methods:
 - <code title="get /webhooks">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">list</a>({ ...params }) -> WebhookDetailsCursorPagePagination</code>
 - <code title="delete /webhooks/{webhook_id}">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">delete</a>(webhookID) -> void</code>
 - <code title="get /webhooks/{webhook_id}/secret">client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">retrieveSecret</a>(webhookID) -> WebhookRetrieveSecretResponse</code>
+- <code>client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">unsafeUnwrap</a>(body) -> void</code>
+- <code>client.webhooks.<a href="./src/resources/webhooks/webhooks.ts">unwrap</a>(body) -> void</code>
 
 ## Headers
 
@@ -310,6 +349,13 @@ Methods:
 
 - <code title="get /webhooks/{webhook_id}/headers">client.webhooks.headers.<a href="./src/resources/webhooks/headers.ts">retrieve</a>(webhookID) -> HeaderRetrieveResponse</code>
 - <code title="patch /webhooks/{webhook_id}/headers">client.webhooks.headers.<a href="./src/resources/webhooks/headers.ts">update</a>(webhookID, { ...params }) -> void</code>
+
+# WebhookEvents
+
+Types:
+
+- <code><a href="./src/resources/webhook-events.ts">WebhookEventType</a></code>
+- <code><a href="./src/resources/webhook-events.ts">WebhookPayload</a></code>
 
 # UsageEvents
 
