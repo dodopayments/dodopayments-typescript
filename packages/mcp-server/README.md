@@ -10,6 +10,7 @@ You can run the MCP Server directly via `npx`:
 
 ```sh
 export DODO_PAYMENTS_API_KEY="My Bearer Token"
+export DODO_PAYMENTS_WEBHOOK_KEY="My Webhook Key"
 export DODO_PAYMENTS_ENVIRONMENT="live_mode"
 npx -y dodopayments-mcp@latest
 ```
@@ -29,6 +30,7 @@ For clients with a configuration JSON, it might look something like this:
       "args": ["-y", "dodopayments-mcp", "--client=claude", "--tools=dynamic"],
       "env": {
         "DODO_PAYMENTS_API_KEY": "My Bearer Token",
+        "DODO_PAYMENTS_WEBHOOK_KEY": "My Webhook Key",
         "DODO_PAYMENTS_ENVIRONMENT": "live_mode"
       }
     }
