@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.4.0 (2025-10-27)
+
+Full Changelog: [v2.3.1...v2.4.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.3.1...v2.4.0)
+
+### Features
+
+* **api:** updated to openapi spec v1.56.0 ([bbffb43](https://github.com/dodopayments/dodopayments-typescript/commit/bbffb435587036518d86a719313b609a43e63bdb))
+
 ## 2.3.1 (2025-10-25)
 
 Full Changelog: [v2.3.0...v2.3.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.3.0...v2.3.1)
