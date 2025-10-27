@@ -21,6 +21,7 @@ export {
   CheckoutSessions,
   type CheckoutSessionRequest,
   type CheckoutSessionResponse,
+  type CheckoutSessionStatus,
   type CheckoutSessionCreateParams,
 } from './checkout-sessions';
 export {

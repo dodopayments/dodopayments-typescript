@@ -211,6 +211,7 @@ The following tools are available in this MCP server.
 ### Resource `checkout_sessions`:
 
 - `create_checkout_sessions` (`write`):
+- `retrieve_checkout_sessions` (`read`):
 
 ### Resource `payments`:
 
