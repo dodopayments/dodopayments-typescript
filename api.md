@@ -4,10 +4,12 @@ Types:
 
 - <code><a href="./src/resources/checkout-sessions.ts">CheckoutSessionRequest</a></code>
 - <code><a href="./src/resources/checkout-sessions.ts">CheckoutSessionResponse</a></code>
+- <code><a href="./src/resources/checkout-sessions.ts">CheckoutSessionStatus</a></code>
 
 Methods:
 
 - <code title="post /checkouts">client.checkoutSessions.<a href="./src/resources/checkout-sessions.ts">create</a>({ ...params }) -> CheckoutSessionResponse</code>
+- <code title="get /checkouts/{id}">client.checkoutSessions.<a href="./src/resources/checkout-sessions.ts">retrieve</a>(id) -> CheckoutSessionStatus</code>
 
 # Payments
 

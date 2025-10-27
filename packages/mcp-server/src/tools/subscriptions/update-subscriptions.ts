@@ -30,6 +30,9 @@ export const tool: Tool = {
         type: 'boolean',
         description: 'When set, the subscription will remain active until the end of billing period',
       },
+      customer_name: {
+        type: 'string',
+      },
       disable_on_demand: {
         type: 'object',
         title: 'Disable On Demand Request',

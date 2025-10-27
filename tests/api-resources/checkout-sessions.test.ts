@@ -61,4 +61,15 @@ describe('resource checkoutSessions', () => {
       },
     });
   });
+
+  test('retrieve', async () => {
+    const responsePromise = client.checkoutSessions.retrieve('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
 });

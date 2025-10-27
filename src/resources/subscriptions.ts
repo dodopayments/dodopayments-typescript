@@ -683,6 +683,8 @@ export interface SubscriptionUpdateParams {
    */
   cancel_at_next_billing_date?: boolean | null;
 
+  customer_name?: string | null;
+
   disable_on_demand?: SubscriptionUpdateParams.DisableOnDemand | null;
 
   metadata?: { [key: string]: string } | null;

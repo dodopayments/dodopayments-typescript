@@ -6,10 +6,15 @@ import * as PaymentsAPI from './payments';
 import * as SubscriptionsAPI from './subscriptions';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class CheckoutSessions extends APIResource {
   create(body: CheckoutSessionCreateParams, options?: RequestOptions): APIPromise<CheckoutSessionResponse> {
     return this._client.post('/checkouts', { body, ...options });
+  }
+
+  retrieve(id: string, options?: RequestOptions): APIPromise<CheckoutSessionStatus> {
+    return this._client.get(path`/checkouts/${id}`, options);
   }
 }
 
@@ -228,6 +233,42 @@ export interface CheckoutSessionResponse {
   session_id: string;
 }
 
+export interface CheckoutSessionStatus {
+  /**
+   * Id of the checkout session
+   */
+  id: string;
+
+  /**
+   * Created at timestamp
+   */
+  created_at: string;
+
+  /**
+   * Customer email: prefers payment's customer, falls back to session
+   */
+  customer_email?: string | null;
+
+  /**
+   * Customer name: prefers payment's customer, falls back to session
+   */
+  customer_name?: string | null;
+
+  /**
+   * Id of the payment created by the checkout sessions.
+   *
+   * Null if checkout sessions is still at the details collection stage.
+   */
+  payment_id?: string | null;
+
+  /**
+   * status of the payment.
+   *
+   * Null if checkout sessions is still at the details collection stage.
+   */
+  payment_status?: PaymentsAPI.IntentStatus | null;
+}
+
 export interface CheckoutSessionCreateParams {
   product_cart: Array<CheckoutSessionCreateParams.ProductCart>;
 
@@ -435,6 +476,7 @@ export declare namespace CheckoutSessions {
   export {
     type CheckoutSessionRequest as CheckoutSessionRequest,
     type CheckoutSessionResponse as CheckoutSessionResponse,
+    type CheckoutSessionStatus as CheckoutSessionStatus,
     type CheckoutSessionCreateParams as CheckoutSessionCreateParams,
   };
 }

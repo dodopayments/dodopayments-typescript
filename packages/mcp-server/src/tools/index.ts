@@ -5,6 +5,7 @@ import { Metadata, Endpoint, HandlerFunction } from './types';
 export { Metadata, Endpoint, HandlerFunction };
 
 import create_checkout_sessions from './checkout-sessions/create-checkout-sessions';
+import retrieve_checkout_sessions from './checkout-sessions/retrieve-checkout-sessions';
 import create_payments from './payments/create-payments';
 import retrieve_payments from './payments/retrieve-payments';
 import list_payments from './payments/list-payments';
@@ -89,6 +90,7 @@ function addEndpoint(endpoint: Endpoint) {
 }
 
 addEndpoint(create_checkout_sessions);
+addEndpoint(retrieve_checkout_sessions);
 addEndpoint(create_payments);
 addEndpoint(retrieve_payments);
 addEndpoint(list_payments);
