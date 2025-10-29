@@ -23,6 +23,7 @@ describe('resource refunds', () => {
     const response = await client.refunds.create({
       payment_id: 'payment_id',
       items: [{ item_id: 'item_id', amount: 0, tax_inclusive: true }],
+      metadata: { foo: 'string' },
       reason: 'reason',
     });
   });

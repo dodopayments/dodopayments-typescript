@@ -56,6 +56,11 @@ export interface Refund {
   is_partial: boolean;
 
   /**
+   * Additional metadata stored with the refund.
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * The unique identifier of the payment associated with the refund.
    */
   payment_id: string;
@@ -145,6 +150,11 @@ export interface RefundCreateParams {
    * Partially Refund an Individual Item
    */
   items?: Array<RefundCreateParams.Item> | null;
+
+  /**
+   * Additional metadata associated with the refund.
+   */
+  metadata?: { [key: string]: string };
 
   /**
    * The reason for the refund, if any. Maximum length is 3000 characters. Optional.
