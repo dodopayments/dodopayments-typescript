@@ -212,6 +212,7 @@ export const tool: Tool = {
           'eps',
           'ideal',
           'przelewy24',
+          'paypal',
           'affirm',
           'klarna',
           'sepa',

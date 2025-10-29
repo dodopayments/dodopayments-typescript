@@ -388,6 +388,7 @@ export type PaymentMethodTypes =
   | 'eps'
   | 'ideal'
   | 'przelewy24'
+  | 'paypal'
   | 'affirm'
   | 'klarna'
   | 'sepa'
