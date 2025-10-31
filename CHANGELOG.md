@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.4.2 (2025-10-31)
+
+Full Changelog: [v2.4.1...v2.4.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.4.1...v2.4.2)
+
+### Bug Fixes
+
+* **mcpb:** pin @anthropic-ai/mcpb version ([ca20767](https://github.com/dodopayments/dodopayments-typescript/commit/ca20767f9d543a320374df1315f3d4e6a90b2326))
+
 ## 2.4.1 (2025-10-29)
 
 Full Changelog: [v2.4.0...v2.4.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.4.0...v2.4.1)
