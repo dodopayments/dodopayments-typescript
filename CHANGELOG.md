@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.4.3 (2025-11-01)
+
+Full Changelog: [v2.4.2...v2.4.3](https://github.com/dodopayments/dodopayments-typescript/compare/v2.4.2...v2.4.3)
+
+### Chores
+
+* **internal:** codegen related update ([0dc8e91](https://github.com/dodopayments/dodopayments-typescript/commit/0dc8e91e6d9d1622f38f65f6bfb4a3abb4ab8e3e))
+
 ## 2.4.2 (2025-10-31)
 
 Full Changelog: [v2.4.1...v2.4.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.4.1...v2.4.2)

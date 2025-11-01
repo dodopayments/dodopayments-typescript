@@ -1,29 +1,29 @@
 # Build stage
-FROM node:20-alpine AS builder
+    FROM node:20-alpine AS builder
 
-# Install bash for build script
-RUN apk add --no-cache bash openssl
+    # Install bash for build script
+    RUN apk add --no-cache bash openssl
 
-# Set working directory
-WORKDIR /build
+    # Set working directory
+    WORKDIR /build
 
-# Copy entire repository
-COPY . .
+    # Copy entire repository
+    COPY . .
 
-# Install all dependencies and build everything
-RUN yarn install --frozen-lockfile && \
-    yarn build
+    # Install all dependencies and build everything
+    RUN yarn install --frozen-lockfile && \
+        yarn build
 
-# Production stage
+    # Production stage
 
-        FROM denoland/deno:alpine
-        RUN apk add --no-cache npm
+            FROM denoland/deno:alpine
+            RUN apk add --no-cache npm
 
-# Add non-root user
-RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
+    # Add non-root user
+    RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
 
-# Set working directory
-WORKDIR /app
+    # Set working directory
+    WORKDIR /app
 
 # Copy the built mcp-server dist directory
 COPY --from=builder /build/packages/mcp-server/dist ./
@@ -31,24 +31,24 @@ COPY --from=builder /build/packages/mcp-server/dist ./
 # Copy node_modules from mcp-server (includes all production deps)
 COPY --from=builder /build/packages/mcp-server/node_modules ./node_modules
 
-# Copy the built dodopayments into node_modules
-COPY --from=builder /build/dist ./node_modules/dodopayments
+    # Copy the built dodopayments into node_modules
+    COPY --from=builder /build/dist ./node_modules/dodopayments
 
-# Change ownership to nodejs user
-RUN chown -R nodejs:nodejs /app
+    # Change ownership to nodejs user
+    RUN chown -R nodejs:nodejs /app
 
-# Switch to non-root user
-USER nodejs
+    # Switch to non-root user
+    USER nodejs
 
-# The MCP server uses stdio transport by default
-# No exposed ports needed for stdio communication
+    # The MCP server uses stdio transport by default
+    # No exposed ports needed for stdio communication
 
     # This is needed for node to run on the deno:alpine image.
     # See <https://github.com/denoland/deno_docker/issues/373>.
     ENV LD_LIBRARY_PATH=/usr/lib:/usr/local/lib
 
-# Set the entrypoint to the MCP server
-ENTRYPOINT ["node", "index.js"]
+    # Set the entrypoint to the MCP server
+    ENTRYPOINT ["node", "index.js"]
 
-# Allow passing arguments to the MCP server
-CMD []
+    # Allow passing arguments to the MCP server
+    CMD []
