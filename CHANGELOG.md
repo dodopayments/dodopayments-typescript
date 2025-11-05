@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.4.3 (2025-11-05)
+
+Full Changelog: [v2.4.2...v2.4.3](https://github.com/dodopayments/dodopayments-typescript/compare/v2.4.2...v2.4.3)
+
+### Features
+
+* **mcp:** enable optional code execution tool on http mcp servers ([6d35c29](https://github.com/dodopayments/dodopayments-typescript/commit/6d35c29e461d58f4697a83fffc8fc6f818fe7bbc))
+
+
+### Chores
+
+* **internal:** codegen related update ([0dc8e91](https://github.com/dodopayments/dodopayments-typescript/commit/0dc8e91e6d9d1622f38f65f6bfb4a3abb4ab8e3e))
+* **internal:** grammar fix (it's -&gt; its) ([6275ab5](https://github.com/dodopayments/dodopayments-typescript/commit/6275ab5cea238e1c52bd44af1a2bb66deacc899d))
+* mcp code tool explicit error message when missing a run function ([b1409a5](https://github.com/dodopayments/dodopayments-typescript/commit/b1409a54f124d5cdaae427dbf0ece4dc4f8cb0f6))
+* use structured error when code execution tool errors ([c6ea394](https://github.com/dodopayments/dodopayments-typescript/commit/c6ea39446c6d236aa3f9a9c6a400e81aa8a946be))
+
 ## 2.4.2 (2025-10-31)
 
 Full Changelog: [v2.4.1...v2.4.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.4.1...v2.4.2)
