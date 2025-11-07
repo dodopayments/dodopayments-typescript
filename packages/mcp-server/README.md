@@ -45,6 +45,22 @@ in Cursor's `mcp.json`, which can be found in Cursor Settings > Tools & MCP > Ne
 
 [![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6IlNldCB5b3VyIERPRE9fUEFZTUVOVFNfQVBJX0tFWSBoZXJlLiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJTZXQgeW91ciBET0RPX1BBWU1FTlRTX1dFQkhPT0tfS0VZIGhlcmUuIn19)
 
+### VS Code
+
+If you use MCP, you can install the MCP server by clicking the link below. You will need to set your environment variables
+in VS Code's `mcp.json`, which can be found via Command Palette > MCP: Open User Configuration.
+
+[Open VS Code](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22dodopayments-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22dodopayments-mcp%22%5D%2C%22env%22%3A%7B%22DODO_PAYMENTS_API_KEY%22%3A%22Set%20your%20DODO_PAYMENTS_API_KEY%20here.%22%2C%22DODO_PAYMENTS_WEBHOOK_KEY%22%3A%22Set%20your%20DODO_PAYMENTS_WEBHOOK_KEY%20here.%22%7D%7D)
+
+### Claude Code
+
+If you use Claude Code, you can install the MCP server by running the command below in your terminal. You will need to set your
+environment variables in Claude Code's `.claude.json`, which can be found in your home directory.
+
+```
+claude mcp add --transport stdio dodopayments_api --env DODO_PAYMENTS_API_KEY="Your DODO_PAYMENTS_API_KEY here." DODO_PAYMENTS_WEBHOOK_KEY="Your DODO_PAYMENTS_WEBHOOK_KEY here." -- npx -y dodopayments-mcp
+```
+
 ## Exposing endpoints to your MCP Client
 
 There are three ways to expose endpoints as tools in the MCP server:
