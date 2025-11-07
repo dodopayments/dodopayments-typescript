@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.4.4 (2025-11-07)
+
+Full Changelog: [v2.4.3...v2.4.4](https://github.com/dodopayments/dodopayments-typescript/compare/v2.4.3...v2.4.4)
+
+### Chores
+
+* **internal:** codegen related update ([818e90b](https://github.com/dodopayments/dodopayments-typescript/commit/818e90b659ed5fcd34e882c2d6fff158a59ea612))
+* **mcp:** add friendlier MCP code tool errors on incorrect method invocations ([abbe057](https://github.com/dodopayments/dodopayments-typescript/commit/abbe057c30e109ad630804a66020fdb2131dee98))
+* **mcp:** add line numbers to code tool errors ([2de014b](https://github.com/dodopayments/dodopayments-typescript/commit/2de014babcdbf101ad373677e24ce17e54fa51e7))
+
+
+### Documentation
+
+* **mcp:** add a README button for one-click add to Cursor ([cf25725](https://github.com/dodopayments/dodopayments-typescript/commit/cf2572540a90396e32b73becbded03dbe18fb6b3))
+* **mcp:** add a README link to add server to VS Code or Claude Code ([e9131bb](https://github.com/dodopayments/dodopayments-typescript/commit/e9131bb9bee194dcdf29625cc31325b15764027a))
+
 ## 2.4.3 (2025-11-05)
 
 Full Changelog: [v2.4.2...v2.4.3](https://github.com/dodopayments/dodopayments-typescript/compare/v2.4.2...v2.4.3)
