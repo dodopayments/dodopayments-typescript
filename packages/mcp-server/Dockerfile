@@ -1,4 +1,27 @@
-# Build stage
+# Dockerfile for Dodo Payments MCP Server
+    #
+    # This Dockerfile builds a Docker image for the MCP Server.
+    #
+    # To build the image locally:
+    #   docker build -f packages/mcp-server/Dockerfile -t dodopayments/mcp:local .
+    #
+    # To run the image:
+    #   docker run -i dodopayments/mcp:local [OPTIONS]
+    #
+    # Common options:
+    #   --tool=<name>              Include specific tools
+    #   --resource=<name>          Include tools for specific resources
+    #   --operation=read|write     Filter by operation type
+    #   --client=<type>            Set client compatibility (e.g., claude, cursor)
+    #   --transport=<type>         Set transport type (stdio or http)
+    #
+    # For a full list of options:
+    #   docker run -i dodopayments/mcp:local --help
+    #
+    # Note: The MCP server uses stdio transport by default. Docker's -i flag
+    # enables interactive mode, allowing the container to communicate over stdin/stdout.
+
+    # Build stage
     FROM node:20-alpine AS builder
 
     # Install bash for build script
