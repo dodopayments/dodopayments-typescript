@@ -33,7 +33,7 @@ export const tool: Tool = {
 
 export const handler = async (client: DodoPayments, args: Record<string, unknown> | undefined) => {
   const { payment_id, ...body } = args as any;
-  return asBinaryContentResult(await client.invoices.payments.retrieve(payment_id));
+  return asBinaryContentResult(await client.invoices.payments.retrieve(payment_id).asResponse());
 };
 
 export default { metadata, tool, handler };
