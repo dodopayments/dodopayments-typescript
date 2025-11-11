@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.4.5 (2025-11-11)
+
+Full Changelog: [v2.4.4...v2.4.5](https://github.com/dodopayments/dodopayments-typescript/compare/v2.4.4...v2.4.5)
+
+### Bug Fixes
+
+* **mcp:** use raw responses for binary content ([a5954f0](https://github.com/dodopayments/dodopayments-typescript/commit/a5954f00b96ebc1a422b706894b0ed57e914abe2))
+
+
+### Chores
+
+* **internal:** codegen related update ([c21861f](https://github.com/dodopayments/dodopayments-typescript/commit/c21861fb2a1f3d1d87e1d27ba1faa700655163f0))
+* **internal:** codegen related update ([25d312a](https://github.com/dodopayments/dodopayments-typescript/commit/25d312ac17d7da5825564782dff206873ca3440d))
+* **mcp:** clarify http auth error ([a6e4eab](https://github.com/dodopayments/dodopayments-typescript/commit/a6e4eab2e2f2d05ff675432e9c13a475faa85233))
+
 ## 2.4.4 (2025-11-07)
 
 Full Changelog: [v2.4.3...v2.4.4](https://github.com/dodopayments/dodopayments-typescript/compare/v2.4.3...v2.4.4)

@@ -1,6 +1,6 @@
 {
   "name": "dodopayments-mcp",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "description": "The official MCP Server for the Dodo Payments API",
   "author": "Dodo Payments <support@dodopayments.com>",
   "types": "dist/index.d.ts",
