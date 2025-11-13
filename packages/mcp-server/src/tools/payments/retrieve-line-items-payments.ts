@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { maybeFilter } from 'dodopayments-mcp/filtering';
-import { Metadata, asTextContentResult } from 'dodopayments-mcp/tools/types';
+import { isJqError, maybeFilter } from 'dodopayments-mcp/filtering';
+import { Metadata, asErrorResult, asTextContentResult } from 'dodopayments-mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import DodoPayments from 'dodopayments';
@@ -41,9 +41,16 @@ export const tool: Tool = {
 
 export const handler = async (client: DodoPayments, args: Record<string, unknown> | undefined) => {
   const { payment_id, jq_filter, ...body } = args as any;
-  return asTextContentResult(
-    await maybeFilter(jq_filter, await client.payments.retrieveLineItems(payment_id)),
-  );
+  try {
+    return asTextContentResult(
+      await maybeFilter(jq_filter, await client.payments.retrieveLineItems(payment_id)),
+    );
+  } catch (error) {
+    if (isJqError(error)) {
+      return asErrorResult(error.message);
+    }
+    throw error;
+  }
 };
 
 export default { metadata, tool, handler };
