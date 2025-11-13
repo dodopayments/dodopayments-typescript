@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.4.6 (2025-11-13)
+
+Full Changelog: [v2.4.5...v2.4.6](https://github.com/dodopayments/dodopayments-typescript/compare/v2.4.5...v2.4.6)
+
+### Bug Fixes
+
+* **mcp:** return tool execution error on jq failure ([a5e673a](https://github.com/dodopayments/dodopayments-typescript/commit/a5e673ab548c0596a14fcf2654b049212fcd9e23))
+
+
+### Chores
+
+* **mcp:** upgrade jq-web ([82e2b27](https://github.com/dodopayments/dodopayments-typescript/commit/82e2b2784ea2538bb45e7d33559e48f12929d455))
+
 ## 2.4.5 (2025-11-11)
 
 Full Changelog: [v2.4.4...v2.4.5](https://github.com/dodopayments/dodopayments-typescript/compare/v2.4.4...v2.4.5)
