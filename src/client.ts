@@ -158,6 +158,8 @@ import {
   SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
   SubscriptionStatus,
   SubscriptionUpdateParams,
+  SubscriptionUpdatePaymentMethodParams,
+  SubscriptionUpdatePaymentMethodResponse,
   Subscriptions,
   TimeInterval,
 } from './resources/subscriptions';
@@ -176,6 +178,7 @@ import {
   CustomerCreateParams,
   CustomerListParams,
   CustomerPortalSession,
+  CustomerRetrievePaymentMethodsResponse,
   CustomerUpdateParams,
   Customers,
   CustomersDefaultPageNumberPagination,
@@ -1076,6 +1079,7 @@ export declare namespace DodoPayments {
     type SubscriptionListResponse as SubscriptionListResponse,
     type SubscriptionChargeResponse as SubscriptionChargeResponse,
     type SubscriptionRetrieveUsageHistoryResponse as SubscriptionRetrieveUsageHistoryResponse,
+    type SubscriptionUpdatePaymentMethodResponse as SubscriptionUpdatePaymentMethodResponse,
     type SubscriptionListResponsesDefaultPageNumberPagination as SubscriptionListResponsesDefaultPageNumberPagination,
     type SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination as SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
     type SubscriptionCreateParams as SubscriptionCreateParams,
@@ -1084,6 +1088,7 @@ export declare namespace DodoPayments {
     type SubscriptionChangePlanParams as SubscriptionChangePlanParams,
     type SubscriptionChargeParams as SubscriptionChargeParams,
     type SubscriptionRetrieveUsageHistoryParams as SubscriptionRetrieveUsageHistoryParams,
+    type SubscriptionUpdatePaymentMethodParams as SubscriptionUpdatePaymentMethodParams,
   };
 
   export { Invoices as Invoices };
@@ -1118,6 +1123,7 @@ export declare namespace DodoPayments {
     Customers as Customers,
     type Customer as Customer,
     type CustomerPortalSession as CustomerPortalSession,
+    type CustomerRetrievePaymentMethodsResponse as CustomerRetrievePaymentMethodsResponse,
     type CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
     type CustomerCreateParams as CustomerCreateParams,
     type CustomerUpdateParams as CustomerUpdateParams,

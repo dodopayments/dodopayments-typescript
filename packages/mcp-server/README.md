@@ -301,6 +301,8 @@ The following tools are available in this MCP server.
   - Paginate results: `?page_size=20&page_number=1`
   - Recent usage: `?start_date=2024-03-01T00:00:00Z` (from March 1st to now)
 
+- `update_payment_method_subscriptions` (`write`):
+
 ### Resource `invoices.payments`:
 
 - `retrieve_invoices_payments` (`read`):
@@ -330,6 +332,7 @@ The following tools are available in this MCP server.
 - `retrieve_customers` (`read`):
 - `update_customers` (`write`):
 - `list_customers` (`read`):
+- `retrieve_payment_methods_customers` (`read`):
 
 ### Resource `customers.customer_portal`:
 

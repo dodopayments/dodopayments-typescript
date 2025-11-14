@@ -180,6 +180,20 @@ export namespace CheckoutSessionRequest {
      */
     allow_currency_selection?: boolean;
 
+    allow_customer_editing_city?: boolean;
+
+    allow_customer_editing_country?: boolean;
+
+    allow_customer_editing_email?: boolean;
+
+    allow_customer_editing_name?: boolean;
+
+    allow_customer_editing_state?: boolean;
+
+    allow_customer_editing_street?: boolean;
+
+    allow_customer_editing_zipcode?: boolean;
+
     /**
      * If the customer is allowed to apply discount code, set it to true.
      *
@@ -430,6 +444,20 @@ export namespace CheckoutSessionCreateParams {
      * Default is true
      */
     allow_currency_selection?: boolean;
+
+    allow_customer_editing_city?: boolean;
+
+    allow_customer_editing_country?: boolean;
+
+    allow_customer_editing_email?: boolean;
+
+    allow_customer_editing_name?: boolean;
+
+    allow_customer_editing_state?: boolean;
+
+    allow_customer_editing_street?: boolean;
+
+    allow_customer_editing_zipcode?: boolean;
 
     /**
      * If the customer is allowed to apply discount code, set it to true.

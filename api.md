@@ -50,6 +50,7 @@ Types:
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionListResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionChargeResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionRetrieveUsageHistoryResponse</a></code>
+- <code><a href="./src/resources/subscriptions.ts">SubscriptionUpdatePaymentMethodResponse</a></code>
 
 Methods:
 
@@ -60,6 +61,7 @@ Methods:
 - <code title="post /subscriptions/{subscription_id}/change-plan">client.subscriptions.<a href="./src/resources/subscriptions.ts">changePlan</a>(subscriptionID, { ...params }) -> void</code>
 - <code title="post /subscriptions/{subscription_id}/charge">client.subscriptions.<a href="./src/resources/subscriptions.ts">charge</a>(subscriptionID, { ...params }) -> SubscriptionChargeResponse</code>
 - <code title="get /subscriptions/{subscription_id}/usage-history">client.subscriptions.<a href="./src/resources/subscriptions.ts">retrieveUsageHistory</a>(subscriptionID, { ...params }) -> SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination</code>
+- <code title="post /subscriptions/{subscription_id}/update-payment-method">client.subscriptions.<a href="./src/resources/subscriptions.ts">updatePaymentMethod</a>(subscriptionID, { ...params }) -> SubscriptionUpdatePaymentMethodResponse</code>
 
 # Invoices
 
@@ -114,6 +116,7 @@ Types:
 
 - <code><a href="./src/resources/customers/customers.ts">Customer</a></code>
 - <code><a href="./src/resources/customers/customers.ts">CustomerPortalSession</a></code>
+- <code><a href="./src/resources/customers/customers.ts">CustomerRetrievePaymentMethodsResponse</a></code>
 
 Methods:
 
@@ -121,6 +124,7 @@ Methods:
 - <code title="get /customers/{customer_id}">client.customers.<a href="./src/resources/customers/customers.ts">retrieve</a>(customerID) -> Customer</code>
 - <code title="patch /customers/{customer_id}">client.customers.<a href="./src/resources/customers/customers.ts">update</a>(customerID, { ...params }) -> Customer</code>
 - <code title="get /customers">client.customers.<a href="./src/resources/customers/customers.ts">list</a>({ ...params }) -> CustomersDefaultPageNumberPagination</code>
+- <code title="get /customers/{customer_id}/payment-methods">client.customers.<a href="./src/resources/customers/customers.ts">retrievePaymentMethods</a>(customerID) -> CustomerRetrievePaymentMethodsResponse</code>
 
 ## CustomerPortal
 

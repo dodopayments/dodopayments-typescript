@@ -484,6 +484,11 @@ export interface ProductUpdateFilesResponse {
 
 export interface ProductCreateParams {
   /**
+   * Name of the product
+   */
+  name: string;
+
+  /**
    * Price configuration for the product
    */
   price: Price;
@@ -539,11 +544,6 @@ export interface ProductCreateParams {
    * Additional metadata for the product
    */
   metadata?: { [key: string]: string };
-
-  /**
-   * Optional name of the product
-   */
-  name?: string | null;
 }
 
 export namespace ProductCreateParams {

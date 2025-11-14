@@ -40,6 +40,13 @@ describe('resource checkoutSessions', () => {
       discount_code: 'discount_code',
       feature_flags: {
         allow_currency_selection: true,
+        allow_customer_editing_city: true,
+        allow_customer_editing_country: true,
+        allow_customer_editing_email: true,
+        allow_customer_editing_name: true,
+        allow_customer_editing_state: true,
+        allow_customer_editing_street: true,
+        allow_customer_editing_zipcode: true,
         allow_discount_code: true,
         allow_phone_number_collection: true,
         allow_tax_id: true,

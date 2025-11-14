@@ -130,6 +130,27 @@ export const tool: Tool = {
             type: 'boolean',
             description: 'if customer is allowed to change currency, set it to true\n\nDefault is true',
           },
+          allow_customer_editing_city: {
+            type: 'boolean',
+          },
+          allow_customer_editing_country: {
+            type: 'boolean',
+          },
+          allow_customer_editing_email: {
+            type: 'boolean',
+          },
+          allow_customer_editing_name: {
+            type: 'boolean',
+          },
+          allow_customer_editing_state: {
+            type: 'boolean',
+          },
+          allow_customer_editing_street: {
+            type: 'boolean',
+          },
+          allow_customer_editing_zipcode: {
+            type: 'boolean',
+          },
           allow_discount_code: {
             type: 'boolean',
             description:
