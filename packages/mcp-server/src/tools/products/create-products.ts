@@ -20,6 +20,10 @@ export const tool: Tool = {
   inputSchema: {
     type: 'object',
     properties: {
+      name: {
+        type: 'string',
+        description: 'Name of the product',
+      },
       price: {
         $ref: '#/$defs/price',
       },
@@ -76,12 +80,8 @@ export const tool: Tool = {
         description: 'Additional metadata for the product',
         additionalProperties: true,
       },
-      name: {
-        type: 'string',
-        description: 'Optional name of the product',
-      },
     },
-    required: ['price', 'tax_category'],
+    required: ['name', 'price', 'tax_category'],
     $defs: {
       price: {
         anyOf: [

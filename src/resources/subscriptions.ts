@@ -118,6 +118,17 @@ export class Subscriptions extends APIResource {
       { query, ...options },
     );
   }
+
+  updatePaymentMethod(
+    subscriptionID: string,
+    body: SubscriptionUpdatePaymentMethodParams,
+    options?: RequestOptions,
+  ): APIPromise<SubscriptionUpdatePaymentMethodResponse> {
+    return this._client.post(path`/subscriptions/${subscriptionID}/update-payment-method`, {
+      body,
+      ...options,
+    });
+  }
 }
 
 export type SubscriptionListResponsesDefaultPageNumberPagination =
@@ -310,6 +321,11 @@ export interface Subscription {
    * Timestamp when the subscription will expire
    */
   expires_at?: string | null;
+
+  /**
+   * Saved payment method id used for recurring charges
+   */
+  payment_method_id?: string | null;
 
   /**
    * Tax identifier provided for this subscription (if applicable)
@@ -518,6 +534,11 @@ export interface SubscriptionListResponse {
   discount_id?: string | null;
 
   /**
+   * Saved payment method id used for recurring charges
+   */
+  payment_method_id?: string | null;
+
+  /**
    * Tax identifier provided for this subscription (if applicable)
    */
   tax_id?: string | null;
@@ -586,6 +607,16 @@ export namespace SubscriptionRetrieveUsageHistoryResponse {
      */
     total_price: number;
   }
+}
+
+export interface SubscriptionUpdatePaymentMethodResponse {
+  client_secret?: string | null;
+
+  expires_on?: string | null;
+
+  payment_id?: string | null;
+
+  payment_link?: string | null;
 }
 
 export interface SubscriptionCreateParams {
@@ -824,6 +855,24 @@ export interface SubscriptionRetrieveUsageHistoryParams extends DefaultPageNumbe
   start_date?: string | null;
 }
 
+export type SubscriptionUpdatePaymentMethodParams =
+  | SubscriptionUpdatePaymentMethodParams.Variant0
+  | SubscriptionUpdatePaymentMethodParams.Variant1;
+
+export declare namespace SubscriptionUpdatePaymentMethodParams {
+  export interface Variant0 {
+    type: 'new';
+
+    return_url?: string | null;
+  }
+
+  export interface Variant1 {
+    payment_method_id: string;
+
+    type: 'existing';
+  }
+}
+
 export declare namespace Subscriptions {
   export {
     type AddonCartResponseItem as AddonCartResponseItem,
@@ -836,6 +885,7 @@ export declare namespace Subscriptions {
     type SubscriptionListResponse as SubscriptionListResponse,
     type SubscriptionChargeResponse as SubscriptionChargeResponse,
     type SubscriptionRetrieveUsageHistoryResponse as SubscriptionRetrieveUsageHistoryResponse,
+    type SubscriptionUpdatePaymentMethodResponse as SubscriptionUpdatePaymentMethodResponse,
     type SubscriptionListResponsesDefaultPageNumberPagination as SubscriptionListResponsesDefaultPageNumberPagination,
     type SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination as SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
     type SubscriptionCreateParams as SubscriptionCreateParams,
@@ -844,5 +894,6 @@ export declare namespace Subscriptions {
     type SubscriptionChangePlanParams as SubscriptionChangePlanParams,
     type SubscriptionChargeParams as SubscriptionChargeParams,
     type SubscriptionRetrieveUsageHistoryParams as SubscriptionRetrieveUsageHistoryParams,
+    type SubscriptionUpdatePaymentMethodParams as SubscriptionUpdatePaymentMethodParams,
   };
 }

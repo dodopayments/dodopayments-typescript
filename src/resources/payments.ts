@@ -106,6 +106,11 @@ export interface CustomerLimitedDetails {
   name: string;
 
   /**
+   * Additional metadata associated with the customer
+   */
+  metadata?: { [key: string]: string };
+
+  /**
    * Phone number of the customer
    */
   phone_number?: string | null;

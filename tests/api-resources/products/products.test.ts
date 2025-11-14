@@ -10,6 +10,7 @@ const client = new DodoPayments({
 describe('resource products', () => {
   test('create: only required params', async () => {
     const responsePromise = client.products.create({
+      name: 'name',
       price: {
         currency: 'AED',
         discount: 0,
@@ -30,6 +31,7 @@ describe('resource products', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.products.create({
+      name: 'name',
       price: {
         currency: 'AED',
         discount: 0,
@@ -50,7 +52,6 @@ describe('resource products', () => {
       license_key_duration: { count: 0, interval: 'Day' },
       license_key_enabled: true,
       metadata: { foo: 'string' },
-      name: 'name',
     });
   });
 

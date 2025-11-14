@@ -23,6 +23,7 @@ describe('resource customers', () => {
     const response = await client.customers.create({
       email: 'email',
       name: 'name',
+      metadata: { foo: 'string' },
       phone_number: 'phone_number',
     });
   });
@@ -68,5 +69,16 @@ describe('resource customers', () => {
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
+
+  test('retrievePaymentMethods', async () => {
+    const responsePromise = client.customers.retrievePaymentMethods('customer_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
   });
 });

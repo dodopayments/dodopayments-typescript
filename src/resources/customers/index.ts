@@ -5,6 +5,7 @@ export {
   Customers,
   type Customer,
   type CustomerPortalSession,
+  type CustomerRetrievePaymentMethodsResponse,
   type CustomerCreateParams,
   type CustomerUpdateParams,
   type CustomerListParams,
