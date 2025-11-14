@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'create_customers',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\n\n\n# Response Schema\n```json\n{\n  $ref: '#/$defs/customer',\n  $defs: {\n    customer: {\n      type: 'object',\n      properties: {\n        business_id: {\n          type: 'string'\n        },\n        created_at: {\n          type: 'string',\n          format: 'date-time'\n        },\n        customer_id: {\n          type: 'string'\n        },\n        email: {\n          type: 'string'\n        },\n        name: {\n          type: 'string'\n        },\n        phone_number: {\n          type: 'string'\n        }\n      },\n      required: [        'business_id',\n        'created_at',\n        'customer_id',\n        'email',\n        'name'\n      ]\n    }\n  }\n}\n```",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\n\n\n# Response Schema\n```json\n{\n  $ref: '#/$defs/customer',\n  $defs: {\n    customer: {\n      type: 'object',\n      properties: {\n        business_id: {\n          type: 'string'\n        },\n        created_at: {\n          type: 'string',\n          format: 'date-time'\n        },\n        customer_id: {\n          type: 'string'\n        },\n        email: {\n          type: 'string'\n        },\n        name: {\n          type: 'string'\n        },\n        metadata: {\n          type: 'object',\n          description: 'Additional metadata for the customer',\n          additionalProperties: true\n        },\n        phone_number: {\n          type: 'string'\n        }\n      },\n      required: [        'business_id',\n        'created_at',\n        'customer_id',\n        'email',\n        'name'\n      ]\n    }\n  }\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
@@ -27,6 +27,11 @@ export const tool: Tool = {
       },
       name: {
         type: 'string',
+      },
+      metadata: {
+        type: 'object',
+        description: 'Additional metadata for the customer',
+        additionalProperties: true,
       },
       phone_number: {
         type: 'string',
