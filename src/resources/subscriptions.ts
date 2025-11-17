@@ -856,17 +856,17 @@ export interface SubscriptionRetrieveUsageHistoryParams extends DefaultPageNumbe
 }
 
 export type SubscriptionUpdatePaymentMethodParams =
-  | SubscriptionUpdatePaymentMethodParams.Variant0
-  | SubscriptionUpdatePaymentMethodParams.Variant1;
+  | SubscriptionUpdatePaymentMethodParams.New
+  | SubscriptionUpdatePaymentMethodParams.Existing;
 
 export declare namespace SubscriptionUpdatePaymentMethodParams {
-  export interface Variant0 {
+  export interface New {
     type: 'new';
 
     return_url?: string | null;
   }
 
-  export interface Variant1 {
+  export interface Existing {
     payment_method_id: string;
 
     type: 'existing';
