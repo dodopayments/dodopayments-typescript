@@ -81,8 +81,6 @@ export interface CustomerRetrievePaymentMethodsResponse {
 
 export namespace CustomerRetrievePaymentMethodsResponse {
   export interface Item {
-    connector_payment_methods: { [key: string]: Item.ConnectorPaymentMethods };
-
     /**
      * PaymentMethod enum from hyperswitch
      *
@@ -107,26 +105,16 @@ export namespace CustomerRetrievePaymentMethodsResponse {
 
     payment_method_id: string;
 
-    profile_map: { [key: string]: string };
-
     card?: Item.Card | null;
 
     last_used_at?: string | null;
+
+    payment_method_type?: PaymentsAPI.PaymentMethodTypes | null;
 
     recurring_enabled?: boolean | null;
   }
 
   export namespace Item {
-    export interface ConnectorPaymentMethods {
-      connector_mandate_id: string;
-
-      original_payment_authorized_amount: number;
-
-      original_payment_authorized_currency: MiscAPI.Currency;
-
-      payment_method_type?: PaymentsAPI.PaymentMethodTypes | null;
-    }
-
     export interface Card {
       /**
        * ISO country code alpha2 variant
