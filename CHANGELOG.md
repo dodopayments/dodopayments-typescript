@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.6.1 (2025-11-26)
+
+Full Changelog: [v2.6.0...v2.6.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.6.0...v2.6.1)
+
+### Features
+
+* **mcp:** add detail field to docs search tool ([2e964b0](https://github.com/dodopayments/dodopayments-typescript/commit/2e964b0e3a252f9a77470bcf346d1991d653cd8b))
+
 ## 2.6.0 (2025-11-17)
 
 Full Changelog: [v2.5.0...v2.6.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.5.0...v2.6.0)
