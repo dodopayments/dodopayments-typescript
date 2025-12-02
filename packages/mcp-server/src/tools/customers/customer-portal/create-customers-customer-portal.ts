@@ -48,7 +48,7 @@ export const handler = async (client: DodoPayments, args: Record<string, unknown
       await maybeFilter(jq_filter, await client.customers.customerPortal.create(customer_id, body)),
     );
   } catch (error) {
-    if (isJqError(error)) {
+    if (error instanceof DodoPayments.APIError || isJqError(error)) {
       return asErrorResult(error.message);
     }
     throw error;
