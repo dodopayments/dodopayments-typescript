@@ -1,5 +1,31 @@
 # Changelog
 
+## 2.7.0 (2025-12-06)
+
+Full Changelog: [v2.6.1...v2.7.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.6.1...v2.7.0)
+
+### Features
+
+* **mcp:** add typescript check to code execution tool ([2f56804](https://github.com/dodopayments/dodopayments-typescript/commit/2f56804c7cf6dc223c979e584c887eab9b604dde))
+* **mcp:** handle code mode calls in the Stainless API ([f6bd9d6](https://github.com/dodopayments/dodopayments-typescript/commit/f6bd9d6f4d0772381cadafb66c0d722c6312eb47))
+* **mcp:** return logs on code tool errors ([83027fa](https://github.com/dodopayments/dodopayments-typescript/commit/83027faac8152d5b77daadfd27d6e7faff357270))
+
+
+### Bug Fixes
+
+* **mcp:** correct code tool API endpoint ([afe32e3](https://github.com/dodopayments/dodopayments-typescript/commit/afe32e33cb2cd739e08b64793cec95d5042cc917))
+* **mcp:** return correct lines on typescript errors ([3b3812a](https://github.com/dodopayments/dodopayments-typescript/commit/3b3812adfe4dcef428aa5bdc5d322f163e5b9df3))
+* **mcp:** return tool execution error on api error ([f07b9bd](https://github.com/dodopayments/dodopayments-typescript/commit/f07b9bd918bbc2a1204e602f9372520ac8714014))
+
+
+### Chores
+
+* **client:** fix logger property type ([b8287ca](https://github.com/dodopayments/dodopayments-typescript/commit/b8287cae23381f54b8dece0208b7f447dee991d5))
+* **internal:** codegen related update ([7c6e9ef](https://github.com/dodopayments/dodopayments-typescript/commit/7c6e9ef24f57274b326fdffacc8c88ffb82f1010))
+* **internal:** codegen related update ([0c4f3cb](https://github.com/dodopayments/dodopayments-typescript/commit/0c4f3cbd22e4e3ff0281c8354ad05d56d199a7d9))
+* **internal:** upgrade eslint ([1087217](https://github.com/dodopayments/dodopayments-typescript/commit/1087217168c4b4a3230cee92643e7f248c6fa103))
+* use latest @modelcontextprotocol/sdk ([5ee0582](https://github.com/dodopayments/dodopayments-typescript/commit/5ee05822a8084f85a65deee940c3fff80743a6b4))
+
 ## 2.6.1 (2025-11-26)
 
 Full Changelog: [v2.6.0...v2.6.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.6.0...v2.6.1)
