@@ -49,6 +49,7 @@ Types:
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionCreateResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionListResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionChargeResponse</a></code>
+- <code><a href="./src/resources/subscriptions.ts">SubscriptionPreviewChangePlanResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionRetrieveUsageHistoryResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionUpdatePaymentMethodResponse</a></code>
 
@@ -60,6 +61,7 @@ Methods:
 - <code title="get /subscriptions">client.subscriptions.<a href="./src/resources/subscriptions.ts">list</a>({ ...params }) -> SubscriptionListResponsesDefaultPageNumberPagination</code>
 - <code title="post /subscriptions/{subscription_id}/change-plan">client.subscriptions.<a href="./src/resources/subscriptions.ts">changePlan</a>(subscriptionID, { ...params }) -> void</code>
 - <code title="post /subscriptions/{subscription_id}/charge">client.subscriptions.<a href="./src/resources/subscriptions.ts">charge</a>(subscriptionID, { ...params }) -> SubscriptionChargeResponse</code>
+- <code title="post /subscriptions/{subscription_id}/change-plan/preview">client.subscriptions.<a href="./src/resources/subscriptions.ts">previewChangePlan</a>(subscriptionID, { ...params }) -> SubscriptionPreviewChangePlanResponse</code>
 - <code title="get /subscriptions/{subscription_id}/usage-history">client.subscriptions.<a href="./src/resources/subscriptions.ts">retrieveUsageHistory</a>(subscriptionID, { ...params }) -> SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination</code>
 - <code title="post /subscriptions/{subscription_id}/update-payment-method">client.subscriptions.<a href="./src/resources/subscriptions.ts">updatePaymentMethod</a>(subscriptionID, { ...params }) -> SubscriptionUpdatePaymentMethodResponse</code>
 
@@ -310,6 +312,7 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionOnHoldWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionPlanChangedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionRenewedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionUpdatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeAcceptedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeCancelledWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeChallengedWebhookEvent</a></code>
@@ -331,6 +334,7 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionOnHoldWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionPlanChangedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionRenewedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionUpdatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">UnsafeUnwrapWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">UnwrapWebhookEvent</a></code>
 

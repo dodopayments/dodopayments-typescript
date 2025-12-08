@@ -96,12 +96,12 @@ export const tool: Tool = {
       billing_address: {
         type: 'object',
         properties: {
+          country: {
+            $ref: '#/$defs/country_code',
+          },
           city: {
             type: 'string',
             description: 'City name',
-          },
-          country: {
-            $ref: '#/$defs/country_code',
           },
           state: {
             type: 'string',
@@ -116,7 +116,7 @@ export const tool: Tool = {
             description: 'Postal code or ZIP code',
           },
         },
-        required: ['city', 'country', 'state', 'street', 'zipcode'],
+        required: ['country'],
       },
       country_code: {
         type: 'string',

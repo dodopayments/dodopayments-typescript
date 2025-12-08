@@ -54,6 +54,7 @@ describe('resource checkoutSessions', () => {
       },
       force_3ds: true,
       metadata: { foo: 'string' },
+      minimal_address: true,
       return_url: 'return_url',
       show_saved_payment_methods: true,
       subscription_data: {

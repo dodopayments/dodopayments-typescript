@@ -10,7 +10,7 @@ const client = new DodoPayments({
 describe('resource subscriptions', () => {
   test('create: only required params', async () => {
     const responsePromise = client.subscriptions.create({
-      billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
+      billing: { country: 'AF' },
       customer: { customer_id: 'customer_id' },
       product_id: 'product_id',
       quantity: 0,
@@ -26,7 +26,7 @@ describe('resource subscriptions', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.subscriptions.create({
-      billing: { city: 'city', country: 'AF', state: 'state', street: 'street', zipcode: 'zipcode' },
+      billing: { country: 'AF', city: 'city', state: 'state', street: 'street', zipcode: 'zipcode' },
       customer: { customer_id: 'customer_id' },
       product_id: 'product_id',
       quantity: 0,
@@ -145,6 +145,30 @@ describe('resource subscriptions', () => {
       metadata: { foo: 'string' },
       product_currency: 'AED',
       product_description: 'product_description',
+    });
+  });
+
+  test('previewChangePlan: only required params', async () => {
+    const responsePromise = client.subscriptions.previewChangePlan('subscription_id', {
+      product_id: 'product_id',
+      proration_billing_mode: 'prorated_immediately',
+      quantity: 0,
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('previewChangePlan: required and optional params', async () => {
+    const response = await client.subscriptions.previewChangePlan('subscription_id', {
+      product_id: 'product_id',
+      proration_billing_mode: 'prorated_immediately',
+      quantity: 0,
+      addons: [{ addon_id: 'addon_id', quantity: 0 }],
     });
   });
 

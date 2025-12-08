@@ -73,6 +73,12 @@ export interface CheckoutSessionRequest {
   metadata?: { [key: string]: string } | null;
 
   /**
+   * If true, only zipcode is required when confirm is true; other address fields
+   * remain optional
+   */
+  minimal_address?: boolean;
+
+  /**
    * The url to redirect after payment failure or success.
    */
   return_url?: string | null;
@@ -336,6 +342,12 @@ export interface CheckoutSessionCreateParams {
    * provided.
    */
   metadata?: { [key: string]: string } | null;
+
+  /**
+   * If true, only zipcode is required when confirm is true; other address fields
+   * remain optional
+   */
+  minimal_address?: boolean;
 
   /**
    * The url to redirect after payment failure or success.

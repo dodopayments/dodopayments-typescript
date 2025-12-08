@@ -49,29 +49,29 @@ export interface AttachExistingCustomer {
 
 export interface BillingAddress {
   /**
-   * City name
-   */
-  city: string;
-
-  /**
    * Two-letter ISO country code (ISO 3166-1 alpha-2)
    */
   country: MiscAPI.CountryCode;
 
   /**
+   * City name
+   */
+  city?: string | null;
+
+  /**
    * State or province name
    */
-  state: string;
+  state?: string | null;
 
   /**
    * Street address including house number and unit/apartment if applicable
    */
-  street: string;
+  street?: string | null;
 
   /**
    * Postal code or ZIP code
    */
-  zipcode: string;
+  zipcode?: string | null;
 }
 
 export interface CreateNewCustomer {
