@@ -91,6 +91,7 @@ export const tool: Tool = {
           'subscription.failed',
           'subscription.expired',
           'subscription.plan_changed',
+          'subscription.updated',
           'license_key.created',
         ],
       },

@@ -33,6 +33,7 @@ export type WebhookEventType =
   | 'subscription.failed'
   | 'subscription.expired'
   | 'subscription.plan_changed'
+  | 'subscription.updated'
   | 'license_key.created';
 
 export interface WebhookPayload {

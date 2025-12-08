@@ -264,6 +264,7 @@ The following tools are available in this MCP server.
 - `list_subscriptions` (`read`):
 - `change_plan_subscriptions` (`write`):
 - `charge_subscriptions` (`write`):
+- `preview_change_plan_subscriptions` (`write`):
 - `retrieve_usage_history_subscriptions` (`read`): Get detailed usage history for a subscription that includes usage-based billing (metered components).
   This endpoint provides insights into customer usage patterns and billing calculations over time.
 

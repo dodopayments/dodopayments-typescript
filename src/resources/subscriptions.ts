@@ -60,6 +60,17 @@ export class Subscriptions extends APIResource {
     return this._client.post(path`/subscriptions/${subscriptionID}/charge`, { body, ...options });
   }
 
+  previewChangePlan(
+    subscriptionID: string,
+    body: SubscriptionPreviewChangePlanParams,
+    options?: RequestOptions,
+  ): APIPromise<SubscriptionPreviewChangePlanResponse> {
+    return this._client.post(path`/subscriptions/${subscriptionID}/change-plan/preview`, {
+      body,
+      ...options,
+    });
+  }
+
   /**
    * Get detailed usage history for a subscription that includes usage-based billing
    * (metered components). This endpoint provides insights into customer usage
@@ -548,6 +559,127 @@ export interface SubscriptionChargeResponse {
   payment_id: string;
 }
 
+export interface SubscriptionPreviewChangePlanResponse {
+  immediate_charge: SubscriptionPreviewChangePlanResponse.ImmediateCharge;
+
+  /**
+   * Response struct representing subscription details
+   */
+  new_plan: Subscription;
+}
+
+export namespace SubscriptionPreviewChangePlanResponse {
+  export interface ImmediateCharge {
+    line_items: Array<
+      ImmediateCharge.UnionMember0 | ImmediateCharge.UnionMember1 | ImmediateCharge.UnionMember2
+    >;
+
+    summary: ImmediateCharge.Summary;
+  }
+
+  export namespace ImmediateCharge {
+    export interface UnionMember0 {
+      id: string;
+
+      currency: MiscAPI.Currency;
+
+      product_id: string;
+
+      proration_factor: number;
+
+      quantity: number;
+
+      tax_inclusive: boolean;
+
+      type: 'subscription';
+
+      unit_price: number;
+
+      description?: string | null;
+
+      name?: string | null;
+
+      tax?: number | null;
+
+      tax_rate?: number | null;
+    }
+
+    export interface UnionMember1 {
+      id: string;
+
+      currency: MiscAPI.Currency;
+
+      name: string;
+
+      proration_factor: number;
+
+      quantity: number;
+
+      /**
+       * Represents the different categories of taxation applicable to various products
+       * and services.
+       */
+      tax_category: MiscAPI.TaxCategory;
+
+      tax_inclusive: boolean;
+
+      tax_rate: number;
+
+      type: 'addon';
+
+      unit_price: number;
+
+      description?: string | null;
+
+      tax?: number | null;
+    }
+
+    export interface UnionMember2 {
+      id: string;
+
+      chargeable_units: string;
+
+      currency: MiscAPI.Currency;
+
+      free_threshold: number;
+
+      name: string;
+
+      price_per_unit: string;
+
+      subtotal: number;
+
+      tax_inclusive: boolean;
+
+      tax_rate: number;
+
+      type: 'meter';
+
+      units_consumed: string;
+
+      description?: string | null;
+
+      tax?: number | null;
+    }
+
+    export interface Summary {
+      currency: MiscAPI.Currency;
+
+      customer_credits: number;
+
+      settlement_amount: number;
+
+      settlement_currency: MiscAPI.Currency;
+
+      total_amount: number;
+
+      settlement_tax?: number | null;
+
+      tax?: number | null;
+    }
+  }
+}
+
 export interface SubscriptionRetrieveUsageHistoryResponse {
   /**
    * End date of the billing period
@@ -838,6 +970,29 @@ export namespace SubscriptionChargeParams {
   }
 }
 
+export interface SubscriptionPreviewChangePlanParams {
+  /**
+   * Unique identifier of the product to subscribe to
+   */
+  product_id: string;
+
+  /**
+   * Proration Billing Mode
+   */
+  proration_billing_mode: 'prorated_immediately' | 'full_immediately' | 'difference_immediately';
+
+  /**
+   * Number of units to subscribe for. Must be at least 1.
+   */
+  quantity: number;
+
+  /**
+   * Addons for the new plan. Note : Leaving this empty would remove any existing
+   * addons
+   */
+  addons?: Array<AttachAddon> | null;
+}
+
 export interface SubscriptionRetrieveUsageHistoryParams extends DefaultPageNumberPaginationParams {
   /**
    * Filter by end date (inclusive)
@@ -884,6 +1039,7 @@ export declare namespace Subscriptions {
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
     type SubscriptionListResponse as SubscriptionListResponse,
     type SubscriptionChargeResponse as SubscriptionChargeResponse,
+    type SubscriptionPreviewChangePlanResponse as SubscriptionPreviewChangePlanResponse,
     type SubscriptionRetrieveUsageHistoryResponse as SubscriptionRetrieveUsageHistoryResponse,
     type SubscriptionUpdatePaymentMethodResponse as SubscriptionUpdatePaymentMethodResponse,
     type SubscriptionListResponsesDefaultPageNumberPagination as SubscriptionListResponsesDefaultPageNumberPagination,
@@ -893,6 +1049,7 @@ export declare namespace Subscriptions {
     type SubscriptionListParams as SubscriptionListParams,
     type SubscriptionChangePlanParams as SubscriptionChangePlanParams,
     type SubscriptionChargeParams as SubscriptionChargeParams,
+    type SubscriptionPreviewChangePlanParams as SubscriptionPreviewChangePlanParams,
     type SubscriptionRetrieveUsageHistoryParams as SubscriptionRetrieveUsageHistoryParams,
     type SubscriptionUpdatePaymentMethodParams as SubscriptionUpdatePaymentMethodParams,
   };

@@ -180,6 +180,11 @@ export const tool: Tool = {
         description: 'Additional metadata associated with the payment. Defaults to empty if not provided.',
         additionalProperties: true,
       },
+      minimal_address: {
+        type: 'boolean',
+        description:
+          'If true, only zipcode is required when confirm is true; other address fields remain optional',
+      },
       return_url: {
         type: 'string',
         description: 'The url to redirect after payment failure or success.',

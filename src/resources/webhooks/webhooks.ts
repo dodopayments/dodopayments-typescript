@@ -856,6 +856,40 @@ export namespace SubscriptionRenewedWebhookEvent {
   }
 }
 
+export interface SubscriptionUpdatedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: SubscriptionUpdatedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.updated';
+}
+
+export namespace SubscriptionUpdatedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Subscription';
+  }
+}
+
 export interface DisputeAcceptedWebhookEvent {
   /**
    * The business identifier
@@ -1570,6 +1604,40 @@ export namespace SubscriptionRenewedWebhookEvent {
   }
 }
 
+export interface SubscriptionUpdatedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Event-specific data
+   */
+  data: SubscriptionUpdatedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.updated';
+}
+
+export namespace SubscriptionUpdatedWebhookEvent {
+  /**
+   * Event-specific data
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * The type of payload in the data field
+     */
+    payload_type?: 'Subscription';
+  }
+}
+
 export type UnsafeUnwrapWebhookEvent =
   | DisputeAcceptedWebhookEvent
   | DisputeCancelledWebhookEvent
@@ -1591,7 +1659,8 @@ export type UnsafeUnwrapWebhookEvent =
   | SubscriptionFailedWebhookEvent
   | SubscriptionOnHoldWebhookEvent
   | SubscriptionPlanChangedWebhookEvent
-  | SubscriptionRenewedWebhookEvent;
+  | SubscriptionRenewedWebhookEvent
+  | SubscriptionUpdatedWebhookEvent;
 
 export type UnwrapWebhookEvent =
   | DisputeAcceptedWebhookEvent
@@ -1614,7 +1683,8 @@ export type UnwrapWebhookEvent =
   | SubscriptionFailedWebhookEvent
   | SubscriptionOnHoldWebhookEvent
   | SubscriptionPlanChangedWebhookEvent
-  | SubscriptionRenewedWebhookEvent;
+  | SubscriptionRenewedWebhookEvent
+  | SubscriptionUpdatedWebhookEvent;
 
 export interface WebhookCreateParams {
   /**
@@ -1719,6 +1789,7 @@ export declare namespace Webhooks {
     type SubscriptionOnHoldWebhookEvent as SubscriptionOnHoldWebhookEvent,
     type SubscriptionPlanChangedWebhookEvent as SubscriptionPlanChangedWebhookEvent,
     type SubscriptionRenewedWebhookEvent as SubscriptionRenewedWebhookEvent,
+    type SubscriptionUpdatedWebhookEvent as SubscriptionUpdatedWebhookEvent,
     type UnsafeUnwrapWebhookEvent as UnsafeUnwrapWebhookEvent,
     type UnwrapWebhookEvent as UnwrapWebhookEvent,
     type WebhookDetailsCursorPagePagination as WebhookDetailsCursorPagePagination,
