@@ -1,0 +1,80 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import { Metadata, asErrorResult, asTextContentResult } from 'dodopayments-mcp/tools/types';
+
+import { Tool } from '@modelcontextprotocol/sdk/types.js';
+import DodoPayments from 'dodopayments';
+
+export const metadata: Metadata = {
+  resource: 'subscriptions',
+  operation: 'write',
+  tags: [],
+  httpMethod: 'post',
+  httpPath: '/subscriptions/{subscription_id}/change-plan/preview',
+  operationId: 'change_plan_preview_handler',
+};
+
+export const tool: Tool = {
+  name: 'preview_change_plan_subscriptions',
+  description: '',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      subscription_id: {
+        type: 'string',
+      },
+      product_id: {
+        type: 'string',
+        description: 'Unique identifier of the product to subscribe to',
+      },
+      proration_billing_mode: {
+        type: 'string',
+        title: 'Proration Billing Mode',
+        description: 'Proration Billing Mode',
+        enum: ['prorated_immediately', 'full_immediately', 'difference_immediately'],
+      },
+      quantity: {
+        type: 'integer',
+        description: 'Number of units to subscribe for. Must be at least 1.',
+      },
+      addons: {
+        type: 'array',
+        description: 'Addons for the new plan.\nNote : Leaving this empty would remove any existing addons',
+        items: {
+          $ref: '#/$defs/attach_addon',
+        },
+      },
+    },
+    required: ['subscription_id', 'product_id', 'proration_billing_mode', 'quantity'],
+    $defs: {
+      attach_addon: {
+        type: 'object',
+        title: 'Attach Addon Request',
+        properties: {
+          addon_id: {
+            type: 'string',
+          },
+          quantity: {
+            type: 'integer',
+          },
+        },
+        required: ['addon_id', 'quantity'],
+      },
+    },
+  },
+  annotations: {},
+};
+
+export const handler = async (client: DodoPayments, args: Record<string, unknown> | undefined) => {
+  const { subscription_id, ...body } = args as any;
+  try {
+    return asTextContentResult(await client.subscriptions.previewChangePlan(subscription_id, body));
+  } catch (error) {
+    if (error instanceof DodoPayments.APIError) {
+      return asErrorResult(error.message);
+    }
+    throw error;
+  }
+};
+
+export default { metadata, tool, handler };

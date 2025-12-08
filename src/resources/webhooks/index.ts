@@ -26,6 +26,7 @@ export {
   type SubscriptionOnHoldWebhookEvent,
   type SubscriptionPlanChangedWebhookEvent,
   type SubscriptionRenewedWebhookEvent,
+  type SubscriptionUpdatedWebhookEvent,
   type UnsafeUnwrapWebhookEvent,
   type UnwrapWebhookEvent,
   type WebhookCreateParams,
