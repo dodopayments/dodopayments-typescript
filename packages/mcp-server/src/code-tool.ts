@@ -42,6 +42,7 @@ export async function codeTool() {
       },
       body: JSON.stringify({
         project_name: 'dodo-payments',
+        client_opts: { environment: (readEnv('DODO_PAYMENTS_ENVIRONMENT') || undefined) as any },
         code,
       }),
     });
