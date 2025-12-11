@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.8.1 (2025-12-11)
+
+Full Changelog: [v2.8.0...v2.8.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.8.0...v2.8.1)
+
+### Bug Fixes
+
+* **mcp:** add client instantiation options to code tool ([2a4d359](https://github.com/dodopayments/dodopayments-typescript/commit/2a4d3597473d5cd99b5b1b953c1542e72f67a7ed))
+
+
+### Chores
+
+* **mcp:** update lockfile ([f134474](https://github.com/dodopayments/dodopayments-typescript/commit/f134474be68c9810f614f1c9d6b94e299251d24f))
+
 ## 2.8.0 (2025-12-08)
 
 Full Changelog: [v2.7.0...v2.8.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.7.0...v2.8.0)
