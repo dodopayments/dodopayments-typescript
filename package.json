@@ -1,6 +1,6 @@
 {
   "name": "dodopayments",
-  "version": "2.8.1",
+  "version": "2.8.2",
   "description": "The official TypeScript library for the Dodo Payments API",
   "author": "Dodo Payments <support@dodopayments.com>",
   "types": "dist/index.d.ts",
