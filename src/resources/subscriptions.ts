@@ -14,6 +14,9 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class Subscriptions extends APIResource {
+  /**
+   * @deprecated
+   */
   create(body: SubscriptionCreateParams, options?: RequestOptions): APIPromise<SubscriptionCreateResponse> {
     return this._client.post('/subscriptions', { body, ...options });
   }
@@ -418,9 +421,22 @@ export interface SubscriptionCreateResponse {
   expires_on?: string | null;
 
   /**
+   * One time products associated with the purchase of subscription
+   */
+  one_time_product_cart?: Array<SubscriptionCreateResponse.OneTimeProductCart> | null;
+
+  /**
    * URL to checkout page
    */
   payment_link?: string | null;
+}
+
+export namespace SubscriptionCreateResponse {
+  export interface OneTimeProductCart {
+    product_id: string;
+
+    quantity: number;
+  }
 }
 
 /**
@@ -570,15 +586,13 @@ export interface SubscriptionPreviewChangePlanResponse {
 
 export namespace SubscriptionPreviewChangePlanResponse {
   export interface ImmediateCharge {
-    line_items: Array<
-      ImmediateCharge.UnionMember0 | ImmediateCharge.UnionMember1 | ImmediateCharge.UnionMember2
-    >;
+    line_items: Array<ImmediateCharge.Subscription | ImmediateCharge.Addon | ImmediateCharge.Meter>;
 
     summary: ImmediateCharge.Summary;
   }
 
   export namespace ImmediateCharge {
-    export interface UnionMember0 {
+    export interface Subscription {
       id: string;
 
       currency: MiscAPI.Currency;
@@ -604,7 +618,7 @@ export namespace SubscriptionPreviewChangePlanResponse {
       tax_rate?: number | null;
     }
 
-    export interface UnionMember1 {
+    export interface Addon {
       id: string;
 
       currency: MiscAPI.Currency;
@@ -634,7 +648,7 @@ export namespace SubscriptionPreviewChangePlanResponse {
       tax?: number | null;
     }
 
-    export interface UnionMember2 {
+    export interface Meter {
       id: string;
 
       chargeable_units: string;
@@ -809,6 +823,12 @@ export interface SubscriptionCreateParams {
   metadata?: { [key: string]: string };
 
   on_demand?: OnDemandSubscription | null;
+
+  /**
+   * List of one time products that will be bundled with the first payment for this
+   * subscription
+   */
+  one_time_product_cart?: Array<PaymentsAPI.OneTimeProductCartItem> | null;
 
   /**
    * If true, generates a payment link. Defaults to false if not specified.

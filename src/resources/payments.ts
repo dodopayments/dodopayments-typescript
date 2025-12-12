@@ -14,6 +14,9 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class Payments extends APIResource {
+  /**
+   * @deprecated
+   */
   create(body: PaymentCreateParams, options?: RequestOptions): APIPromise<PaymentCreateResponse> {
     return this._client.post('/payments', { body, ...options });
   }
