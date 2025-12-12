@@ -43,6 +43,7 @@ describe('resource subscriptions', () => {
         product_description: 'product_description',
         product_price: 0,
       },
+      one_time_product_cart: [{ product_id: 'product_id', quantity: 0, amount: 0 }],
       payment_link: true,
       return_url: 'return_url',
       show_saved_payment_methods: true,
