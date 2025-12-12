@@ -68,6 +68,14 @@ export const tool: Tool = {
       on_demand: {
         $ref: '#/$defs/on_demand_subscription',
       },
+      one_time_product_cart: {
+        type: 'array',
+        description:
+          'List of one time products that will be bundled with the first payment for this subscription',
+        items: {
+          $ref: '#/$defs/one_time_product_cart_item',
+        },
+      },
       payment_link: {
         type: 'boolean',
         description: 'If true, generates a payment link.\nDefaults to false if not specified.',
@@ -629,6 +637,24 @@ export const tool: Tool = {
           },
         },
         required: ['mandate_only'],
+      },
+      one_time_product_cart_item: {
+        type: 'object',
+        title: 'One-Time Product Cart Item',
+        properties: {
+          product_id: {
+            type: 'string',
+          },
+          quantity: {
+            type: 'integer',
+          },
+          amount: {
+            type: 'integer',
+            description:
+              'Amount the customer pays if pay_what_you_want is enabled. If disabled then amount will be ignored\nRepresented in the lowest denomination of the currency (e.g., cents for USD).\nFor example, to charge $1.00, pass `100`.',
+          },
+        },
+        required: ['product_id', 'quantity'],
       },
     },
   },
