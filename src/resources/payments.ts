@@ -281,6 +281,11 @@ export interface Payment {
   error_message?: string | null;
 
   /**
+   * Invoice ID for this payment. Uses India-specific invoice ID if available.
+   */
+  invoice_id?: string | null;
+
+  /**
    * Checkout URL
    */
   payment_link?: string | null;
