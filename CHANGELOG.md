@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.9.2 (2025-12-18)
+
+Full Changelog: [v2.9.1...v2.9.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.9.1...v2.9.2)
+
 ## 2.9.1 (2025-12-18)
 
 Full Changelog: [v2.9.0...v2.9.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.9.0...v2.9.1)
