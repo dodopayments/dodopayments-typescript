@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.9.3 (2025-12-18)
+
+Full Changelog: [v2.9.2...v2.9.3](https://github.com/dodopayments/dodopayments-typescript/compare/v2.9.2...v2.9.3)
+
+### Features
+
+* added github workflow to deploy remote mcp ([47bc497](https://github.com/dodopayments/dodopayments-typescript/commit/47bc4974dc7891d90bb187f5d56fbd5cabc13b5c))
+
 ## 2.9.2 (2025-12-18)
 
 Full Changelog: [v2.9.1...v2.9.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.9.1...v2.9.2)
