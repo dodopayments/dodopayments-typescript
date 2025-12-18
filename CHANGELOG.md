@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.9.1 (2025-12-18)
+
+Full Changelog: [v2.9.0...v2.9.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.9.0...v2.9.1)
+
+### Bug Fixes
+
+* **mcp:** pass base url to code tool ([072f6ae](https://github.com/dodopayments/dodopayments-typescript/commit/072f6ae95b170f12b6b9a784902ac4716678f273))
+
 ## 2.9.0 (2025-12-16)
 
 Full Changelog: [v2.8.2...v2.9.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.8.2...v2.9.0)
