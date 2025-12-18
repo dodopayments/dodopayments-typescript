@@ -38,6 +38,7 @@ export async function codeTool() {
         client_envs: JSON.stringify({
           DODO_PAYMENTS_API_KEY: readEnv('DODO_PAYMENTS_API_KEY'),
           DODO_PAYMENTS_WEBHOOK_KEY: readEnv('DODO_PAYMENTS_WEBHOOK_KEY'),
+          DODO_PAYMENTS_BASE_URL: readEnv('DODO_PAYMENTS_BASE_URL'),
         }),
       },
       body: JSON.stringify({
