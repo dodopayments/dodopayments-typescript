@@ -1,5 +1,5 @@
 {
-  "name": "remote-mcp-server-with-stainless",
+  "name": "dodopayments-api-mcp-server",
   "version": "0.0.0",
   "private": true,
   "scripts": {
