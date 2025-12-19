@@ -84,6 +84,11 @@ export interface CheckoutSessionRequest {
   return_url?: string | null;
 
   /**
+   * If true, returns a shortened checkout URL. Defaults to false if not specified.
+   */
+  short_link?: boolean;
+
+  /**
    * Display saved payment methods of a returning customer False by default
    */
   show_saved_payment_methods?: boolean;
@@ -228,6 +233,13 @@ export namespace CheckoutSessionRequest {
      * Default is false
      */
     always_create_new_customer?: boolean;
+
+    /**
+     * If true, redirects the customer immediately after payment completion
+     *
+     * Default is false
+     */
+    redirect_immediately?: boolean;
   }
 
   export interface SubscriptionData {
@@ -353,6 +365,11 @@ export interface CheckoutSessionCreateParams {
    * The url to redirect after payment failure or success.
    */
   return_url?: string | null;
+
+  /**
+   * If true, returns a shortened checkout URL. Defaults to false if not specified.
+   */
+  short_link?: boolean;
 
   /**
    * Display saved payment methods of a returning customer False by default
@@ -499,6 +516,13 @@ export namespace CheckoutSessionCreateParams {
      * Default is false
      */
     always_create_new_customer?: boolean;
+
+    /**
+     * If true, redirects the customer immediately after payment completion
+     *
+     * Default is false
+     */
+    redirect_immediately?: boolean;
   }
 
   export interface SubscriptionData {

@@ -51,11 +51,13 @@ describe('resource checkoutSessions', () => {
         allow_phone_number_collection: true,
         allow_tax_id: true,
         always_create_new_customer: true,
+        redirect_immediately: true,
       },
       force_3ds: true,
       metadata: { foo: 'string' },
       minimal_address: true,
       return_url: 'return_url',
+      short_link: true,
       show_saved_payment_methods: true,
       subscription_data: {
         on_demand: {

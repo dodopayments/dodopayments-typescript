@@ -34,7 +34,9 @@ describe('resource payments', () => {
       force_3ds: true,
       metadata: { foo: 'string' },
       payment_link: true,
+      redirect_immediately: true,
       return_url: 'return_url',
+      short_link: true,
       show_saved_payment_methods: true,
       tax_id: 'tax_id',
     });
