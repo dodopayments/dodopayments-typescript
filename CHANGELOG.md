@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.10.0 (2025-12-19)
+
+Full Changelog: [v2.9.3...v2.10.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.9.3...v2.10.0)
+
+### ⚠ BREAKING CHANGES
+
+* **mcp:** remove deprecated tool schemes
+* **mcp:** **Migration:** To migrate, simply modify the command used to invoke the MCP server. Currently, the only supported tool scheme is code mode. Now, starting the server with just `node /path/to/mcp/server` or `npx package-name` will invoke code tools: changing your command to one of these is likely all you will need to do.
+
+### Chores
+
+* **mcp:** remove deprecated tool schemes ([30636e2](https://github.com/dodopayments/dodopayments-typescript/commit/30636e2ade07ae6c63cca244396292b4af255f1c))
+
 ## 2.9.3 (2025-12-18)
 
 Full Changelog: [v2.9.2...v2.9.3](https://github.com/dodopayments/dodopayments-typescript/compare/v2.9.2...v2.9.3)
