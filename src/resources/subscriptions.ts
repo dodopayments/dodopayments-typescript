@@ -836,9 +836,20 @@ export interface SubscriptionCreateParams {
   payment_link?: boolean | null;
 
   /**
+   * If true, redirects the customer immediately after payment completion False by
+   * default
+   */
+  redirect_immediately?: boolean;
+
+  /**
    * Optional URL to redirect after successful subscription creation
    */
   return_url?: string | null;
+
+  /**
+   * If true, returns a shortened payment link. Defaults to false if not specified.
+   */
+  short_link?: boolean | null;
 
   /**
    * Display saved payment methods of a returning customer False by default
