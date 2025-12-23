@@ -6,6 +6,15 @@ import * as MiscAPI from '../misc';
 import * as SubscriptionsAPI from '../subscriptions';
 import * as ImagesAPI from './images';
 import { ImageUpdateParams, ImageUpdateResponse, Images } from './images';
+import * as ShortLinksAPI from './short-links';
+import {
+  ShortLinkCreateParams,
+  ShortLinkCreateResponse,
+  ShortLinkListParams,
+  ShortLinkListResponse,
+  ShortLinkListResponsesDefaultPageNumberPagination,
+  ShortLinks,
+} from './short-links';
 import { APIPromise } from '../../core/api-promise';
 import {
   DefaultPageNumberPagination,
@@ -18,6 +27,7 @@ import { path } from '../../internal/utils/path';
 
 export class Products extends APIResource {
   images: ImagesAPI.Images = new ImagesAPI.Images(this._client);
+  shortLinks: ShortLinksAPI.ShortLinks = new ShortLinksAPI.ShortLinks(this._client);
 
   create(body: ProductCreateParams, options?: RequestOptions): APIPromise<Product> {
     return this._client.post('/products', { body, ...options });
@@ -687,6 +697,7 @@ export interface ProductUpdateFilesParams {
 }
 
 Products.Images = Images;
+Products.ShortLinks = ShortLinks;
 
 export declare namespace Products {
   export {
@@ -707,5 +718,14 @@ export declare namespace Products {
     Images as Images,
     type ImageUpdateResponse as ImageUpdateResponse,
     type ImageUpdateParams as ImageUpdateParams,
+  };
+
+  export {
+    ShortLinks as ShortLinks,
+    type ShortLinkCreateResponse as ShortLinkCreateResponse,
+    type ShortLinkListResponse as ShortLinkListResponse,
+    type ShortLinkListResponsesDefaultPageNumberPagination as ShortLinkListResponsesDefaultPageNumberPagination,
+    type ShortLinkCreateParams as ShortLinkCreateParams,
+    type ShortLinkListParams as ShortLinkListParams,
   };
 }

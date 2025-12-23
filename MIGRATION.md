@@ -80,6 +80,7 @@ This affects the following methods:
 - `client.payouts.list()`
 - `client.products.list()`
 - `client.products.images.update()`
+- `client.products.shortLinks.list()`
 - `client.discounts.list()`
 - `client.addons.list()`
 - `client.webhooks.list()`
