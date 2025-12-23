@@ -79,6 +79,12 @@ export interface CheckoutSessionRequest {
   minimal_address?: boolean;
 
   /**
+   * Optional payment method ID to use for this checkout session. Only allowed when
+   * `confirm` is true. If provided, existing customer id must also be provided.
+   */
+  payment_method_id?: string | null;
+
+  /**
    * The url to redirect after payment failure or success.
    */
   return_url?: string | null;
@@ -255,14 +261,14 @@ export namespace CheckoutSessionRequest {
 
 export interface CheckoutSessionResponse {
   /**
-   * Checkout url
-   */
-  checkout_url: string;
-
-  /**
    * The ID of the created checkout session
    */
   session_id: string;
+
+  /**
+   * Checkout url (None when payment_method_id is provided)
+   */
+  checkout_url?: string | null;
 }
 
 export interface CheckoutSessionStatus {
@@ -360,6 +366,12 @@ export interface CheckoutSessionCreateParams {
    * remain optional
    */
   minimal_address?: boolean;
+
+  /**
+   * Optional payment method ID to use for this checkout session. Only allowed when
+   * `confirm` is true. If provided, existing customer id must also be provided.
+   */
+  payment_method_id?: string | null;
 
   /**
    * The url to redirect after payment failure or success.
