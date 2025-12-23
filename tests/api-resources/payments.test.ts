@@ -34,6 +34,7 @@ describe('resource payments', () => {
       force_3ds: true,
       metadata: { foo: 'string' },
       payment_link: true,
+      payment_method_id: 'payment_method_id',
       redirect_immediately: true,
       return_url: 'return_url',
       short_link: true,

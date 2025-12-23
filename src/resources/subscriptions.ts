@@ -836,6 +836,13 @@ export interface SubscriptionCreateParams {
   payment_link?: boolean | null;
 
   /**
+   * Optional payment method ID to use for this subscription. If provided,
+   * customer_id must also be provided (via AttachExistingCustomer). The payment
+   * method will be validated for eligibility with the subscription's currency.
+   */
+  payment_method_id?: string | null;
+
+  /**
    * If true, redirects the customer immediately after payment completion False by
    * default
    */

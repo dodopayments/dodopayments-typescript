@@ -559,6 +559,13 @@ export interface PaymentCreateParams {
   payment_link?: boolean | null;
 
   /**
+   * Optional payment method ID to use for this payment. If provided, customer_id
+   * must also be provided. The payment method will be validated for eligibility with
+   * the payment's currency.
+   */
+  payment_method_id?: string | null;
+
+  /**
    * If true, redirects the customer immediately after payment completion False by
    * default
    */
