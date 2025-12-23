@@ -56,6 +56,7 @@ describe('resource checkoutSessions', () => {
       force_3ds: true,
       metadata: { foo: 'string' },
       minimal_address: true,
+      payment_method_id: 'payment_method_id',
       return_url: 'return_url',
       short_link: true,
       show_saved_payment_methods: true,
