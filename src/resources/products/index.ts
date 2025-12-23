@@ -15,3 +15,11 @@ export {
   type ProductUpdateFilesParams,
   type ProductListResponsesDefaultPageNumberPagination,
 } from './products';
+export {
+  ShortLinks,
+  type ShortLinkCreateResponse,
+  type ShortLinkListResponse,
+  type ShortLinkCreateParams,
+  type ShortLinkListParams,
+  type ShortLinkListResponsesDefaultPageNumberPagination,
+} from './short-links';
