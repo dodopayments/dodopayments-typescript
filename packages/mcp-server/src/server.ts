@@ -10,6 +10,7 @@ import {
 import { ClientOptions } from 'dodopayments';
 import DodoPayments from 'dodopayments';
 import { codeTool } from './code-tool';
+import docsSearchTool from './docs-search-tool';
 import { McpOptions } from './options';
 import { HandlerFunction, McpTool } from './types';
 
@@ -112,7 +113,9 @@ export function initMcpServer(params: {
  */
 export function selectTools(options?: McpOptions): McpTool[] {
   const includedTools = [codeTool()];
-
+  if (options?.includeDocsTools ?? true) {
+    includedTools.push(docsSearchTool);
+  }
   return includedTools;
 }
 
