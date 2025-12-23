@@ -226,6 +226,18 @@ Methods:
 
 - <code title="put /products/{id}/images">client.products.images.<a href="./src/resources/products/images.ts">update</a>(id, { ...params }) -> ImageUpdateResponse</code>
 
+## ShortLinks
+
+Types:
+
+- <code><a href="./src/resources/products/short-links.ts">ShortLinkCreateResponse</a></code>
+- <code><a href="./src/resources/products/short-links.ts">ShortLinkListResponse</a></code>
+
+Methods:
+
+- <code title="post /products/{id}/short_links">client.products.shortLinks.<a href="./src/resources/products/short-links.ts">create</a>(id, { ...params }) -> ShortLinkCreateResponse</code>
+- <code title="get /products/short_links">client.products.shortLinks.<a href="./src/resources/products/short-links.ts">list</a>({ ...params }) -> ShortLinkListResponsesDefaultPageNumberPagination</code>
+
 # Misc
 
 Types:
