@@ -57,6 +57,41 @@ const checkoutSessionResponse: DodoPayments.CheckoutSessionResponse = await clie
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
 
+### Checkout Sessions and Language Support
+
+When creating checkout sessions with language customization, you may encounter issues with iframe overlays in Chromium-based browsers (Chrome, Brave, Edge). This is due to third-party cookie restrictions.
+
+To ensure proper language display in checkout overlays:
+
+<!-- prettier-ignore -->
+```ts
+import DodoPayments, { ensureLanguageInUrl } from 'dodopayments';
+
+const client = new DodoPayments({
+  bearerToken: process.env['DODO_PAYMENTS_API_KEY'],
+  environment: 'test_mode',
+});
+
+// Create checkout with language preference
+const checkoutSessionResponse = await client.checkoutSessions.create({
+  product_cart: [{ product_id: 'product_id', quantity: 1 }],
+  customization: {
+    force_language: 'de', // German, or 'en', 'es', 'fr', etc.
+  },
+});
+
+// Ensure language is in URL for iframe compatibility
+const checkoutUrl = ensureLanguageInUrl(
+  checkoutSessionResponse.checkout_url,
+  'de'
+);
+
+// Now safe to use with overlay in all browsers
+// DodoPayment.Checkout.open({ checkoutUrl });
+```
+
+For more details, see [CHROMIUM_LANGUAGE_FIX.md](./CHROMIUM_LANGUAGE_FIX.md).
+
 ## Handling errors
 
 When the library is unable to connect to the API,
