@@ -58,7 +58,7 @@ If you use Claude Code, you can install the MCP server by running the command be
 environment variables in Claude Code's `.claude.json`, which can be found in your home directory.
 
 ```
-claude mcp add --transport stdio dodopayments_api --env DODO_PAYMENTS_API_KEY="Your DODO_PAYMENTS_API_KEY here." DODO_PAYMENTS_WEBHOOK_KEY="Your DODO_PAYMENTS_WEBHOOK_KEY here." -- npx -y dodopayments-mcp
+claude mcp add dodopayments_mcp_api --env DODO_PAYMENTS_API_KEY="Your DODO_PAYMENTS_API_KEY here." DODO_PAYMENTS_WEBHOOK_KEY="Your DODO_PAYMENTS_WEBHOOK_KEY here." -- npx -y dodopayments-mcp
 ```
 
 ## Code Mode
