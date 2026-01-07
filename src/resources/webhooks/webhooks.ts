@@ -148,10 +148,7 @@ export interface DisputeAcceptedWebhookEvent {
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: DisputeAcceptedWebhookEvent.Data;
+  data: DisputesAPI.Dispute;
 
   /**
    * The timestamp of when the event occurred
@@ -164,28 +161,13 @@ export interface DisputeAcceptedWebhookEvent {
   type: 'dispute.accepted';
 }
 
-export namespace DisputeAcceptedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends DisputesAPI.Dispute {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Dispute';
-  }
-}
-
 export interface DisputeCancelledWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: DisputeCancelledWebhookEvent.Data;
+  data: DisputesAPI.Dispute;
 
   /**
    * The timestamp of when the event occurred
@@ -198,28 +180,13 @@ export interface DisputeCancelledWebhookEvent {
   type: 'dispute.cancelled';
 }
 
-export namespace DisputeCancelledWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends DisputesAPI.Dispute {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Dispute';
-  }
-}
-
 export interface DisputeChallengedWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: DisputeChallengedWebhookEvent.Data;
+  data: DisputesAPI.Dispute;
 
   /**
    * The timestamp of when the event occurred
@@ -232,28 +199,13 @@ export interface DisputeChallengedWebhookEvent {
   type: 'dispute.challenged';
 }
 
-export namespace DisputeChallengedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends DisputesAPI.Dispute {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Dispute';
-  }
-}
-
 export interface DisputeExpiredWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: DisputeExpiredWebhookEvent.Data;
+  data: DisputesAPI.Dispute;
 
   /**
    * The timestamp of when the event occurred
@@ -266,28 +218,13 @@ export interface DisputeExpiredWebhookEvent {
   type: 'dispute.expired';
 }
 
-export namespace DisputeExpiredWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends DisputesAPI.Dispute {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Dispute';
-  }
-}
-
 export interface DisputeLostWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: DisputeLostWebhookEvent.Data;
+  data: DisputesAPI.Dispute;
 
   /**
    * The timestamp of when the event occurred
@@ -300,28 +237,13 @@ export interface DisputeLostWebhookEvent {
   type: 'dispute.lost';
 }
 
-export namespace DisputeLostWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends DisputesAPI.Dispute {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Dispute';
-  }
-}
-
 export interface DisputeOpenedWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: DisputeOpenedWebhookEvent.Data;
+  data: DisputesAPI.Dispute;
 
   /**
    * The timestamp of when the event occurred
@@ -334,28 +256,13 @@ export interface DisputeOpenedWebhookEvent {
   type: 'dispute.opened';
 }
 
-export namespace DisputeOpenedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends DisputesAPI.Dispute {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Dispute';
-  }
-}
-
 export interface DisputeWonWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: DisputeWonWebhookEvent.Data;
+  data: DisputesAPI.Dispute;
 
   /**
    * The timestamp of when the event occurred
@@ -368,28 +275,13 @@ export interface DisputeWonWebhookEvent {
   type: 'dispute.won';
 }
 
-export namespace DisputeWonWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends DisputesAPI.Dispute {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Dispute';
-  }
-}
-
 export interface LicenseKeyCreatedWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: LicenseKeyCreatedWebhookEvent.Data;
+  data: LicenseKeysAPI.LicenseKey;
 
   /**
    * The timestamp of when the event occurred
@@ -402,28 +294,13 @@ export interface LicenseKeyCreatedWebhookEvent {
   type: 'license_key.created';
 }
 
-export namespace LicenseKeyCreatedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends LicenseKeysAPI.LicenseKey {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'LicenseKey';
-  }
-}
-
 export interface PaymentCancelledWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: PaymentCancelledWebhookEvent.Data;
+  data: PaymentsAPI.Payment;
 
   /**
    * The timestamp of when the event occurred
@@ -436,28 +313,13 @@ export interface PaymentCancelledWebhookEvent {
   type: 'payment.cancelled';
 }
 
-export namespace PaymentCancelledWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends PaymentsAPI.Payment {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Payment';
-  }
-}
-
 export interface PaymentFailedWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: PaymentFailedWebhookEvent.Data;
+  data: PaymentsAPI.Payment;
 
   /**
    * The timestamp of when the event occurred
@@ -470,28 +332,13 @@ export interface PaymentFailedWebhookEvent {
   type: 'payment.failed';
 }
 
-export namespace PaymentFailedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends PaymentsAPI.Payment {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Payment';
-  }
-}
-
 export interface PaymentProcessingWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: PaymentProcessingWebhookEvent.Data;
+  data: PaymentsAPI.Payment;
 
   /**
    * The timestamp of when the event occurred
@@ -504,28 +351,13 @@ export interface PaymentProcessingWebhookEvent {
   type: 'payment.processing';
 }
 
-export namespace PaymentProcessingWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends PaymentsAPI.Payment {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Payment';
-  }
-}
-
 export interface PaymentSucceededWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: PaymentSucceededWebhookEvent.Data;
+  data: PaymentsAPI.Payment;
 
   /**
    * The timestamp of when the event occurred
@@ -538,28 +370,13 @@ export interface PaymentSucceededWebhookEvent {
   type: 'payment.succeeded';
 }
 
-export namespace PaymentSucceededWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends PaymentsAPI.Payment {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Payment';
-  }
-}
-
 export interface RefundFailedWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: RefundFailedWebhookEvent.Data;
+  data: RefundsAPI.Refund;
 
   /**
    * The timestamp of when the event occurred
@@ -572,28 +389,13 @@ export interface RefundFailedWebhookEvent {
   type: 'refund.failed';
 }
 
-export namespace RefundFailedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends RefundsAPI.Refund {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Refund';
-  }
-}
-
 export interface RefundSucceededWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: RefundSucceededWebhookEvent.Data;
+  data: RefundsAPI.Refund;
 
   /**
    * The timestamp of when the event occurred
@@ -606,18 +408,6 @@ export interface RefundSucceededWebhookEvent {
   type: 'refund.succeeded';
 }
 
-export namespace RefundSucceededWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends RefundsAPI.Refund {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Refund';
-  }
-}
-
 export interface SubscriptionActiveWebhookEvent {
   /**
    * The business identifier
@@ -625,9 +415,9 @@ export interface SubscriptionActiveWebhookEvent {
   business_id: string;
 
   /**
-   * Event-specific data
+   * Response struct representing subscription details
    */
-  data: SubscriptionActiveWebhookEvent.Data;
+  data: SubscriptionsAPI.Subscription;
 
   /**
    * The timestamp of when the event occurred
@@ -640,18 +430,6 @@ export interface SubscriptionActiveWebhookEvent {
   type: 'subscription.active';
 }
 
-export namespace SubscriptionActiveWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends SubscriptionsAPI.Subscription {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Subscription';
-  }
-}
-
 export interface SubscriptionCancelledWebhookEvent {
   /**
    * The business identifier
@@ -659,9 +437,9 @@ export interface SubscriptionCancelledWebhookEvent {
   business_id: string;
 
   /**
-   * Event-specific data
+   * Response struct representing subscription details
    */
-  data: SubscriptionCancelledWebhookEvent.Data;
+  data: SubscriptionsAPI.Subscription;
 
   /**
    * The timestamp of when the event occurred
@@ -674,18 +452,6 @@ export interface SubscriptionCancelledWebhookEvent {
   type: 'subscription.cancelled';
 }
 
-export namespace SubscriptionCancelledWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends SubscriptionsAPI.Subscription {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Subscription';
-  }
-}
-
 export interface SubscriptionExpiredWebhookEvent {
   /**
    * The business identifier
@@ -693,9 +459,9 @@ export interface SubscriptionExpiredWebhookEvent {
   business_id: string;
 
   /**
-   * Event-specific data
+   * Response struct representing subscription details
    */
-  data: SubscriptionExpiredWebhookEvent.Data;
+  data: SubscriptionsAPI.Subscription;
 
   /**
    * The timestamp of when the event occurred
@@ -708,18 +474,6 @@ export interface SubscriptionExpiredWebhookEvent {
   type: 'subscription.expired';
 }
 
-export namespace SubscriptionExpiredWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends SubscriptionsAPI.Subscription {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Subscription';
-  }
-}
-
 export interface SubscriptionFailedWebhookEvent {
   /**
    * The business identifier
@@ -727,9 +481,9 @@ export interface SubscriptionFailedWebhookEvent {
   business_id: string;
 
   /**
-   * Event-specific data
+   * Response struct representing subscription details
    */
-  data: SubscriptionFailedWebhookEvent.Data;
+  data: SubscriptionsAPI.Subscription;
 
   /**
    * The timestamp of when the event occurred
@@ -742,18 +496,6 @@ export interface SubscriptionFailedWebhookEvent {
   type: 'subscription.failed';
 }
 
-export namespace SubscriptionFailedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends SubscriptionsAPI.Subscription {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Subscription';
-  }
-}
-
 export interface SubscriptionOnHoldWebhookEvent {
   /**
    * The business identifier
@@ -761,9 +503,9 @@ export interface SubscriptionOnHoldWebhookEvent {
   business_id: string;
 
   /**
-   * Event-specific data
+   * Response struct representing subscription details
    */
-  data: SubscriptionOnHoldWebhookEvent.Data;
+  data: SubscriptionsAPI.Subscription;
 
   /**
    * The timestamp of when the event occurred
@@ -776,18 +518,6 @@ export interface SubscriptionOnHoldWebhookEvent {
   type: 'subscription.on_hold';
 }
 
-export namespace SubscriptionOnHoldWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends SubscriptionsAPI.Subscription {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Subscription';
-  }
-}
-
 export interface SubscriptionPlanChangedWebhookEvent {
   /**
    * The business identifier
@@ -795,9 +525,9 @@ export interface SubscriptionPlanChangedWebhookEvent {
   business_id: string;
 
   /**
-   * Event-specific data
+   * Response struct representing subscription details
    */
-  data: SubscriptionPlanChangedWebhookEvent.Data;
+  data: SubscriptionsAPI.Subscription;
 
   /**
    * The timestamp of when the event occurred
@@ -810,18 +540,6 @@ export interface SubscriptionPlanChangedWebhookEvent {
   type: 'subscription.plan_changed';
 }
 
-export namespace SubscriptionPlanChangedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends SubscriptionsAPI.Subscription {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Subscription';
-  }
-}
-
 export interface SubscriptionRenewedWebhookEvent {
   /**
    * The business identifier
@@ -829,9 +547,9 @@ export interface SubscriptionRenewedWebhookEvent {
   business_id: string;
 
   /**
-   * Event-specific data
+   * Response struct representing subscription details
    */
-  data: SubscriptionRenewedWebhookEvent.Data;
+  data: SubscriptionsAPI.Subscription;
 
   /**
    * The timestamp of when the event occurred
@@ -844,18 +562,6 @@ export interface SubscriptionRenewedWebhookEvent {
   type: 'subscription.renewed';
 }
 
-export namespace SubscriptionRenewedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends SubscriptionsAPI.Subscription {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Subscription';
-  }
-}
-
 export interface SubscriptionUpdatedWebhookEvent {
   /**
    * The business identifier
@@ -863,9 +569,9 @@ export interface SubscriptionUpdatedWebhookEvent {
   business_id: string;
 
   /**
-   * Event-specific data
+   * Response struct representing subscription details
    */
-  data: SubscriptionUpdatedWebhookEvent.Data;
+  data: SubscriptionsAPI.Subscription;
 
   /**
    * The timestamp of when the event occurred
@@ -876,18 +582,6 @@ export interface SubscriptionUpdatedWebhookEvent {
    * The event type
    */
   type: 'subscription.updated';
-}
-
-export namespace SubscriptionUpdatedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends SubscriptionsAPI.Subscription {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Subscription';
-  }
 }
 
 export interface DisputeAcceptedWebhookEvent {
@@ -896,10 +590,7 @@ export interface DisputeAcceptedWebhookEvent {
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: DisputeAcceptedWebhookEvent.Data;
+  data: DisputesAPI.Dispute;
 
   /**
    * The timestamp of when the event occurred
@@ -912,28 +603,13 @@ export interface DisputeAcceptedWebhookEvent {
   type: 'dispute.accepted';
 }
 
-export namespace DisputeAcceptedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends DisputesAPI.Dispute {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Dispute';
-  }
-}
-
 export interface DisputeCancelledWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: DisputeCancelledWebhookEvent.Data;
+  data: DisputesAPI.Dispute;
 
   /**
    * The timestamp of when the event occurred
@@ -946,28 +622,13 @@ export interface DisputeCancelledWebhookEvent {
   type: 'dispute.cancelled';
 }
 
-export namespace DisputeCancelledWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends DisputesAPI.Dispute {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Dispute';
-  }
-}
-
 export interface DisputeChallengedWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: DisputeChallengedWebhookEvent.Data;
+  data: DisputesAPI.Dispute;
 
   /**
    * The timestamp of when the event occurred
@@ -980,28 +641,13 @@ export interface DisputeChallengedWebhookEvent {
   type: 'dispute.challenged';
 }
 
-export namespace DisputeChallengedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends DisputesAPI.Dispute {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Dispute';
-  }
-}
-
 export interface DisputeExpiredWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: DisputeExpiredWebhookEvent.Data;
+  data: DisputesAPI.Dispute;
 
   /**
    * The timestamp of when the event occurred
@@ -1014,28 +660,13 @@ export interface DisputeExpiredWebhookEvent {
   type: 'dispute.expired';
 }
 
-export namespace DisputeExpiredWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends DisputesAPI.Dispute {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Dispute';
-  }
-}
-
 export interface DisputeLostWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: DisputeLostWebhookEvent.Data;
+  data: DisputesAPI.Dispute;
 
   /**
    * The timestamp of when the event occurred
@@ -1048,28 +679,13 @@ export interface DisputeLostWebhookEvent {
   type: 'dispute.lost';
 }
 
-export namespace DisputeLostWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends DisputesAPI.Dispute {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Dispute';
-  }
-}
-
 export interface DisputeOpenedWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: DisputeOpenedWebhookEvent.Data;
+  data: DisputesAPI.Dispute;
 
   /**
    * The timestamp of when the event occurred
@@ -1082,28 +698,13 @@ export interface DisputeOpenedWebhookEvent {
   type: 'dispute.opened';
 }
 
-export namespace DisputeOpenedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends DisputesAPI.Dispute {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Dispute';
-  }
-}
-
 export interface DisputeWonWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: DisputeWonWebhookEvent.Data;
+  data: DisputesAPI.Dispute;
 
   /**
    * The timestamp of when the event occurred
@@ -1116,28 +717,13 @@ export interface DisputeWonWebhookEvent {
   type: 'dispute.won';
 }
 
-export namespace DisputeWonWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends DisputesAPI.Dispute {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Dispute';
-  }
-}
-
 export interface LicenseKeyCreatedWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: LicenseKeyCreatedWebhookEvent.Data;
+  data: LicenseKeysAPI.LicenseKey;
 
   /**
    * The timestamp of when the event occurred
@@ -1150,28 +736,13 @@ export interface LicenseKeyCreatedWebhookEvent {
   type: 'license_key.created';
 }
 
-export namespace LicenseKeyCreatedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends LicenseKeysAPI.LicenseKey {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'LicenseKey';
-  }
-}
-
 export interface PaymentCancelledWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: PaymentCancelledWebhookEvent.Data;
+  data: PaymentsAPI.Payment;
 
   /**
    * The timestamp of when the event occurred
@@ -1184,28 +755,13 @@ export interface PaymentCancelledWebhookEvent {
   type: 'payment.cancelled';
 }
 
-export namespace PaymentCancelledWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends PaymentsAPI.Payment {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Payment';
-  }
-}
-
 export interface PaymentFailedWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: PaymentFailedWebhookEvent.Data;
+  data: PaymentsAPI.Payment;
 
   /**
    * The timestamp of when the event occurred
@@ -1218,28 +774,13 @@ export interface PaymentFailedWebhookEvent {
   type: 'payment.failed';
 }
 
-export namespace PaymentFailedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends PaymentsAPI.Payment {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Payment';
-  }
-}
-
 export interface PaymentProcessingWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: PaymentProcessingWebhookEvent.Data;
+  data: PaymentsAPI.Payment;
 
   /**
    * The timestamp of when the event occurred
@@ -1252,28 +793,13 @@ export interface PaymentProcessingWebhookEvent {
   type: 'payment.processing';
 }
 
-export namespace PaymentProcessingWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends PaymentsAPI.Payment {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Payment';
-  }
-}
-
 export interface PaymentSucceededWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: PaymentSucceededWebhookEvent.Data;
+  data: PaymentsAPI.Payment;
 
   /**
    * The timestamp of when the event occurred
@@ -1286,28 +812,13 @@ export interface PaymentSucceededWebhookEvent {
   type: 'payment.succeeded';
 }
 
-export namespace PaymentSucceededWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends PaymentsAPI.Payment {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Payment';
-  }
-}
-
 export interface RefundFailedWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: RefundFailedWebhookEvent.Data;
+  data: RefundsAPI.Refund;
 
   /**
    * The timestamp of when the event occurred
@@ -1320,28 +831,13 @@ export interface RefundFailedWebhookEvent {
   type: 'refund.failed';
 }
 
-export namespace RefundFailedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends RefundsAPI.Refund {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Refund';
-  }
-}
-
 export interface RefundSucceededWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  /**
-   * Event-specific data
-   */
-  data: RefundSucceededWebhookEvent.Data;
+  data: RefundsAPI.Refund;
 
   /**
    * The timestamp of when the event occurred
@@ -1354,18 +850,6 @@ export interface RefundSucceededWebhookEvent {
   type: 'refund.succeeded';
 }
 
-export namespace RefundSucceededWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends RefundsAPI.Refund {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Refund';
-  }
-}
-
 export interface SubscriptionActiveWebhookEvent {
   /**
    * The business identifier
@@ -1373,9 +857,9 @@ export interface SubscriptionActiveWebhookEvent {
   business_id: string;
 
   /**
-   * Event-specific data
+   * Response struct representing subscription details
    */
-  data: SubscriptionActiveWebhookEvent.Data;
+  data: SubscriptionsAPI.Subscription;
 
   /**
    * The timestamp of when the event occurred
@@ -1388,18 +872,6 @@ export interface SubscriptionActiveWebhookEvent {
   type: 'subscription.active';
 }
 
-export namespace SubscriptionActiveWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends SubscriptionsAPI.Subscription {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Subscription';
-  }
-}
-
 export interface SubscriptionCancelledWebhookEvent {
   /**
    * The business identifier
@@ -1407,9 +879,9 @@ export interface SubscriptionCancelledWebhookEvent {
   business_id: string;
 
   /**
-   * Event-specific data
+   * Response struct representing subscription details
    */
-  data: SubscriptionCancelledWebhookEvent.Data;
+  data: SubscriptionsAPI.Subscription;
 
   /**
    * The timestamp of when the event occurred
@@ -1422,18 +894,6 @@ export interface SubscriptionCancelledWebhookEvent {
   type: 'subscription.cancelled';
 }
 
-export namespace SubscriptionCancelledWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends SubscriptionsAPI.Subscription {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Subscription';
-  }
-}
-
 export interface SubscriptionExpiredWebhookEvent {
   /**
    * The business identifier
@@ -1441,9 +901,9 @@ export interface SubscriptionExpiredWebhookEvent {
   business_id: string;
 
   /**
-   * Event-specific data
+   * Response struct representing subscription details
    */
-  data: SubscriptionExpiredWebhookEvent.Data;
+  data: SubscriptionsAPI.Subscription;
 
   /**
    * The timestamp of when the event occurred
@@ -1456,18 +916,6 @@ export interface SubscriptionExpiredWebhookEvent {
   type: 'subscription.expired';
 }
 
-export namespace SubscriptionExpiredWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends SubscriptionsAPI.Subscription {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Subscription';
-  }
-}
-
 export interface SubscriptionFailedWebhookEvent {
   /**
    * The business identifier
@@ -1475,9 +923,9 @@ export interface SubscriptionFailedWebhookEvent {
   business_id: string;
 
   /**
-   * Event-specific data
+   * Response struct representing subscription details
    */
-  data: SubscriptionFailedWebhookEvent.Data;
+  data: SubscriptionsAPI.Subscription;
 
   /**
    * The timestamp of when the event occurred
@@ -1490,18 +938,6 @@ export interface SubscriptionFailedWebhookEvent {
   type: 'subscription.failed';
 }
 
-export namespace SubscriptionFailedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends SubscriptionsAPI.Subscription {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Subscription';
-  }
-}
-
 export interface SubscriptionOnHoldWebhookEvent {
   /**
    * The business identifier
@@ -1509,9 +945,9 @@ export interface SubscriptionOnHoldWebhookEvent {
   business_id: string;
 
   /**
-   * Event-specific data
+   * Response struct representing subscription details
    */
-  data: SubscriptionOnHoldWebhookEvent.Data;
+  data: SubscriptionsAPI.Subscription;
 
   /**
    * The timestamp of when the event occurred
@@ -1524,18 +960,6 @@ export interface SubscriptionOnHoldWebhookEvent {
   type: 'subscription.on_hold';
 }
 
-export namespace SubscriptionOnHoldWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends SubscriptionsAPI.Subscription {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Subscription';
-  }
-}
-
 export interface SubscriptionPlanChangedWebhookEvent {
   /**
    * The business identifier
@@ -1543,9 +967,9 @@ export interface SubscriptionPlanChangedWebhookEvent {
   business_id: string;
 
   /**
-   * Event-specific data
+   * Response struct representing subscription details
    */
-  data: SubscriptionPlanChangedWebhookEvent.Data;
+  data: SubscriptionsAPI.Subscription;
 
   /**
    * The timestamp of when the event occurred
@@ -1558,18 +982,6 @@ export interface SubscriptionPlanChangedWebhookEvent {
   type: 'subscription.plan_changed';
 }
 
-export namespace SubscriptionPlanChangedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends SubscriptionsAPI.Subscription {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Subscription';
-  }
-}
-
 export interface SubscriptionRenewedWebhookEvent {
   /**
    * The business identifier
@@ -1577,9 +989,9 @@ export interface SubscriptionRenewedWebhookEvent {
   business_id: string;
 
   /**
-   * Event-specific data
+   * Response struct representing subscription details
    */
-  data: SubscriptionRenewedWebhookEvent.Data;
+  data: SubscriptionsAPI.Subscription;
 
   /**
    * The timestamp of when the event occurred
@@ -1592,18 +1004,6 @@ export interface SubscriptionRenewedWebhookEvent {
   type: 'subscription.renewed';
 }
 
-export namespace SubscriptionRenewedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends SubscriptionsAPI.Subscription {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Subscription';
-  }
-}
-
 export interface SubscriptionUpdatedWebhookEvent {
   /**
    * The business identifier
@@ -1611,9 +1011,9 @@ export interface SubscriptionUpdatedWebhookEvent {
   business_id: string;
 
   /**
-   * Event-specific data
+   * Response struct representing subscription details
    */
-  data: SubscriptionUpdatedWebhookEvent.Data;
+  data: SubscriptionsAPI.Subscription;
 
   /**
    * The timestamp of when the event occurred
@@ -1624,18 +1024,6 @@ export interface SubscriptionUpdatedWebhookEvent {
    * The event type
    */
   type: 'subscription.updated';
-}
-
-export namespace SubscriptionUpdatedWebhookEvent {
-  /**
-   * Event-specific data
-   */
-  export interface Data extends SubscriptionsAPI.Subscription {
-    /**
-     * The type of payload in the data field
-     */
-    payload_type?: 'Subscription';
-  }
 }
 
 export type UnsafeUnwrapWebhookEvent =
