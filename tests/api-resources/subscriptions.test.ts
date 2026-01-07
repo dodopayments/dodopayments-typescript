@@ -26,7 +26,13 @@ describe('resource subscriptions', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.subscriptions.create({
-      billing: { country: 'AF', city: 'city', state: 'state', street: 'street', zipcode: 'zipcode' },
+      billing: {
+        country: 'AF',
+        city: 'city',
+        state: 'state',
+        street: 'street',
+        zipcode: 'zipcode',
+      },
       customer: { customer_id: 'customer_id' },
       product_id: 'product_id',
       quantity: 0,
@@ -43,7 +49,13 @@ describe('resource subscriptions', () => {
         product_description: 'product_description',
         product_price: 0,
       },
-      one_time_product_cart: [{ product_id: 'product_id', quantity: 0, amount: 0 }],
+      one_time_product_cart: [
+        {
+          product_id: 'product_id',
+          quantity: 0,
+          amount: 0,
+        },
+      ],
       payment_link: true,
       payment_method_id: 'payment_method_id',
       redirect_immediately: true,
