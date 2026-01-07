@@ -49,7 +49,11 @@ describe('resource ledgerEntries', () => {
     await expect(
       client.customers.wallets.ledgerEntries.list(
         'customer_id',
-        { currency: 'AED', page_number: 0, page_size: 0 },
+        {
+          currency: 'AED',
+          page_number: 0,
+          page_size: 0,
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(DodoPayments.NotFoundError);

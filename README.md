@@ -59,9 +59,8 @@ const client = new DodoPayments({
 const params: DodoPayments.CheckoutSessionCreateParams = {
   product_cart: [{ product_id: 'product_id', quantity: 0 }],
 };
-const checkoutSessionResponse: DodoPayments.CheckoutSessionResponse = await client.checkoutSessions.create(
-  params,
-);
+const checkoutSessionResponse: DodoPayments.CheckoutSessionResponse =
+  await client.checkoutSessions.create(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.

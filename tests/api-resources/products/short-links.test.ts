@@ -41,7 +41,11 @@ describe('resource shortLinks', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.products.shortLinks.list(
-        { page_number: 0, page_size: 0, product_id: 'product_id' },
+        {
+          page_number: 0,
+          page_size: 0,
+          product_id: 'product_id',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(DodoPayments.NotFoundError);

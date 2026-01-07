@@ -25,9 +25,21 @@ describe('resource payments', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.payments.create({
-      billing: { country: 'AF', city: 'city', state: 'state', street: 'street', zipcode: 'zipcode' },
+      billing: {
+        country: 'AF',
+        city: 'city',
+        state: 'state',
+        street: 'street',
+        zipcode: 'zipcode',
+      },
       customer: { customer_id: 'customer_id' },
-      product_cart: [{ product_id: 'product_id', quantity: 0, amount: 0 }],
+      product_cart: [
+        {
+          product_id: 'product_id',
+          quantity: 0,
+          amount: 0,
+        },
+      ],
       allowed_payment_method_types: ['credit'],
       billing_currency: 'AED',
       discount_code: 'discount_code',

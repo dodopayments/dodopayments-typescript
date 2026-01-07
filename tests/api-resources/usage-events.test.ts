@@ -50,7 +50,13 @@ describe('resource usageEvents', () => {
 
   test('ingest: only required params', async () => {
     const responsePromise = client.usageEvents.ingest({
-      events: [{ customer_id: 'customer_id', event_id: 'event_id', event_name: 'event_name' }],
+      events: [
+        {
+          customer_id: 'customer_id',
+          event_id: 'event_id',
+          event_name: 'event_name',
+        },
+      ],
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);

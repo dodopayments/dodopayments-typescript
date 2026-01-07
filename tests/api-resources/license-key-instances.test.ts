@@ -49,7 +49,11 @@ describe('resource licenseKeyInstances', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.licenseKeyInstances.list(
-        { license_key_id: 'license_key_id', page_number: 0, page_size: 0 },
+        {
+          license_key_id: 'license_key_id',
+          page_number: 0,
+          page_size: 0,
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(DodoPayments.NotFoundError);

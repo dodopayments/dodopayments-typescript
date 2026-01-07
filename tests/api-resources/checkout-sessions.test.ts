@@ -24,10 +24,21 @@ describe('resource checkoutSessions', () => {
   test('create: required and optional params', async () => {
     const response = await client.checkoutSessions.create({
       product_cart: [
-        { product_id: 'product_id', quantity: 0, addons: [{ addon_id: 'addon_id', quantity: 0 }], amount: 0 },
+        {
+          product_id: 'product_id',
+          quantity: 0,
+          addons: [{ addon_id: 'addon_id', quantity: 0 }],
+          amount: 0,
+        },
       ],
       allowed_payment_method_types: ['credit'],
-      billing_address: { country: 'AF', city: 'city', state: 'state', street: 'street', zipcode: 'zipcode' },
+      billing_address: {
+        country: 'AF',
+        city: 'city',
+        state: 'state',
+        street: 'street',
+        zipcode: 'zipcode',
+      },
       billing_currency: 'AED',
       confirm: true,
       customer: { customer_id: 'customer_id' },
