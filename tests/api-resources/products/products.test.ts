@@ -92,7 +92,13 @@ describe('resource products', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.products.list(
-        { archived: true, brand_id: 'brand_id', page_number: 0, page_size: 0, recurring: true },
+        {
+          archived: true,
+          brand_id: 'brand_id',
+          page_number: 0,
+          page_size: 0,
+          recurring: true,
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(DodoPayments.NotFoundError);

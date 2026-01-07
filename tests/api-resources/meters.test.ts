@@ -33,8 +33,16 @@ describe('resource meters', () => {
       description: 'description',
       filter: {
         clauses: [
-          { key: 'user_id', operator: 'equals', value: 'user123' },
-          { key: 'amount', operator: 'greater_than', value: 100 },
+          {
+            key: 'user_id',
+            operator: 'equals',
+            value: 'user123',
+          },
+          {
+            key: 'amount',
+            operator: 'greater_than',
+            value: 100,
+          },
         ],
         conjunction: 'and',
       },
@@ -67,7 +75,11 @@ describe('resource meters', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.meters.list(
-        { archived: true, page_number: 0, page_size: 0 },
+        {
+          archived: true,
+          page_number: 0,
+          page_size: 0,
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(DodoPayments.NotFoundError);
