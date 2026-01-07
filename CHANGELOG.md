@@ -1,5 +1,32 @@
 # Changelog
 
+## 2.14.0 (2026-01-07)
+
+Full Changelog: [v2.13.1...v2.14.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.13.1...v2.14.0)
+
+### Features
+
+* **api:** updated openapi spec to v1.70.0 ([d36e38c](https://github.com/dodopayments/dodopayments-typescript/commit/d36e38c6ca8220c2fc0542033e9b2e6218439939))
+
+
+### Bug Fixes
+
+* **mcp:** correct code tool api output types ([bbbc142](https://github.com/dodopayments/dodopayments-typescript/commit/bbbc1423854c86f70677c068cb2e6668637c3f67))
+* **mcp:** fix options parsing ([6da0a7c](https://github.com/dodopayments/dodopayments-typescript/commit/6da0a7cdaa25ae1c41f7e04091fb27df434cad2b))
+* **mcp:** update cloudflare worker host page ([ae227f9](https://github.com/dodopayments/dodopayments-typescript/commit/ae227f9fda328ee51a18a9615d106a8795606b1b))
+
+
+### Chores
+
+* break long lines in snippets into multiline ([2636044](https://github.com/dodopayments/dodopayments-typescript/commit/2636044ef2a14dff84e9434a0ac9597fb549c89c))
+* **internal:** codegen related update ([fc2cb03](https://github.com/dodopayments/dodopayments-typescript/commit/fc2cb03574ec0802b0805de4fe5d111d682f2c94))
+* **internal:** fix dockerfile ([3ba3c84](https://github.com/dodopayments/dodopayments-typescript/commit/3ba3c8454c3ef7aff01ff507cb8ca29648bf555c))
+
+
+### Documentation
+
+* prominently feature MCP server setup in root SDK readmes ([4591215](https://github.com/dodopayments/dodopayments-typescript/commit/459121587c7337168049998ad1c8b79ffa9ea82f))
+
 ## 2.13.1 (2025-12-23)
 
 Full Changelog: [v2.13.0...v2.13.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.13.0...v2.13.1)
