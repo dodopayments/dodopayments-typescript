@@ -81,11 +81,6 @@ export interface CustomerRetrievePaymentMethodsResponse {
 
 export namespace CustomerRetrievePaymentMethodsResponse {
   export interface Item {
-    /**
-     * PaymentMethod enum from hyperswitch
-     *
-     * https://github.com/juspay/hyperswitch/blob/ecd05d53c99ae701ac94893ec632a3988afe3238/crates/common_enums/src/enums.rs#L2097
-     */
     payment_method:
       | 'card'
       | 'card_redirect'
@@ -116,6 +111,8 @@ export namespace CustomerRetrievePaymentMethodsResponse {
 
   export namespace Item {
     export interface Card {
+      card_holder_name?: string | null;
+
       /**
        * ISO country code alpha2 variant
        */
