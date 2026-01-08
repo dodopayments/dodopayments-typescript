@@ -2,7 +2,7 @@
 
 import { McpTool, Metadata, ToolCallResult, asErrorResult, asTextContentResult } from './types';
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import { readEnv } from './server';
+import { readEnv, readEnvOrError } from './server';
 import { WorkerInput, WorkerOutput } from './code-tool-types';
 /**
  * A tool that runs code against a copy of the SDK.
@@ -36,7 +36,7 @@ export function codeTool(): McpTool {
         ...(stainlessAPIKey && { Authorization: stainlessAPIKey }),
         'Content-Type': 'application/json',
         client_envs: JSON.stringify({
-          DODO_PAYMENTS_API_KEY: readEnv('DODO_PAYMENTS_API_KEY'),
+          DODO_PAYMENTS_API_KEY: readEnvOrError('DODO_PAYMENTS_API_KEY'),
           DODO_PAYMENTS_WEBHOOK_KEY: readEnv('DODO_PAYMENTS_WEBHOOK_KEY'),
           DODO_PAYMENTS_BASE_URL: readEnv('DODO_PAYMENTS_BASE_URL'),
         }),
