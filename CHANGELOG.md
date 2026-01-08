@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.14.1 (2026-01-08)
+
+Full Changelog: [v2.14.0...v2.14.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.14.0...v2.14.1)
+
+### Bug Fixes
+
+* **mcp:** fix env parsing ([f3af21d](https://github.com/dodopayments/dodopayments-typescript/commit/f3af21ddd3b4259baf9253104287ef8df5c1ce99))
+
 ## 2.14.0 (2026-01-07)
 
 Full Changelog: [v2.13.1...v2.14.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.13.1...v2.14.0)
