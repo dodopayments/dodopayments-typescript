@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.14.2 (2026-01-09)
+
+Full Changelog: [v2.14.1...v2.14.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.14.1...v2.14.2)
+
+### Bug Fixes
+
+* **mcp:** update code tool prompt ([f054974](https://github.com/dodopayments/dodopayments-typescript/commit/f05497455943d2036554336f18423fffc37d28b9))
+
 ## 2.14.1 (2026-01-08)
 
 Full Changelog: [v2.14.0...v2.14.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.14.0...v2.14.1)
