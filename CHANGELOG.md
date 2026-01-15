@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.14.3 (2026-01-15)
+
+Full Changelog: [v2.14.2...v2.14.3](https://github.com/dodopayments/dodopayments-typescript/compare/v2.14.2...v2.14.3)
+
+### Chores
+
+* **internal:** bump MCP dependencies ([db8c602](https://github.com/dodopayments/dodopayments-typescript/commit/db8c60265d443e496f83e57c11b3a0af9409d94b))
+* **internal:** codegen related update ([e67b8ab](https://github.com/dodopayments/dodopayments-typescript/commit/e67b8ab13deeb95f1e26d002da944e8f1433f38b))
+* **internal:** codegen related update ([9cdbd78](https://github.com/dodopayments/dodopayments-typescript/commit/9cdbd78dbdb3500f2220dd1166e11eaa99bd3e6d))
+* **internal:** codegen related update ([e4684fd](https://github.com/dodopayments/dodopayments-typescript/commit/e4684fdccd39d8a3b5e4e3d27568636675b4c24b))
+* **internal:** codegen related update ([1794dfc](https://github.com/dodopayments/dodopayments-typescript/commit/1794dfc5ae919881a1ca6f0a29f304f0f3cb809d))
+* **internal:** upgrade babel, qs, js-yaml ([59f708e](https://github.com/dodopayments/dodopayments-typescript/commit/59f708e31af6921f6843ef11f44a30c40a0253b2))
+* **mcp:** add intent param to execute tool ([f106d1f](https://github.com/dodopayments/dodopayments-typescript/commit/f106d1fbf8f606846e691af59bf3790a8a282ab2))
+* **mcp:** pass intent param to execute handler ([2e764c8](https://github.com/dodopayments/dodopayments-typescript/commit/2e764c8381c3985f7efa253489d36ac3eb8ef9cb))
+* **mcp:** upgrade dependencies ([007bdc7](https://github.com/dodopayments/dodopayments-typescript/commit/007bdc758773540e2c6a639cf73d9d8f28a00905))
+
 ## 2.14.2 (2026-01-09)
 
 Full Changelog: [v2.14.1...v2.14.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.14.1...v2.14.2)
