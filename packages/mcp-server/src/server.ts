@@ -21,7 +21,7 @@ export const newMcpServer = () =>
   new McpServer(
     {
       name: 'dodopayments_api',
-      version: '2.14.3',
+      version: '2.15.0',
     },
     { capabilities: { tools: {}, logging: {} } },
   );

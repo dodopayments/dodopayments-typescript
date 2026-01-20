@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.15.0 (2026-01-20)
+
+Full Changelog: [v2.14.3...v2.15.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.14.3...v2.15.0)
+
+### Features
+
+* **api:** update openapi spec to v1.73.0 ([9ad3664](https://github.com/dodopayments/dodopayments-typescript/commit/9ad36648ec7a7e684fef9aa788c2b59ff0f71755))
+
+
+### Chores
+
+* **internal:** update `actions/checkout` version ([a38b8d5](https://github.com/dodopayments/dodopayments-typescript/commit/a38b8d54bcc8c67a3c5633e20540a40b07f72eb0))
+
 ## 2.14.3 (2026-01-15)
 
 Full Changelog: [v2.14.2...v2.14.3](https://github.com/dodopayments/dodopayments-typescript/compare/v2.14.2...v2.14.3)
