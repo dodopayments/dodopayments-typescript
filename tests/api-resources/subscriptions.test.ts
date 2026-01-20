@@ -37,7 +37,7 @@ describe('resource subscriptions', () => {
       product_id: 'product_id',
       quantity: 0,
       addons: [{ addon_id: 'addon_id', quantity: 0 }],
-      allowed_payment_method_types: ['ach'],
+      allowed_payment_method_types: ['credit'],
       billing_currency: 'AED',
       discount_code: 'discount_code',
       force_3ds: true,
@@ -139,6 +139,7 @@ describe('resource subscriptions', () => {
       proration_billing_mode: 'prorated_immediately',
       quantity: 0,
       addons: [{ addon_id: 'addon_id', quantity: 0 }],
+      metadata: { foo: 'string' },
     });
   });
 
@@ -185,6 +186,7 @@ describe('resource subscriptions', () => {
       proration_billing_mode: 'prorated_immediately',
       quantity: 0,
       addons: [{ addon_id: 'addon_id', quantity: 0 }],
+      metadata: { foo: 'string' },
     });
   });
 

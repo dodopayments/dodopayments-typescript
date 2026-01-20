@@ -951,6 +951,12 @@ export interface SubscriptionChangePlanParams {
    * addons
    */
   addons?: Array<AttachAddon> | null;
+
+  /**
+   * Metadata for the payment. If not passed, the metadata of the subscription will
+   * be taken
+   */
+  metadata?: { [key: string]: string } | null;
 }
 
 export interface SubscriptionChargeParams {
@@ -1029,6 +1035,12 @@ export interface SubscriptionPreviewChangePlanParams {
    * addons
    */
   addons?: Array<AttachAddon> | null;
+
+  /**
+   * Metadata for the payment. If not passed, the metadata of the subscription will
+   * be taken
+   */
+  metadata?: { [key: string]: string } | null;
 }
 
 export interface SubscriptionRetrieveUsageHistoryParams extends DefaultPageNumberPaginationParams {

@@ -22,7 +22,9 @@ export {
   type CheckoutSessionRequest,
   type CheckoutSessionResponse,
   type CheckoutSessionStatus,
+  type CheckoutSessionPreviewResponse,
   type CheckoutSessionCreateParams,
+  type CheckoutSessionPreviewParams,
 } from './checkout-sessions';
 export {
   Customers,

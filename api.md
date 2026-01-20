@@ -5,11 +5,13 @@ Types:
 - <code><a href="./src/resources/checkout-sessions.ts">CheckoutSessionRequest</a></code>
 - <code><a href="./src/resources/checkout-sessions.ts">CheckoutSessionResponse</a></code>
 - <code><a href="./src/resources/checkout-sessions.ts">CheckoutSessionStatus</a></code>
+- <code><a href="./src/resources/checkout-sessions.ts">CheckoutSessionPreviewResponse</a></code>
 
 Methods:
 
 - <code title="post /checkouts">client.checkoutSessions.<a href="./src/resources/checkout-sessions.ts">create</a>({ ...params }) -> CheckoutSessionResponse</code>
 - <code title="get /checkouts/{id}">client.checkoutSessions.<a href="./src/resources/checkout-sessions.ts">retrieve</a>(id) -> CheckoutSessionStatus</code>
+- <code title="post /checkouts/preview">client.checkoutSessions.<a href="./src/resources/checkout-sessions.ts">preview</a>({ ...params }) -> CheckoutSessionPreviewResponse</code>
 
 # Payments
 
@@ -265,6 +267,7 @@ Methods:
 - <code title="patch /discounts/{discount_id}">client.discounts.<a href="./src/resources/discounts.ts">update</a>(discountID, { ...params }) -> Discount</code>
 - <code title="get /discounts">client.discounts.<a href="./src/resources/discounts.ts">list</a>({ ...params }) -> DiscountsDefaultPageNumberPagination</code>
 - <code title="delete /discounts/{discount_id}">client.discounts.<a href="./src/resources/discounts.ts">delete</a>(discountID) -> void</code>
+- <code title="get /discounts/code/{code}">client.discounts.<a href="./src/resources/discounts.ts">retrieveByCode</a>(code) -> Discount</code>
 
 # Addons
 
