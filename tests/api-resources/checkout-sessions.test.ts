@@ -31,7 +31,7 @@ describe('resource checkoutSessions', () => {
           amount: 0,
         },
       ],
-      allowed_payment_method_types: ['ach'],
+      allowed_payment_method_types: ['credit'],
       billing_address: {
         country: 'AF',
         city: 'city',
@@ -68,6 +68,7 @@ describe('resource checkoutSessions', () => {
       metadata: { foo: 'string' },
       minimal_address: true,
       payment_method_id: 'payment_method_id',
+      product_collection_id: 'product_collection_id',
       return_url: 'return_url',
       short_link: true,
       show_saved_payment_methods: true,
@@ -93,5 +94,82 @@ describe('resource checkoutSessions', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('preview: only required params', async () => {
+    const responsePromise = client.checkoutSessions.preview({
+      product_cart: [{ product_id: 'product_id', quantity: 0 }],
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('preview: required and optional params', async () => {
+    const response = await client.checkoutSessions.preview({
+      product_cart: [
+        {
+          product_id: 'product_id',
+          quantity: 0,
+          addons: [{ addon_id: 'addon_id', quantity: 0 }],
+          amount: 0,
+        },
+      ],
+      allowed_payment_method_types: ['credit'],
+      billing_address: {
+        country: 'AF',
+        city: 'city',
+        state: 'state',
+        street: 'street',
+        zipcode: 'zipcode',
+      },
+      billing_currency: 'AED',
+      confirm: true,
+      customer: { customer_id: 'customer_id' },
+      customization: {
+        force_language: 'force_language',
+        show_on_demand_tag: true,
+        show_order_details: true,
+        theme: 'dark',
+      },
+      discount_code: 'discount_code',
+      feature_flags: {
+        allow_currency_selection: true,
+        allow_customer_editing_city: true,
+        allow_customer_editing_country: true,
+        allow_customer_editing_email: true,
+        allow_customer_editing_name: true,
+        allow_customer_editing_state: true,
+        allow_customer_editing_street: true,
+        allow_customer_editing_zipcode: true,
+        allow_discount_code: true,
+        allow_phone_number_collection: true,
+        allow_tax_id: true,
+        always_create_new_customer: true,
+        redirect_immediately: true,
+      },
+      force_3ds: true,
+      metadata: { foo: 'string' },
+      minimal_address: true,
+      payment_method_id: 'payment_method_id',
+      product_collection_id: 'product_collection_id',
+      return_url: 'return_url',
+      short_link: true,
+      show_saved_payment_methods: true,
+      subscription_data: {
+        on_demand: {
+          mandate_only: true,
+          adaptive_currency_fees_inclusive: true,
+          product_currency: 'AED',
+          product_description: 'product_description',
+          product_price: 0,
+        },
+        trial_period_days: 0,
+      },
+    });
   });
 });

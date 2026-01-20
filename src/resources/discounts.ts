@@ -56,6 +56,15 @@ export class Discounts extends APIResource {
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
+
+  /**
+   * Validate and fetch a discount by its code name (e.g., "SAVE20"). This allows
+   * real-time validation directly against the API using the human-readable discount
+   * code instead of requiring the internal discount_id.
+   */
+  retrieveByCode(code: string, options?: RequestOptions): APIPromise<Discount> {
+    return this._client.get(path`/discounts/code/${code}`, options);
+  }
 }
 
 export type DiscountsDefaultPageNumberPagination = DefaultPageNumberPagination<Discount>;
