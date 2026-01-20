@@ -43,6 +43,8 @@ import {
 } from './resources/brands';
 import {
   CheckoutSessionCreateParams,
+  CheckoutSessionPreviewParams,
+  CheckoutSessionPreviewResponse,
   CheckoutSessionRequest,
   CheckoutSessionResponse,
   CheckoutSessionStatus,
@@ -1047,7 +1049,9 @@ export declare namespace DodoPayments {
     type CheckoutSessionRequest as CheckoutSessionRequest,
     type CheckoutSessionResponse as CheckoutSessionResponse,
     type CheckoutSessionStatus as CheckoutSessionStatus,
+    type CheckoutSessionPreviewResponse as CheckoutSessionPreviewResponse,
     type CheckoutSessionCreateParams as CheckoutSessionCreateParams,
+    type CheckoutSessionPreviewParams as CheckoutSessionPreviewParams,
   };
 
   export {

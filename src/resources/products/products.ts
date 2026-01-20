@@ -374,6 +374,11 @@ export interface Product {
    * Name of the product, optional.
    */
   name?: string | null;
+
+  /**
+   * The product collection ID this product belongs to, if any
+   */
+  product_collection_id?: string | null;
 }
 
 export namespace Product {
