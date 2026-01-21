@@ -144,6 +144,16 @@ export interface LicenseKeyUpdateParams {
 
 export interface LicenseKeyListParams extends DefaultPageNumberPaginationParams {
   /**
+   * Filter license keys created on or after this timestamp
+   */
+  created_at_gte?: string;
+
+  /**
+   * Filter license keys created on or before this timestamp
+   */
+  created_at_lte?: string;
+
+  /**
    * Filter by customer ID
    */
   customer_id?: string;

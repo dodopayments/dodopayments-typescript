@@ -157,9 +157,24 @@ export interface CustomerUpdateParams {
 
 export interface CustomerListParams extends DefaultPageNumberPaginationParams {
   /**
+   * Filter customers created on or after this timestamp
+   */
+  created_at_gte?: string;
+
+  /**
+   * Filter customers created on or before this timestamp
+   */
+  created_at_lte?: string;
+
+  /**
    * Filter by customer email
    */
   email?: string;
+
+  /**
+   * Filter by customer name (partial match, case-insensitive)
+   */
+  name?: string;
 }
 
 Customers.CustomerPortal = CustomerPortal;

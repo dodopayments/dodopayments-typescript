@@ -68,7 +68,17 @@ describe('resource discounts', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.discounts.list({ page_number: 0, page_size: 0 }, { path: '/_stainless_unknown_path' }),
+      client.discounts.list(
+        {
+          active: true,
+          code: 'code',
+          discount_type: 'percentage',
+          page_number: 0,
+          page_size: 0,
+          product_id: 'product_id',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
