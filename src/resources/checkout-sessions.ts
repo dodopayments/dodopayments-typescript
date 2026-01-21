@@ -55,6 +55,11 @@ export interface CheckoutSessionRequest {
   confirm?: boolean;
 
   /**
+   * Custom fields to collect from customer during checkout (max 5 fields)
+   */
+  custom_fields?: Array<CheckoutSessionRequest.CustomField> | null;
+
+  /**
    * Customer details for the session
    */
   customer?: PaymentsAPI.CustomerRequest | null;
@@ -168,6 +173,41 @@ export namespace CheckoutSessionRequest {
      * Postal code or ZIP code
      */
     zipcode?: string | null;
+  }
+
+  /**
+   * Definition of a custom field for checkout
+   */
+  export interface CustomField {
+    /**
+     * Type of field determining validation rules
+     */
+    field_type: 'text' | 'number' | 'email' | 'url' | 'phone' | 'date' | 'datetime' | 'dropdown' | 'boolean';
+
+    /**
+     * Unique identifier for this field (used as key in responses)
+     */
+    key: string;
+
+    /**
+     * Display label shown to customer
+     */
+    label: string;
+
+    /**
+     * Options for dropdown type (required for dropdown, ignored for others)
+     */
+    options?: Array<string> | null;
+
+    /**
+     * Placeholder text for the input
+     */
+    placeholder?: string | null;
+
+    /**
+     * Whether this field is required
+     */
+    required?: boolean;
   }
 
   /**
@@ -567,6 +607,11 @@ export interface CheckoutSessionCreateParams {
   confirm?: boolean;
 
   /**
+   * Custom fields to collect from customer during checkout (max 5 fields)
+   */
+  custom_fields?: Array<CheckoutSessionCreateParams.CustomField> | null;
+
+  /**
    * Customer details for the session
    */
   customer?: PaymentsAPI.CustomerRequest | null;
@@ -680,6 +725,41 @@ export namespace CheckoutSessionCreateParams {
      * Postal code or ZIP code
      */
     zipcode?: string | null;
+  }
+
+  /**
+   * Definition of a custom field for checkout
+   */
+  export interface CustomField {
+    /**
+     * Type of field determining validation rules
+     */
+    field_type: 'text' | 'number' | 'email' | 'url' | 'phone' | 'date' | 'datetime' | 'dropdown' | 'boolean';
+
+    /**
+     * Unique identifier for this field (used as key in responses)
+     */
+    key: string;
+
+    /**
+     * Display label shown to customer
+     */
+    label: string;
+
+    /**
+     * Options for dropdown type (required for dropdown, ignored for others)
+     */
+    options?: Array<string> | null;
+
+    /**
+     * Placeholder text for the input
+     */
+    placeholder?: string | null;
+
+    /**
+     * Whether this field is required
+     */
+    required?: boolean;
   }
 
   /**
@@ -813,6 +893,11 @@ export interface CheckoutSessionPreviewParams {
   confirm?: boolean;
 
   /**
+   * Custom fields to collect from customer during checkout (max 5 fields)
+   */
+  custom_fields?: Array<CheckoutSessionPreviewParams.CustomField> | null;
+
+  /**
    * Customer details for the session
    */
   customer?: PaymentsAPI.CustomerRequest | null;
@@ -926,6 +1011,41 @@ export namespace CheckoutSessionPreviewParams {
      * Postal code or ZIP code
      */
     zipcode?: string | null;
+  }
+
+  /**
+   * Definition of a custom field for checkout
+   */
+  export interface CustomField {
+    /**
+     * Type of field determining validation rules
+     */
+    field_type: 'text' | 'number' | 'email' | 'url' | 'phone' | 'date' | 'datetime' | 'dropdown' | 'boolean';
+
+    /**
+     * Unique identifier for this field (used as key in responses)
+     */
+    key: string;
+
+    /**
+     * Display label shown to customer
+     */
+    label: string;
+
+    /**
+     * Options for dropdown type (required for dropdown, ignored for others)
+     */
+    options?: Array<string> | null;
+
+    /**
+     * Placeholder text for the input
+     */
+    placeholder?: string | null;
+
+    /**
+     * Whether this field is required
+     */
+    required?: boolean;
   }
 
   /**
