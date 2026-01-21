@@ -66,7 +66,10 @@ describe('resource customers', () => {
     await expect(
       client.customers.list(
         {
+          created_at_gte: '2019-12-27T18:11:19.117Z',
+          created_at_lte: '2019-12-27T18:11:19.117Z',
           email: 'email',
+          name: 'name',
           page_number: 0,
           page_size: 0,
         },

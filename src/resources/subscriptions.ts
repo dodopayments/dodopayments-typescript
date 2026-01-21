@@ -322,6 +322,11 @@ export interface Subscription {
   cancelled_at?: string | null;
 
   /**
+   * Customer's responses to custom fields collected during checkout
+   */
+  custom_field_responses?: Array<Subscription.CustomFieldResponse> | null;
+
+  /**
    * Number of remaining discount cycles if discount is applied
    */
   discount_cycles_remaining?: number | null;
@@ -365,6 +370,21 @@ export namespace Subscription {
     price_per_unit: string;
 
     description?: string | null;
+  }
+
+  /**
+   * Customer's response to a custom field
+   */
+  export interface CustomFieldResponse {
+    /**
+     * Key matching the custom field definition
+     */
+    key: string;
+
+    /**
+     * Value provided by customer
+     */
+    value: string;
   }
 }
 
@@ -564,6 +584,11 @@ export interface SubscriptionListResponse {
    * Saved payment method id used for recurring charges
    */
   payment_method_id?: string | null;
+
+  /**
+   * Name of the product associated with this subscription
+   */
+  product_name?: string | null;
 
   /**
    * Tax identifier provided for this subscription (if applicable)

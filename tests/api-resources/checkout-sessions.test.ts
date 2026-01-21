@@ -41,6 +41,16 @@ describe('resource checkoutSessions', () => {
       },
       billing_currency: 'AED',
       confirm: true,
+      custom_fields: [
+        {
+          field_type: 'text',
+          key: 'key',
+          label: 'label',
+          options: ['string'],
+          placeholder: 'placeholder',
+          required: true,
+        },
+      ],
       customer: { customer_id: 'customer_id' },
       customization: {
         force_language: 'force_language',
@@ -129,6 +139,16 @@ describe('resource checkoutSessions', () => {
       },
       billing_currency: 'AED',
       confirm: true,
+      custom_fields: [
+        {
+          field_type: 'text',
+          key: 'key',
+          label: 'label',
+          options: ['string'],
+          placeholder: 'placeholder',
+          required: true,
+        },
+      ],
       customer: { customer_id: 'customer_id' },
       customization: {
         force_language: 'force_language',

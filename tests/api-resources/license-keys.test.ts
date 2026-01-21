@@ -46,6 +46,8 @@ describe('resource licenseKeys', () => {
     await expect(
       client.licenseKeys.list(
         {
+          created_at_gte: '2019-12-27T18:11:19.117Z',
+          created_at_lte: '2019-12-27T18:11:19.117Z',
           customer_id: 'customer_id',
           page_number: 0,
           page_size: 0,

@@ -232,7 +232,27 @@ export interface DiscountUpdateParams {
   usage_limit?: number | null;
 }
 
-export interface DiscountListParams extends DefaultPageNumberPaginationParams {}
+export interface DiscountListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Filter by active status (true = not expired, false = expired)
+   */
+  active?: boolean;
+
+  /**
+   * Filter by discount code (partial match, case-insensitive)
+   */
+  code?: string;
+
+  /**
+   * Filter by discount type (percentage)
+   */
+  discount_type?: DiscountType;
+
+  /**
+   * Filter by product restriction (only discounts that apply to this product)
+   */
+  product_id?: string;
+}
 
 export declare namespace Discounts {
   export {

@@ -271,6 +271,11 @@ export interface Payment {
   checkout_session_id?: string | null;
 
   /**
+   * Customer's responses to custom fields collected during checkout
+   */
+  custom_field_responses?: Array<Payment.CustomFieldResponse> | null;
+
+  /**
    * The discount id if discount is applied
    */
   discount_id?: string | null;
@@ -391,6 +396,21 @@ export namespace Payment {
     reason?: string | null;
   }
 
+  /**
+   * Customer's response to a custom field
+   */
+  export interface CustomFieldResponse {
+    /**
+     * Key matching the custom field definition
+     */
+    key: string;
+
+    /**
+     * Value provided by customer
+     */
+    value: string;
+  }
+
   export interface ProductCart {
     product_id: string;
 
@@ -483,6 +503,16 @@ export interface PaymentListResponse {
   payment_id: string;
 
   total_amount: number;
+
+  /**
+   * Invoice ID for this payment. Uses India-specific invoice ID if available.
+   */
+  invoice_id?: string | null;
+
+  /**
+   * URL to download the invoice PDF for this payment.
+   */
+  invoice_url?: string | null;
 
   payment_method?: string | null;
 
