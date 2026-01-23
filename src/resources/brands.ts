@@ -91,6 +91,8 @@ export interface BrandCreateParams {
 }
 
 export interface BrandUpdateParams {
+  description?: string | null;
+
   /**
    * The UUID you got back from the presigned‐upload call
    */
@@ -101,6 +103,8 @@ export interface BrandUpdateParams {
   statement_descriptor?: string | null;
 
   support_email?: string | null;
+
+  url?: string | null;
 }
 
 export declare namespace Brands {
