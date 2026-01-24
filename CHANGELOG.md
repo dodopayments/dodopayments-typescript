@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.17.1 (2026-01-24)
+
+Full Changelog: [v2.17.0...v2.17.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.17.0...v2.17.1)
+
+### Chores
+
+* **ci:** upgrade `actions/github-script` ([1dfc35d](https://github.com/dodopayments/dodopayments-typescript/commit/1dfc35daf47b267ce92d6b499d75950e4659f68d))
+* **internal:** update lock file ([590ba2e](https://github.com/dodopayments/dodopayments-typescript/commit/590ba2e04080103140ff6f91c8ba72c6dd29bf83))
+
 ## 2.17.0 (2026-01-23)
 
 Full Changelog: [v2.16.0...v2.17.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.16.0...v2.17.0)
