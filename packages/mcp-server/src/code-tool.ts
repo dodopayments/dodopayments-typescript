@@ -4,6 +4,7 @@ import { McpTool, Metadata, ToolCallResult, asErrorResult, asTextContentResult }
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import { readEnv, readEnvOrError } from './server';
 import { WorkerInput, WorkerOutput } from './code-tool-types';
+import { DodoPayments } from 'dodopayments';
 
 const prompt = `Runs JavaScript code to interact with the Dodo Payments API.
 
@@ -54,7 +55,7 @@ export function codeTool(): McpTool {
       required: ['code'],
     },
   };
-  const handler = async (_: unknown, args: any): Promise<ToolCallResult> => {
+  const handler = async (client: DodoPayments, args: any): Promise<ToolCallResult> => {
     const code = args.code as string;
     const intent = args.intent as string | undefined;
 
@@ -70,9 +71,9 @@ export function codeTool(): McpTool {
         ...(stainlessAPIKey && { Authorization: stainlessAPIKey }),
         'Content-Type': 'application/json',
         client_envs: JSON.stringify({
-          DODO_PAYMENTS_API_KEY: readEnvOrError('DODO_PAYMENTS_API_KEY'),
-          DODO_PAYMENTS_WEBHOOK_KEY: readEnv('DODO_PAYMENTS_WEBHOOK_KEY'),
-          DODO_PAYMENTS_BASE_URL: readEnv('DODO_PAYMENTS_BASE_URL'),
+          DODO_PAYMENTS_API_KEY: readEnvOrError('DODO_PAYMENTS_API_KEY') ?? client.bearerToken ?? undefined,
+          DODO_PAYMENTS_WEBHOOK_KEY: readEnv('DODO_PAYMENTS_WEBHOOK_KEY') ?? client.webhookKey ?? undefined,
+          DODO_PAYMENTS_BASE_URL: readEnv('DODO_PAYMENTS_BASE_URL') ?? client.baseURL ?? undefined,
         }),
       },
       body: JSON.stringify({
