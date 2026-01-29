@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.17.2 (2026-01-29)
+
+Full Changelog: [v2.17.1...v2.17.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.17.1...v2.17.2)
+
+### Bug Fixes
+
+* **docs:** fix mcp installation instructions for remote servers ([457a056](https://github.com/dodopayments/dodopayments-typescript/commit/457a056a4d7cec5b562f64582b7f72bc9e14c3cc))
+* **mcp:** allow falling back for required env variables ([0f81b34](https://github.com/dodopayments/dodopayments-typescript/commit/0f81b340bccc432b1106d0cb81fb28acc977eaa9))
+
+
+### Chores
+
+* **internal:** codegen related update ([250b777](https://github.com/dodopayments/dodopayments-typescript/commit/250b777332317903394a5aff1f221f20dcd71f30))
+* **internal:** upgrade wrangler version ([9bb5b5a](https://github.com/dodopayments/dodopayments-typescript/commit/9bb5b5a098259ee1e3bd97c4bf5fb690be2e7c3e))
+* **mcp:** up tsconfig lib version to es2022 ([42eb7fd](https://github.com/dodopayments/dodopayments-typescript/commit/42eb7fd669fbb4a6edff65c09215536d73648c6d))
+
 ## 2.17.1 (2026-01-24)
 
 Full Changelog: [v2.17.0...v2.17.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.17.0...v2.17.1)
