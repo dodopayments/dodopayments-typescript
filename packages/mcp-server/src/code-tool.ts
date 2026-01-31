@@ -76,7 +76,10 @@ export function codeTool(): McpTool {
             'set DODO_PAYMENTS_API_KEY environment variable or provide bearerToken client option',
           ),
           DODO_PAYMENTS_WEBHOOK_KEY: readEnv('DODO_PAYMENTS_WEBHOOK_KEY') ?? client.webhookKey ?? undefined,
-          DODO_PAYMENTS_BASE_URL: readEnv('DODO_PAYMENTS_BASE_URL') ?? client.baseURL ?? undefined,
+          DODO_PAYMENTS_BASE_URL:
+            readEnv('DODO_PAYMENTS_BASE_URL') ?? readEnv('DODO_PAYMENTS_ENVIRONMENT') ?
+              undefined
+            : client.baseURL ?? undefined,
         }),
       },
       body: JSON.stringify({
