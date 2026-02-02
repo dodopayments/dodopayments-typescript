@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.18.0 (2026-02-02)
+
+Full Changelog: [v2.17.2...v2.18.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.17.2...v2.18.0)
+
+### Features
+
+* **api:** updated openapi spec for v1.78.1 ([b948d56](https://github.com/dodopayments/dodopayments-typescript/commit/b948d564ffe08c1d44940f7d269f1093283581d9))
+
+
+### Bug Fixes
+
+* **mcp:** do not fallback on baseUrl if environment env variable is set ([c493aee](https://github.com/dodopayments/dodopayments-typescript/commit/c493aeee0442d011020fd1329c7c71966669c01c))
+
 ## 2.17.2 (2026-01-29)
 
 Full Changelog: [v2.17.1...v2.17.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.17.1...v2.17.2)
