@@ -34,7 +34,12 @@ export type WebhookEventType =
   | 'subscription.expired'
   | 'subscription.plan_changed'
   | 'subscription.updated'
-  | 'license_key.created';
+  | 'license_key.created'
+  | 'payout.not_initiated'
+  | 'payout.on_hold'
+  | 'payout.in_progress'
+  | 'payout.failed'
+  | 'payout.success';
 
 export interface WebhookPayload {
   business_id: string;

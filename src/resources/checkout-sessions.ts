@@ -182,7 +182,7 @@ export namespace CheckoutSessionRequest {
     /**
      * Type of field determining validation rules
      */
-    field_type: 'text' | 'number' | 'email' | 'url' | 'phone' | 'date' | 'datetime' | 'dropdown' | 'boolean';
+    field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean';
 
     /**
      * Unique identifier for this field (used as key in responses)
@@ -234,11 +234,229 @@ export namespace CheckoutSessionRequest {
     show_order_details?: boolean;
 
     /**
-     * Theme of the page
+     * Theme of the page (determines which mode - light/dark/system - to use)
      *
      * Default is `System`.
      */
     theme?: 'dark' | 'light' | 'system';
+
+    /**
+     * Optional custom theme configuration with colors for light and dark modes
+     */
+    theme_config?: Customization.ThemeConfig | null;
+  }
+
+  export namespace Customization {
+    /**
+     * Optional custom theme configuration with colors for light and dark modes
+     */
+    export interface ThemeConfig {
+      /**
+       * Dark mode color configuration
+       */
+      dark?: ThemeConfig.Dark | null;
+
+      /**
+       * Font size for the checkout UI
+       */
+      font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | null;
+
+      /**
+       * Font weight for the checkout UI
+       */
+      font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold' | null;
+
+      /**
+       * Light mode color configuration
+       */
+      light?: ThemeConfig.Light | null;
+
+      /**
+       * Custom text for the pay button (e.g., "Complete Purchase", "Subscribe Now")
+       */
+      pay_button_text?: string | null;
+
+      /**
+       * Border radius for UI elements (e.g., "4px", "0.5rem", "8px")
+       */
+      radius?: string | null;
+    }
+
+    export namespace ThemeConfig {
+      /**
+       * Dark mode color configuration
+       */
+      export interface Dark {
+        /**
+         * Background primary color
+         *
+         * Examples: `"#ffffff"`, `"rgb(255, 255, 255)"`, `"white"`
+         */
+        bg_primary?: string | null;
+
+        /**
+         * Background secondary color
+         */
+        bg_secondary?: string | null;
+
+        /**
+         * Border primary color
+         */
+        border_primary?: string | null;
+
+        /**
+         * Border secondary color
+         */
+        border_secondary?: string | null;
+
+        /**
+         * Primary button background color
+         */
+        button_primary?: string | null;
+
+        /**
+         * Primary button hover color
+         */
+        button_primary_hover?: string | null;
+
+        /**
+         * Secondary button background color
+         */
+        button_secondary?: string | null;
+
+        /**
+         * Secondary button hover color
+         */
+        button_secondary_hover?: string | null;
+
+        /**
+         * Primary button text color
+         */
+        button_text_primary?: string | null;
+
+        /**
+         * Secondary button text color
+         */
+        button_text_secondary?: string | null;
+
+        /**
+         * Input focus border color
+         */
+        input_focus_border?: string | null;
+
+        /**
+         * Text error color
+         */
+        text_error?: string | null;
+
+        /**
+         * Text placeholder color
+         */
+        text_placeholder?: string | null;
+
+        /**
+         * Text primary color
+         */
+        text_primary?: string | null;
+
+        /**
+         * Text secondary color
+         */
+        text_secondary?: string | null;
+
+        /**
+         * Text success color
+         */
+        text_success?: string | null;
+      }
+
+      /**
+       * Light mode color configuration
+       */
+      export interface Light {
+        /**
+         * Background primary color
+         *
+         * Examples: `"#ffffff"`, `"rgb(255, 255, 255)"`, `"white"`
+         */
+        bg_primary?: string | null;
+
+        /**
+         * Background secondary color
+         */
+        bg_secondary?: string | null;
+
+        /**
+         * Border primary color
+         */
+        border_primary?: string | null;
+
+        /**
+         * Border secondary color
+         */
+        border_secondary?: string | null;
+
+        /**
+         * Primary button background color
+         */
+        button_primary?: string | null;
+
+        /**
+         * Primary button hover color
+         */
+        button_primary_hover?: string | null;
+
+        /**
+         * Secondary button background color
+         */
+        button_secondary?: string | null;
+
+        /**
+         * Secondary button hover color
+         */
+        button_secondary_hover?: string | null;
+
+        /**
+         * Primary button text color
+         */
+        button_text_primary?: string | null;
+
+        /**
+         * Secondary button text color
+         */
+        button_text_secondary?: string | null;
+
+        /**
+         * Input focus border color
+         */
+        input_focus_border?: string | null;
+
+        /**
+         * Text error color
+         */
+        text_error?: string | null;
+
+        /**
+         * Text placeholder color
+         */
+        text_placeholder?: string | null;
+
+        /**
+         * Text primary color
+         */
+        text_primary?: string | null;
+
+        /**
+         * Text secondary color
+         */
+        text_secondary?: string | null;
+
+        /**
+         * Text success color
+         */
+        text_success?: string | null;
+      }
+    }
   }
 
   export interface FeatureFlags {
@@ -734,7 +952,7 @@ export namespace CheckoutSessionCreateParams {
     /**
      * Type of field determining validation rules
      */
-    field_type: 'text' | 'number' | 'email' | 'url' | 'phone' | 'date' | 'datetime' | 'dropdown' | 'boolean';
+    field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean';
 
     /**
      * Unique identifier for this field (used as key in responses)
@@ -786,11 +1004,229 @@ export namespace CheckoutSessionCreateParams {
     show_order_details?: boolean;
 
     /**
-     * Theme of the page
+     * Theme of the page (determines which mode - light/dark/system - to use)
      *
      * Default is `System`.
      */
     theme?: 'dark' | 'light' | 'system';
+
+    /**
+     * Optional custom theme configuration with colors for light and dark modes
+     */
+    theme_config?: Customization.ThemeConfig | null;
+  }
+
+  export namespace Customization {
+    /**
+     * Optional custom theme configuration with colors for light and dark modes
+     */
+    export interface ThemeConfig {
+      /**
+       * Dark mode color configuration
+       */
+      dark?: ThemeConfig.Dark | null;
+
+      /**
+       * Font size for the checkout UI
+       */
+      font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | null;
+
+      /**
+       * Font weight for the checkout UI
+       */
+      font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold' | null;
+
+      /**
+       * Light mode color configuration
+       */
+      light?: ThemeConfig.Light | null;
+
+      /**
+       * Custom text for the pay button (e.g., "Complete Purchase", "Subscribe Now")
+       */
+      pay_button_text?: string | null;
+
+      /**
+       * Border radius for UI elements (e.g., "4px", "0.5rem", "8px")
+       */
+      radius?: string | null;
+    }
+
+    export namespace ThemeConfig {
+      /**
+       * Dark mode color configuration
+       */
+      export interface Dark {
+        /**
+         * Background primary color
+         *
+         * Examples: `"#ffffff"`, `"rgb(255, 255, 255)"`, `"white"`
+         */
+        bg_primary?: string | null;
+
+        /**
+         * Background secondary color
+         */
+        bg_secondary?: string | null;
+
+        /**
+         * Border primary color
+         */
+        border_primary?: string | null;
+
+        /**
+         * Border secondary color
+         */
+        border_secondary?: string | null;
+
+        /**
+         * Primary button background color
+         */
+        button_primary?: string | null;
+
+        /**
+         * Primary button hover color
+         */
+        button_primary_hover?: string | null;
+
+        /**
+         * Secondary button background color
+         */
+        button_secondary?: string | null;
+
+        /**
+         * Secondary button hover color
+         */
+        button_secondary_hover?: string | null;
+
+        /**
+         * Primary button text color
+         */
+        button_text_primary?: string | null;
+
+        /**
+         * Secondary button text color
+         */
+        button_text_secondary?: string | null;
+
+        /**
+         * Input focus border color
+         */
+        input_focus_border?: string | null;
+
+        /**
+         * Text error color
+         */
+        text_error?: string | null;
+
+        /**
+         * Text placeholder color
+         */
+        text_placeholder?: string | null;
+
+        /**
+         * Text primary color
+         */
+        text_primary?: string | null;
+
+        /**
+         * Text secondary color
+         */
+        text_secondary?: string | null;
+
+        /**
+         * Text success color
+         */
+        text_success?: string | null;
+      }
+
+      /**
+       * Light mode color configuration
+       */
+      export interface Light {
+        /**
+         * Background primary color
+         *
+         * Examples: `"#ffffff"`, `"rgb(255, 255, 255)"`, `"white"`
+         */
+        bg_primary?: string | null;
+
+        /**
+         * Background secondary color
+         */
+        bg_secondary?: string | null;
+
+        /**
+         * Border primary color
+         */
+        border_primary?: string | null;
+
+        /**
+         * Border secondary color
+         */
+        border_secondary?: string | null;
+
+        /**
+         * Primary button background color
+         */
+        button_primary?: string | null;
+
+        /**
+         * Primary button hover color
+         */
+        button_primary_hover?: string | null;
+
+        /**
+         * Secondary button background color
+         */
+        button_secondary?: string | null;
+
+        /**
+         * Secondary button hover color
+         */
+        button_secondary_hover?: string | null;
+
+        /**
+         * Primary button text color
+         */
+        button_text_primary?: string | null;
+
+        /**
+         * Secondary button text color
+         */
+        button_text_secondary?: string | null;
+
+        /**
+         * Input focus border color
+         */
+        input_focus_border?: string | null;
+
+        /**
+         * Text error color
+         */
+        text_error?: string | null;
+
+        /**
+         * Text placeholder color
+         */
+        text_placeholder?: string | null;
+
+        /**
+         * Text primary color
+         */
+        text_primary?: string | null;
+
+        /**
+         * Text secondary color
+         */
+        text_secondary?: string | null;
+
+        /**
+         * Text success color
+         */
+        text_success?: string | null;
+      }
+    }
   }
 
   export interface FeatureFlags {
@@ -1020,7 +1456,7 @@ export namespace CheckoutSessionPreviewParams {
     /**
      * Type of field determining validation rules
      */
-    field_type: 'text' | 'number' | 'email' | 'url' | 'phone' | 'date' | 'datetime' | 'dropdown' | 'boolean';
+    field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean';
 
     /**
      * Unique identifier for this field (used as key in responses)
@@ -1072,11 +1508,229 @@ export namespace CheckoutSessionPreviewParams {
     show_order_details?: boolean;
 
     /**
-     * Theme of the page
+     * Theme of the page (determines which mode - light/dark/system - to use)
      *
      * Default is `System`.
      */
     theme?: 'dark' | 'light' | 'system';
+
+    /**
+     * Optional custom theme configuration with colors for light and dark modes
+     */
+    theme_config?: Customization.ThemeConfig | null;
+  }
+
+  export namespace Customization {
+    /**
+     * Optional custom theme configuration with colors for light and dark modes
+     */
+    export interface ThemeConfig {
+      /**
+       * Dark mode color configuration
+       */
+      dark?: ThemeConfig.Dark | null;
+
+      /**
+       * Font size for the checkout UI
+       */
+      font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | null;
+
+      /**
+       * Font weight for the checkout UI
+       */
+      font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold' | null;
+
+      /**
+       * Light mode color configuration
+       */
+      light?: ThemeConfig.Light | null;
+
+      /**
+       * Custom text for the pay button (e.g., "Complete Purchase", "Subscribe Now")
+       */
+      pay_button_text?: string | null;
+
+      /**
+       * Border radius for UI elements (e.g., "4px", "0.5rem", "8px")
+       */
+      radius?: string | null;
+    }
+
+    export namespace ThemeConfig {
+      /**
+       * Dark mode color configuration
+       */
+      export interface Dark {
+        /**
+         * Background primary color
+         *
+         * Examples: `"#ffffff"`, `"rgb(255, 255, 255)"`, `"white"`
+         */
+        bg_primary?: string | null;
+
+        /**
+         * Background secondary color
+         */
+        bg_secondary?: string | null;
+
+        /**
+         * Border primary color
+         */
+        border_primary?: string | null;
+
+        /**
+         * Border secondary color
+         */
+        border_secondary?: string | null;
+
+        /**
+         * Primary button background color
+         */
+        button_primary?: string | null;
+
+        /**
+         * Primary button hover color
+         */
+        button_primary_hover?: string | null;
+
+        /**
+         * Secondary button background color
+         */
+        button_secondary?: string | null;
+
+        /**
+         * Secondary button hover color
+         */
+        button_secondary_hover?: string | null;
+
+        /**
+         * Primary button text color
+         */
+        button_text_primary?: string | null;
+
+        /**
+         * Secondary button text color
+         */
+        button_text_secondary?: string | null;
+
+        /**
+         * Input focus border color
+         */
+        input_focus_border?: string | null;
+
+        /**
+         * Text error color
+         */
+        text_error?: string | null;
+
+        /**
+         * Text placeholder color
+         */
+        text_placeholder?: string | null;
+
+        /**
+         * Text primary color
+         */
+        text_primary?: string | null;
+
+        /**
+         * Text secondary color
+         */
+        text_secondary?: string | null;
+
+        /**
+         * Text success color
+         */
+        text_success?: string | null;
+      }
+
+      /**
+       * Light mode color configuration
+       */
+      export interface Light {
+        /**
+         * Background primary color
+         *
+         * Examples: `"#ffffff"`, `"rgb(255, 255, 255)"`, `"white"`
+         */
+        bg_primary?: string | null;
+
+        /**
+         * Background secondary color
+         */
+        bg_secondary?: string | null;
+
+        /**
+         * Border primary color
+         */
+        border_primary?: string | null;
+
+        /**
+         * Border secondary color
+         */
+        border_secondary?: string | null;
+
+        /**
+         * Primary button background color
+         */
+        button_primary?: string | null;
+
+        /**
+         * Primary button hover color
+         */
+        button_primary_hover?: string | null;
+
+        /**
+         * Secondary button background color
+         */
+        button_secondary?: string | null;
+
+        /**
+         * Secondary button hover color
+         */
+        button_secondary_hover?: string | null;
+
+        /**
+         * Primary button text color
+         */
+        button_text_primary?: string | null;
+
+        /**
+         * Secondary button text color
+         */
+        button_text_secondary?: string | null;
+
+        /**
+         * Input focus border color
+         */
+        input_focus_border?: string | null;
+
+        /**
+         * Text error color
+         */
+        text_error?: string | null;
+
+        /**
+         * Text placeholder color
+         */
+        text_placeholder?: string | null;
+
+        /**
+         * Text primary color
+         */
+        text_primary?: string | null;
+
+        /**
+         * Text secondary color
+         */
+        text_secondary?: string | null;
+
+        /**
+         * Text success color
+         */
+        text_success?: string | null;
+      }
+    }
   }
 
   export interface FeatureFlags {
