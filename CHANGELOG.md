@@ -1,5 +1,29 @@
 # Changelog
 
+## 2.19.0 (2026-02-06)
+
+Full Changelog: [v2.18.0...v2.19.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.18.0...v2.19.0)
+
+### Features
+
+* **api:** updated openapi spec to v1.81.0 ([d965c50](https://github.com/dodopayments/dodopayments-typescript/commit/d965c500fa882a0a0369453208a560bfa8e7a1de))
+* **mcp:** add initial server instructions ([7c3b317](https://github.com/dodopayments/dodopayments-typescript/commit/7c3b3176c9856091ea8775170dea8405c85ef0f9))
+
+
+### Bug Fixes
+
+* **client:** avoid memory leak with abort signals ([43fee23](https://github.com/dodopayments/dodopayments-typescript/commit/43fee23c409c46cdc7e70fc10971361bed8d39c9))
+* **client:** avoid removing abort listener too early ([98670fb](https://github.com/dodopayments/dodopayments-typescript/commit/98670fbcf5cd44290638b90ba3a199025cf05654))
+
+
+### Chores
+
+* **client:** do not parse responses with empty content-length ([8e016ce](https://github.com/dodopayments/dodopayments-typescript/commit/8e016ce6dcca5d47768d9a1bb5ab22acee752915))
+* **client:** restructure abort controller binding ([5df0db6](https://github.com/dodopayments/dodopayments-typescript/commit/5df0db60524d8180b5a405b088270826c37a4376))
+* **internal:** fix pagination internals not accepting option promises ([84bd174](https://github.com/dodopayments/dodopayments-typescript/commit/84bd1746b20780756e2fd9e3b1858155a1afc5bd))
+* **internal:** refactor flag parsing for MCP servers and add debug flag ([c1dba91](https://github.com/dodopayments/dodopayments-typescript/commit/c1dba916b8d39ec80555f221feef774370069ea5))
+* **internal:** support oauth authorization code flow for MCP servers ([73ee572](https://github.com/dodopayments/dodopayments-typescript/commit/73ee5720b067c69d39cc463453f8227b025a6a61))
+
 ## 2.18.0 (2026-02-02)
 
 Full Changelog: [v2.17.2...v2.18.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.17.2...v2.18.0)
