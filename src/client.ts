@@ -34,6 +34,12 @@ import {
   Addons,
 } from './resources/addons';
 import {
+  BalanceLedgerEntriesDefaultPageNumberPagination,
+  BalanceLedgerEntry,
+  BalanceRetrieveLedgerParams,
+  Balances,
+} from './resources/balances';
+import {
   Brand,
   BrandCreateParams,
   BrandListResponse,
@@ -42,13 +48,21 @@ import {
   Brands,
 } from './resources/brands';
 import {
+  CheckoutSessionBillingAddress,
   CheckoutSessionCreateParams,
+  CheckoutSessionCustomization,
+  CheckoutSessionFlags,
   CheckoutSessionPreviewParams,
   CheckoutSessionPreviewResponse,
   CheckoutSessionRequest,
   CheckoutSessionResponse,
   CheckoutSessionStatus,
   CheckoutSessions,
+  CustomField,
+  ProductItemReq,
+  SubscriptionData,
+  ThemeConfig,
+  ThemeModeConfig,
 } from './resources/checkout-sessions';
 import {
   Discount,
@@ -1018,6 +1032,7 @@ export class DodoPayments {
   webhookEvents: API.WebhookEvents = new API.WebhookEvents(this);
   usageEvents: API.UsageEvents = new API.UsageEvents(this);
   meters: API.Meters = new API.Meters(this);
+  balances: API.Balances = new API.Balances(this);
 }
 
 DodoPayments.CheckoutSessions = CheckoutSessions;
@@ -1040,6 +1055,7 @@ DodoPayments.Webhooks = Webhooks;
 DodoPayments.WebhookEvents = WebhookEvents;
 DodoPayments.UsageEvents = UsageEvents;
 DodoPayments.Meters = Meters;
+DodoPayments.Balances = Balances;
 
 export declare namespace DodoPayments {
   export type RequestOptions = Opts.RequestOptions;
@@ -1058,9 +1074,17 @@ export declare namespace DodoPayments {
 
   export {
     CheckoutSessions as CheckoutSessions,
+    type CheckoutSessionBillingAddress as CheckoutSessionBillingAddress,
+    type CheckoutSessionCustomization as CheckoutSessionCustomization,
+    type CheckoutSessionFlags as CheckoutSessionFlags,
     type CheckoutSessionRequest as CheckoutSessionRequest,
     type CheckoutSessionResponse as CheckoutSessionResponse,
     type CheckoutSessionStatus as CheckoutSessionStatus,
+    type CustomField as CustomField,
+    type ProductItemReq as ProductItemReq,
+    type SubscriptionData as SubscriptionData,
+    type ThemeConfig as ThemeConfig,
+    type ThemeModeConfig as ThemeModeConfig,
     type CheckoutSessionPreviewResponse as CheckoutSessionPreviewResponse,
     type CheckoutSessionCreateParams as CheckoutSessionCreateParams,
     type CheckoutSessionPreviewParams as CheckoutSessionPreviewParams,
@@ -1289,5 +1313,12 @@ export declare namespace DodoPayments {
     type MetersDefaultPageNumberPagination as MetersDefaultPageNumberPagination,
     type MeterCreateParams as MeterCreateParams,
     type MeterListParams as MeterListParams,
+  };
+
+  export {
+    Balances as Balances,
+    type BalanceLedgerEntry as BalanceLedgerEntry,
+    type BalanceLedgerEntriesDefaultPageNumberPagination as BalanceLedgerEntriesDefaultPageNumberPagination,
+    type BalanceRetrieveLedgerParams as BalanceRetrieveLedgerParams,
   };
 }

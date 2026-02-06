@@ -2,9 +2,17 @@
 
 Types:
 
+- <code><a href="./src/resources/checkout-sessions.ts">CheckoutSessionBillingAddress</a></code>
+- <code><a href="./src/resources/checkout-sessions.ts">CheckoutSessionCustomization</a></code>
+- <code><a href="./src/resources/checkout-sessions.ts">CheckoutSessionFlags</a></code>
 - <code><a href="./src/resources/checkout-sessions.ts">CheckoutSessionRequest</a></code>
 - <code><a href="./src/resources/checkout-sessions.ts">CheckoutSessionResponse</a></code>
 - <code><a href="./src/resources/checkout-sessions.ts">CheckoutSessionStatus</a></code>
+- <code><a href="./src/resources/checkout-sessions.ts">CustomField</a></code>
+- <code><a href="./src/resources/checkout-sessions.ts">ProductItemReq</a></code>
+- <code><a href="./src/resources/checkout-sessions.ts">SubscriptionData</a></code>
+- <code><a href="./src/resources/checkout-sessions.ts">ThemeConfig</a></code>
+- <code><a href="./src/resources/checkout-sessions.ts">ThemeModeConfig</a></code>
 - <code><a href="./src/resources/checkout-sessions.ts">CheckoutSessionPreviewResponse</a></code>
 
 Methods:
@@ -411,3 +419,13 @@ Methods:
 - <code title="get /meters">client.meters.<a href="./src/resources/meters.ts">list</a>({ ...params }) -> MetersDefaultPageNumberPagination</code>
 - <code title="delete /meters/{id}">client.meters.<a href="./src/resources/meters.ts">archive</a>(id) -> void</code>
 - <code title="post /meters/{id}/unarchive">client.meters.<a href="./src/resources/meters.ts">unarchive</a>(id) -> void</code>
+
+# Balances
+
+Types:
+
+- <code><a href="./src/resources/balances.ts">BalanceLedgerEntry</a></code>
+
+Methods:
+
+- <code title="get /balances/ledger">client.balances.<a href="./src/resources/balances.ts">retrieveLedger</a>({ ...params }) -> BalanceLedgerEntriesDefaultPageNumberPagination</code>

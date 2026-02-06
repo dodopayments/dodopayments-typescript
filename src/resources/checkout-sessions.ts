@@ -25,8 +25,127 @@ export class CheckoutSessions extends APIResource {
   }
 }
 
+export interface CheckoutSessionBillingAddress {
+  /**
+   * Two-letter ISO country code (ISO 3166-1 alpha-2)
+   */
+  country: MiscAPI.CountryCode;
+
+  /**
+   * City name
+   */
+  city?: string | null;
+
+  /**
+   * State or province name
+   */
+  state?: string | null;
+
+  /**
+   * Street address including house number and unit/apartment if applicable
+   */
+  street?: string | null;
+
+  /**
+   * Postal code or ZIP code
+   */
+  zipcode?: string | null;
+}
+
+export interface CheckoutSessionCustomization {
+  /**
+   * Force the checkout interface to render in a specific language (e.g. `en`, `es`)
+   */
+  force_language?: string | null;
+
+  /**
+   * Show on demand tag
+   *
+   * Default is true
+   */
+  show_on_demand_tag?: boolean;
+
+  /**
+   * Show order details by default
+   *
+   * Default is true
+   */
+  show_order_details?: boolean;
+
+  /**
+   * Theme of the page (determines which mode - light/dark/system - to use)
+   *
+   * Default is `System`.
+   */
+  theme?: 'dark' | 'light' | 'system';
+
+  /**
+   * Optional custom theme configuration with colors for light and dark modes
+   */
+  theme_config?: ThemeConfig | null;
+}
+
+export interface CheckoutSessionFlags {
+  /**
+   * if customer is allowed to change currency, set it to true
+   *
+   * Default is true
+   */
+  allow_currency_selection?: boolean;
+
+  allow_customer_editing_city?: boolean;
+
+  allow_customer_editing_country?: boolean;
+
+  allow_customer_editing_email?: boolean;
+
+  allow_customer_editing_name?: boolean;
+
+  allow_customer_editing_state?: boolean;
+
+  allow_customer_editing_street?: boolean;
+
+  allow_customer_editing_zipcode?: boolean;
+
+  /**
+   * If the customer is allowed to apply discount code, set it to true.
+   *
+   * Default is true
+   */
+  allow_discount_code?: boolean;
+
+  /**
+   * If phone number is collected from customer, set it to rue
+   *
+   * Default is true
+   */
+  allow_phone_number_collection?: boolean;
+
+  /**
+   * If the customer is allowed to add tax id, set it to true
+   *
+   * Default is true
+   */
+  allow_tax_id?: boolean;
+
+  /**
+   * Set to true if a new customer object should be created. By default email is used
+   * to find an existing customer to attach the session to
+   *
+   * Default is false
+   */
+  always_create_new_customer?: boolean;
+
+  /**
+   * If true, redirects the customer immediately after payment completion
+   *
+   * Default is false
+   */
+  redirect_immediately?: boolean;
+}
+
 export interface CheckoutSessionRequest {
-  product_cart: Array<CheckoutSessionRequest.ProductCart>;
+  product_cart: Array<ProductItemReq>;
 
   /**
    * Customers will never see payment methods that are not in this list. However,
@@ -41,7 +160,7 @@ export interface CheckoutSessionRequest {
   /**
    * Billing address information for the session
    */
-  billing_address?: CheckoutSessionRequest.BillingAddress | null;
+  billing_address?: CheckoutSessionBillingAddress | null;
 
   /**
    * This field is ingored if adaptive pricing is disabled
@@ -57,7 +176,7 @@ export interface CheckoutSessionRequest {
   /**
    * Custom fields to collect from customer during checkout (max 5 fields)
    */
-  custom_fields?: Array<CheckoutSessionRequest.CustomField> | null;
+  custom_fields?: Array<CustomField> | null;
 
   /**
    * Customer details for the session
@@ -67,11 +186,11 @@ export interface CheckoutSessionRequest {
   /**
    * Customization for the checkout session page
    */
-  customization?: CheckoutSessionRequest.Customization;
+  customization?: CheckoutSessionCustomization;
 
   discount_code?: string | null;
 
-  feature_flags?: CheckoutSessionRequest.FeatureFlags;
+  feature_flags?: CheckoutSessionFlags;
 
   /**
    * Override merchant default 3DS behaviour for this session
@@ -116,417 +235,7 @@ export interface CheckoutSessionRequest {
    */
   show_saved_payment_methods?: boolean;
 
-  subscription_data?: CheckoutSessionRequest.SubscriptionData | null;
-}
-
-export namespace CheckoutSessionRequest {
-  export interface ProductCart {
-    /**
-     * unique id of the product
-     */
-    product_id: string;
-
-    quantity: number;
-
-    /**
-     * only valid if product is a subscription
-     */
-    addons?: Array<SubscriptionsAPI.AttachAddon> | null;
-
-    /**
-     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
-     * amount will be ignored Represented in the lowest denomination of the currency
-     * (e.g., cents for USD). For example, to charge $1.00, pass `100`. Only applicable
-     * for one time payments
-     *
-     * If amount is not set for pay_what_you_want product, customer is allowed to
-     * select the amount.
-     */
-    amount?: number | null;
-  }
-
-  /**
-   * Billing address information for the session
-   */
-  export interface BillingAddress {
-    /**
-     * Two-letter ISO country code (ISO 3166-1 alpha-2)
-     */
-    country: MiscAPI.CountryCode;
-
-    /**
-     * City name
-     */
-    city?: string | null;
-
-    /**
-     * State or province name
-     */
-    state?: string | null;
-
-    /**
-     * Street address including house number and unit/apartment if applicable
-     */
-    street?: string | null;
-
-    /**
-     * Postal code or ZIP code
-     */
-    zipcode?: string | null;
-  }
-
-  /**
-   * Definition of a custom field for checkout
-   */
-  export interface CustomField {
-    /**
-     * Type of field determining validation rules
-     */
-    field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean';
-
-    /**
-     * Unique identifier for this field (used as key in responses)
-     */
-    key: string;
-
-    /**
-     * Display label shown to customer
-     */
-    label: string;
-
-    /**
-     * Options for dropdown type (required for dropdown, ignored for others)
-     */
-    options?: Array<string> | null;
-
-    /**
-     * Placeholder text for the input
-     */
-    placeholder?: string | null;
-
-    /**
-     * Whether this field is required
-     */
-    required?: boolean;
-  }
-
-  /**
-   * Customization for the checkout session page
-   */
-  export interface Customization {
-    /**
-     * Force the checkout interface to render in a specific language (e.g. `en`, `es`)
-     */
-    force_language?: string | null;
-
-    /**
-     * Show on demand tag
-     *
-     * Default is true
-     */
-    show_on_demand_tag?: boolean;
-
-    /**
-     * Show order details by default
-     *
-     * Default is true
-     */
-    show_order_details?: boolean;
-
-    /**
-     * Theme of the page (determines which mode - light/dark/system - to use)
-     *
-     * Default is `System`.
-     */
-    theme?: 'dark' | 'light' | 'system';
-
-    /**
-     * Optional custom theme configuration with colors for light and dark modes
-     */
-    theme_config?: Customization.ThemeConfig | null;
-  }
-
-  export namespace Customization {
-    /**
-     * Optional custom theme configuration with colors for light and dark modes
-     */
-    export interface ThemeConfig {
-      /**
-       * Dark mode color configuration
-       */
-      dark?: ThemeConfig.Dark | null;
-
-      /**
-       * Font size for the checkout UI
-       */
-      font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | null;
-
-      /**
-       * Font weight for the checkout UI
-       */
-      font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold' | null;
-
-      /**
-       * Light mode color configuration
-       */
-      light?: ThemeConfig.Light | null;
-
-      /**
-       * Custom text for the pay button (e.g., "Complete Purchase", "Subscribe Now")
-       */
-      pay_button_text?: string | null;
-
-      /**
-       * Border radius for UI elements (e.g., "4px", "0.5rem", "8px")
-       */
-      radius?: string | null;
-    }
-
-    export namespace ThemeConfig {
-      /**
-       * Dark mode color configuration
-       */
-      export interface Dark {
-        /**
-         * Background primary color
-         *
-         * Examples: `"#ffffff"`, `"rgb(255, 255, 255)"`, `"white"`
-         */
-        bg_primary?: string | null;
-
-        /**
-         * Background secondary color
-         */
-        bg_secondary?: string | null;
-
-        /**
-         * Border primary color
-         */
-        border_primary?: string | null;
-
-        /**
-         * Border secondary color
-         */
-        border_secondary?: string | null;
-
-        /**
-         * Primary button background color
-         */
-        button_primary?: string | null;
-
-        /**
-         * Primary button hover color
-         */
-        button_primary_hover?: string | null;
-
-        /**
-         * Secondary button background color
-         */
-        button_secondary?: string | null;
-
-        /**
-         * Secondary button hover color
-         */
-        button_secondary_hover?: string | null;
-
-        /**
-         * Primary button text color
-         */
-        button_text_primary?: string | null;
-
-        /**
-         * Secondary button text color
-         */
-        button_text_secondary?: string | null;
-
-        /**
-         * Input focus border color
-         */
-        input_focus_border?: string | null;
-
-        /**
-         * Text error color
-         */
-        text_error?: string | null;
-
-        /**
-         * Text placeholder color
-         */
-        text_placeholder?: string | null;
-
-        /**
-         * Text primary color
-         */
-        text_primary?: string | null;
-
-        /**
-         * Text secondary color
-         */
-        text_secondary?: string | null;
-
-        /**
-         * Text success color
-         */
-        text_success?: string | null;
-      }
-
-      /**
-       * Light mode color configuration
-       */
-      export interface Light {
-        /**
-         * Background primary color
-         *
-         * Examples: `"#ffffff"`, `"rgb(255, 255, 255)"`, `"white"`
-         */
-        bg_primary?: string | null;
-
-        /**
-         * Background secondary color
-         */
-        bg_secondary?: string | null;
-
-        /**
-         * Border primary color
-         */
-        border_primary?: string | null;
-
-        /**
-         * Border secondary color
-         */
-        border_secondary?: string | null;
-
-        /**
-         * Primary button background color
-         */
-        button_primary?: string | null;
-
-        /**
-         * Primary button hover color
-         */
-        button_primary_hover?: string | null;
-
-        /**
-         * Secondary button background color
-         */
-        button_secondary?: string | null;
-
-        /**
-         * Secondary button hover color
-         */
-        button_secondary_hover?: string | null;
-
-        /**
-         * Primary button text color
-         */
-        button_text_primary?: string | null;
-
-        /**
-         * Secondary button text color
-         */
-        button_text_secondary?: string | null;
-
-        /**
-         * Input focus border color
-         */
-        input_focus_border?: string | null;
-
-        /**
-         * Text error color
-         */
-        text_error?: string | null;
-
-        /**
-         * Text placeholder color
-         */
-        text_placeholder?: string | null;
-
-        /**
-         * Text primary color
-         */
-        text_primary?: string | null;
-
-        /**
-         * Text secondary color
-         */
-        text_secondary?: string | null;
-
-        /**
-         * Text success color
-         */
-        text_success?: string | null;
-      }
-    }
-  }
-
-  export interface FeatureFlags {
-    /**
-     * if customer is allowed to change currency, set it to true
-     *
-     * Default is true
-     */
-    allow_currency_selection?: boolean;
-
-    allow_customer_editing_city?: boolean;
-
-    allow_customer_editing_country?: boolean;
-
-    allow_customer_editing_email?: boolean;
-
-    allow_customer_editing_name?: boolean;
-
-    allow_customer_editing_state?: boolean;
-
-    allow_customer_editing_street?: boolean;
-
-    allow_customer_editing_zipcode?: boolean;
-
-    /**
-     * If the customer is allowed to apply discount code, set it to true.
-     *
-     * Default is true
-     */
-    allow_discount_code?: boolean;
-
-    /**
-     * If phone number is collected from customer, set it to rue
-     *
-     * Default is true
-     */
-    allow_phone_number_collection?: boolean;
-
-    /**
-     * If the customer is allowed to add tax id, set it to true
-     *
-     * Default is true
-     */
-    allow_tax_id?: boolean;
-
-    /**
-     * Set to true if a new customer object should be created. By default email is used
-     * to find an existing customer to attach the session to
-     *
-     * Default is false
-     */
-    always_create_new_customer?: boolean;
-
-    /**
-     * If true, redirects the customer immediately after payment completion
-     *
-     * Default is false
-     */
-    redirect_immediately?: boolean;
-  }
-
-  export interface SubscriptionData {
-    on_demand?: SubscriptionsAPI.OnDemandSubscription | null;
-
-    /**
-     * Optional trial period in days If specified, this value overrides the trial
-     * period set in the product's price Must be between 0 and 10000 days
-     */
-    trial_period_days?: number | null;
-  }
+  subscription_data?: SubscriptionData | null;
 }
 
 export interface CheckoutSessionResponse {
@@ -575,6 +284,216 @@ export interface CheckoutSessionStatus {
    * Null if checkout sessions is still at the details collection stage.
    */
   payment_status?: PaymentsAPI.IntentStatus | null;
+}
+
+/**
+ * Definition of a custom field for checkout
+ */
+export interface CustomField {
+  /**
+   * Type of field determining validation rules
+   */
+  field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean';
+
+  /**
+   * Unique identifier for this field (used as key in responses)
+   */
+  key: string;
+
+  /**
+   * Display label shown to customer
+   */
+  label: string;
+
+  /**
+   * Options for dropdown type (required for dropdown, ignored for others)
+   */
+  options?: Array<string> | null;
+
+  /**
+   * Placeholder text for the input
+   */
+  placeholder?: string | null;
+
+  /**
+   * Whether this field is required
+   */
+  required?: boolean;
+}
+
+export interface ProductItemReq {
+  /**
+   * unique id of the product
+   */
+  product_id: string;
+
+  quantity: number;
+
+  /**
+   * only valid if product is a subscription
+   */
+  addons?: Array<SubscriptionsAPI.AttachAddon> | null;
+
+  /**
+   * Amount the customer pays if pay_what_you_want is enabled. If disabled then
+   * amount will be ignored Represented in the lowest denomination of the currency
+   * (e.g., cents for USD). For example, to charge $1.00, pass `100`. Only applicable
+   * for one time payments
+   *
+   * If amount is not set for pay_what_you_want product, customer is allowed to
+   * select the amount.
+   */
+  amount?: number | null;
+}
+
+export interface SubscriptionData {
+  on_demand?: SubscriptionsAPI.OnDemandSubscription | null;
+
+  /**
+   * Optional trial period in days If specified, this value overrides the trial
+   * period set in the product's price Must be between 0 and 10000 days
+   */
+  trial_period_days?: number | null;
+}
+
+/**
+ * Custom theme configuration with colors for light and dark modes.
+ */
+export interface ThemeConfig {
+  /**
+   * Dark mode color configuration
+   */
+  dark?: ThemeModeConfig | null;
+
+  /**
+   * URL for the primary font
+   */
+  font_primary_url?: string | null;
+
+  /**
+   * URL for the secondary font
+   */
+  font_secondary_url?: string | null;
+
+  /**
+   * Font size for the checkout UI
+   */
+  font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | null;
+
+  /**
+   * Font weight for the checkout UI
+   */
+  font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold' | null;
+
+  /**
+   * Light mode color configuration
+   */
+  light?: ThemeModeConfig | null;
+
+  /**
+   * Custom text for the pay button (e.g., "Complete Purchase", "Subscribe Now")
+   */
+  pay_button_text?: string | null;
+
+  /**
+   * Border radius for UI elements (e.g., "4px", "0.5rem", "8px")
+   */
+  radius?: string | null;
+}
+
+/**
+ * Color configuration for a single theme mode (light or dark).
+ *
+ * All color fields accept standard CSS color formats:
+ *
+ * - Hex: `#fff`, `#ffffff`, `#ffffffff` (with or without # prefix)
+ * - RGB/RGBA: `rgb(255, 255, 255)`, `rgba(255, 255, 255, 0.5)`
+ * - HSL/HSLA: `hsl(120, 100%, 50%)`, `hsla(120, 100%, 50%, 0.5)`
+ * - Named colors: `red`, `blue`, `transparent`, etc.
+ * - Advanced: `hwb()`, `lab()`, `lch()`, `oklab()`, `oklch()`, `color()`
+ */
+export interface ThemeModeConfig {
+  /**
+   * Background primary color
+   *
+   * Examples: `"#ffffff"`, `"rgb(255, 255, 255)"`, `"white"`
+   */
+  bg_primary?: string | null;
+
+  /**
+   * Background secondary color
+   */
+  bg_secondary?: string | null;
+
+  /**
+   * Border primary color
+   */
+  border_primary?: string | null;
+
+  /**
+   * Border secondary color
+   */
+  border_secondary?: string | null;
+
+  /**
+   * Primary button background color
+   */
+  button_primary?: string | null;
+
+  /**
+   * Primary button hover color
+   */
+  button_primary_hover?: string | null;
+
+  /**
+   * Secondary button background color
+   */
+  button_secondary?: string | null;
+
+  /**
+   * Secondary button hover color
+   */
+  button_secondary_hover?: string | null;
+
+  /**
+   * Primary button text color
+   */
+  button_text_primary?: string | null;
+
+  /**
+   * Secondary button text color
+   */
+  button_text_secondary?: string | null;
+
+  /**
+   * Input focus border color
+   */
+  input_focus_border?: string | null;
+
+  /**
+   * Text error color
+   */
+  text_error?: string | null;
+
+  /**
+   * Text placeholder color
+   */
+  text_placeholder?: string | null;
+
+  /**
+   * Text primary color
+   */
+  text_primary?: string | null;
+
+  /**
+   * Text secondary color
+   */
+  text_secondary?: string | null;
+
+  /**
+   * Text success color
+   */
+  text_success?: string | null;
 }
 
 /**
@@ -796,7 +715,7 @@ export namespace CheckoutSessionPreviewResponse {
 }
 
 export interface CheckoutSessionCreateParams {
-  product_cart: Array<CheckoutSessionCreateParams.ProductCart>;
+  product_cart: Array<ProductItemReq>;
 
   /**
    * Customers will never see payment methods that are not in this list. However,
@@ -811,7 +730,7 @@ export interface CheckoutSessionCreateParams {
   /**
    * Billing address information for the session
    */
-  billing_address?: CheckoutSessionCreateParams.BillingAddress | null;
+  billing_address?: CheckoutSessionBillingAddress | null;
 
   /**
    * This field is ingored if adaptive pricing is disabled
@@ -827,7 +746,7 @@ export interface CheckoutSessionCreateParams {
   /**
    * Custom fields to collect from customer during checkout (max 5 fields)
    */
-  custom_fields?: Array<CheckoutSessionCreateParams.CustomField> | null;
+  custom_fields?: Array<CustomField> | null;
 
   /**
    * Customer details for the session
@@ -837,11 +756,11 @@ export interface CheckoutSessionCreateParams {
   /**
    * Customization for the checkout session page
    */
-  customization?: CheckoutSessionCreateParams.Customization;
+  customization?: CheckoutSessionCustomization;
 
   discount_code?: string | null;
 
-  feature_flags?: CheckoutSessionCreateParams.FeatureFlags;
+  feature_flags?: CheckoutSessionFlags;
 
   /**
    * Override merchant default 3DS behaviour for this session
@@ -886,421 +805,11 @@ export interface CheckoutSessionCreateParams {
    */
   show_saved_payment_methods?: boolean;
 
-  subscription_data?: CheckoutSessionCreateParams.SubscriptionData | null;
-}
-
-export namespace CheckoutSessionCreateParams {
-  export interface ProductCart {
-    /**
-     * unique id of the product
-     */
-    product_id: string;
-
-    quantity: number;
-
-    /**
-     * only valid if product is a subscription
-     */
-    addons?: Array<SubscriptionsAPI.AttachAddon> | null;
-
-    /**
-     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
-     * amount will be ignored Represented in the lowest denomination of the currency
-     * (e.g., cents for USD). For example, to charge $1.00, pass `100`. Only applicable
-     * for one time payments
-     *
-     * If amount is not set for pay_what_you_want product, customer is allowed to
-     * select the amount.
-     */
-    amount?: number | null;
-  }
-
-  /**
-   * Billing address information for the session
-   */
-  export interface BillingAddress {
-    /**
-     * Two-letter ISO country code (ISO 3166-1 alpha-2)
-     */
-    country: MiscAPI.CountryCode;
-
-    /**
-     * City name
-     */
-    city?: string | null;
-
-    /**
-     * State or province name
-     */
-    state?: string | null;
-
-    /**
-     * Street address including house number and unit/apartment if applicable
-     */
-    street?: string | null;
-
-    /**
-     * Postal code or ZIP code
-     */
-    zipcode?: string | null;
-  }
-
-  /**
-   * Definition of a custom field for checkout
-   */
-  export interface CustomField {
-    /**
-     * Type of field determining validation rules
-     */
-    field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean';
-
-    /**
-     * Unique identifier for this field (used as key in responses)
-     */
-    key: string;
-
-    /**
-     * Display label shown to customer
-     */
-    label: string;
-
-    /**
-     * Options for dropdown type (required for dropdown, ignored for others)
-     */
-    options?: Array<string> | null;
-
-    /**
-     * Placeholder text for the input
-     */
-    placeholder?: string | null;
-
-    /**
-     * Whether this field is required
-     */
-    required?: boolean;
-  }
-
-  /**
-   * Customization for the checkout session page
-   */
-  export interface Customization {
-    /**
-     * Force the checkout interface to render in a specific language (e.g. `en`, `es`)
-     */
-    force_language?: string | null;
-
-    /**
-     * Show on demand tag
-     *
-     * Default is true
-     */
-    show_on_demand_tag?: boolean;
-
-    /**
-     * Show order details by default
-     *
-     * Default is true
-     */
-    show_order_details?: boolean;
-
-    /**
-     * Theme of the page (determines which mode - light/dark/system - to use)
-     *
-     * Default is `System`.
-     */
-    theme?: 'dark' | 'light' | 'system';
-
-    /**
-     * Optional custom theme configuration with colors for light and dark modes
-     */
-    theme_config?: Customization.ThemeConfig | null;
-  }
-
-  export namespace Customization {
-    /**
-     * Optional custom theme configuration with colors for light and dark modes
-     */
-    export interface ThemeConfig {
-      /**
-       * Dark mode color configuration
-       */
-      dark?: ThemeConfig.Dark | null;
-
-      /**
-       * Font size for the checkout UI
-       */
-      font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | null;
-
-      /**
-       * Font weight for the checkout UI
-       */
-      font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold' | null;
-
-      /**
-       * Light mode color configuration
-       */
-      light?: ThemeConfig.Light | null;
-
-      /**
-       * Custom text for the pay button (e.g., "Complete Purchase", "Subscribe Now")
-       */
-      pay_button_text?: string | null;
-
-      /**
-       * Border radius for UI elements (e.g., "4px", "0.5rem", "8px")
-       */
-      radius?: string | null;
-    }
-
-    export namespace ThemeConfig {
-      /**
-       * Dark mode color configuration
-       */
-      export interface Dark {
-        /**
-         * Background primary color
-         *
-         * Examples: `"#ffffff"`, `"rgb(255, 255, 255)"`, `"white"`
-         */
-        bg_primary?: string | null;
-
-        /**
-         * Background secondary color
-         */
-        bg_secondary?: string | null;
-
-        /**
-         * Border primary color
-         */
-        border_primary?: string | null;
-
-        /**
-         * Border secondary color
-         */
-        border_secondary?: string | null;
-
-        /**
-         * Primary button background color
-         */
-        button_primary?: string | null;
-
-        /**
-         * Primary button hover color
-         */
-        button_primary_hover?: string | null;
-
-        /**
-         * Secondary button background color
-         */
-        button_secondary?: string | null;
-
-        /**
-         * Secondary button hover color
-         */
-        button_secondary_hover?: string | null;
-
-        /**
-         * Primary button text color
-         */
-        button_text_primary?: string | null;
-
-        /**
-         * Secondary button text color
-         */
-        button_text_secondary?: string | null;
-
-        /**
-         * Input focus border color
-         */
-        input_focus_border?: string | null;
-
-        /**
-         * Text error color
-         */
-        text_error?: string | null;
-
-        /**
-         * Text placeholder color
-         */
-        text_placeholder?: string | null;
-
-        /**
-         * Text primary color
-         */
-        text_primary?: string | null;
-
-        /**
-         * Text secondary color
-         */
-        text_secondary?: string | null;
-
-        /**
-         * Text success color
-         */
-        text_success?: string | null;
-      }
-
-      /**
-       * Light mode color configuration
-       */
-      export interface Light {
-        /**
-         * Background primary color
-         *
-         * Examples: `"#ffffff"`, `"rgb(255, 255, 255)"`, `"white"`
-         */
-        bg_primary?: string | null;
-
-        /**
-         * Background secondary color
-         */
-        bg_secondary?: string | null;
-
-        /**
-         * Border primary color
-         */
-        border_primary?: string | null;
-
-        /**
-         * Border secondary color
-         */
-        border_secondary?: string | null;
-
-        /**
-         * Primary button background color
-         */
-        button_primary?: string | null;
-
-        /**
-         * Primary button hover color
-         */
-        button_primary_hover?: string | null;
-
-        /**
-         * Secondary button background color
-         */
-        button_secondary?: string | null;
-
-        /**
-         * Secondary button hover color
-         */
-        button_secondary_hover?: string | null;
-
-        /**
-         * Primary button text color
-         */
-        button_text_primary?: string | null;
-
-        /**
-         * Secondary button text color
-         */
-        button_text_secondary?: string | null;
-
-        /**
-         * Input focus border color
-         */
-        input_focus_border?: string | null;
-
-        /**
-         * Text error color
-         */
-        text_error?: string | null;
-
-        /**
-         * Text placeholder color
-         */
-        text_placeholder?: string | null;
-
-        /**
-         * Text primary color
-         */
-        text_primary?: string | null;
-
-        /**
-         * Text secondary color
-         */
-        text_secondary?: string | null;
-
-        /**
-         * Text success color
-         */
-        text_success?: string | null;
-      }
-    }
-  }
-
-  export interface FeatureFlags {
-    /**
-     * if customer is allowed to change currency, set it to true
-     *
-     * Default is true
-     */
-    allow_currency_selection?: boolean;
-
-    allow_customer_editing_city?: boolean;
-
-    allow_customer_editing_country?: boolean;
-
-    allow_customer_editing_email?: boolean;
-
-    allow_customer_editing_name?: boolean;
-
-    allow_customer_editing_state?: boolean;
-
-    allow_customer_editing_street?: boolean;
-
-    allow_customer_editing_zipcode?: boolean;
-
-    /**
-     * If the customer is allowed to apply discount code, set it to true.
-     *
-     * Default is true
-     */
-    allow_discount_code?: boolean;
-
-    /**
-     * If phone number is collected from customer, set it to rue
-     *
-     * Default is true
-     */
-    allow_phone_number_collection?: boolean;
-
-    /**
-     * If the customer is allowed to add tax id, set it to true
-     *
-     * Default is true
-     */
-    allow_tax_id?: boolean;
-
-    /**
-     * Set to true if a new customer object should be created. By default email is used
-     * to find an existing customer to attach the session to
-     *
-     * Default is false
-     */
-    always_create_new_customer?: boolean;
-
-    /**
-     * If true, redirects the customer immediately after payment completion
-     *
-     * Default is false
-     */
-    redirect_immediately?: boolean;
-  }
-
-  export interface SubscriptionData {
-    on_demand?: SubscriptionsAPI.OnDemandSubscription | null;
-
-    /**
-     * Optional trial period in days If specified, this value overrides the trial
-     * period set in the product's price Must be between 0 and 10000 days
-     */
-    trial_period_days?: number | null;
-  }
+  subscription_data?: SubscriptionData | null;
 }
 
 export interface CheckoutSessionPreviewParams {
-  product_cart: Array<CheckoutSessionPreviewParams.ProductCart>;
+  product_cart: Array<ProductItemReq>;
 
   /**
    * Customers will never see payment methods that are not in this list. However,
@@ -1315,7 +824,7 @@ export interface CheckoutSessionPreviewParams {
   /**
    * Billing address information for the session
    */
-  billing_address?: CheckoutSessionPreviewParams.BillingAddress | null;
+  billing_address?: CheckoutSessionBillingAddress | null;
 
   /**
    * This field is ingored if adaptive pricing is disabled
@@ -1331,7 +840,7 @@ export interface CheckoutSessionPreviewParams {
   /**
    * Custom fields to collect from customer during checkout (max 5 fields)
    */
-  custom_fields?: Array<CheckoutSessionPreviewParams.CustomField> | null;
+  custom_fields?: Array<CustomField> | null;
 
   /**
    * Customer details for the session
@@ -1341,11 +850,11 @@ export interface CheckoutSessionPreviewParams {
   /**
    * Customization for the checkout session page
    */
-  customization?: CheckoutSessionPreviewParams.Customization;
+  customization?: CheckoutSessionCustomization;
 
   discount_code?: string | null;
 
-  feature_flags?: CheckoutSessionPreviewParams.FeatureFlags;
+  feature_flags?: CheckoutSessionFlags;
 
   /**
    * Override merchant default 3DS behaviour for this session
@@ -1390,424 +899,22 @@ export interface CheckoutSessionPreviewParams {
    */
   show_saved_payment_methods?: boolean;
 
-  subscription_data?: CheckoutSessionPreviewParams.SubscriptionData | null;
-}
-
-export namespace CheckoutSessionPreviewParams {
-  export interface ProductCart {
-    /**
-     * unique id of the product
-     */
-    product_id: string;
-
-    quantity: number;
-
-    /**
-     * only valid if product is a subscription
-     */
-    addons?: Array<SubscriptionsAPI.AttachAddon> | null;
-
-    /**
-     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
-     * amount will be ignored Represented in the lowest denomination of the currency
-     * (e.g., cents for USD). For example, to charge $1.00, pass `100`. Only applicable
-     * for one time payments
-     *
-     * If amount is not set for pay_what_you_want product, customer is allowed to
-     * select the amount.
-     */
-    amount?: number | null;
-  }
-
-  /**
-   * Billing address information for the session
-   */
-  export interface BillingAddress {
-    /**
-     * Two-letter ISO country code (ISO 3166-1 alpha-2)
-     */
-    country: MiscAPI.CountryCode;
-
-    /**
-     * City name
-     */
-    city?: string | null;
-
-    /**
-     * State or province name
-     */
-    state?: string | null;
-
-    /**
-     * Street address including house number and unit/apartment if applicable
-     */
-    street?: string | null;
-
-    /**
-     * Postal code or ZIP code
-     */
-    zipcode?: string | null;
-  }
-
-  /**
-   * Definition of a custom field for checkout
-   */
-  export interface CustomField {
-    /**
-     * Type of field determining validation rules
-     */
-    field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean';
-
-    /**
-     * Unique identifier for this field (used as key in responses)
-     */
-    key: string;
-
-    /**
-     * Display label shown to customer
-     */
-    label: string;
-
-    /**
-     * Options for dropdown type (required for dropdown, ignored for others)
-     */
-    options?: Array<string> | null;
-
-    /**
-     * Placeholder text for the input
-     */
-    placeholder?: string | null;
-
-    /**
-     * Whether this field is required
-     */
-    required?: boolean;
-  }
-
-  /**
-   * Customization for the checkout session page
-   */
-  export interface Customization {
-    /**
-     * Force the checkout interface to render in a specific language (e.g. `en`, `es`)
-     */
-    force_language?: string | null;
-
-    /**
-     * Show on demand tag
-     *
-     * Default is true
-     */
-    show_on_demand_tag?: boolean;
-
-    /**
-     * Show order details by default
-     *
-     * Default is true
-     */
-    show_order_details?: boolean;
-
-    /**
-     * Theme of the page (determines which mode - light/dark/system - to use)
-     *
-     * Default is `System`.
-     */
-    theme?: 'dark' | 'light' | 'system';
-
-    /**
-     * Optional custom theme configuration with colors for light and dark modes
-     */
-    theme_config?: Customization.ThemeConfig | null;
-  }
-
-  export namespace Customization {
-    /**
-     * Optional custom theme configuration with colors for light and dark modes
-     */
-    export interface ThemeConfig {
-      /**
-       * Dark mode color configuration
-       */
-      dark?: ThemeConfig.Dark | null;
-
-      /**
-       * Font size for the checkout UI
-       */
-      font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | null;
-
-      /**
-       * Font weight for the checkout UI
-       */
-      font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold' | null;
-
-      /**
-       * Light mode color configuration
-       */
-      light?: ThemeConfig.Light | null;
-
-      /**
-       * Custom text for the pay button (e.g., "Complete Purchase", "Subscribe Now")
-       */
-      pay_button_text?: string | null;
-
-      /**
-       * Border radius for UI elements (e.g., "4px", "0.5rem", "8px")
-       */
-      radius?: string | null;
-    }
-
-    export namespace ThemeConfig {
-      /**
-       * Dark mode color configuration
-       */
-      export interface Dark {
-        /**
-         * Background primary color
-         *
-         * Examples: `"#ffffff"`, `"rgb(255, 255, 255)"`, `"white"`
-         */
-        bg_primary?: string | null;
-
-        /**
-         * Background secondary color
-         */
-        bg_secondary?: string | null;
-
-        /**
-         * Border primary color
-         */
-        border_primary?: string | null;
-
-        /**
-         * Border secondary color
-         */
-        border_secondary?: string | null;
-
-        /**
-         * Primary button background color
-         */
-        button_primary?: string | null;
-
-        /**
-         * Primary button hover color
-         */
-        button_primary_hover?: string | null;
-
-        /**
-         * Secondary button background color
-         */
-        button_secondary?: string | null;
-
-        /**
-         * Secondary button hover color
-         */
-        button_secondary_hover?: string | null;
-
-        /**
-         * Primary button text color
-         */
-        button_text_primary?: string | null;
-
-        /**
-         * Secondary button text color
-         */
-        button_text_secondary?: string | null;
-
-        /**
-         * Input focus border color
-         */
-        input_focus_border?: string | null;
-
-        /**
-         * Text error color
-         */
-        text_error?: string | null;
-
-        /**
-         * Text placeholder color
-         */
-        text_placeholder?: string | null;
-
-        /**
-         * Text primary color
-         */
-        text_primary?: string | null;
-
-        /**
-         * Text secondary color
-         */
-        text_secondary?: string | null;
-
-        /**
-         * Text success color
-         */
-        text_success?: string | null;
-      }
-
-      /**
-       * Light mode color configuration
-       */
-      export interface Light {
-        /**
-         * Background primary color
-         *
-         * Examples: `"#ffffff"`, `"rgb(255, 255, 255)"`, `"white"`
-         */
-        bg_primary?: string | null;
-
-        /**
-         * Background secondary color
-         */
-        bg_secondary?: string | null;
-
-        /**
-         * Border primary color
-         */
-        border_primary?: string | null;
-
-        /**
-         * Border secondary color
-         */
-        border_secondary?: string | null;
-
-        /**
-         * Primary button background color
-         */
-        button_primary?: string | null;
-
-        /**
-         * Primary button hover color
-         */
-        button_primary_hover?: string | null;
-
-        /**
-         * Secondary button background color
-         */
-        button_secondary?: string | null;
-
-        /**
-         * Secondary button hover color
-         */
-        button_secondary_hover?: string | null;
-
-        /**
-         * Primary button text color
-         */
-        button_text_primary?: string | null;
-
-        /**
-         * Secondary button text color
-         */
-        button_text_secondary?: string | null;
-
-        /**
-         * Input focus border color
-         */
-        input_focus_border?: string | null;
-
-        /**
-         * Text error color
-         */
-        text_error?: string | null;
-
-        /**
-         * Text placeholder color
-         */
-        text_placeholder?: string | null;
-
-        /**
-         * Text primary color
-         */
-        text_primary?: string | null;
-
-        /**
-         * Text secondary color
-         */
-        text_secondary?: string | null;
-
-        /**
-         * Text success color
-         */
-        text_success?: string | null;
-      }
-    }
-  }
-
-  export interface FeatureFlags {
-    /**
-     * if customer is allowed to change currency, set it to true
-     *
-     * Default is true
-     */
-    allow_currency_selection?: boolean;
-
-    allow_customer_editing_city?: boolean;
-
-    allow_customer_editing_country?: boolean;
-
-    allow_customer_editing_email?: boolean;
-
-    allow_customer_editing_name?: boolean;
-
-    allow_customer_editing_state?: boolean;
-
-    allow_customer_editing_street?: boolean;
-
-    allow_customer_editing_zipcode?: boolean;
-
-    /**
-     * If the customer is allowed to apply discount code, set it to true.
-     *
-     * Default is true
-     */
-    allow_discount_code?: boolean;
-
-    /**
-     * If phone number is collected from customer, set it to rue
-     *
-     * Default is true
-     */
-    allow_phone_number_collection?: boolean;
-
-    /**
-     * If the customer is allowed to add tax id, set it to true
-     *
-     * Default is true
-     */
-    allow_tax_id?: boolean;
-
-    /**
-     * Set to true if a new customer object should be created. By default email is used
-     * to find an existing customer to attach the session to
-     *
-     * Default is false
-     */
-    always_create_new_customer?: boolean;
-
-    /**
-     * If true, redirects the customer immediately after payment completion
-     *
-     * Default is false
-     */
-    redirect_immediately?: boolean;
-  }
-
-  export interface SubscriptionData {
-    on_demand?: SubscriptionsAPI.OnDemandSubscription | null;
-
-    /**
-     * Optional trial period in days If specified, this value overrides the trial
-     * period set in the product's price Must be between 0 and 10000 days
-     */
-    trial_period_days?: number | null;
-  }
+  subscription_data?: SubscriptionData | null;
 }
 
 export declare namespace CheckoutSessions {
   export {
+    type CheckoutSessionBillingAddress as CheckoutSessionBillingAddress,
+    type CheckoutSessionCustomization as CheckoutSessionCustomization,
+    type CheckoutSessionFlags as CheckoutSessionFlags,
     type CheckoutSessionRequest as CheckoutSessionRequest,
     type CheckoutSessionResponse as CheckoutSessionResponse,
     type CheckoutSessionStatus as CheckoutSessionStatus,
+    type CustomField as CustomField,
+    type ProductItemReq as ProductItemReq,
+    type SubscriptionData as SubscriptionData,
+    type ThemeConfig as ThemeConfig,
+    type ThemeModeConfig as ThemeModeConfig,
     type CheckoutSessionPreviewResponse as CheckoutSessionPreviewResponse,
     type CheckoutSessionCreateParams as CheckoutSessionCreateParams,
     type CheckoutSessionPreviewParams as CheckoutSessionPreviewParams,

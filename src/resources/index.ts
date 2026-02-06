@@ -10,6 +10,12 @@ export {
   type AddonResponsesDefaultPageNumberPagination,
 } from './addons';
 export {
+  Balances,
+  type BalanceLedgerEntry,
+  type BalanceRetrieveLedgerParams,
+  type BalanceLedgerEntriesDefaultPageNumberPagination,
+} from './balances';
+export {
   Brands,
   type Brand,
   type BrandListResponse,
@@ -19,9 +25,17 @@ export {
 } from './brands';
 export {
   CheckoutSessions,
+  type CheckoutSessionBillingAddress,
+  type CheckoutSessionCustomization,
+  type CheckoutSessionFlags,
   type CheckoutSessionRequest,
   type CheckoutSessionResponse,
   type CheckoutSessionStatus,
+  type CustomField,
+  type ProductItemReq,
+  type SubscriptionData,
+  type ThemeConfig,
+  type ThemeModeConfig,
   type CheckoutSessionPreviewResponse,
   type CheckoutSessionCreateParams,
   type CheckoutSessionPreviewParams,
