@@ -76,6 +76,8 @@ describe('resource checkoutSessions', () => {
             text_secondary: 'text_secondary',
             text_success: 'text_success',
           },
+          font_primary_url: 'font_primary_url',
+          font_secondary_url: 'font_secondary_url',
           font_size: 'xs',
           font_weight: 'normal',
           light: {
@@ -216,6 +218,8 @@ describe('resource checkoutSessions', () => {
             text_secondary: 'text_secondary',
             text_success: 'text_success',
           },
+          font_primary_url: 'font_primary_url',
+          font_secondary_url: 'font_secondary_url',
           font_size: 'xs',
           font_weight: 'normal',
           light: {

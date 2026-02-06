@@ -140,6 +140,7 @@ describe('resource subscriptions', () => {
       quantity: 0,
       addons: [{ addon_id: 'addon_id', quantity: 0 }],
       metadata: { foo: 'string' },
+      on_payment_failure: 'prevent_change',
     });
   });
 
@@ -187,6 +188,7 @@ describe('resource subscriptions', () => {
       quantity: 0,
       addons: [{ addon_id: 'addon_id', quantity: 0 }],
       metadata: { foo: 'string' },
+      on_payment_failure: 'prevent_change',
     });
   });
 
