@@ -321,6 +321,12 @@ export interface Payment {
   product_cart?: Array<Payment.ProductCart> | null;
 
   /**
+   * Summary of the refund status for this payment. None if no succeeded refunds
+   * exist.
+   */
+  refund_status?: 'partial' | 'full' | null;
+
+  /**
    * This represents the portion of settlement_amount that corresponds to taxes
    * collected. Especially relevant for adaptive pricing where the tax component must
    * be tracked separately in your Dodo balance.

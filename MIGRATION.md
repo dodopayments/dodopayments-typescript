@@ -86,6 +86,7 @@ This affects the following methods:
 - `client.webhooks.list()`
 - `client.usageEvents.list()`
 - `client.meters.list()`
+- `client.balances.retrieveLedger()`
 
 ### Removed `httpAgent` in favor of `fetchOptions`
 

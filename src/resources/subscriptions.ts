@@ -982,6 +982,17 @@ export interface SubscriptionChangePlanParams {
    * be taken
    */
   metadata?: { [key: string]: string } | null;
+
+  /**
+   * Controls behavior when the plan change payment fails.
+   *
+   * - `prevent_change`: Keep subscription on current plan until payment succeeds
+   * - `apply_change` (default): Apply plan change immediately regardless of payment
+   *   outcome
+   *
+   * If not specified, uses the business-level default setting.
+   */
+  on_payment_failure?: 'prevent_change' | 'apply_change' | null;
 }
 
 export interface SubscriptionChargeParams {
@@ -1066,6 +1077,17 @@ export interface SubscriptionPreviewChangePlanParams {
    * be taken
    */
   metadata?: { [key: string]: string } | null;
+
+  /**
+   * Controls behavior when the plan change payment fails.
+   *
+   * - `prevent_change`: Keep subscription on current plan until payment succeeds
+   * - `apply_change` (default): Apply plan change immediately regardless of payment
+   *   outcome
+   *
+   * If not specified, uses the business-level default setting.
+   */
+  on_payment_failure?: 'prevent_change' | 'apply_change' | null;
 }
 
 export interface SubscriptionRetrieveUsageHistoryParams extends DefaultPageNumberPaginationParams {
