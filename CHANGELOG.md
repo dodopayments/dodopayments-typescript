@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.19.1 (2026-02-07)
+
+Full Changelog: [v2.19.0...v2.19.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.19.0...v2.19.1)
+
+### Chores
+
+* **internal:** add health check to MCP server when running in HTTP mode ([f2cc612](https://github.com/dodopayments/dodopayments-typescript/commit/f2cc61229c785e706611546a62c8aa25913b0870))
+* **internal:** upgrade hono ([7752c6a](https://github.com/dodopayments/dodopayments-typescript/commit/7752c6afd2d21dcca4a5bfe981b1d745bdb1885c))
+
 ## 2.19.0 (2026-02-06)
 
 Full Changelog: [v2.18.0...v2.19.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.18.0...v2.19.0)
