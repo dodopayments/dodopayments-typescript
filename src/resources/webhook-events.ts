@@ -39,7 +39,15 @@ export type WebhookEventType =
   | 'payout.on_hold'
   | 'payout.in_progress'
   | 'payout.failed'
-  | 'payout.success';
+  | 'payout.success'
+  | 'credit.added'
+  | 'credit.deducted'
+  | 'credit.expired'
+  | 'credit.rolled_over'
+  | 'credit.rollover_forfeited'
+  | 'credit.overage_charged'
+  | 'credit.manual_adjustment'
+  | 'credit.balance_low';
 
 export interface WebhookPayload {
   business_id: string;
@@ -52,7 +60,9 @@ export interface WebhookPayload {
     | WebhookPayload.Subscription
     | WebhookPayload.Refund
     | WebhookPayload.Dispute
-    | WebhookPayload.LicenseKey;
+    | WebhookPayload.LicenseKey
+    | WebhookPayload.CreditLedgerEntry
+    | WebhookPayload.CreditBalanceLow;
 
   /**
    * The timestamp of when the event occurred (not necessarily the same of when it
@@ -88,6 +98,71 @@ export namespace WebhookPayload {
 
   export interface LicenseKey extends LicenseKeysAPI.LicenseKey {
     payload_type: 'LicenseKey';
+  }
+
+  export interface CreditLedgerEntry {
+    id: string;
+
+    amount: string;
+
+    balance_after: string;
+
+    balance_before: string;
+
+    business_id: string;
+
+    created_at: string;
+
+    credit_entitlement_id: string;
+
+    customer_id: string;
+
+    is_credit: boolean;
+
+    overage_after: string;
+
+    overage_before: string;
+
+    payload_type: 'CreditLedgerEntry';
+
+    transaction_type:
+      | 'credit_added'
+      | 'credit_deducted'
+      | 'credit_expired'
+      | 'credit_rolled_over'
+      | 'rollover_forfeited'
+      | 'overage_charged'
+      | 'auto_top_up'
+      | 'manual_adjustment'
+      | 'refund';
+
+    description?: string | null;
+
+    grant_id?: string | null;
+
+    reference_id?: string | null;
+
+    reference_type?: string | null;
+  }
+
+  export interface CreditBalanceLow {
+    available_balance: string;
+
+    credit_entitlement_id: string;
+
+    credit_entitlement_name: string;
+
+    customer_id: string;
+
+    payload_type: 'CreditBalanceLow';
+
+    subscription_credits_amount: string;
+
+    subscription_id: string;
+
+    threshold_amount: string;
+
+    threshold_percent: number;
   }
 }
 
