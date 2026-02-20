@@ -1,5 +1,27 @@
 # Changelog
 
+## 2.20.0 (2026-02-20)
+
+Full Changelog: [v2.19.1...v2.20.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.19.1...v2.20.0)
+
+### Features
+
+* **api:** updated openapi spec to v1.84.0 ([1b8bd36](https://github.com/dodopayments/dodopayments-typescript/commit/1b8bd3658c157d6449a40618ea1ec35b0004dea2))
+
+
+### Bug Fixes
+
+* **mcp:** initialize SDK lazily to avoid failing the connection on init errors ([c65ce38](https://github.com/dodopayments/dodopayments-typescript/commit/c65ce38c0ee14994f7f956aacb0eddcd722cd171))
+
+
+### Chores
+
+* **internal/client:** fix form-urlencoded requests ([fd87d64](https://github.com/dodopayments/dodopayments-typescript/commit/fd87d64625100b655268d72b0e6458b7b56af735))
+* **internal:** allow setting x-stainless-api-key header on mcp server requests ([55f4404](https://github.com/dodopayments/dodopayments-typescript/commit/55f44043b8302e32cd0ca39da78be7e8a84ace11))
+* **internal:** cache fetch instruction calls in MCP server ([08e1d52](https://github.com/dodopayments/dodopayments-typescript/commit/08e1d5267bf2d80bf0cbce18382cf7ac25345337))
+* **mcp:** correctly update version in sync with sdk ([cd9b2f6](https://github.com/dodopayments/dodopayments-typescript/commit/cd9b2f628f75cebcd958740e2abd3e2931a31647))
+* update mock server docs ([7932b8b](https://github.com/dodopayments/dodopayments-typescript/commit/7932b8b47c2892a5b4aefd3d1d2322168e78a433))
+
 ## 2.19.1 (2026-02-14)
 
 Full Changelog: [v2.19.0...v2.19.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.19.0...v2.19.1)
