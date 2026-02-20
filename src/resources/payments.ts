@@ -589,6 +589,8 @@ export interface PaymentListResponse {
 
   digital_products_delivered: boolean;
 
+  has_license_key: boolean;
+
   metadata: { [key: string]: string };
 
   payment_id: string;
@@ -745,6 +747,11 @@ export interface PaymentListParams extends DefaultPageNumberPaginationParams {
    * Filter by customer id
    */
   customer_id?: string;
+
+  /**
+   * Filter by product id
+   */
+  product_id?: string;
 
   /**
    * Filter by status

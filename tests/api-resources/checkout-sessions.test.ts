@@ -111,6 +111,7 @@ describe('resource checkoutSessions', () => {
         allow_customer_editing_name: true,
         allow_customer_editing_state: true,
         allow_customer_editing_street: true,
+        allow_customer_editing_tax_id: true,
         allow_customer_editing_zipcode: true,
         allow_discount_code: true,
         allow_phone_number_collection: true,
@@ -136,6 +137,7 @@ describe('resource checkoutSessions', () => {
         },
         trial_period_days: 0,
       },
+      tax_id: 'tax_id',
     });
   });
 
@@ -253,6 +255,7 @@ describe('resource checkoutSessions', () => {
         allow_customer_editing_name: true,
         allow_customer_editing_state: true,
         allow_customer_editing_street: true,
+        allow_customer_editing_tax_id: true,
         allow_customer_editing_zipcode: true,
         allow_discount_code: true,
         allow_phone_number_collection: true,
@@ -278,6 +281,7 @@ describe('resource checkoutSessions', () => {
         },
         trial_period_days: 0,
       },
+      tax_id: 'tax_id',
     });
   });
 });

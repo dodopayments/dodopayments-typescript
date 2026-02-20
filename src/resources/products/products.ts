@@ -91,6 +91,11 @@ export interface AddMeterToPrice {
   price_per_unit: string;
 
   /**
+   * Optional credit entitlement ID to link this meter to for credit-based billing
+   */
+  credit_entitlement_id?: string | null;
+
+  /**
    * Meter description. Will ignored on Request, but will be shown in response
    */
   description?: string | null;
@@ -101,6 +106,12 @@ export interface AddMeterToPrice {
    * Meter measurement unit. Will ignored on Request, but will be shown in response
    */
   measurement_unit?: string | null;
+
+  /**
+   * Number of meter units that equal one credit. Required when credit_entitlement_id
+   * is set.
+   */
+  meter_units_per_credit?: string | null;
 
   /**
    * Meter name. Will ignored on Request, but will be shown in response
@@ -304,6 +315,11 @@ export interface Product {
   created_at: string;
 
   /**
+   * Attached credit entitlements with settings
+   */
+  credit_entitlements: Array<Product.CreditEntitlement>;
+
+  /**
    * Indicates if the product is recurring (e.g., subscriptions).
    */
   is_recurring: boolean;
@@ -382,6 +398,121 @@ export interface Product {
 }
 
 export namespace Product {
+  /**
+   * Response struct for credit entitlement mapping
+   */
+  export interface CreditEntitlement {
+    /**
+     * Unique ID of this mapping
+     */
+    id: string;
+
+    /**
+     * ID of the credit entitlement
+     */
+    credit_entitlement_id: string;
+
+    /**
+     * Name of the credit entitlement
+     */
+    credit_entitlement_name: string;
+
+    /**
+     * Unit label for the credit entitlement
+     */
+    credit_entitlement_unit: string;
+
+    /**
+     * Number of credits granted
+     */
+    credits_amount: string;
+
+    /**
+     * Whether new credit grants reduce existing overage
+     */
+    credits_reduce_overage: boolean;
+
+    /**
+     * Whether overage is charged at billing
+     */
+    overage_charge_at_billing: boolean;
+
+    /**
+     * Whether overage is enabled
+     */
+    overage_enabled: boolean;
+
+    /**
+     * Whether to preserve overage balance when credits reset
+     */
+    preserve_overage_at_reset: boolean;
+
+    /**
+     * Proration behavior for credit grants during plan changes
+     */
+    proration_behavior: 'prorate' | 'no_prorate';
+
+    /**
+     * Whether rollover is enabled
+     */
+    rollover_enabled: boolean;
+
+    /**
+     * Whether trial credits expire after trial
+     */
+    trial_credits_expire_after_trial: boolean;
+
+    /**
+     * Currency
+     */
+    currency?: MiscAPI.Currency | null;
+
+    /**
+     * Days until credits expire
+     */
+    expires_after_days?: number | null;
+
+    /**
+     * Low balance threshold percentage
+     */
+    low_balance_threshold_percent?: number | null;
+
+    /**
+     * Maximum rollover cycles
+     */
+    max_rollover_count?: number | null;
+
+    /**
+     * Overage limit
+     */
+    overage_limit?: string | null;
+
+    /**
+     * Price per unit
+     */
+    price_per_unit?: string | null;
+
+    /**
+     * Rollover percentage
+     */
+    rollover_percentage?: number | null;
+
+    /**
+     * Rollover timeframe count
+     */
+    rollover_timeframe_count?: number | null;
+
+    /**
+     * Rollover timeframe interval
+     */
+    rollover_timeframe_interval?: SubscriptionsAPI.TimeInterval | null;
+
+    /**
+     * Trial credits
+     */
+    trial_credits?: string | null;
+  }
+
   export interface DigitalProductDelivery {
     /**
      * External URL to digital product
@@ -524,6 +655,11 @@ export interface ProductCreateParams {
   brand_id?: string | null;
 
   /**
+   * Optional credit entitlements to attach (max 3)
+   */
+  credit_entitlements?: Array<ProductCreateParams.CreditEntitlement> | null;
+
+  /**
    * Optional description of the product
    */
   description?: string | null;
@@ -563,6 +699,106 @@ export interface ProductCreateParams {
 
 export namespace ProductCreateParams {
   /**
+   * Request struct for attaching a credit entitlement to a product
+   */
+  export interface CreditEntitlement {
+    /**
+     * ID of the credit entitlement to attach
+     */
+    credit_entitlement_id: string;
+
+    /**
+     * Number of credits to grant when this product is purchased
+     */
+    credits_amount: string;
+
+    /**
+     * Whether new credit grants reduce existing overage
+     */
+    credits_reduce_overage?: boolean | null;
+
+    /**
+     * Currency for credit-related pricing
+     */
+    currency?: MiscAPI.Currency | null;
+
+    /**
+     * Number of days after which credits expire
+     */
+    expires_after_days?: number | null;
+
+    /**
+     * Balance threshold percentage for low balance notifications (0-100)
+     */
+    low_balance_threshold_percent?: number | null;
+
+    /**
+     * Maximum number of rollover cycles allowed
+     */
+    max_rollover_count?: number | null;
+
+    /**
+     * Whether overage charges are applied at billing time
+     */
+    overage_charge_at_billing?: boolean | null;
+
+    /**
+     * Whether overage usage is allowed beyond credit balance
+     */
+    overage_enabled?: boolean | null;
+
+    /**
+     * Maximum amount of overage allowed
+     */
+    overage_limit?: string | null;
+
+    /**
+     * Whether to preserve overage balance when credits reset
+     */
+    preserve_overage_at_reset?: boolean | null;
+
+    /**
+     * Price per credit unit for purchasing additional credits
+     */
+    price_per_unit?: string | null;
+
+    /**
+     * Proration behavior for credit grants during plan changes
+     */
+    proration_behavior?: 'prorate' | 'no_prorate' | null;
+
+    /**
+     * Whether unused credits can roll over to the next billing period
+     */
+    rollover_enabled?: boolean | null;
+
+    /**
+     * Percentage of unused credits that can roll over (0-100)
+     */
+    rollover_percentage?: number | null;
+
+    /**
+     * Number of timeframe units for rollover window
+     */
+    rollover_timeframe_count?: number | null;
+
+    /**
+     * Time interval for rollover window (day, week, month, year)
+     */
+    rollover_timeframe_interval?: SubscriptionsAPI.TimeInterval | null;
+
+    /**
+     * Credits granted during trial period
+     */
+    trial_credits?: string | null;
+
+    /**
+     * Whether trial credits expire when trial ends
+     */
+    trial_credits_expire_after_trial?: boolean | null;
+  }
+
+  /**
    * Choose how you would like you digital product delivered
    */
   export interface DigitalProductDelivery {
@@ -585,6 +821,12 @@ export interface ProductUpdateParams {
   addons?: Array<string> | null;
 
   brand_id?: string | null;
+
+  /**
+   * Credit entitlements to update (replaces all existing when present) Send empty
+   * array to remove all, omit field to leave unchanged
+   */
+  credit_entitlements?: Array<ProductUpdateParams.CreditEntitlement> | null;
 
   /**
    * Description of the product, optional and must be at most 1000 characters.
@@ -655,6 +897,106 @@ export interface ProductUpdateParams {
 }
 
 export namespace ProductUpdateParams {
+  /**
+   * Request struct for attaching a credit entitlement to a product
+   */
+  export interface CreditEntitlement {
+    /**
+     * ID of the credit entitlement to attach
+     */
+    credit_entitlement_id: string;
+
+    /**
+     * Number of credits to grant when this product is purchased
+     */
+    credits_amount: string;
+
+    /**
+     * Whether new credit grants reduce existing overage
+     */
+    credits_reduce_overage?: boolean | null;
+
+    /**
+     * Currency for credit-related pricing
+     */
+    currency?: MiscAPI.Currency | null;
+
+    /**
+     * Number of days after which credits expire
+     */
+    expires_after_days?: number | null;
+
+    /**
+     * Balance threshold percentage for low balance notifications (0-100)
+     */
+    low_balance_threshold_percent?: number | null;
+
+    /**
+     * Maximum number of rollover cycles allowed
+     */
+    max_rollover_count?: number | null;
+
+    /**
+     * Whether overage charges are applied at billing time
+     */
+    overage_charge_at_billing?: boolean | null;
+
+    /**
+     * Whether overage usage is allowed beyond credit balance
+     */
+    overage_enabled?: boolean | null;
+
+    /**
+     * Maximum amount of overage allowed
+     */
+    overage_limit?: string | null;
+
+    /**
+     * Whether to preserve overage balance when credits reset
+     */
+    preserve_overage_at_reset?: boolean | null;
+
+    /**
+     * Price per credit unit for purchasing additional credits
+     */
+    price_per_unit?: string | null;
+
+    /**
+     * Proration behavior for credit grants during plan changes
+     */
+    proration_behavior?: 'prorate' | 'no_prorate' | null;
+
+    /**
+     * Whether unused credits can roll over to the next billing period
+     */
+    rollover_enabled?: boolean | null;
+
+    /**
+     * Percentage of unused credits that can roll over (0-100)
+     */
+    rollover_percentage?: number | null;
+
+    /**
+     * Number of timeframe units for rollover window
+     */
+    rollover_timeframe_count?: number | null;
+
+    /**
+     * Time interval for rollover window (day, week, month, year)
+     */
+    rollover_timeframe_interval?: SubscriptionsAPI.TimeInterval | null;
+
+    /**
+     * Credits granted during trial period
+     */
+    trial_credits?: string | null;
+
+    /**
+     * Whether trial credits expire when trial ends
+     */
+    trial_credits_expire_after_trial?: boolean | null;
+  }
+
   /**
    * Choose how you would like you digital product delivered
    */
