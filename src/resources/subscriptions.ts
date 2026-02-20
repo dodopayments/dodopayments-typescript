@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as SubscriptionsAPI from './subscriptions';
 import * as MiscAPI from './misc';
 import * as PaymentsAPI from './payments';
 import { APIPromise } from '../core/api-promise';
@@ -225,6 +226,11 @@ export interface Subscription {
   created_at: string;
 
   /**
+   * Credit entitlement cart settings for this subscription
+   */
+  credit_entitlement_cart: Array<Subscription.CreditEntitlementCart>;
+
+  /**
    * Currency used for the subscription payments
    */
   currency: MiscAPI.Currency;
@@ -238,6 +244,11 @@ export interface Subscription {
    * Additional custom data associated with the subscription
    */
   metadata: { [key: string]: string };
+
+  /**
+   * Meter credit entitlement cart settings for this subscription
+   */
+  meter_credit_entitlement_cart: Array<Subscription.MeterCreditEntitlementCart>;
 
   /**
    * Meters associated with this subscription (for usage-based billing)
@@ -353,6 +364,70 @@ export interface Subscription {
 }
 
 export namespace Subscription {
+  /**
+   * Response struct representing credit entitlement cart details for a subscription
+   */
+  export interface CreditEntitlementCart {
+    credit_entitlement_id: string;
+
+    credit_entitlement_name: string;
+
+    credits_amount: string;
+
+    /**
+     * Customer's current overage balance for this entitlement
+     */
+    overage_balance: string;
+
+    overage_charge_at_billing: boolean;
+
+    overage_enabled: boolean;
+
+    product_id: string;
+
+    /**
+     * Customer's current remaining credit balance for this entitlement
+     */
+    remaining_balance: string;
+
+    rollover_enabled: boolean;
+
+    /**
+     * Unit label for the credit entitlement (e.g., "API Calls", "Tokens")
+     */
+    unit: string;
+
+    expires_after_days?: number | null;
+
+    low_balance_threshold_percent?: number | null;
+
+    max_rollover_count?: number | null;
+
+    overage_limit?: string | null;
+
+    rollover_percentage?: number | null;
+
+    rollover_timeframe_count?: number | null;
+
+    rollover_timeframe_interval?: SubscriptionsAPI.TimeInterval | null;
+  }
+
+  /**
+   * Response struct representing meter-credit entitlement mapping cart details for a
+   * subscription
+   */
+  export interface MeterCreditEntitlementCart {
+    credit_entitlement_id: string;
+
+    meter_id: string;
+
+    meter_name: string;
+
+    meter_units_per_credit: string;
+
+    product_id: string;
+  }
+
   /**
    * Response struct representing usage-based meter cart details for a subscription
    */
@@ -909,6 +984,11 @@ export interface SubscriptionUpdateParams {
    */
   cancel_at_next_billing_date?: boolean | null;
 
+  /**
+   * Update credit entitlement cart settings
+   */
+  credit_entitlement_cart?: Array<SubscriptionUpdateParams.CreditEntitlementCart> | null;
+
   customer_name?: string | null;
 
   disable_on_demand?: SubscriptionUpdateParams.DisableOnDemand | null;
@@ -923,6 +1003,32 @@ export interface SubscriptionUpdateParams {
 }
 
 export namespace SubscriptionUpdateParams {
+  export interface CreditEntitlementCart {
+    credit_entitlement_id: string;
+
+    credits_amount?: string | null;
+
+    expires_after_days?: number | null;
+
+    low_balance_threshold_percent?: number | null;
+
+    max_rollover_count?: number | null;
+
+    overage_charge_at_billing?: boolean | null;
+
+    overage_enabled?: boolean | null;
+
+    overage_limit?: string | null;
+
+    rollover_enabled?: boolean | null;
+
+    rollover_percentage?: number | null;
+
+    rollover_timeframe_count?: number | null;
+
+    rollover_timeframe_interval?: SubscriptionsAPI.TimeInterval | null;
+  }
+
   export interface DisableOnDemand {
     next_billing_date: string;
   }
@@ -948,6 +1054,11 @@ export interface SubscriptionListParams extends DefaultPageNumberPaginationParam
    * Filter by customer id
    */
   customer_id?: string;
+
+  /**
+   * Filter by product id
+   */
+  product_id?: string;
 
   /**
    * Filter by status

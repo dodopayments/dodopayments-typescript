@@ -105,6 +105,8 @@ export interface CheckoutSessionFlags {
 
   allow_customer_editing_street?: boolean;
 
+  allow_customer_editing_tax_id?: boolean;
+
   allow_customer_editing_zipcode?: boolean;
 
   /**
@@ -236,6 +238,12 @@ export interface CheckoutSessionRequest {
   show_saved_payment_methods?: boolean;
 
   subscription_data?: SubscriptionData | null;
+
+  /**
+   * Tax ID for the customer (e.g. VAT number). Requires billing_address with
+   * country.
+   */
+  tax_id?: string | null;
 }
 
 export interface CheckoutSessionResponse {
@@ -366,12 +374,12 @@ export interface ThemeConfig {
   dark?: ThemeModeConfig | null;
 
   /**
-   * URL for the primary font
+   * URL for the primary font. Must be a valid https:// URL.
    */
   font_primary_url?: string | null;
 
   /**
-   * URL for the secondary font
+   * URL for the secondary font. Must be a valid https:// URL.
    */
   font_secondary_url?: string | null;
 
@@ -391,12 +399,14 @@ export interface ThemeConfig {
   light?: ThemeModeConfig | null;
 
   /**
-   * Custom text for the pay button (e.g., "Complete Purchase", "Subscribe Now")
+   * Custom text for the pay button (e.g., "Complete Purchase", "Subscribe Now"). Max
+   * 100 characters.
    */
   pay_button_text?: string | null;
 
   /**
-   * Border radius for UI elements (e.g., "4px", "0.5rem", "8px")
+   * Border radius for UI elements. Must be a number followed by px, rem, or em
+   * (e.g., "4px", "0.5rem", "1em")
    */
   radius?: string | null;
 }
@@ -531,6 +541,11 @@ export interface CheckoutSessionPreviewResponse {
   recurring_breakup?: CheckoutSessionPreviewResponse.RecurringBreakup | null;
 
   /**
+   * Error message if tax ID validation failed
+   */
+  tax_id_err_msg?: string | null;
+
+  /**
    * Total tax
    */
   total_tax?: number | null;
@@ -563,6 +578,11 @@ export namespace CheckoutSessionPreviewResponse {
   }
 
   export interface ProductCart {
+    /**
+     * Credit entitlements that will be granted upon purchase
+     */
+    credit_entitlements: Array<ProductCart.CreditEntitlement>;
+
     /**
      * the currency in which the calculatiosn were made
      */
@@ -643,6 +663,32 @@ export namespace CheckoutSessionPreviewResponse {
   }
 
   export namespace ProductCart {
+    /**
+     * Minimal credit entitlement info shown at checkout — what credits the customer
+     * will receive
+     */
+    export interface CreditEntitlement {
+      /**
+       * ID of the credit entitlement
+       */
+      credit_entitlement_id: string;
+
+      /**
+       * Name of the credit entitlement
+       */
+      credit_entitlement_name: string;
+
+      /**
+       * Unit label (e.g. "API Calls", "Tokens")
+       */
+      credit_entitlement_unit: string;
+
+      /**
+       * Number of credits granted
+       */
+      credits_amount: string;
+    }
+
     export interface Meter {
       measurement_unit: string;
 
@@ -806,6 +852,12 @@ export interface CheckoutSessionCreateParams {
   show_saved_payment_methods?: boolean;
 
   subscription_data?: SubscriptionData | null;
+
+  /**
+   * Tax ID for the customer (e.g. VAT number). Requires billing_address with
+   * country.
+   */
+  tax_id?: string | null;
 }
 
 export interface CheckoutSessionPreviewParams {
@@ -900,6 +952,12 @@ export interface CheckoutSessionPreviewParams {
   show_saved_payment_methods?: boolean;
 
   subscription_data?: SubscriptionData | null;
+
+  /**
+   * Tax ID for the customer (e.g. VAT number). Requires billing_address with
+   * country.
+   */
+  tax_id?: string | null;
 }
 
 export declare namespace CheckoutSessions {

@@ -111,6 +111,7 @@ describe('resource subscriptions', () => {
           customer_id: 'customer_id',
           page_number: 0,
           page_size: 0,
+          product_id: 'product_id',
           status: 'pending',
         },
         { path: '/_stainless_unknown_path' },

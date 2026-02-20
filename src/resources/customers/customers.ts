@@ -145,6 +145,8 @@ export interface CustomerCreateParams {
 }
 
 export interface CustomerUpdateParams {
+  email?: string | null;
+
   /**
    * Additional metadata for the customer
    */
