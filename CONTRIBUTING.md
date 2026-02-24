@@ -60,7 +60,7 @@ $ yarn link dodopayments
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global dodopayments
+$ pnpm link --global dodopayments
 ```
 
 ## Running tests
