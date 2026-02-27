@@ -1,5 +1,30 @@
 # Changelog
 
+## 2.21.0 (2026-02-27)
+
+Full Changelog: [v2.20.0...v2.21.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.20.0...v2.21.0)
+
+### Features
+
+* **mcp:** add an option to disable code tool ([5a66e8b](https://github.com/dodopayments/dodopayments-typescript/commit/5a66e8b904380cc9a2233e19fcc51da2eb3303d6))
+
+
+### Bug Fixes
+
+* **docs/contributing:** correct pnpm link command ([3a8d217](https://github.com/dodopayments/dodopayments-typescript/commit/3a8d217537354e0e4c08c10e57b5aa4093ab8bbe))
+* **mcp:** update prompt ([d7933ab](https://github.com/dodopayments/dodopayments-typescript/commit/d7933abde8764e7829e42560628f77120643ca9c))
+
+
+### Chores
+
+* **internal:** codegen related update ([fe8a89c](https://github.com/dodopayments/dodopayments-typescript/commit/fe8a89c40c9841bac1735faa6b692618d270a7f6))
+* **internal:** fix MCP Dockerfiles so they can be built without buildkit ([00068c1](https://github.com/dodopayments/dodopayments-typescript/commit/00068c102bcef5be14e1ee4a16d40c9032ad872e))
+* **internal:** fix MCP Dockerfiles so they can be built without buildkit ([b4fa32c](https://github.com/dodopayments/dodopayments-typescript/commit/b4fa32cfc1b41d4eed597b6659e986a658235937))
+* **internal:** make MCP code execution location configurable via a flag ([76c9ed6](https://github.com/dodopayments/dodopayments-typescript/commit/76c9ed60830731a9caa8b1acd340b56f35c87fd2))
+* **internal:** move stringifyQuery implementation to internal function ([f28b0b4](https://github.com/dodopayments/dodopayments-typescript/commit/f28b0b4bea6475a86671b61bf7585365cec06576))
+* **internal:** update agents version ([fbdbce3](https://github.com/dodopayments/dodopayments-typescript/commit/fbdbce302cc1fc2e90d478d64a067a3384837661))
+* **internal:** upgrade @modelcontextprotocol/sdk and hono ([f4b2d17](https://github.com/dodopayments/dodopayments-typescript/commit/f4b2d17fb47145cd7e185991cda5891114cafafe))
+
 ## 2.20.0 (2026-02-20)
 
 Full Changelog: [v2.19.1...v2.20.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.19.1...v2.20.0)
