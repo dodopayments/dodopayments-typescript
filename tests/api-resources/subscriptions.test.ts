@@ -193,6 +193,17 @@ describe('resource subscriptions', () => {
     });
   });
 
+  test('retrieveCreditUsage', async () => {
+    const responsePromise = client.subscriptions.retrieveCreditUsage('subscription_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
   test('retrieveUsageHistory', async () => {
     const responsePromise = client.subscriptions.retrieveUsageHistory('subscription_id');
     const rawResponse = await responsePromise.asResponse();

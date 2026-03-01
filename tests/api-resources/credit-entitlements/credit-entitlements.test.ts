@@ -7,9 +7,15 @@ const client = new DodoPayments({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource customers', () => {
+describe('resource creditEntitlements', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.customers.create({ email: 'email', name: 'name' });
+    const responsePromise = client.creditEntitlements.create({
+      name: 'name',
+      overage_enabled: true,
+      precision: 0,
+      rollover_enabled: true,
+      unit: 'unit',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -20,16 +26,27 @@ describe('resource customers', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.customers.create({
-      email: 'email',
+    const response = await client.creditEntitlements.create({
       name: 'name',
-      metadata: { foo: 'string' },
-      phone_number: 'phone_number',
+      overage_enabled: true,
+      precision: 0,
+      rollover_enabled: true,
+      unit: 'unit',
+      currency: 'AED',
+      description: 'description',
+      expires_after_days: 0,
+      max_rollover_count: 0,
+      overage_behavior: 'forgive_at_reset',
+      overage_limit: 0,
+      price_per_unit: 'price_per_unit',
+      rollover_percentage: 0,
+      rollover_timeframe_count: 0,
+      rollover_timeframe_interval: 'Day',
     });
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.customers.retrieve('customer_id');
+    const responsePromise = client.creditEntitlements.retrieve('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -40,7 +57,7 @@ describe('resource customers', () => {
   });
 
   test('update', async () => {
-    const responsePromise = client.customers.update('customer_id', {});
+    const responsePromise = client.creditEntitlements.update('id', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -51,7 +68,7 @@ describe('resource customers', () => {
   });
 
   test('list', async () => {
-    const responsePromise = client.customers.list();
+    const responsePromise = client.creditEntitlements.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -64,12 +81,9 @@ describe('resource customers', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.customers.list(
+      client.creditEntitlements.list(
         {
-          created_at_gte: '2019-12-27T18:11:19.117Z',
-          created_at_lte: '2019-12-27T18:11:19.117Z',
-          email: 'email',
-          name: 'name',
+          deleted: true,
           page_number: 0,
           page_size: 0,
         },
@@ -78,8 +92,8 @@ describe('resource customers', () => {
     ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
-  test('listCreditEntitlements', async () => {
-    const responsePromise = client.customers.listCreditEntitlements('customer_id');
+  test('delete', async () => {
+    const responsePromise = client.creditEntitlements.delete('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -89,8 +103,8 @@ describe('resource customers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('retrievePaymentMethods', async () => {
-    const responsePromise = client.customers.retrievePaymentMethods('customer_id');
+  test('undelete', async () => {
+    const responsePromise = client.creditEntitlements.undelete('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

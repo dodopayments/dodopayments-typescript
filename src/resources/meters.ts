@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as MetersAPI from './meters';
 import { APIPromise } from '../core/api-promise';
 import {
   DefaultPageNumberPagination,
@@ -43,6 +44,18 @@ export class Meters extends APIResource {
 }
 
 export type MetersDefaultPageNumberPagination = DefaultPageNumberPagination<Meter>;
+
+export type Conjunction = 'and' | 'or';
+
+export type FilterOperator =
+  | 'equals'
+  | 'not_equals'
+  | 'greater_than'
+  | 'greater_than_or_equals'
+  | 'less_than'
+  | 'less_than_or_equals'
+  | 'contains'
+  | 'does_not_contain';
 
 export interface Meter {
   id: string;
@@ -104,7 +117,7 @@ export interface MeterFilter {
   /**
    * Logical conjunction to apply between clauses (and/or)
    */
-  conjunction: 'and' | 'or';
+  conjunction: Conjunction;
 }
 
 export namespace MeterFilter {
@@ -117,15 +130,7 @@ export namespace MeterFilter {
      */
     key: string;
 
-    operator:
-      | 'equals'
-      | 'not_equals'
-      | 'greater_than'
-      | 'greater_than_or_equals'
-      | 'less_than'
-      | 'less_than_or_equals'
-      | 'contains'
-      | 'does_not_contain';
+    operator: MetersAPI.FilterOperator;
 
     /**
      * Filter value - can be string, number, or boolean
@@ -142,7 +147,7 @@ export namespace MeterFilter {
      */
     clauses: Array<NestedMeterFilter.Level1FilterCondition> | Array<NestedMeterFilter.Level1NestedFilter>;
 
-    conjunction: 'and' | 'or';
+    conjunction: MetersAPI.Conjunction;
   }
 
   export namespace NestedMeterFilter {
@@ -155,15 +160,7 @@ export namespace MeterFilter {
        */
       key: string;
 
-      operator:
-        | 'equals'
-        | 'not_equals'
-        | 'greater_than'
-        | 'greater_than_or_equals'
-        | 'less_than'
-        | 'less_than_or_equals'
-        | 'contains'
-        | 'does_not_contain';
+      operator: MetersAPI.FilterOperator;
 
       /**
        * Filter value - can be string, number, or boolean
@@ -180,7 +177,7 @@ export namespace MeterFilter {
        */
       clauses: Array<Level1NestedFilter.Level2FilterCondition> | Array<Level1NestedFilter.Level2NestedFilter>;
 
-      conjunction: 'and' | 'or';
+      conjunction: MetersAPI.Conjunction;
     }
 
     export namespace Level1NestedFilter {
@@ -193,15 +190,7 @@ export namespace MeterFilter {
          */
         key: string;
 
-        operator:
-          | 'equals'
-          | 'not_equals'
-          | 'greater_than'
-          | 'greater_than_or_equals'
-          | 'less_than'
-          | 'less_than_or_equals'
-          | 'contains'
-          | 'does_not_contain';
+        operator: MetersAPI.FilterOperator;
 
         /**
          * Filter value - can be string, number, or boolean
@@ -218,7 +207,7 @@ export namespace MeterFilter {
          */
         clauses: Array<Level2NestedFilter.Clause>;
 
-        conjunction: 'and' | 'or';
+        conjunction: MetersAPI.Conjunction;
       }
 
       export namespace Level2NestedFilter {
@@ -231,15 +220,7 @@ export namespace MeterFilter {
            */
           key: string;
 
-          operator:
-            | 'equals'
-            | 'not_equals'
-            | 'greater_than'
-            | 'greater_than_or_equals'
-            | 'less_than'
-            | 'less_than_or_equals'
-            | 'contains'
-            | 'does_not_contain';
+          operator: MetersAPI.FilterOperator;
 
           /**
            * Filter value - can be string, number, or boolean
@@ -292,6 +273,8 @@ export interface MeterListParams extends DefaultPageNumberPaginationParams {
 
 export declare namespace Meters {
   export {
+    type Conjunction as Conjunction,
+    type FilterOperator as FilterOperator,
     type Meter as Meter,
     type MeterAggregation as MeterAggregation,
     type MeterFilter as MeterFilter,

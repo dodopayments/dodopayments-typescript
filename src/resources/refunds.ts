@@ -3,6 +3,7 @@
 import { APIResource } from '../core/resource';
 import * as MiscAPI from './misc';
 import * as PaymentsAPI from './payments';
+import { RefundListItemsDefaultPageNumberPagination } from './payments';
 import { APIPromise } from '../core/api-promise';
 import {
   DefaultPageNumberPagination,
@@ -24,15 +25,13 @@ export class Refunds extends APIResource {
   list(
     query: RefundListParams | null | undefined = {},
     options?: RequestOptions,
-  ): PagePromise<RefundListResponsesDefaultPageNumberPagination, RefundListResponse> {
-    return this._client.getAPIList('/refunds', DefaultPageNumberPagination<RefundListResponse>, {
+  ): PagePromise<RefundListItemsDefaultPageNumberPagination, PaymentsAPI.RefundListItem> {
+    return this._client.getAPIList('/refunds', DefaultPageNumberPagination<PaymentsAPI.RefundListItem>, {
       query,
       ...options,
     });
   }
 }
-
-export type RefundListResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<RefundListResponse>;
 
 export interface Refund {
   /**
@@ -92,53 +91,6 @@ export interface Refund {
 }
 
 export type RefundStatus = 'succeeded' | 'failed' | 'pending' | 'review';
-
-export interface RefundListResponse {
-  /**
-   * The unique identifier of the business issuing the refund.
-   */
-  business_id: string;
-
-  /**
-   * The timestamp of when the refund was created in UTC.
-   */
-  created_at: string;
-
-  /**
-   * If true the refund is a partial refund
-   */
-  is_partial: boolean;
-
-  /**
-   * The unique identifier of the payment associated with the refund.
-   */
-  payment_id: string;
-
-  /**
-   * The unique identifier of the refund.
-   */
-  refund_id: string;
-
-  /**
-   * The current status of the refund.
-   */
-  status: RefundStatus;
-
-  /**
-   * The refunded amount.
-   */
-  amount?: number | null;
-
-  /**
-   * The currency of the refund, represented as an ISO 4217 currency code.
-   */
-  currency?: MiscAPI.Currency | null;
-
-  /**
-   * The reason provided for the refund, if any. Optional.
-   */
-  reason?: string | null;
-}
 
 export interface RefundCreateParams {
   /**
@@ -201,15 +153,20 @@ export interface RefundListParams extends DefaultPageNumberPaginationParams {
    * Filter by status
    */
   status?: 'succeeded' | 'failed' | 'pending' | 'review';
+
+  /**
+   * Filter by subscription id
+   */
+  subscription_id?: string;
 }
 
 export declare namespace Refunds {
   export {
     type Refund as Refund,
     type RefundStatus as RefundStatus,
-    type RefundListResponse as RefundListResponse,
-    type RefundListResponsesDefaultPageNumberPagination as RefundListResponsesDefaultPageNumberPagination,
     type RefundCreateParams as RefundCreateParams,
     type RefundListParams as RefundListParams,
   };
 }
+
+export { type RefundListItemsDefaultPageNumberPagination };
