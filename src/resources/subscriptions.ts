@@ -175,6 +175,99 @@ export interface AttachAddon {
   quantity: number;
 }
 
+/**
+ * Response struct representing credit entitlement cart details for a subscription
+ */
+export interface CreditEntitlementCartResponse {
+  credit_entitlement_id: string;
+
+  credit_entitlement_name: string;
+
+  credits_amount: string;
+
+  /**
+   * Customer's current overage balance for this entitlement
+   */
+  overage_balance: string;
+
+  /**
+   * Controls how overage is handled at the end of a billing cycle.
+   *
+   * | Preset                     | Charge at billing | Credits reduce overage | Preserve overage at reset |
+   * | -------------------------- | :---------------: | :--------------------: | :-----------------------: |
+   * | `forgive_at_reset`         |        No         |           No           |            No             |
+   * | `invoice_at_billing`       |        Yes        |           No           |            No             |
+   * | `carry_deficit`            |        No         |           No           |            Yes            |
+   * | `carry_deficit_auto_repay` |        No         |          Yes           |            Yes            |
+   */
+  overage_behavior: CreditEntitlementsAPI.CbbOverageBehavior;
+
+  overage_enabled: boolean;
+
+  product_id: string;
+
+  /**
+   * Customer's current remaining credit balance for this entitlement
+   */
+  remaining_balance: string;
+
+  rollover_enabled: boolean;
+
+  /**
+   * Unit label for the credit entitlement (e.g., "API Calls", "Tokens")
+   */
+  unit: string;
+
+  expires_after_days?: number | null;
+
+  low_balance_threshold_percent?: number | null;
+
+  max_rollover_count?: number | null;
+
+  overage_limit?: string | null;
+
+  rollover_percentage?: number | null;
+
+  rollover_timeframe_count?: number | null;
+
+  rollover_timeframe_interval?: TimeInterval | null;
+}
+
+/**
+ * Response struct representing usage-based meter cart details for a subscription
+ */
+export interface MeterCartResponseItem {
+  currency: MiscAPI.Currency;
+
+  free_threshold: number;
+
+  measurement_unit: string;
+
+  meter_id: string;
+
+  name: string;
+
+  description?: string | null;
+
+  price_per_unit?: string | null;
+}
+
+/**
+ * Response struct representing meter-credit entitlement mapping cart details for a
+ * subscription
+ */
+export interface MeterCreditEntitlementCartResponse {
+  credit_entitlement_id: string;
+
+  meter_id: string;
+
+  meter_name: string;
+
+  meter_units_per_credit: string;
+
+  product_id: string;
+}
+
 export interface OnDemandSubscription {
   /**
    * If set as True, does not perform any charge and only authorizes payment method
@@ -236,7 +329,7 @@ export interface Subscription {
   /**
    * Credit entitlement cart settings for this subscription
    */
-  credit_entitlement_cart: Array<Subscription.CreditEntitlementCart>;
+  credit_entitlement_cart: Array<CreditEntitlementCartResponse>;
 
   /**
    * Currency used for the subscription payments
@@ -256,12 +349,12 @@ export interface Subscription {
   /**
    * Meter credit entitlement cart settings for this subscription
    */
-  meter_credit_entitlement_cart: Array<Subscription.MeterCreditEntitlementCart>;
+  meter_credit_entitlement_cart: Array<MeterCreditEntitlementCartResponse>;
 
   /**
    * Meters associated with this subscription (for usage-based billing)
    */
-  meters: Array<Subscription.Meter>;
+  meters: Array<MeterCartResponseItem>;
 
   /**
    * Timestamp of the next scheduled billing. Indicates the end of current billing
@@ -369,101 +462,6 @@ export interface Subscription {
    * Tax identifier provided for this subscription (if applicable)
    */
   tax_id?: string | null;
-}
-
-export namespace Subscription {
-  /**
-   * Response struct representing credit entitlement cart details for a subscription
-   */
-  export interface CreditEntitlementCart {
-    credit_entitlement_id: string;
-
-    credit_entitlement_name: string;
-
-    credits_amount: string;
-
-    /**
-     * Customer's current overage balance for this entitlement
-     */
-    overage_balance: string;
-
-    /**
-     * Controls how overage is handled at the end of a billing cycle.
-     *
-     * | Preset                     | Charge at billing | Credits reduce overage | Preserve overage at reset |
-     * | -------------------------- | :---------------: | :--------------------: | :-----------------------: |
-     * | `forgive_at_reset`         |        No         |           No           |            No             |
-     * | `invoice_at_billing`       |        Yes        |           No           |            No             |
-     * | `carry_deficit`            |        No         |           No           |            Yes            |
-     * | `carry_deficit_auto_repay` |        No         |          Yes           |            Yes            |
-     */
-    overage_behavior: CreditEntitlementsAPI.CbbOverageBehavior;
-
-    overage_enabled: boolean;
-
-    product_id: string;
-
-    /**
-     * Customer's current remaining credit balance for this entitlement
-     */
-    remaining_balance: string;
-
-    rollover_enabled: boolean;
-
-    /**
-     * Unit label for the credit entitlement (e.g., "API Calls", "Tokens")
-     */
-    unit: string;
-
-    expires_after_days?: number | null;
-
-    low_balance_threshold_percent?: number | null;
-
-    max_rollover_count?: number | null;
-
-    overage_limit?: string | null;
-
-    rollover_percentage?: number | null;
-
-    rollover_timeframe_count?: number | null;
-
-    rollover_timeframe_interval?: SubscriptionsAPI.TimeInterval | null;
-  }
-
-  /**
-   * Response struct representing meter-credit entitlement mapping cart details for a
-   * subscription
-   */
-  export interface MeterCreditEntitlementCart {
-    credit_entitlement_id: string;
-
-    meter_id: string;
-
-    meter_name: string;
-
-    meter_units_per_credit: string;
-
-    product_id: string;
-  }
-
-  /**
-   * Response struct representing usage-based meter cart details for a subscription
-   */
-  export interface Meter {
-    currency: MiscAPI.Currency;
-
-    free_threshold: number;
-
-    measurement_unit: string;
-
-    meter_id: string;
-
-    name: string;
-
-    description?: string | null;
-
-    price_per_unit?: string | null;
-  }
 }
 
 export type SubscriptionStatus = 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired';
@@ -1347,6 +1345,9 @@ export declare namespace Subscriptions {
   export {
     type AddonCartResponseItem as AddonCartResponseItem,
     type AttachAddon as AttachAddon,
+    type CreditEntitlementCartResponse as CreditEntitlementCartResponse,
+    type MeterCartResponseItem as MeterCartResponseItem,
+    type MeterCreditEntitlementCartResponse as MeterCreditEntitlementCartResponse,
     type OnDemandSubscription as OnDemandSubscription,
     type Subscription as Subscription,
     type SubscriptionStatus as SubscriptionStatus,
