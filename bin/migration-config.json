@@ -2,5 +2,150 @@
   "pkg": "dodopayments",
   "githubRepo": "https://github.com/dodopayments/dodopayments-typescript",
   "clientClass": "DodoPayments",
-  "methods": []
+  "methods": [
+    {
+      "base": "creditEntitlements.balances",
+      "name": "retrieve",
+      "params": [
+        {
+          "type": "param",
+          "key": "customer_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "credit_entitlement_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "customer_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "creditEntitlements.balances",
+      "name": "createLedgerEntry",
+      "params": [
+        {
+          "type": "param",
+          "key": "customer_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "credit_entitlement_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "customer_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "creditEntitlements.balances",
+      "name": "listGrants",
+      "params": [
+        {
+          "type": "param",
+          "key": "customer_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "credit_entitlement_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "customer_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": true
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "creditEntitlements.balances",
+      "name": "listLedger",
+      "params": [
+        {
+          "type": "param",
+          "key": "customer_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "credit_entitlement_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "customer_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": true
+        },
+        {
+          "type": "options"
+        }
+      ]
+    }
+  ]
 }

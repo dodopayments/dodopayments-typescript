@@ -99,7 +99,7 @@ describe('resource webhooks', () => {
   test('unwrap', async () => {
     const key = 'whsec_c2VjcmV0Cg==';
     const payload =
-      '{"business_id":"business_id","data":{"amount":"amount","business_id":"business_id","created_at":"2019-12-27T18:11:19.117Z","currency":"currency","dispute_id":"dispute_id","dispute_stage":"pre_dispute","dispute_status":"dispute_opened","payment_id":"payment_id","remarks":"remarks"},"timestamp":"2019-12-27T18:11:19.117Z","type":"dispute.accepted"}';
+      '{"business_id":"business_id","data":{"id":"id","amount":"amount","balance_after":"balance_after","balance_before":"balance_before","business_id":"business_id","created_at":"2019-12-27T18:11:19.117Z","credit_entitlement_id":"credit_entitlement_id","customer_id":"customer_id","is_credit":true,"overage_after":"overage_after","overage_before":"overage_before","transaction_type":"credit_added","description":"description","grant_id":"grant_id","reference_id":"reference_id","reference_type":"reference_type"},"timestamp":"2019-12-27T18:11:19.117Z","type":"credit.added"}';
     const msgID = '1';
     const timestamp = new Date();
     const wh = new Webhook(key);

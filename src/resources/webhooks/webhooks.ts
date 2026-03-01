@@ -7,6 +7,7 @@ import * as PaymentsAPI from '../payments';
 import * as RefundsAPI from '../refunds';
 import * as SubscriptionsAPI from '../subscriptions';
 import * as WebhookEventsAPI from '../webhook-events';
+import * as BalancesAPI from '../credit-entitlements/balances';
 import * as HeadersAPI from './headers';
 import { HeaderRetrieveResponse, HeaderUpdateParams, Headers } from './headers';
 import { Webhook } from 'standardwebhooks';
@@ -140,6 +141,205 @@ export interface WebhookDetails {
 
 export interface WebhookRetrieveSecretResponse {
   secret: string;
+}
+
+export interface CreditAddedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response for a ledger entry
+   */
+  data: BalancesAPI.CreditLedgerEntry;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.added';
+}
+
+export interface CreditBalanceLowWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Webhook payload for credit.balance_low event
+   */
+  data: CreditBalanceLowWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.balance_low';
+}
+
+export namespace CreditBalanceLowWebhookEvent {
+  /**
+   * Webhook payload for credit.balance_low event
+   */
+  export interface Data {
+    available_balance: string;
+
+    credit_entitlement_id: string;
+
+    credit_entitlement_name: string;
+
+    customer_id: string;
+
+    subscription_credits_amount: string;
+
+    subscription_id: string;
+
+    threshold_amount: string;
+
+    threshold_percent: number;
+  }
+}
+
+export interface CreditDeductedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response for a ledger entry
+   */
+  data: BalancesAPI.CreditLedgerEntry;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.deducted';
+}
+
+export interface CreditExpiredWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response for a ledger entry
+   */
+  data: BalancesAPI.CreditLedgerEntry;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.expired';
+}
+
+export interface CreditManualAdjustmentWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response for a ledger entry
+   */
+  data: BalancesAPI.CreditLedgerEntry;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.manual_adjustment';
+}
+
+export interface CreditOverageChargedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response for a ledger entry
+   */
+  data: BalancesAPI.CreditLedgerEntry;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.overage_charged';
+}
+
+export interface CreditRolledOverWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response for a ledger entry
+   */
+  data: BalancesAPI.CreditLedgerEntry;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.rolled_over';
+}
+
+export interface CreditRolloverForfeitedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response for a ledger entry
+   */
+  data: BalancesAPI.CreditLedgerEntry;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.rollover_forfeited';
 }
 
 export interface DisputeAcceptedWebhookEvent {
@@ -582,6 +782,205 @@ export interface SubscriptionUpdatedWebhookEvent {
    * The event type
    */
   type: 'subscription.updated';
+}
+
+export interface CreditAddedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response for a ledger entry
+   */
+  data: BalancesAPI.CreditLedgerEntry;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.added';
+}
+
+export interface CreditBalanceLowWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Webhook payload for credit.balance_low event
+   */
+  data: CreditBalanceLowWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.balance_low';
+}
+
+export namespace CreditBalanceLowWebhookEvent {
+  /**
+   * Webhook payload for credit.balance_low event
+   */
+  export interface Data {
+    available_balance: string;
+
+    credit_entitlement_id: string;
+
+    credit_entitlement_name: string;
+
+    customer_id: string;
+
+    subscription_credits_amount: string;
+
+    subscription_id: string;
+
+    threshold_amount: string;
+
+    threshold_percent: number;
+  }
+}
+
+export interface CreditDeductedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response for a ledger entry
+   */
+  data: BalancesAPI.CreditLedgerEntry;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.deducted';
+}
+
+export interface CreditExpiredWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response for a ledger entry
+   */
+  data: BalancesAPI.CreditLedgerEntry;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.expired';
+}
+
+export interface CreditManualAdjustmentWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response for a ledger entry
+   */
+  data: BalancesAPI.CreditLedgerEntry;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.manual_adjustment';
+}
+
+export interface CreditOverageChargedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response for a ledger entry
+   */
+  data: BalancesAPI.CreditLedgerEntry;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.overage_charged';
+}
+
+export interface CreditRolledOverWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response for a ledger entry
+   */
+  data: BalancesAPI.CreditLedgerEntry;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.rolled_over';
+}
+
+export interface CreditRolloverForfeitedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response for a ledger entry
+   */
+  data: BalancesAPI.CreditLedgerEntry;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.rollover_forfeited';
 }
 
 export interface DisputeAcceptedWebhookEvent {
@@ -1027,6 +1426,14 @@ export interface SubscriptionUpdatedWebhookEvent {
 }
 
 export type UnsafeUnwrapWebhookEvent =
+  | CreditAddedWebhookEvent
+  | CreditBalanceLowWebhookEvent
+  | CreditDeductedWebhookEvent
+  | CreditExpiredWebhookEvent
+  | CreditManualAdjustmentWebhookEvent
+  | CreditOverageChargedWebhookEvent
+  | CreditRolledOverWebhookEvent
+  | CreditRolloverForfeitedWebhookEvent
   | DisputeAcceptedWebhookEvent
   | DisputeCancelledWebhookEvent
   | DisputeChallengedWebhookEvent
@@ -1051,6 +1458,14 @@ export type UnsafeUnwrapWebhookEvent =
   | SubscriptionUpdatedWebhookEvent;
 
 export type UnwrapWebhookEvent =
+  | CreditAddedWebhookEvent
+  | CreditBalanceLowWebhookEvent
+  | CreditDeductedWebhookEvent
+  | CreditExpiredWebhookEvent
+  | CreditManualAdjustmentWebhookEvent
+  | CreditOverageChargedWebhookEvent
+  | CreditRolledOverWebhookEvent
+  | CreditRolloverForfeitedWebhookEvent
   | DisputeAcceptedWebhookEvent
   | DisputeCancelledWebhookEvent
   | DisputeChallengedWebhookEvent
@@ -1156,6 +1571,14 @@ export declare namespace Webhooks {
   export {
     type WebhookDetails as WebhookDetails,
     type WebhookRetrieveSecretResponse as WebhookRetrieveSecretResponse,
+    type CreditAddedWebhookEvent as CreditAddedWebhookEvent,
+    type CreditBalanceLowWebhookEvent as CreditBalanceLowWebhookEvent,
+    type CreditDeductedWebhookEvent as CreditDeductedWebhookEvent,
+    type CreditExpiredWebhookEvent as CreditExpiredWebhookEvent,
+    type CreditManualAdjustmentWebhookEvent as CreditManualAdjustmentWebhookEvent,
+    type CreditOverageChargedWebhookEvent as CreditOverageChargedWebhookEvent,
+    type CreditRolledOverWebhookEvent as CreditRolledOverWebhookEvent,
+    type CreditRolloverForfeitedWebhookEvent as CreditRolloverForfeitedWebhookEvent,
     type DisputeAcceptedWebhookEvent as DisputeAcceptedWebhookEvent,
     type DisputeCancelledWebhookEvent as DisputeCancelledWebhookEvent,
     type DisputeChallengedWebhookEvent as DisputeChallengedWebhookEvent,

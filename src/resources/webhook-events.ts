@@ -6,6 +6,7 @@ import * as LicenseKeysAPI from './license-keys';
 import * as PaymentsAPI from './payments';
 import * as RefundsAPI from './refunds';
 import * as SubscriptionsAPI from './subscriptions';
+import * as BalancesAPI from './credit-entitlements/balances';
 
 export class WebhookEvents extends APIResource {}
 
@@ -100,49 +101,11 @@ export namespace WebhookPayload {
     payload_type: 'LicenseKey';
   }
 
-  export interface CreditLedgerEntry {
-    id: string;
-
-    amount: string;
-
-    balance_after: string;
-
-    balance_before: string;
-
-    business_id: string;
-
-    created_at: string;
-
-    credit_entitlement_id: string;
-
-    customer_id: string;
-
-    is_credit: boolean;
-
-    overage_after: string;
-
-    overage_before: string;
-
+  /**
+   * Response for a ledger entry
+   */
+  export interface CreditLedgerEntry extends BalancesAPI.CreditLedgerEntry {
     payload_type: 'CreditLedgerEntry';
-
-    transaction_type:
-      | 'credit_added'
-      | 'credit_deducted'
-      | 'credit_expired'
-      | 'credit_rolled_over'
-      | 'rollover_forfeited'
-      | 'overage_charged'
-      | 'auto_top_up'
-      | 'manual_adjustment'
-      | 'refund';
-
-    description?: string | null;
-
-    grant_id?: string | null;
-
-    reference_id?: string | null;
-
-    reference_type?: string | null;
   }
 
   export interface CreditBalanceLow {
