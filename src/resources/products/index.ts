@@ -4,6 +4,8 @@ export { Images, type ImageUpdateResponse, type ImageUpdateParams } from './imag
 export {
   Products,
   type AddMeterToPrice,
+  type AttachCreditEntitlement,
+  type CbbProrationBehavior,
   type LicenseKeyDuration,
   type Price,
   type Product,

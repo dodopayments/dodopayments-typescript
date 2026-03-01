@@ -95,6 +95,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/subscriptions/{subscription_id}/change-plan/preview',
   },
   {
+    clientCallName: 'client.subscriptions.retrieveCreditUsage',
+    fullyQualifiedName: 'subscriptions.retrieveCreditUsage',
+    httpMethod: 'get',
+    httpPath: '/subscriptions/{subscription_id}/credit-usage',
+  },
+  {
     clientCallName: 'client.subscriptions.retrieveUsageHistory',
     fullyQualifiedName: 'subscriptions.retrieveUsageHistory',
     httpMethod: 'get',
@@ -195,6 +201,12 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'customers.list',
     httpMethod: 'get',
     httpPath: '/customers',
+  },
+  {
+    clientCallName: 'client.customers.listCreditEntitlements',
+    fullyQualifiedName: 'customers.listCreditEntitlements',
+    httpMethod: 'get',
+    httpPath: '/customers/{customer_id}/credit-entitlements',
   },
   {
     clientCallName: 'client.customers.retrievePaymentMethods',
@@ -527,6 +539,72 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'balances.retrieveLedger',
     httpMethod: 'get',
     httpPath: '/balances/ledger',
+  },
+  {
+    clientCallName: 'client.creditEntitlements.create',
+    fullyQualifiedName: 'creditEntitlements.create',
+    httpMethod: 'post',
+    httpPath: '/credit-entitlements',
+  },
+  {
+    clientCallName: 'client.creditEntitlements.retrieve',
+    fullyQualifiedName: 'creditEntitlements.retrieve',
+    httpMethod: 'get',
+    httpPath: '/credit-entitlements/{id}',
+  },
+  {
+    clientCallName: 'client.creditEntitlements.update',
+    fullyQualifiedName: 'creditEntitlements.update',
+    httpMethod: 'patch',
+    httpPath: '/credit-entitlements/{id}',
+  },
+  {
+    clientCallName: 'client.creditEntitlements.list',
+    fullyQualifiedName: 'creditEntitlements.list',
+    httpMethod: 'get',
+    httpPath: '/credit-entitlements',
+  },
+  {
+    clientCallName: 'client.creditEntitlements.delete',
+    fullyQualifiedName: 'creditEntitlements.delete',
+    httpMethod: 'delete',
+    httpPath: '/credit-entitlements/{id}',
+  },
+  {
+    clientCallName: 'client.creditEntitlements.undelete',
+    fullyQualifiedName: 'creditEntitlements.undelete',
+    httpMethod: 'post',
+    httpPath: '/credit-entitlements/{id}/undelete',
+  },
+  {
+    clientCallName: 'client.creditEntitlements.balances.retrieve',
+    fullyQualifiedName: 'creditEntitlements.balances.retrieve',
+    httpMethod: 'get',
+    httpPath: '/credit-entitlements/{credit_entitlement_id}/balances/{customer_id}',
+  },
+  {
+    clientCallName: 'client.creditEntitlements.balances.list',
+    fullyQualifiedName: 'creditEntitlements.balances.list',
+    httpMethod: 'get',
+    httpPath: '/credit-entitlements/{credit_entitlement_id}/balances',
+  },
+  {
+    clientCallName: 'client.creditEntitlements.balances.createLedgerEntry',
+    fullyQualifiedName: 'creditEntitlements.balances.createLedgerEntry',
+    httpMethod: 'post',
+    httpPath: '/credit-entitlements/{credit_entitlement_id}/balances/{customer_id}/ledger-entries',
+  },
+  {
+    clientCallName: 'client.creditEntitlements.balances.listGrants',
+    fullyQualifiedName: 'creditEntitlements.balances.listGrants',
+    httpMethod: 'get',
+    httpPath: '/credit-entitlements/{credit_entitlement_id}/balances/{customer_id}/grants',
+  },
+  {
+    clientCallName: 'client.creditEntitlements.balances.listLedger',
+    fullyQualifiedName: 'creditEntitlements.balances.listLedger',
+    httpMethod: 'get',
+    httpPath: '/credit-entitlements/{credit_entitlement_id}/balances/{customer_id}/ledger',
   },
 ];
 

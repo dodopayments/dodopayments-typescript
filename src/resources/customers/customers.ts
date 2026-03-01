@@ -42,6 +42,16 @@ export class Customers extends APIResource {
     });
   }
 
+  /**
+   * List all credit entitlements for a customer with their current balances
+   */
+  listCreditEntitlements(
+    customerID: string,
+    options?: RequestOptions,
+  ): APIPromise<CustomerListCreditEntitlementsResponse> {
+    return this._client.get(path`/customers/${customerID}/credit-entitlements`, options);
+  }
+
   retrievePaymentMethods(
     customerID: string,
     options?: RequestOptions,
@@ -73,6 +83,47 @@ export interface Customer {
 
 export interface CustomerPortalSession {
   link: string;
+}
+
+export interface CustomerListCreditEntitlementsResponse {
+  items: Array<CustomerListCreditEntitlementsResponse.Item>;
+}
+
+export namespace CustomerListCreditEntitlementsResponse {
+  /**
+   * A credit entitlement with the customer's current balance
+   */
+  export interface Item {
+    /**
+     * Customer's current remaining credit balance
+     */
+    balance: string;
+
+    /**
+     * Credit entitlement ID
+     */
+    credit_entitlement_id: string;
+
+    /**
+     * Name of the credit entitlement
+     */
+    name: string;
+
+    /**
+     * Customer's current overage balance
+     */
+    overage: string;
+
+    /**
+     * Unit label (e.g. "API Calls", "Tokens")
+     */
+    unit: string;
+
+    /**
+     * Description of the credit entitlement
+     */
+    description?: string | null;
+  }
 }
 
 export interface CustomerRetrievePaymentMethodsResponse {
@@ -186,6 +237,7 @@ export declare namespace Customers {
   export {
     type Customer as Customer,
     type CustomerPortalSession as CustomerPortalSession,
+    type CustomerListCreditEntitlementsResponse as CustomerListCreditEntitlementsResponse,
     type CustomerRetrievePaymentMethodsResponse as CustomerRetrievePaymentMethodsResponse,
     type CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
     type CustomerCreateParams as CustomerCreateParams,

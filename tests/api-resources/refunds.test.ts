@@ -67,6 +67,7 @@ describe('resource refunds', () => {
           page_number: 0,
           page_size: 0,
           status: 'succeeded',
+          subscription_id: 'subscription_id',
         },
         { path: '/_stainless_unknown_path' },
       ),

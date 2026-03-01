@@ -108,6 +108,8 @@ import {
   Licenses,
 } from './resources/licenses';
 import {
+  Conjunction,
+  FilterOperator,
   Meter,
   MeterAggregation,
   MeterCreateParams,
@@ -127,6 +129,7 @@ import {
   AttachExistingCustomer,
   BillingAddress,
   CreateNewCustomer,
+  CustomFieldResponse,
   CustomerLimitedDetails,
   CustomerRequest,
   IntentStatus,
@@ -139,8 +142,10 @@ import {
   PaymentListResponse,
   PaymentListResponsesDefaultPageNumberPagination,
   PaymentMethodTypes,
+  PaymentRefundStatus,
   PaymentRetrieveLineItemsResponse,
   Payments,
+  RefundListItem,
 } from './resources/payments';
 import {
   PayoutListParams,
@@ -148,15 +153,7 @@ import {
   PayoutListResponsesDefaultPageNumberPagination,
   Payouts,
 } from './resources/payouts';
-import {
-  Refund,
-  RefundCreateParams,
-  RefundListParams,
-  RefundListResponse,
-  RefundListResponsesDefaultPageNumberPagination,
-  RefundStatus,
-  Refunds,
-} from './resources/refunds';
+import { Refund, RefundCreateParams, RefundListParams, RefundStatus, Refunds } from './resources/refunds';
 import {
   AddonCartResponseItem,
   AttachAddon,
@@ -172,6 +169,7 @@ import {
   SubscriptionListResponsesDefaultPageNumberPagination,
   SubscriptionPreviewChangePlanParams,
   SubscriptionPreviewChangePlanResponse,
+  SubscriptionRetrieveCreditUsageResponse,
   SubscriptionRetrieveUsageHistoryParams,
   SubscriptionRetrieveUsageHistoryResponse,
   SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
@@ -181,6 +179,7 @@ import {
   SubscriptionUpdatePaymentMethodResponse,
   Subscriptions,
   TimeInterval,
+  UpdateSubscriptionPlanReq,
 } from './resources/subscriptions';
 import {
   Event,
@@ -193,8 +192,18 @@ import {
 } from './resources/usage-events';
 import { WebhookEventType, WebhookEvents, WebhookPayload } from './resources/webhook-events';
 import {
+  CbbOverageBehavior,
+  CreditEntitlement,
+  CreditEntitlementCreateParams,
+  CreditEntitlementListParams,
+  CreditEntitlementUpdateParams,
+  CreditEntitlements,
+  CreditEntitlementsDefaultPageNumberPagination,
+} from './resources/credit-entitlements/credit-entitlements';
+import {
   Customer,
   CustomerCreateParams,
+  CustomerListCreditEntitlementsResponse,
   CustomerListParams,
   CustomerPortalSession,
   CustomerRetrievePaymentMethodsResponse,
@@ -205,6 +214,8 @@ import {
 import { Invoices } from './resources/invoices/invoices';
 import {
   AddMeterToPrice,
+  AttachCreditEntitlement,
+  CbbProrationBehavior,
   LicenseKeyDuration,
   Price,
   Product,
@@ -218,6 +229,14 @@ import {
   Products,
 } from './resources/products/products';
 import {
+  CreditAddedWebhookEvent,
+  CreditBalanceLowWebhookEvent,
+  CreditDeductedWebhookEvent,
+  CreditExpiredWebhookEvent,
+  CreditManualAdjustmentWebhookEvent,
+  CreditOverageChargedWebhookEvent,
+  CreditRolledOverWebhookEvent,
+  CreditRolloverForfeitedWebhookEvent,
   DisputeAcceptedWebhookEvent,
   DisputeCancelledWebhookEvent,
   DisputeChallengedWebhookEvent,
@@ -1029,6 +1048,7 @@ export class DodoPayments {
   usageEvents: API.UsageEvents = new API.UsageEvents(this);
   meters: API.Meters = new API.Meters(this);
   balances: API.Balances = new API.Balances(this);
+  creditEntitlements: API.CreditEntitlements = new API.CreditEntitlements(this);
 }
 
 DodoPayments.CheckoutSessions = CheckoutSessions;
@@ -1052,6 +1072,7 @@ DodoPayments.WebhookEvents = WebhookEvents;
 DodoPayments.UsageEvents = UsageEvents;
 DodoPayments.Meters = Meters;
 DodoPayments.Balances = Balances;
+DodoPayments.CreditEntitlements = CreditEntitlements;
 
 export declare namespace DodoPayments {
   export type RequestOptions = Opts.RequestOptions;
@@ -1091,6 +1112,7 @@ export declare namespace DodoPayments {
     type AttachExistingCustomer as AttachExistingCustomer,
     type BillingAddress as BillingAddress,
     type CreateNewCustomer as CreateNewCustomer,
+    type CustomFieldResponse as CustomFieldResponse,
     type CustomerLimitedDetails as CustomerLimitedDetails,
     type CustomerRequest as CustomerRequest,
     type IntentStatus as IntentStatus,
@@ -1098,6 +1120,8 @@ export declare namespace DodoPayments {
     type OneTimeProductCartItem as OneTimeProductCartItem,
     type Payment as Payment,
     type PaymentMethodTypes as PaymentMethodTypes,
+    type PaymentRefundStatus as PaymentRefundStatus,
+    type RefundListItem as RefundListItem,
     type PaymentCreateResponse as PaymentCreateResponse,
     type PaymentListResponse as PaymentListResponse,
     type PaymentRetrieveLineItemsResponse as PaymentRetrieveLineItemsResponse,
@@ -1114,10 +1138,12 @@ export declare namespace DodoPayments {
     type Subscription as Subscription,
     type SubscriptionStatus as SubscriptionStatus,
     type TimeInterval as TimeInterval,
+    type UpdateSubscriptionPlanReq as UpdateSubscriptionPlanReq,
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
     type SubscriptionListResponse as SubscriptionListResponse,
     type SubscriptionChargeResponse as SubscriptionChargeResponse,
     type SubscriptionPreviewChangePlanResponse as SubscriptionPreviewChangePlanResponse,
+    type SubscriptionRetrieveCreditUsageResponse as SubscriptionRetrieveCreditUsageResponse,
     type SubscriptionRetrieveUsageHistoryResponse as SubscriptionRetrieveUsageHistoryResponse,
     type SubscriptionUpdatePaymentMethodResponse as SubscriptionUpdatePaymentMethodResponse,
     type SubscriptionListResponsesDefaultPageNumberPagination as SubscriptionListResponsesDefaultPageNumberPagination,
@@ -1164,6 +1190,7 @@ export declare namespace DodoPayments {
     Customers as Customers,
     type Customer as Customer,
     type CustomerPortalSession as CustomerPortalSession,
+    type CustomerListCreditEntitlementsResponse as CustomerListCreditEntitlementsResponse,
     type CustomerRetrievePaymentMethodsResponse as CustomerRetrievePaymentMethodsResponse,
     type CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
     type CustomerCreateParams as CustomerCreateParams,
@@ -1175,8 +1202,6 @@ export declare namespace DodoPayments {
     Refunds as Refunds,
     type Refund as Refund,
     type RefundStatus as RefundStatus,
-    type RefundListResponse as RefundListResponse,
-    type RefundListResponsesDefaultPageNumberPagination as RefundListResponsesDefaultPageNumberPagination,
     type RefundCreateParams as RefundCreateParams,
     type RefundListParams as RefundListParams,
   };
@@ -1202,6 +1227,8 @@ export declare namespace DodoPayments {
   export {
     Products as Products,
     type AddMeterToPrice as AddMeterToPrice,
+    type AttachCreditEntitlement as AttachCreditEntitlement,
+    type CbbProrationBehavior as CbbProrationBehavior,
     type LicenseKeyDuration as LicenseKeyDuration,
     type Price as Price,
     type Product as Product,
@@ -1255,6 +1282,14 @@ export declare namespace DodoPayments {
     Webhooks as Webhooks,
     type WebhookDetails as WebhookDetails,
     type WebhookRetrieveSecretResponse as WebhookRetrieveSecretResponse,
+    type CreditAddedWebhookEvent as CreditAddedWebhookEvent,
+    type CreditBalanceLowWebhookEvent as CreditBalanceLowWebhookEvent,
+    type CreditDeductedWebhookEvent as CreditDeductedWebhookEvent,
+    type CreditExpiredWebhookEvent as CreditExpiredWebhookEvent,
+    type CreditManualAdjustmentWebhookEvent as CreditManualAdjustmentWebhookEvent,
+    type CreditOverageChargedWebhookEvent as CreditOverageChargedWebhookEvent,
+    type CreditRolledOverWebhookEvent as CreditRolledOverWebhookEvent,
+    type CreditRolloverForfeitedWebhookEvent as CreditRolloverForfeitedWebhookEvent,
     type DisputeAcceptedWebhookEvent as DisputeAcceptedWebhookEvent,
     type DisputeCancelledWebhookEvent as DisputeCancelledWebhookEvent,
     type DisputeChallengedWebhookEvent as DisputeChallengedWebhookEvent,
@@ -1303,6 +1338,8 @@ export declare namespace DodoPayments {
 
   export {
     Meters as Meters,
+    type Conjunction as Conjunction,
+    type FilterOperator as FilterOperator,
     type Meter as Meter,
     type MeterAggregation as MeterAggregation,
     type MeterFilter as MeterFilter,
@@ -1316,5 +1353,15 @@ export declare namespace DodoPayments {
     type BalanceLedgerEntry as BalanceLedgerEntry,
     type BalanceLedgerEntriesDefaultPageNumberPagination as BalanceLedgerEntriesDefaultPageNumberPagination,
     type BalanceRetrieveLedgerParams as BalanceRetrieveLedgerParams,
+  };
+
+  export {
+    CreditEntitlements as CreditEntitlements,
+    type CbbOverageBehavior as CbbOverageBehavior,
+    type CreditEntitlement as CreditEntitlement,
+    type CreditEntitlementsDefaultPageNumberPagination as CreditEntitlementsDefaultPageNumberPagination,
+    type CreditEntitlementCreateParams as CreditEntitlementCreateParams,
+    type CreditEntitlementUpdateParams as CreditEntitlementUpdateParams,
+    type CreditEntitlementListParams as CreditEntitlementListParams,
   };
 }

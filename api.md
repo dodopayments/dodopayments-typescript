@@ -28,6 +28,7 @@ Types:
 - <code><a href="./src/resources/payments.ts">AttachExistingCustomer</a></code>
 - <code><a href="./src/resources/payments.ts">BillingAddress</a></code>
 - <code><a href="./src/resources/payments.ts">CreateNewCustomer</a></code>
+- <code><a href="./src/resources/payments.ts">CustomFieldResponse</a></code>
 - <code><a href="./src/resources/payments.ts">CustomerLimitedDetails</a></code>
 - <code><a href="./src/resources/payments.ts">CustomerRequest</a></code>
 - <code><a href="./src/resources/payments.ts">IntentStatus</a></code>
@@ -35,6 +36,8 @@ Types:
 - <code><a href="./src/resources/payments.ts">OneTimeProductCartItem</a></code>
 - <code><a href="./src/resources/payments.ts">Payment</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentMethodTypes</a></code>
+- <code><a href="./src/resources/payments.ts">PaymentRefundStatus</a></code>
+- <code><a href="./src/resources/payments.ts">RefundListItem</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentCreateResponse</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentListResponse</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentRetrieveLineItemsResponse</a></code>
@@ -56,10 +59,12 @@ Types:
 - <code><a href="./src/resources/subscriptions.ts">Subscription</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionStatus</a></code>
 - <code><a href="./src/resources/subscriptions.ts">TimeInterval</a></code>
+- <code><a href="./src/resources/subscriptions.ts">UpdateSubscriptionPlanReq</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionCreateResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionListResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionChargeResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionPreviewChangePlanResponse</a></code>
+- <code><a href="./src/resources/subscriptions.ts">SubscriptionRetrieveCreditUsageResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionRetrieveUsageHistoryResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionUpdatePaymentMethodResponse</a></code>
 
@@ -72,6 +77,7 @@ Methods:
 - <code title="post /subscriptions/{subscription_id}/change-plan">client.subscriptions.<a href="./src/resources/subscriptions.ts">changePlan</a>(subscriptionID, { ...params }) -> void</code>
 - <code title="post /subscriptions/{subscription_id}/charge">client.subscriptions.<a href="./src/resources/subscriptions.ts">charge</a>(subscriptionID, { ...params }) -> SubscriptionChargeResponse</code>
 - <code title="post /subscriptions/{subscription_id}/change-plan/preview">client.subscriptions.<a href="./src/resources/subscriptions.ts">previewChangePlan</a>(subscriptionID, { ...params }) -> SubscriptionPreviewChangePlanResponse</code>
+- <code title="get /subscriptions/{subscription_id}/credit-usage">client.subscriptions.<a href="./src/resources/subscriptions.ts">retrieveCreditUsage</a>(subscriptionID) -> SubscriptionRetrieveCreditUsageResponse</code>
 - <code title="get /subscriptions/{subscription_id}/usage-history">client.subscriptions.<a href="./src/resources/subscriptions.ts">retrieveUsageHistory</a>(subscriptionID, { ...params }) -> SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination</code>
 - <code title="post /subscriptions/{subscription_id}/update-payment-method">client.subscriptions.<a href="./src/resources/subscriptions.ts">updatePaymentMethod</a>(subscriptionID, { ...params }) -> SubscriptionUpdatePaymentMethodResponse</code>
 
@@ -128,6 +134,7 @@ Types:
 
 - <code><a href="./src/resources/customers/customers.ts">Customer</a></code>
 - <code><a href="./src/resources/customers/customers.ts">CustomerPortalSession</a></code>
+- <code><a href="./src/resources/customers/customers.ts">CustomerListCreditEntitlementsResponse</a></code>
 - <code><a href="./src/resources/customers/customers.ts">CustomerRetrievePaymentMethodsResponse</a></code>
 
 Methods:
@@ -136,6 +143,7 @@ Methods:
 - <code title="get /customers/{customer_id}">client.customers.<a href="./src/resources/customers/customers.ts">retrieve</a>(customerID) -> Customer</code>
 - <code title="patch /customers/{customer_id}">client.customers.<a href="./src/resources/customers/customers.ts">update</a>(customerID, { ...params }) -> Customer</code>
 - <code title="get /customers">client.customers.<a href="./src/resources/customers/customers.ts">list</a>({ ...params }) -> CustomersDefaultPageNumberPagination</code>
+- <code title="get /customers/{customer_id}/credit-entitlements">client.customers.<a href="./src/resources/customers/customers.ts">listCreditEntitlements</a>(customerID) -> CustomerListCreditEntitlementsResponse</code>
 - <code title="get /customers/{customer_id}/payment-methods">client.customers.<a href="./src/resources/customers/customers.ts">retrievePaymentMethods</a>(customerID) -> CustomerRetrievePaymentMethodsResponse</code>
 
 ## CustomerPortal
@@ -172,13 +180,12 @@ Types:
 
 - <code><a href="./src/resources/refunds.ts">Refund</a></code>
 - <code><a href="./src/resources/refunds.ts">RefundStatus</a></code>
-- <code><a href="./src/resources/refunds.ts">RefundListResponse</a></code>
 
 Methods:
 
 - <code title="post /refunds">client.refunds.<a href="./src/resources/refunds.ts">create</a>({ ...params }) -> Refund</code>
 - <code title="get /refunds/{refund_id}">client.refunds.<a href="./src/resources/refunds.ts">retrieve</a>(refundID) -> Refund</code>
-- <code title="get /refunds">client.refunds.<a href="./src/resources/refunds.ts">list</a>({ ...params }) -> RefundListResponsesDefaultPageNumberPagination</code>
+- <code title="get /refunds">client.refunds.<a href="./src/resources/refunds.ts">list</a>({ ...params }) -> RefundListItemsDefaultPageNumberPagination</code>
 
 # Disputes
 
@@ -210,6 +217,8 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/products/products.ts">AddMeterToPrice</a></code>
+- <code><a href="./src/resources/products/products.ts">AttachCreditEntitlement</a></code>
+- <code><a href="./src/resources/products/products.ts">CbbProrationBehavior</a></code>
 - <code><a href="./src/resources/products/products.ts">LicenseKeyDuration</a></code>
 - <code><a href="./src/resources/products/products.ts">Price</a></code>
 - <code><a href="./src/resources/products/products.ts">Product</a></code>
@@ -314,6 +323,14 @@ Types:
 
 - <code><a href="./src/resources/webhooks/webhooks.ts">WebhookDetails</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">WebhookRetrieveSecretResponse</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditAddedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditBalanceLowWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditDeductedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditExpiredWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditManualAdjustmentWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditOverageChargedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditRolledOverWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditRolloverForfeitedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeAcceptedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeCancelledWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeChallengedWebhookEvent</a></code>
@@ -336,6 +353,14 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionPlanChangedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionRenewedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionUpdatedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditAddedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditBalanceLowWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditDeductedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditExpiredWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditManualAdjustmentWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditOverageChargedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditRolledOverWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditRolloverForfeitedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeAcceptedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeCancelledWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeChallengedWebhookEvent</a></code>
@@ -408,6 +433,8 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/meters.ts">Conjunction</a></code>
+- <code><a href="./src/resources/meters.ts">FilterOperator</a></code>
 - <code><a href="./src/resources/meters.ts">Meter</a></code>
 - <code><a href="./src/resources/meters.ts">MeterAggregation</a></code>
 - <code><a href="./src/resources/meters.ts">MeterFilter</a></code>
@@ -429,3 +456,37 @@ Types:
 Methods:
 
 - <code title="get /balances/ledger">client.balances.<a href="./src/resources/balances.ts">retrieveLedger</a>({ ...params }) -> BalanceLedgerEntriesDefaultPageNumberPagination</code>
+
+# CreditEntitlements
+
+Types:
+
+- <code><a href="./src/resources/credit-entitlements/credit-entitlements.ts">CbbOverageBehavior</a></code>
+- <code><a href="./src/resources/credit-entitlements/credit-entitlements.ts">CreditEntitlement</a></code>
+
+Methods:
+
+- <code title="post /credit-entitlements">client.creditEntitlements.<a href="./src/resources/credit-entitlements/credit-entitlements.ts">create</a>({ ...params }) -> CreditEntitlement</code>
+- <code title="get /credit-entitlements/{id}">client.creditEntitlements.<a href="./src/resources/credit-entitlements/credit-entitlements.ts">retrieve</a>(id) -> CreditEntitlement</code>
+- <code title="patch /credit-entitlements/{id}">client.creditEntitlements.<a href="./src/resources/credit-entitlements/credit-entitlements.ts">update</a>(id, { ...params }) -> void</code>
+- <code title="get /credit-entitlements">client.creditEntitlements.<a href="./src/resources/credit-entitlements/credit-entitlements.ts">list</a>({ ...params }) -> CreditEntitlementsDefaultPageNumberPagination</code>
+- <code title="delete /credit-entitlements/{id}">client.creditEntitlements.<a href="./src/resources/credit-entitlements/credit-entitlements.ts">delete</a>(id) -> void</code>
+- <code title="post /credit-entitlements/{id}/undelete">client.creditEntitlements.<a href="./src/resources/credit-entitlements/credit-entitlements.ts">undelete</a>(id) -> void</code>
+
+## Balances
+
+Types:
+
+- <code><a href="./src/resources/credit-entitlements/balances.ts">CreditLedgerEntry</a></code>
+- <code><a href="./src/resources/credit-entitlements/balances.ts">CustomerCreditBalance</a></code>
+- <code><a href="./src/resources/credit-entitlements/balances.ts">LedgerEntryType</a></code>
+- <code><a href="./src/resources/credit-entitlements/balances.ts">BalanceCreateLedgerEntryResponse</a></code>
+- <code><a href="./src/resources/credit-entitlements/balances.ts">BalanceListGrantsResponse</a></code>
+
+Methods:
+
+- <code title="get /credit-entitlements/{credit_entitlement_id}/balances/{customer_id}">client.creditEntitlements.balances.<a href="./src/resources/credit-entitlements/balances.ts">retrieve</a>(customerID, { ...params }) -> CustomerCreditBalance</code>
+- <code title="get /credit-entitlements/{credit_entitlement_id}/balances">client.creditEntitlements.balances.<a href="./src/resources/credit-entitlements/balances.ts">list</a>(creditEntitlementID, { ...params }) -> CustomerCreditBalancesDefaultPageNumberPagination</code>
+- <code title="post /credit-entitlements/{credit_entitlement_id}/balances/{customer_id}/ledger-entries">client.creditEntitlements.balances.<a href="./src/resources/credit-entitlements/balances.ts">createLedgerEntry</a>(customerID, { ...params }) -> BalanceCreateLedgerEntryResponse</code>
+- <code title="get /credit-entitlements/{credit_entitlement_id}/balances/{customer_id}/grants">client.creditEntitlements.balances.<a href="./src/resources/credit-entitlements/balances.ts">listGrants</a>(customerID, { ...params }) -> BalanceListGrantsResponsesDefaultPageNumberPagination</code>
+- <code title="get /credit-entitlements/{credit_entitlement_id}/balances/{customer_id}/ledger">client.creditEntitlements.balances.<a href="./src/resources/credit-entitlements/balances.ts">listLedger</a>(customerID, { ...params }) -> CreditLedgerEntriesDefaultPageNumberPagination</code>

@@ -46,6 +46,8 @@ export class Payments extends APIResource {
 export type PaymentListResponsesDefaultPageNumberPagination =
   DefaultPageNumberPagination<PaymentListResponse>;
 
+export type RefundListItemsDefaultPageNumberPagination = DefaultPageNumberPagination<RefundListItem>;
+
 export interface AttachExistingCustomer {
   customer_id: string;
 }
@@ -90,6 +92,21 @@ export interface CreateNewCustomer {
   create_new_customer?: boolean;
 
   phone_number?: string | null;
+}
+
+/**
+ * Customer's response to a custom field
+ */
+export interface CustomFieldResponse {
+  /**
+   * Key matching the custom field definition
+   */
+  key: string;
+
+  /**
+   * Value provided by customer
+   */
+  value: string;
 }
 
 export interface CustomerLimitedDetails {
@@ -154,13 +171,6 @@ export interface OneTimeProductCartItem {
   product_id: string;
 
   quantity: number;
-
-  /**
-   * Amount the customer pays if pay_what_you_want is enabled. If disabled then
-   * amount will be ignored Represented in the lowest denomination of the currency
-   * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
-   */
-  amount?: number | null;
 }
 
 export interface Payment {
@@ -217,7 +227,7 @@ export interface Payment {
   /**
    * List of refunds issued for this payment
    */
-  refunds: Array<Payment.Refund>;
+  refunds: Array<RefundListItem>;
 
   /**
    * The amount that will be credited to your Dodo balance after currency conversion
@@ -273,7 +283,7 @@ export interface Payment {
   /**
    * Customer's responses to custom fields collected during checkout
    */
-  custom_field_responses?: Array<Payment.CustomFieldResponse> | null;
+  custom_field_responses?: Array<CustomFieldResponse> | null;
 
   /**
    * The discount id if discount is applied
@@ -318,13 +328,13 @@ export interface Payment {
   /**
    * List of products purchased in a one-time payment
    */
-  product_cart?: Array<Payment.ProductCart> | null;
+  product_cart?: Array<OneTimeProductCartItem> | null;
 
   /**
    * Summary of the refund status for this payment. None if no succeeded refunds
    * exist.
    */
-  refund_status?: 'partial' | 'full' | null;
+  refund_status?: PaymentRefundStatus | null;
 
   /**
    * This represents the portion of settlement_amount that corresponds to taxes
@@ -352,76 +362,6 @@ export interface Payment {
    * Timestamp when the payment was last updated
    */
   updated_at?: string | null;
-}
-
-export namespace Payment {
-  export interface Refund {
-    /**
-     * The unique identifier of the business issuing the refund.
-     */
-    business_id: string;
-
-    /**
-     * The timestamp of when the refund was created in UTC.
-     */
-    created_at: string;
-
-    /**
-     * If true the refund is a partial refund
-     */
-    is_partial: boolean;
-
-    /**
-     * The unique identifier of the payment associated with the refund.
-     */
-    payment_id: string;
-
-    /**
-     * The unique identifier of the refund.
-     */
-    refund_id: string;
-
-    /**
-     * The current status of the refund.
-     */
-    status: RefundsAPI.RefundStatus;
-
-    /**
-     * The refunded amount.
-     */
-    amount?: number | null;
-
-    /**
-     * The currency of the refund, represented as an ISO 4217 currency code.
-     */
-    currency?: MiscAPI.Currency | null;
-
-    /**
-     * The reason provided for the refund, if any. Optional.
-     */
-    reason?: string | null;
-  }
-
-  /**
-   * Customer's response to a custom field
-   */
-  export interface CustomFieldResponse {
-    /**
-     * Key matching the custom field definition
-     */
-    key: string;
-
-    /**
-     * Value provided by customer
-     */
-    value: string;
-  }
-
-  export interface ProductCart {
-    product_id: string;
-
-    quantity: number;
-  }
 }
 
 export type PaymentMethodTypes =
@@ -530,6 +470,55 @@ export type PaymentMethodTypes =
   | 'naver_pay'
   | 'payco';
 
+export type PaymentRefundStatus = 'partial' | 'full';
+
+export interface RefundListItem {
+  /**
+   * The unique identifier of the business issuing the refund.
+   */
+  business_id: string;
+
+  /**
+   * The timestamp of when the refund was created in UTC.
+   */
+  created_at: string;
+
+  /**
+   * If true the refund is a partial refund
+   */
+  is_partial: boolean;
+
+  /**
+   * The unique identifier of the payment associated with the refund.
+   */
+  payment_id: string;
+
+  /**
+   * The unique identifier of the refund.
+   */
+  refund_id: string;
+
+  /**
+   * The current status of the refund.
+   */
+  status: RefundsAPI.RefundStatus;
+
+  /**
+   * The refunded amount.
+   */
+  amount?: number | null;
+
+  /**
+   * The currency of the refund, represented as an ISO 4217 currency code.
+   */
+  currency?: MiscAPI.Currency | null;
+
+  /**
+   * The reason provided for the refund, if any. Optional.
+   */
+  reason?: string | null;
+}
+
 export interface PaymentCreateResponse {
   /**
    * Client secret used to load Dodo checkout SDK NOTE : Dodo checkout SDK will be
@@ -575,7 +564,22 @@ export interface PaymentCreateResponse {
   /**
    * Optional list of products included in the payment
    */
-  product_cart?: Array<OneTimeProductCartItem> | null;
+  product_cart?: Array<PaymentCreateResponse.ProductCart> | null;
+}
+
+export namespace PaymentCreateResponse {
+  export interface ProductCart {
+    product_id: string;
+
+    quantity: number;
+
+    /**
+     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
+     * amount will be ignored Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
+     */
+    amount?: number | null;
+  }
 }
 
 export interface PaymentListResponse {
@@ -598,6 +602,11 @@ export interface PaymentListResponse {
   total_amount: number;
 
   /**
+   * The most recent dispute status for this payment. None if no disputes exist.
+   */
+  dispute_status?: DisputesAPI.DisputeStatus | null;
+
+  /**
    * Invoice ID for this payment. Uses India-specific invoice ID if available.
    */
   invoice_id?: string | null;
@@ -610,6 +619,12 @@ export interface PaymentListResponse {
   payment_method?: string | null;
 
   payment_method_type?: string | null;
+
+  /**
+   * Summary of the refund status for this payment. None if no succeeded refunds
+   * exist.
+   */
+  refund_status?: PaymentRefundStatus | null;
 
   status?: IntentStatus | null;
 
@@ -652,7 +667,7 @@ export interface PaymentCreateParams {
   /**
    * List of products in the cart. Must contain at least 1 and at most 100 items.
    */
-  product_cart: Array<OneTimeProductCartItem>;
+  product_cart: Array<PaymentCreateParams.ProductCart>;
 
   /**
    * List of payment methods allowed during checkout.
@@ -727,6 +742,21 @@ export interface PaymentCreateParams {
   tax_id?: string | null;
 }
 
+export namespace PaymentCreateParams {
+  export interface ProductCart {
+    product_id: string;
+
+    quantity: number;
+
+    /**
+     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
+     * amount will be ignored Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
+     */
+    amount?: number | null;
+  }
+}
+
 export interface PaymentListParams extends DefaultPageNumberPaginationParams {
   /**
    * filter by Brand id
@@ -780,6 +810,7 @@ export declare namespace Payments {
     type AttachExistingCustomer as AttachExistingCustomer,
     type BillingAddress as BillingAddress,
     type CreateNewCustomer as CreateNewCustomer,
+    type CustomFieldResponse as CustomFieldResponse,
     type CustomerLimitedDetails as CustomerLimitedDetails,
     type CustomerRequest as CustomerRequest,
     type IntentStatus as IntentStatus,
@@ -787,6 +818,8 @@ export declare namespace Payments {
     type OneTimeProductCartItem as OneTimeProductCartItem,
     type Payment as Payment,
     type PaymentMethodTypes as PaymentMethodTypes,
+    type PaymentRefundStatus as PaymentRefundStatus,
+    type RefundListItem as RefundListItem,
     type PaymentCreateResponse as PaymentCreateResponse,
     type PaymentListResponse as PaymentListResponse,
     type PaymentRetrieveLineItemsResponse as PaymentRetrieveLineItemsResponse,

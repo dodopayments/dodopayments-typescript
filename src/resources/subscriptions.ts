@@ -4,6 +4,7 @@ import { APIResource } from '../core/resource';
 import * as SubscriptionsAPI from './subscriptions';
 import * as MiscAPI from './misc';
 import * as PaymentsAPI from './payments';
+import * as CreditEntitlementsAPI from './credit-entitlements/credit-entitlements';
 import { APIPromise } from '../core/api-promise';
 import {
   DefaultPageNumberPagination,
@@ -73,6 +74,13 @@ export class Subscriptions extends APIResource {
       body,
       ...options,
     });
+  }
+
+  retrieveCreditUsage(
+    subscriptionID: string,
+    options?: RequestOptions,
+  ): APIPromise<SubscriptionRetrieveCreditUsageResponse> {
+    return this._client.get(path`/subscriptions/${subscriptionID}/credit-usage`, options);
   }
 
   /**
@@ -335,7 +343,7 @@ export interface Subscription {
   /**
    * Customer's responses to custom fields collected during checkout
    */
-  custom_field_responses?: Array<Subscription.CustomFieldResponse> | null;
+  custom_field_responses?: Array<PaymentsAPI.CustomFieldResponse> | null;
 
   /**
    * Number of remaining discount cycles if discount is applied
@@ -379,7 +387,17 @@ export namespace Subscription {
      */
     overage_balance: string;
 
-    overage_charge_at_billing: boolean;
+    /**
+     * Controls how overage is handled at the end of a billing cycle.
+     *
+     * | Preset                     | Charge at billing | Credits reduce overage | Preserve overage at reset |
+     * | -------------------------- | :---------------: | :--------------------: | :-----------------------: |
+     * | `forgive_at_reset`         |        No         |           No           |            No             |
+     * | `invoice_at_billing`       |        Yes        |           No           |            No             |
+     * | `carry_deficit`            |        No         |           No           |            Yes            |
+     * | `carry_deficit_auto_repay` |        No         |          Yes           |            Yes            |
+     */
+    overage_behavior: CreditEntitlementsAPI.CbbOverageBehavior;
 
     overage_enabled: boolean;
 
@@ -442,30 +460,55 @@ export namespace Subscription {
 
     name: string;
 
-    price_per_unit: string;
-
     description?: string | null;
-  }
 
-  /**
-   * Customer's response to a custom field
-   */
-  export interface CustomFieldResponse {
-    /**
-     * Key matching the custom field definition
-     */
-    key: string;
-
-    /**
-     * Value provided by customer
-     */
-    value: string;
+    price_per_unit?: string | null;
   }
 }
 
 export type SubscriptionStatus = 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired';
 
 export type TimeInterval = 'Day' | 'Week' | 'Month' | 'Year';
+
+export interface UpdateSubscriptionPlanReq {
+  /**
+   * Unique identifier of the product to subscribe to
+   */
+  product_id: string;
+
+  /**
+   * Proration Billing Mode
+   */
+  proration_billing_mode: 'prorated_immediately' | 'full_immediately' | 'difference_immediately';
+
+  /**
+   * Number of units to subscribe for. Must be at least 1.
+   */
+  quantity: number;
+
+  /**
+   * Addons for the new plan. Note : Leaving this empty would remove any existing
+   * addons
+   */
+  addons?: Array<AttachAddon> | null;
+
+  /**
+   * Metadata for the payment. If not passed, the metadata of the subscription will
+   * be taken
+   */
+  metadata?: { [key: string]: string } | null;
+
+  /**
+   * Controls behavior when the plan change payment fails.
+   *
+   * - `prevent_change`: Keep subscription on current plan until payment succeeds
+   * - `apply_change` (default): Apply plan change immediately regardless of payment
+   *   outcome
+   *
+   * If not specified, uses the business-level default setting.
+   */
+  on_payment_failure?: 'prevent_change' | 'apply_change' | null;
+}
 
 export interface SubscriptionCreateResponse {
   /**
@@ -518,20 +561,12 @@ export interface SubscriptionCreateResponse {
   /**
    * One time products associated with the purchase of subscription
    */
-  one_time_product_cart?: Array<SubscriptionCreateResponse.OneTimeProductCart> | null;
+  one_time_product_cart?: Array<PaymentsAPI.OneTimeProductCartItem> | null;
 
   /**
    * URL to checkout page
    */
   payment_link?: string | null;
-}
-
-export namespace SubscriptionCreateResponse {
-  export interface OneTimeProductCart {
-    product_id: string;
-
-    quantity: number;
-  }
 }
 
 /**
@@ -794,6 +829,65 @@ export namespace SubscriptionPreviewChangePlanResponse {
   }
 }
 
+/**
+ * Credit usage status for all entitlements linked to a subscription
+ */
+export interface SubscriptionRetrieveCreditUsageResponse {
+  items: Array<SubscriptionRetrieveCreditUsageResponse.Item>;
+
+  subscription_id: string;
+}
+
+export namespace SubscriptionRetrieveCreditUsageResponse {
+  /**
+   * Per-entitlement credit usage status for a subscription
+   */
+  export interface Item {
+    /**
+     * Customer's current credit balance for this entitlement (customer-wide)
+     */
+    balance: string;
+
+    credit_entitlement_id: string;
+
+    credit_entitlement_name: string;
+
+    /**
+     * True if overage has reached or exceeded the limit. When true, further deductions
+     * that would increase overage will fail.
+     */
+    limit_reached: boolean;
+
+    /**
+     * Current overage amount accrued (customer-wide)
+     */
+    overage: string;
+
+    /**
+     * Whether overage is enabled for this entitlement on this subscription
+     */
+    overage_enabled: boolean;
+
+    /**
+     * Unit label for the credit entitlement (e.g. "API Calls", "Tokens")
+     */
+    unit: string;
+
+    /**
+     * Maximum allowed overage before deductions are blocked. None means unlimited
+     * overage (when overage_enabled is true).
+     */
+    overage_limit?: string | null;
+
+    /**
+     * How much more overage can accumulate before being blocked. None if overage is
+     * not enabled or there is no limit (unlimited). A value of 0 means the next
+     * deduction that increases overage will be blocked.
+     */
+    remaining_headroom?: string | null;
+  }
+}
+
 export interface SubscriptionRetrieveUsageHistoryResponse {
   /**
    * End date of the billing period
@@ -928,7 +1022,7 @@ export interface SubscriptionCreateParams {
    * List of one time products that will be bundled with the first payment for this
    * subscription
    */
-  one_time_product_cart?: Array<PaymentsAPI.OneTimeProductCartItem> | null;
+  one_time_product_cart?: Array<SubscriptionCreateParams.OneTimeProductCart> | null;
 
   /**
    * If true, generates a payment link. Defaults to false if not specified.
@@ -976,6 +1070,21 @@ export interface SubscriptionCreateParams {
   trial_period_days?: number | null;
 }
 
+export namespace SubscriptionCreateParams {
+  export interface OneTimeProductCart {
+    product_id: string;
+
+    quantity: number;
+
+    /**
+     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
+     * amount will be ignored Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
+     */
+    amount?: number | null;
+  }
+}
+
 export interface SubscriptionUpdateParams {
   billing?: PaymentsAPI.BillingAddress | null;
 
@@ -1013,8 +1122,6 @@ export namespace SubscriptionUpdateParams {
     low_balance_threshold_percent?: number | null;
 
     max_rollover_count?: number | null;
-
-    overage_charge_at_billing?: boolean | null;
 
     overage_enabled?: boolean | null;
 
@@ -1244,10 +1351,12 @@ export declare namespace Subscriptions {
     type Subscription as Subscription,
     type SubscriptionStatus as SubscriptionStatus,
     type TimeInterval as TimeInterval,
+    type UpdateSubscriptionPlanReq as UpdateSubscriptionPlanReq,
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
     type SubscriptionListResponse as SubscriptionListResponse,
     type SubscriptionChargeResponse as SubscriptionChargeResponse,
     type SubscriptionPreviewChangePlanResponse as SubscriptionPreviewChangePlanResponse,
+    type SubscriptionRetrieveCreditUsageResponse as SubscriptionRetrieveCreditUsageResponse,
     type SubscriptionRetrieveUsageHistoryResponse as SubscriptionRetrieveUsageHistoryResponse,
     type SubscriptionUpdatePaymentMethodResponse as SubscriptionUpdatePaymentMethodResponse,
     type SubscriptionListResponsesDefaultPageNumberPagination as SubscriptionListResponsesDefaultPageNumberPagination,
