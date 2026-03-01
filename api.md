@@ -55,6 +55,9 @@ Types:
 
 - <code><a href="./src/resources/subscriptions.ts">AddonCartResponseItem</a></code>
 - <code><a href="./src/resources/subscriptions.ts">AttachAddon</a></code>
+- <code><a href="./src/resources/subscriptions.ts">CreditEntitlementCartResponse</a></code>
+- <code><a href="./src/resources/subscriptions.ts">MeterCartResponseItem</a></code>
+- <code><a href="./src/resources/subscriptions.ts">MeterCreditEntitlementCartResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">OnDemandSubscription</a></code>
 - <code><a href="./src/resources/subscriptions.ts">Subscription</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionStatus</a></code>
@@ -219,6 +222,9 @@ Types:
 - <code><a href="./src/resources/products/products.ts">AddMeterToPrice</a></code>
 - <code><a href="./src/resources/products/products.ts">AttachCreditEntitlement</a></code>
 - <code><a href="./src/resources/products/products.ts">CbbProrationBehavior</a></code>
+- <code><a href="./src/resources/products/products.ts">CreditEntitlementMappingResponse</a></code>
+- <code><a href="./src/resources/products/products.ts">DigitalProductDelivery</a></code>
+- <code><a href="./src/resources/products/products.ts">DigitalProductDeliveryFile</a></code>
 - <code><a href="./src/resources/products/products.ts">LicenseKeyDuration</a></code>
 - <code><a href="./src/resources/products/products.ts">Price</a></code>
 - <code><a href="./src/resources/products/products.ts">Product</a></code>

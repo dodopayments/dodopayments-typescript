@@ -212,6 +212,136 @@ export interface AttachCreditEntitlement {
 
 export type CbbProrationBehavior = 'prorate' | 'no_prorate';
 
+/**
+ * Response struct for credit entitlement mapping
+ */
+export interface CreditEntitlementMappingResponse {
+  /**
+   * Unique ID of this mapping
+   */
+  id: string;
+
+  /**
+   * ID of the credit entitlement
+   */
+  credit_entitlement_id: string;
+
+  /**
+   * Name of the credit entitlement
+   */
+  credit_entitlement_name: string;
+
+  /**
+   * Unit label for the credit entitlement
+   */
+  credit_entitlement_unit: string;
+
+  /**
+   * Number of credits granted
+   */
+  credits_amount: string;
+
+  /**
+   * Controls how overage is handled at billing cycle end.
+   */
+  overage_behavior: CreditEntitlementsAPI.CbbOverageBehavior;
+
+  /**
+   * Whether overage is enabled
+   */
+  overage_enabled: boolean;
+
+  /**
+   * Proration behavior for credit grants during plan changes
+   */
+  proration_behavior: CbbProrationBehavior;
+
+  /**
+   * Whether rollover is enabled
+   */
+  rollover_enabled: boolean;
+
+  /**
+   * Whether trial credits expire after trial
+   */
+  trial_credits_expire_after_trial: boolean;
+
+  /**
+   * Currency
+   */
+  currency?: MiscAPI.Currency | null;
+
+  /**
+   * Days until credits expire
+   */
+  expires_after_days?: number | null;
+
+  /**
+   * Low balance threshold percentage
+   */
+  low_balance_threshold_percent?: number | null;
+
+  /**
+   * Maximum rollover cycles
+   */
+  max_rollover_count?: number | null;
+
+  /**
+   * Overage limit
+   */
+  overage_limit?: string | null;
+
+  /**
+   * Price per unit
+   */
+  price_per_unit?: string | null;
+
+  /**
+   * Rollover percentage
+   */
+  rollover_percentage?: number | null;
+
+  /**
+   * Rollover timeframe count
+   */
+  rollover_timeframe_count?: number | null;
+
+  /**
+   * Rollover timeframe interval
+   */
+  rollover_timeframe_interval?: SubscriptionsAPI.TimeInterval | null;
+
+  /**
+   * Trial credits
+   */
+  trial_credits?: string | null;
+}
+
+export interface DigitalProductDelivery {
+  /**
+   * External URL to digital product
+   */
+  external_url?: string | null;
+
+  /**
+   * Uploaded files ids of digital product
+   */
+  files?: Array<DigitalProductDeliveryFile> | null;
+
+  /**
+   * Instructions to download and use the digital product
+   */
+  instructions?: string | null;
+}
+
+export interface DigitalProductDeliveryFile {
+  file_id: string;
+
+  file_name: string;
+
+  url: string;
+}
+
 export interface LicenseKeyDuration {
   count: number;
 
@@ -410,7 +540,7 @@ export interface Product {
   /**
    * Attached credit entitlements with settings
    */
-  credit_entitlements: Array<Product.CreditEntitlement>;
+  credit_entitlements: Array<CreditEntitlementMappingResponse>;
 
   /**
    * Indicates if the product is recurring (e.g., subscriptions).
@@ -457,7 +587,7 @@ export interface Product {
    */
   description?: string | null;
 
-  digital_product_delivery?: Product.DigitalProductDelivery | null;
+  digital_product_delivery?: DigitalProductDelivery | null;
 
   /**
    * URL of the product image, optional.
@@ -488,140 +618,6 @@ export interface Product {
    * The product collection ID this product belongs to, if any
    */
   product_collection_id?: string | null;
-}
-
-export namespace Product {
-  /**
-   * Response struct for credit entitlement mapping
-   */
-  export interface CreditEntitlement {
-    /**
-     * Unique ID of this mapping
-     */
-    id: string;
-
-    /**
-     * ID of the credit entitlement
-     */
-    credit_entitlement_id: string;
-
-    /**
-     * Name of the credit entitlement
-     */
-    credit_entitlement_name: string;
-
-    /**
-     * Unit label for the credit entitlement
-     */
-    credit_entitlement_unit: string;
-
-    /**
-     * Number of credits granted
-     */
-    credits_amount: string;
-
-    /**
-     * Controls how overage is handled at billing cycle end.
-     */
-    overage_behavior: CreditEntitlementsAPI.CbbOverageBehavior;
-
-    /**
-     * Whether overage is enabled
-     */
-    overage_enabled: boolean;
-
-    /**
-     * Proration behavior for credit grants during plan changes
-     */
-    proration_behavior: ProductsAPI.CbbProrationBehavior;
-
-    /**
-     * Whether rollover is enabled
-     */
-    rollover_enabled: boolean;
-
-    /**
-     * Whether trial credits expire after trial
-     */
-    trial_credits_expire_after_trial: boolean;
-
-    /**
-     * Currency
-     */
-    currency?: MiscAPI.Currency | null;
-
-    /**
-     * Days until credits expire
-     */
-    expires_after_days?: number | null;
-
-    /**
-     * Low balance threshold percentage
-     */
-    low_balance_threshold_percent?: number | null;
-
-    /**
-     * Maximum rollover cycles
-     */
-    max_rollover_count?: number | null;
-
-    /**
-     * Overage limit
-     */
-    overage_limit?: string | null;
-
-    /**
-     * Price per unit
-     */
-    price_per_unit?: string | null;
-
-    /**
-     * Rollover percentage
-     */
-    rollover_percentage?: number | null;
-
-    /**
-     * Rollover timeframe count
-     */
-    rollover_timeframe_count?: number | null;
-
-    /**
-     * Rollover timeframe interval
-     */
-    rollover_timeframe_interval?: SubscriptionsAPI.TimeInterval | null;
-
-    /**
-     * Trial credits
-     */
-    trial_credits?: string | null;
-  }
-
-  export interface DigitalProductDelivery {
-    /**
-     * External URL to digital product
-     */
-    external_url?: string | null;
-
-    /**
-     * Uploaded files ids of digital product
-     */
-    files?: Array<DigitalProductDelivery.File> | null;
-
-    /**
-     * Instructions to download and use the digital product
-     */
-    instructions?: string | null;
-  }
-
-  export namespace DigitalProductDelivery {
-    export interface File {
-      file_id: string;
-
-      file_name: string;
-
-      url: string;
-    }
-  }
 }
 
 export interface ProductListResponse {
@@ -934,6 +930,9 @@ export declare namespace Products {
     type AddMeterToPrice as AddMeterToPrice,
     type AttachCreditEntitlement as AttachCreditEntitlement,
     type CbbProrationBehavior as CbbProrationBehavior,
+    type CreditEntitlementMappingResponse as CreditEntitlementMappingResponse,
+    type DigitalProductDelivery as DigitalProductDelivery,
+    type DigitalProductDeliveryFile as DigitalProductDeliveryFile,
     type LicenseKeyDuration as LicenseKeyDuration,
     type Price as Price,
     type Product as Product,
