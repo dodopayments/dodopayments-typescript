@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.22.2 (2026-03-03)
+
+Full Changelog: [v2.22.1...v2.22.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.22.1...v2.22.2)
+
+### Bug Fixes
+
+* remove src/ from published npm package ([5d0f1bc](https://github.com/dodopayments/dodopayments-typescript/commit/5d0f1bcf313eab80bffd735d441adec30d4ce989)), closes [#177](https://github.com/dodopayments/dodopayments-typescript/issues/177)
+
 ## 2.22.1 (2026-03-03)
 
 Full Changelog: [v2.22.0...v2.22.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.22.0...v2.22.1)
