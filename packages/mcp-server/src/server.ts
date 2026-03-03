@@ -21,7 +21,7 @@ export const newMcpServer = async (stainlessApiKey: string | undefined) =>
   new McpServer(
     {
       name: 'dodopayments_api',
-      version: '2.22.4',
+      version: '2.22.5',
     },
     {
       instructions: await getInstructions(stainlessApiKey),

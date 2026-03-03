@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.22.5 (2026-03-03)
+
+Full Changelog: [v2.22.4...v2.22.5](https://github.com/dodopayments/dodopayments-typescript/compare/v2.22.4...v2.22.5)
+
+### Bug Fixes
+
+* stub @valtown/deno-http-worker for Cloudflare Workers compatibility ([152a361](https://github.com/dodopayments/dodopayments-typescript/commit/152a3611b3285b50faa9b7920941ebf0c2dda3e4))
+
+
+### Chores
+
+* **internal:** configure MCP Server hosting ([c8ffe79](https://github.com/dodopayments/dodopayments-typescript/commit/c8ffe79f57efb9780bc8e8d6b6a8962fcca36841))
+* **internal:** unconfigure MCP Server hosting ([cb3f5c5](https://github.com/dodopayments/dodopayments-typescript/commit/cb3f5c5074d3db0f491f27feeb292f369258a7f3))
+
 ## 2.22.4 (2026-03-03)
 
 Full Changelog: [v2.22.3...v2.22.4](https://github.com/dodopayments/dodopayments-typescript/compare/v2.22.3...v2.22.4)
