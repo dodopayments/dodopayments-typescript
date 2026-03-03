@@ -56,7 +56,7 @@ const serverConfig: ServerConfig = {
 
 export class MyMCP extends McpAgent<Env, unknown, MCPProps> {
   server = new Server(
-    { name: 'dodopayments_api', version: '2.22.1' },
+    { name: 'dodopayments-mcp', version: '2.22.1' },
     { capabilities: { tools: {}, logging: {} } },
   );
 
