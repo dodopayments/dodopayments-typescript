@@ -61,10 +61,10 @@ export class MyMCP extends McpAgent<Env, unknown, MCPProps> {
   );
 
   async init() {
-    initMcpServer({
+    await initMcpServer({
       server: this.server,
-      clientOptions: this.props.clientProps,
-      mcpOptions: this.props.clientConfig,
+      clientOptions: this.props?.clientProps,
+      mcpOptions: this.props?.clientConfig,
     });
   }
 }
