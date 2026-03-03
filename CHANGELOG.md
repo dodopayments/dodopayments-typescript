@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.22.1 (2026-03-03)
+
+Full Changelog: [v2.22.0...v2.22.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.22.0...v2.22.1)
+
+### Chores
+
+* **internal:** codegen related update ([0093f84](https://github.com/dodopayments/dodopayments-typescript/commit/0093f84cd54a9252869b27aa4e1aab97c64d8e73))
+* **mcp-server:** return access instructions for 404 without API key ([0f5cbaf](https://github.com/dodopayments/dodopayments-typescript/commit/0f5cbaf02c45339dcc8e49377eff37d7adb36d4c))
+* **tests:** update webhook tests ([b929ca3](https://github.com/dodopayments/dodopayments-typescript/commit/b929ca38339a42da680a416f733ff0c346c6da3c))
+
 ## 2.22.0 (2026-03-01)
 
 Full Changelog: [v2.21.0...v2.22.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.21.0...v2.22.0)
