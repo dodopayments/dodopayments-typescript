@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.22.4 (2026-03-03)
+
+Full Changelog: [v2.22.3...v2.22.4](https://github.com/dodopayments/dodopayments-typescript/compare/v2.22.3...v2.22.4)
+
+### Bug Fixes
+
+* update cloudflare worker imports for current dodopayments-mcp API ([0fea649](https://github.com/dodopayments/dodopayments-typescript/commit/0fea649ee2c9f27fc2b72289274ed38cf9dd25f4))
+
 ## 2.22.3 (2026-03-03)
 
 Full Changelog: [v2.22.2...v2.22.3](https://github.com/dodopayments/dodopayments-typescript/compare/v2.22.2...v2.22.3)
