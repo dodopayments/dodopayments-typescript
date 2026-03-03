@@ -40,11 +40,6 @@ cp tsconfig.dist-src.json dist/src/tsconfig.json
 
 node scripts/utils/postprocess-files.cjs
 
-# Remove src from dist to prevent TypeScript compilation issues in consuming projects.
-# Source is only needed during build for source map path resolution.
-# See: https://github.com/dodopayments/dodopayments-typescript/issues/177
-rm -rf dist/src
-
 # make sure that nothing crashes when we require the output CJS or
 # import the output ESM
 (cd dist && node -e 'require("dodopayments")')
