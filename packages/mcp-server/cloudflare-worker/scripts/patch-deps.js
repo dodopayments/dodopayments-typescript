@@ -97,7 +97,10 @@ exports.configureLogger = configureLogger;
 exports.getLogger = getLogger;
 `;
 
-for (const [file, content] of [['logger.mjs', loggerMjs], ['logger.js', loggerJs]]) {
+for (const [file, content] of [
+  ['logger.mjs', loggerMjs],
+  ['logger.js', loggerJs],
+]) {
   const filePath = path.join(pkgDir, file);
   if (fs.existsSync(filePath)) {
     fs.writeFileSync(filePath, content);
