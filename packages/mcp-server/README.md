@@ -43,14 +43,14 @@ For clients with a configuration JSON, it might look something like this:
 If you use Cursor, you can install the MCP server by using the button below. You will need to set your environment variables
 in Cursor's `mcp.json`, which can be found in Cursor Settings > Tools & MCP > New MCP Server.
 
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6Ik15IEJlYXJlciBUb2tlbiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJNeSBXZWJob29rIEtleSJ9fQ)
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJuYW1lIjoiZG9kb3BheW1lbnRzLW1jcCIsInRyYW5zcG9ydCI6Imh0dHAiLCJ1cmwiOiJodHRwczovL2RvZG8tcGF5bWVudHMuc3RsbWNwLmNvbSIsImhlYWRlcnMiOnsieC1kb2RvLXBheW1lbnRzLWFwaS1rZXkiOiJNeSBCZWFyZXIgVG9rZW4ifX0)
 
 ### VS Code
 
 If you use MCP, you can install the MCP server by clicking the link below. You will need to set your environment variables
 in VS Code's `mcp.json`, which can be found via Command Palette > MCP: Open User Configuration.
 
-[Open VS Code](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22dodopayments-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22dodopayments-mcp%22%5D%2C%22env%22%3A%7B%22DODO_PAYMENTS_API_KEY%22%3A%22My%20Bearer%20Token%22%2C%22DODO_PAYMENTS_WEBHOOK_KEY%22%3A%22My%20Webhook%20Key%22%7D%7D)
+[Open VS Code](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22dodopayments-mcp%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fdodo-payments.stlmcp.com%22%2C%22headers%22%3A%7B%22x-dodo-payments-api-key%22%3A%22My%20Bearer%20Token%22%7D%7D)
 
 ### Claude Code
 
@@ -58,7 +58,7 @@ If you use Claude Code, you can install the MCP server by running the command be
 environment variables in Claude Code's `.claude.json`, which can be found in your home directory.
 
 ```
-claude mcp add dodopayments_mcp_api --env DODO_PAYMENTS_API_KEY="My Bearer Token" DODO_PAYMENTS_WEBHOOK_KEY="My Webhook Key" -- npx -y dodopayments-mcp
+claude mcp add dodopayments_mcp_api --header "x-dodo-payments-api-key: My Bearer Token" --transport http https://dodo-payments.stlmcp.com
 ```
 
 ## Code Mode
