@@ -1,7 +1,10 @@
 import { makeOAuthConsent } from './app';
 import { McpAgent } from 'agents/mcp';
 import OAuthProvider from '@cloudflare/workers-oauth-provider';
-import { McpOptions, initMcpServer, server, ClientOptions } from 'dodopayments-mcp/server';
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { initMcpServer } from 'dodopayments-mcp/server';
+import type { McpOptions } from 'dodopayments-mcp/options';
+import type { ClientOptions } from 'dodopayments';
 import type { ExportedHandler } from '@cloudflare/workers-types';
 
 type MCPProps = {
@@ -52,7 +55,10 @@ const serverConfig: ServerConfig = {
 };
 
 export class MyMCP extends McpAgent<Env, unknown, MCPProps> {
-  server = server;
+  server = new Server(
+    { name: 'dodopayments_api', version: '2.22.1' },
+    { capabilities: { tools: {}, logging: {} } },
+  );
 
   async init() {
     initMcpServer({
