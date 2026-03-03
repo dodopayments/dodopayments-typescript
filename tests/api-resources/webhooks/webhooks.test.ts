@@ -96,13 +96,13 @@ describe('resource webhooks', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('unwrap', async () => {
+  test('unwrap', () => {
     const key = 'whsec_c2VjcmV0Cg==';
     const payload =
       '{"business_id":"business_id","data":{"id":"id","amount":"amount","balance_after":"balance_after","balance_before":"balance_before","business_id":"business_id","created_at":"2019-12-27T18:11:19.117Z","credit_entitlement_id":"credit_entitlement_id","customer_id":"customer_id","is_credit":true,"overage_after":"overage_after","overage_before":"overage_before","transaction_type":"credit_added","description":"description","grant_id":"grant_id","reference_id":"reference_id","reference_type":"reference_type"},"timestamp":"2019-12-27T18:11:19.117Z","type":"credit.added"}';
     const msgID = '1';
     const timestamp = new Date();
-    const wh = new Webhook(key);
+    const wh = new Webhook('whsec_c2VjcmV0Cg==');
     const signature = wh.sign(msgID, timestamp, payload);
     const headers: Record<string, string> = {
       'webhook-signature': signature,
@@ -110,19 +110,41 @@ describe('resource webhooks', () => {
       'webhook-timestamp': String(Math.floor(timestamp.getTime() / 1000)),
     };
     client.webhooks.unwrap(payload, { headers, key });
+    client.withOptions({ webhookKey: key }).webhooks.unwrap(payload, { headers });
+    client.withOptions({ webhookKey: 'whsec_aaaaaaaaaa==' }).webhooks.unwrap(payload, { headers, key });
     expect(() => {
       const wrongKey = 'whsec_aaaaaaaaaa==';
       client.webhooks.unwrap(payload, { headers, key: wrongKey });
+    }).toThrow('No matching signature found');
+    expect(() => {
+      const wrongKey = 'whsec_aaaaaaaaaa==';
+      client.withOptions({ webhookKey: wrongKey }).webhooks.unwrap(payload, { headers });
     }).toThrow('No matching signature found');
     expect(() => {
       const badSig = wh.sign(msgID, timestamp, 'some other payload');
       client.webhooks.unwrap(payload, { headers: { ...headers, 'webhook-signature': badSig }, key });
     }).toThrow('No matching signature found');
     expect(() => {
+      const badSig = wh.sign(msgID, timestamp, 'some other payload');
+      client
+        .withOptions({ webhookKey: key })
+        .webhooks.unwrap(payload, { headers: { ...headers, 'webhook-signature': badSig } });
+    }).toThrow('No matching signature found');
+    expect(() => {
       client.webhooks.unwrap(payload, { headers: { ...headers, 'webhook-timestamp': '5' }, key });
     }).toThrow('Message timestamp too old');
     expect(() => {
+      client
+        .withOptions({ webhookKey: key })
+        .webhooks.unwrap(payload, { headers: { ...headers, 'webhook-timestamp': '5' } });
+    }).toThrow('Message timestamp too old');
+    expect(() => {
       client.webhooks.unwrap(payload, { headers: { ...headers, 'webhook-id': 'wrong' }, key });
+    }).toThrow('No matching signature found');
+    expect(() => {
+      client
+        .withOptions({ webhookKey: key })
+        .webhooks.unwrap(payload, { headers: { ...headers, 'webhook-id': 'wrong' } });
     }).toThrow('No matching signature found');
   });
 });
