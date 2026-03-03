@@ -1,13 +1,9 @@
-# This workflow is triggered on every push to the main branch.
+# This workflow is triggered when a new release is published.
 # It can also be run manually to re-deploy to Cloudflare Workers in case it failed for some reason.
 # You can run this workflow by navigating to https://www.github.com/dodopayments/dodopayments-typescript/actions/workflows/deploy-cloudflare-worker.yml
 name: Deploy Cloudflare Worker
 
 on:
-  push:
-    branches:
-      - main
-
   release:
     types: [published]
 
