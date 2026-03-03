@@ -31,5 +31,8 @@
 	"observability": {
 		"enabled": true
 	},
-	"assets": { "directory": "./static/", "binding": "ASSETS" }
+	"assets": { "directory": "./static/", "binding": "ASSETS" },
+	"alias": {
+		"@valtown/deno-http-worker": "./src/stubs/deno-http-worker.ts"
+	}
 }
