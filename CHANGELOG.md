@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.22.3 (2026-03-03)
+
+Full Changelog: [v2.22.2...v2.22.3](https://github.com/dodopayments/dodopayments-typescript/compare/v2.22.2...v2.22.3)
+
+### Bug Fixes
+
+* update cloudflare worker to use latest dodopayments-mcp version ([a442d45](https://github.com/dodopayments/dodopayments-typescript/commit/a442d455569b0a376227ff1a08dd40d1b2c4252a))
+
+
+### Chores
+
+* only deploy cloudflare worker on release, not every push to main ([289a3b8](https://github.com/dodopayments/dodopayments-typescript/commit/289a3b8805b77057c942985629c558b3e569e4b9))
+
 ## 2.22.2 (2026-03-03)
 
 Full Changelog: [v2.22.1...v2.22.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.22.1...v2.22.2)
