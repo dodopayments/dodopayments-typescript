@@ -29,10 +29,10 @@ const filesToPatch = [
 
 for (const { file, content } of filesToPatch) {
   const filePath = path.join(pkgDir, file);
-  if (fs.existsSync(filePath)) {
+  try {
     fs.writeFileSync(filePath, content);
     console.log(`Patched ${file} for CF Workers compatibility`);
-  }
+  } catch (_) {}
 }
 
 // 2. Strip global setInterval + .unref() from instructions.{mjs,js}
@@ -40,7 +40,7 @@ for (const { file, content } of filesToPatch) {
 //    The cache still works; it just won't auto-evict stale entries (fine for short-lived workers).
 for (const ext of ['mjs', 'js']) {
   const filePath = path.join(pkgDir, `instructions.${ext}`);
-  if (fs.existsSync(filePath)) {
+  try {
     let src = fs.readFileSync(filePath, 'utf8');
     // Remove the setInterval block + .unref() call
     // Anchored to INSTRUCTIONS_CACHE_TTL_MS to avoid stopping at inner semicolons
@@ -49,7 +49,7 @@ for (const ext of ['mjs', 'js']) {
     src = src.replace(/[\r\n]*_cacheCleanupInterval\.unref\(\);/, '');
     fs.writeFileSync(filePath, src);
     console.log(`Patched instructions.${ext} — removed global setInterval for CF Workers compatibility`);
-  }
+  } catch (_) {}
 }
 
 // 3. Replace logger.{mjs,js} with a CF Workers-compatible console-based logger.
@@ -102,8 +102,8 @@ for (const [file, content] of [
   ['logger.js', loggerJs],
 ]) {
   const filePath = path.join(pkgDir, file);
-  if (fs.existsSync(filePath)) {
+  try {
     fs.writeFileSync(filePath, content);
     console.log(`Patched ${file} — replaced pino with console-based logger for CF Workers`);
-  }
+  } catch (_) {}
 }
