@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.22.6 (2026-03-03)
+
+Full Changelog: [v2.22.5...v2.22.6](https://github.com/dodopayments/dodopayments-typescript/compare/v2.22.5...v2.22.6)
+
+### Bug Fixes
+
+* also patch global setInterval in instructions module for CF Workers ([8f6d682](https://github.com/dodopayments/dodopayments-typescript/commit/8f6d68203477e064df6b97558f215f7d085998d6))
+* patch code-tool-paths.cjs for Cloudflare Workers compatibility ([66d9bee](https://github.com/dodopayments/dodopayments-typescript/commit/66d9beeaeaf03f68c6a3a8d38c4db56e7df9e791))
+* patch pino logger and await initMcpServer for CF Workers ([55dfa0f](https://github.com/dodopayments/dodopayments-typescript/commit/55dfa0f3c5435026cc2a30e056c5dc0397f9a281))
+* prettier formatting and pin wrangler-action to commit hash ([2ac5c4c](https://github.com/dodopayments/dodopayments-typescript/commit/2ac5c4ce0569adb1a2e22146b263ed1b010b7330))
+* rename dodopayments_api to dodopayments-mcp ([7aafafc](https://github.com/dodopayments/dodopayments-typescript/commit/7aafafcf27782ca262558fb3e1759de3b0dcdf10))
+* resolve CodeQL TOCTOU race conditions and revert wrangler-action pin ([f5730b7](https://github.com/dodopayments/dodopayments-typescript/commit/f5730b78bcac0a2fc5bacdf77a372e1748dc6963))
+
 ## 2.22.5 (2026-03-03)
 
 Full Changelog: [v2.22.4...v2.22.5](https://github.com/dodopayments/dodopayments-typescript/compare/v2.22.4...v2.22.5)
