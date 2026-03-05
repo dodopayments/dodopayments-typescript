@@ -100,6 +100,12 @@ export interface Discount {
   discount_id: string;
 
   /**
+   * Whether this discount should be preserved when a subscription changes plans.
+   * Default: false (discount is removed on plan change)
+   */
+  preserve_on_plan_change: boolean;
+
+  /**
    * List of product IDs to which this discount is restricted.
    */
   restricted_to: Array<string>;
@@ -173,6 +179,12 @@ export interface DiscountCreateParams {
   name?: string | null;
 
   /**
+   * Whether this discount should be preserved when a subscription changes plans.
+   * Default: false (discount is removed on plan change)
+   */
+  preserve_on_plan_change?: boolean;
+
+  /**
    * List of product IDs to restrict usage (if any).
    */
   restricted_to?: Array<string> | null;
@@ -210,6 +222,12 @@ export interface DiscountUpdateParams {
   expires_at?: string | null;
 
   name?: string | null;
+
+  /**
+   * Whether this discount should be preserved when a subscription changes plans. If
+   * not provided, the existing value is kept.
+   */
+  preserve_on_plan_change?: boolean | null;
 
   /**
    * If present, replaces all restricted product IDs with this new set. To remove all

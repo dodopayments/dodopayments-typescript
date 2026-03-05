@@ -140,6 +140,7 @@ describe('resource subscriptions', () => {
       proration_billing_mode: 'prorated_immediately',
       quantity: 0,
       addons: [{ addon_id: 'addon_id', quantity: 0 }],
+      discount_code: 'discount_code',
       metadata: { foo: 'string' },
       on_payment_failure: 'prevent_change',
     });
@@ -188,6 +189,7 @@ describe('resource subscriptions', () => {
       proration_billing_mode: 'prorated_immediately',
       quantity: 0,
       addons: [{ addon_id: 'addon_id', quantity: 0 }],
+      discount_code: 'discount_code',
       metadata: { foo: 'string' },
       on_payment_failure: 'prevent_change',
     });
