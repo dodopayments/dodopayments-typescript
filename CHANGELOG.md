@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.23.0 (2026-03-05)
+
+Full Changelog: [v2.22.6...v2.23.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.22.6...v2.23.0)
+
+### Features
+
+* **api:** updated openapi spec to v1.87.0 ([4c60a84](https://github.com/dodopayments/dodopayments-typescript/commit/4c60a84c36a7a54e01e4f18b6eedc13e2c6413a7))
+
+
+### Chores
+
+* **internal:** configure MCP Server hosting ([90df39a](https://github.com/dodopayments/dodopayments-typescript/commit/90df39ae802a0ead40880bfd3bafbeaca75148c8))
+* **internal:** use x-stainless-mcp-client-envs header for MCP remote code tool calls ([7bfe048](https://github.com/dodopayments/dodopayments-typescript/commit/7bfe048466655b1da03ecab6d3491d13b292a068))
+
 ## 2.22.6 (2026-03-03)
 
 Full Changelog: [v2.22.5...v2.22.6](https://github.com/dodopayments/dodopayments-typescript/compare/v2.22.5...v2.22.6)
