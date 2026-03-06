@@ -194,7 +194,7 @@ export class CursorPagePagination<Item>
   }
 
   override hasNextPage(): boolean {
-    if (this.done === false) {
+    if (this.done === true) {
       return false;
     }
 
