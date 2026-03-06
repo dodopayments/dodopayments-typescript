@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.23.1 (2026-03-06)
+
+Full Changelog: [v2.23.0...v2.23.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.23.0...v2.23.1)
+
+### Chores
+
+* **internal:** codegen related update ([5d9b9f9](https://github.com/dodopayments/dodopayments-typescript/commit/5d9b9f9889a157823a8555248bd70208a9b40458))
+* **test:** do not count install time for mock server timeout ([7b75d0b](https://github.com/dodopayments/dodopayments-typescript/commit/7b75d0b9f89c7afc7983c41f95a86ed9c931f6a1))
+
 ## 2.23.0 (2026-03-05)
 
 Full Changelog: [v2.22.6...v2.23.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.22.6...v2.23.0)
