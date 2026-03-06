@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.23.2 (2026-03-06)
+
+Full Changelog: [v2.23.1...v2.23.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.23.1...v2.23.2)
+
+### Chores
+
+* **internal:** unconfigure MCP Server hosting ([d163b06](https://github.com/dodopayments/dodopayments-typescript/commit/d163b066d46c0854b13f01e9e93f235ea8d63bd5))
+
 ## 2.23.1 (2026-03-06)
 
 Full Changelog: [v2.23.0...v2.23.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.23.0...v2.23.1)
