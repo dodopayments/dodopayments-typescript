@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.23.3 (2026-03-07)
+
+Full Changelog: [v2.23.2...v2.23.3](https://github.com/dodopayments/dodopayments-typescript/compare/v2.23.2...v2.23.3)
+
+### Bug Fixes
+
+* **client:** preserve URL params already embedded in path ([470059b](https://github.com/dodopayments/dodopayments-typescript/commit/470059b31d6e0204861dab46ebe58ebec0aadc45))
+
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([cd1fbdd](https://github.com/dodopayments/dodopayments-typescript/commit/cd1fbdda039c28a930b6a9c5c233a0b933093de1))
+* **mcp-server:** improve instructions ([de8e2f6](https://github.com/dodopayments/dodopayments-typescript/commit/de8e2f6a00a7299d29150521726d72a1f3ed63e0))
+
 ## 2.23.2 (2026-03-06)
 
 Full Changelog: [v2.23.1...v2.23.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.23.1...v2.23.2)
