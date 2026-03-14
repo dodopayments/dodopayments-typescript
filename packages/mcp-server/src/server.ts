@@ -21,7 +21,7 @@ export const newMcpServer = async (stainlessApiKey: string | undefined) =>
   new McpServer(
     {
       name: 'dodopayments_api',
-      version: '2.23.2',
+      version: '2.23.3',
     },
     {
       instructions: await getInstructions(stainlessApiKey),
@@ -38,6 +38,7 @@ export async function initMcpServer(params: {
   clientOptions?: ClientOptions;
   mcpOptions?: McpOptions;
   stainlessApiKey?: string | undefined;
+  upstreamClientEnvs?: Record<string, string> | undefined;
 }) {
   const server = params.server instanceof McpServer ? params.server.server : params.server;
 
@@ -120,6 +121,7 @@ export async function initMcpServer(params: {
       reqContext: {
         client,
         stainlessApiKey: params.stainlessApiKey ?? params.mcpOptions?.stainlessApiKey,
+        upstreamClientEnvs: params.upstreamClientEnvs,
       },
       args,
     });

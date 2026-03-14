@@ -1,6 +1,6 @@
 {
   "name": "dodopayments",
-  "version": "2.23.2",
+  "version": "2.23.3",
   "description": "The official TypeScript library for the Dodo Payments API",
   "author": "Dodo Payments <support@dodopayments.com>",
   "types": "dist/index.d.ts",
@@ -54,6 +54,17 @@
   },
   "bin": {
     "dodopayments": "bin/cli"
+  },
+  "overrides": {
+    "minimatch": "^9.0.5"
+  },
+  "pnpm": {
+    "overrides": {
+      "minimatch": "^9.0.5"
+    }
+  },
+  "resolutions": {
+    "minimatch": "^9.0.5"
   },
   "exports": {
     ".": {
