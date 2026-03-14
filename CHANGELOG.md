@@ -1,5 +1,24 @@
 # Changelog
 
+## 2.23.3 (2026-03-14)
+
+Full Changelog: [v2.23.2...v2.23.3](https://github.com/dodopayments/dodopayments-typescript/compare/v2.23.2...v2.23.3)
+
+### Bug Fixes
+
+* **client:** preserve URL params already embedded in path ([470059b](https://github.com/dodopayments/dodopayments-typescript/commit/470059b31d6e0204861dab46ebe58ebec0aadc45))
+
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([cd1fbdd](https://github.com/dodopayments/dodopayments-typescript/commit/cd1fbdda039c28a930b6a9c5c233a0b933093de1))
+* **internal:** bump @modelcontextprotocol/sdk, @hono/node-server, and minimatch ([bdf7816](https://github.com/dodopayments/dodopayments-typescript/commit/bdf78160c4bedbd6366d94e081ec74b264ad8821))
+* **internal:** make generated MCP servers compatible with Cloudflare worker environments ([c90ff84](https://github.com/dodopayments/dodopayments-typescript/commit/c90ff8482a58ef344c9096e81414ef1de115f5a1))
+* **internal:** support x-stainless-mcp-client-envs header in MCP servers ([85cc625](https://github.com/dodopayments/dodopayments-typescript/commit/85cc6253a8e751aaeb2119d533e9dcf3a4157831))
+* **internal:** update dependencies to address dependabot vulnerabilities ([86cf9d0](https://github.com/dodopayments/dodopayments-typescript/commit/86cf9d0fbf0c394c5cc5f33cfe2b7bcad507c2d1))
+* **mcp-server:** improve instructions ([de8e2f6](https://github.com/dodopayments/dodopayments-typescript/commit/de8e2f6a00a7299d29150521726d72a1f3ed63e0))
+* use proper capitalization for WebSockets ([221ea23](https://github.com/dodopayments/dodopayments-typescript/commit/221ea2338f2562840c95acf561d90b3c7567687b))
+
 ## 2.23.2 (2026-03-06)
 
 Full Changelog: [v2.23.1...v2.23.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.23.1...v2.23.2)
