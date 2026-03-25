@@ -58,6 +58,7 @@ export {
   type CustomerCreateParams,
   type CustomerUpdateParams,
   type CustomerListParams,
+  type CustomerDeletePaymentMethodParams,
   type CustomersDefaultPageNumberPagination,
 } from './customers/customers';
 export {

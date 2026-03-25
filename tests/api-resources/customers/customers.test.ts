@@ -78,6 +78,25 @@ describe('resource customers', () => {
     ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
+  test('deletePaymentMethod: only required params', async () => {
+    const responsePromise = client.customers.deletePaymentMethod('payment_method_id', {
+      customer_id: 'customer_id',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('deletePaymentMethod: required and optional params', async () => {
+    const response = await client.customers.deletePaymentMethod('payment_method_id', {
+      customer_id: 'customer_id',
+    });
+  });
+
   test('listCreditEntitlements', async () => {
     const responsePromise = client.customers.listCreditEntitlements('customer_id');
     const rawResponse = await responsePromise.asResponse();

@@ -54,6 +54,7 @@ client.parents.children.retrieve('c_456', { parent_id: 'p_123' });
 
 This affects the following methods:
 
+- `client.customers.deletePaymentMethod()`
 - `client.creditEntitlements.balances.retrieve()`
 - `client.creditEntitlements.balances.createLedgerEntry()`
 - `client.creditEntitlements.balances.listGrants()`
