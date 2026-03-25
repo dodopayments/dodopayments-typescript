@@ -45,6 +45,13 @@ export class Subscriptions extends APIResource {
     });
   }
 
+  cancelChangePlan(subscriptionID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.delete(path`/subscriptions/${subscriptionID}/change-plan/scheduled`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
+  }
+
   changePlan(
     subscriptionID: string,
     body: SubscriptionChangePlanParams,
