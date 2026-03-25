@@ -75,9 +75,9 @@ export interface CheckoutSessionCustomization {
   /**
    * Theme of the page (determines which mode - light/dark/system - to use)
    *
-   * Default is `System`.
+   * If not provided, uses the business-configured theme from business_themes table.
    */
-  theme?: 'dark' | 'light' | 'system';
+  theme?: 'dark' | 'light' | 'system' | null;
 
   /**
    * Optional custom theme configuration with colors for light and dark modes
@@ -168,6 +168,12 @@ export interface CheckoutSessionRequest {
    * This field is ingored if adaptive pricing is disabled
    */
   billing_currency?: MiscAPI.Currency | null;
+
+  /**
+   * The URL to redirect the customer if they cancel or go back from the checkout. If
+   * not provided, the back button will not be displayed.
+   */
+  cancel_url?: string | null;
 
   /**
    * If confirm is true, all the details will be finalized. If required data is
@@ -784,6 +790,12 @@ export interface CheckoutSessionCreateParams {
   billing_currency?: MiscAPI.Currency | null;
 
   /**
+   * The URL to redirect the customer if they cancel or go back from the checkout. If
+   * not provided, the back button will not be displayed.
+   */
+  cancel_url?: string | null;
+
+  /**
    * If confirm is true, all the details will be finalized. If required data is
    * missing, an API error is thrown.
    */
@@ -882,6 +894,12 @@ export interface CheckoutSessionPreviewParams {
    * This field is ingored if adaptive pricing is disabled
    */
   billing_currency?: MiscAPI.Currency | null;
+
+  /**
+   * The URL to redirect the customer if they cancel or go back from the checkout. If
+   * not provided, the back button will not be displayed.
+   */
+  cancel_url?: string | null;
 
   /**
    * If confirm is true, all the details will be finalized. If required data is

@@ -24,7 +24,7 @@ describe('resource customerPortal', () => {
     await expect(
       client.customers.customerPortal.create(
         'customer_id',
-        { send_email: true },
+        { return_url: 'return_url', send_email: true },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(DodoPayments.NotFoundError);

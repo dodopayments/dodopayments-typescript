@@ -12,15 +12,21 @@ export class CustomerPortal extends APIResource {
     params: CustomerPortalCreateParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<CustomersAPI.CustomerPortalSession> {
-    const { send_email } = params ?? {};
+    const { return_url, send_email } = params ?? {};
     return this._client.post(path`/customers/${customerID}/customer-portal/session`, {
-      query: { send_email },
+      query: { return_url, send_email },
       ...options,
     });
   }
 }
 
 export interface CustomerPortalCreateParams {
+  /**
+   * Optional return URL for this session. Overrides the business-level default. This
+   * URL will be shown as a "Return to {business}" back button in the portal.
+   */
+  return_url?: string;
+
   /**
    * If true, will send link to user.
    */
