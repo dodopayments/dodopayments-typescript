@@ -134,6 +134,7 @@ const fuse = new Fuse(
     'client.licenseKeyInstances.retrieve',
     'client.licenseKeyInstances.update',
     'client.customers.create',
+    'client.customers.deletePaymentMethod',
     'client.customers.list',
     'client.customers.listCreditEntitlements',
     'client.customers.retrieve',

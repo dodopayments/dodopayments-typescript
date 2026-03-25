@@ -73,6 +73,11 @@ export interface Dispute {
   payment_id: string;
 
   /**
+   * Whether the dispute was resolved by Rapid Dispute Resolution
+   */
+  is_resolved_by_rdr?: boolean | null;
+
+  /**
    * Remarks
    */
   remarks?: string | null;
@@ -137,6 +142,11 @@ export interface GetDispute {
   payment_id: string;
 
   /**
+   * Whether the dispute was resolved by Rapid Dispute Resolution
+   */
+  is_resolved_by_rdr?: boolean | null;
+
+  /**
    * Reason for the dispute
    */
   reason?: string | null;
@@ -188,6 +198,11 @@ export interface DisputeListResponse {
    * The unique identifier of the payment associated with the dispute.
    */
   payment_id: string;
+
+  /**
+   * Whether the dispute was resolved by Rapid Dispute Resolution
+   */
+  is_resolved_by_rdr?: boolean | null;
 }
 
 export interface DisputeListParams extends DefaultPageNumberPaginationParams {

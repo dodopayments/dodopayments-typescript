@@ -10,6 +10,7 @@ export {
   type CustomerCreateParams,
   type CustomerUpdateParams,
   type CustomerListParams,
+  type CustomerDeletePaymentMethodParams,
   type CustomersDefaultPageNumberPagination,
 } from './customers';
 export { Wallets, type CustomerWallet, type WalletListResponse } from './wallets/index';

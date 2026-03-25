@@ -206,6 +206,7 @@ import {
 import {
   Customer,
   CustomerCreateParams,
+  CustomerDeletePaymentMethodParams,
   CustomerListCreditEntitlementsResponse,
   CustomerListParams,
   CustomerPortalSession,
@@ -1206,6 +1207,7 @@ export declare namespace DodoPayments {
     type CustomerCreateParams as CustomerCreateParams,
     type CustomerUpdateParams as CustomerUpdateParams,
     type CustomerListParams as CustomerListParams,
+    type CustomerDeletePaymentMethodParams as CustomerDeletePaymentMethodParams,
   };
 
   export {

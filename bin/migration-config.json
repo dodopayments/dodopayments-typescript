@@ -4,6 +4,39 @@
   "clientClass": "DodoPayments",
   "methods": [
     {
+      "base": "customers",
+      "name": "deletePaymentMethod",
+      "params": [
+        {
+          "type": "param",
+          "key": "payment_method_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "customer_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "payment_method_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
       "base": "creditEntitlements.balances",
       "name": "retrieve",
       "params": [
