@@ -141,6 +141,7 @@ describe('resource subscriptions', () => {
       quantity: 0,
       addons: [{ addon_id: 'addon_id', quantity: 0 }],
       discount_code: 'discount_code',
+      effective_at: 'immediately',
       metadata: { foo: 'string' },
       on_payment_failure: 'prevent_change',
     });
@@ -190,6 +191,7 @@ describe('resource subscriptions', () => {
       quantity: 0,
       addons: [{ addon_id: 'addon_id', quantity: 0 }],
       discount_code: 'discount_code',
+      effective_at: 'immediately',
       metadata: { foo: 'string' },
       on_payment_failure: 'prevent_change',
     });

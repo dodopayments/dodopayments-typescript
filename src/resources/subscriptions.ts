@@ -459,9 +459,80 @@ export interface Subscription {
   payment_method_id?: string | null;
 
   /**
+   * Scheduled plan change details, if any
+   */
+  scheduled_change?: Subscription.ScheduledChange | null;
+
+  /**
    * Tax identifier provided for this subscription (if applicable)
    */
   tax_id?: string | null;
+}
+
+export namespace Subscription {
+  /**
+   * Scheduled plan change details, if any
+   */
+  export interface ScheduledChange {
+    /**
+     * The scheduled plan change ID
+     */
+    id: string;
+
+    /**
+     * Addons included in the scheduled change
+     */
+    addons: Array<ScheduledChange.Addon>;
+
+    /**
+     * When this scheduled change was created
+     */
+    created_at: string;
+
+    /**
+     * When the change will be applied
+     */
+    effective_at: string;
+
+    /**
+     * The product ID the subscription will change to
+     */
+    product_id: string;
+
+    /**
+     * Quantity for the new plan
+     */
+    quantity: number;
+
+    /**
+     * Description of the product being changed to
+     */
+    product_description?: string | null;
+
+    /**
+     * Name of the product being changed to
+     */
+    product_name?: string | null;
+  }
+
+  export namespace ScheduledChange {
+    export interface Addon {
+      /**
+       * The addon ID
+       */
+      addon_id: string;
+
+      /**
+       * Name of the addon
+       */
+      name: string;
+
+      /**
+       * Quantity of the addon
+       */
+      quantity: number;
+    }
+  }
 }
 
 export type SubscriptionStatus = 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired';
@@ -477,7 +548,11 @@ export interface UpdateSubscriptionPlanReq {
   /**
    * Proration Billing Mode
    */
-  proration_billing_mode: 'prorated_immediately' | 'full_immediately' | 'difference_immediately';
+  proration_billing_mode:
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill';
 
   /**
    * Number of units to subscribe for. Must be at least 1.
@@ -497,6 +572,14 @@ export interface UpdateSubscriptionPlanReq {
    * discount will be preserved (if applicable to the new product).
    */
   discount_code?: string | null;
+
+  /**
+   * When to apply the plan change.
+   *
+   * - `immediately` (default): Apply the plan change right away
+   * - `next_billing_date`: Schedule the change for the next billing date
+   */
+  effective_at?: 'immediately' | 'next_billing_date';
 
   /**
    * Metadata for the payment. If not passed, the metadata of the subscription will
@@ -707,9 +790,80 @@ export interface SubscriptionListResponse {
   product_name?: string | null;
 
   /**
+   * Scheduled plan change details, if any
+   */
+  scheduled_change?: SubscriptionListResponse.ScheduledChange | null;
+
+  /**
    * Tax identifier provided for this subscription (if applicable)
    */
   tax_id?: string | null;
+}
+
+export namespace SubscriptionListResponse {
+  /**
+   * Scheduled plan change details, if any
+   */
+  export interface ScheduledChange {
+    /**
+     * The scheduled plan change ID
+     */
+    id: string;
+
+    /**
+     * Addons included in the scheduled change
+     */
+    addons: Array<ScheduledChange.Addon>;
+
+    /**
+     * When this scheduled change was created
+     */
+    created_at: string;
+
+    /**
+     * When the change will be applied
+     */
+    effective_at: string;
+
+    /**
+     * The product ID the subscription will change to
+     */
+    product_id: string;
+
+    /**
+     * Quantity for the new plan
+     */
+    quantity: number;
+
+    /**
+     * Description of the product being changed to
+     */
+    product_description?: string | null;
+
+    /**
+     * Name of the product being changed to
+     */
+    product_name?: string | null;
+  }
+
+  export namespace ScheduledChange {
+    export interface Addon {
+      /**
+       * The addon ID
+       */
+      addon_id: string;
+
+      /**
+       * Name of the addon
+       */
+      name: string;
+
+      /**
+       * Quantity of the addon
+       */
+      quantity: number;
+    }
+  }
 }
 
 export interface SubscriptionChargeResponse {
@@ -727,6 +881,11 @@ export interface SubscriptionPreviewChangePlanResponse {
 
 export namespace SubscriptionPreviewChangePlanResponse {
   export interface ImmediateCharge {
+    /**
+     * When the plan change will be effective
+     */
+    effective_at: string;
+
     line_items: Array<ImmediateCharge.Subscription | ImmediateCharge.Addon | ImmediateCharge.Meter>;
 
     summary: ImmediateCharge.Summary;
@@ -1188,7 +1347,11 @@ export interface SubscriptionChangePlanParams {
   /**
    * Proration Billing Mode
    */
-  proration_billing_mode: 'prorated_immediately' | 'full_immediately' | 'difference_immediately';
+  proration_billing_mode:
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill';
 
   /**
    * Number of units to subscribe for. Must be at least 1.
@@ -1208,6 +1371,14 @@ export interface SubscriptionChangePlanParams {
    * discount will be preserved (if applicable to the new product).
    */
   discount_code?: string | null;
+
+  /**
+   * When to apply the plan change.
+   *
+   * - `immediately` (default): Apply the plan change right away
+   * - `next_billing_date`: Schedule the change for the next billing date
+   */
+  effective_at?: 'immediately' | 'next_billing_date';
 
   /**
    * Metadata for the payment. If not passed, the metadata of the subscription will
@@ -1291,7 +1462,11 @@ export interface SubscriptionPreviewChangePlanParams {
   /**
    * Proration Billing Mode
    */
-  proration_billing_mode: 'prorated_immediately' | 'full_immediately' | 'difference_immediately';
+  proration_billing_mode:
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill';
 
   /**
    * Number of units to subscribe for. Must be at least 1.
@@ -1311,6 +1486,14 @@ export interface SubscriptionPreviewChangePlanParams {
    * discount will be preserved (if applicable to the new product).
    */
   discount_code?: string | null;
+
+  /**
+   * When to apply the plan change.
+   *
+   * - `immediately` (default): Apply the plan change right away
+   * - `next_billing_date`: Schedule the change for the next billing date
+   */
+  effective_at?: 'immediately' | 'next_billing_date';
 
   /**
    * Metadata for the payment. If not passed, the metadata of the subscription will

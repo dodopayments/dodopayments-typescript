@@ -364,6 +364,11 @@ export interface Payment {
   updated_at?: string | null;
 }
 
+/**
+ * All supported payment method types (from Hyperswitch).
+ *
+ * Used for disabled-payment-methods filtering and validation.
+ */
 export type PaymentMethodTypes =
   | 'ach'
   | 'affirm'

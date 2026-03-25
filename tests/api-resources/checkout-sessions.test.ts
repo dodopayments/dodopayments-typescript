@@ -40,6 +40,7 @@ describe('resource checkoutSessions', () => {
         zipcode: 'zipcode',
       },
       billing_currency: 'AED',
+      cancel_url: 'cancel_url',
       confirm: true,
       custom_fields: [
         {
@@ -184,6 +185,7 @@ describe('resource checkoutSessions', () => {
         zipcode: 'zipcode',
       },
       billing_currency: 'AED',
+      cancel_url: 'cancel_url',
       confirm: true,
       custom_fields: [
         {
