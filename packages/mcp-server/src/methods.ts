@@ -209,6 +209,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/customers',
   },
   {
+    clientCallName: 'client.customers.deletePaymentMethod',
+    fullyQualifiedName: 'customers.deletePaymentMethod',
+    httpMethod: 'delete',
+    httpPath: '/customers/{customer_id}/payment-methods/{payment_method_id}',
+  },
+  {
     clientCallName: 'client.customers.listCreditEntitlements',
     fullyQualifiedName: 'customers.listCreditEntitlements',
     httpMethod: 'get',

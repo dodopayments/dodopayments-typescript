@@ -13,6 +13,7 @@ import {
   type DefaultPageNumberPaginationParams,
   PagePromise,
 } from '../../core/pagination';
+import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
@@ -39,6 +40,18 @@ export class Customers extends APIResource {
     return this._client.getAPIList('/customers', DefaultPageNumberPagination<Customer>, {
       query,
       ...options,
+    });
+  }
+
+  deletePaymentMethod(
+    paymentMethodID: string,
+    params: CustomerDeletePaymentMethodParams,
+    options?: RequestOptions,
+  ): APIPromise<void> {
+    const { customer_id } = params;
+    return this._client.delete(path`/customers/${customer_id}/payment-methods/${paymentMethodID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
@@ -235,6 +248,13 @@ export interface CustomerListParams extends DefaultPageNumberPaginationParams {
   name?: string;
 }
 
+export interface CustomerDeletePaymentMethodParams {
+  /**
+   * Customer Id
+   */
+  customer_id: string;
+}
+
 Customers.CustomerPortal = CustomerPortal;
 Customers.Wallets = Wallets;
 
@@ -248,6 +268,7 @@ export declare namespace Customers {
     type CustomerCreateParams as CustomerCreateParams,
     type CustomerUpdateParams as CustomerUpdateParams,
     type CustomerListParams as CustomerListParams,
+    type CustomerDeletePaymentMethodParams as CustomerDeletePaymentMethodParams,
   };
 
   export { CustomerPortal as CustomerPortal, type CustomerPortalCreateParams as CustomerPortalCreateParams };
