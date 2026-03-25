@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.24.0 (2026-03-25)
+
+Full Changelog: [v2.23.3...v2.24.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.23.3...v2.24.0)
+
+### Features
+
+* **api:** added cancel change plan endpoint ([e8115f2](https://github.com/dodopayments/dodopayments-typescript/commit/e8115f2510533b8182319cfa376660bf988e5c97))
+* **api:** updated openapi spec to 1.92.1 ([4e9d416](https://github.com/dodopayments/dodopayments-typescript/commit/4e9d41612b0bc80bd6061421c1450e477d353519))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([1ae7d95](https://github.com/dodopayments/dodopayments-typescript/commit/1ae7d95d720da0f866eff3a5e3d7f72047842b98))
+* **internal:** fix MCP server TS errors that occur with required client options ([68bacef](https://github.com/dodopayments/dodopayments-typescript/commit/68bacefb5f86f4e3b680fdab912306456b323d8e))
+* **internal:** update gitignore ([8b9d6e8](https://github.com/dodopayments/dodopayments-typescript/commit/8b9d6e83e1cd66d03dcba84e98343ac9d89d7e35))
+* **tests:** bump steady to v0.19.6 ([266ad2e](https://github.com/dodopayments/dodopayments-typescript/commit/266ad2e5bba3e02a8b1111be5382a4c35c1e818a))
+* **tests:** bump steady to v0.19.7 ([35effd0](https://github.com/dodopayments/dodopayments-typescript/commit/35effd07569bcb80ea97da669af7fa266e66314c))
+
 ## 2.23.3 (2026-03-21)
 
 Full Changelog: [v2.23.2...v2.23.3](https://github.com/dodopayments/dodopayments-typescript/compare/v2.23.2...v2.23.3)
