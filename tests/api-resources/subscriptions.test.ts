@@ -119,6 +119,17 @@ describe('resource subscriptions', () => {
     ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
+  test('cancelChangePlan', async () => {
+    const responsePromise = client.subscriptions.cancelChangePlan('subscription_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
   test('changePlan: only required params', async () => {
     const responsePromise = client.subscriptions.changePlan('subscription_id', {
       product_id: 'product_id',
