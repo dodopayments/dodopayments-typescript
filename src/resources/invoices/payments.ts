@@ -15,14 +15,6 @@ export class Payments extends APIResource {
     });
   }
 
-  retrievePayout(payoutID: string, options?: RequestOptions): APIPromise<Response> {
-    return this._client.get(path`/invoices/payouts/${payoutID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: 'application/pdf' }, options?.headers]),
-      __binaryResponse: true,
-    });
-  }
-
   retrieveRefund(refundID: string, options?: RequestOptions): APIPromise<Response> {
     return this._client.get(path`/invoices/refunds/${refundID}`, {
       ...options,

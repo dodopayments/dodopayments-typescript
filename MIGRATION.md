@@ -58,11 +58,6 @@ This affects the following methods:
 - `client.creditEntitlements.balances.createLedgerEntry()`
 - `client.creditEntitlements.balances.listGrants()`
 - `client.creditEntitlements.balances.listLedger()`
-- `client.productCollections.groups.update()`
-- `client.productCollections.groups.delete()`
-- `client.productCollections.groups.items.create()`
-- `client.productCollections.groups.items.update()`
-- `client.productCollections.groups.items.delete()`
 
 ### URI encoded path parameters
 
@@ -117,8 +112,6 @@ client.example.list(undefined, { headers: { ... } });
 - `client.balances.retrieveLedger()`
 - `client.creditEntitlements.list()`
 - `client.creditEntitlements.balances.list()`
-- `client.productCollections.list()`
-- `client.productCollections.updateImages()`
 
 </details>
 

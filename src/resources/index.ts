@@ -151,19 +151,6 @@ export {
   type PayoutListResponsesDefaultPageNumberPagination,
 } from './payouts';
 export {
-  ProductCollections,
-  type ProductCollectionCreateResponse,
-  type ProductCollectionRetrieveResponse,
-  type ProductCollectionListResponse,
-  type ProductCollectionUnarchiveResponse,
-  type ProductCollectionUpdateImagesResponse,
-  type ProductCollectionCreateParams,
-  type ProductCollectionUpdateParams,
-  type ProductCollectionListParams,
-  type ProductCollectionUpdateImagesParams,
-  type ProductCollectionListResponsesDefaultPageNumberPagination,
-} from './product-collections/product-collections';
-export {
   Products,
   type AddMeterToPrice,
   type AttachCreditEntitlement,
@@ -270,4 +257,3 @@ export {
   type WebhookListParams,
   type WebhookDetailsCursorPagePagination,
 } from './webhooks/webhooks';
-export { YourWebhookURL, type YourWebhookURLCreateParams } from './your-webhook-url';

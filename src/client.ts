@@ -194,7 +194,6 @@ import {
   UsageEvents,
 } from './resources/usage-events';
 import { WebhookEventType, WebhookEvents, WebhookPayload } from './resources/webhook-events';
-import { YourWebhookURL, YourWebhookURLCreateParams } from './resources/your-webhook-url';
 import {
   CbbOverageBehavior,
   CreditEntitlement,
@@ -216,19 +215,6 @@ import {
   CustomersDefaultPageNumberPagination,
 } from './resources/customers/customers';
 import { Invoices } from './resources/invoices/invoices';
-import {
-  ProductCollectionCreateParams,
-  ProductCollectionCreateResponse,
-  ProductCollectionListParams,
-  ProductCollectionListResponse,
-  ProductCollectionListResponsesDefaultPageNumberPagination,
-  ProductCollectionRetrieveResponse,
-  ProductCollectionUnarchiveResponse,
-  ProductCollectionUpdateImagesParams,
-  ProductCollectionUpdateImagesResponse,
-  ProductCollectionUpdateParams,
-  ProductCollections,
-} from './resources/product-collections/product-collections';
 import {
   AddMeterToPrice,
   AttachCreditEntitlement,
@@ -1070,8 +1056,6 @@ export class DodoPayments {
   meters: API.Meters = new API.Meters(this);
   balances: API.Balances = new API.Balances(this);
   creditEntitlements: API.CreditEntitlements = new API.CreditEntitlements(this);
-  productCollections: API.ProductCollections = new API.ProductCollections(this);
-  yourWebhookURL: API.YourWebhookURL = new API.YourWebhookURL(this);
 }
 
 DodoPayments.CheckoutSessions = CheckoutSessions;
@@ -1096,8 +1080,6 @@ DodoPayments.UsageEvents = UsageEvents;
 DodoPayments.Meters = Meters;
 DodoPayments.Balances = Balances;
 DodoPayments.CreditEntitlements = CreditEntitlements;
-DodoPayments.ProductCollections = ProductCollections;
-DodoPayments.YourWebhookURL = YourWebhookURL;
 
 export declare namespace DodoPayments {
   export type RequestOptions = Opts.RequestOptions;
@@ -1395,20 +1377,4 @@ export declare namespace DodoPayments {
     type CreditEntitlementUpdateParams as CreditEntitlementUpdateParams,
     type CreditEntitlementListParams as CreditEntitlementListParams,
   };
-
-  export {
-    ProductCollections as ProductCollections,
-    type ProductCollectionCreateResponse as ProductCollectionCreateResponse,
-    type ProductCollectionRetrieveResponse as ProductCollectionRetrieveResponse,
-    type ProductCollectionListResponse as ProductCollectionListResponse,
-    type ProductCollectionUnarchiveResponse as ProductCollectionUnarchiveResponse,
-    type ProductCollectionUpdateImagesResponse as ProductCollectionUpdateImagesResponse,
-    type ProductCollectionListResponsesDefaultPageNumberPagination as ProductCollectionListResponsesDefaultPageNumberPagination,
-    type ProductCollectionCreateParams as ProductCollectionCreateParams,
-    type ProductCollectionUpdateParams as ProductCollectionUpdateParams,
-    type ProductCollectionListParams as ProductCollectionListParams,
-    type ProductCollectionUpdateImagesParams as ProductCollectionUpdateImagesParams,
-  };
-
-  export { YourWebhookURL as YourWebhookURL, type YourWebhookURLCreateParams as YourWebhookURLCreateParams };
 }
