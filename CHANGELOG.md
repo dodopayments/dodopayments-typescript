@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.25.1 (2026-03-27)
+
+Full Changelog: [v2.25.0...v2.25.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.25.0...v2.25.1)
+
+### Bug Fixes
+
+* **mcp:** bump agents version in cloudflare worker MCP servers ([075d888](https://github.com/dodopayments/dodopayments-typescript/commit/075d88892ecba12863c3bd49b620b6aa4560a774))
+
+
+### Chores
+
+* **internal:** support custom-instructions-path flag in MCP servers ([424ca7c](https://github.com/dodopayments/dodopayments-typescript/commit/424ca7cb1816961633b6347f1373ab6dbc0593f8))
+* **internal:** update multipart form array serialization ([1caf3e6](https://github.com/dodopayments/dodopayments-typescript/commit/1caf3e62961f303fb91f39c1c25b846bdb11a7a2))
+
 ## 2.25.0 (2026-03-25)
 
 Full Changelog: [v2.24.0...v2.25.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.24.0...v2.25.0)
