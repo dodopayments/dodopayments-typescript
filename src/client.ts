@@ -147,12 +147,6 @@ import {
   Payments,
   RefundListItem,
 } from './resources/payments';
-import {
-  PayoutListParams,
-  PayoutListResponse,
-  PayoutListResponsesDefaultPageNumberPagination,
-  Payouts,
-} from './resources/payouts';
 import { Refund, RefundCreateParams, RefundListParams, RefundStatus, Refunds } from './resources/refunds';
 import {
   AddonCartResponseItem,
@@ -217,6 +211,12 @@ import {
 } from './resources/customers/customers';
 import { Invoices } from './resources/invoices/invoices';
 import {
+  PayoutListParams,
+  PayoutListResponse,
+  PayoutListResponsesDefaultPageNumberPagination,
+  Payouts,
+} from './resources/payouts/payouts';
+import {
   AddMeterToPrice,
   AttachCreditEntitlement,
   CbbProrationBehavior,
@@ -236,6 +236,8 @@ import {
   Products,
 } from './resources/products/products';
 import {
+  AbandonedCheckoutDetectedWebhookEvent,
+  AbandonedCheckoutRecoveredWebhookEvent,
   CreditAddedWebhookEvent,
   CreditBalanceLowWebhookEvent,
   CreditDeductedWebhookEvent,
@@ -251,6 +253,8 @@ import {
   DisputeLostWebhookEvent,
   DisputeOpenedWebhookEvent,
   DisputeWonWebhookEvent,
+  DunningRecoveredWebhookEvent,
+  DunningStartedWebhookEvent,
   LicenseKeyCreatedWebhookEvent,
   PaymentCancelledWebhookEvent,
   PaymentFailedWebhookEvent,
@@ -1297,6 +1301,8 @@ export declare namespace DodoPayments {
     Webhooks as Webhooks,
     type WebhookDetails as WebhookDetails,
     type WebhookRetrieveSecretResponse as WebhookRetrieveSecretResponse,
+    type AbandonedCheckoutDetectedWebhookEvent as AbandonedCheckoutDetectedWebhookEvent,
+    type AbandonedCheckoutRecoveredWebhookEvent as AbandonedCheckoutRecoveredWebhookEvent,
     type CreditAddedWebhookEvent as CreditAddedWebhookEvent,
     type CreditBalanceLowWebhookEvent as CreditBalanceLowWebhookEvent,
     type CreditDeductedWebhookEvent as CreditDeductedWebhookEvent,
@@ -1312,6 +1318,8 @@ export declare namespace DodoPayments {
     type DisputeLostWebhookEvent as DisputeLostWebhookEvent,
     type DisputeOpenedWebhookEvent as DisputeOpenedWebhookEvent,
     type DisputeWonWebhookEvent as DisputeWonWebhookEvent,
+    type DunningRecoveredWebhookEvent as DunningRecoveredWebhookEvent,
+    type DunningStartedWebhookEvent as DunningStartedWebhookEvent,
     type LicenseKeyCreatedWebhookEvent as LicenseKeyCreatedWebhookEvent,
     type PaymentCancelledWebhookEvent as PaymentCancelledWebhookEvent,
     type PaymentFailedWebhookEvent as PaymentFailedWebhookEvent,

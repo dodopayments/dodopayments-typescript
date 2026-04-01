@@ -102,6 +102,7 @@ client.example.list(undefined, { headers: { ... } });
 - `client.refunds.list()`
 - `client.disputes.list()`
 - `client.payouts.list()`
+- `client.payouts.breakup.details.list()`
 - `client.products.list()`
 - `client.products.images.update()`
 - `client.products.shortLinks.list()`

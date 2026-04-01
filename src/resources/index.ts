@@ -150,7 +150,7 @@ export {
   type PayoutListResponse,
   type PayoutListParams,
   type PayoutListResponsesDefaultPageNumberPagination,
-} from './payouts';
+} from './payouts/payouts';
 export {
   Products,
   type AddMeterToPrice,
@@ -221,6 +221,8 @@ export {
   Webhooks,
   type WebhookDetails,
   type WebhookRetrieveSecretResponse,
+  type AbandonedCheckoutDetectedWebhookEvent,
+  type AbandonedCheckoutRecoveredWebhookEvent,
   type CreditAddedWebhookEvent,
   type CreditBalanceLowWebhookEvent,
   type CreditDeductedWebhookEvent,
@@ -236,6 +238,8 @@ export {
   type DisputeLostWebhookEvent,
   type DisputeOpenedWebhookEvent,
   type DisputeWonWebhookEvent,
+  type DunningRecoveredWebhookEvent,
+  type DunningStartedWebhookEvent,
   type LicenseKeyCreatedWebhookEvent,
   type PaymentCancelledWebhookEvent,
   type PaymentFailedWebhookEvent,

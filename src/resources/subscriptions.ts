@@ -1265,6 +1265,12 @@ export interface SubscriptionUpdateParams {
    */
   cancel_at_next_billing_date?: boolean | null;
 
+  cancel_reason?:
+    | 'cancelled_by_customer'
+    | 'cancelled_by_merchant'
+    | 'cancelled_by_merchant_send_dunning'
+    | null;
+
   /**
    * Update credit entitlement cart settings
    */
