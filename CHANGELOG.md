@@ -1,5 +1,24 @@
 # Changelog
 
+## 2.26.0 (2026-04-01)
+
+Full Changelog: [v2.25.1...v2.26.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.25.1...v2.26.0)
+
+### Features
+
+* **api:** updated openapi spec to v1.93.0 ([bbf86ae](https://github.com/dodopayments/dodopayments-typescript/commit/bbf86ae841233feee2e40cd9c9d724ebcf9d63ee))
+
+
+### Chores
+
+* **ci:** escape input path in publish-npm workflow ([0c3c637](https://github.com/dodopayments/dodopayments-typescript/commit/0c3c637424107ab345ce0c02e923561bcba99d16))
+* **internal:** improve local docs search for MCP servers ([8f3310a](https://github.com/dodopayments/dodopayments-typescript/commit/8f3310ad527cc34dbd1496f584c69d7f5be9e906))
+* **internal:** improve local docs search for MCP servers ([f7816c8](https://github.com/dodopayments/dodopayments-typescript/commit/f7816c822df4f84c7d5af27392c51867a75c842c))
+* **internal:** support local docs search in MCP servers ([cfdb5ae](https://github.com/dodopayments/dodopayments-typescript/commit/cfdb5ae93cf1582c0a2cd63f39c1e34de6ed7f4d))
+* **mcp-server:** add support for session id, forward client info ([2798002](https://github.com/dodopayments/dodopayments-typescript/commit/2798002ff2b12e7f0c2bb0f4d186323beb9499b6))
+* **tests:** bump steady to v0.20.1 ([b122aeb](https://github.com/dodopayments/dodopayments-typescript/commit/b122aeb04c962b773588ddf5e27568a3a13a99e5))
+* **tests:** bump steady to v0.20.2 ([edadf5f](https://github.com/dodopayments/dodopayments-typescript/commit/edadf5f0bc680b65e4edb8c9576d893dbbbe4bfa))
+
 ## 2.25.1 (2026-03-27)
 
 Full Changelog: [v2.25.0...v2.25.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.25.0...v2.25.1)
