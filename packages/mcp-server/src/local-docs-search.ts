@@ -709,6 +709,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'subscription_id: string;',
       'billing?: { country: string; city?: string; state?: string; street?: string; zipcode?: string; };',
       'cancel_at_next_billing_date?: boolean;',
+      "cancel_reason?: 'cancelled_by_customer' | 'cancelled_by_merchant' | 'cancelled_by_merchant_send_dunning';",
       "credit_entitlement_cart?: { credit_entitlement_id: string; credits_amount?: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_enabled?: boolean; overage_limit?: string; rollover_enabled?: boolean; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; }[];",
       'customer_name?: string;',
       'disable_on_demand?: { next_billing_date: string; };',
@@ -720,7 +721,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     response:
       "{ addons: object[]; billing: object; cancel_at_next_billing_date: boolean; created_at: string; credit_entitlement_cart: object[]; currency: string; customer: object; metadata: object; meter_credit_entitlement_cart: object[]; meters: object[]; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired'; subscription_id: string; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; tax_inclusive: boolean; trial_period_days: number; cancelled_at?: string; custom_field_responses?: object[]; discount_cycles_remaining?: number; discount_id?: string; expires_at?: string; payment_method_id?: string; scheduled_change?: { id: string; addons: object[]; created_at: string; effective_at: string; product_id: string; quantity: number; product_description?: string; product_name?: string; }; tax_id?: string; }",
     markdown:
-      "## update\n\n`client.subscriptions.update(subscription_id: string, billing?: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }, cancel_at_next_billing_date?: boolean, credit_entitlement_cart?: { credit_entitlement_id: string; credits_amount?: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_enabled?: boolean; overage_limit?: string; rollover_enabled?: boolean; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; }[], customer_name?: string, disable_on_demand?: { next_billing_date: string; }, metadata?: object, next_billing_date?: string, status?: 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired', tax_id?: string): { addons: addon_cart_response_item[]; billing: billing_address; cancel_at_next_billing_date: boolean; created_at: string; credit_entitlement_cart: credit_entitlement_cart_response[]; currency: currency; customer: customer_limited_details; metadata: object; meter_credit_entitlement_cart: meter_credit_entitlement_cart_response[]; meters: meter_cart_response_item[]; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: time_interval; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: subscription_status; subscription_id: string; subscription_period_count: number; subscription_period_interval: time_interval; tax_inclusive: boolean; trial_period_days: number; cancelled_at?: string; custom_field_responses?: custom_field_response[]; discount_cycles_remaining?: number; discount_id?: string; expires_at?: string; payment_method_id?: string; scheduled_change?: object; tax_id?: string; }`\n\n**patch** `/subscriptions/{subscription_id}`\n\n### Parameters\n\n- `subscription_id: string`\n\n- `billing?: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  - `country: string`\n    Two-letter ISO country code (ISO 3166-1 alpha-2)\n  - `city?: string`\n    City name\n  - `state?: string`\n    State or province name\n  - `street?: string`\n    Street address including house number and unit/apartment if applicable\n  - `zipcode?: string`\n    Postal code or ZIP code\n\n- `cancel_at_next_billing_date?: boolean`\n  When set, the subscription will remain active until the end of billing period\n\n- `credit_entitlement_cart?: { credit_entitlement_id: string; credits_amount?: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_enabled?: boolean; overage_limit?: string; rollover_enabled?: boolean; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; }[]`\n  Update credit entitlement cart settings\n\n- `customer_name?: string`\n\n- `disable_on_demand?: { next_billing_date: string; }`\n  - `next_billing_date: string`\n\n- `metadata?: object`\n\n- `next_billing_date?: string`\n\n- `status?: 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired'`\n\n- `tax_id?: string`\n\n### Returns\n\n- `{ addons: { addon_id: string; quantity: number; }[]; billing: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }; cancel_at_next_billing_date: boolean; created_at: string; credit_entitlement_cart: { credit_entitlement_id: string; credit_entitlement_name: string; credits_amount: string; overage_balance: string; overage_behavior: cbb_overage_behavior; overage_enabled: boolean; product_id: string; remaining_balance: string; rollover_enabled: boolean; unit: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_limit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: time_interval; }[]; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }; metadata: object; meter_credit_entitlement_cart: { credit_entitlement_id: string; meter_id: string; meter_name: string; meter_units_per_credit: string; product_id: string; }[]; meters: { currency: currency; free_threshold: number; measurement_unit: string; meter_id: string; name: string; description?: string; price_per_unit?: string; }[]; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired'; subscription_id: string; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; tax_inclusive: boolean; trial_period_days: number; cancelled_at?: string; custom_field_responses?: { key: string; value: string; }[]; discount_cycles_remaining?: number; discount_id?: string; expires_at?: string; payment_method_id?: string; scheduled_change?: { id: string; addons: { addon_id: string; name: string; quantity: number; }[]; created_at: string; effective_at: string; product_id: string; quantity: number; product_description?: string; product_name?: string; }; tax_id?: string; }`\n  Response struct representing subscription details\n\n  - `addons: { addon_id: string; quantity: number; }[]`\n  - `billing: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  - `cancel_at_next_billing_date: boolean`\n  - `created_at: string`\n  - `credit_entitlement_cart: { credit_entitlement_id: string; credit_entitlement_name: string; credits_amount: string; overage_balance: string; overage_behavior: 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'; overage_enabled: boolean; product_id: string; remaining_balance: string; rollover_enabled: boolean; unit: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_limit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; }[]`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `metadata: object`\n  - `meter_credit_entitlement_cart: { credit_entitlement_id: string; meter_id: string; meter_name: string; meter_units_per_credit: string; product_id: string; }[]`\n  - `meters: { currency: string; free_threshold: number; measurement_unit: string; meter_id: string; name: string; description?: string; price_per_unit?: string; }[]`\n  - `next_billing_date: string`\n  - `on_demand: boolean`\n  - `payment_frequency_count: number`\n  - `payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'`\n  - `previous_billing_date: string`\n  - `product_id: string`\n  - `quantity: number`\n  - `recurring_pre_tax_amount: number`\n  - `status: 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired'`\n  - `subscription_id: string`\n  - `subscription_period_count: number`\n  - `subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'`\n  - `tax_inclusive: boolean`\n  - `trial_period_days: number`\n  - `cancelled_at?: string`\n  - `custom_field_responses?: { key: string; value: string; }[]`\n  - `discount_cycles_remaining?: number`\n  - `discount_id?: string`\n  - `expires_at?: string`\n  - `payment_method_id?: string`\n  - `scheduled_change?: { id: string; addons: { addon_id: string; name: string; quantity: number; }[]; created_at: string; effective_at: string; product_id: string; quantity: number; product_description?: string; product_name?: string; }`\n  - `tax_id?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst subscription = await client.subscriptions.update('subscription_id');\n\nconsole.log(subscription);\n```",
+      "## update\n\n`client.subscriptions.update(subscription_id: string, billing?: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }, cancel_at_next_billing_date?: boolean, cancel_reason?: 'cancelled_by_customer' | 'cancelled_by_merchant' | 'cancelled_by_merchant_send_dunning', credit_entitlement_cart?: { credit_entitlement_id: string; credits_amount?: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_enabled?: boolean; overage_limit?: string; rollover_enabled?: boolean; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; }[], customer_name?: string, disable_on_demand?: { next_billing_date: string; }, metadata?: object, next_billing_date?: string, status?: 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired', tax_id?: string): { addons: addon_cart_response_item[]; billing: billing_address; cancel_at_next_billing_date: boolean; created_at: string; credit_entitlement_cart: credit_entitlement_cart_response[]; currency: currency; customer: customer_limited_details; metadata: object; meter_credit_entitlement_cart: meter_credit_entitlement_cart_response[]; meters: meter_cart_response_item[]; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: time_interval; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: subscription_status; subscription_id: string; subscription_period_count: number; subscription_period_interval: time_interval; tax_inclusive: boolean; trial_period_days: number; cancelled_at?: string; custom_field_responses?: custom_field_response[]; discount_cycles_remaining?: number; discount_id?: string; expires_at?: string; payment_method_id?: string; scheduled_change?: object; tax_id?: string; }`\n\n**patch** `/subscriptions/{subscription_id}`\n\n### Parameters\n\n- `subscription_id: string`\n\n- `billing?: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  - `country: string`\n    Two-letter ISO country code (ISO 3166-1 alpha-2)\n  - `city?: string`\n    City name\n  - `state?: string`\n    State or province name\n  - `street?: string`\n    Street address including house number and unit/apartment if applicable\n  - `zipcode?: string`\n    Postal code or ZIP code\n\n- `cancel_at_next_billing_date?: boolean`\n  When set, the subscription will remain active until the end of billing period\n\n- `cancel_reason?: 'cancelled_by_customer' | 'cancelled_by_merchant' | 'cancelled_by_merchant_send_dunning'`\n\n- `credit_entitlement_cart?: { credit_entitlement_id: string; credits_amount?: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_enabled?: boolean; overage_limit?: string; rollover_enabled?: boolean; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; }[]`\n  Update credit entitlement cart settings\n\n- `customer_name?: string`\n\n- `disable_on_demand?: { next_billing_date: string; }`\n  - `next_billing_date: string`\n\n- `metadata?: object`\n\n- `next_billing_date?: string`\n\n- `status?: 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired'`\n\n- `tax_id?: string`\n\n### Returns\n\n- `{ addons: { addon_id: string; quantity: number; }[]; billing: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }; cancel_at_next_billing_date: boolean; created_at: string; credit_entitlement_cart: { credit_entitlement_id: string; credit_entitlement_name: string; credits_amount: string; overage_balance: string; overage_behavior: cbb_overage_behavior; overage_enabled: boolean; product_id: string; remaining_balance: string; rollover_enabled: boolean; unit: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_limit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: time_interval; }[]; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }; metadata: object; meter_credit_entitlement_cart: { credit_entitlement_id: string; meter_id: string; meter_name: string; meter_units_per_credit: string; product_id: string; }[]; meters: { currency: currency; free_threshold: number; measurement_unit: string; meter_id: string; name: string; description?: string; price_per_unit?: string; }[]; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired'; subscription_id: string; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; tax_inclusive: boolean; trial_period_days: number; cancelled_at?: string; custom_field_responses?: { key: string; value: string; }[]; discount_cycles_remaining?: number; discount_id?: string; expires_at?: string; payment_method_id?: string; scheduled_change?: { id: string; addons: { addon_id: string; name: string; quantity: number; }[]; created_at: string; effective_at: string; product_id: string; quantity: number; product_description?: string; product_name?: string; }; tax_id?: string; }`\n  Response struct representing subscription details\n\n  - `addons: { addon_id: string; quantity: number; }[]`\n  - `billing: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  - `cancel_at_next_billing_date: boolean`\n  - `created_at: string`\n  - `credit_entitlement_cart: { credit_entitlement_id: string; credit_entitlement_name: string; credits_amount: string; overage_balance: string; overage_behavior: 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'; overage_enabled: boolean; product_id: string; remaining_balance: string; rollover_enabled: boolean; unit: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_limit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; }[]`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `metadata: object`\n  - `meter_credit_entitlement_cart: { credit_entitlement_id: string; meter_id: string; meter_name: string; meter_units_per_credit: string; product_id: string; }[]`\n  - `meters: { currency: string; free_threshold: number; measurement_unit: string; meter_id: string; name: string; description?: string; price_per_unit?: string; }[]`\n  - `next_billing_date: string`\n  - `on_demand: boolean`\n  - `payment_frequency_count: number`\n  - `payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'`\n  - `previous_billing_date: string`\n  - `product_id: string`\n  - `quantity: number`\n  - `recurring_pre_tax_amount: number`\n  - `status: 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired'`\n  - `subscription_id: string`\n  - `subscription_period_count: number`\n  - `subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'`\n  - `tax_inclusive: boolean`\n  - `trial_period_days: number`\n  - `cancelled_at?: string`\n  - `custom_field_responses?: { key: string; value: string; }[]`\n  - `discount_cycles_remaining?: number`\n  - `discount_id?: string`\n  - `expires_at?: string`\n  - `payment_method_id?: string`\n  - `scheduled_change?: { id: string; addons: { addon_id: string; name: string; quantity: number; }[]; created_at: string; effective_at: string; product_id: string; quantity: number; product_description?: string; product_name?: string; }`\n  - `tax_id?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst subscription = await client.subscriptions.update('subscription_id');\n\nconsole.log(subscription);\n```",
     perLanguage: {
       cli: {
         method: 'subscriptions update',
@@ -2756,6 +2757,171 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.payouts.list',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const payoutListResponse of client.payouts.list()) {\n  console.log(payoutListResponse.business_id);\n}",
+      },
+    },
+  },
+  {
+    name: 'retrieve',
+    endpoint: '/payouts/{payout_id}/breakup',
+    httpMethod: 'get',
+    summary: '',
+    description:
+      "Returns the breakdown of a payout by event type (payments, refunds, disputes, fees, etc.) in the payout's currency. Each amount is proportionally allocated based on USD equivalent values, ensuring the total sums exactly to the payout amount.",
+    stainlessPath: '(resource) payouts.breakup > (method) retrieve',
+    qualified: 'client.payouts.breakup.retrieve',
+    params: ['payout_id: string;'],
+    response: '{ event_type: string; total: number; }[]',
+    markdown:
+      "## retrieve\n\n`client.payouts.breakup.retrieve(payout_id: string): { event_type: string; total: number; }[]`\n\n**get** `/payouts/{payout_id}/breakup`\n\nReturns the breakdown of a payout by event type (payments, refunds, disputes, fees, etc.) in the payout's currency. Each amount is proportionally allocated based on USD equivalent values, ensuring the total sums exactly to the payout amount.\n\n### Parameters\n\n- `payout_id: string`\n\n### Returns\n\n- `{ event_type: string; total: number; }[]`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst breakups = await client.payouts.breakup.retrieve('payout_id');\n\nconsole.log(breakups);\n```",
+    perLanguage: {
+      cli: {
+        method: 'breakup retrieve',
+        example:
+          "dodo-payments-cli payouts:breakup retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --payout-id payout_id",
+      },
+      go: {
+        method: 'client.Payouts.Breakup.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tbreakups, err := client.Payouts.Breakup.Get(context.TODO(), "payout_id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", breakups)\n}\n',
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/payouts/$PAYOUT_ID/breakup \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      java: {
+        method: 'payouts().breakup().retrieve',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.payouts.breakup.BreakupRetrieveParams;\nimport com.dodopayments.api.models.payouts.breakup.BreakupRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        List<BreakupRetrieveResponse> breakups = client.payouts().breakup().retrieve("payout_id");\n    }\n}',
+      },
+      kotlin: {
+        method: 'payouts().breakup().retrieve',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.payouts.breakup.BreakupRetrieveParams\nimport com.dodopayments.api.models.payouts.breakup.BreakupRetrieveResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val breakups: List<BreakupRetrieveResponse> = client.payouts().breakup().retrieve("payout_id")\n}',
+      },
+      python: {
+        method: 'payouts.breakup.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nbreakups = client.payouts.breakup.retrieve(\n    "payout_id",\n)\nprint(breakups)',
+      },
+      ruby: {
+        method: 'payouts.breakup.retrieve',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nbreakups = dodo_payments.payouts.breakup.retrieve("payout_id")\n\nputs(breakups)',
+      },
+      typescript: {
+        method: 'client.payouts.breakup.retrieve',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst breakups = await client.payouts.breakup.retrieve('payout_id');\n\nconsole.log(breakups);",
+      },
+    },
+  },
+  {
+    name: 'list',
+    endpoint: '/payouts/{payout_id}/breakup/details',
+    httpMethod: 'get',
+    summary: '',
+    description:
+      "Returns paginated individual balance ledger entries for a payout, with each entry's amount pro-rated into the payout's currency. Supports pagination via `page_size` (default 10, max 100) and `page_number` (default 0) query parameters.",
+    stainlessPath: '(resource) payouts.breakup.details > (method) list',
+    qualified: 'client.payouts.breakup.details.list',
+    params: ['payout_id: string;', 'page_number?: number;', 'page_size?: number;'],
+    response:
+      '{ id: string; created_at: string; event_type: string; original_amount: number; original_currency: string; payout_currency_amount: number; usd_equivalent_amount: number; description?: string; reference_object_id?: string; }',
+    markdown:
+      "## list\n\n`client.payouts.breakup.details.list(payout_id: string, page_number?: number, page_size?: number): { id: string; created_at: string; event_type: string; original_amount: number; original_currency: string; payout_currency_amount: number; usd_equivalent_amount: number; description?: string; reference_object_id?: string; }`\n\n**get** `/payouts/{payout_id}/breakup/details`\n\nReturns paginated individual balance ledger entries for a payout, with each entry's amount pro-rated into the payout's currency. Supports pagination via `page_size` (default 10, max 100) and `page_number` (default 0) query parameters.\n\n### Parameters\n\n- `payout_id: string`\n\n- `page_number?: number`\n  Page number (0-indexed). Default: 0.\n\n- `page_size?: number`\n  Number of items per page. Default: 10, Max: 100.\n\n### Returns\n\n- `{ id: string; created_at: string; event_type: string; original_amount: number; original_currency: string; payout_currency_amount: number; usd_equivalent_amount: number; description?: string; reference_object_id?: string; }`\n  Individual balance ledger entry for a payout, with amounts pro-rated into the payout's currency.\n\n  - `id: string`\n  - `created_at: string`\n  - `event_type: string`\n  - `original_amount: number`\n  - `original_currency: string`\n  - `payout_currency_amount: number`\n  - `usd_equivalent_amount: number`\n  - `description?: string`\n  - `reference_object_id?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const detailListResponse of client.payouts.breakup.details.list('payout_id')) {\n  console.log(detailListResponse);\n}\n```",
+    perLanguage: {
+      cli: {
+        method: 'details list',
+        example:
+          "dodo-payments-cli payouts:breakup:details list \\\n  --bearer-token 'My Bearer Token' \\\n  --payout-id payout_id",
+      },
+      go: {
+        method: 'client.Payouts.Breakup.Details.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Payouts.Breakup.Details.List(\n\t\tcontext.TODO(),\n\t\t"payout_id",\n\t\tdodopayments.PayoutBreakupDetailListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/payouts/$PAYOUT_ID/breakup/details \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      java: {
+        method: 'payouts().breakup().details().list',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.payouts.breakup.details.DetailListPage;\nimport com.dodopayments.api.models.payouts.breakup.details.DetailListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        DetailListPage page = client.payouts().breakup().details().list("payout_id");\n    }\n}',
+      },
+      kotlin: {
+        method: 'payouts().breakup().details().list',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.payouts.breakup.details.DetailListPage\nimport com.dodopayments.api.models.payouts.breakup.details.DetailListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: DetailListPage = client.payouts().breakup().details().list("payout_id")\n}',
+      },
+      python: {
+        method: 'payouts.breakup.details.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.payouts.breakup.details.list(\n    payout_id="payout_id",\n)\npage = page.items[0]\nprint(page.id)',
+      },
+      ruby: {
+        method: 'payouts.breakup.details.list',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.payouts.breakup.details.list("payout_id")\n\nputs(page)',
+      },
+      typescript: {
+        method: 'client.payouts.breakup.details.list',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const detailListResponse of client.payouts.breakup.details.list('payout_id')) {\n  console.log(detailListResponse.id);\n}",
+      },
+    },
+  },
+  {
+    name: 'download_csv',
+    endpoint: '/payouts/{payout_id}/breakup/details/csv',
+    httpMethod: 'get',
+    summary: '',
+    description:
+      'Downloads the complete payout breakup as a CSV file. Each row represents a balance ledger entry with columns: Ledger ID, Event Type, Original Amount, Original Currency, Reference Object ID, Description, Created At, USD Equivalent Amount, and Payout Currency Amount.',
+    stainlessPath: '(resource) payouts.breakup.details > (method) download_csv',
+    qualified: 'client.payouts.breakup.details.downloadCsv',
+    params: ['payout_id: string;'],
+    markdown:
+      "## download_csv\n\n`client.payouts.breakup.details.downloadCsv(payout_id: string): void`\n\n**get** `/payouts/{payout_id}/breakup/details/csv`\n\nDownloads the complete payout breakup as a CSV file. Each row represents a balance ledger entry with columns: Ledger ID, Event Type, Original Amount, Original Currency, Reference Object ID, Description, Created At, USD Equivalent Amount, and Payout Currency Amount.\n\n### Parameters\n\n- `payout_id: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nawait client.payouts.breakup.details.downloadCsv('payout_id')\n```",
+    perLanguage: {
+      cli: {
+        method: 'details download_csv',
+        example:
+          "dodo-payments-cli payouts:breakup:details download-csv \\\n  --bearer-token 'My Bearer Token' \\\n  --payout-id payout_id",
+      },
+      go: {
+        method: 'client.Payouts.Breakup.Details.DownloadCsv',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Payouts.Breakup.Details.DownloadCsv(context.TODO(), "payout_id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/payouts/$PAYOUT_ID/breakup/details/csv \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      java: {
+        method: 'payouts().breakup().details().downloadCsv',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.payouts.breakup.details.DetailDownloadCsvParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.payouts().breakup().details().downloadCsv("payout_id");\n    }\n}',
+      },
+      kotlin: {
+        method: 'payouts().breakup().details().downloadCsv',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.payouts.breakup.details.DetailDownloadCsvParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.payouts().breakup().details().downloadCsv("payout_id")\n}',
+      },
+      python: {
+        method: 'payouts.breakup.details.download_csv',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.payouts.breakup.details.download_csv(\n    "payout_id",\n)',
+      },
+      ruby: {
+        method: 'payouts.breakup.details.download_csv',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.payouts.breakup.details.download_csv("payout_id")\n\nputs(result)',
+      },
+      typescript: {
+        method: 'client.payouts.breakup.details.downloadCsv',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.payouts.breakup.details.downloadCsv('payout_id');",
       },
     },
   },

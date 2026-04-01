@@ -52,7 +52,9 @@ export interface BalanceLedgerEntry {
     | 'payout_fees_reversal'
     | 'dodo_credits'
     | 'adjustment'
-    | 'currency_conversion';
+    | 'currency_conversion'
+    | 'abandoned_cart_recovery_fee'
+    | 'dunning_fees';
 
   is_credit: boolean;
 
@@ -249,7 +251,9 @@ export interface BalanceRetrieveLedgerParams extends DefaultPageNumberPagination
     | 'payout_fees_reversal'
     | 'dodo_credits'
     | 'adjustment'
-    | 'currency_conversion';
+    | 'currency_conversion'
+    | 'abandoned_cart_recovery_fee'
+    | 'dunning_fees';
 
   /**
    * Min : 1, Max : 100, default 10

@@ -143,6 +143,92 @@ export interface WebhookRetrieveSecretResponse {
   secret: string;
 }
 
+export interface AbandonedCheckoutDetectedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Webhook payload for abandoned_checkout.detected and abandoned_checkout.recovered
+   * events
+   */
+  data: AbandonedCheckoutDetectedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'abandoned_checkout.detected';
+}
+
+export namespace AbandonedCheckoutDetectedWebhookEvent {
+  /**
+   * Webhook payload for abandoned_checkout.detected and abandoned_checkout.recovered
+   * events
+   */
+  export interface Data {
+    abandoned_at: string;
+
+    abandonment_reason: 'payment_failed' | 'checkout_incomplete';
+
+    customer_id: string;
+
+    payment_id: string;
+
+    status: 'abandoned' | 'recovering' | 'recovered' | 'exhausted' | 'opted_out';
+
+    recovered_payment_id?: string | null;
+  }
+}
+
+export interface AbandonedCheckoutRecoveredWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Webhook payload for abandoned_checkout.detected and abandoned_checkout.recovered
+   * events
+   */
+  data: AbandonedCheckoutRecoveredWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'abandoned_checkout.recovered';
+}
+
+export namespace AbandonedCheckoutRecoveredWebhookEvent {
+  /**
+   * Webhook payload for abandoned_checkout.detected and abandoned_checkout.recovered
+   * events
+   */
+  export interface Data {
+    abandoned_at: string;
+
+    abandonment_reason: 'payment_failed' | 'checkout_incomplete';
+
+    customer_id: string;
+
+    payment_id: string;
+
+    status: 'abandoned' | 'recovering' | 'recovered' | 'exhausted' | 'opted_out';
+
+    recovered_payment_id?: string | null;
+  }
+}
+
 export interface CreditAddedWebhookEvent {
   /**
    * The business identifier
@@ -473,6 +559,88 @@ export interface DisputeWonWebhookEvent {
    * The event type
    */
   type: 'dispute.won';
+}
+
+export interface DunningRecoveredWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Webhook payload for dunning.started and dunning.recovered events
+   */
+  data: DunningRecoveredWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dunning.recovered';
+}
+
+export namespace DunningRecoveredWebhookEvent {
+  /**
+   * Webhook payload for dunning.started and dunning.recovered events
+   */
+  export interface Data {
+    created_at: string;
+
+    customer_id: string;
+
+    status: 'recovering' | 'recovered' | 'exhausted';
+
+    subscription_id: string;
+
+    trigger_state: 'on_hold' | 'cancelled';
+
+    payment_id?: string | null;
+  }
+}
+
+export interface DunningStartedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Webhook payload for dunning.started and dunning.recovered events
+   */
+  data: DunningStartedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dunning.started';
+}
+
+export namespace DunningStartedWebhookEvent {
+  /**
+   * Webhook payload for dunning.started and dunning.recovered events
+   */
+  export interface Data {
+    created_at: string;
+
+    customer_id: string;
+
+    status: 'recovering' | 'recovered' | 'exhausted';
+
+    subscription_id: string;
+
+    trigger_state: 'on_hold' | 'cancelled';
+
+    payment_id?: string | null;
+  }
 }
 
 export interface LicenseKeyCreatedWebhookEvent {
@@ -784,6 +952,92 @@ export interface SubscriptionUpdatedWebhookEvent {
   type: 'subscription.updated';
 }
 
+export interface AbandonedCheckoutDetectedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Webhook payload for abandoned_checkout.detected and abandoned_checkout.recovered
+   * events
+   */
+  data: AbandonedCheckoutDetectedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'abandoned_checkout.detected';
+}
+
+export namespace AbandonedCheckoutDetectedWebhookEvent {
+  /**
+   * Webhook payload for abandoned_checkout.detected and abandoned_checkout.recovered
+   * events
+   */
+  export interface Data {
+    abandoned_at: string;
+
+    abandonment_reason: 'payment_failed' | 'checkout_incomplete';
+
+    customer_id: string;
+
+    payment_id: string;
+
+    status: 'abandoned' | 'recovering' | 'recovered' | 'exhausted' | 'opted_out';
+
+    recovered_payment_id?: string | null;
+  }
+}
+
+export interface AbandonedCheckoutRecoveredWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Webhook payload for abandoned_checkout.detected and abandoned_checkout.recovered
+   * events
+   */
+  data: AbandonedCheckoutRecoveredWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'abandoned_checkout.recovered';
+}
+
+export namespace AbandonedCheckoutRecoveredWebhookEvent {
+  /**
+   * Webhook payload for abandoned_checkout.detected and abandoned_checkout.recovered
+   * events
+   */
+  export interface Data {
+    abandoned_at: string;
+
+    abandonment_reason: 'payment_failed' | 'checkout_incomplete';
+
+    customer_id: string;
+
+    payment_id: string;
+
+    status: 'abandoned' | 'recovering' | 'recovered' | 'exhausted' | 'opted_out';
+
+    recovered_payment_id?: string | null;
+  }
+}
+
 export interface CreditAddedWebhookEvent {
   /**
    * The business identifier
@@ -1114,6 +1368,88 @@ export interface DisputeWonWebhookEvent {
    * The event type
    */
   type: 'dispute.won';
+}
+
+export interface DunningRecoveredWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Webhook payload for dunning.started and dunning.recovered events
+   */
+  data: DunningRecoveredWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dunning.recovered';
+}
+
+export namespace DunningRecoveredWebhookEvent {
+  /**
+   * Webhook payload for dunning.started and dunning.recovered events
+   */
+  export interface Data {
+    created_at: string;
+
+    customer_id: string;
+
+    status: 'recovering' | 'recovered' | 'exhausted';
+
+    subscription_id: string;
+
+    trigger_state: 'on_hold' | 'cancelled';
+
+    payment_id?: string | null;
+  }
+}
+
+export interface DunningStartedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Webhook payload for dunning.started and dunning.recovered events
+   */
+  data: DunningStartedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'dunning.started';
+}
+
+export namespace DunningStartedWebhookEvent {
+  /**
+   * Webhook payload for dunning.started and dunning.recovered events
+   */
+  export interface Data {
+    created_at: string;
+
+    customer_id: string;
+
+    status: 'recovering' | 'recovered' | 'exhausted';
+
+    subscription_id: string;
+
+    trigger_state: 'on_hold' | 'cancelled';
+
+    payment_id?: string | null;
+  }
 }
 
 export interface LicenseKeyCreatedWebhookEvent {
@@ -1426,6 +1762,8 @@ export interface SubscriptionUpdatedWebhookEvent {
 }
 
 export type UnsafeUnwrapWebhookEvent =
+  | AbandonedCheckoutDetectedWebhookEvent
+  | AbandonedCheckoutRecoveredWebhookEvent
   | CreditAddedWebhookEvent
   | CreditBalanceLowWebhookEvent
   | CreditDeductedWebhookEvent
@@ -1441,6 +1779,8 @@ export type UnsafeUnwrapWebhookEvent =
   | DisputeLostWebhookEvent
   | DisputeOpenedWebhookEvent
   | DisputeWonWebhookEvent
+  | DunningRecoveredWebhookEvent
+  | DunningStartedWebhookEvent
   | LicenseKeyCreatedWebhookEvent
   | PaymentCancelledWebhookEvent
   | PaymentFailedWebhookEvent
@@ -1458,6 +1798,8 @@ export type UnsafeUnwrapWebhookEvent =
   | SubscriptionUpdatedWebhookEvent;
 
 export type UnwrapWebhookEvent =
+  | AbandonedCheckoutDetectedWebhookEvent
+  | AbandonedCheckoutRecoveredWebhookEvent
   | CreditAddedWebhookEvent
   | CreditBalanceLowWebhookEvent
   | CreditDeductedWebhookEvent
@@ -1473,6 +1815,8 @@ export type UnwrapWebhookEvent =
   | DisputeLostWebhookEvent
   | DisputeOpenedWebhookEvent
   | DisputeWonWebhookEvent
+  | DunningRecoveredWebhookEvent
+  | DunningStartedWebhookEvent
   | LicenseKeyCreatedWebhookEvent
   | PaymentCancelledWebhookEvent
   | PaymentFailedWebhookEvent
@@ -1571,6 +1915,8 @@ export declare namespace Webhooks {
   export {
     type WebhookDetails as WebhookDetails,
     type WebhookRetrieveSecretResponse as WebhookRetrieveSecretResponse,
+    type AbandonedCheckoutDetectedWebhookEvent as AbandonedCheckoutDetectedWebhookEvent,
+    type AbandonedCheckoutRecoveredWebhookEvent as AbandonedCheckoutRecoveredWebhookEvent,
     type CreditAddedWebhookEvent as CreditAddedWebhookEvent,
     type CreditBalanceLowWebhookEvent as CreditBalanceLowWebhookEvent,
     type CreditDeductedWebhookEvent as CreditDeductedWebhookEvent,
@@ -1586,6 +1932,8 @@ export declare namespace Webhooks {
     type DisputeLostWebhookEvent as DisputeLostWebhookEvent,
     type DisputeOpenedWebhookEvent as DisputeOpenedWebhookEvent,
     type DisputeWonWebhookEvent as DisputeWonWebhookEvent,
+    type DunningRecoveredWebhookEvent as DunningRecoveredWebhookEvent,
+    type DunningStartedWebhookEvent as DunningStartedWebhookEvent,
     type LicenseKeyCreatedWebhookEvent as LicenseKeyCreatedWebhookEvent,
     type PaymentCancelledWebhookEvent as PaymentCancelledWebhookEvent,
     type PaymentFailedWebhookEvent as PaymentFailedWebhookEvent,

@@ -48,7 +48,13 @@ export type WebhookEventType =
   | 'credit.rollover_forfeited'
   | 'credit.overage_charged'
   | 'credit.manual_adjustment'
-  | 'credit.balance_low';
+  | 'credit.balance_low'
+  | 'abandoned_checkout.detected'
+  | 'abandoned_checkout.recovered'
+  | 'dunning.started'
+  | 'dunning.recovered'
+  | 'acr.email'
+  | 'dunning.email';
 
 export interface WebhookPayload {
   business_id: string;
@@ -63,7 +69,9 @@ export interface WebhookPayload {
     | WebhookPayload.Dispute
     | WebhookPayload.LicenseKey
     | WebhookPayload.CreditLedgerEntry
-    | WebhookPayload.CreditBalanceLow;
+    | WebhookPayload.CreditBalanceLow
+    | WebhookPayload.AbandonedCheckout
+    | WebhookPayload.DunningAttempt;
 
   /**
    * The timestamp of when the event occurred (not necessarily the same of when it
@@ -126,6 +134,38 @@ export namespace WebhookPayload {
     threshold_amount: string;
 
     threshold_percent: number;
+  }
+
+  export interface AbandonedCheckout {
+    abandoned_at: string;
+
+    abandonment_reason: 'payment_failed' | 'checkout_incomplete';
+
+    customer_id: string;
+
+    payload_type: 'AbandonedCheckout';
+
+    payment_id: string;
+
+    status: 'abandoned' | 'recovering' | 'recovered' | 'exhausted' | 'opted_out';
+
+    recovered_payment_id?: string | null;
+  }
+
+  export interface DunningAttempt {
+    created_at: string;
+
+    customer_id: string;
+
+    payload_type: 'DunningAttempt';
+
+    status: 'recovering' | 'recovered' | 'exhausted';
+
+    subscription_id: string;
+
+    trigger_state: 'on_hold' | 'cancelled';
+
+    payment_id?: string | null;
   }
 }
 

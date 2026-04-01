@@ -287,6 +287,24 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/payouts',
   },
   {
+    clientCallName: 'client.payouts.breakup.retrieve',
+    fullyQualifiedName: 'payouts.breakup.retrieve',
+    httpMethod: 'get',
+    httpPath: '/payouts/{payout_id}/breakup',
+  },
+  {
+    clientCallName: 'client.payouts.breakup.details.list',
+    fullyQualifiedName: 'payouts.breakup.details.list',
+    httpMethod: 'get',
+    httpPath: '/payouts/{payout_id}/breakup/details',
+  },
+  {
+    clientCallName: 'client.payouts.breakup.details.downloadCsv',
+    fullyQualifiedName: 'payouts.breakup.details.downloadCsv',
+    httpMethod: 'get',
+    httpPath: '/payouts/{payout_id}/breakup/details/csv',
+  },
+  {
     clientCallName: 'client.products.create',
     fullyQualifiedName: 'products.create',
     httpMethod: 'post',

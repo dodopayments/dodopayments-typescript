@@ -211,11 +211,32 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/payouts.ts">PayoutListResponse</a></code>
+- <code><a href="./src/resources/payouts/payouts.ts">PayoutListResponse</a></code>
 
 Methods:
 
-- <code title="get /payouts">client.payouts.<a href="./src/resources/payouts.ts">list</a>({ ...params }) -> PayoutListResponsesDefaultPageNumberPagination</code>
+- <code title="get /payouts">client.payouts.<a href="./src/resources/payouts/payouts.ts">list</a>({ ...params }) -> PayoutListResponsesDefaultPageNumberPagination</code>
+
+## Breakup
+
+Types:
+
+- <code><a href="./src/resources/payouts/breakup/breakup.ts">BreakupRetrieveResponse</a></code>
+
+Methods:
+
+- <code title="get /payouts/{payout_id}/breakup">client.payouts.breakup.<a href="./src/resources/payouts/breakup/breakup.ts">retrieve</a>(payoutID) -> BreakupRetrieveResponse</code>
+
+### Details
+
+Types:
+
+- <code><a href="./src/resources/payouts/breakup/details.ts">DetailListResponse</a></code>
+
+Methods:
+
+- <code title="get /payouts/{payout_id}/breakup/details">client.payouts.breakup.details.<a href="./src/resources/payouts/breakup/details.ts">list</a>(payoutID, { ...params }) -> DetailListResponsesDefaultPageNumberPagination</code>
+- <code title="get /payouts/{payout_id}/breakup/details/csv">client.payouts.breakup.details.<a href="./src/resources/payouts/breakup/details.ts">downloadCsv</a>(payoutID) -> void</code>
 
 # Products
 
@@ -331,6 +352,8 @@ Types:
 
 - <code><a href="./src/resources/webhooks/webhooks.ts">WebhookDetails</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">WebhookRetrieveSecretResponse</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">AbandonedCheckoutDetectedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">AbandonedCheckoutRecoveredWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">CreditAddedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">CreditBalanceLowWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">CreditDeductedWebhookEvent</a></code>
@@ -346,6 +369,8 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeLostWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeOpenedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeWonWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DunningRecoveredWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DunningStartedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">LicenseKeyCreatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentCancelledWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentFailedWebhookEvent</a></code>
@@ -361,6 +386,8 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionPlanChangedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionRenewedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionUpdatedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">AbandonedCheckoutDetectedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">AbandonedCheckoutRecoveredWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">CreditAddedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">CreditBalanceLowWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">CreditDeductedWebhookEvent</a></code>
@@ -376,6 +403,8 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeLostWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeOpenedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeWonWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DunningRecoveredWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">DunningStartedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">LicenseKeyCreatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentCancelledWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentFailedWebhookEvent</a></code>
