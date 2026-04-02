@@ -90,6 +90,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli checkout-sessions create \\\n  --bearer-token 'My Bearer Token' \\\n  --product-cart '{product_id: product_id, quantity: 0}'",
       },
+      csharp: {
+        method: 'CheckoutSessions.Create',
+        example:
+          'CheckoutSessionCreateParams parameters = new()\n{\n    ProductCart =\n    [\n        new()\n        {\n            ProductID = "product_id",\n            Quantity = 0,\n            Addons =\n            [\n                new()\n                {\n                    AddonID = "addon_id",\n                    Quantity = 0,\n                },\n            ],\n            Amount = 0,\n        },\n    ],\n};\n\nvar checkoutSessionResponse = await client.CheckoutSessions.Create(parameters);\n\nConsole.WriteLine(checkoutSessionResponse);',
+      },
       go: {
         method: 'client.CheckoutSessions.New',
         example:
@@ -108,6 +113,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'checkoutSessions().create',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: CheckoutSessionRequest = CheckoutSessionRequest.builder()\n        .addProductCart(ProductItemReq.builder()\n            .productId("product_id")\n            .quantity(0)\n            .build())\n        .build()\n    val checkoutSessionResponse: CheckoutSessionResponse = client.checkoutSessions().create(params)\n}',
+      },
+      php: {
+        method: 'checkoutSessions->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$checkoutSessionResponse = $client->checkoutSessions->create(\n  productCart: [\n    [\n      'productID' => 'product_id',\n      'quantity' => 0,\n      'addons' => [['addonID' => 'addon_id', 'quantity' => 0]],\n      'amount' => 0,\n    ],\n  ],\n  allowedPaymentMethodTypes: [PaymentMethodTypes::ACH],\n  billingAddress: [\n    'country' => CountryCode::AF,\n    'city' => 'city',\n    'state' => 'state',\n    'street' => 'street',\n    'zipcode' => 'zipcode',\n  ],\n  billingCurrency: Currency::AED,\n  cancelURL: 'cancel_url',\n  confirm: true,\n  customFields: [\n    [\n      'fieldType' => 'text',\n      'key' => 'key',\n      'label' => 'label',\n      'options' => ['string'],\n      'placeholder' => 'placeholder',\n      'required' => true,\n    ],\n  ],\n  customer: ['customerID' => 'customer_id'],\n  customization: [\n    'forceLanguage' => 'force_language',\n    'showOnDemandTag' => true,\n    'showOrderDetails' => true,\n    'theme' => 'dark',\n    'themeConfig' => [\n      'dark' => [\n        'bgPrimary' => 'bg_primary',\n        'bgSecondary' => 'bg_secondary',\n        'borderPrimary' => 'border_primary',\n        'borderSecondary' => 'border_secondary',\n        'buttonPrimary' => 'button_primary',\n        'buttonPrimaryHover' => 'button_primary_hover',\n        'buttonSecondary' => 'button_secondary',\n        'buttonSecondaryHover' => 'button_secondary_hover',\n        'buttonTextPrimary' => 'button_text_primary',\n        'buttonTextSecondary' => 'button_text_secondary',\n        'inputFocusBorder' => 'input_focus_border',\n        'textError' => 'text_error',\n        'textPlaceholder' => 'text_placeholder',\n        'textPrimary' => 'text_primary',\n        'textSecondary' => 'text_secondary',\n        'textSuccess' => 'text_success',\n      ],\n      'fontPrimaryURL' => 'font_primary_url',\n      'fontSecondaryURL' => 'font_secondary_url',\n      'fontSize' => 'xs',\n      'fontWeight' => 'normal',\n      'light' => [\n        'bgPrimary' => 'bg_primary',\n        'bgSecondary' => 'bg_secondary',\n        'borderPrimary' => 'border_primary',\n        'borderSecondary' => 'border_secondary',\n        'buttonPrimary' => 'button_primary',\n        'buttonPrimaryHover' => 'button_primary_hover',\n        'buttonSecondary' => 'button_secondary',\n        'buttonSecondaryHover' => 'button_secondary_hover',\n        'buttonTextPrimary' => 'button_text_primary',\n        'buttonTextSecondary' => 'button_text_secondary',\n        'inputFocusBorder' => 'input_focus_border',\n        'textError' => 'text_error',\n        'textPlaceholder' => 'text_placeholder',\n        'textPrimary' => 'text_primary',\n        'textSecondary' => 'text_secondary',\n        'textSuccess' => 'text_success',\n      ],\n      'payButtonText' => 'pay_button_text',\n      'radius' => 'radius',\n    ],\n  ],\n  discountCode: 'discount_code',\n  featureFlags: [\n    'allowCurrencySelection' => true,\n    'allowCustomerEditingCity' => true,\n    'allowCustomerEditingCountry' => true,\n    'allowCustomerEditingEmail' => true,\n    'allowCustomerEditingName' => true,\n    'allowCustomerEditingState' => true,\n    'allowCustomerEditingStreet' => true,\n    'allowCustomerEditingTaxID' => true,\n    'allowCustomerEditingZipcode' => true,\n    'allowDiscountCode' => true,\n    'allowPhoneNumberCollection' => true,\n    'allowTaxID' => true,\n    'alwaysCreateNewCustomer' => true,\n    'redirectImmediately' => true,\n  ],\n  force3DS: true,\n  metadata: ['foo' => 'string'],\n  minimalAddress: true,\n  paymentMethodID: 'payment_method_id',\n  productCollectionID: 'product_collection_id',\n  returnURL: 'return_url',\n  shortLink: true,\n  showSavedPaymentMethods: true,\n  subscriptionData: [\n    'onDemand' => [\n      'mandateOnly' => true,\n      'adaptiveCurrencyFeesInclusive' => true,\n      'productCurrency' => Currency::AED,\n      'productDescription' => 'product_description',\n      'productPrice' => 0,\n    ],\n    'trialPeriodDays' => 0,\n  ],\n  taxID: 'tax_id',\n);\n\nvar_dump($checkoutSessionResponse);",
       },
       python: {
         method: 'checkout_sessions.create',
@@ -145,6 +155,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli checkout-sessions retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'CheckoutSessions.Retrieve',
+        example:
+          'CheckoutSessionRetrieveParams parameters = new() { ID = "id" };\n\nvar checkoutSessionStatus = await client.CheckoutSessions.Retrieve(parameters);\n\nConsole.WriteLine(checkoutSessionStatus);',
+      },
       go: {
         method: 'client.CheckoutSessions.Get',
         example:
@@ -163,6 +178,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'checkoutSessions().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRetrieveParams\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionStatus\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val checkoutSessionStatus: CheckoutSessionStatus = client.checkoutSessions().retrieve("id")\n}',
+      },
+      php: {
+        method: 'checkoutSessions->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$checkoutSessionStatus = $client->checkoutSessions->retrieve('id');\n\nvar_dump($checkoutSessionStatus);",
       },
       python: {
         method: 'checkout_sessions.retrieve',
@@ -222,6 +242,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli checkout-sessions preview \\\n  --bearer-token 'My Bearer Token' \\\n  --product-cart '{product_id: product_id, quantity: 0}'",
       },
+      csharp: {
+        method: 'CheckoutSessions.Preview',
+        example:
+          'CheckoutSessionPreviewParams parameters = new()\n{\n    ProductCart =\n    [\n        new()\n        {\n            ProductID = "product_id",\n            Quantity = 0,\n            Addons =\n            [\n                new()\n                {\n                    AddonID = "addon_id",\n                    Quantity = 0,\n                },\n            ],\n            Amount = 0,\n        },\n    ],\n};\n\nvar response = await client.CheckoutSessions.Preview(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.CheckoutSessions.Preview',
         example:
@@ -240,6 +265,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'checkoutSessions().preview',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionPreviewParams\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionPreviewResponse\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: CheckoutSessionRequest = CheckoutSessionRequest.builder()\n        .addProductCart(ProductItemReq.builder()\n            .productId("product_id")\n            .quantity(0)\n            .build())\n        .build()\n    val response: CheckoutSessionPreviewResponse = client.checkoutSessions().preview(params)\n}',
+      },
+      php: {
+        method: 'checkoutSessions->preview',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->checkoutSessions->preview(\n  productCart: [\n    [\n      'productID' => 'product_id',\n      'quantity' => 0,\n      'addons' => [['addonID' => 'addon_id', 'quantity' => 0]],\n      'amount' => 0,\n    ],\n  ],\n  allowedPaymentMethodTypes: [PaymentMethodTypes::ACH],\n  billingAddress: [\n    'country' => CountryCode::AF,\n    'city' => 'city',\n    'state' => 'state',\n    'street' => 'street',\n    'zipcode' => 'zipcode',\n  ],\n  billingCurrency: Currency::AED,\n  cancelURL: 'cancel_url',\n  confirm: true,\n  customFields: [\n    [\n      'fieldType' => 'text',\n      'key' => 'key',\n      'label' => 'label',\n      'options' => ['string'],\n      'placeholder' => 'placeholder',\n      'required' => true,\n    ],\n  ],\n  customer: ['customerID' => 'customer_id'],\n  customization: [\n    'forceLanguage' => 'force_language',\n    'showOnDemandTag' => true,\n    'showOrderDetails' => true,\n    'theme' => 'dark',\n    'themeConfig' => [\n      'dark' => [\n        'bgPrimary' => 'bg_primary',\n        'bgSecondary' => 'bg_secondary',\n        'borderPrimary' => 'border_primary',\n        'borderSecondary' => 'border_secondary',\n        'buttonPrimary' => 'button_primary',\n        'buttonPrimaryHover' => 'button_primary_hover',\n        'buttonSecondary' => 'button_secondary',\n        'buttonSecondaryHover' => 'button_secondary_hover',\n        'buttonTextPrimary' => 'button_text_primary',\n        'buttonTextSecondary' => 'button_text_secondary',\n        'inputFocusBorder' => 'input_focus_border',\n        'textError' => 'text_error',\n        'textPlaceholder' => 'text_placeholder',\n        'textPrimary' => 'text_primary',\n        'textSecondary' => 'text_secondary',\n        'textSuccess' => 'text_success',\n      ],\n      'fontPrimaryURL' => 'font_primary_url',\n      'fontSecondaryURL' => 'font_secondary_url',\n      'fontSize' => 'xs',\n      'fontWeight' => 'normal',\n      'light' => [\n        'bgPrimary' => 'bg_primary',\n        'bgSecondary' => 'bg_secondary',\n        'borderPrimary' => 'border_primary',\n        'borderSecondary' => 'border_secondary',\n        'buttonPrimary' => 'button_primary',\n        'buttonPrimaryHover' => 'button_primary_hover',\n        'buttonSecondary' => 'button_secondary',\n        'buttonSecondaryHover' => 'button_secondary_hover',\n        'buttonTextPrimary' => 'button_text_primary',\n        'buttonTextSecondary' => 'button_text_secondary',\n        'inputFocusBorder' => 'input_focus_border',\n        'textError' => 'text_error',\n        'textPlaceholder' => 'text_placeholder',\n        'textPrimary' => 'text_primary',\n        'textSecondary' => 'text_secondary',\n        'textSuccess' => 'text_success',\n      ],\n      'payButtonText' => 'pay_button_text',\n      'radius' => 'radius',\n    ],\n  ],\n  discountCode: 'discount_code',\n  featureFlags: [\n    'allowCurrencySelection' => true,\n    'allowCustomerEditingCity' => true,\n    'allowCustomerEditingCountry' => true,\n    'allowCustomerEditingEmail' => true,\n    'allowCustomerEditingName' => true,\n    'allowCustomerEditingState' => true,\n    'allowCustomerEditingStreet' => true,\n    'allowCustomerEditingTaxID' => true,\n    'allowCustomerEditingZipcode' => true,\n    'allowDiscountCode' => true,\n    'allowPhoneNumberCollection' => true,\n    'allowTaxID' => true,\n    'alwaysCreateNewCustomer' => true,\n    'redirectImmediately' => true,\n  ],\n  force3DS: true,\n  metadata: ['foo' => 'string'],\n  minimalAddress: true,\n  paymentMethodID: 'payment_method_id',\n  productCollectionID: 'product_collection_id',\n  returnURL: 'return_url',\n  shortLink: true,\n  showSavedPaymentMethods: true,\n  subscriptionData: [\n    'onDemand' => [\n      'mandateOnly' => true,\n      'adaptiveCurrencyFeesInclusive' => true,\n      'productCurrency' => Currency::AED,\n      'productDescription' => 'product_description',\n      'productPrice' => 0,\n    ],\n    'trialPeriodDays' => 0,\n  ],\n  taxID: 'tax_id',\n);\n\nvar_dump($response);",
       },
       python: {
         method: 'checkout_sessions.preview',
@@ -286,6 +316,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'payments list',
         example: "dodo-payments-cli payments list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'Payments.List',
+        example:
+          'PaymentListParams parameters = new();\n\nvar page = await client.Payments.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.Payments.List',
         example:
@@ -304,6 +339,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'payments().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.payments.PaymentListPage\nimport com.dodopayments.api.models.payments.PaymentListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: PaymentListPage = client.payments().list()\n}',
+      },
+      php: {
+        method: 'payments->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->payments->list(\n  brandID: 'brand_id',\n  createdAtGte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  createdAtLte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  customerID: 'customer_id',\n  pageNumber: 0,\n  pageSize: 0,\n  productID: 'product_id',\n  status: 'succeeded',\n  subscriptionID: 'subscription_id',\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'payments.list',
@@ -357,6 +397,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli payments create \\\n  --bearer-token 'My Bearer Token' \\\n  --billing '{country: AF}' \\\n  --customer '{customer_id: customer_id}' \\\n  --product-cart '{product_id: product_id, quantity: 0}'",
       },
+      csharp: {
+        method: 'Payments.Create',
+        example:
+          'PaymentCreateParams parameters = new()\n{\n    Billing = new()\n    {\n        Country = CountryCode.Af,\n        City = "city",\n        State = "state",\n        Street = "street",\n        Zipcode = "zipcode",\n    },\n    Customer = new AttachExistingCustomer("customer_id"),\n    ProductCart =\n    [\n        new()\n        {\n            ProductID = "product_id",\n            Quantity = 0,\n            Amount = 0,\n        },\n    ],\n};\n\nvar payment = await client.Payments.Create(parameters);\n\nConsole.WriteLine(payment);',
+      },
       go: {
         method: 'client.Payments.New',
         example:
@@ -375,6 +420,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'payments().create',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.misc.CountryCode\nimport com.dodopayments.api.models.payments.AttachExistingCustomer\nimport com.dodopayments.api.models.payments.BillingAddress\nimport com.dodopayments.api.models.payments.PaymentCreateParams\nimport com.dodopayments.api.models.payments.PaymentCreateResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: PaymentCreateParams = PaymentCreateParams.builder()\n        .billing(BillingAddress.builder()\n            .country(CountryCode.AF)\n            .build())\n        .customer(AttachExistingCustomer.builder()\n            .customerId("customer_id")\n            .build())\n        .addProductCart(PaymentCreateParams.ProductCart.builder()\n            .productId("product_id")\n            .quantity(0)\n            .build())\n        .build()\n    val payment: PaymentCreateResponse = client.payments().create(params)\n}',
+      },
+      php: {
+        method: 'payments->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$payment = $client->payments->create(\n  billing: [\n    'country' => CountryCode::AF,\n    'city' => 'city',\n    'state' => 'state',\n    'street' => 'street',\n    'zipcode' => 'zipcode',\n  ],\n  customer: ['customerID' => 'customer_id'],\n  productCart: [['productID' => 'product_id', 'quantity' => 0, 'amount' => 0]],\n  allowedPaymentMethodTypes: [PaymentMethodTypes::ACH],\n  billingCurrency: Currency::AED,\n  discountCode: 'discount_code',\n  force3DS: true,\n  metadata: ['foo' => 'string'],\n  paymentLink: true,\n  paymentMethodID: 'payment_method_id',\n  redirectImmediately: true,\n  returnURL: 'return_url',\n  shortLink: true,\n  showSavedPaymentMethods: true,\n  taxID: 'tax_id',\n);\n\nvar_dump($payment);",
       },
       python: {
         method: 'payments.create',
@@ -412,6 +462,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli payments retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --payment-id payment_id",
       },
+      csharp: {
+        method: 'Payments.Retrieve',
+        example:
+          'PaymentRetrieveParams parameters = new() { PaymentID = "payment_id" };\n\nvar payment = await client.Payments.Retrieve(parameters);\n\nConsole.WriteLine(payment);',
+      },
       go: {
         method: 'client.Payments.Get',
         example:
@@ -430,6 +485,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'payments().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.payments.Payment\nimport com.dodopayments.api.models.payments.PaymentRetrieveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val payment: Payment = client.payments().retrieve("payment_id")\n}',
+      },
+      php: {
+        method: 'payments->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$payment = $client->payments->retrieve('payment_id');\n\nvar_dump($payment);",
       },
       python: {
         method: 'payments.retrieve',
@@ -467,6 +527,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli payments retrieve-line-items \\\n  --bearer-token 'My Bearer Token' \\\n  --payment-id payment_id",
       },
+      csharp: {
+        method: 'Payments.RetrieveLineItems',
+        example:
+          'PaymentRetrieveLineItemsParams parameters = new() { PaymentID = "payment_id" };\n\nvar response = await client.Payments.RetrieveLineItems(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.Payments.GetLineItems',
         example:
@@ -485,6 +550,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'payments().retrieveLineItems',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.payments.PaymentRetrieveLineItemsParams\nimport com.dodopayments.api.models.payments.PaymentRetrieveLineItemsResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val response: PaymentRetrieveLineItemsResponse = client.payments().retrieveLineItems("payment_id")\n}',
+      },
+      php: {
+        method: 'payments->retrieveLineItems',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->payments->retrieveLineItems('payment_id');\n\nvar_dump($response);",
       },
       python: {
         method: 'payments.retrieve_line_items',
@@ -530,6 +600,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subscriptions list',
         example: "dodo-payments-cli subscriptions list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'Subscriptions.List',
+        example:
+          'SubscriptionListParams parameters = new();\n\nvar page = await client.Subscriptions.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.Subscriptions.List',
         example:
@@ -548,6 +623,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subscriptions().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.subscriptions.SubscriptionListPage\nimport com.dodopayments.api.models.subscriptions.SubscriptionListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: SubscriptionListPage = client.subscriptions().list()\n}',
+      },
+      php: {
+        method: 'subscriptions->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->subscriptions->list(\n  brandID: 'brand_id',\n  createdAtGte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  createdAtLte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  customerID: 'customer_id',\n  pageNumber: 0,\n  pageSize: 0,\n  productID: 'product_id',\n  status: 'pending',\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'subscriptions.list',
@@ -606,6 +686,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli subscriptions create \\\n  --bearer-token 'My Bearer Token' \\\n  --billing '{country: AF}' \\\n  --customer '{customer_id: customer_id}' \\\n  --product-id product_id \\\n  --quantity 0",
       },
+      csharp: {
+        method: 'Subscriptions.Create',
+        example:
+          'SubscriptionCreateParams parameters = new()\n{\n    Billing = new()\n    {\n        Country = CountryCode.Af,\n        City = "city",\n        State = "state",\n        Street = "street",\n        Zipcode = "zipcode",\n    },\n    Customer = new AttachExistingCustomer("customer_id"),\n    ProductID = "product_id",\n    Quantity = 0,\n};\n\nvar subscription = await client.Subscriptions.Create(parameters);\n\nConsole.WriteLine(subscription);',
+      },
       go: {
         method: 'client.Subscriptions.New',
         example:
@@ -624,6 +709,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subscriptions().create',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.misc.CountryCode\nimport com.dodopayments.api.models.payments.AttachExistingCustomer\nimport com.dodopayments.api.models.payments.BillingAddress\nimport com.dodopayments.api.models.subscriptions.SubscriptionCreateParams\nimport com.dodopayments.api.models.subscriptions.SubscriptionCreateResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: SubscriptionCreateParams = SubscriptionCreateParams.builder()\n        .billing(BillingAddress.builder()\n            .country(CountryCode.AF)\n            .build())\n        .customer(AttachExistingCustomer.builder()\n            .customerId("customer_id")\n            .build())\n        .productId("product_id")\n        .quantity(0)\n        .build()\n    val subscription: SubscriptionCreateResponse = client.subscriptions().create(params)\n}',
+      },
+      php: {
+        method: 'subscriptions->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$subscription = $client->subscriptions->create(\n  billing: [\n    'country' => CountryCode::AF,\n    'city' => 'city',\n    'state' => 'state',\n    'street' => 'street',\n    'zipcode' => 'zipcode',\n  ],\n  customer: ['customerID' => 'customer_id'],\n  productID: 'product_id',\n  quantity: 0,\n  addons: [['addonID' => 'addon_id', 'quantity' => 0]],\n  allowedPaymentMethodTypes: [PaymentMethodTypes::ACH],\n  billingCurrency: Currency::AED,\n  discountCode: 'discount_code',\n  force3DS: true,\n  metadata: ['foo' => 'string'],\n  onDemand: [\n    'mandateOnly' => true,\n    'adaptiveCurrencyFeesInclusive' => true,\n    'productCurrency' => Currency::AED,\n    'productDescription' => 'product_description',\n    'productPrice' => 0,\n  ],\n  oneTimeProductCart: [\n    ['productID' => 'product_id', 'quantity' => 0, 'amount' => 0]\n  ],\n  paymentLink: true,\n  paymentMethodID: 'payment_method_id',\n  redirectImmediately: true,\n  returnURL: 'return_url',\n  shortLink: true,\n  showSavedPaymentMethods: true,\n  taxID: 'tax_id',\n  trialPeriodDays: 0,\n);\n\nvar_dump($subscription);",
       },
       python: {
         method: 'subscriptions.create',
@@ -661,6 +751,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli subscriptions retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id",
       },
+      csharp: {
+        method: 'Subscriptions.Retrieve',
+        example:
+          'SubscriptionRetrieveParams parameters = new()\n{\n    SubscriptionID = "subscription_id"\n};\n\nvar subscription = await client.Subscriptions.Retrieve(parameters);\n\nConsole.WriteLine(subscription);',
+      },
       go: {
         method: 'client.Subscriptions.Get',
         example:
@@ -679,6 +774,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subscriptions().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.subscriptions.Subscription\nimport com.dodopayments.api.models.subscriptions.SubscriptionRetrieveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val subscription: Subscription = client.subscriptions().retrieve("subscription_id")\n}',
+      },
+      php: {
+        method: 'subscriptions->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$subscription = $client->subscriptions->retrieve('subscription_id');\n\nvar_dump($subscription);",
       },
       python: {
         method: 'subscriptions.retrieve',
@@ -728,6 +828,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli subscriptions update \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id",
       },
+      csharp: {
+        method: 'Subscriptions.Update',
+        example:
+          'SubscriptionUpdateParams parameters = new()\n{\n    SubscriptionID = "subscription_id"\n};\n\nvar subscription = await client.Subscriptions.Update(parameters);\n\nConsole.WriteLine(subscription);',
+      },
       go: {
         method: 'client.Subscriptions.Update',
         example:
@@ -746,6 +851,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subscriptions().update',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.subscriptions.Subscription\nimport com.dodopayments.api.models.subscriptions.SubscriptionUpdateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val subscription: Subscription = client.subscriptions().update("subscription_id")\n}',
+      },
+      php: {
+        method: 'subscriptions->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$subscription = $client->subscriptions->update(\n  'subscription_id',\n  billing: [\n    'country' => CountryCode::AF,\n    'city' => 'city',\n    'state' => 'state',\n    'street' => 'street',\n    'zipcode' => 'zipcode',\n  ],\n  cancelAtNextBillingDate: true,\n  cancelReason: 'cancelled_by_customer',\n  creditEntitlementCart: [\n    [\n      'creditEntitlementID' => 'credit_entitlement_id',\n      'creditsAmount' => 'credits_amount',\n      'expiresAfterDays' => 0,\n      'lowBalanceThresholdPercent' => 0,\n      'maxRolloverCount' => 0,\n      'overageEnabled' => true,\n      'overageLimit' => 'overage_limit',\n      'rolloverEnabled' => true,\n      'rolloverPercentage' => 0,\n      'rolloverTimeframeCount' => 0,\n      'rolloverTimeframeInterval' => TimeInterval::DAY,\n    ],\n  ],\n  customerName: 'customer_name',\n  disableOnDemand: [\n    'nextBillingDate' => new \\DateTimeImmutable('2019-12-27T18:11:19.117Z')\n  ],\n  metadata: ['foo' => 'string'],\n  nextBillingDate: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  status: SubscriptionStatus::PENDING,\n  taxID: 'tax_id',\n);\n\nvar_dump($subscription);",
       },
       python: {
         method: 'subscriptions.update',
@@ -790,6 +900,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli subscriptions charge \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id \\\n  --product-price 0",
       },
+      csharp: {
+        method: 'Subscriptions.Charge',
+        example:
+          'SubscriptionChargeParams parameters = new()\n{\n    SubscriptionID = "subscription_id",\n    ProductPrice = 0,\n};\n\nvar response = await client.Subscriptions.Charge(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.Subscriptions.Charge',
         example:
@@ -808,6 +923,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subscriptions().charge',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.subscriptions.SubscriptionChargeParams\nimport com.dodopayments.api.models.subscriptions.SubscriptionChargeResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: SubscriptionChargeParams = SubscriptionChargeParams.builder()\n        .subscriptionId("subscription_id")\n        .productPrice(0)\n        .build()\n    val response: SubscriptionChargeResponse = client.subscriptions().charge(params)\n}',
+      },
+      php: {
+        method: 'subscriptions->charge',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->subscriptions->charge(\n  'subscription_id',\n  productPrice: 0,\n  adaptiveCurrencyFeesInclusive: true,\n  customerBalanceConfig: [\n    'allowCustomerCreditsPurchase' => true, 'allowCustomerCreditsUsage' => true\n  ],\n  metadata: ['foo' => 'string'],\n  productCurrency: Currency::AED,\n  productDescription: 'product_description',\n);\n\nvar_dump($response);",
       },
       python: {
         method: 'subscriptions.charge',
@@ -853,6 +973,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli subscriptions change-plan \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id \\\n  --product-id product_id \\\n  --proration-billing-mode prorated_immediately \\\n  --quantity 0",
       },
+      csharp: {
+        method: 'Subscriptions.ChangePlan',
+        example:
+          'SubscriptionChangePlanParams parameters = new()\n{\n    SubscriptionID = "subscription_id",\n    ProductID = "product_id",\n    ProrationBillingMode = ProrationBillingMode.ProratedImmediately,\n    Quantity = 0,\n};\n\nawait client.Subscriptions.ChangePlan(parameters);',
+      },
       go: {
         method: 'client.Subscriptions.ChangePlan',
         example:
@@ -871,6 +996,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subscriptions().changePlan',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.subscriptions.SubscriptionChangePlanParams\nimport com.dodopayments.api.models.subscriptions.UpdateSubscriptionPlanReq\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: SubscriptionChangePlanParams = SubscriptionChangePlanParams.builder()\n        .subscriptionId("subscription_id")\n        .updateSubscriptionPlanReq(UpdateSubscriptionPlanReq.builder()\n            .productId("product_id")\n            .prorationBillingMode(UpdateSubscriptionPlanReq.ProrationBillingMode.PRORATED_IMMEDIATELY)\n            .quantity(0)\n            .build())\n        .build()\n    client.subscriptions().changePlan(params)\n}',
+      },
+      php: {
+        method: 'subscriptions->changePlan',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->subscriptions->changePlan(\n  'subscription_id',\n  productID: 'product_id',\n  prorationBillingMode: 'prorated_immediately',\n  quantity: 0,\n  addons: [['addonID' => 'addon_id', 'quantity' => 0]],\n  discountCode: 'discount_code',\n  effectiveAt: 'immediately',\n  metadata: ['foo' => 'string'],\n  onPaymentFailure: 'prevent_change',\n);\n\nvar_dump($result);",
       },
       python: {
         method: 'subscriptions.change_plan',
@@ -916,6 +1046,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli subscriptions retrieve-usage-history \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id",
       },
+      csharp: {
+        method: 'Subscriptions.RetrieveUsageHistory',
+        example:
+          'SubscriptionRetrieveUsageHistoryParams parameters = new()\n{\n    SubscriptionID = "subscription_id"\n};\n\nvar page = await client.Subscriptions.RetrieveUsageHistory(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.Subscriptions.GetUsageHistory',
         example:
@@ -934,6 +1069,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subscriptions().retrieveUsageHistory',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.subscriptions.SubscriptionRetrieveUsageHistoryPage\nimport com.dodopayments.api.models.subscriptions.SubscriptionRetrieveUsageHistoryParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: SubscriptionRetrieveUsageHistoryPage = client.subscriptions().retrieveUsageHistory("subscription_id")\n}',
+      },
+      php: {
+        method: 'subscriptions->retrieveUsageHistory',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->subscriptions->retrieveUsageHistory(\n  'subscription_id',\n  endDate: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  meterID: 'meter_id',\n  pageNumber: 0,\n  pageSize: 0,\n  startDate: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'subscriptions.retrieve_usage_history',
@@ -971,6 +1111,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli subscriptions update-payment-method \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id \\\n  --type new \\\n  --payment-method-id payment_method_id",
       },
+      csharp: {
+        method: 'Subscriptions.UpdatePaymentMethod',
+        example:
+          'SubscriptionUpdatePaymentMethodParams parameters = new()\n{\n    SubscriptionID = "subscription_id",\n    Body = new New()\n    {\n        Type = Type.New,\n        ReturnUrl = "return_url",\n    },\n};\n\nvar response = await client.Subscriptions.UpdatePaymentMethod(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.Subscriptions.UpdatePaymentMethod',
         example:
@@ -989,6 +1134,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subscriptions().updatePaymentMethod',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.subscriptions.SubscriptionUpdatePaymentMethodParams\nimport com.dodopayments.api.models.subscriptions.SubscriptionUpdatePaymentMethodResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: SubscriptionUpdatePaymentMethodParams = SubscriptionUpdatePaymentMethodParams.builder()\n        .subscriptionId("subscription_id")\n        .body(SubscriptionUpdatePaymentMethodParams.Body.New.builder()\n            .type(SubscriptionUpdatePaymentMethodParams.Body.New.Type.NEW)\n            .build())\n        .build()\n    val response: SubscriptionUpdatePaymentMethodResponse = client.subscriptions().updatePaymentMethod(params)\n}',
+      },
+      php: {
+        method: 'subscriptions->updatePaymentMethod',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->subscriptions->updatePaymentMethod(\n  'subscription_id',\n  type: 'existing',\n  returnURL: 'return_url',\n  paymentMethodID: 'payment_method_id',\n);\n\nvar_dump($response);",
       },
       python: {
         method: 'subscriptions.update_payment_method',
@@ -1036,6 +1186,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli subscriptions preview-change-plan \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id \\\n  --product-id product_id \\\n  --proration-billing-mode prorated_immediately \\\n  --quantity 0",
       },
+      csharp: {
+        method: 'Subscriptions.PreviewChangePlan',
+        example:
+          'SubscriptionPreviewChangePlanParams parameters = new()\n{\n    SubscriptionID = "subscription_id",\n    ProductID = "product_id",\n    ProrationBillingMode = ProrationBillingMode.ProratedImmediately,\n    Quantity = 0,\n};\n\nvar response = await client.Subscriptions.PreviewChangePlan(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.Subscriptions.PreviewChangePlan',
         example:
@@ -1054,6 +1209,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subscriptions().previewChangePlan',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.subscriptions.SubscriptionPreviewChangePlanParams\nimport com.dodopayments.api.models.subscriptions.SubscriptionPreviewChangePlanResponse\nimport com.dodopayments.api.models.subscriptions.UpdateSubscriptionPlanReq\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: SubscriptionPreviewChangePlanParams = SubscriptionPreviewChangePlanParams.builder()\n        .subscriptionId("subscription_id")\n        .updateSubscriptionPlanReq(UpdateSubscriptionPlanReq.builder()\n            .productId("product_id")\n            .prorationBillingMode(UpdateSubscriptionPlanReq.ProrationBillingMode.PRORATED_IMMEDIATELY)\n            .quantity(0)\n            .build())\n        .build()\n    val response: SubscriptionPreviewChangePlanResponse = client.subscriptions().previewChangePlan(params)\n}',
+      },
+      php: {
+        method: 'subscriptions->previewChangePlan',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->subscriptions->previewChangePlan(\n  'subscription_id',\n  productID: 'product_id',\n  prorationBillingMode: 'prorated_immediately',\n  quantity: 0,\n  addons: [['addonID' => 'addon_id', 'quantity' => 0]],\n  discountCode: 'discount_code',\n  effectiveAt: 'immediately',\n  metadata: ['foo' => 'string'],\n  onPaymentFailure: 'prevent_change',\n);\n\nvar_dump($response);",
       },
       python: {
         method: 'subscriptions.preview_change_plan',
@@ -1091,6 +1251,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli subscriptions retrieve-credit-usage \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id",
       },
+      csharp: {
+        method: 'Subscriptions.RetrieveCreditUsage',
+        example:
+          'SubscriptionRetrieveCreditUsageParams parameters = new()\n{\n    SubscriptionID = "subscription_id"\n};\n\nvar response = await client.Subscriptions.RetrieveCreditUsage(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.Subscriptions.GetCreditUsage',
         example:
@@ -1109,6 +1274,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subscriptions().retrieveCreditUsage',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.subscriptions.SubscriptionRetrieveCreditUsageParams\nimport com.dodopayments.api.models.subscriptions.SubscriptionRetrieveCreditUsageResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val response: SubscriptionRetrieveCreditUsageResponse = client.subscriptions().retrieveCreditUsage("subscription_id")\n}',
+      },
+      php: {
+        method: 'subscriptions->retrieveCreditUsage',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->subscriptions->retrieveCreditUsage('subscription_id');\n\nvar_dump($response);",
       },
       python: {
         method: 'subscriptions.retrieve_credit_usage',
@@ -1144,6 +1314,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli subscriptions cancel-change-plan \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id",
       },
+      csharp: {
+        method: 'Subscriptions.CancelChangePlan',
+        example:
+          'SubscriptionCancelChangePlanParams parameters = new()\n{\n    SubscriptionID = "subscription_id"\n};\n\nawait client.Subscriptions.CancelChangePlan(parameters);',
+      },
       go: {
         method: 'client.Subscriptions.CancelChangePlan',
         example:
@@ -1162,6 +1337,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subscriptions().cancelChangePlan',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.subscriptions.SubscriptionCancelChangePlanParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.subscriptions().cancelChangePlan("subscription_id")\n}',
+      },
+      php: {
+        method: 'subscriptions->cancelChangePlan',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->subscriptions->cancelChangePlan('subscription_id');\n\nvar_dump($result);",
       },
       python: {
         method: 'subscriptions.cancel_change_plan',
@@ -1198,6 +1378,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli invoices:payments retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --payment-id payment_id",
       },
+      csharp: {
+        method: 'Invoices.Payments.Retrieve',
+        example:
+          'PaymentRetrieveParams parameters = new() { PaymentID = "payment_id" };\n\nvar payment = await client.Invoices.Payments.Retrieve(parameters);\n\nConsole.WriteLine(payment);',
+      },
       go: {
         method: 'client.Invoices.Payments.Get',
         example:
@@ -1216,6 +1401,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'invoices().payments().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.core.http.HttpResponse\nimport com.dodopayments.api.models.invoices.payments.PaymentRetrieveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val payment: HttpResponse = client.invoices().payments().retrieve("payment_id")\n}',
+      },
+      php: {
+        method: 'invoices->payments->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$payment = $client->invoices->payments->retrieve('payment_id');\n\nvar_dump($payment);",
       },
       python: {
         method: 'invoices.payments.retrieve',
@@ -1252,6 +1442,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli invoices:payments retrieve-refund \\\n  --bearer-token 'My Bearer Token' \\\n  --refund-id refund_id",
       },
+      csharp: {
+        method: 'Invoices.Payments.RetrieveRefund',
+        example:
+          'PaymentRetrieveRefundParams parameters = new() { RefundID = "refund_id" };\n\nvar response = await client.Invoices.Payments.RetrieveRefund(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.Invoices.Payments.GetRefund',
         example:
@@ -1270,6 +1465,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'invoices().payments().retrieveRefund',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.core.http.HttpResponse\nimport com.dodopayments.api.models.invoices.payments.PaymentRetrieveRefundParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val response: HttpResponse = client.invoices().payments().retrieveRefund("refund_id")\n}',
+      },
+      php: {
+        method: 'invoices->payments->retrieveRefund',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->invoices->payments->retrieveRefund('refund_id');\n\nvar_dump($response);",
       },
       python: {
         method: 'invoices.payments.retrieve_refund',
@@ -1307,6 +1507,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli licenses activate \\\n  --bearer-token 'My Bearer Token' \\\n  --license-key license_key \\\n  --name name",
       },
+      csharp: {
+        method: 'Licenses.Activate',
+        example:
+          'LicenseActivateParams parameters = new()\n{\n    LicenseKey = "license_key",\n    Name = "name",\n};\n\nvar response = await client.Licenses.Activate(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.Licenses.Activate',
         example:
@@ -1325,6 +1530,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'licenses().activate',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.licenses.LicenseActivateParams\nimport com.dodopayments.api.models.licenses.LicenseActivateResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: LicenseActivateParams = LicenseActivateParams.builder()\n        .licenseKey("license_key")\n        .name("name")\n        .build()\n    val response: LicenseActivateResponse = client.licenses().activate(params)\n}',
+      },
+      php: {
+        method: 'licenses->activate',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->licenses->activate(\n  licenseKey: 'license_key', name: 'name'\n);\n\nvar_dump($response);",
       },
       python: {
         method: 'licenses.activate',
@@ -1360,6 +1570,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli licenses deactivate \\\n  --bearer-token 'My Bearer Token' \\\n  --license-key license_key \\\n  --license-key-instance-id license_key_instance_id",
       },
+      csharp: {
+        method: 'Licenses.Deactivate',
+        example:
+          'LicenseDeactivateParams parameters = new()\n{\n    LicenseKey = "license_key",\n    LicenseKeyInstanceID = "license_key_instance_id",\n};\n\nawait client.Licenses.Deactivate(parameters);',
+      },
       go: {
         method: 'client.Licenses.Deactivate',
         example:
@@ -1378,6 +1593,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'licenses().deactivate',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.licenses.LicenseDeactivateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: LicenseDeactivateParams = LicenseDeactivateParams.builder()\n        .licenseKey("license_key")\n        .licenseKeyInstanceId("license_key_instance_id")\n        .build()\n    client.licenses().deactivate(params)\n}',
+      },
+      php: {
+        method: 'licenses->deactivate',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->licenses->deactivate(\n  licenseKey: 'license_key', licenseKeyInstanceID: 'license_key_instance_id'\n);\n\nvar_dump($result);",
       },
       python: {
         method: 'licenses.deactivate',
@@ -1414,6 +1634,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli licenses validate \\\n  --bearer-token 'My Bearer Token' \\\n  --license-key 2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43",
       },
+      csharp: {
+        method: 'Licenses.Validate',
+        example:
+          'LicenseValidateParams parameters = new()\n{\n    LicenseKey = "2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43"\n};\n\nvar response = await client.Licenses.Validate(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.Licenses.Validate',
         example:
@@ -1432,6 +1657,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'licenses().validate',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.licenses.LicenseValidateParams\nimport com.dodopayments.api.models.licenses.LicenseValidateResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: LicenseValidateParams = LicenseValidateParams.builder()\n        .licenseKey("2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43")\n        .build()\n    val response: LicenseValidateResponse = client.licenses().validate(params)\n}',
+      },
+      php: {
+        method: 'licenses->validate',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->licenses->validate(\n  licenseKey: '2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43',\n  licenseKeyInstanceID: 'lki_123',\n);\n\nvar_dump($response);",
       },
       python: {
         method: 'licenses.validate',
@@ -1476,6 +1706,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'license_keys list',
         example: "dodo-payments-cli license-keys list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'LicenseKeys.List',
+        example:
+          'LicenseKeyListParams parameters = new();\n\nvar page = await client.LicenseKeys.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.LicenseKeys.List',
         example:
@@ -1494,6 +1729,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'licenseKeys().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.licensekeys.LicenseKeyListPage\nimport com.dodopayments.api.models.licensekeys.LicenseKeyListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: LicenseKeyListPage = client.licenseKeys().list()\n}',
+      },
+      php: {
+        method: 'licenseKeys->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->licenseKeys->list(\n  createdAtGte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  createdAtLte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  customerID: 'customer_id',\n  pageNumber: 0,\n  pageSize: 0,\n  productID: 'product_id',\n  status: 'active',\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'license_keys.list',
@@ -1531,6 +1771,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli license-keys retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id lic_123",
       },
+      csharp: {
+        method: 'LicenseKeys.Retrieve',
+        example:
+          'LicenseKeyRetrieveParams parameters = new() { ID = "lic_123" };\n\nvar licenseKey = await client.LicenseKeys.Retrieve(parameters);\n\nConsole.WriteLine(licenseKey);',
+      },
       go: {
         method: 'client.LicenseKeys.Get',
         example:
@@ -1549,6 +1794,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'licenseKeys().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.licensekeys.LicenseKey\nimport com.dodopayments.api.models.licensekeys.LicenseKeyRetrieveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val licenseKey: LicenseKey = client.licenseKeys().retrieve("lic_123")\n}',
+      },
+      php: {
+        method: 'licenseKeys->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$licenseKey = $client->licenseKeys->retrieve('lic_123');\n\nvar_dump($licenseKey);",
       },
       python: {
         method: 'license_keys.retrieve',
@@ -1586,6 +1836,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli license-keys update \\\n  --bearer-token 'My Bearer Token' \\\n  --id lic_123",
       },
+      csharp: {
+        method: 'LicenseKeys.Update',
+        example:
+          'LicenseKeyUpdateParams parameters = new() { ID = "lic_123" };\n\nvar licenseKey = await client.LicenseKeys.Update(parameters);\n\nConsole.WriteLine(licenseKey);',
+      },
       go: {
         method: 'client.LicenseKeys.Update',
         example:
@@ -1604,6 +1859,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'licenseKeys().update',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.licensekeys.LicenseKey\nimport com.dodopayments.api.models.licensekeys.LicenseKeyUpdateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val licenseKey: LicenseKey = client.licenseKeys().update("lic_123")\n}',
+      },
+      php: {
+        method: 'licenseKeys->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$licenseKey = $client->licenseKeys->update(\n  'lic_123',\n  activationsLimit: 0,\n  disabled: true,\n  expiresAt: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n);\n\nvar_dump($licenseKey);",
       },
       python: {
         method: 'license_keys.update',
@@ -1640,6 +1900,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'license_key_instances list',
         example: "dodo-payments-cli license-key-instances list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'LicenseKeyInstances.List',
+        example:
+          'LicenseKeyInstanceListParams parameters = new();\n\nvar page = await client.LicenseKeyInstances.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.LicenseKeyInstances.List',
         example:
@@ -1658,6 +1923,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'licenseKeyInstances().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.licensekeyinstances.LicenseKeyInstanceListPage\nimport com.dodopayments.api.models.licensekeyinstances.LicenseKeyInstanceListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: LicenseKeyInstanceListPage = client.licenseKeyInstances().list()\n}',
+      },
+      php: {
+        method: 'licenseKeyInstances->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->licenseKeyInstances->list(\n  licenseKeyID: 'license_key_id', pageNumber: 0, pageSize: 0\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'license_key_instances.list',
@@ -1695,6 +1965,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli license-key-instances retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id lki_123",
       },
+      csharp: {
+        method: 'LicenseKeyInstances.Retrieve',
+        example:
+          'LicenseKeyInstanceRetrieveParams parameters = new() { ID = "lki_123" };\n\nvar licenseKeyInstance = await client.LicenseKeyInstances.Retrieve(parameters);\n\nConsole.WriteLine(licenseKeyInstance);',
+      },
       go: {
         method: 'client.LicenseKeyInstances.Get',
         example:
@@ -1713,6 +1988,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'licenseKeyInstances().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.licensekeyinstances.LicenseKeyInstance\nimport com.dodopayments.api.models.licensekeyinstances.LicenseKeyInstanceRetrieveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val licenseKeyInstance: LicenseKeyInstance = client.licenseKeyInstances().retrieve("lki_123")\n}',
+      },
+      php: {
+        method: 'licenseKeyInstances->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$licenseKeyInstance = $client->licenseKeyInstances->retrieve('lki_123');\n\nvar_dump($licenseKeyInstance);",
       },
       python: {
         method: 'license_key_instances.retrieve',
@@ -1750,6 +2030,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli license-key-instances update \\\n  --bearer-token 'My Bearer Token' \\\n  --id lki_123 \\\n  --name name",
       },
+      csharp: {
+        method: 'LicenseKeyInstances.Update',
+        example:
+          'LicenseKeyInstanceUpdateParams parameters = new()\n{\n    ID = "lki_123",\n    Name = "name",\n};\n\nvar licenseKeyInstance = await client.LicenseKeyInstances.Update(parameters);\n\nConsole.WriteLine(licenseKeyInstance);',
+      },
       go: {
         method: 'client.LicenseKeyInstances.Update',
         example:
@@ -1768,6 +2053,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'licenseKeyInstances().update',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.licensekeyinstances.LicenseKeyInstance\nimport com.dodopayments.api.models.licensekeyinstances.LicenseKeyInstanceUpdateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: LicenseKeyInstanceUpdateParams = LicenseKeyInstanceUpdateParams.builder()\n        .id("lki_123")\n        .name("name")\n        .build()\n    val licenseKeyInstance: LicenseKeyInstance = client.licenseKeyInstances().update(params)\n}',
+      },
+      php: {
+        method: 'licenseKeyInstances->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$licenseKeyInstance = $client->licenseKeyInstances->update(\n  'lki_123', name: 'name'\n);\n\nvar_dump($licenseKeyInstance);",
       },
       python: {
         method: 'license_key_instances.update',
@@ -1811,6 +2101,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'customers list',
         example: "dodo-payments-cli customers list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'Customers.List',
+        example:
+          'CustomerListParams parameters = new();\n\nvar page = await client.Customers.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.Customers.List',
         example:
@@ -1829,6 +2124,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'customers().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.customers.CustomerListPage\nimport com.dodopayments.api.models.customers.CustomerListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: CustomerListPage = client.customers().list()\n}',
+      },
+      php: {
+        method: 'customers->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->customers->list(\n  createdAtGte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  createdAtLte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  email: 'email',\n  name: 'name',\n  pageNumber: 0,\n  pageSize: 0,\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'customers.list',
@@ -1866,6 +2166,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli customers retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id",
       },
+      csharp: {
+        method: 'Customers.Retrieve',
+        example:
+          'CustomerRetrieveParams parameters = new() { CustomerID = "customer_id" };\n\nvar customer = await client.Customers.Retrieve(parameters);\n\nConsole.WriteLine(customer);',
+      },
       go: {
         method: 'client.Customers.Get',
         example:
@@ -1884,6 +2189,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'customers().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.customers.Customer\nimport com.dodopayments.api.models.customers.CustomerRetrieveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val customer: Customer = client.customers().retrieve("customer_id")\n}',
+      },
+      php: {
+        method: 'customers->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$customer = $client->customers->retrieve('customer_id');\n\nvar_dump($customer);",
       },
       python: {
         method: 'customers.retrieve',
@@ -1921,6 +2231,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli customers create \\\n  --bearer-token 'My Bearer Token' \\\n  --email email \\\n  --name name",
       },
+      csharp: {
+        method: 'Customers.Create',
+        example:
+          'CustomerCreateParams parameters = new()\n{\n    Email = "email",\n    Name = "name",\n};\n\nvar customer = await client.Customers.Create(parameters);\n\nConsole.WriteLine(customer);',
+      },
       go: {
         method: 'client.Customers.New',
         example:
@@ -1939,6 +2254,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'customers().create',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.customers.Customer\nimport com.dodopayments.api.models.customers.CustomerCreateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: CustomerCreateParams = CustomerCreateParams.builder()\n        .email("email")\n        .name("name")\n        .build()\n    val customer: Customer = client.customers().create(params)\n}',
+      },
+      php: {
+        method: 'customers->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$customer = $client->customers->create(\n  email: 'email',\n  name: 'name',\n  metadata: ['foo' => 'string'],\n  phoneNumber: 'phone_number',\n);\n\nvar_dump($customer);",
       },
       python: {
         method: 'customers.create',
@@ -1982,6 +2302,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli customers update \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id",
       },
+      csharp: {
+        method: 'Customers.Update',
+        example:
+          'CustomerUpdateParams parameters = new() { CustomerID = "customer_id" };\n\nvar customer = await client.Customers.Update(parameters);\n\nConsole.WriteLine(customer);',
+      },
       go: {
         method: 'client.Customers.Update',
         example:
@@ -2000,6 +2325,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'customers().update',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.customers.Customer\nimport com.dodopayments.api.models.customers.CustomerUpdateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val customer: Customer = client.customers().update("customer_id")\n}',
+      },
+      php: {
+        method: 'customers->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$customer = $client->customers->update(\n  'customer_id',\n  email: 'email',\n  metadata: ['foo' => 'string'],\n  name: 'name',\n  phoneNumber: 'phone_number',\n);\n\nvar_dump($customer);",
       },
       python: {
         method: 'customers.update',
@@ -2037,6 +2367,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli customers retrieve-payment-methods \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id",
       },
+      csharp: {
+        method: 'Customers.RetrievePaymentMethods',
+        example:
+          'CustomerRetrievePaymentMethodsParams parameters = new()\n{\n    CustomerID = "customer_id"\n};\n\nvar response = await client.Customers.RetrievePaymentMethods(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.Customers.GetPaymentMethods',
         example:
@@ -2055,6 +2390,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'customers().retrievePaymentMethods',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.customers.CustomerRetrievePaymentMethodsParams\nimport com.dodopayments.api.models.customers.CustomerRetrievePaymentMethodsResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val response: CustomerRetrievePaymentMethodsResponse = client.customers().retrievePaymentMethods("customer_id")\n}',
+      },
+      php: {
+        method: 'customers->retrievePaymentMethods',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->customers->retrievePaymentMethods('customer_id');\n\nvar_dump($response);",
       },
       python: {
         method: 'customers.retrieve_payment_methods',
@@ -2092,6 +2432,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli customers list-credit-entitlements \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id",
       },
+      csharp: {
+        method: 'Customers.ListCreditEntitlements',
+        example:
+          'CustomerListCreditEntitlementsParams parameters = new()\n{\n    CustomerID = "customer_id"\n};\n\nvar response = await client.Customers.ListCreditEntitlements(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.Customers.ListCreditEntitlements',
         example:
@@ -2110,6 +2455,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'customers().listCreditEntitlements',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.customers.CustomerListCreditEntitlementsParams\nimport com.dodopayments.api.models.customers.CustomerListCreditEntitlementsResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val response: CustomerListCreditEntitlementsResponse = client.customers().listCreditEntitlements("customer_id")\n}',
+      },
+      php: {
+        method: 'customers->listCreditEntitlements',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->customers->listCreditEntitlements('customer_id');\n\nvar_dump($response);",
       },
       python: {
         method: 'customers.list_credit_entitlements',
@@ -2145,6 +2495,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli customers delete-payment-method \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id \\\n  --payment-method-id payment_method_id",
       },
+      csharp: {
+        method: 'Customers.DeletePaymentMethod',
+        example:
+          'CustomerDeletePaymentMethodParams parameters = new()\n{\n    CustomerID = "customer_id",\n    PaymentMethodID = "payment_method_id",\n};\n\nawait client.Customers.DeletePaymentMethod(parameters);',
+      },
       go: {
         method: 'client.Customers.DeletePaymentMethod',
         example:
@@ -2163,6 +2518,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'customers().deletePaymentMethod',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.customers.CustomerDeletePaymentMethodParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: CustomerDeletePaymentMethodParams = CustomerDeletePaymentMethodParams.builder()\n        .customerId("customer_id")\n        .paymentMethodId("payment_method_id")\n        .build()\n    client.customers().deletePaymentMethod(params)\n}',
+      },
+      php: {
+        method: 'customers->deletePaymentMethod',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->customers->deletePaymentMethod(\n  'payment_method_id', customerID: 'customer_id'\n);\n\nvar_dump($result);",
       },
       python: {
         method: 'customers.delete_payment_method',
@@ -2199,6 +2559,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli customers:customer-portal create \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id",
       },
+      csharp: {
+        method: 'Customers.CustomerPortal.Create',
+        example:
+          'CustomerPortalCreateParams parameters = new() { CustomerID = "customer_id" };\n\nvar customerPortalSession = await client.Customers.CustomerPortal.Create(parameters);\n\nConsole.WriteLine(customerPortalSession);',
+      },
       go: {
         method: 'client.Customers.CustomerPortal.New',
         example:
@@ -2217,6 +2582,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'customers().customerPortal().create',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.customers.CustomerPortalSession\nimport com.dodopayments.api.models.customers.customerportal.CustomerPortalCreateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val customerPortalSession: CustomerPortalSession = client.customers().customerPortal().create("customer_id")\n}',
+      },
+      php: {
+        method: 'customers->customerPortal->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$customerPortalSession = $client->customers->customerPortal->create(\n  'customer_id', returnURL: 'return_url', sendEmail: true\n);\n\nvar_dump($customerPortalSession);",
       },
       python: {
         method: 'customers.customer_portal.create',
@@ -2254,6 +2624,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli customers:wallets list \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id",
       },
+      csharp: {
+        method: 'Customers.Wallets.List',
+        example:
+          'WalletListParams parameters = new() { CustomerID = "customer_id" };\n\nvar wallets = await client.Customers.Wallets.List(parameters);\n\nConsole.WriteLine(wallets);',
+      },
       go: {
         method: 'client.Customers.Wallets.List',
         example:
@@ -2272,6 +2647,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'customers().wallets().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.customers.wallets.WalletListParams\nimport com.dodopayments.api.models.customers.wallets.WalletListResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val wallets: WalletListResponse = client.customers().wallets().list("customer_id")\n}',
+      },
+      php: {
+        method: 'customers->wallets->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$wallets = $client->customers->wallets->list('customer_id');\n\nvar_dump($wallets);",
       },
       python: {
         method: 'customers.wallets.list',
@@ -2309,6 +2689,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli customers:wallets:ledger-entries list \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id",
       },
+      csharp: {
+        method: 'Customers.Wallets.LedgerEntries.List',
+        example:
+          'LedgerEntryListParams parameters = new() { CustomerID = "customer_id" };\n\nvar page = await client.Customers.Wallets.LedgerEntries.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.Customers.Wallets.LedgerEntries.List',
         example:
@@ -2327,6 +2712,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'customers().wallets().ledgerEntries().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.customers.wallets.ledgerentries.LedgerEntryListPage\nimport com.dodopayments.api.models.customers.wallets.ledgerentries.LedgerEntryListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: LedgerEntryListPage = client.customers().wallets().ledgerEntries().list("customer_id")\n}',
+      },
+      php: {
+        method: 'customers->wallets->ledgerEntries->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->customers->wallets->ledgerEntries->list(\n  'customer_id', currency: Currency::AED, pageNumber: 0, pageSize: 0\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'customers.wallets.ledger_entries.list',
@@ -2371,6 +2761,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli customers:wallets:ledger-entries create \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id \\\n  --amount 0 \\\n  --currency AED \\\n  --entry-type credit",
       },
+      csharp: {
+        method: 'Customers.Wallets.LedgerEntries.Create',
+        example:
+          'LedgerEntryCreateParams parameters = new()\n{\n    CustomerID = "customer_id",\n    Amount = 0,\n    Currency = Currency.Aed,\n    EntryType = EntryType.Credit,\n};\n\nvar customerWallet = await client.Customers.Wallets.LedgerEntries.Create(parameters);\n\nConsole.WriteLine(customerWallet);',
+      },
       go: {
         method: 'client.Customers.Wallets.LedgerEntries.New',
         example:
@@ -2389,6 +2784,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'customers().wallets().ledgerEntries().create',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.customers.wallets.CustomerWallet\nimport com.dodopayments.api.models.customers.wallets.ledgerentries.LedgerEntryCreateParams\nimport com.dodopayments.api.models.misc.Currency\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: LedgerEntryCreateParams = LedgerEntryCreateParams.builder()\n        .customerId("customer_id")\n        .amount(0L)\n        .currency(Currency.AED)\n        .entryType(LedgerEntryCreateParams.EntryType.CREDIT)\n        .build()\n    val customerWallet: CustomerWallet = client.customers().wallets().ledgerEntries().create(params)\n}',
+      },
+      php: {
+        method: 'customers->wallets->ledgerEntries->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$customerWallet = $client->customers->wallets->ledgerEntries->create(\n  'customer_id',\n  amount: 0,\n  currency: Currency::AED,\n  entryType: 'credit',\n  idempotencyKey: 'idempotency_key',\n  reason: 'reason',\n);\n\nvar_dump($customerWallet);",
       },
       python: {
         method: 'customers.wallets.ledger_entries.create',
@@ -2433,6 +2833,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'refunds list',
         example: "dodo-payments-cli refunds list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'Refunds.List',
+        example:
+          'RefundListParams parameters = new();\n\nvar page = await client.Refunds.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.Refunds.List',
         example:
@@ -2451,6 +2856,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'refunds().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.refunds.RefundListPage\nimport com.dodopayments.api.models.refunds.RefundListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: RefundListPage = client.refunds().list()\n}',
+      },
+      php: {
+        method: 'refunds->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->refunds->list(\n  createdAtGte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  createdAtLte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  customerID: 'customer_id',\n  pageNumber: 0,\n  pageSize: 0,\n  status: 'succeeded',\n  subscriptionID: 'subscription_id',\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'refunds.list',
@@ -2493,6 +2903,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli refunds create \\\n  --bearer-token 'My Bearer Token' \\\n  --payment-id payment_id",
       },
+      csharp: {
+        method: 'Refunds.Create',
+        example:
+          'RefundCreateParams parameters = new() { PaymentID = "payment_id" };\n\nvar refund = await client.Refunds.Create(parameters);\n\nConsole.WriteLine(refund);',
+      },
       go: {
         method: 'client.Refunds.New',
         example:
@@ -2511,6 +2926,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'refunds().create',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.refunds.Refund\nimport com.dodopayments.api.models.refunds.RefundCreateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: RefundCreateParams = RefundCreateParams.builder()\n        .paymentId("payment_id")\n        .build()\n    val refund: Refund = client.refunds().create(params)\n}',
+      },
+      php: {
+        method: 'refunds->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$refund = $client->refunds->create(\n  paymentID: 'payment_id',\n  items: [['itemID' => 'item_id', 'amount' => 0, 'taxInclusive' => true]],\n  metadata: ['foo' => 'string'],\n  reason: 'reason',\n);\n\nvar_dump($refund);",
       },
       python: {
         method: 'refunds.create',
@@ -2548,6 +2968,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli refunds retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --refund-id refund_id",
       },
+      csharp: {
+        method: 'Refunds.Retrieve',
+        example:
+          'RefundRetrieveParams parameters = new() { RefundID = "refund_id" };\n\nvar refund = await client.Refunds.Retrieve(parameters);\n\nConsole.WriteLine(refund);',
+      },
       go: {
         method: 'client.Refunds.Get',
         example:
@@ -2566,6 +2991,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'refunds().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.refunds.Refund\nimport com.dodopayments.api.models.refunds.RefundRetrieveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val refund: Refund = client.refunds().retrieve("refund_id")\n}',
+      },
+      php: {
+        method: 'refunds->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$refund = $client->refunds->retrieve('refund_id');\n\nvar_dump($refund);",
       },
       python: {
         method: 'refunds.retrieve',
@@ -2610,6 +3040,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'disputes list',
         example: "dodo-payments-cli disputes list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'Disputes.List',
+        example:
+          'DisputeListParams parameters = new();\n\nvar page = await client.Disputes.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.Disputes.List',
         example:
@@ -2628,6 +3063,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'disputes().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.disputes.DisputeListPage\nimport com.dodopayments.api.models.disputes.DisputeListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: DisputeListPage = client.disputes().list()\n}',
+      },
+      php: {
+        method: 'disputes->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->disputes->list(\n  createdAtGte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  createdAtLte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  customerID: 'customer_id',\n  disputeStage: 'pre_dispute',\n  disputeStatus: 'dispute_opened',\n  pageNumber: 0,\n  pageSize: 0,\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'disputes.list',
@@ -2665,6 +3105,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli disputes retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --dispute-id dispute_id",
       },
+      csharp: {
+        method: 'Disputes.Retrieve',
+        example:
+          'DisputeRetrieveParams parameters = new() { DisputeID = "dispute_id" };\n\nvar getDispute = await client.Disputes.Retrieve(parameters);\n\nConsole.WriteLine(getDispute);',
+      },
       go: {
         method: 'client.Disputes.Get',
         example:
@@ -2683,6 +3128,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'disputes().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.disputes.DisputeRetrieveParams\nimport com.dodopayments.api.models.disputes.GetDispute\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val getDispute: GetDispute = client.disputes().retrieve("dispute_id")\n}',
+      },
+      php: {
+        method: 'disputes->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$getDispute = $client->disputes->retrieve('dispute_id');\n\nvar_dump($getDispute);",
       },
       python: {
         method: 'disputes.retrieve',
@@ -2724,6 +3174,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'payouts list',
         example: "dodo-payments-cli payouts list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'Payouts.List',
+        example:
+          'PayoutListParams parameters = new();\n\nvar page = await client.Payouts.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.Payouts.List',
         example:
@@ -2742,6 +3197,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'payouts().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.payouts.PayoutListPage\nimport com.dodopayments.api.models.payouts.PayoutListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: PayoutListPage = client.payouts().list()\n}',
+      },
+      php: {
+        method: 'payouts->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->payouts->list(\n  createdAtGte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  createdAtLte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  pageNumber: 0,\n  pageSize: 0,\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'payouts.list',
@@ -2779,6 +3239,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli payouts:breakup retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --payout-id payout_id",
       },
+      csharp: {
+        method: 'Payouts.Breakup.Retrieve',
+        example:
+          'BreakupRetrieveParams parameters = new() { PayoutID = "payout_id" };\n\nvar breakups = await client.Payouts.Breakup.Retrieve(parameters);\n\nConsole.WriteLine(breakups);',
+      },
       go: {
         method: 'client.Payouts.Breakup.Get',
         example:
@@ -2797,6 +3262,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'payouts().breakup().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.payouts.breakup.BreakupRetrieveParams\nimport com.dodopayments.api.models.payouts.breakup.BreakupRetrieveResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val breakups: List<BreakupRetrieveResponse> = client.payouts().breakup().retrieve("payout_id")\n}',
+      },
+      php: {
+        method: 'payouts->breakup->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$breakups = $client->payouts->breakup->retrieve('payout_id');\n\nvar_dump($breakups);",
       },
       python: {
         method: 'payouts.breakup.retrieve',
@@ -2835,6 +3305,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli payouts:breakup:details list \\\n  --bearer-token 'My Bearer Token' \\\n  --payout-id payout_id",
       },
+      csharp: {
+        method: 'Payouts.Breakup.Details.List',
+        example:
+          'DetailListParams parameters = new() { PayoutID = "payout_id" };\n\nvar page = await client.Payouts.Breakup.Details.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.Payouts.Breakup.Details.List',
         example:
@@ -2853,6 +3328,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'payouts().breakup().details().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.payouts.breakup.details.DetailListPage\nimport com.dodopayments.api.models.payouts.breakup.details.DetailListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: DetailListPage = client.payouts().breakup().details().list("payout_id")\n}',
+      },
+      php: {
+        method: 'payouts->breakup->details->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->payouts->breakup->details->list(\n  'payout_id', pageNumber: 0, pageSize: 0\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'payouts.breakup.details.list',
@@ -2889,6 +3369,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli payouts:breakup:details download-csv \\\n  --bearer-token 'My Bearer Token' \\\n  --payout-id payout_id",
       },
+      csharp: {
+        method: 'Payouts.Breakup.Details.DownloadCsv',
+        example:
+          'DetailDownloadCsvParams parameters = new() { PayoutID = "payout_id" };\n\nawait client.Payouts.Breakup.Details.DownloadCsv(parameters);',
+      },
       go: {
         method: 'client.Payouts.Breakup.Details.DownloadCsv',
         example:
@@ -2907,6 +3392,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'payouts().breakup().details().downloadCsv',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.payouts.breakup.details.DetailDownloadCsvParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.payouts().breakup().details().downloadCsv("payout_id")\n}',
+      },
+      php: {
+        method: 'payouts->breakup->details->downloadCsv',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->payouts->breakup->details->downloadCsv('payout_id');\n\nvar_dump($result);",
       },
       python: {
         method: 'payouts.breakup.details.download_csv',
@@ -2949,6 +3439,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'products list',
         example: "dodo-payments-cli products list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'Products.List',
+        example:
+          'ProductListParams parameters = new();\n\nvar page = await client.Products.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.Products.List',
         example:
@@ -2967,6 +3462,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'products().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.products.ProductListPage\nimport com.dodopayments.api.models.products.ProductListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: ProductListPage = client.products().list()\n}',
+      },
+      php: {
+        method: 'products->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->products->list(\n  archived: true,\n  brandID: 'brand_id',\n  pageNumber: 0,\n  pageSize: 0,\n  recurring: true,\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'products.list',
@@ -3018,6 +3518,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli products create \\\n  --bearer-token 'My Bearer Token' \\\n  --name name \\\n  --price '{currency: AED, discount: 0, price: 0, purchasing_power_parity: true, type: one_time_price}' \\\n  --tax-category digital_products",
       },
+      csharp: {
+        method: 'Products.Create',
+        example:
+          'ProductCreateParams parameters = new()\n{\n    Name = "name",\n    Price = new OneTimePrice()\n    {\n        Currency = Currency.Aed,\n        Discount = 0,\n        Price = 0,\n        PurchasingPowerParity = true,\n        Type = Type.OneTimePrice,\n        PayWhatYouWant = true,\n        SuggestedPrice = 0,\n        TaxInclusive = true,\n    },\n    TaxCategory = TaxCategory.DigitalProducts,\n};\n\nvar product = await client.Products.Create(parameters);\n\nConsole.WriteLine(product);',
+      },
       go: {
         method: 'client.Products.New',
         example:
@@ -3036,6 +3541,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'products().create',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.misc.Currency\nimport com.dodopayments.api.models.misc.TaxCategory\nimport com.dodopayments.api.models.products.Price\nimport com.dodopayments.api.models.products.Product\nimport com.dodopayments.api.models.products.ProductCreateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: ProductCreateParams = ProductCreateParams.builder()\n        .name("name")\n        .price(Price.OneTimePrice.builder()\n            .currency(Currency.AED)\n            .discount(0L)\n            .price(0)\n            .purchasingPowerParity(true)\n            .type(Price.OneTimePrice.Type.ONE_TIME_PRICE)\n            .build())\n        .taxCategory(TaxCategory.DIGITAL_PRODUCTS)\n        .build()\n    val product: Product = client.products().create(params)\n}',
+      },
+      php: {
+        method: 'products->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$product = $client->products->create(\n  name: 'name',\n  price: [\n    'currency' => Currency::AED,\n    'discount' => 0,\n    'price' => 0,\n    'purchasingPowerParity' => true,\n    'type' => 'one_time_price',\n    'payWhatYouWant' => true,\n    'suggestedPrice' => 0,\n    'taxInclusive' => true,\n  ],\n  taxCategory: TaxCategory::DIGITAL_PRODUCTS,\n  addons: ['string'],\n  brandID: 'brand_id',\n  creditEntitlements: [\n    [\n      'creditEntitlementID' => 'credit_entitlement_id',\n      'creditsAmount' => 'credits_amount',\n      'currency' => Currency::AED,\n      'expiresAfterDays' => 0,\n      'lowBalanceThresholdPercent' => 0,\n      'maxRolloverCount' => 0,\n      'overageBehavior' => CbbOverageBehavior::FORGIVE_AT_RESET,\n      'overageEnabled' => true,\n      'overageLimit' => 'overage_limit',\n      'pricePerUnit' => 'price_per_unit',\n      'prorationBehavior' => CbbProrationBehavior::PRORATE,\n      'rolloverEnabled' => true,\n      'rolloverPercentage' => 0,\n      'rolloverTimeframeCount' => 0,\n      'rolloverTimeframeInterval' => TimeInterval::DAY,\n      'trialCredits' => 'trial_credits',\n      'trialCreditsExpireAfterTrial' => true,\n    ],\n  ],\n  description: 'description',\n  digitalProductDelivery: [\n    'externalURL' => 'external_url', 'instructions' => 'instructions'\n  ],\n  licenseKeyActivationMessage: 'license_key_activation_message',\n  licenseKeyActivationsLimit: 0,\n  licenseKeyDuration: ['count' => 0, 'interval' => TimeInterval::DAY],\n  licenseKeyEnabled: true,\n  metadata: ['foo' => 'string'],\n);\n\nvar_dump($product);",
       },
       python: {
         method: 'products.create',
@@ -3072,6 +3582,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'products retrieve',
         example: "dodo-payments-cli products retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'Products.Retrieve',
+        example:
+          'ProductRetrieveParams parameters = new() { ID = "id" };\n\nvar product = await client.Products.Retrieve(parameters);\n\nConsole.WriteLine(product);',
+      },
       go: {
         method: 'client.Products.Get',
         example:
@@ -3090,6 +3605,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'products().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.products.Product\nimport com.dodopayments.api.models.products.ProductRetrieveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val product: Product = client.products().retrieve("id")\n}',
+      },
+      php: {
+        method: 'products->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$product = $client->products->retrieve('id');\n\nvar_dump($product);",
       },
       python: {
         method: 'products.retrieve',
@@ -3140,6 +3660,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'products update',
         example: "dodo-payments-cli products update \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'Products.Update',
+        example:
+          'ProductUpdateParams parameters = new() { ID = "id" };\n\nawait client.Products.Update(parameters);',
+      },
       go: {
         method: 'client.Products.Update',
         example:
@@ -3158,6 +3683,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'products().update',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.products.ProductUpdateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.products().update("id")\n}',
+      },
+      php: {
+        method: 'products->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->products->update(\n  'id',\n  addons: ['string'],\n  brandID: 'brand_id',\n  creditEntitlements: [\n    [\n      'creditEntitlementID' => 'credit_entitlement_id',\n      'creditsAmount' => 'credits_amount',\n      'currency' => Currency::AED,\n      'expiresAfterDays' => 0,\n      'lowBalanceThresholdPercent' => 0,\n      'maxRolloverCount' => 0,\n      'overageBehavior' => CbbOverageBehavior::FORGIVE_AT_RESET,\n      'overageEnabled' => true,\n      'overageLimit' => 'overage_limit',\n      'pricePerUnit' => 'price_per_unit',\n      'prorationBehavior' => CbbProrationBehavior::PRORATE,\n      'rolloverEnabled' => true,\n      'rolloverPercentage' => 0,\n      'rolloverTimeframeCount' => 0,\n      'rolloverTimeframeInterval' => TimeInterval::DAY,\n      'trialCredits' => 'trial_credits',\n      'trialCreditsExpireAfterTrial' => true,\n    ],\n  ],\n  description: 'description',\n  digitalProductDelivery: [\n    'externalURL' => 'external_url',\n    'files' => ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],\n    'instructions' => 'instructions',\n  ],\n  imageID: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  licenseKeyActivationMessage: 'license_key_activation_message',\n  licenseKeyActivationsLimit: 0,\n  licenseKeyDuration: ['count' => 0, 'interval' => TimeInterval::DAY],\n  licenseKeyEnabled: true,\n  metadata: ['foo' => 'string'],\n  name: 'name',\n  price: [\n    'currency' => Currency::AED,\n    'discount' => 0,\n    'price' => 0,\n    'purchasingPowerParity' => true,\n    'type' => 'one_time_price',\n    'payWhatYouWant' => true,\n    'suggestedPrice' => 0,\n    'taxInclusive' => true,\n  ],\n  taxCategory: TaxCategory::DIGITAL_PRODUCTS,\n);\n\nvar_dump($result);",
       },
       python: {
         method: 'products.update',
@@ -3192,6 +3722,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'products archive',
         example: "dodo-payments-cli products archive \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'Products.Archive',
+        example:
+          'ProductArchiveParams parameters = new() { ID = "id" };\n\nawait client.Products.Archive(parameters);',
+      },
       go: {
         method: 'client.Products.Archive',
         example:
@@ -3210,6 +3745,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'products().archive',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.products.ProductArchiveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.products().archive("id")\n}',
+      },
+      php: {
+        method: 'products->archive',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->products->archive('id');\n\nvar_dump($result);",
       },
       python: {
         method: 'products.archive',
@@ -3244,6 +3784,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'products unarchive',
         example: "dodo-payments-cli products unarchive \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'Products.Unarchive',
+        example:
+          'ProductUnarchiveParams parameters = new() { ID = "id" };\n\nawait client.Products.Unarchive(parameters);',
+      },
       go: {
         method: 'client.Products.Unarchive',
         example:
@@ -3262,6 +3807,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'products().unarchive',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.products.ProductUnarchiveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.products().unarchive("id")\n}',
+      },
+      php: {
+        method: 'products->unarchive',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->products->unarchive('id');\n\nvar_dump($result);",
       },
       python: {
         method: 'products.unarchive',
@@ -3298,6 +3848,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli products update-files \\\n  --bearer-token 'My Bearer Token' \\\n  --id id \\\n  --file-name file_name",
       },
+      csharp: {
+        method: 'Products.UpdateFiles',
+        example:
+          'ProductUpdateFilesParams parameters = new()\n{\n    ID = "id",\n    FileName = "file_name",\n};\n\nvar response = await client.Products.UpdateFiles(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.Products.UpdateFiles',
         example:
@@ -3316,6 +3871,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'products().updateFiles',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.products.ProductUpdateFilesParams\nimport com.dodopayments.api.models.products.ProductUpdateFilesResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: ProductUpdateFilesParams = ProductUpdateFilesParams.builder()\n        .id("id")\n        .fileName("file_name")\n        .build()\n    val response: ProductUpdateFilesResponse = client.products().updateFiles(params)\n}',
+      },
+      php: {
+        method: 'products->updateFiles',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->products->updateFiles('id', fileName: 'file_name');\n\nvar_dump($response);",
       },
       python: {
         method: 'products.update_files',
@@ -3352,6 +3912,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli products:images update \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'Products.Images.Update',
+        example:
+          'ImageUpdateParams parameters = new() { ID = "id" };\n\nvar image = await client.Products.Images.Update(parameters);\n\nConsole.WriteLine(image);',
+      },
       go: {
         method: 'client.Products.Images.Update',
         example:
@@ -3370,6 +3935,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'products().images().update',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.products.images.ImageUpdateParams\nimport com.dodopayments.api.models.products.images.ImageUpdateResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val image: ImageUpdateResponse = client.products().images().update("id")\n}',
+      },
+      php: {
+        method: 'products->images->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$image = $client->products->images->update('id', forceUpdate: true);\n\nvar_dump($image);",
       },
       python: {
         method: 'products.images.update',
@@ -3405,6 +3975,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'short_links list',
         example: "dodo-payments-cli products:short-links list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'Products.ShortLinks.List',
+        example:
+          'ShortLinkListParams parameters = new();\n\nvar page = await client.Products.ShortLinks.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.Products.ShortLinks.List',
         example:
@@ -3423,6 +3998,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'products().shortLinks().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.products.shortlinks.ShortLinkListPage\nimport com.dodopayments.api.models.products.shortlinks.ShortLinkListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: ShortLinkListPage = client.products().shortLinks().list()\n}',
+      },
+      php: {
+        method: 'products->shortLinks->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->products->shortLinks->list(\n  pageNumber: 0, pageSize: 0, productID: 'product_id'\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'products.short_links.list',
@@ -3461,6 +4041,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli products:short-links create \\\n  --bearer-token 'My Bearer Token' \\\n  --id id \\\n  --slug slug",
       },
+      csharp: {
+        method: 'Products.ShortLinks.Create',
+        example:
+          'ShortLinkCreateParams parameters = new()\n{\n    ID = "id",\n    Slug = "slug",\n};\n\nvar shortLink = await client.Products.ShortLinks.Create(parameters);\n\nConsole.WriteLine(shortLink);',
+      },
       go: {
         method: 'client.Products.ShortLinks.New',
         example:
@@ -3479,6 +4064,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'products().shortLinks().create',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.products.shortlinks.ShortLinkCreateParams\nimport com.dodopayments.api.models.products.shortlinks.ShortLinkCreateResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: ShortLinkCreateParams = ShortLinkCreateParams.builder()\n        .id("id")\n        .slug("slug")\n        .build()\n    val shortLink: ShortLinkCreateResponse = client.products().shortLinks().create(params)\n}',
+      },
+      php: {
+        method: 'products->shortLinks->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$shortLink = $client->products->shortLinks->create(\n  'id', slug: 'slug', staticCheckoutParams: ['foo' => 'string']\n);\n\nvar_dump($shortLink);",
       },
       python: {
         method: 'products.short_links.create',
@@ -3513,6 +4103,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'misc list_supported_countries',
         example: "dodo-payments-cli misc list-supported-countries \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'Misc.ListSupportedCountries',
+        example:
+          'MiscListSupportedCountriesParams parameters = new();\n\nvar countryCodes = await client.Misc.ListSupportedCountries(parameters);\n\nConsole.WriteLine(countryCodes);',
+      },
       go: {
         method: 'client.Misc.ListSupportedCountries',
         example:
@@ -3531,6 +4126,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'misc().listSupportedCountries',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.misc.CountryCode\nimport com.dodopayments.api.models.misc.MiscListSupportedCountriesParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val countryCodes: List<CountryCode> = client.misc().listSupportedCountries()\n}',
+      },
+      php: {
+        method: 'misc->listSupportedCountries',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$countryCodes = $client->misc->listSupportedCountries();\n\nvar_dump($countryCodes);",
       },
       python: {
         method: 'misc.list_supported_countries',
@@ -3574,6 +4174,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'discounts list',
         example: "dodo-payments-cli discounts list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'Discounts.List',
+        example:
+          'DiscountListParams parameters = new();\n\nvar page = await client.Discounts.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.Discounts.List',
         example:
@@ -3592,6 +4197,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'discounts().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.discounts.DiscountListPage\nimport com.dodopayments.api.models.discounts.DiscountListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: DiscountListPage = client.discounts().list()\n}',
+      },
+      php: {
+        method: 'discounts->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->discounts->list(\n  active: true,\n  code: 'code',\n  discountType: DiscountType::PERCENTAGE,\n  pageNumber: 0,\n  pageSize: 0,\n  productID: 'product_id',\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'discounts.list',
@@ -3640,6 +4250,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli discounts create \\\n  --bearer-token 'My Bearer Token' \\\n  --amount 0 \\\n  --type percentage",
       },
+      csharp: {
+        method: 'Discounts.Create',
+        example:
+          'DiscountCreateParams parameters = new()\n{\n    Amount = 0,\n    Type = DiscountType.Percentage,\n};\n\nvar discount = await client.Discounts.Create(parameters);\n\nConsole.WriteLine(discount);',
+      },
       go: {
         method: 'client.Discounts.New',
         example:
@@ -3658,6 +4273,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'discounts().create',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.discounts.Discount\nimport com.dodopayments.api.models.discounts.DiscountCreateParams\nimport com.dodopayments.api.models.discounts.DiscountType\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: DiscountCreateParams = DiscountCreateParams.builder()\n        .amount(0)\n        .type(DiscountType.PERCENTAGE)\n        .build()\n    val discount: Discount = client.discounts().create(params)\n}',
+      },
+      php: {
+        method: 'discounts->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$discount = $client->discounts->create(\n  amount: 0,\n  type: DiscountType::PERCENTAGE,\n  code: 'code',\n  expiresAt: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  name: 'name',\n  preserveOnPlanChange: true,\n  restrictedTo: ['string'],\n  subscriptionCycles: 0,\n  usageLimit: 0,\n);\n\nvar_dump($discount);",
       },
       python: {
         method: 'discounts.create',
@@ -3695,6 +4315,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli discounts retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --discount-id discount_id",
       },
+      csharp: {
+        method: 'Discounts.Retrieve',
+        example:
+          'DiscountRetrieveParams parameters = new() { DiscountID = "discount_id" };\n\nvar discount = await client.Discounts.Retrieve(parameters);\n\nConsole.WriteLine(discount);',
+      },
       go: {
         method: 'client.Discounts.Get',
         example:
@@ -3713,6 +4338,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'discounts().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.discounts.Discount\nimport com.dodopayments.api.models.discounts.DiscountRetrieveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val discount: Discount = client.discounts().retrieve("discount_id")\n}',
+      },
+      php: {
+        method: 'discounts->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$discount = $client->discounts->retrieve('discount_id');\n\nvar_dump($discount);",
       },
       python: {
         method: 'discounts.retrieve',
@@ -3748,6 +4378,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli discounts delete \\\n  --bearer-token 'My Bearer Token' \\\n  --discount-id discount_id",
       },
+      csharp: {
+        method: 'Discounts.Delete',
+        example:
+          'DiscountDeleteParams parameters = new() { DiscountID = "discount_id" };\n\nawait client.Discounts.Delete(parameters);',
+      },
       go: {
         method: 'client.Discounts.Delete',
         example:
@@ -3766,6 +4401,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'discounts().delete',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.discounts.DiscountDeleteParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.discounts().delete("discount_id")\n}',
+      },
+      php: {
+        method: 'discounts->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->discounts->delete('discount_id');\n\nvar_dump($result);",
       },
       python: {
         method: 'discounts.delete',
@@ -3814,6 +4454,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli discounts update \\\n  --bearer-token 'My Bearer Token' \\\n  --discount-id discount_id",
       },
+      csharp: {
+        method: 'Discounts.Update',
+        example:
+          'DiscountUpdateParams parameters = new() { DiscountID = "discount_id" };\n\nvar discount = await client.Discounts.Update(parameters);\n\nConsole.WriteLine(discount);',
+      },
       go: {
         method: 'client.Discounts.Update',
         example:
@@ -3832,6 +4477,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'discounts().update',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.discounts.Discount\nimport com.dodopayments.api.models.discounts.DiscountUpdateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val discount: Discount = client.discounts().update("discount_id")\n}',
+      },
+      php: {
+        method: 'discounts->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$discount = $client->discounts->update(\n  'discount_id',\n  amount: 0,\n  code: 'code',\n  expiresAt: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  name: 'name',\n  preserveOnPlanChange: true,\n  restrictedTo: ['string'],\n  subscriptionCycles: 0,\n  type: DiscountType::PERCENTAGE,\n  usageLimit: 0,\n);\n\nvar_dump($discount);",
       },
       python: {
         method: 'discounts.update',
@@ -3870,6 +4520,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli discounts retrieve-by-code \\\n  --bearer-token 'My Bearer Token' \\\n  --code code",
       },
+      csharp: {
+        method: 'Discounts.RetrieveByCode',
+        example:
+          'DiscountRetrieveByCodeParams parameters = new() { Code = "code" };\n\nvar discount = await client.Discounts.RetrieveByCode(parameters);\n\nConsole.WriteLine(discount);',
+      },
       go: {
         method: 'client.Discounts.GetByCode',
         example:
@@ -3888,6 +4543,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'discounts().retrieveByCode',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.discounts.Discount\nimport com.dodopayments.api.models.discounts.DiscountRetrieveByCodeParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val discount: Discount = client.discounts().retrieveByCode("code")\n}',
+      },
+      php: {
+        method: 'discounts->retrieveByCode',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$discount = $client->discounts->retrieveByCode('code');\n\nvar_dump($discount);",
       },
       python: {
         method: 'discounts.retrieve_by_code',
@@ -3924,6 +4584,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'addons list',
         example: "dodo-payments-cli addons list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'Addons.List',
+        example:
+          'AddonListParams parameters = new();\n\nvar page = await client.Addons.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.Addons.List',
         example:
@@ -3942,6 +4607,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'addons().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.addons.AddonListPage\nimport com.dodopayments.api.models.addons.AddonListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: AddonListPage = client.addons().list()\n}',
+      },
+      php: {
+        method: 'addons->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->addons->list(pageNumber: 0, pageSize: 0);\n\nvar_dump($page);",
       },
       python: {
         method: 'addons.list',
@@ -3985,6 +4655,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli addons create \\\n  --bearer-token 'My Bearer Token' \\\n  --currency AED \\\n  --name name \\\n  --price 0 \\\n  --tax-category digital_products",
       },
+      csharp: {
+        method: 'Addons.Create',
+        example:
+          'AddonCreateParams parameters = new()\n{\n    Currency = Currency.Aed,\n    Name = "name",\n    Price = 0,\n    TaxCategory = TaxCategory.DigitalProducts,\n};\n\nvar addonResponse = await client.Addons.Create(parameters);\n\nConsole.WriteLine(addonResponse);',
+      },
       go: {
         method: 'client.Addons.New',
         example:
@@ -4003,6 +4678,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'addons().create',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.addons.AddonCreateParams\nimport com.dodopayments.api.models.addons.AddonResponse\nimport com.dodopayments.api.models.misc.Currency\nimport com.dodopayments.api.models.misc.TaxCategory\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: AddonCreateParams = AddonCreateParams.builder()\n        .currency(Currency.AED)\n        .name("name")\n        .price(0)\n        .taxCategory(TaxCategory.DIGITAL_PRODUCTS)\n        .build()\n    val addonResponse: AddonResponse = client.addons().create(params)\n}',
+      },
+      php: {
+        method: 'addons->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$addonResponse = $client->addons->create(\n  currency: Currency::AED,\n  name: 'name',\n  price: 0,\n  taxCategory: TaxCategory::DIGITAL_PRODUCTS,\n  description: 'description',\n);\n\nvar_dump($addonResponse);",
       },
       python: {
         method: 'addons.create',
@@ -4039,6 +4719,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'addons retrieve',
         example: "dodo-payments-cli addons retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'Addons.Retrieve',
+        example:
+          'AddonRetrieveParams parameters = new() { ID = "id" };\n\nvar addonResponse = await client.Addons.Retrieve(parameters);\n\nConsole.WriteLine(addonResponse);',
+      },
       go: {
         method: 'client.Addons.Get',
         example:
@@ -4057,6 +4742,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'addons().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.addons.AddonResponse\nimport com.dodopayments.api.models.addons.AddonRetrieveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val addonResponse: AddonResponse = client.addons().retrieve("id")\n}',
+      },
+      php: {
+        method: 'addons->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$addonResponse = $client->addons->retrieve('id');\n\nvar_dump($addonResponse);",
       },
       python: {
         method: 'addons.retrieve',
@@ -4101,6 +4791,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'addons update',
         example: "dodo-payments-cli addons update \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'Addons.Update',
+        example:
+          'AddonUpdateParams parameters = new() { ID = "id" };\n\nvar addonResponse = await client.Addons.Update(parameters);\n\nConsole.WriteLine(addonResponse);',
+      },
       go: {
         method: 'client.Addons.Update',
         example:
@@ -4119,6 +4814,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'addons().update',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.addons.AddonResponse\nimport com.dodopayments.api.models.addons.AddonUpdateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val addonResponse: AddonResponse = client.addons().update("id")\n}',
+      },
+      php: {
+        method: 'addons->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$addonResponse = $client->addons->update(\n  'id',\n  currency: Currency::AED,\n  description: 'description',\n  imageID: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  name: 'name',\n  price: 0,\n  taxCategory: TaxCategory::DIGITAL_PRODUCTS,\n);\n\nvar_dump($addonResponse);",
       },
       python: {
         method: 'addons.update',
@@ -4155,6 +4855,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli addons update-images \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'Addons.UpdateImages',
+        example:
+          'AddonUpdateImagesParams parameters = new() { ID = "id" };\n\nvar response = await client.Addons.UpdateImages(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.Addons.UpdateImages',
         example:
@@ -4173,6 +4878,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'addons().updateImages',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.addons.AddonUpdateImagesParams\nimport com.dodopayments.api.models.addons.AddonUpdateImagesResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val response: AddonUpdateImagesResponse = client.addons().updateImages("id")\n}',
+      },
+      php: {
+        method: 'addons->updateImages',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->addons->updateImages('id');\n\nvar_dump($response);",
       },
       python: {
         method: 'addons.update_images',
@@ -4208,6 +4918,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'brands list',
         example: "dodo-payments-cli brands list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'Brands.List',
+        example:
+          'BrandListParams parameters = new();\n\nvar brands = await client.Brands.List(parameters);\n\nConsole.WriteLine(brands);',
+      },
       go: {
         method: 'client.Brands.List',
         example:
@@ -4226,6 +4941,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'brands().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.brands.BrandListParams\nimport com.dodopayments.api.models.brands.BrandListResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val brands: BrandListResponse = client.brands().list()\n}',
+      },
+      php: {
+        method: 'brands->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$brands = $client->brands->list();\n\nvar_dump($brands);",
       },
       python: {
         method: 'brands.list',
@@ -4268,6 +4988,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'brands create',
         example: "dodo-payments-cli brands create \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'Brands.Create',
+        example:
+          'BrandCreateParams parameters = new();\n\nvar brand = await client.Brands.Create(parameters);\n\nConsole.WriteLine(brand);',
+      },
       go: {
         method: 'client.Brands.New',
         example:
@@ -4286,6 +5011,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'brands().create',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.brands.Brand\nimport com.dodopayments.api.models.brands.BrandCreateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val brand: Brand = client.brands().create()\n}',
+      },
+      php: {
+        method: 'brands->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$brand = $client->brands->create(\n  description: 'description',\n  name: 'name',\n  statementDescriptor: 'statement_descriptor',\n  supportEmail: 'support_email',\n  url: 'url',\n);\n\nvar_dump($brand);",
       },
       python: {
         method: 'brands.create',
@@ -4322,6 +5052,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'brands retrieve',
         example: "dodo-payments-cli brands retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'Brands.Retrieve',
+        example:
+          'BrandRetrieveParams parameters = new() { ID = "id" };\n\nvar brand = await client.Brands.Retrieve(parameters);\n\nConsole.WriteLine(brand);',
+      },
       go: {
         method: 'client.Brands.Get',
         example:
@@ -4340,6 +5075,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'brands().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.brands.Brand\nimport com.dodopayments.api.models.brands.BrandRetrieveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val brand: Brand = client.brands().retrieve("id")\n}',
+      },
+      php: {
+        method: 'brands->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$brand = $client->brands->retrieve('id');\n\nvar_dump($brand);",
       },
       python: {
         method: 'brands.retrieve',
@@ -4384,6 +5124,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'brands update',
         example: "dodo-payments-cli brands update \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'Brands.Update',
+        example:
+          'BrandUpdateParams parameters = new() { ID = "id" };\n\nvar brand = await client.Brands.Update(parameters);\n\nConsole.WriteLine(brand);',
+      },
       go: {
         method: 'client.Brands.Update',
         example:
@@ -4402,6 +5147,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'brands().update',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.brands.Brand\nimport com.dodopayments.api.models.brands.BrandUpdateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val brand: Brand = client.brands().update("id")\n}',
+      },
+      php: {
+        method: 'brands->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$brand = $client->brands->update(\n  'id',\n  description: 'description',\n  imageID: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  name: 'name',\n  statementDescriptor: 'statement_descriptor',\n  supportEmail: 'support_email',\n  url: 'url',\n);\n\nvar_dump($brand);",
       },
       python: {
         method: 'brands.update',
@@ -4438,6 +5188,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli brands update-images \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'Brands.UpdateImages',
+        example:
+          'BrandUpdateImagesParams parameters = new() { ID = "id" };\n\nvar response = await client.Brands.UpdateImages(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.Brands.UpdateImages',
         example:
@@ -4456,6 +5211,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'brands().updateImages',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.brands.BrandUpdateImagesParams\nimport com.dodopayments.api.models.brands.BrandUpdateImagesResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val response: BrandUpdateImagesResponse = client.brands().updateImages("id")\n}',
+      },
+      php: {
+        method: 'brands->updateImages',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->brands->updateImages('id');\n\nvar_dump($response);",
       },
       python: {
         method: 'brands.update_images',
@@ -4492,6 +5252,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'webhooks list',
         example: "dodo-payments-cli webhooks list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'Webhooks.List',
+        example:
+          'WebhookListParams parameters = new();\n\nvar page = await client.Webhooks.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.Webhooks.List',
         example:
@@ -4510,6 +5275,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'webhooks().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.webhooks.WebhookListPage\nimport com.dodopayments.api.models.webhooks.WebhookListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: WebhookListPage = client.webhooks().list()\n}',
+      },
+      php: {
+        method: 'webhooks->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->webhooks->list(iterator: 'iterator', limit: 0);\n\nvar_dump($page);",
       },
       python: {
         method: 'webhooks.list',
@@ -4555,6 +5325,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'webhooks create',
         example: "dodo-payments-cli webhooks create \\\n  --bearer-token 'My Bearer Token' \\\n  --url url",
       },
+      csharp: {
+        method: 'Webhooks.Create',
+        example:
+          'WebhookCreateParams parameters = new() { Url = "url" };\n\nvar webhookDetails = await client.Webhooks.Create(parameters);\n\nConsole.WriteLine(webhookDetails);',
+      },
       go: {
         method: 'client.Webhooks.New',
         example:
@@ -4573,6 +5348,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'webhooks().create',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.webhooks.WebhookCreateParams\nimport com.dodopayments.api.models.webhooks.WebhookDetails\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: WebhookCreateParams = WebhookCreateParams.builder()\n        .url("url")\n        .build()\n    val webhookDetails: WebhookDetails = client.webhooks().create(params)\n}',
+      },
+      php: {
+        method: 'webhooks->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$webhookDetails = $client->webhooks->create(\n  url: 'url',\n  description: 'description',\n  disabled: true,\n  filterTypes: [WebhookEventType::PAYMENT_SUCCEEDED],\n  headers: ['foo' => 'string'],\n  idempotencyKey: 'idempotency_key',\n  metadata: ['foo' => 'string'],\n  rateLimit: 0,\n);\n\nvar_dump($webhookDetails);",
       },
       python: {
         method: 'webhooks.create',
@@ -4610,6 +5390,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli webhooks retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --webhook-id webhook_id",
       },
+      csharp: {
+        method: 'Webhooks.Retrieve',
+        example:
+          'WebhookRetrieveParams parameters = new() { WebhookID = "webhook_id" };\n\nvar webhookDetails = await client.Webhooks.Retrieve(parameters);\n\nConsole.WriteLine(webhookDetails);',
+      },
       go: {
         method: 'client.Webhooks.Get',
         example:
@@ -4628,6 +5413,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'webhooks().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.webhooks.WebhookDetails\nimport com.dodopayments.api.models.webhooks.WebhookRetrieveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val webhookDetails: WebhookDetails = client.webhooks().retrieve("webhook_id")\n}',
+      },
+      php: {
+        method: 'webhooks->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$webhookDetails = $client->webhooks->retrieve('webhook_id');\n\nvar_dump($webhookDetails);",
       },
       python: {
         method: 'webhooks.retrieve',
@@ -4663,6 +5453,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli webhooks delete \\\n  --bearer-token 'My Bearer Token' \\\n  --webhook-id webhook_id",
       },
+      csharp: {
+        method: 'Webhooks.Delete',
+        example:
+          'WebhookDeleteParams parameters = new() { WebhookID = "webhook_id" };\n\nawait client.Webhooks.Delete(parameters);',
+      },
       go: {
         method: 'client.Webhooks.Delete',
         example:
@@ -4681,6 +5476,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'webhooks().delete',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.webhooks.WebhookDeleteParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.webhooks().delete("webhook_id")\n}',
+      },
+      php: {
+        method: 'webhooks->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->webhooks->delete('webhook_id');\n\nvar_dump($result);",
       },
       python: {
         method: 'webhooks.delete',
@@ -4726,6 +5526,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli webhooks update \\\n  --bearer-token 'My Bearer Token' \\\n  --webhook-id webhook_id",
       },
+      csharp: {
+        method: 'Webhooks.Update',
+        example:
+          'WebhookUpdateParams parameters = new() { WebhookID = "webhook_id" };\n\nvar webhookDetails = await client.Webhooks.Update(parameters);\n\nConsole.WriteLine(webhookDetails);',
+      },
       go: {
         method: 'client.Webhooks.Update',
         example:
@@ -4744,6 +5549,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'webhooks().update',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.webhooks.WebhookDetails\nimport com.dodopayments.api.models.webhooks.WebhookUpdateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val webhookDetails: WebhookDetails = client.webhooks().update("webhook_id")\n}',
+      },
+      php: {
+        method: 'webhooks->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$webhookDetails = $client->webhooks->update(\n  'webhook_id',\n  description: 'description',\n  disabled: true,\n  filterTypes: [WebhookEventType::PAYMENT_SUCCEEDED],\n  metadata: ['foo' => 'string'],\n  rateLimit: 0,\n  url: 'url',\n);\n\nvar_dump($webhookDetails);",
       },
       python: {
         method: 'webhooks.update',
@@ -4780,6 +5590,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli webhooks retrieve-secret \\\n  --bearer-token 'My Bearer Token' \\\n  --webhook-id webhook_id",
       },
+      csharp: {
+        method: 'Webhooks.RetrieveSecret',
+        example:
+          'WebhookRetrieveSecretParams parameters = new() { WebhookID = "webhook_id" };\n\nvar response = await client.Webhooks.RetrieveSecret(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.Webhooks.GetSecret',
         example:
@@ -4798,6 +5613,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'webhooks().retrieveSecret',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.webhooks.WebhookRetrieveSecretParams\nimport com.dodopayments.api.models.webhooks.WebhookRetrieveSecretResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val response: WebhookRetrieveSecretResponse = client.webhooks().retrieveSecret("webhook_id")\n}',
+      },
+      php: {
+        method: 'webhooks->retrieveSecret',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->webhooks->retrieveSecret('webhook_id');\n\nvar_dump($response);",
       },
       python: {
         method: 'webhooks.retrieve_secret',
@@ -4828,6 +5648,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       cli: {
         example: "dodo-payments-cli webhooks unwrap \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        example: 'WebhookUnwrapParams parameters = new();\n\nawait client.Webhooks.Unwrap(parameters);',
+      },
       go: {
         method: 'client.Webhooks.Unwrap',
         example:
@@ -4840,6 +5663,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       kotlin: {
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.webhooks.WebhookUnwrapParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.webhooks().unwrap()\n}',
+      },
+      php: {
+        method: 'webhooks->unwrap',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->webhooks->unwrap();\n\nvar_dump($result);",
       },
       python: {
         method: 'webhooks.unwrap',
@@ -4870,6 +5698,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       cli: {
         example: "dodo-payments-cli webhooks unsafe-unwrap \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        example:
+          'WebhookUnsafeUnwrapParams parameters = new();\n\nawait client.Webhooks.UnsafeUnwrap(parameters);',
+      },
       go: {
         method: 'client.Webhooks.UnsafeUnwrap',
         example:
@@ -4882,6 +5714,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       kotlin: {
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.webhooks.WebhookUnsafeUnwrapParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.webhooks().unsafeUnwrap()\n}',
+      },
+      php: {
+        method: 'webhooks->unsafeUnwrap',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->webhooks->unsafeUnwrap();\n\nvar_dump($result);",
       },
       python: {
         method: 'webhooks.unsafe_unwrap',
@@ -4918,6 +5755,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli webhooks:headers retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --webhook-id webhook_id",
       },
+      csharp: {
+        method: 'Webhooks.Headers.Retrieve',
+        example:
+          'HeaderRetrieveParams parameters = new() { WebhookID = "webhook_id" };\n\nvar header = await client.Webhooks.Headers.Retrieve(parameters);\n\nConsole.WriteLine(header);',
+      },
       go: {
         method: 'client.Webhooks.Headers.Get',
         example:
@@ -4936,6 +5778,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'webhooks().headers().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.webhooks.headers.HeaderRetrieveParams\nimport com.dodopayments.api.models.webhooks.headers.HeaderRetrieveResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val header: HeaderRetrieveResponse = client.webhooks().headers().retrieve("webhook_id")\n}',
+      },
+      php: {
+        method: 'webhooks->headers->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$header = $client->webhooks->headers->retrieve('webhook_id');\n\nvar_dump($header);",
       },
       python: {
         method: 'webhooks.headers.retrieve',
@@ -4971,6 +5818,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli webhooks:headers update \\\n  --bearer-token 'My Bearer Token' \\\n  --webhook-id webhook_id \\\n  --headers '{foo: string}'",
       },
+      csharp: {
+        method: 'Webhooks.Headers.Update',
+        example:
+          'HeaderUpdateParams parameters = new()\n{\n    WebhookID = "webhook_id",\n    Headers = new Dictionary<string, string>() { { "foo", "string" } },\n};\n\nawait client.Webhooks.Headers.Update(parameters);',
+      },
       go: {
         method: 'client.Webhooks.Headers.Update',
         example:
@@ -4989,6 +5841,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'webhooks().headers().update',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.core.JsonValue\nimport com.dodopayments.api.models.webhooks.headers.HeaderUpdateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: HeaderUpdateParams = HeaderUpdateParams.builder()\n        .webhookId("webhook_id")\n        .headers(HeaderUpdateParams.Headers.builder()\n            .putAdditionalProperty("foo", JsonValue.from("string"))\n            .build())\n        .build()\n    client.webhooks().headers().update(params)\n}',
+      },
+      php: {
+        method: 'webhooks->headers->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->webhooks->headers->update(\n  'webhook_id', headers: ['foo' => 'string']\n);\n\nvar_dump($result);",
       },
       python: {
         method: 'webhooks.headers.update',
@@ -5028,6 +5885,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli usage-events ingest \\\n  --bearer-token 'My Bearer Token' \\\n  --event '{customer_id: customer_id, event_id: event_id, event_name: event_name}'",
       },
+      csharp: {
+        method: 'UsageEvents.Ingest',
+        example:
+          'UsageEventIngestParams parameters = new()\n{\n    Events =\n    [\n        new()\n        {\n            CustomerID = "customer_id",\n            EventID = "event_id",\n            EventName = "event_name",\n            Metadata = new Dictionary<string, Metadata>()\n            {\n                { "foo", "string" }\n            },\n            Timestamp = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),\n        },\n    ],\n};\n\nvar response = await client.UsageEvents.Ingest(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.UsageEvents.Ingest',
         example:
@@ -5046,6 +5908,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'usageEvents().ingest',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.usageevents.EventInput\nimport com.dodopayments.api.models.usageevents.UsageEventIngestParams\nimport com.dodopayments.api.models.usageevents.UsageEventIngestResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: UsageEventIngestParams = UsageEventIngestParams.builder()\n        .addEvent(EventInput.builder()\n            .customerId("customer_id")\n            .eventId("event_id")\n            .eventName("event_name")\n            .build())\n        .build()\n    val response: UsageEventIngestResponse = client.usageEvents().ingest(params)\n}',
+      },
+      php: {
+        method: 'usageEvents->ingest',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->usageEvents->ingest(\n  events: [\n    [\n      'customerID' => 'customer_id',\n      'eventID' => 'event_id',\n      'eventName' => 'event_name',\n      'metadata' => ['foo' => 'string'],\n      'timestamp' => new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n    ],\n  ],\n);\n\nvar_dump($response);",
       },
       python: {
         method: 'usage_events.ingest',
@@ -5091,6 +5958,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'usage_events list',
         example: "dodo-payments-cli usage-events list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'UsageEvents.List',
+        example:
+          'UsageEventListParams parameters = new();\n\nvar page = await client.UsageEvents.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.UsageEvents.List',
         example:
@@ -5109,6 +5981,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'usageEvents().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.usageevents.UsageEventListPage\nimport com.dodopayments.api.models.usageevents.UsageEventListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: UsageEventListPage = client.usageEvents().list()\n}',
+      },
+      php: {
+        method: 'usageEvents->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->usageEvents->list(\n  customerID: 'customer_id',\n  end: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  eventName: 'event_name',\n  meterID: 'meter_id',\n  pageNumber: 0,\n  pageSize: 0,\n  start: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'usage_events.list',
@@ -5147,6 +6024,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli usage-events retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --event-id event_id",
       },
+      csharp: {
+        method: 'UsageEvents.Retrieve',
+        example:
+          'UsageEventRetrieveParams parameters = new() { EventID = "event_id" };\n\nvar event_ = await client.UsageEvents.Retrieve(parameters);\n\nConsole.WriteLine(event_);',
+      },
       go: {
         method: 'client.UsageEvents.Get',
         example:
@@ -5165,6 +6047,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'usageEvents().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.usageevents.Event\nimport com.dodopayments.api.models.usageevents.UsageEventRetrieveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val event: Event = client.usageEvents().retrieve("event_id")\n}',
+      },
+      php: {
+        method: 'usageEvents->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$event = $client->usageEvents->retrieve('event_id');\n\nvar_dump($event);",
       },
       python: {
         method: 'usage_events.retrieve',
@@ -5201,6 +6088,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'meters list',
         example: "dodo-payments-cli meters list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'Meters.List',
+        example:
+          'MeterListParams parameters = new();\n\nvar page = await client.Meters.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.Meters.List',
         example:
@@ -5219,6 +6111,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'meters().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.meters.MeterListPage\nimport com.dodopayments.api.models.meters.MeterListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: MeterListPage = client.meters().list()\n}',
+      },
+      php: {
+        method: 'meters->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->meters->list(archived: true, pageNumber: 0, pageSize: 0);\n\nvar_dump($page);",
       },
       python: {
         method: 'meters.list',
@@ -5263,6 +6160,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli meters create \\\n  --bearer-token 'My Bearer Token' \\\n  --aggregation '{type: count}' \\\n  --event-name event_name \\\n  --measurement-unit measurement_unit \\\n  --name name",
       },
+      csharp: {
+        method: 'Meters.Create',
+        example:
+          'MeterCreateParams parameters = new()\n{\n    Aggregation = new()\n    {\n        Type = Type.Count,\n        Key = "key",\n    },\n    EventName = "event_name",\n    MeasurementUnit = "measurement_unit",\n    Name = "name",\n};\n\nvar meter = await client.Meters.Create(parameters);\n\nConsole.WriteLine(meter);',
+      },
       go: {
         method: 'client.Meters.New',
         example:
@@ -5281,6 +6183,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'meters().create',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.meters.Meter\nimport com.dodopayments.api.models.meters.MeterAggregation\nimport com.dodopayments.api.models.meters.MeterCreateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: MeterCreateParams = MeterCreateParams.builder()\n        .aggregation(MeterAggregation.builder()\n            .type(MeterAggregation.Type.COUNT)\n            .build())\n        .eventName("event_name")\n        .measurementUnit("measurement_unit")\n        .name("name")\n        .build()\n    val meter: Meter = client.meters().create(params)\n}',
+      },
+      php: {
+        method: 'meters->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$meter = $client->meters->create(\n  aggregation: ['type' => 'count', 'key' => 'key'],\n  eventName: 'event_name',\n  measurementUnit: 'measurement_unit',\n  name: 'name',\n  description: 'description',\n  filter: [\n    'clauses' => [\n      [\n        'key' => 'user_id',\n        'operator' => FilterOperator::EQUALS,\n        'value' => 'user123',\n      ],\n      [\n        'key' => 'amount',\n        'operator' => FilterOperator::GREATER_THAN,\n        'value' => 100,\n      ],\n    ],\n    'conjunction' => Conjunction::AND,\n  ],\n);\n\nvar_dump($meter);",
       },
       python: {
         method: 'meters.create',
@@ -5317,6 +6224,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'meters retrieve',
         example: "dodo-payments-cli meters retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'Meters.Retrieve',
+        example:
+          'MeterRetrieveParams parameters = new() { ID = "id" };\n\nvar meter = await client.Meters.Retrieve(parameters);\n\nConsole.WriteLine(meter);',
+      },
       go: {
         method: 'client.Meters.Get',
         example:
@@ -5335,6 +6247,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'meters().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.meters.Meter\nimport com.dodopayments.api.models.meters.MeterRetrieveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val meter: Meter = client.meters().retrieve("id")\n}',
+      },
+      php: {
+        method: 'meters->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$meter = $client->meters->retrieve('id');\n\nvar_dump($meter);",
       },
       python: {
         method: 'meters.retrieve',
@@ -5369,6 +6286,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'meters archive',
         example: "dodo-payments-cli meters archive \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'Meters.Archive',
+        example:
+          'MeterArchiveParams parameters = new() { ID = "id" };\n\nawait client.Meters.Archive(parameters);',
+      },
       go: {
         method: 'client.Meters.Archive',
         example:
@@ -5387,6 +6309,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'meters().archive',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.meters.MeterArchiveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.meters().archive("id")\n}',
+      },
+      php: {
+        method: 'meters->archive',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->meters->archive('id');\n\nvar_dump($result);",
       },
       python: {
         method: 'meters.archive',
@@ -5421,6 +6348,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'meters unarchive',
         example: "dodo-payments-cli meters unarchive \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'Meters.Unarchive',
+        example:
+          'MeterUnarchiveParams parameters = new() { ID = "id" };\n\nawait client.Meters.Unarchive(parameters);',
+      },
       go: {
         method: 'client.Meters.Unarchive',
         example:
@@ -5439,6 +6371,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'meters().unarchive',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.meters.MeterUnarchiveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.meters().unarchive("id")\n}',
+      },
+      php: {
+        method: 'meters->unarchive',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->meters->unarchive('id');\n\nvar_dump($result);",
       },
       python: {
         method: 'meters.unarchive',
@@ -5484,6 +6421,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'balances retrieve_ledger',
         example: "dodo-payments-cli balances retrieve-ledger \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'Balances.RetrieveLedger',
+        example:
+          'BalanceRetrieveLedgerParams parameters = new();\n\nvar page = await client.Balances.RetrieveLedger(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.Balances.GetLedger',
         example:
@@ -5502,6 +6444,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'balances().retrieveLedger',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.balances.BalanceRetrieveLedgerPage\nimport com.dodopayments.api.models.balances.BalanceRetrieveLedgerParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: BalanceRetrieveLedgerPage = client.balances().retrieveLedger()\n}',
+      },
+      php: {
+        method: 'balances->retrieveLedger',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->balances->retrieveLedger(\n  createdAtGte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  createdAtLte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  currency: 'AED',\n  eventType: 'payment',\n  limit: 0,\n  pageNumber: 0,\n  pageSize: 0,\n  referenceObjectID: 'reference_object_id',\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'balances.retrieve_ledger',
@@ -5539,6 +6486,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'credit_entitlements list',
         example: "dodo-payments-cli credit-entitlements list \\\n  --bearer-token 'My Bearer Token'",
       },
+      csharp: {
+        method: 'CreditEntitlements.List',
+        example:
+          'CreditEntitlementListParams parameters = new();\n\nvar page = await client.CreditEntitlements.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.CreditEntitlements.List',
         example:
@@ -5557,6 +6509,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'creditEntitlements().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlementListPage\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlementListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: CreditEntitlementListPage = client.creditEntitlements().list()\n}',
+      },
+      php: {
+        method: 'creditEntitlements->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->creditEntitlements->list(\n  deleted: true, pageNumber: 0, pageSize: 0\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'credit_entitlements.list',
@@ -5611,6 +6568,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli credit-entitlements create \\\n  --bearer-token 'My Bearer Token' \\\n  --name name \\\n  --overage-enabled \\\n  --precision 0 \\\n  --rollover-enabled \\\n  --unit unit",
       },
+      csharp: {
+        method: 'CreditEntitlements.Create',
+        example:
+          'CreditEntitlementCreateParams parameters = new()\n{\n    Name = "name",\n    OverageEnabled = true,\n    Precision = 0,\n    RolloverEnabled = true,\n    Unit = "unit",\n};\n\nvar creditEntitlement = await client.CreditEntitlements.Create(parameters);\n\nConsole.WriteLine(creditEntitlement);',
+      },
       go: {
         method: 'client.CreditEntitlements.New',
         example:
@@ -5629,6 +6591,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'creditEntitlements().create',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlement\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlementCreateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: CreditEntitlementCreateParams = CreditEntitlementCreateParams.builder()\n        .name("name")\n        .overageEnabled(true)\n        .precision(0)\n        .rolloverEnabled(true)\n        .unit("unit")\n        .build()\n    val creditEntitlement: CreditEntitlement = client.creditEntitlements().create(params)\n}',
+      },
+      php: {
+        method: 'creditEntitlements->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$creditEntitlement = $client->creditEntitlements->create(\n  name: 'name',\n  overageEnabled: true,\n  precision: 0,\n  rolloverEnabled: true,\n  unit: 'unit',\n  currency: Currency::AED,\n  description: 'description',\n  expiresAfterDays: 0,\n  maxRolloverCount: 0,\n  overageBehavior: CbbOverageBehavior::FORGIVE_AT_RESET,\n  overageLimit: 0,\n  pricePerUnit: 'price_per_unit',\n  rolloverPercentage: 0,\n  rolloverTimeframeCount: 0,\n  rolloverTimeframeInterval: TimeInterval::DAY,\n);\n\nvar_dump($creditEntitlement);",
       },
       python: {
         method: 'credit_entitlements.create',
@@ -5667,6 +6634,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli credit-entitlements retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'CreditEntitlements.Retrieve',
+        example:
+          'CreditEntitlementRetrieveParams parameters = new() { ID = "id" };\n\nvar creditEntitlement = await client.CreditEntitlements.Retrieve(parameters);\n\nConsole.WriteLine(creditEntitlement);',
+      },
       go: {
         method: 'client.CreditEntitlements.Get',
         example:
@@ -5685,6 +6657,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'creditEntitlements().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlement\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlementRetrieveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val creditEntitlement: CreditEntitlement = client.creditEntitlements().retrieve("id")\n}',
+      },
+      php: {
+        method: 'creditEntitlements->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$creditEntitlement = $client->creditEntitlements->retrieve('id');\n\nvar_dump($creditEntitlement);",
       },
       python: {
         method: 'credit_entitlements.retrieve',
@@ -5720,6 +6697,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli credit-entitlements delete \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'CreditEntitlements.Delete',
+        example:
+          'CreditEntitlementDeleteParams parameters = new() { ID = "id" };\n\nawait client.CreditEntitlements.Delete(parameters);',
+      },
       go: {
         method: 'client.CreditEntitlements.Delete',
         example:
@@ -5738,6 +6720,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'creditEntitlements().delete',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlementDeleteParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.creditEntitlements().delete("id")\n}',
+      },
+      php: {
+        method: 'creditEntitlements->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->creditEntitlements->delete('id');\n\nvar_dump($result);",
       },
       python: {
         method: 'credit_entitlements.delete',
@@ -5790,6 +6777,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli credit-entitlements update \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'CreditEntitlements.Update',
+        example:
+          'CreditEntitlementUpdateParams parameters = new() { ID = "id" };\n\nawait client.CreditEntitlements.Update(parameters);',
+      },
       go: {
         method: 'client.CreditEntitlements.Update',
         example:
@@ -5808,6 +6800,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'creditEntitlements().update',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlementUpdateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.creditEntitlements().update("id")\n}',
+      },
+      php: {
+        method: 'creditEntitlements->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->creditEntitlements->update(\n  'id',\n  currency: Currency::AED,\n  description: 'description',\n  expiresAfterDays: 0,\n  maxRolloverCount: 0,\n  name: 'name',\n  overageBehavior: CbbOverageBehavior::FORGIVE_AT_RESET,\n  overageEnabled: true,\n  overageLimit: 0,\n  pricePerUnit: 'price_per_unit',\n  rolloverEnabled: true,\n  rolloverPercentage: 0,\n  rolloverTimeframeCount: 0,\n  rolloverTimeframeInterval: TimeInterval::DAY,\n  unit: 'unit',\n);\n\nvar_dump($result);",
       },
       python: {
         method: 'credit_entitlements.update',
@@ -5844,6 +6841,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli credit-entitlements undelete \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
       },
+      csharp: {
+        method: 'CreditEntitlements.Undelete',
+        example:
+          'CreditEntitlementUndeleteParams parameters = new() { ID = "id" };\n\nawait client.CreditEntitlements.Undelete(parameters);',
+      },
       go: {
         method: 'client.CreditEntitlements.Undelete',
         example:
@@ -5862,6 +6864,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'creditEntitlements().undelete',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlementUndeleteParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.creditEntitlements().undelete("id")\n}',
+      },
+      php: {
+        method: 'creditEntitlements->undelete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->creditEntitlements->undelete('id');\n\nvar_dump($result);",
       },
       python: {
         method: 'credit_entitlements.undelete',
@@ -5905,6 +6912,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli credit-entitlements:balances list \\\n  --bearer-token 'My Bearer Token' \\\n  --credit-entitlement-id credit_entitlement_id",
       },
+      csharp: {
+        method: 'CreditEntitlements.Balances.List',
+        example:
+          'BalanceListParams parameters = new()\n{\n    CreditEntitlementID = "credit_entitlement_id"\n};\n\nvar page = await client.CreditEntitlements.Balances.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.CreditEntitlements.Balances.List',
         example:
@@ -5923,6 +6935,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'creditEntitlements().balances().list',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceListPage\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val page: BalanceListPage = client.creditEntitlements().balances().list("credit_entitlement_id")\n}',
+      },
+      php: {
+        method: 'creditEntitlements->balances->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->creditEntitlements->balances->list(\n  'credit_entitlement_id', customerID: 'customer_id', pageNumber: 0, pageSize: 0\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'credit_entitlements.balances.list',
@@ -5961,6 +6978,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli credit-entitlements:balances retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --credit-entitlement-id credit_entitlement_id \\\n  --customer-id customer_id",
       },
+      csharp: {
+        method: 'CreditEntitlements.Balances.Retrieve',
+        example:
+          'BalanceRetrieveParams parameters = new()\n{\n    CreditEntitlementID = "credit_entitlement_id",\n    CustomerID = "customer_id",\n};\n\nvar customerCreditBalance = await client.CreditEntitlements.Balances.Retrieve(parameters);\n\nConsole.WriteLine(customerCreditBalance);',
+      },
       go: {
         method: 'client.CreditEntitlements.Balances.Get',
         example:
@@ -5979,6 +7001,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'creditEntitlements().balances().retrieve',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceRetrieveParams\nimport com.dodopayments.api.models.creditentitlements.balances.CustomerCreditBalance\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: BalanceRetrieveParams = BalanceRetrieveParams.builder()\n        .creditEntitlementId("credit_entitlement_id")\n        .customerId("customer_id")\n        .build()\n    val customerCreditBalance: CustomerCreditBalance = client.creditEntitlements().balances().retrieve(params)\n}',
+      },
+      php: {
+        method: 'creditEntitlements->balances->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$customerCreditBalance = $client->creditEntitlements->balances->retrieve(\n  'customer_id', creditEntitlementID: 'credit_entitlement_id'\n);\n\nvar_dump($customerCreditBalance);",
       },
       python: {
         method: 'credit_entitlements.balances.retrieve',
@@ -6023,6 +7050,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli credit-entitlements:balances list-grants \\\n  --bearer-token 'My Bearer Token' \\\n  --credit-entitlement-id credit_entitlement_id \\\n  --customer-id customer_id",
       },
+      csharp: {
+        method: 'CreditEntitlements.Balances.ListGrants',
+        example:
+          'BalanceListGrantsParams parameters = new()\n{\n    CreditEntitlementID = "credit_entitlement_id",\n    CustomerID = "customer_id",\n};\n\nvar page = await client.CreditEntitlements.Balances.ListGrants(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.CreditEntitlements.Balances.ListGrants',
         example:
@@ -6041,6 +7073,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'creditEntitlements().balances().listGrants',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceListGrantsPage\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceListGrantsParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: BalanceListGrantsParams = BalanceListGrantsParams.builder()\n        .creditEntitlementId("credit_entitlement_id")\n        .customerId("customer_id")\n        .build()\n    val page: BalanceListGrantsPage = client.creditEntitlements().balances().listGrants(params)\n}',
+      },
+      php: {
+        method: 'creditEntitlements->balances->listGrants',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->creditEntitlements->balances->listGrants(\n  'customer_id',\n  creditEntitlementID: 'credit_entitlement_id',\n  pageNumber: 0,\n  pageSize: 0,\n  status: 'active',\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'credit_entitlements.balances.list_grants',
@@ -6087,6 +7124,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli credit-entitlements:balances list-ledger \\\n  --bearer-token 'My Bearer Token' \\\n  --credit-entitlement-id credit_entitlement_id \\\n  --customer-id customer_id",
       },
+      csharp: {
+        method: 'CreditEntitlements.Balances.ListLedger',
+        example:
+          'BalanceListLedgerParams parameters = new()\n{\n    CreditEntitlementID = "credit_entitlement_id",\n    CustomerID = "customer_id",\n};\n\nvar page = await client.CreditEntitlements.Balances.ListLedger(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       go: {
         method: 'client.CreditEntitlements.Balances.ListLedger',
         example:
@@ -6105,6 +7147,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'creditEntitlements().balances().listLedger',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceListLedgerPage\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceListLedgerParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: BalanceListLedgerParams = BalanceListLedgerParams.builder()\n        .creditEntitlementId("credit_entitlement_id")\n        .customerId("customer_id")\n        .build()\n    val page: BalanceListLedgerPage = client.creditEntitlements().balances().listLedger(params)\n}',
+      },
+      php: {
+        method: 'creditEntitlements->balances->listLedger',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->creditEntitlements->balances->listLedger(\n  'customer_id',\n  creditEntitlementID: 'credit_entitlement_id',\n  endDate: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  pageNumber: 0,\n  pageSize: 0,\n  startDate: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  transactionType: 'transaction_type',\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'credit_entitlements.balances.list_ledger',
@@ -6152,6 +7199,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "dodo-payments-cli credit-entitlements:balances create-ledger-entry \\\n  --bearer-token 'My Bearer Token' \\\n  --credit-entitlement-id credit_entitlement_id \\\n  --customer-id customer_id \\\n  --amount amount \\\n  --entry-type credit",
       },
+      csharp: {
+        method: 'CreditEntitlements.Balances.CreateLedgerEntry',
+        example:
+          'BalanceCreateLedgerEntryParams parameters = new()\n{\n    CreditEntitlementID = "credit_entitlement_id",\n    CustomerID = "customer_id",\n    Amount = "amount",\n    EntryType = LedgerEntryType.Credit,\n};\n\nvar response = await client.CreditEntitlements.Balances.CreateLedgerEntry(parameters);\n\nConsole.WriteLine(response);',
+      },
       go: {
         method: 'client.CreditEntitlements.Balances.NewLedgerEntry',
         example:
@@ -6170,6 +7222,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'creditEntitlements().balances().createLedgerEntry',
         example:
           'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceCreateLedgerEntryParams\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceCreateLedgerEntryResponse\nimport com.dodopayments.api.models.creditentitlements.balances.LedgerEntryType\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: BalanceCreateLedgerEntryParams = BalanceCreateLedgerEntryParams.builder()\n        .creditEntitlementId("credit_entitlement_id")\n        .customerId("customer_id")\n        .amount("amount")\n        .entryType(LedgerEntryType.CREDIT)\n        .build()\n    val response: BalanceCreateLedgerEntryResponse = client.creditEntitlements().balances().createLedgerEntry(params)\n}',
+      },
+      php: {
+        method: 'creditEntitlements->balances->createLedgerEntry',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->creditEntitlements->balances->createLedgerEntry(\n  'customer_id',\n  creditEntitlementID: 'credit_entitlement_id',\n  amount: 'amount',\n  entryType: LedgerEntryType::CREDIT,\n  expiresAt: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  idempotencyKey: 'idempotency_key',\n  metadata: ['foo' => 'string'],\n  reason: 'reason',\n);\n\nvar_dump($response);",
       },
       python: {
         method: 'credit_entitlements.balances.create_ledger_entry',
@@ -6222,9 +7279,19 @@ const EMBEDDED_READMES: { language: string; content: string }[] = [
       '# Dodo Payments Kotlin API Library\n\n<!-- x-release-please-start-version -->\n[![Maven Central](https://img.shields.io/maven-central/v/com.dodopayments.api/dodo-payments-kotlin)](https://central.sonatype.com/artifact/com.dodopayments.api/dodo-payments-kotlin/0.0.1)\n[![javadoc](https://javadoc.io/badge2/com.dodopayments.api/dodo-payments-kotlin/0.0.1/javadoc.svg)](https://javadoc.io/doc/com.dodopayments.api/dodo-payments-kotlin/0.0.1)\n<!-- x-release-please-end -->\n\nThe Dodo Payments Kotlin SDK provides convenient access to the [Dodo Payments REST API](https://docs.dodopayments.com/api-reference/introduction)   from applications written in Kotlin.\n\nThe Dodo Payments Kotlin SDK is similar to the Dodo Payments Java SDK but with minor differences that       make it more ergonomic for use in Kotlin, such as nullable values instead of `Optional`,       `Sequence` instead of `Stream`, and suspend functions instead of `CompletableFuture`.\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## MCP Server\n\nUse the Dodo Payments MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6Ik15IEJlYXJlciBUb2tlbiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJNeSBXZWJob29rIEtleSJ9fQ)\n[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22dodopayments-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22dodopayments-mcp%22%5D%2C%22env%22%3A%7B%22DODO_PAYMENTS_API_KEY%22%3A%22My%20Bearer%20Token%22%2C%22DODO_PAYMENTS_WEBHOOK_KEY%22%3A%22My%20Webhook%20Key%22%7D%7D)\n\n> Note: You may need to set environment variables in your MCP client.\n\n<!-- x-release-please-start-version -->\n\nThe REST API documentation can be found on [docs.dodopayments.com](https://docs.dodopayments.com/api-reference/introduction). KDocs are available on [javadoc.io](https://javadoc.io/doc/com.dodopayments.api/dodo-payments-kotlin/0.0.1).\n\n<!-- x-release-please-end -->\n\n## Installation\n\n<!-- x-release-please-start-version -->\n\n### Gradle\n\n~~~kotlin\nimplementation("com.dodopayments.api:dodo-payments-kotlin:0.0.1")\n~~~\n\n### Maven\n\n~~~xml\n<dependency>\n  <groupId>com.dodopayments.api</groupId>\n  <artifactId>dodo-payments-kotlin</artifactId>\n  <version>0.0.1</version>\n</dependency>\n~~~\n\n<!-- x-release-please-end -->\n\n## Requirements\n\nThis library requires Java 8 or later.\n\n## Usage\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq\n\n// Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n// Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\nval params: CheckoutSessionRequest = CheckoutSessionRequest.builder()\n    .addProductCart(ProductItemReq.builder()\n        .productId("product_id")\n        .quantity(0)\n        .build())\n    .build()\nval checkoutSessionResponse: CheckoutSessionResponse = client.checkoutSessions().create(params)\n```\n\n## Client configuration\n\nConfigure the client using system properties or environment variables:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\n\n// Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n// Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n```\n\nOr manually:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .bearerToken("My Bearer Token")\n    .build()\n```\n\nOr using a combination of the two approaches:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    // Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n    // Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\n    .fromEnv()\n    .bearerToken("My Bearer Token")\n    .build()\n```\n\nSee this table for the available options:\n\n| Setter        | System property           | Environment variable        | Required | Default value                     |\n| ------------- | ------------------------- | --------------------------- | -------- | --------------------------------- |\n| `bearerToken` | `dodopayments.apiKey`     | `DODO_PAYMENTS_API_KEY`     | true     | -                                 |\n| `webhookKey`  | `dodopayments.webhookKey` | `DODO_PAYMENTS_WEBHOOK_KEY` | false    | -                                 |\n| `baseUrl`     | `dodopayments.baseUrl`    | `DODO_PAYMENTS_BASE_URL`    | true     | `"https://live.dodopayments.com"` |\n\nSystem properties take precedence over environment variables.\n\n> [!TIP]\n> Don\'t create more than one client in the same application. Each client has a connection pool and\n> thread pools, which are more efficient to share between requests.\n\n### Modifying configuration\n\nTo temporarily use a modified client configuration, while reusing the same connection and thread       pools, call `withOptions()` on any client or service:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\n\nval clientWithOptions: DodoPaymentsClient = client.withOptions {\n    it.baseUrl("https://example.com")\n    it.maxRetries(42)\n}\n```\n\nThe `withOptions()` method does not affect the original client or service.\n\n## Requests and responses\n\nTo send a request to the Dodo Payments API, build an instance of some `Params` class and pass it to the     corresponding client method. When the response is received, it will be deserialized into an instance of     a Kotlin class.\n\nFor example, `client.checkoutSessions().create(...)` should be called with an instance of `CheckoutSessionCreateParams`, and it     will return an instance of `CheckoutSessionResponse`.\n\n## Immutability\n\nEach class in the SDK has an associated   [builder](https://blogs.oracle.com/javamagazine/post/exploring-joshua-blochs-builder-design-pattern-in-java)   or factory method for constructing it.\n\nEach class is [immutable](https://docs.oracle.com/javase/tutorial/essential/concurrency/immutable.html)   once constructed. If the class has an associated builder, then it has a `toBuilder()` method, which can   be used to convert it back to a builder for making a modified copy.\n\nBecause each class is immutable, builder modification will _never_ affect already built class instances.\n\n## Asynchronous execution\n\nThe default client is synchronous. To switch to asynchronous execution, call the `async()` method:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq\n\n// Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n// Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\nval params: CheckoutSessionRequest = CheckoutSessionRequest.builder()\n    .addProductCart(ProductItemReq.builder()\n        .productId("product_id")\n        .quantity(0)\n        .build())\n    .build()\nval checkoutSessionResponse: CheckoutSessionResponse = client.async().checkoutSessions().create(params)\n```\n\nOr create an asynchronous client from the beginning:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClientAsync\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClientAsync\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq\n\n// Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n// Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\nval client: DodoPaymentsClientAsync = DodoPaymentsOkHttpClientAsync.fromEnv()\n\nval params: CheckoutSessionRequest = CheckoutSessionRequest.builder()\n    .addProductCart(ProductItemReq.builder()\n        .productId("product_id")\n        .quantity(0)\n        .build())\n    .build()\nval checkoutSessionResponse: CheckoutSessionResponse = client.checkoutSessions().create(params)\n```\n\nThe asynchronous client supports the same options as the synchronous one, except most methods are [suspending](https://kotlinlang.org/docs/coroutines-guide.html).\n\n\n\n\n\n## Binary responses\n\nThe SDK defines methods that return binary responses, which are used for API responses that shouldn\'t     necessarily be parsed, like non-JSON data.\n\nThese methods return [`HttpResponse`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/core/http/HttpResponse.kt):\n\n```kotlin\nimport com.dodopayments.api.core.http.HttpResponse\nimport com.dodopayments.api.models.invoices.payments.PaymentRetrieveParams\n\nval payment: HttpResponse = client.invoices().payments().retrieve("payment_id")\n```\n\nTo save the response content to a file, use the     [`Files.copy(...)`](https://docs.oracle.com/javase/8/docs/api/java/nio/file/Files.html#copy-java.io.InputStream-java.nio.file.Path-java.nio.file.CopyOption...-)     method:\n\n```kotlin\nimport java.nio.file.Files\nimport java.nio.file.Paths\nimport java.nio.file.StandardCopyOption\n\nclient.invoices().payments().retrieve(params).use {\n    Files.copy(\n        it.body(),\n        Paths.get(path),\n        StandardCopyOption.REPLACE_EXISTING\n    )\n}\n```\n\nOr transfer the response content to any     [`OutputStream`](https://docs.oracle.com/javase/8/docs/api/java/io/OutputStream.html):\n\n```kotlin\nimport java.nio.file.Files\nimport java.nio.file.Paths\n\nclient.invoices().payments().retrieve(params).use {\n    it.body().transferTo(Files.newOutputStream(Paths.get(path)))\n}\n```\n\n## Raw responses\n\nThe SDK defines methods that deserialize responses into instances of Kotlin classes.       However, these methods don\'t provide access to the response headers, status code, or the raw response       body.\n\nTo access this data, prefix any HTTP method call on a client or service with `withRawResponse()`:\n\n```kotlin\nimport com.dodopayments.api.core.http.Headers\nimport com.dodopayments.api.core.http.HttpResponseFor\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq\n\nval params: CheckoutSessionRequest = CheckoutSessionRequest.builder()\n    .addProductCart(ProductItemReq.builder()\n        .productId("product_id")\n        .quantity(0)\n        .build())\n    .build()\nval checkoutSessionResponse: HttpResponseFor<CheckoutSessionResponse> = client.checkoutSessions().withRawResponse().create(params)\n\nval statusCode: Int = checkoutSessionResponse.statusCode()\nval headers: Headers = checkoutSessionResponse.headers()\n```\n\nYou can still deserialize the response into an instance of a Kotlin class if needed:\n\n```kotlin\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\n\nval parsedCheckoutSessionResponse: CheckoutSessionResponse = checkoutSessionResponse.parse()\n```\n\n## Error handling\n\nThe SDK throws custom unchecked exception types:\n\n- [`DodoPaymentsServiceException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsServiceException.kt): Base class for HTTP errors. See this table for which exception       subclass is thrown for each HTTP status code:\n\n  | Status | Exception                                          |\n  | ------ | -------------------------------------------------- |\n  | 400    | [`BadRequestException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/BadRequestException.kt)           |\n  | 401    | [`UnauthorizedException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/UnauthorizedException.kt)         |\n  | 403    | [`PermissionDeniedException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/PermissionDeniedException.kt)     |\n  | 404    | [`NotFoundException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/NotFoundException.kt)             |\n  | 422    | [`UnprocessableEntityException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/UnprocessableEntityException.kt)  |\n  | 429    | [`RateLimitException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/RateLimitException.kt)            |\n  | 5xx    | [`InternalServerException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/InternalServerException.kt)       |\n  | others | [`UnexpectedStatusCodeException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/UnexpectedStatusCodeException.kt) |\n\n- [`DodoPaymentsIoException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsIoException.kt): I/O networking errors.\n\n- [`DodoPaymentsRetryableException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsRetryableException.kt): Generic error indicating a failure that could be retried by the client.\n\n- [`DodoPaymentsInvalidDataException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsInvalidDataException.kt): Failure to interpret successfully parsed data. For example,       when accessing a property that\'s supposed to be required, but the API unexpectedly omitted it from the       response.\n\n- [`DodoPaymentsException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsException.kt): Base class for all exceptions. Most errors will result in one of the       previously mentioned ones, but completely generic errors may be thrown using the base class.\n\n## Pagination\n\nThe SDK defines methods that return a paginated lists of results. It provides convenient ways to access     the results either one page at a time or item-by-item across all pages.\n\n### Auto-pagination\n\nTo iterate through all results across all pages, use the `autoPager()` method, which automatically     fetches more pages as needed.\n\nWhen using the synchronous client, the method returns a [`Sequence`](https://kotlinlang.org/docs/sequences.html)\n\n```kotlin\nimport com.dodopayments.api.models.payments.PaymentListPage\n\nval page: PaymentListPage = client.payments().list()\npage.autoPager()\n    .take(50)\n    .forEach { payment -> println(payment) }\n```\n\nWhen using the asynchronous client, the method returns a [`Flow`](https://kotlinlang.org/docs/flow.html):\n\n```kotlin\nimport com.dodopayments.api.models.payments.PaymentListPageAsync\n\nval page: PaymentListPageAsync = client.async().payments().list()\npage.autoPager()\n    .take(50)\n    .forEach { payment -> println(payment) }\n```\n\n### Manual pagination\n\nTo access individual page items and manually request the next page, use the `items()`,\n`hasNextPage()`, and `nextPage()` methods:\n\n```kotlin\nimport com.dodopayments.api.models.payments.PaymentListPage\nimport com.dodopayments.api.models.payments.PaymentListResponse\n\nval page: PaymentListPage = client.payments().list()\nwhile (true) {\n    for (payment in page.items()) {\n        println(payment)\n    }\n\n    if (!page.hasNextPage()) {\n        break\n    }\n\n    page = page.nextPage()\n}\n```\n\n## Logging\n\nThe SDK uses the standard   [OkHttp logging interceptor](https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor).\n\nEnable logging by setting the `DODO_PAYMENTS_LOG` environment variable to   `info`:\n\n```sh\nexport DODO_PAYMENTS_LOG=info\n```\n\nOr to `debug` for more verbose logging:\n\n```sh\nexport DODO_PAYMENTS_LOG=debug\n```\n\n## ProGuard and R8\n\nAlthough the SDK uses reflection, it is still usable with     [ProGuard](https://github.com/Guardsquare/proguard) and     [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because     `dodo-payments-kotlin-core` is published with a     [configuration file](dodo-payments-kotlin-core/src/main/resources/META-INF/proguard/dodo-payments-kotlin-core.pro) containing     [keep rules](https://www.guardsquare.com/manual/configuration/usage).\n\nProGuard and R8 should automatically detect and use the published rules, but you can also manually copy     the keep rules if necessary.\n\n\n\n\n\n## Jackson\n\nThe SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON     serialization/deserialization. It is compatible with version 2.13.4 or higher,     but depends on version 2.18.2 by default.\n\nThe SDK throws an exception if it detects an incompatible Jackson version at runtime (e.g. if the     default version was overridden in your Maven or Gradle config).\n\nIf the SDK threw an exception, but you\'re _certain_ the version is compatible, then disable the version     check using the `checkJacksonVersionCompatibility` on [`DodoPaymentsOkHttpClient`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClient.kt) or     [`DodoPaymentsOkHttpClientAsync`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClientAsync.kt).\n\n> [!CAUTION]\n> We make no guarantee that the SDK works correctly when the Jackson version check is disabled.\n\nAlso note that there are bugs in older Jackson versions that can affect the SDK. We don\'t work around all     Jackson bugs ([example](https://github.com/FasterXML/jackson-databind/issues/3240)) and expect users to     upgrade Jackson for those instead.\n\n## Network options\n\n### Retries\n\nThe SDK automatically retries 2 times by default, with a short exponential backoff between requests.\n\nOnly the following error types are retried:\n- Connection errors (for example, due to a network connectivity problem)\n- 408 Request Timeout\n- 409 Conflict\n- 429 Rate Limit\n- 5xx Internal\n\nThe API may also explicitly instruct the SDK to retry or not retry a request.\n\nTo set a custom number of retries, configure the client using the `maxRetries` method:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .maxRetries(4)\n    .build()\n```\n\n### Timeouts\n\nRequests time out after 1 minute by default.\n\nTo set a custom timeout, configure the method call using the `timeout` method:\n\n```kotlin\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\n\nval checkoutSessionResponse: CheckoutSessionResponse = client.checkoutSessions().create(\n  params, RequestOptions.builder().timeout(Duration.ofSeconds(30)).build()\n)\n```\n\nOr configure the default for all method calls at the client level:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport java.time.Duration\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .timeout(Duration.ofSeconds(30))\n    .build()\n```\n\n### Proxies\n\nTo route requests through a proxy, configure the client using the `proxy` method:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport java.net.InetSocketAddress\nimport java.net.Proxy\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .proxy(Proxy(\n      Proxy.Type.HTTP, InetSocketAddress(\n        "https://example.com", 8080\n      )\n    ))\n    .build()\n```\n\n### Connection pooling\n\nTo customize the underlying OkHttp connection pool, configure the client using the   `maxIdleConnections` and `keepAliveDuration` methods:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport java.time.Duration\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    // If `maxIdleConnections` is set, then `keepAliveDuration` must be set, and vice versa.\n    .maxIdleConnections(10)\n    .keepAliveDuration(Duration.ofMinutes(2))\n    .build()\n```\n\nIf both options are unset, OkHttp\'s default connection pool settings are used.\n\n### HTTPS\n\n> [!NOTE]\n> Most applications should not call these methods, and instead use the system defaults. The defaults include\n> special optimizations that can be lost if the implementations are modified.\n\nTo configure how HTTPS connections are secured, configure the client using the `sslSocketFactory`,   `trustManager`, and `hostnameVerifier` methods:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    // If `sslSocketFactory` is set, then `trustManager` must be set, and vice versa.\n    .sslSocketFactory(yourSSLSocketFactory)\n    .trustManager(yourTrustManager)\n    .hostnameVerifier(yourHostnameVerifier)\n    .build()\n```\n\n### Environments\n\nThe SDK sends requests to the live_mode by default. To send requests to a different     environment, configure the client like so:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .testMode()\n    .build()\n```\n\n### Custom HTTP client\n\nThe SDK consists of three artifacts:\n- `dodo-payments-kotlin-core`\n  - Contains core SDK logic\n  - Does not depend on [OkHttp](https://square.github.io/okhttp)\n  - Exposes [`DodoPaymentsClient`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClient.kt), [`DodoPaymentsClientAsync`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsync.kt),             [`DodoPaymentsClientImpl`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientImpl.kt), and [`DodoPaymentsClientAsyncImpl`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsyncImpl.kt), all of which can             work with any HTTP client\n- `dodo-payments-kotlin-client-okhttp`\n  - Depends on [OkHttp](https://square.github.io/okhttp)\n  - Exposes [`DodoPaymentsOkHttpClient`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClient.kt) and [`DodoPaymentsOkHttpClientAsync`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClientAsync.kt), which             provide a way to construct [`DodoPaymentsClientImpl`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientImpl.kt) and             [`DodoPaymentsClientAsyncImpl`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsyncImpl.kt), respectively, using OkHttp\n- `dodo-payments-kotlin`\n  - Depends on and exposes the APIs of both `dodo-payments-kotlin-core` and `dodo-payments-kotlin-client-okhttp`\n  - Does not have its own logic\n\nThis structure allows replacing the SDK\'s default HTTP client without pulling in unnecessary dependencies.\n\n#### Customized [`OkHttpClient`](https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html)\n\n> [!TIP]\n> Try the available [network options](#network-options) before replacing the default client.\n\nTo use a customized `OkHttpClient`:\n\n1. Replace your [`dodo-payments-kotlin` dependency](#installation) with `dodo-payments-kotlin-core`\n2. Copy `dodo-payments-kotlin-client-okhttp`\'s [`OkHttpClient`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/OkHttpClient.kt) class into your code and        customize it\n3. Construct [`DodoPaymentsClientImpl`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientImpl.kt) or [`DodoPaymentsClientAsyncImpl`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsyncImpl.kt), similarly to        [`DodoPaymentsOkHttpClient`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClient.kt) or [`DodoPaymentsOkHttpClientAsync`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClientAsync.kt), using your        customized client\n\n### Completely custom HTTP client\n\nTo use a completely custom HTTP client:\n\n1. Replace your [`dodo-payments-kotlin` dependency](#installation) with `dodo-payments-kotlin-core`\n2. Write a class that implements the [`HttpClient`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/core/http/HttpClient.kt) interface\n3. Construct [`DodoPaymentsClientImpl`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientImpl.kt) or [`DodoPaymentsClientAsyncImpl`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsyncImpl.kt), similarly to        [`DodoPaymentsOkHttpClient`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClient.kt) or [`DodoPaymentsOkHttpClientAsync`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClientAsync.kt), using your new        client class\n\n## Undocumented API functionality\n\nThe SDK is typed for convenient usage of the documented API. However, it also supports working with undocumented or not yet supported parts of the API.\n\n### Parameters\n\nTo set undocumented parameters, call the `putAdditionalHeader`, `putAdditionalQueryParam`, or       `putAdditionalBodyProperty` methods on any `Params` class:\n\n```kotlin\nimport com.dodopayments.api.core.JsonValue\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams\n\nval params: CheckoutSessionCreateParams = CheckoutSessionCreateParams.builder()\n    .putAdditionalHeader("Secret-Header", "42")\n    .putAdditionalQueryParam("secret_query_param", "42")\n    .putAdditionalBodyProperty("secretProperty", JsonValue.from("42"))\n    .build()\n```\n\nThese can be accessed on the built object later using the `_additionalHeaders()`,       `_additionalQueryParams()`, and `_additionalBodyProperties()` methods.\n\nTo set a documented parameter or property to an undocumented or not yet supported _value_, pass a       [`JsonValue`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/core/Values.kt) object to its setter:\n\n```kotlin\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq\n\nval params: CheckoutSessionCreateParams = CheckoutSessionCreateParams.builder()\n    .checkoutSessionRequest(CheckoutSessionRequest.builder()\n        .addProductCart(ProductItemReq.builder()\n            .productId("product_id")\n            .quantity(0)\n            .build())\n        .build())\n    .build()\n```\n\nThe most straightforward way to create a [`JsonValue`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/core/Values.kt) is using its       `from(...)` method:\n\n```kotlin\nimport com.dodopayments.api.core.JsonValue\n\n// Create primitive JSON values\nval nullValue: JsonValue = JsonValue.from(null)\nval booleanValue: JsonValue = JsonValue.from(true)\nval numberValue: JsonValue = JsonValue.from(42)\nval stringValue: JsonValue = JsonValue.from("Hello World!")\n\n// Create a JSON array value equivalent to `["Hello", "World"]`\nval arrayValue: JsonValue = JsonValue.from(listOf(\n  "Hello", "World"\n))\n\n// Create a JSON object value equivalent to `{ "a": 1, "b": 2 }`\nval objectValue: JsonValue = JsonValue.from(mapOf(\n  "a" to 1, "b" to 2\n))\n\n// Create an arbitrarily nested JSON equivalent to:\n// {\n//   "a": [1, 2],\n//   "b": [3, 4]\n// }\nval complexValue: JsonValue = JsonValue.from(mapOf(\n  "a" to listOf(\n    1, 2\n  ), "b" to listOf(\n    3, 4\n  )\n))\n```\n\nNormally a `Builder` class\'s `build` method will throw         [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html)         if any required parameter or property is unset.\n\nTo forcibly omit a required parameter or property, pass [`JsonMissing`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/core/Values.kt):\n\n```kotlin\nimport com.dodopayments.api.core.JsonMissing\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq\n\nval params: CheckoutSessionCreateParams = CheckoutSessionCreateParams.builder()\n    .checkoutSessionRequest(CheckoutSessionRequest.builder()\n        .addProductCart(ProductItemReq.builder()\n            .productId("product_id")\n            .quantity(0)\n            .build())\n        .build())\n    .productCart(JsonMissing.of())\n    .build()\n```\n\n### Response properties\n\nTo access undocumented response properties, call the `_additionalProperties()` method:\n\n```kotlin\nimport com.dodopayments.api.core.JsonBoolean\nimport com.dodopayments.api.core.JsonNull\nimport com.dodopayments.api.core.JsonNumber\nimport com.dodopayments.api.core.JsonValue\n\nval additionalProperties: Map<String, JsonValue> = client.checkoutSessions().create(params)._additionalProperties()\nval secretPropertyValue: JsonValue = additionalProperties.get("secretProperty")\n\nval result = when (secretPropertyValue) {\n    is JsonNull -> "It\'s null!"\n    is JsonBoolean -> "It\'s a boolean!"\n    is JsonNumber -> "It\'s a number!"\n    // Other types include `JsonMissing`, `JsonString`, `JsonArray`, and `JsonObject`\n    else -> "It\'s something else!"\n}\n```\n\nTo access a property\'s raw JSON value, which may be undocumented, call its `_` prefixed method:\n\n```kotlin\nimport com.dodopayments.api.core.JsonField\n\nval field: JsonField<Any> = client.checkoutSessions().create(params)._field()\n\nif (field.isMissing()) {\n  // The property is absent from the JSON response\n} else if (field.isNull()) {\n  // The property was set to literal null\n} else {\n  // Check if value was provided as a string\n  // Other methods include `asNumber()`, `asBoolean()`, etc.\n  val jsonString: String? = field.asString();\n\n  // Try to deserialize into a custom type\n  val myObject: MyClass = field.asUnknown()!!.convert(MyClass::class.java)\n}\n```\n\n### Response validation\n\nIn rare cases, the API may return a response that doesn\'t match the expected type. For example, the SDK     may expect a property to contain a `String`, but the API could return something else.\n\nBy default, the SDK will not throw an exception in this case. It will throw     [`DodoPaymentsInvalidDataException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsInvalidDataException.kt) only if you directly access the property.\n\nIf you would prefer to check that the response is completely well-typed upfront, then either call     `validate()`:\n\n```kotlin\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\n\nval checkoutSessionResponse: CheckoutSessionResponse = client.checkoutSessions().create(params).validate()\n```\n\nOr configure the method call to validate the response using the `responseValidation` method:\n\n```kotlin\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\n\nval checkoutSessionResponse: CheckoutSessionResponse = client.checkoutSessions().create(\n  params, RequestOptions.builder().responseValidation(true).build()\n)\n```\n\nOr configure the default for all method calls at the client level:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .responseValidation(true)\n    .build()\n```\n\n## FAQ\n\n### Why don\'t you use plain `enum` classes?\n\nKotlin `enum` classes are not trivially   [forwards compatible](https://www.stainless.com/blog/making-java-enums-forwards-compatible). Using them in   the SDK could cause runtime exceptions if the API is updated to respond with a new enum value.\n\n### Why do you represent fields using `JsonField<T>` instead of just plain `T`?\n\nUsing `JsonField<T>` enables a few features:\n\n- Allowing usage of [undocumented API functionality](#undocumented-api-functionality)\n- Lazily [validating the API response against the expected shape](#response-validation)\n- Representing absent vs explicitly null values\n\n### Why don\'t you use [`data` classes](https://kotlinlang.org/docs/data-classes.html)?\n\nIt is not [backwards compatible to add new fields to a data class](https://kotlinlang.org/docs/api-guidelines-backward-compatibility.html#avoid-using-data-classes-in-your-api)   and we don\'t want to introduce a breaking change every time we add a field to a class.\n\n### Why don\'t you use checked exceptions?\n\nChecked exceptions are widely considered a mistake in the Java programming language. In fact, they were   omitted from Kotlin for this reason.\n\nChecked exceptions:\n\n- Are verbose to handle\n- Encourage error handling at the wrong level of abstraction, where nothing can be done about the error\n- Are tedious to propagate due to the [function coloring problem](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function)\n- Don\'t play well with lambdas (also due to the function coloring problem)\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n2. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/dodopayments/dodopayments-kotlin/issues) with questions, bugs, or suggestions.\n',
   },
   {
+    language: 'csharp',
+    content:
+      '# Dodo Payments C# API Library\n\nThe Dodo Payments C# SDK provides convenient access to the [Dodo Payments REST API](https://docs.dodopayments.com/api-reference/introduction) from applications written in   C#.\n\n## Installation\n\nInstall the package from [NuGet](https://www.nuget.org/packages/DodoPayments.Client):\n\n```bash\ndotnet add package DodoPayments.Client\n```\n\n## Requirements\n\nThis library requires .NET Standard 2.0 or later.\n\n## Usage\n\nSee the [`examples`](examples) directory for complete and runnable examples.\n\n```csharp\nDodoPaymentsClient client = new();\n\nCheckoutSessionCreateParams parameters = new()\n{\n    ProductCart =\n    [\n        new()\n        {\n            ProductID = "product_id",\n            Quantity = 0,\n        },\n    ],\n};\n\nvar checkoutSessionResponse = await client.CheckoutSessions.Create(parameters);\n\nConsole.WriteLine(checkoutSessionResponse);\n```',
+  },
+  {
     language: 'cli',
     content:
       "# Dodo Payments CLI\n\nThe official CLI for the [Dodo Payments REST API](https://docs.dodopayments.com/api-reference/introduction).\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## Installation\n\n### Installing with Go\n\nTo test or install the CLI locally, you need [Go](https://go.dev/doc/install) version 1.22 or later installed.\n\n~~~sh\ngo install 'github.com/stainless-sdks/dodo-payments-cli/cmd/dodo-payments-cli@latest'\n~~~\n\nOnce you have run `go install`, the binary is placed in your Go bin directory:\n\n- **Default location**: `$HOME/go/bin` (or `$GOPATH/bin` if GOPATH is set)\n- **Check your path**: Run `go env GOPATH` to see the base directory\n\nIf commands aren't found after installation, add the Go bin directory to your PATH:\n\n~~~sh\n# Add to your shell profile (.zshrc, .bashrc, etc.)\nexport PATH=\"$PATH:$(go env GOPATH)/bin\"\n~~~\n\n### Running Locally\n\nAfter cloning the git repository for this project, you can use the\n`scripts/run` script to run the tool locally:\n\n~~~sh\n./scripts/run args...\n~~~\n\n## Usage\n\nThe CLI follows a resource-based command structure:\n\n~~~sh\ndodo-payments-cli [resource] <command> [flags...]\n~~~\n\n~~~sh\ndodo-payments-cli checkout-sessions create \\\n  --bearer-token 'My Bearer Token' \\\n  --product-cart '{product_id: product_id, quantity: 0}'\n~~~\n\nFor details about specific commands, use the `--help` flag.\n\n### Environment variables\n\n| Environment variable        | Description                         | Required | Default value |\n| --------------------------- | ----------------------------------- | -------- | ------------- |\n| `DODO_PAYMENTS_API_KEY`     | Bearer Token for API authentication | yes      |               |\n| `DODO_PAYMENTS_WEBHOOK_KEY` |                                     | no       | `null`        |\n\n### Global flags\n\n- `--bearer-token` - Bearer Token for API authentication (can also be set with `DODO_PAYMENTS_API_KEY` env var)\n- `--webhook-key` (can also be set with `DODO_PAYMENTS_WEBHOOK_KEY` env var)\n- `--help` - Show command line usage\n- `--debug` - Enable debug logging (includes HTTP request/response details)\n- `--version`, `-v` - Show the CLI version\n- `--base-url` - Use a custom API backend URL\n- `--format` - Change the output format (`auto`, `explore`, `json`, `jsonl`, `pretty`, `raw`, `yaml`)\n- `--format-error` - Change the output format for errors (`auto`, `explore`, `json`, `jsonl`, `pretty`, `raw`, `yaml`)\n- `--transform` - Transform the data output using [GJSON syntax](https://github.com/tidwall/gjson/blob/master/SYNTAX.md)\n- `--transform-error` - Transform the error output using [GJSON syntax](https://github.com/tidwall/gjson/blob/master/SYNTAX.md)\n\n### Passing files as arguments\n\nTo pass files to your API, you can use the `@myfile.ext` syntax:\n\n~~~bash\ndodo-payments-cli <command> --arg @abe.jpg\n~~~\n\nFiles can also be passed inside JSON or YAML blobs:\n\n~~~bash\ndodo-payments-cli <command> --arg '{image: \"@abe.jpg\"}'\n# Equivalent:\ndodo-payments-cli <command> <<YAML\narg:\n  image: \"@abe.jpg\"\nYAML\n~~~\n\nIf you need to pass a string literal that begins with an `@` sign, you can\nescape the `@` sign to avoid accidentally passing a file.\n\n~~~bash\ndodo-payments-cli <command> --username '\\@abe'\n~~~\n\n#### Explicit encoding\n\nFor JSON endpoints, the CLI tool does filetype sniffing to determine whether the\nfile contents should be sent as a string literal (for plain text files) or as a\nbase64-encoded string literal (for binary files). If you need to explicitly send\nthe file as either plain text or base64-encoded data, you can use\n`@file://myfile.txt` (for string encoding) or `@data://myfile.dat` (for\nbase64-encoding). Note that absolute paths will begin with `@file://` or\n`@data://`, followed by a third `/` (for example, `@file:///tmp/file.txt`).\n\n~~~bash\ndodo-payments-cli <command> --arg @data://file.txt\n~~~\n",
+  },
+  {
+    language: 'php',
+    content:
+      "# Dodo Payments PHP API Library\n\nThe Dodo Payments PHP library provides convenient access to the Dodo Payments REST API from any PHP 8.1.0+ application.\n\n## Installation\n\n<!-- x-release-please-start-version -->\n```\ncomposer require \"dodopayments/client 0.0.1\"\n```\n<!-- x-release-please-end -->\n\n## Usage\n\n```php\n<?php\n\n$client = new Client(\n  bearerToken: getenv('DODO_PAYMENTS_API_KEY') ?: 'My Bearer Token',\n  environment: 'test_mode',\n);\n\n$checkoutSessionResponse = $client->checkoutSessions->create(\n  productCart: [['productID' => 'product_id', 'quantity' => 0]]\n);\n\nvar_dump($checkoutSessionResponse->session_id);\n```",
   },
 ];
 
