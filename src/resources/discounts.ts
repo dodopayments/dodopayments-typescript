@@ -99,6 +99,8 @@ export interface Discount {
    */
   discount_id: string;
 
+  metadata: { [key: string]: string };
+
   /**
    * Whether this discount should be preserved when a subscription changes plans.
    * Default: false (discount is removed on plan change)
@@ -176,6 +178,11 @@ export interface DiscountCreateParams {
    */
   expires_at?: string | null;
 
+  /**
+   * Additional metadata for the discount
+   */
+  metadata?: { [key: string]: string };
+
   name?: string | null;
 
   /**
@@ -220,6 +227,11 @@ export interface DiscountUpdateParams {
   code?: string | null;
 
   expires_at?: string | null;
+
+  /**
+   * Additional metadata for the discount
+   */
+  metadata?: { [key: string]: string } | null;
 
   name?: string | null;
 
