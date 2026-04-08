@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.27.0 (2026-04-08)
+
+Full Changelog: [v2.26.0...v2.27.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.26.0...v2.27.0)
+
+### Features
+
+* **api:** updated openapi spec to v1.94.2 ([b93c830](https://github.com/dodopayments/dodopayments-typescript/commit/b93c8300537530edb0a06bc4a0059d5057d4d222))
+
+
+### Chores
+
+* **internal:** codegen related update ([143b18d](https://github.com/dodopayments/dodopayments-typescript/commit/143b18d4f7d18533d4e6529d9ef121a95a7f050c))
+* **internal:** fix MCP docker image builds in yarn projects ([2c66aea](https://github.com/dodopayments/dodopayments-typescript/commit/2c66aeae8f6a5eae2f787ae74c6bb9200190c349))
+* **internal:** fix MCP server import ordering ([681f60c](https://github.com/dodopayments/dodopayments-typescript/commit/681f60c828eba6f4d0d6532fd8747ec1f8e5a556))
+* **internal:** support type annotations when running MCP in local execution mode ([fefc74e](https://github.com/dodopayments/dodopayments-typescript/commit/fefc74e84ee81330402b6305483106956453deb8))
+* **internal:** use link instead of file in MCP server package.json files ([85c7dd8](https://github.com/dodopayments/dodopayments-typescript/commit/85c7dd8c38c8ee9a818bf873160c746675461bc0))
+* **mcp-server:** log client info ([cea2fe4](https://github.com/dodopayments/dodopayments-typescript/commit/cea2fe41ef55920229c466a01740d536a24ef97f))
+
 ## 2.26.0 (2026-04-01)
 
 Full Changelog: [v2.25.1...v2.26.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.25.1...v2.26.0)
