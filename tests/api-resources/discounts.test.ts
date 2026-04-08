@@ -25,6 +25,7 @@ describe('resource discounts', () => {
       type: 'percentage',
       code: 'code',
       expires_at: '2019-12-27T18:11:19.117Z',
+      metadata: { foo: 'string' },
       name: 'name',
       preserve_on_plan_change: true,
       restricted_to: ['string'],
