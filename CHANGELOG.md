@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.28.0 (2026-04-14)
+
+Full Changelog: [v2.27.0...v2.28.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.27.0...v2.28.0)
+
+### Features
+
+* **api:** update openapi spec to v1.95.3 ([d48e9c9](https://github.com/dodopayments/dodopayments-typescript/commit/d48e9c9135cdf88a293c93f5f1fae4e4e1b5244c))
+
+
+### Chores
+
+* **internal:** codegen related update ([99d85e7](https://github.com/dodopayments/dodopayments-typescript/commit/99d85e72a1b70532e60cdfc10ea2ff4e51b76eb7))
+* **internal:** codegen related update ([cd0dd6c](https://github.com/dodopayments/dodopayments-typescript/commit/cd0dd6c48d112e4e408894f5a490bd9c135f0819))
+* **internal:** show error causes in MCP servers when running in local mode ([bd4186a](https://github.com/dodopayments/dodopayments-typescript/commit/bd4186a46f9efa536a6bf4c363679598003c23b6))
+* **mcp-server:** increase local docs search result count from 5 to 10 ([888da66](https://github.com/dodopayments/dodopayments-typescript/commit/888da668c7e641676595b2460140a50d6e1edc89))
+* update CLI documentation ([fb5d2e2](https://github.com/dodopayments/dodopayments-typescript/commit/fb5d2e2f392e5396733d6252d897bb8a21021c11))
+
 ## 2.27.0 (2026-04-08)
 
 Full Changelog: [v2.26.0...v2.27.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.26.0...v2.27.0)
