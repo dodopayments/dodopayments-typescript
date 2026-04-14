@@ -92,6 +92,7 @@ export {
   LicenseKeys,
   type LicenseKey,
   type LicenseKeyStatus,
+  type LicenseKeyCreateParams,
   type LicenseKeyUpdateParams,
   type LicenseKeyListParams,
   type LicenseKeysDefaultPageNumberPagination,

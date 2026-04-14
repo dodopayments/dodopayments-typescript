@@ -116,6 +116,7 @@ Types:
 
 Methods:
 
+- <code title="post /license_keys">client.licenseKeys.<a href="./src/resources/license-keys.ts">create</a>({ ...params }) -> LicenseKey</code>
 - <code title="get /license_keys/{id}">client.licenseKeys.<a href="./src/resources/license-keys.ts">retrieve</a>(id) -> LicenseKey</code>
 - <code title="patch /license_keys/{id}">client.licenseKeys.<a href="./src/resources/license-keys.ts">update</a>(id, { ...params }) -> LicenseKey</code>
 - <code title="get /license_keys">client.licenseKeys.<a href="./src/resources/license-keys.ts">list</a>({ ...params }) -> LicenseKeysDefaultPageNumberPagination</code>

@@ -543,12 +543,17 @@ export interface Product {
   credit_entitlements: Array<CreditEntitlementMappingResponse>;
 
   /**
+   * Attached entitlements (integration-based access grants)
+   */
+  entitlements: Array<Product.Entitlement>;
+
+  /**
    * Indicates if the product is recurring (e.g., subscriptions).
    */
   is_recurring: boolean;
 
   /**
-   * Indicates whether the product requires a license key.
+   * @deprecated Indicates whether the product requires a license key.
    */
   license_key_enabled: boolean;
 
@@ -595,12 +600,12 @@ export interface Product {
   image?: string | null;
 
   /**
-   * Message sent upon license key activation, if applicable.
+   * @deprecated Message sent upon license key activation, if applicable.
    */
   license_key_activation_message?: string | null;
 
   /**
-   * Limit on the number of activations for the license key, if enabled.
+   * @deprecated Limit on the number of activations for the license key, if enabled.
    */
   license_key_activations_limit?: number | null;
 
@@ -620,6 +625,94 @@ export interface Product {
   product_collection_id?: string | null;
 }
 
+export namespace Product {
+  /**
+   * Summary of an entitlement attached to a product
+   */
+  export interface Entitlement {
+    id: string;
+
+    /**
+     * Platform-specific configuration for an entitlement. Each variant uses unique
+     * field names so `#[serde(untagged)]` can disambiguate correctly.
+     */
+    integration_config:
+      | Entitlement.GitHubConfig
+      | Entitlement.DiscordConfig
+      | Entitlement.TelegramConfig
+      | Entitlement.FigmaConfig
+      | Entitlement.FramerConfig
+      | Entitlement.NotionConfig
+      | Entitlement.DigitalFilesConfig
+      | Entitlement.LicenseKeyConfig;
+
+    integration_type:
+      | 'discord'
+      | 'telegram'
+      | 'github'
+      | 'figma'
+      | 'framer'
+      | 'notion'
+      | 'digital_files'
+      | 'license_key';
+
+    name: string;
+
+    description?: string | null;
+  }
+
+  export namespace Entitlement {
+    export interface GitHubConfig {
+      /**
+       * One of: pull, push, admin, maintain, triage
+       */
+      permission: string;
+
+      target_id: string;
+    }
+
+    export interface DiscordConfig {
+      guild_id: string;
+
+      role_id?: string | null;
+    }
+
+    export interface TelegramConfig {
+      chat_id: string;
+    }
+
+    export interface FigmaConfig {
+      figma_file_id: string;
+    }
+
+    export interface FramerConfig {
+      framer_template_id: string;
+    }
+
+    export interface NotionConfig {
+      notion_template_id: string;
+    }
+
+    export interface DigitalFilesConfig {
+      digital_file_ids: Array<string>;
+
+      external_url?: string | null;
+
+      instructions?: string | null;
+    }
+
+    export interface LicenseKeyConfig {
+      activation_message?: string | null;
+
+      activations_limit?: number | null;
+
+      duration_count?: number | null;
+
+      duration_interval?: string | null;
+    }
+  }
+}
+
 export interface ProductListResponse {
   /**
    * Unique identifier for the business to which the product belongs.
@@ -630,6 +723,11 @@ export interface ProductListResponse {
    * Timestamp when the product was created.
    */
   created_at: string;
+
+  /**
+   * Entitlements linked to this product
+   */
+  entitlements: Array<ProductListResponse.Entitlement>;
 
   /**
    * Indicates if the product is recurring (e.g., subscriptions).
@@ -701,6 +799,94 @@ export interface ProductListResponse {
   tax_inclusive?: boolean | null;
 }
 
+export namespace ProductListResponse {
+  /**
+   * Summary of an entitlement attached to a product
+   */
+  export interface Entitlement {
+    id: string;
+
+    /**
+     * Platform-specific configuration for an entitlement. Each variant uses unique
+     * field names so `#[serde(untagged)]` can disambiguate correctly.
+     */
+    integration_config:
+      | Entitlement.GitHubConfig
+      | Entitlement.DiscordConfig
+      | Entitlement.TelegramConfig
+      | Entitlement.FigmaConfig
+      | Entitlement.FramerConfig
+      | Entitlement.NotionConfig
+      | Entitlement.DigitalFilesConfig
+      | Entitlement.LicenseKeyConfig;
+
+    integration_type:
+      | 'discord'
+      | 'telegram'
+      | 'github'
+      | 'figma'
+      | 'framer'
+      | 'notion'
+      | 'digital_files'
+      | 'license_key';
+
+    name: string;
+
+    description?: string | null;
+  }
+
+  export namespace Entitlement {
+    export interface GitHubConfig {
+      /**
+       * One of: pull, push, admin, maintain, triage
+       */
+      permission: string;
+
+      target_id: string;
+    }
+
+    export interface DiscordConfig {
+      guild_id: string;
+
+      role_id?: string | null;
+    }
+
+    export interface TelegramConfig {
+      chat_id: string;
+    }
+
+    export interface FigmaConfig {
+      figma_file_id: string;
+    }
+
+    export interface FramerConfig {
+      framer_template_id: string;
+    }
+
+    export interface NotionConfig {
+      notion_template_id: string;
+    }
+
+    export interface DigitalFilesConfig {
+      digital_file_ids: Array<string>;
+
+      external_url?: string | null;
+
+      instructions?: string | null;
+    }
+
+    export interface LicenseKeyConfig {
+      activation_message?: string | null;
+
+      activations_limit?: number | null;
+
+      duration_count?: number | null;
+
+      duration_interval?: string | null;
+    }
+  }
+}
+
 export interface ProductUpdateFilesResponse {
   file_id: string;
 
@@ -749,12 +935,18 @@ export interface ProductCreateParams {
   digital_product_delivery?: ProductCreateParams.DigitalProductDelivery | null;
 
   /**
-   * Optional message displayed during license key activation
+   * Optional entitlement IDs to attach to this product (max 20)
+   */
+  entitlement_ids?: Array<string> | null;
+
+  /**
+   * @deprecated Optional message displayed during license key activation
    */
   license_key_activation_message?: string | null;
 
   /**
-   * The number of times the license key can be activated. Must be 0 or greater
+   * @deprecated The number of times the license key can be activated. Must be 0 or
+   * greater
    */
   license_key_activations_limit?: number | null;
 
@@ -766,7 +958,8 @@ export interface ProductCreateParams {
   license_key_duration?: LicenseKeyDuration | null;
 
   /**
-   * When true, generates and sends a license key to your customer. Defaults to false
+   * @deprecated When true, generates and sends a license key to your customer.
+   * Defaults to false
    */
   license_key_enabled?: boolean | null;
 
@@ -818,12 +1011,18 @@ export interface ProductUpdateParams {
   digital_product_delivery?: ProductUpdateParams.DigitalProductDelivery | null;
 
   /**
+   * Entitlement IDs to attach (replaces all existing when present) Send empty array
+   * to remove all, omit field to leave unchanged
+   */
+  entitlement_ids?: Array<string> | null;
+
+  /**
    * Product image id after its uploaded to S3
    */
   image_id?: string | null;
 
   /**
-   * Message sent to the customer upon license key activation.
+   * @deprecated Message sent to the customer upon license key activation.
    *
    * Only applicable if `license_key_enabled` is `true`. This message contains
    * instructions for activating the license key.
@@ -831,7 +1030,7 @@ export interface ProductUpdateParams {
   license_key_activation_message?: string | null;
 
   /**
-   * Limit for the number of activations for the license key.
+   * @deprecated Limit for the number of activations for the license key.
    *
    * Only applicable if `license_key_enabled` is `true`. Represents the maximum
    * number of times the license key can be activated.
@@ -847,7 +1046,7 @@ export interface ProductUpdateParams {
   license_key_duration?: LicenseKeyDuration | null;
 
   /**
-   * Whether the product requires a license key.
+   * @deprecated Whether the product requires a license key.
    *
    * If `true`, additional fields related to license key (duration, activations
    * limit, activation message) become applicable.
