@@ -54,7 +54,11 @@ export type WebhookEventType =
   | 'dunning.started'
   | 'dunning.recovered'
   | 'acr.email'
-  | 'dunning.email';
+  | 'dunning.email'
+  | 'entitlement_grant.created'
+  | 'entitlement_grant.delivered'
+  | 'entitlement_grant.failed'
+  | 'entitlement_grant.revoked';
 
 export interface WebhookPayload {
   business_id: string;
@@ -71,7 +75,8 @@ export interface WebhookPayload {
     | WebhookPayload.CreditLedgerEntry
     | WebhookPayload.CreditBalanceLow
     | WebhookPayload.AbandonedCheckout
-    | WebhookPayload.DunningAttempt;
+    | WebhookPayload.DunningAttempt
+    | WebhookPayload.EntitlementGrant;
 
   /**
    * The timestamp of when the event occurred (not necessarily the same of when it
@@ -166,6 +171,56 @@ export namespace WebhookPayload {
     trigger_state: 'on_hold' | 'cancelled';
 
     payment_id?: string | null;
+  }
+
+  export interface EntitlementGrant {
+    id: string;
+
+    business_id: string;
+
+    created_at: string;
+
+    customer_id: string;
+
+    entitlement_id: string;
+
+    external_id: string;
+
+    payload_type: 'EntitlementGrant';
+
+    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
+
+    updated_at: string;
+
+    delivered_at?: string | null;
+
+    error_code?: string | null;
+
+    error_message?: string | null;
+
+    license_key?: string | null;
+
+    license_key_activations_limit?: number | null;
+
+    license_key_activations_used?: number | null;
+
+    license_key_expires_at?: string | null;
+
+    license_key_status?: string | null;
+
+    metadata?: unknown;
+
+    oauth_expires_at?: string | null;
+
+    oauth_url?: string | null;
+
+    payment_id?: string | null;
+
+    revocation_reason?: string | null;
+
+    revoked_at?: string | null;
+
+    subscription_id?: string | null;
   }
 }
 

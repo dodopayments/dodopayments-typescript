@@ -131,6 +131,7 @@ const fuse = new Fuse(
     'client.licenses.activate',
     'client.licenses.deactivate',
     'client.licenses.validate',
+    'client.licenseKeys.create',
     'client.licenseKeys.list',
     'client.licenseKeys.retrieve',
     'client.licenseKeys.update',
