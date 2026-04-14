@@ -149,6 +149,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/licenses/validate',
   },
   {
+    clientCallName: 'client.licenseKeys.create',
+    fullyQualifiedName: 'licenseKeys.create',
+    httpMethod: 'post',
+    httpPath: '/license_keys',
+  },
+  {
     clientCallName: 'client.licenseKeys.retrieve',
     fullyQualifiedName: 'licenseKeys.retrieve',
     httpMethod: 'get',

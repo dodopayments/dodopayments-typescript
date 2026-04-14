@@ -68,6 +68,7 @@ describe('resource products', () => {
       ],
       description: 'description',
       digital_product_delivery: { external_url: 'external_url', instructions: 'instructions' },
+      entitlement_ids: ['string'],
       license_key_activation_message: 'license_key_activation_message',
       license_key_activations_limit: 0,
       license_key_duration: { count: 0, interval: 'Day' },

@@ -93,6 +93,7 @@ import {
 } from './resources/license-key-instances';
 import {
   LicenseKey,
+  LicenseKeyCreateParams,
   LicenseKeyListParams,
   LicenseKeyStatus,
   LicenseKeyUpdateParams,
@@ -1189,6 +1190,7 @@ export declare namespace DodoPayments {
     type LicenseKey as LicenseKey,
     type LicenseKeyStatus as LicenseKeyStatus,
     type LicenseKeysDefaultPageNumberPagination as LicenseKeysDefaultPageNumberPagination,
+    type LicenseKeyCreateParams as LicenseKeyCreateParams,
     type LicenseKeyUpdateParams as LicenseKeyUpdateParams,
     type LicenseKeyListParams as LicenseKeyListParams,
   };
