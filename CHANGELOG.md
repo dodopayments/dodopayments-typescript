@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.28.1 (2026-04-17)
+
+Full Changelog: [v2.28.0...v2.28.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.28.0...v2.28.1)
+
+### Bug Fixes
+
+* **mcp-server:** resolve agents peer dep conflict by upgrading zod to v4 and adding .npmrc ([37a3535](https://github.com/dodopayments/dodopayments-typescript/commit/37a3535e4c9f184a470a62474eaef9b12d88e167))
+
+
+### Chores
+
+* **mcp-server:** add Dodo Payments favicon to Cloudflare worker ([442a5ee](https://github.com/dodopayments/dodopayments-typescript/commit/442a5ee51375b1dc51fb82d59e455040eb9a2db4))
+
 ## 2.28.0 (2026-04-14)
 
 Full Changelog: [v2.27.0...v2.28.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.27.0...v2.28.0)
