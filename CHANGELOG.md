@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.28.2 (2026-04-18)
+
+Full Changelog: [v2.28.1...v2.28.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.28.1...v2.28.2)
+
+### Chores
+
+* **tests:** bump steady to v0.22.1 ([830b260](https://github.com/dodopayments/dodopayments-typescript/commit/830b260011f2e9559334137e54adee15a47c44d2))
+
 ## 2.28.1 (2026-04-17)
 
 Full Changelog: [v2.28.0...v2.28.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.28.0...v2.28.1)
