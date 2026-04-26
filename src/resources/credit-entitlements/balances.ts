@@ -2,11 +2,7 @@
 
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
-import {
-  DefaultPageNumberPagination,
-  type DefaultPageNumberPaginationParams,
-  PagePromise,
-} from '../../core/pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../../core/pagination';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
@@ -30,16 +26,9 @@ export class Balances extends APIResource {
    * - `404 Not Found` - Credit entitlement or customer balance not found
    * - `500 Internal Server Error` - Database or server error
    */
-  retrieve(
-    customerID: string,
-    params: BalanceRetrieveParams,
-    options?: RequestOptions,
-  ): APIPromise<CustomerCreditBalance> {
-    const { credit_entitlement_id } = params;
-    return this._client.get(
-      path`/credit-entitlements/${credit_entitlement_id}/balances/${customerID}`,
-      options,
-    );
+  retrieve(customerID: string, params: BalanceRetrieveParams, options?: RequestOptions): APIPromise<CustomerCreditBalance> {
+    const { credit_entitlement_id } = params
+    return this._client.get(path`/credit-entitlements/${credit_entitlement_id}/balances/${customerID}`, options);
   }
 
   /**
@@ -66,16 +55,8 @@ export class Balances extends APIResource {
    * - `404 Not Found` - Credit entitlement not found
    * - `500 Internal Server Error` - Database or server error
    */
-  list(
-    creditEntitlementID: string,
-    query: BalanceListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<CustomerCreditBalancesDefaultPageNumberPagination, CustomerCreditBalance> {
-    return this._client.getAPIList(
-      path`/credit-entitlements/${creditEntitlementID}/balances`,
-      DefaultPageNumberPagination<CustomerCreditBalance>,
-      { query, ...options },
-    );
+  list(creditEntitlementID: string, query: BalanceListParams | null | undefined = {}, options?: RequestOptions): PagePromise<CustomerCreditBalancesDefaultPageNumberPagination, CustomerCreditBalance> {
+    return this._client.getAPIList(path`/credit-entitlements/${creditEntitlementID}/balances`, DefaultPageNumberPagination<CustomerCreditBalance>, { query, ...options });
   }
 
   /**
@@ -107,16 +88,9 @@ export class Balances extends APIResource {
    * - `409 Conflict` - Idempotency key already exists
    * - `500 Internal Server Error` - Database or server error
    */
-  createLedgerEntry(
-    customerID: string,
-    params: BalanceCreateLedgerEntryParams,
-    options?: RequestOptions,
-  ): APIPromise<BalanceCreateLedgerEntryResponse> {
-    const { credit_entitlement_id, ...body } = params;
-    return this._client.post(
-      path`/credit-entitlements/${credit_entitlement_id}/balances/${customerID}/ledger-entries`,
-      { body, ...options },
-    );
+  createLedgerEntry(customerID: string, params: BalanceCreateLedgerEntryParams, options?: RequestOptions): APIPromise<BalanceCreateLedgerEntryResponse> {
+    const { credit_entitlement_id, ...body } = params
+    return this._client.post(path`/credit-entitlements/${credit_entitlement_id}/balances/${customerID}/ledger-entries`, { body, ...options });
   }
 
   /**
@@ -143,17 +117,9 @@ export class Balances extends APIResource {
    * - `404 Not Found` - Credit entitlement not found
    * - `500 Internal Server Error` - Database or server error
    */
-  listGrants(
-    customerID: string,
-    params: BalanceListGrantsParams,
-    options?: RequestOptions,
-  ): PagePromise<BalanceListGrantsResponsesDefaultPageNumberPagination, BalanceListGrantsResponse> {
-    const { credit_entitlement_id, ...query } = params;
-    return this._client.getAPIList(
-      path`/credit-entitlements/${credit_entitlement_id}/balances/${customerID}/grants`,
-      DefaultPageNumberPagination<BalanceListGrantsResponse>,
-      { query, ...options },
-    );
+  listGrants(customerID: string, params: BalanceListGrantsParams, options?: RequestOptions): PagePromise<BalanceListGrantsResponsesDefaultPageNumberPagination, BalanceListGrantsResponse> {
+    const { credit_entitlement_id, ...query } = params
+    return this._client.getAPIList(path`/credit-entitlements/${credit_entitlement_id}/balances/${customerID}/grants`, DefaultPageNumberPagination<BalanceListGrantsResponse>, { query, ...options });
   }
 
   /**
@@ -182,27 +148,17 @@ export class Balances extends APIResource {
    * - `404 Not Found` - Credit entitlement not found
    * - `500 Internal Server Error` - Database or server error
    */
-  listLedger(
-    customerID: string,
-    params: BalanceListLedgerParams,
-    options?: RequestOptions,
-  ): PagePromise<CreditLedgerEntriesDefaultPageNumberPagination, CreditLedgerEntry> {
-    const { credit_entitlement_id, ...query } = params;
-    return this._client.getAPIList(
-      path`/credit-entitlements/${credit_entitlement_id}/balances/${customerID}/ledger`,
-      DefaultPageNumberPagination<CreditLedgerEntry>,
-      { query, ...options },
-    );
+  listLedger(customerID: string, params: BalanceListLedgerParams, options?: RequestOptions): PagePromise<CreditLedgerEntriesDefaultPageNumberPagination, CreditLedgerEntry> {
+    const { credit_entitlement_id, ...query } = params
+    return this._client.getAPIList(path`/credit-entitlements/${credit_entitlement_id}/balances/${customerID}/ledger`, DefaultPageNumberPagination<CreditLedgerEntry>, { query, ...options });
   }
 }
 
-export type CustomerCreditBalancesDefaultPageNumberPagination =
-  DefaultPageNumberPagination<CustomerCreditBalance>;
+export type CustomerCreditBalancesDefaultPageNumberPagination = DefaultPageNumberPagination<CustomerCreditBalance>
 
-export type BalanceListGrantsResponsesDefaultPageNumberPagination =
-  DefaultPageNumberPagination<BalanceListGrantsResponse>;
+export type BalanceListGrantsResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<BalanceListGrantsResponse>
 
-export type CreditLedgerEntriesDefaultPageNumberPagination = DefaultPageNumberPagination<CreditLedgerEntry>;
+export type CreditLedgerEntriesDefaultPageNumberPagination = DefaultPageNumberPagination<CreditLedgerEntry>
 
 /**
  * Response for a ledger entry
@@ -230,16 +186,7 @@ export interface CreditLedgerEntry {
 
   overage_before: string;
 
-  transaction_type:
-    | 'credit_added'
-    | 'credit_deducted'
-    | 'credit_expired'
-    | 'credit_rolled_over'
-    | 'rollover_forfeited'
-    | 'overage_charged'
-    | 'auto_top_up'
-    | 'manual_adjustment'
-    | 'refund';
+  transaction_type: 'credit_added' | 'credit_deducted' | 'credit_expired' | 'credit_rolled_over' | 'rollover_forfeited' | 'overage_charged' | 'auto_top_up' | 'manual_adjustment' | 'refund';
 
   description?: string | null;
 
@@ -271,7 +218,7 @@ export interface CustomerCreditBalance {
   last_transaction_at?: string | null;
 }
 
-export type LedgerEntryType = 'credit' | 'debit';
+export type LedgerEntryType = 'credit' | 'debit'
 
 /**
  * Response for creating a ledger entry
@@ -440,6 +387,6 @@ export declare namespace Balances {
     type BalanceListParams as BalanceListParams,
     type BalanceCreateLedgerEntryParams as BalanceCreateLedgerEntryParams,
     type BalanceListGrantsParams as BalanceListGrantsParams,
-    type BalanceListLedgerParams as BalanceListLedgerParams,
+    type BalanceListLedgerParams as BalanceListLedgerParams
   };
 }

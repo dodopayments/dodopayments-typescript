@@ -16,40 +16,33 @@ const serverConfig: ServerConfig = {
   orgName: 'DodoPayments',
   instructionsUrl: undefined, // Set a url for where you show users how to get an API key
   logoUrl: undefined, // Set a custom logo url to appear during the OAuth flow
-  clientProperties: [
-    {
-      key: 'bearerToken',
-      label: 'Bearer Token',
-      description: 'Bearer Token for API authentication',
-      required: true,
-      default: undefined,
-      placeholder: 'My Bearer Token',
-      type: 'password',
-    },
-    {
-      key: 'webhookKey',
-      label: 'Webhook Key',
-      description: '',
-      required: false,
-      default: null,
-      placeholder: 'My Webhook Key',
-      type: 'string',
-    },
-    {
-      key: 'environment',
-      label: 'Environment',
-      description: 'The environment to use for the client',
-      required: false,
-      default: 'live_mode',
-      placeholder: 'live_mode',
-      type: 'select',
-      options: [
-        { label: 'live_mode', value: 'live_mode' },
-        { label: 'test_mode', value: 'test_mode' },
-      ],
-    },
-  ],
-};
+  clientProperties: [{
+  key: 'bearerToken',
+  label: 'Bearer Token',
+  description: 'Bearer Token for API authentication',
+  required: true,
+  default: undefined,
+  placeholder: 'My Bearer Token',
+  type: 'password',
+}, {
+  key: 'webhookKey',
+  label: 'Webhook Key',
+  description: '',
+  required: false,
+  default: null,
+  placeholder: 'My Webhook Key',
+  type: 'string',
+}, {
+  key: 'environment',
+  label: 'Environment',
+  description: 'The environment to use for the client',
+  required: false,
+  default: 'live_mode',
+  placeholder: 'live_mode',
+  type: 'select',
+  options: [{ label: 'live_mode', value: 'live_mode' }, { label: 'test_mode', value: 'test_mode' }],
+}],
+};;
 
 export class MyMCP extends McpAgent<Env, unknown, MCPProps> {
   server = server;

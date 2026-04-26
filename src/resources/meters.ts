@@ -3,11 +3,7 @@
 import { APIResource } from '../core/resource';
 import * as MetersAPI from './meters';
 import { APIPromise } from '../core/api-promise';
-import {
-  DefaultPageNumberPagination,
-  type DefaultPageNumberPaginationParams,
-  PagePromise,
-} from '../core/pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../core/pagination';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -21,41 +17,24 @@ export class Meters extends APIResource {
     return this._client.get(path`/meters/${id}`, options);
   }
 
-  list(
-    query: MeterListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<MetersDefaultPageNumberPagination, Meter> {
+  list(query: MeterListParams | null | undefined = {}, options?: RequestOptions): PagePromise<MetersDefaultPageNumberPagination, Meter> {
     return this._client.getAPIList('/meters', DefaultPageNumberPagination<Meter>, { query, ...options });
   }
 
   archive(id: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/meters/${id}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.delete(path`/meters/${id}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   unarchive(id: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/meters/${id}/unarchive`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post(path`/meters/${id}/unarchive`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
 
-export type MetersDefaultPageNumberPagination = DefaultPageNumberPagination<Meter>;
+export type MetersDefaultPageNumberPagination = DefaultPageNumberPagination<Meter>
 
-export type Conjunction = 'and' | 'or';
+export type Conjunction = 'and' | 'or'
 
-export type FilterOperator =
-  | 'equals'
-  | 'not_equals'
-  | 'greater_than'
-  | 'greater_than_or_equals'
-  | 'less_than'
-  | 'less_than_or_equals'
-  | 'contains'
-  | 'does_not_contain';
+export type FilterOperator = 'equals' | 'not_equals' | 'greater_than' | 'greater_than_or_equals' | 'less_than' | 'less_than_or_equals' | 'contains' | 'does_not_contain'
 
 export interface Meter {
   id: string;
@@ -280,6 +259,6 @@ export declare namespace Meters {
     type MeterFilter as MeterFilter,
     type MetersDefaultPageNumberPagination as MetersDefaultPageNumberPagination,
     type MeterCreateParams as MeterCreateParams,
-    type MeterListParams as MeterListParams,
+    type MeterListParams as MeterListParams
   };
 }

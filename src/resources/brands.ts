@@ -113,6 +113,6 @@ export declare namespace Brands {
     type BrandListResponse as BrandListResponse,
     type BrandUpdateImagesResponse as BrandUpdateImagesResponse,
     type BrandCreateParams as BrandCreateParams,
-    type BrandUpdateParams as BrandUpdateParams,
+    type BrandUpdateParams as BrandUpdateParams
   };
 }

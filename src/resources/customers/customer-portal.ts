@@ -7,16 +7,9 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class CustomerPortal extends APIResource {
-  create(
-    customerID: string,
-    params: CustomerPortalCreateParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<CustomersAPI.CustomerPortalSession> {
-    const { return_url, send_email } = params ?? {};
-    return this._client.post(path`/customers/${customerID}/customer-portal/session`, {
-      query: { return_url, send_email },
-      ...options,
-    });
+  create(customerID: string, params: CustomerPortalCreateParams | null | undefined = {}, options?: RequestOptions): APIPromise<CustomersAPI.CustomerPortalSession> {
+    const { return_url, send_email } = params ?? {}
+    return this._client.post(path`/customers/${customerID}/customer-portal/session`, { query: { return_url, send_email }, ...options });
   }
 }
 
@@ -34,5 +27,7 @@ export interface CustomerPortalCreateParams {
 }
 
 export declare namespace CustomerPortal {
-  export { type CustomerPortalCreateParams as CustomerPortalCreateParams };
+  export {
+    type CustomerPortalCreateParams as CustomerPortalCreateParams
+  };
 }

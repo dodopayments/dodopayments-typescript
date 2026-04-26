@@ -2,19 +2,16 @@
 
 import DodoPayments from 'dodopayments';
 
-const client = new DodoPayments({
-  bearerToken: 'My Bearer Token',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new DodoPayments({ bearerToken: 'My Bearer Token', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
 describe('resource subscriptions', () => {
   test('create: only required params', async () => {
     const responsePromise = client.subscriptions.create({
-      billing: { country: 'AF' },
-      customer: { customer_id: 'customer_id' },
-      product_id: 'product_id',
-      quantity: 0,
-    });
+    billing: { country: 'AF' },
+    customer: { customer_id: 'customer_id' },
+    product_id: 'product_id',
+    quantity: 0,
+  });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -26,45 +23,43 @@ describe('resource subscriptions', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.subscriptions.create({
-      billing: {
-        country: 'AF',
-        city: 'city',
-        state: 'state',
-        street: 'street',
-        zipcode: 'zipcode',
-      },
-      customer: { customer_id: 'customer_id' },
-      product_id: 'product_id',
-      quantity: 0,
-      addons: [{ addon_id: 'addon_id', quantity: 0 }],
-      allowed_payment_method_types: ['ach'],
-      billing_currency: 'AED',
-      discount_code: 'discount_code',
-      force_3ds: true,
-      metadata: { foo: 'string' },
-      on_demand: {
-        mandate_only: true,
-        adaptive_currency_fees_inclusive: true,
-        product_currency: 'AED',
-        product_description: 'product_description',
-        product_price: 0,
-      },
-      one_time_product_cart: [
-        {
-          product_id: 'product_id',
-          quantity: 0,
-          amount: 0,
-        },
-      ],
-      payment_link: true,
-      payment_method_id: 'payment_method_id',
-      redirect_immediately: true,
-      return_url: 'return_url',
-      short_link: true,
-      show_saved_payment_methods: true,
-      tax_id: 'tax_id',
-      trial_period_days: 0,
-    });
+    billing: {
+    country: 'AF',
+    city: 'city',
+    state: 'state',
+    street: 'street',
+    zipcode: 'zipcode',
+  },
+    customer: { customer_id: 'customer_id' },
+    product_id: 'product_id',
+    quantity: 0,
+    addons: [{ addon_id: 'addon_id', quantity: 0 }],
+    allowed_payment_method_types: ['ach'],
+    billing_currency: 'AED',
+    discount_code: 'discount_code',
+    force_3ds: true,
+    metadata: { foo: 'string' },
+    on_demand: {
+    mandate_only: true,
+    adaptive_currency_fees_inclusive: true,
+    product_currency: 'AED',
+    product_description: 'product_description',
+    product_price: 0,
+  },
+    one_time_product_cart: [{
+    product_id: 'product_id',
+    quantity: 0,
+    amount: 0,
+  }],
+    payment_link: true,
+    payment_method_id: 'payment_method_id',
+    redirect_immediately: true,
+    return_url: 'return_url',
+    short_link: true,
+    show_saved_payment_methods: true,
+    tax_id: 'tax_id',
+    trial_period_days: 0,
+  });
   });
 
   test('retrieve', async () => {
@@ -102,21 +97,18 @@ describe('resource subscriptions', () => {
 
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.subscriptions.list(
-        {
-          brand_id: 'brand_id',
-          created_at_gte: '2019-12-27T18:11:19.117Z',
-          created_at_lte: '2019-12-27T18:11:19.117Z',
-          customer_id: 'customer_id',
-          page_number: 0,
-          page_size: 0,
-          product_id: 'product_id',
-          status: 'pending',
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(DodoPayments.NotFoundError);
+    await expect(client.subscriptions.list({
+    brand_id: 'brand_id',
+    created_at_gte: '2019-12-27T18:11:19.117Z',
+    created_at_lte: '2019-12-27T18:11:19.117Z',
+    customer_id: 'customer_id',
+    page_number: 0,
+    page_size: 0,
+    product_id: 'product_id',
+    status: 'pending',
+  }, { path: '/_stainless_unknown_path' }))
+      .rejects
+      .toThrow(DodoPayments.NotFoundError);
   });
 
   test('cancelChangePlan', async () => {
@@ -132,10 +124,10 @@ describe('resource subscriptions', () => {
 
   test('changePlan: only required params', async () => {
     const responsePromise = client.subscriptions.changePlan('subscription_id', {
-      product_id: 'product_id',
-      proration_billing_mode: 'prorated_immediately',
-      quantity: 0,
-    });
+    product_id: 'product_id',
+    proration_billing_mode: 'prorated_immediately',
+    quantity: 0,
+  });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -147,15 +139,15 @@ describe('resource subscriptions', () => {
 
   test('changePlan: required and optional params', async () => {
     const response = await client.subscriptions.changePlan('subscription_id', {
-      product_id: 'product_id',
-      proration_billing_mode: 'prorated_immediately',
-      quantity: 0,
-      addons: [{ addon_id: 'addon_id', quantity: 0 }],
-      discount_code: 'discount_code',
-      effective_at: 'immediately',
-      metadata: { foo: 'string' },
-      on_payment_failure: 'prevent_change',
-    });
+    product_id: 'product_id',
+    proration_billing_mode: 'prorated_immediately',
+    quantity: 0,
+    addons: [{ addon_id: 'addon_id', quantity: 0 }],
+    discount_code: 'discount_code',
+    effective_at: 'immediately',
+    metadata: { foo: 'string' },
+    on_payment_failure: 'prevent_change',
+  });
   });
 
   test('charge: only required params', async () => {
@@ -171,21 +163,21 @@ describe('resource subscriptions', () => {
 
   test('charge: required and optional params', async () => {
     const response = await client.subscriptions.charge('subscription_id', {
-      product_price: 0,
-      adaptive_currency_fees_inclusive: true,
-      customer_balance_config: { allow_customer_credits_purchase: true, allow_customer_credits_usage: true },
-      metadata: { foo: 'string' },
-      product_currency: 'AED',
-      product_description: 'product_description',
-    });
+    product_price: 0,
+    adaptive_currency_fees_inclusive: true,
+    customer_balance_config: { allow_customer_credits_purchase: true, allow_customer_credits_usage: true },
+    metadata: { foo: 'string' },
+    product_currency: 'AED',
+    product_description: 'product_description',
+  });
   });
 
   test('previewChangePlan: only required params', async () => {
     const responsePromise = client.subscriptions.previewChangePlan('subscription_id', {
-      product_id: 'product_id',
-      proration_billing_mode: 'prorated_immediately',
-      quantity: 0,
-    });
+    product_id: 'product_id',
+    proration_billing_mode: 'prorated_immediately',
+    quantity: 0,
+  });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -197,15 +189,15 @@ describe('resource subscriptions', () => {
 
   test('previewChangePlan: required and optional params', async () => {
     const response = await client.subscriptions.previewChangePlan('subscription_id', {
-      product_id: 'product_id',
-      proration_billing_mode: 'prorated_immediately',
-      quantity: 0,
-      addons: [{ addon_id: 'addon_id', quantity: 0 }],
-      discount_code: 'discount_code',
-      effective_at: 'immediately',
-      metadata: { foo: 'string' },
-      on_payment_failure: 'prevent_change',
-    });
+    product_id: 'product_id',
+    proration_billing_mode: 'prorated_immediately',
+    quantity: 0,
+    addons: [{ addon_id: 'addon_id', quantity: 0 }],
+    discount_code: 'discount_code',
+    effective_at: 'immediately',
+    metadata: { foo: 'string' },
+    on_payment_failure: 'prevent_change',
+  });
   });
 
   test('retrieveCreditUsage', async () => {
@@ -232,19 +224,15 @@ describe('resource subscriptions', () => {
 
   test('retrieveUsageHistory: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.subscriptions.retrieveUsageHistory(
-        'subscription_id',
-        {
-          end_date: '2019-12-27T18:11:19.117Z',
-          meter_id: 'meter_id',
-          page_number: 0,
-          page_size: 0,
-          start_date: '2019-12-27T18:11:19.117Z',
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(DodoPayments.NotFoundError);
+    await expect(client.subscriptions.retrieveUsageHistory('subscription_id', {
+    end_date: '2019-12-27T18:11:19.117Z',
+    meter_id: 'meter_id',
+    page_number: 0,
+    page_size: 0,
+    start_date: '2019-12-27T18:11:19.117Z',
+  }, { path: '/_stainless_unknown_path' }))
+      .rejects
+      .toThrow(DodoPayments.NotFoundError);
   });
 
   test('updatePaymentMethod: only required params', async () => {
@@ -259,9 +247,6 @@ describe('resource subscriptions', () => {
   });
 
   test('updatePaymentMethod: required and optional params', async () => {
-    const response = await client.subscriptions.updatePaymentMethod('subscription_id', {
-      type: 'new',
-      return_url: 'return_url',
-    });
+    const response = await client.subscriptions.updatePaymentMethod('subscription_id', { type: 'new', return_url: 'return_url' });
   });
 });
