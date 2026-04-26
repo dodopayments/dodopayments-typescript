@@ -18,11 +18,7 @@ export class Headers extends APIResource {
    * Patch a webhook by id
    */
   update(webhookID: string, body: HeaderUpdateParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.patch(path`/webhooks/${webhookID}/headers`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.patch(path`/webhooks/${webhookID}/headers`, { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
 
@@ -53,6 +49,6 @@ export interface HeaderUpdateParams {
 export declare namespace Headers {
   export {
     type HeaderRetrieveResponse as HeaderRetrieveResponse,
-    type HeaderUpdateParams as HeaderUpdateParams,
+    type HeaderUpdateParams as HeaderUpdateParams
   };
 }

@@ -2,11 +2,7 @@
 
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
-import {
-  DefaultPageNumberPagination,
-  type DefaultPageNumberPaginationParams,
-  PagePromise,
-} from '../../core/pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../../core/pagination';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
@@ -15,31 +11,19 @@ export class ShortLinks extends APIResource {
    * Gives a Short Checkout URL with custom slug for a product. Uses a Static
    * Checkout URL under the hood.
    */
-  create(
-    id: string,
-    body: ShortLinkCreateParams,
-    options?: RequestOptions,
-  ): APIPromise<ShortLinkCreateResponse> {
+  create(id: string, body: ShortLinkCreateParams, options?: RequestOptions): APIPromise<ShortLinkCreateResponse> {
     return this._client.post(path`/products/${id}/short_links`, { body, ...options });
   }
 
   /**
    * Lists all short links created by the business.
    */
-  list(
-    query: ShortLinkListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<ShortLinkListResponsesDefaultPageNumberPagination, ShortLinkListResponse> {
-    return this._client.getAPIList(
-      '/products/short_links',
-      DefaultPageNumberPagination<ShortLinkListResponse>,
-      { query, ...options },
-    );
+  list(query: ShortLinkListParams | null | undefined = {}, options?: RequestOptions): PagePromise<ShortLinkListResponsesDefaultPageNumberPagination, ShortLinkListResponse> {
+    return this._client.getAPIList('/products/short_links', DefaultPageNumberPagination<ShortLinkListResponse>, { query, ...options });
   }
 }
 
-export type ShortLinkListResponsesDefaultPageNumberPagination =
-  DefaultPageNumberPagination<ShortLinkListResponse>;
+export type ShortLinkListResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<ShortLinkListResponse>
 
 export interface ShortLinkCreateResponse {
   /**
@@ -100,6 +84,6 @@ export declare namespace ShortLinks {
     type ShortLinkListResponse as ShortLinkListResponse,
     type ShortLinkListResponsesDefaultPageNumberPagination as ShortLinkListResponsesDefaultPageNumberPagination,
     type ShortLinkCreateParams as ShortLinkCreateParams,
-    type ShortLinkListParams as ShortLinkListParams,
+    type ShortLinkListParams as ShortLinkListParams
   };
 }

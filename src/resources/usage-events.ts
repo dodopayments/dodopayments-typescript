@@ -2,11 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
-import {
-  DefaultPageNumberPagination,
-  type DefaultPageNumberPaginationParams,
-  PagePromise,
-} from '../core/pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../core/pagination';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
@@ -80,10 +76,7 @@ export class UsageEvents extends APIResource {
    * - Get events with meter filtering: `?meter_id=mtr_xyz789`
    * - Paginate results: `?page_size=50&page_number=2`
    */
-  list(
-    query: UsageEventListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<EventsDefaultPageNumberPagination, Event> {
+  list(query: UsageEventListParams | null | undefined = {}, options?: RequestOptions): PagePromise<EventsDefaultPageNumberPagination, Event> {
     return this._client.getAPIList('/events', DefaultPageNumberPagination<Event>, { query, ...options });
   }
 
@@ -132,7 +125,7 @@ export class UsageEvents extends APIResource {
   }
 }
 
-export type EventsDefaultPageNumberPagination = DefaultPageNumberPagination<Event>;
+export type EventsDefaultPageNumberPagination = DefaultPageNumberPagination<Event>
 
 export interface Event {
   business_id: string;
@@ -228,6 +221,6 @@ export declare namespace UsageEvents {
     type UsageEventIngestResponse as UsageEventIngestResponse,
     type EventsDefaultPageNumberPagination as EventsDefaultPageNumberPagination,
     type UsageEventListParams as UsageEventListParams,
-    type UsageEventIngestParams as UsageEventIngestParams,
+    type UsageEventIngestParams as UsageEventIngestParams
   };
 }

@@ -15,283 +15,37 @@ import { stringifyQuery } from './internal/utils/query';
 import { VERSION } from './version';
 import * as Errors from './core/error';
 import * as Pagination from './core/pagination';
-import {
-  AbstractPage,
-  type CursorPagePaginationParams,
-  CursorPagePaginationResponse,
-  type DefaultPageNumberPaginationParams,
-  DefaultPageNumberPaginationResponse,
-} from './core/pagination';
+import { AbstractPage, type CursorPagePaginationParams, CursorPagePaginationResponse, type DefaultPageNumberPaginationParams, DefaultPageNumberPaginationResponse } from './core/pagination';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
-import {
-  AddonCreateParams,
-  AddonListParams,
-  AddonResponse,
-  AddonResponsesDefaultPageNumberPagination,
-  AddonUpdateImagesResponse,
-  AddonUpdateParams,
-  Addons,
-} from './resources/addons';
-import {
-  BalanceLedgerEntriesDefaultPageNumberPagination,
-  BalanceLedgerEntry,
-  BalanceRetrieveLedgerParams,
-  Balances,
-} from './resources/balances';
-import {
-  Brand,
-  BrandCreateParams,
-  BrandListResponse,
-  BrandUpdateImagesResponse,
-  BrandUpdateParams,
-  Brands,
-} from './resources/brands';
-import {
-  CheckoutSessionBillingAddress,
-  CheckoutSessionCreateParams,
-  CheckoutSessionCustomization,
-  CheckoutSessionFlags,
-  CheckoutSessionPreviewParams,
-  CheckoutSessionPreviewResponse,
-  CheckoutSessionRequest,
-  CheckoutSessionResponse,
-  CheckoutSessionStatus,
-  CheckoutSessions,
-  CustomField,
-  ProductItemReq,
-  SubscriptionData,
-  ThemeConfig,
-  ThemeModeConfig,
-} from './resources/checkout-sessions';
-import {
-  Discount,
-  DiscountCreateParams,
-  DiscountListParams,
-  DiscountType,
-  DiscountUpdateParams,
-  Discounts,
-  DiscountsDefaultPageNumberPagination,
-} from './resources/discounts';
-import {
-  Dispute,
-  DisputeListParams,
-  DisputeListResponse,
-  DisputeListResponsesDefaultPageNumberPagination,
-  DisputeStage,
-  DisputeStatus,
-  Disputes,
-  GetDispute,
-} from './resources/disputes';
-import {
-  LicenseKeyInstance,
-  LicenseKeyInstanceListParams,
-  LicenseKeyInstanceUpdateParams,
-  LicenseKeyInstances,
-  LicenseKeyInstancesDefaultPageNumberPagination,
-} from './resources/license-key-instances';
-import {
-  LicenseKey,
-  LicenseKeyCreateParams,
-  LicenseKeyListParams,
-  LicenseKeyStatus,
-  LicenseKeyUpdateParams,
-  LicenseKeys,
-  LicenseKeysDefaultPageNumberPagination,
-} from './resources/license-keys';
-import {
-  LicenseActivateParams,
-  LicenseActivateResponse,
-  LicenseDeactivateParams,
-  LicenseValidateParams,
-  LicenseValidateResponse,
-  Licenses,
-} from './resources/licenses';
-import {
-  Conjunction,
-  FilterOperator,
-  Meter,
-  MeterAggregation,
-  MeterCreateParams,
-  MeterFilter,
-  MeterListParams,
-  Meters,
-  MetersDefaultPageNumberPagination,
-} from './resources/meters';
-import {
-  CountryCode,
-  Currency,
-  Misc,
-  MiscListSupportedCountriesResponse,
-  TaxCategory,
-} from './resources/misc';
-import {
-  AttachExistingCustomer,
-  BillingAddress,
-  CreateNewCustomer,
-  CustomFieldResponse,
-  CustomerLimitedDetails,
-  CustomerRequest,
-  IntentStatus,
-  NewCustomer,
-  OneTimeProductCartItem,
-  Payment,
-  PaymentCreateParams,
-  PaymentCreateResponse,
-  PaymentListParams,
-  PaymentListResponse,
-  PaymentListResponsesDefaultPageNumberPagination,
-  PaymentMethodTypes,
-  PaymentRefundStatus,
-  PaymentRetrieveLineItemsResponse,
-  Payments,
-  RefundListItem,
-} from './resources/payments';
+import { AddonCreateParams, AddonListParams, AddonResponse, AddonResponsesDefaultPageNumberPagination, AddonUpdateImagesResponse, AddonUpdateParams, Addons } from './resources/addons';
+import { BalanceLedgerEntriesDefaultPageNumberPagination, BalanceLedgerEntry, BalanceRetrieveLedgerParams, Balances } from './resources/balances';
+import { Brand, BrandCreateParams, BrandListResponse, BrandUpdateImagesResponse, BrandUpdateParams, Brands } from './resources/brands';
+import { CheckoutSessionBillingAddress, CheckoutSessionCreateParams, CheckoutSessionCustomization, CheckoutSessionFlags, CheckoutSessionPreviewParams, CheckoutSessionPreviewResponse, CheckoutSessionRequest, CheckoutSessionResponse, CheckoutSessionStatus, CheckoutSessions, CustomField, ProductItemReq, SubscriptionData, ThemeConfig, ThemeModeConfig } from './resources/checkout-sessions';
+import { Discount, DiscountCreateParams, DiscountListParams, DiscountType, DiscountUpdateParams, Discounts, DiscountsDefaultPageNumberPagination } from './resources/discounts';
+import { Dispute, DisputeListParams, DisputeListResponse, DisputeListResponsesDefaultPageNumberPagination, DisputeStage, DisputeStatus, Disputes, GetDispute } from './resources/disputes';
+import { LicenseKeyInstance, LicenseKeyInstanceListParams, LicenseKeyInstanceUpdateParams, LicenseKeyInstances, LicenseKeyInstancesDefaultPageNumberPagination } from './resources/license-key-instances';
+import { LicenseKey, LicenseKeyCreateParams, LicenseKeyListParams, LicenseKeyStatus, LicenseKeyUpdateParams, LicenseKeys, LicenseKeysDefaultPageNumberPagination } from './resources/license-keys';
+import { LicenseActivateParams, LicenseActivateResponse, LicenseDeactivateParams, LicenseValidateParams, LicenseValidateResponse, Licenses } from './resources/licenses';
+import { Conjunction, FilterOperator, Meter, MeterAggregation, MeterCreateParams, MeterFilter, MeterListParams, Meters, MetersDefaultPageNumberPagination } from './resources/meters';
+import { CountryCode, Currency, Misc, MiscListSupportedCountriesResponse, TaxCategory } from './resources/misc';
+import { AttachExistingCustomer, BillingAddress, CreateNewCustomer, CustomFieldResponse, CustomerLimitedDetails, CustomerRequest, IntentStatus, NewCustomer, OneTimeProductCartItem, Payment, PaymentCreateParams, PaymentCreateResponse, PaymentListParams, PaymentListResponse, PaymentListResponsesDefaultPageNumberPagination, PaymentMethodTypes, PaymentRefundStatus, PaymentRetrieveLineItemsResponse, Payments, RefundListItem } from './resources/payments';
 import { Refund, RefundCreateParams, RefundListParams, RefundStatus, Refunds } from './resources/refunds';
-import {
-  AddonCartResponseItem,
-  AttachAddon,
-  CreditEntitlementCartResponse,
-  MeterCartResponseItem,
-  MeterCreditEntitlementCartResponse,
-  OnDemandSubscription,
-  Subscription,
-  SubscriptionChangePlanParams,
-  SubscriptionChargeParams,
-  SubscriptionChargeResponse,
-  SubscriptionCreateParams,
-  SubscriptionCreateResponse,
-  SubscriptionListParams,
-  SubscriptionListResponse,
-  SubscriptionListResponsesDefaultPageNumberPagination,
-  SubscriptionPreviewChangePlanParams,
-  SubscriptionPreviewChangePlanResponse,
-  SubscriptionRetrieveCreditUsageResponse,
-  SubscriptionRetrieveUsageHistoryParams,
-  SubscriptionRetrieveUsageHistoryResponse,
-  SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
-  SubscriptionStatus,
-  SubscriptionUpdateParams,
-  SubscriptionUpdatePaymentMethodParams,
-  SubscriptionUpdatePaymentMethodResponse,
-  Subscriptions,
-  TimeInterval,
-  UpdateSubscriptionPlanReq,
-} from './resources/subscriptions';
-import {
-  Event,
-  EventInput,
-  EventsDefaultPageNumberPagination,
-  UsageEventIngestParams,
-  UsageEventIngestResponse,
-  UsageEventListParams,
-  UsageEvents,
-} from './resources/usage-events';
+import { AddonCartResponseItem, AttachAddon, CreditEntitlementCartResponse, MeterCartResponseItem, MeterCreditEntitlementCartResponse, OnDemandSubscription, Subscription, SubscriptionChangePlanParams, SubscriptionChargeParams, SubscriptionChargeResponse, SubscriptionCreateParams, SubscriptionCreateResponse, SubscriptionListParams, SubscriptionListResponse, SubscriptionListResponsesDefaultPageNumberPagination, SubscriptionPreviewChangePlanParams, SubscriptionPreviewChangePlanResponse, SubscriptionRetrieveCreditUsageResponse, SubscriptionRetrieveUsageHistoryParams, SubscriptionRetrieveUsageHistoryResponse, SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination, SubscriptionStatus, SubscriptionUpdateParams, SubscriptionUpdatePaymentMethodParams, SubscriptionUpdatePaymentMethodResponse, Subscriptions, TimeInterval, UpdateSubscriptionPlanReq } from './resources/subscriptions';
+import { Event, EventInput, EventsDefaultPageNumberPagination, UsageEventIngestParams, UsageEventIngestResponse, UsageEventListParams, UsageEvents } from './resources/usage-events';
 import { WebhookEventType, WebhookEvents, WebhookPayload } from './resources/webhook-events';
-import {
-  CbbOverageBehavior,
-  CreditEntitlement,
-  CreditEntitlementCreateParams,
-  CreditEntitlementListParams,
-  CreditEntitlementUpdateParams,
-  CreditEntitlements,
-  CreditEntitlementsDefaultPageNumberPagination,
-} from './resources/credit-entitlements/credit-entitlements';
-import {
-  Customer,
-  CustomerCreateParams,
-  CustomerDeletePaymentMethodParams,
-  CustomerListCreditEntitlementsResponse,
-  CustomerListParams,
-  CustomerPortalSession,
-  CustomerRetrievePaymentMethodsResponse,
-  CustomerUpdateParams,
-  Customers,
-  CustomersDefaultPageNumberPagination,
-} from './resources/customers/customers';
+import { CbbOverageBehavior, CreditEntitlement, CreditEntitlementCreateParams, CreditEntitlementListParams, CreditEntitlementUpdateParams, CreditEntitlements, CreditEntitlementsDefaultPageNumberPagination } from './resources/credit-entitlements/credit-entitlements';
+import { Customer, CustomerCreateParams, CustomerDeletePaymentMethodParams, CustomerListCreditEntitlementsResponse, CustomerListParams, CustomerPortalSession, CustomerRetrievePaymentMethodsResponse, CustomerUpdateParams, Customers, CustomersDefaultPageNumberPagination } from './resources/customers/customers';
 import { Invoices } from './resources/invoices/invoices';
-import {
-  PayoutListParams,
-  PayoutListResponse,
-  PayoutListResponsesDefaultPageNumberPagination,
-  Payouts,
-} from './resources/payouts/payouts';
-import {
-  AddMeterToPrice,
-  AttachCreditEntitlement,
-  CbbProrationBehavior,
-  CreditEntitlementMappingResponse,
-  DigitalProductDelivery,
-  DigitalProductDeliveryFile,
-  LicenseKeyDuration,
-  Price,
-  Product,
-  ProductCreateParams,
-  ProductListParams,
-  ProductListResponse,
-  ProductListResponsesDefaultPageNumberPagination,
-  ProductUpdateFilesParams,
-  ProductUpdateFilesResponse,
-  ProductUpdateParams,
-  Products,
-} from './resources/products/products';
-import {
-  AbandonedCheckoutDetectedWebhookEvent,
-  AbandonedCheckoutRecoveredWebhookEvent,
-  CreditAddedWebhookEvent,
-  CreditBalanceLowWebhookEvent,
-  CreditDeductedWebhookEvent,
-  CreditExpiredWebhookEvent,
-  CreditManualAdjustmentWebhookEvent,
-  CreditOverageChargedWebhookEvent,
-  CreditRolledOverWebhookEvent,
-  CreditRolloverForfeitedWebhookEvent,
-  DisputeAcceptedWebhookEvent,
-  DisputeCancelledWebhookEvent,
-  DisputeChallengedWebhookEvent,
-  DisputeExpiredWebhookEvent,
-  DisputeLostWebhookEvent,
-  DisputeOpenedWebhookEvent,
-  DisputeWonWebhookEvent,
-  DunningRecoveredWebhookEvent,
-  DunningStartedWebhookEvent,
-  LicenseKeyCreatedWebhookEvent,
-  PaymentCancelledWebhookEvent,
-  PaymentFailedWebhookEvent,
-  PaymentProcessingWebhookEvent,
-  PaymentSucceededWebhookEvent,
-  RefundFailedWebhookEvent,
-  RefundSucceededWebhookEvent,
-  SubscriptionActiveWebhookEvent,
-  SubscriptionCancelledWebhookEvent,
-  SubscriptionExpiredWebhookEvent,
-  SubscriptionFailedWebhookEvent,
-  SubscriptionOnHoldWebhookEvent,
-  SubscriptionPlanChangedWebhookEvent,
-  SubscriptionRenewedWebhookEvent,
-  SubscriptionUpdatedWebhookEvent,
-  UnsafeUnwrapWebhookEvent,
-  UnwrapWebhookEvent,
-  WebhookCreateParams,
-  WebhookDetails,
-  WebhookDetailsCursorPagePagination,
-  WebhookListParams,
-  WebhookRetrieveSecretResponse,
-  WebhookUpdateParams,
-  Webhooks,
-} from './resources/webhooks/webhooks';
+import { PayoutListParams, PayoutListResponse, PayoutListResponsesDefaultPageNumberPagination, Payouts } from './resources/payouts/payouts';
+import { AddMeterToPrice, AttachCreditEntitlement, CbbProrationBehavior, CreditEntitlementMappingResponse, DigitalProductDelivery, DigitalProductDeliveryFile, LicenseKeyDuration, Price, Product, ProductCreateParams, ProductListParams, ProductListResponse, ProductListResponsesDefaultPageNumberPagination, ProductUpdateFilesParams, ProductUpdateFilesResponse, ProductUpdateParams, Products } from './resources/products/products';
+import { AbandonedCheckoutDetectedWebhookEvent, AbandonedCheckoutRecoveredWebhookEvent, CreditAddedWebhookEvent, CreditBalanceLowWebhookEvent, CreditDeductedWebhookEvent, CreditExpiredWebhookEvent, CreditManualAdjustmentWebhookEvent, CreditOverageChargedWebhookEvent, CreditRolledOverWebhookEvent, CreditRolloverForfeitedWebhookEvent, DisputeAcceptedWebhookEvent, DisputeCancelledWebhookEvent, DisputeChallengedWebhookEvent, DisputeExpiredWebhookEvent, DisputeLostWebhookEvent, DisputeOpenedWebhookEvent, DisputeWonWebhookEvent, DunningRecoveredWebhookEvent, DunningStartedWebhookEvent, LicenseKeyCreatedWebhookEvent, PaymentCancelledWebhookEvent, PaymentFailedWebhookEvent, PaymentProcessingWebhookEvent, PaymentSucceededWebhookEvent, RefundFailedWebhookEvent, RefundSucceededWebhookEvent, SubscriptionActiveWebhookEvent, SubscriptionCancelledWebhookEvent, SubscriptionExpiredWebhookEvent, SubscriptionFailedWebhookEvent, SubscriptionOnHoldWebhookEvent, SubscriptionPlanChangedWebhookEvent, SubscriptionRenewedWebhookEvent, SubscriptionUpdatedWebhookEvent, UnsafeUnwrapWebhookEvent, UnwrapWebhookEvent, WebhookCreateParams, WebhookDetails, WebhookDetailsCursorPagePagination, WebhookListParams, WebhookRetrieveSecretResponse, WebhookUpdateParams, Webhooks } from './resources/webhooks/webhooks';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
 import { readEnv } from './internal/utils/env';
-import {
-  type LogLevel,
-  type Logger,
-  formatRequestDetails,
-  loggerFor,
-  parseLogLevel,
-} from './internal/utils/log';
+import { type LogLevel, type Logger, formatRequestDetails, loggerFor, parseLogLevel } from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
 
 const environments = {
@@ -390,7 +144,7 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Dodo Payments API.
+ * API Client for interfacing with the Dodo Payments API. 
  */
 export class DodoPayments {
   bearerToken: string;
@@ -430,7 +184,7 @@ export class DodoPayments {
   }: ClientOptions = {}) {
     if (bearerToken === undefined) {
       throw new Errors.DodoPaymentsError(
-        "The DODO_PAYMENTS_API_KEY environment variable is missing or empty; either provide it, or instantiate the DodoPayments client with an bearerToken option, like new DodoPayments({ bearerToken: 'My Bearer Token' }).",
+        'The DODO_PAYMENTS_API_KEY environment variable is missing or empty; either provide it, or instantiate the DodoPayments client with an bearerToken option, like new DodoPayments({ bearerToken: \'My Bearer Token\' }).'
       );
     }
 
@@ -444,8 +198,8 @@ export class DodoPayments {
 
     if (baseURL && opts.environment) {
       throw new Errors.DodoPaymentsError(
-        'Ambiguous URL; The `baseURL` option (or DODO_PAYMENTS_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null',
-      );
+        'Ambiguous URL; The `baseURL` option (or DODO_PAYMENTS_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null'
+      )
     }
 
     this.baseURL = options.baseURL || environments[options.environment || 'live_mode'];
@@ -454,10 +208,7 @@ export class DodoPayments {
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
-    this.logLevel =
-      parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('DODO_PAYMENTS_LOG'), "process.env['DODO_PAYMENTS_LOG']", this) ??
-      defaultLogLevel;
+    this.logLevel = parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ?? parseLogLevel(readEnv('DODO_PAYMENTS_LOG'), 'process.env[\'DODO_PAYMENTS_LOG\']', this) ?? defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
     this.fetch = options.fetch ?? Shims.getDefaultFetch();
@@ -485,7 +236,7 @@ export class DodoPayments {
       fetchOptions: this.fetchOptions,
       bearerToken: this.bearerToken,
       webhookKey: this.webhookKey,
-      ...options,
+      ...options
     });
     return client;
   }
@@ -498,7 +249,7 @@ export class DodoPayments {
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
-    return this._options.defaultQuery;
+    return this._options.defaultQuery
   }
 
   protected validateHeaders({ values, nulls }: NullableHeaders) {
@@ -533,11 +284,7 @@ export class DodoPayments {
     return Errors.APIError.generate(status, error, message, headers);
   }
 
-  buildURL(
-    path: string,
-    query: Record<string, unknown> | null | undefined,
-    defaultBaseURL?: string | undefined,
-  ): string {
+  buildURL(path: string, query: Record<string, unknown> | null | undefined, defaultBaseURL?: string | undefined): string {
     const baseURL = (!this.#baseURLOverridden() && defaultBaseURL) || this.baseURL;
     const url =
       isAbsoluteURL(path) ?
@@ -625,9 +372,7 @@ export class DodoPayments {
 
     await this.prepareOptions(options);
 
-    const { req, url, timeout } = await this.buildRequest(options, {
-      retryCount: maxRetries - retriesRemaining,
-    });
+    const { req, url, timeout } = await this.buildRequest(options, { retryCount: maxRetries - retriesRemaining });
 
     await this.prepareRequest(req, { url, options });
 
@@ -636,16 +381,7 @@ export class DodoPayments {
     const retryLogStr = retryOfRequestLogID === undefined ? '' : `, retryOf: ${retryOfRequestLogID}`;
     const startTime = Date.now();
 
-    loggerFor(this).debug(
-      `[${requestLogID}] sending request`,
-      formatRequestDetails({
-        retryOfRequestLogID,
-        method: options.method,
-        url,
-        options,
-        headers: req.headers,
-      }),
-    );
+    loggerFor(this).debug(`[${requestLogID}] sending request`, formatRequestDetails({ retryOfRequestLogID, method: options.method, url, options, headers: req.headers }));
 
     if (options.signal?.aborted) {
       throw new Errors.APIUserAbortError();
@@ -664,45 +400,21 @@ export class DodoPayments {
       // deno throws "TypeError: error sending request for url (https://example/): client error (Connect): tcp connect error: Operation timed out (os error 60): Operation timed out (os error 60)"
       // undici throws "TypeError: fetch failed" with cause "ConnectTimeoutError: Connect Timeout Error (attempted address: example:443, timeout: 1ms)"
       // others do not provide enough information to distinguish timeouts from other connection errors
-      const isTimeout =
-        isAbortError(response) ||
-        /timed? ?out/i.test(String(response) + ('cause' in response ? String(response.cause) : ''));
+      const isTimeout = isAbortError(response) || /timed? ?out/i.test(String(response) + ('cause' in response ? String(response.cause) : ''))
       if (retriesRemaining) {
-        loggerFor(this).info(
-          `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - ${retryMessage}`,
-        );
-        loggerFor(this).debug(
-          `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (${retryMessage})`,
-          formatRequestDetails({
-            retryOfRequestLogID,
-            url,
-            durationMs: headersTime - startTime,
-            message: response.message,
-          }),
-        );
+        loggerFor(this).info(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - ${retryMessage}`)
+        loggerFor(this).debug(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url, durationMs: headersTime - startTime, message: response.message }));
         return this.retryRequest(options, retriesRemaining, retryOfRequestLogID ?? requestLogID);
       }
-      loggerFor(this).info(
-        `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - error; no more retries left`,
-      );
-      loggerFor(this).debug(
-        `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (error; no more retries left)`,
-        formatRequestDetails({
-          retryOfRequestLogID,
-          url,
-          durationMs: headersTime - startTime,
-          message: response.message,
-        }),
-      );
+      loggerFor(this).info(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - error; no more retries left`)
+      loggerFor(this).debug(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (error; no more retries left)`, formatRequestDetails({ retryOfRequestLogID, url, durationMs: headersTime - startTime, message: response.message }));
       if (isTimeout) {
         throw new Errors.APIConnectionTimeoutError();
       }
       throw new Errors.APIConnectionError({ cause: response });
     }
 
-    const responseInfo = `[${requestLogID}${retryLogStr}] ${req.method} ${url} ${
-      response.ok ? 'succeeded' : 'failed'
-    } with status ${response.status} in ${headersTime - startTime}ms`;
+    const responseInfo = `[${requestLogID}${retryLogStr}] ${req.method} ${url} ${response.ok ? 'succeeded' : 'failed'} with status ${response.status} in ${headersTime - startTime}ms`;
 
     if (!response.ok) {
       const shouldRetry = await this.shouldRetry(response);
@@ -711,60 +423,27 @@ export class DodoPayments {
 
         // We don't need the body of this response.
         await Shims.CancelReadableStream(response.body);
-        loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
-        loggerFor(this).debug(
-          `[${requestLogID}] response error (${retryMessage})`,
-          formatRequestDetails({
-            retryOfRequestLogID,
-            url: response.url,
-            status: response.status,
-            headers: response.headers,
-            durationMs: headersTime - startTime,
-          }),
-        );
-        return this.retryRequest(
-          options,
-          retriesRemaining,
-          retryOfRequestLogID ?? requestLogID,
-          response.headers,
-        );
+        loggerFor(this).info(`${responseInfo} - ${retryMessage}`)
+        loggerFor(this).debug(`[${requestLogID}] response error (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, durationMs: headersTime - startTime }));
+        return this.retryRequest(options, retriesRemaining, retryOfRequestLogID ?? requestLogID, response.headers);
       }
 
       const retryMessage = shouldRetry ? `error; no more retries left` : `error; not retryable`;
 
-      loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
+      loggerFor(this).info(`${responseInfo} - ${retryMessage}`)
 
       const errText = await response.text().catch((err: any) => castToError(err).message);
       const errJSON = safeJSON(errText) as any;
       const errMessage = errJSON ? undefined : errText;
 
-      loggerFor(this).debug(
-        `[${requestLogID}] response error (${retryMessage})`,
-        formatRequestDetails({
-          retryOfRequestLogID,
-          url: response.url,
-          status: response.status,
-          headers: response.headers,
-          message: errMessage,
-          durationMs: Date.now() - startTime,
-        }),
-      );
+      loggerFor(this).debug(`[${requestLogID}] response error (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, message: errMessage, durationMs: Date.now() - startTime }));
 
       const err = this.makeStatusError(response.status, errJSON, errMessage, response.headers);
       throw err;
     }
 
-    loggerFor(this).info(responseInfo);
-    loggerFor(this).debug(
-      `[${requestLogID}] response start`,
-      formatRequestDetails({
-        retryOfRequestLogID,
-        url: response.url,
-        status: response.status,
-        headers: response.headers,
-        durationMs: headersTime - startTime,
-      }),
-    );
+    loggerFor(this).info(responseInfo)
+    loggerFor(this).debug(`[${requestLogID}] response start`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, durationMs: headersTime - startTime }));
 
     return { response, options, controller, requestLogID, retryOfRequestLogID, startTime };
   }
@@ -782,10 +461,7 @@ export class DodoPayments {
     );
   }
 
-  requestAPIList<
-    Item = unknown,
-    PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>,
-  >(
+  requestAPIList<Item = unknown, PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>>(
     Page: new (...args: ConstructorParameters<typeof Pagination.AbstractPage>) => PageClass,
     options: PromiseOrValue<FinalRequestOptions>,
   ): Pagination.PagePromise<PageClass, Item> {
@@ -805,9 +481,7 @@ export class DodoPayments {
 
     const timeout = setTimeout(abort, ms);
 
-    const isReadableBody =
-      ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) ||
-      (typeof options.body === 'object' && options.body !== null && Symbol.asyncIterator in options.body);
+    const isReadableBody = ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) || (typeof options.body === "object" && options.body !== null && Symbol.asyncIterator in options.body);
 
     const fetchOptions: RequestInit = {
       signal: controller.signal as any,
@@ -822,6 +496,7 @@ export class DodoPayments {
     }
 
     try {
+
       // use undefined this binding; fetch errors if bound to something else in browser/cloudflare
       return await this.fetch.call(undefined, url, fetchOptions);
     } finally {
@@ -922,12 +597,11 @@ export class DodoPayments {
     const req: FinalizedRequestInit = {
       method,
       headers: reqHeaders,
-      ...(options.signal && { signal: options.signal }),
-      ...((globalThis as any).ReadableStream &&
-        body instanceof (globalThis as any).ReadableStream && { duplex: 'half' }),
+      ...(options.signal && { signal: options.signal}),
+      ...((globalThis as any).ReadableStream && body instanceof (globalThis as any).ReadableStream && { duplex: "half" }),
       ...(body && { body }),
-      ...((this.fetchOptions as any) ?? {}),
-      ...((options.fetchOptions as any) ?? {}),
+      ...(this.fetchOptions as any ?? {}),
+      ...(options.fetchOptions as any ?? {}),
     };
 
     return { req, url, timeout: options.timeout };
@@ -952,17 +626,15 @@ export class DodoPayments {
 
     const headers = buildHeaders([
       idempotencyHeaders,
-      {
-        Accept: 'application/json',
-        'User-Agent': this.getUserAgent(),
-        'X-Stainless-Retry-Count': String(retryCount),
-        ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
-        ...getPlatformHeaders(),
-      },
+      {Accept: 'application/json',
+      'User-Agent': this.getUserAgent(),
+      'X-Stainless-Retry-Count': String(retryCount),
+      ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
+      ...getPlatformHeaders()},
       await this.authHeaders(options),
       this._options.defaultHeaders,
       bodyHeaders,
-      options.headers,
+      options.headers
     ]);
 
     this.validateHeaders(headers);
@@ -989,9 +661,11 @@ export class DodoPayments {
       ArrayBuffer.isView(body) ||
       body instanceof ArrayBuffer ||
       body instanceof DataView ||
-      (typeof body === 'string' &&
+      (
+        typeof body === 'string' &&
         // Preserve legacy string encoding behavior for now
-        headers.values.has('content-type')) ||
+        headers.values.has('content-type')
+      ) ||
       // `Blob` is superset of `File`
       ((globalThis as any).Blob && body instanceof (globalThis as any).Blob) ||
       // `FormData` -> `multipart/form-data`
@@ -1022,7 +696,7 @@ export class DodoPayments {
   }
 
   static DodoPayments = this;
-  static DEFAULT_TIMEOUT = 60000; // 1 minute
+  static DEFAULT_TIMEOUT = 60000 // 1 minute
 
   static DodoPaymentsError = Errors.DodoPaymentsError;
   static APIError = Errors.APIError;
@@ -1088,305 +762,307 @@ DodoPayments.Balances = Balances;
 DodoPayments.CreditEntitlements = CreditEntitlements;
 
 export declare namespace DodoPayments {
-  export type RequestOptions = Opts.RequestOptions;
+      export type RequestOptions = Opts.RequestOptions;
 
-  export import DefaultPageNumberPagination = Pagination.DefaultPageNumberPagination;
-  export {
-    type DefaultPageNumberPaginationParams as DefaultPageNumberPaginationParams,
-    type DefaultPageNumberPaginationResponse as DefaultPageNumberPaginationResponse,
-  };
+      export import DefaultPageNumberPagination = Pagination.DefaultPageNumberPagination;
+export {
+  type DefaultPageNumberPaginationParams as DefaultPageNumberPaginationParams,
+  type DefaultPageNumberPaginationResponse as DefaultPageNumberPaginationResponse
+};
 
-  export import CursorPagePagination = Pagination.CursorPagePagination;
-  export {
-    type CursorPagePaginationParams as CursorPagePaginationParams,
-    type CursorPagePaginationResponse as CursorPagePaginationResponse,
-  };
+export import CursorPagePagination = Pagination.CursorPagePagination;
+export {
+  type CursorPagePaginationParams as CursorPagePaginationParams,
+  type CursorPagePaginationResponse as CursorPagePaginationResponse
+};
 
-  export {
-    CheckoutSessions as CheckoutSessions,
-    type CheckoutSessionBillingAddress as CheckoutSessionBillingAddress,
-    type CheckoutSessionCustomization as CheckoutSessionCustomization,
-    type CheckoutSessionFlags as CheckoutSessionFlags,
-    type CheckoutSessionRequest as CheckoutSessionRequest,
-    type CheckoutSessionResponse as CheckoutSessionResponse,
-    type CheckoutSessionStatus as CheckoutSessionStatus,
-    type CustomField as CustomField,
-    type ProductItemReq as ProductItemReq,
-    type SubscriptionData as SubscriptionData,
-    type ThemeConfig as ThemeConfig,
-    type ThemeModeConfig as ThemeModeConfig,
-    type CheckoutSessionPreviewResponse as CheckoutSessionPreviewResponse,
-    type CheckoutSessionCreateParams as CheckoutSessionCreateParams,
-    type CheckoutSessionPreviewParams as CheckoutSessionPreviewParams,
-  };
+export {
+  CheckoutSessions as CheckoutSessions,
+  type CheckoutSessionBillingAddress as CheckoutSessionBillingAddress,
+  type CheckoutSessionCustomization as CheckoutSessionCustomization,
+  type CheckoutSessionFlags as CheckoutSessionFlags,
+  type CheckoutSessionRequest as CheckoutSessionRequest,
+  type CheckoutSessionResponse as CheckoutSessionResponse,
+  type CheckoutSessionStatus as CheckoutSessionStatus,
+  type CustomField as CustomField,
+  type ProductItemReq as ProductItemReq,
+  type SubscriptionData as SubscriptionData,
+  type ThemeConfig as ThemeConfig,
+  type ThemeModeConfig as ThemeModeConfig,
+  type CheckoutSessionPreviewResponse as CheckoutSessionPreviewResponse,
+  type CheckoutSessionCreateParams as CheckoutSessionCreateParams,
+  type CheckoutSessionPreviewParams as CheckoutSessionPreviewParams
+};
 
-  export {
-    Payments as Payments,
-    type AttachExistingCustomer as AttachExistingCustomer,
-    type BillingAddress as BillingAddress,
-    type CreateNewCustomer as CreateNewCustomer,
-    type CustomFieldResponse as CustomFieldResponse,
-    type CustomerLimitedDetails as CustomerLimitedDetails,
-    type CustomerRequest as CustomerRequest,
-    type IntentStatus as IntentStatus,
-    type NewCustomer as NewCustomer,
-    type OneTimeProductCartItem as OneTimeProductCartItem,
-    type Payment as Payment,
-    type PaymentMethodTypes as PaymentMethodTypes,
-    type PaymentRefundStatus as PaymentRefundStatus,
-    type RefundListItem as RefundListItem,
-    type PaymentCreateResponse as PaymentCreateResponse,
-    type PaymentListResponse as PaymentListResponse,
-    type PaymentRetrieveLineItemsResponse as PaymentRetrieveLineItemsResponse,
-    type PaymentListResponsesDefaultPageNumberPagination as PaymentListResponsesDefaultPageNumberPagination,
-    type PaymentCreateParams as PaymentCreateParams,
-    type PaymentListParams as PaymentListParams,
-  };
+export {
+  Payments as Payments,
+  type AttachExistingCustomer as AttachExistingCustomer,
+  type BillingAddress as BillingAddress,
+  type CreateNewCustomer as CreateNewCustomer,
+  type CustomFieldResponse as CustomFieldResponse,
+  type CustomerLimitedDetails as CustomerLimitedDetails,
+  type CustomerRequest as CustomerRequest,
+  type IntentStatus as IntentStatus,
+  type NewCustomer as NewCustomer,
+  type OneTimeProductCartItem as OneTimeProductCartItem,
+  type Payment as Payment,
+  type PaymentMethodTypes as PaymentMethodTypes,
+  type PaymentRefundStatus as PaymentRefundStatus,
+  type RefundListItem as RefundListItem,
+  type PaymentCreateResponse as PaymentCreateResponse,
+  type PaymentListResponse as PaymentListResponse,
+  type PaymentRetrieveLineItemsResponse as PaymentRetrieveLineItemsResponse,
+  type PaymentListResponsesDefaultPageNumberPagination as PaymentListResponsesDefaultPageNumberPagination,
+  type PaymentCreateParams as PaymentCreateParams,
+  type PaymentListParams as PaymentListParams
+};
 
-  export {
-    Subscriptions as Subscriptions,
-    type AddonCartResponseItem as AddonCartResponseItem,
-    type AttachAddon as AttachAddon,
-    type CreditEntitlementCartResponse as CreditEntitlementCartResponse,
-    type MeterCartResponseItem as MeterCartResponseItem,
-    type MeterCreditEntitlementCartResponse as MeterCreditEntitlementCartResponse,
-    type OnDemandSubscription as OnDemandSubscription,
-    type Subscription as Subscription,
-    type SubscriptionStatus as SubscriptionStatus,
-    type TimeInterval as TimeInterval,
-    type UpdateSubscriptionPlanReq as UpdateSubscriptionPlanReq,
-    type SubscriptionCreateResponse as SubscriptionCreateResponse,
-    type SubscriptionListResponse as SubscriptionListResponse,
-    type SubscriptionChargeResponse as SubscriptionChargeResponse,
-    type SubscriptionPreviewChangePlanResponse as SubscriptionPreviewChangePlanResponse,
-    type SubscriptionRetrieveCreditUsageResponse as SubscriptionRetrieveCreditUsageResponse,
-    type SubscriptionRetrieveUsageHistoryResponse as SubscriptionRetrieveUsageHistoryResponse,
-    type SubscriptionUpdatePaymentMethodResponse as SubscriptionUpdatePaymentMethodResponse,
-    type SubscriptionListResponsesDefaultPageNumberPagination as SubscriptionListResponsesDefaultPageNumberPagination,
-    type SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination as SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
-    type SubscriptionCreateParams as SubscriptionCreateParams,
-    type SubscriptionUpdateParams as SubscriptionUpdateParams,
-    type SubscriptionListParams as SubscriptionListParams,
-    type SubscriptionChangePlanParams as SubscriptionChangePlanParams,
-    type SubscriptionChargeParams as SubscriptionChargeParams,
-    type SubscriptionPreviewChangePlanParams as SubscriptionPreviewChangePlanParams,
-    type SubscriptionRetrieveUsageHistoryParams as SubscriptionRetrieveUsageHistoryParams,
-    type SubscriptionUpdatePaymentMethodParams as SubscriptionUpdatePaymentMethodParams,
-  };
+export {
+  Subscriptions as Subscriptions,
+  type AddonCartResponseItem as AddonCartResponseItem,
+  type AttachAddon as AttachAddon,
+  type CreditEntitlementCartResponse as CreditEntitlementCartResponse,
+  type MeterCartResponseItem as MeterCartResponseItem,
+  type MeterCreditEntitlementCartResponse as MeterCreditEntitlementCartResponse,
+  type OnDemandSubscription as OnDemandSubscription,
+  type Subscription as Subscription,
+  type SubscriptionStatus as SubscriptionStatus,
+  type TimeInterval as TimeInterval,
+  type UpdateSubscriptionPlanReq as UpdateSubscriptionPlanReq,
+  type SubscriptionCreateResponse as SubscriptionCreateResponse,
+  type SubscriptionListResponse as SubscriptionListResponse,
+  type SubscriptionChargeResponse as SubscriptionChargeResponse,
+  type SubscriptionPreviewChangePlanResponse as SubscriptionPreviewChangePlanResponse,
+  type SubscriptionRetrieveCreditUsageResponse as SubscriptionRetrieveCreditUsageResponse,
+  type SubscriptionRetrieveUsageHistoryResponse as SubscriptionRetrieveUsageHistoryResponse,
+  type SubscriptionUpdatePaymentMethodResponse as SubscriptionUpdatePaymentMethodResponse,
+  type SubscriptionListResponsesDefaultPageNumberPagination as SubscriptionListResponsesDefaultPageNumberPagination,
+  type SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination as SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
+  type SubscriptionCreateParams as SubscriptionCreateParams,
+  type SubscriptionUpdateParams as SubscriptionUpdateParams,
+  type SubscriptionListParams as SubscriptionListParams,
+  type SubscriptionChangePlanParams as SubscriptionChangePlanParams,
+  type SubscriptionChargeParams as SubscriptionChargeParams,
+  type SubscriptionPreviewChangePlanParams as SubscriptionPreviewChangePlanParams,
+  type SubscriptionRetrieveUsageHistoryParams as SubscriptionRetrieveUsageHistoryParams,
+  type SubscriptionUpdatePaymentMethodParams as SubscriptionUpdatePaymentMethodParams
+};
 
-  export { Invoices as Invoices };
+export {
+  Invoices as Invoices
+};
 
-  export {
-    Licenses as Licenses,
-    type LicenseActivateResponse as LicenseActivateResponse,
-    type LicenseValidateResponse as LicenseValidateResponse,
-    type LicenseActivateParams as LicenseActivateParams,
-    type LicenseDeactivateParams as LicenseDeactivateParams,
-    type LicenseValidateParams as LicenseValidateParams,
-  };
+export {
+  Licenses as Licenses,
+  type LicenseActivateResponse as LicenseActivateResponse,
+  type LicenseValidateResponse as LicenseValidateResponse,
+  type LicenseActivateParams as LicenseActivateParams,
+  type LicenseDeactivateParams as LicenseDeactivateParams,
+  type LicenseValidateParams as LicenseValidateParams
+};
 
-  export {
-    LicenseKeys as LicenseKeys,
-    type LicenseKey as LicenseKey,
-    type LicenseKeyStatus as LicenseKeyStatus,
-    type LicenseKeysDefaultPageNumberPagination as LicenseKeysDefaultPageNumberPagination,
-    type LicenseKeyCreateParams as LicenseKeyCreateParams,
-    type LicenseKeyUpdateParams as LicenseKeyUpdateParams,
-    type LicenseKeyListParams as LicenseKeyListParams,
-  };
+export {
+  LicenseKeys as LicenseKeys,
+  type LicenseKey as LicenseKey,
+  type LicenseKeyStatus as LicenseKeyStatus,
+  type LicenseKeysDefaultPageNumberPagination as LicenseKeysDefaultPageNumberPagination,
+  type LicenseKeyCreateParams as LicenseKeyCreateParams,
+  type LicenseKeyUpdateParams as LicenseKeyUpdateParams,
+  type LicenseKeyListParams as LicenseKeyListParams
+};
 
-  export {
-    LicenseKeyInstances as LicenseKeyInstances,
-    type LicenseKeyInstance as LicenseKeyInstance,
-    type LicenseKeyInstancesDefaultPageNumberPagination as LicenseKeyInstancesDefaultPageNumberPagination,
-    type LicenseKeyInstanceUpdateParams as LicenseKeyInstanceUpdateParams,
-    type LicenseKeyInstanceListParams as LicenseKeyInstanceListParams,
-  };
+export {
+  LicenseKeyInstances as LicenseKeyInstances,
+  type LicenseKeyInstance as LicenseKeyInstance,
+  type LicenseKeyInstancesDefaultPageNumberPagination as LicenseKeyInstancesDefaultPageNumberPagination,
+  type LicenseKeyInstanceUpdateParams as LicenseKeyInstanceUpdateParams,
+  type LicenseKeyInstanceListParams as LicenseKeyInstanceListParams
+};
 
-  export {
-    Customers as Customers,
-    type Customer as Customer,
-    type CustomerPortalSession as CustomerPortalSession,
-    type CustomerListCreditEntitlementsResponse as CustomerListCreditEntitlementsResponse,
-    type CustomerRetrievePaymentMethodsResponse as CustomerRetrievePaymentMethodsResponse,
-    type CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
-    type CustomerCreateParams as CustomerCreateParams,
-    type CustomerUpdateParams as CustomerUpdateParams,
-    type CustomerListParams as CustomerListParams,
-    type CustomerDeletePaymentMethodParams as CustomerDeletePaymentMethodParams,
-  };
+export {
+  Customers as Customers,
+  type Customer as Customer,
+  type CustomerPortalSession as CustomerPortalSession,
+  type CustomerListCreditEntitlementsResponse as CustomerListCreditEntitlementsResponse,
+  type CustomerRetrievePaymentMethodsResponse as CustomerRetrievePaymentMethodsResponse,
+  type CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
+  type CustomerCreateParams as CustomerCreateParams,
+  type CustomerUpdateParams as CustomerUpdateParams,
+  type CustomerListParams as CustomerListParams,
+  type CustomerDeletePaymentMethodParams as CustomerDeletePaymentMethodParams
+};
 
-  export {
-    Refunds as Refunds,
-    type Refund as Refund,
-    type RefundStatus as RefundStatus,
-    type RefundCreateParams as RefundCreateParams,
-    type RefundListParams as RefundListParams,
-  };
+export {
+  Refunds as Refunds,
+  type Refund as Refund,
+  type RefundStatus as RefundStatus,
+  type RefundCreateParams as RefundCreateParams,
+  type RefundListParams as RefundListParams
+};
 
-  export {
-    Disputes as Disputes,
-    type Dispute as Dispute,
-    type DisputeStage as DisputeStage,
-    type DisputeStatus as DisputeStatus,
-    type GetDispute as GetDispute,
-    type DisputeListResponse as DisputeListResponse,
-    type DisputeListResponsesDefaultPageNumberPagination as DisputeListResponsesDefaultPageNumberPagination,
-    type DisputeListParams as DisputeListParams,
-  };
+export {
+  Disputes as Disputes,
+  type Dispute as Dispute,
+  type DisputeStage as DisputeStage,
+  type DisputeStatus as DisputeStatus,
+  type GetDispute as GetDispute,
+  type DisputeListResponse as DisputeListResponse,
+  type DisputeListResponsesDefaultPageNumberPagination as DisputeListResponsesDefaultPageNumberPagination,
+  type DisputeListParams as DisputeListParams
+};
 
-  export {
-    Payouts as Payouts,
-    type PayoutListResponse as PayoutListResponse,
-    type PayoutListResponsesDefaultPageNumberPagination as PayoutListResponsesDefaultPageNumberPagination,
-    type PayoutListParams as PayoutListParams,
-  };
+export {
+  Payouts as Payouts,
+  type PayoutListResponse as PayoutListResponse,
+  type PayoutListResponsesDefaultPageNumberPagination as PayoutListResponsesDefaultPageNumberPagination,
+  type PayoutListParams as PayoutListParams
+};
 
-  export {
-    Products as Products,
-    type AddMeterToPrice as AddMeterToPrice,
-    type AttachCreditEntitlement as AttachCreditEntitlement,
-    type CbbProrationBehavior as CbbProrationBehavior,
-    type CreditEntitlementMappingResponse as CreditEntitlementMappingResponse,
-    type DigitalProductDelivery as DigitalProductDelivery,
-    type DigitalProductDeliveryFile as DigitalProductDeliveryFile,
-    type LicenseKeyDuration as LicenseKeyDuration,
-    type Price as Price,
-    type Product as Product,
-    type ProductListResponse as ProductListResponse,
-    type ProductUpdateFilesResponse as ProductUpdateFilesResponse,
-    type ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
-    type ProductCreateParams as ProductCreateParams,
-    type ProductUpdateParams as ProductUpdateParams,
-    type ProductListParams as ProductListParams,
-    type ProductUpdateFilesParams as ProductUpdateFilesParams,
-  };
+export {
+  Products as Products,
+  type AddMeterToPrice as AddMeterToPrice,
+  type AttachCreditEntitlement as AttachCreditEntitlement,
+  type CbbProrationBehavior as CbbProrationBehavior,
+  type CreditEntitlementMappingResponse as CreditEntitlementMappingResponse,
+  type DigitalProductDelivery as DigitalProductDelivery,
+  type DigitalProductDeliveryFile as DigitalProductDeliveryFile,
+  type LicenseKeyDuration as LicenseKeyDuration,
+  type Price as Price,
+  type Product as Product,
+  type ProductListResponse as ProductListResponse,
+  type ProductUpdateFilesResponse as ProductUpdateFilesResponse,
+  type ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
+  type ProductCreateParams as ProductCreateParams,
+  type ProductUpdateParams as ProductUpdateParams,
+  type ProductListParams as ProductListParams,
+  type ProductUpdateFilesParams as ProductUpdateFilesParams
+};
 
-  export {
-    Misc as Misc,
-    type CountryCode as CountryCode,
-    type Currency as Currency,
-    type TaxCategory as TaxCategory,
-    type MiscListSupportedCountriesResponse as MiscListSupportedCountriesResponse,
-  };
+export {
+  Misc as Misc,
+  type CountryCode as CountryCode,
+  type Currency as Currency,
+  type TaxCategory as TaxCategory,
+  type MiscListSupportedCountriesResponse as MiscListSupportedCountriesResponse
+};
 
-  export {
-    Discounts as Discounts,
-    type Discount as Discount,
-    type DiscountType as DiscountType,
-    type DiscountsDefaultPageNumberPagination as DiscountsDefaultPageNumberPagination,
-    type DiscountCreateParams as DiscountCreateParams,
-    type DiscountUpdateParams as DiscountUpdateParams,
-    type DiscountListParams as DiscountListParams,
-  };
+export {
+  Discounts as Discounts,
+  type Discount as Discount,
+  type DiscountType as DiscountType,
+  type DiscountsDefaultPageNumberPagination as DiscountsDefaultPageNumberPagination,
+  type DiscountCreateParams as DiscountCreateParams,
+  type DiscountUpdateParams as DiscountUpdateParams,
+  type DiscountListParams as DiscountListParams
+};
 
-  export {
-    Addons as Addons,
-    type AddonResponse as AddonResponse,
-    type AddonUpdateImagesResponse as AddonUpdateImagesResponse,
-    type AddonResponsesDefaultPageNumberPagination as AddonResponsesDefaultPageNumberPagination,
-    type AddonCreateParams as AddonCreateParams,
-    type AddonUpdateParams as AddonUpdateParams,
-    type AddonListParams as AddonListParams,
-  };
+export {
+  Addons as Addons,
+  type AddonResponse as AddonResponse,
+  type AddonUpdateImagesResponse as AddonUpdateImagesResponse,
+  type AddonResponsesDefaultPageNumberPagination as AddonResponsesDefaultPageNumberPagination,
+  type AddonCreateParams as AddonCreateParams,
+  type AddonUpdateParams as AddonUpdateParams,
+  type AddonListParams as AddonListParams
+};
 
-  export {
-    Brands as Brands,
-    type Brand as Brand,
-    type BrandListResponse as BrandListResponse,
-    type BrandUpdateImagesResponse as BrandUpdateImagesResponse,
-    type BrandCreateParams as BrandCreateParams,
-    type BrandUpdateParams as BrandUpdateParams,
-  };
+export {
+  Brands as Brands,
+  type Brand as Brand,
+  type BrandListResponse as BrandListResponse,
+  type BrandUpdateImagesResponse as BrandUpdateImagesResponse,
+  type BrandCreateParams as BrandCreateParams,
+  type BrandUpdateParams as BrandUpdateParams
+};
 
-  export {
-    Webhooks as Webhooks,
-    type WebhookDetails as WebhookDetails,
-    type WebhookRetrieveSecretResponse as WebhookRetrieveSecretResponse,
-    type AbandonedCheckoutDetectedWebhookEvent as AbandonedCheckoutDetectedWebhookEvent,
-    type AbandonedCheckoutRecoveredWebhookEvent as AbandonedCheckoutRecoveredWebhookEvent,
-    type CreditAddedWebhookEvent as CreditAddedWebhookEvent,
-    type CreditBalanceLowWebhookEvent as CreditBalanceLowWebhookEvent,
-    type CreditDeductedWebhookEvent as CreditDeductedWebhookEvent,
-    type CreditExpiredWebhookEvent as CreditExpiredWebhookEvent,
-    type CreditManualAdjustmentWebhookEvent as CreditManualAdjustmentWebhookEvent,
-    type CreditOverageChargedWebhookEvent as CreditOverageChargedWebhookEvent,
-    type CreditRolledOverWebhookEvent as CreditRolledOverWebhookEvent,
-    type CreditRolloverForfeitedWebhookEvent as CreditRolloverForfeitedWebhookEvent,
-    type DisputeAcceptedWebhookEvent as DisputeAcceptedWebhookEvent,
-    type DisputeCancelledWebhookEvent as DisputeCancelledWebhookEvent,
-    type DisputeChallengedWebhookEvent as DisputeChallengedWebhookEvent,
-    type DisputeExpiredWebhookEvent as DisputeExpiredWebhookEvent,
-    type DisputeLostWebhookEvent as DisputeLostWebhookEvent,
-    type DisputeOpenedWebhookEvent as DisputeOpenedWebhookEvent,
-    type DisputeWonWebhookEvent as DisputeWonWebhookEvent,
-    type DunningRecoveredWebhookEvent as DunningRecoveredWebhookEvent,
-    type DunningStartedWebhookEvent as DunningStartedWebhookEvent,
-    type LicenseKeyCreatedWebhookEvent as LicenseKeyCreatedWebhookEvent,
-    type PaymentCancelledWebhookEvent as PaymentCancelledWebhookEvent,
-    type PaymentFailedWebhookEvent as PaymentFailedWebhookEvent,
-    type PaymentProcessingWebhookEvent as PaymentProcessingWebhookEvent,
-    type PaymentSucceededWebhookEvent as PaymentSucceededWebhookEvent,
-    type RefundFailedWebhookEvent as RefundFailedWebhookEvent,
-    type RefundSucceededWebhookEvent as RefundSucceededWebhookEvent,
-    type SubscriptionActiveWebhookEvent as SubscriptionActiveWebhookEvent,
-    type SubscriptionCancelledWebhookEvent as SubscriptionCancelledWebhookEvent,
-    type SubscriptionExpiredWebhookEvent as SubscriptionExpiredWebhookEvent,
-    type SubscriptionFailedWebhookEvent as SubscriptionFailedWebhookEvent,
-    type SubscriptionOnHoldWebhookEvent as SubscriptionOnHoldWebhookEvent,
-    type SubscriptionPlanChangedWebhookEvent as SubscriptionPlanChangedWebhookEvent,
-    type SubscriptionRenewedWebhookEvent as SubscriptionRenewedWebhookEvent,
-    type SubscriptionUpdatedWebhookEvent as SubscriptionUpdatedWebhookEvent,
-    type UnsafeUnwrapWebhookEvent as UnsafeUnwrapWebhookEvent,
-    type UnwrapWebhookEvent as UnwrapWebhookEvent,
-    type WebhookDetailsCursorPagePagination as WebhookDetailsCursorPagePagination,
-    type WebhookCreateParams as WebhookCreateParams,
-    type WebhookUpdateParams as WebhookUpdateParams,
-    type WebhookListParams as WebhookListParams,
-  };
+export {
+  Webhooks as Webhooks,
+  type WebhookDetails as WebhookDetails,
+  type WebhookRetrieveSecretResponse as WebhookRetrieveSecretResponse,
+  type AbandonedCheckoutDetectedWebhookEvent as AbandonedCheckoutDetectedWebhookEvent,
+  type AbandonedCheckoutRecoveredWebhookEvent as AbandonedCheckoutRecoveredWebhookEvent,
+  type CreditAddedWebhookEvent as CreditAddedWebhookEvent,
+  type CreditBalanceLowWebhookEvent as CreditBalanceLowWebhookEvent,
+  type CreditDeductedWebhookEvent as CreditDeductedWebhookEvent,
+  type CreditExpiredWebhookEvent as CreditExpiredWebhookEvent,
+  type CreditManualAdjustmentWebhookEvent as CreditManualAdjustmentWebhookEvent,
+  type CreditOverageChargedWebhookEvent as CreditOverageChargedWebhookEvent,
+  type CreditRolledOverWebhookEvent as CreditRolledOverWebhookEvent,
+  type CreditRolloverForfeitedWebhookEvent as CreditRolloverForfeitedWebhookEvent,
+  type DisputeAcceptedWebhookEvent as DisputeAcceptedWebhookEvent,
+  type DisputeCancelledWebhookEvent as DisputeCancelledWebhookEvent,
+  type DisputeChallengedWebhookEvent as DisputeChallengedWebhookEvent,
+  type DisputeExpiredWebhookEvent as DisputeExpiredWebhookEvent,
+  type DisputeLostWebhookEvent as DisputeLostWebhookEvent,
+  type DisputeOpenedWebhookEvent as DisputeOpenedWebhookEvent,
+  type DisputeWonWebhookEvent as DisputeWonWebhookEvent,
+  type DunningRecoveredWebhookEvent as DunningRecoveredWebhookEvent,
+  type DunningStartedWebhookEvent as DunningStartedWebhookEvent,
+  type LicenseKeyCreatedWebhookEvent as LicenseKeyCreatedWebhookEvent,
+  type PaymentCancelledWebhookEvent as PaymentCancelledWebhookEvent,
+  type PaymentFailedWebhookEvent as PaymentFailedWebhookEvent,
+  type PaymentProcessingWebhookEvent as PaymentProcessingWebhookEvent,
+  type PaymentSucceededWebhookEvent as PaymentSucceededWebhookEvent,
+  type RefundFailedWebhookEvent as RefundFailedWebhookEvent,
+  type RefundSucceededWebhookEvent as RefundSucceededWebhookEvent,
+  type SubscriptionActiveWebhookEvent as SubscriptionActiveWebhookEvent,
+  type SubscriptionCancelledWebhookEvent as SubscriptionCancelledWebhookEvent,
+  type SubscriptionExpiredWebhookEvent as SubscriptionExpiredWebhookEvent,
+  type SubscriptionFailedWebhookEvent as SubscriptionFailedWebhookEvent,
+  type SubscriptionOnHoldWebhookEvent as SubscriptionOnHoldWebhookEvent,
+  type SubscriptionPlanChangedWebhookEvent as SubscriptionPlanChangedWebhookEvent,
+  type SubscriptionRenewedWebhookEvent as SubscriptionRenewedWebhookEvent,
+  type SubscriptionUpdatedWebhookEvent as SubscriptionUpdatedWebhookEvent,
+  type UnsafeUnwrapWebhookEvent as UnsafeUnwrapWebhookEvent,
+  type UnwrapWebhookEvent as UnwrapWebhookEvent,
+  type WebhookDetailsCursorPagePagination as WebhookDetailsCursorPagePagination,
+  type WebhookCreateParams as WebhookCreateParams,
+  type WebhookUpdateParams as WebhookUpdateParams,
+  type WebhookListParams as WebhookListParams
+};
 
-  export {
-    WebhookEvents as WebhookEvents,
-    type WebhookEventType as WebhookEventType,
-    type WebhookPayload as WebhookPayload,
-  };
+export {
+  WebhookEvents as WebhookEvents,
+  type WebhookEventType as WebhookEventType,
+  type WebhookPayload as WebhookPayload
+};
 
-  export {
-    UsageEvents as UsageEvents,
-    type Event as Event,
-    type EventInput as EventInput,
-    type UsageEventIngestResponse as UsageEventIngestResponse,
-    type EventsDefaultPageNumberPagination as EventsDefaultPageNumberPagination,
-    type UsageEventListParams as UsageEventListParams,
-    type UsageEventIngestParams as UsageEventIngestParams,
-  };
+export {
+  UsageEvents as UsageEvents,
+  type Event as Event,
+  type EventInput as EventInput,
+  type UsageEventIngestResponse as UsageEventIngestResponse,
+  type EventsDefaultPageNumberPagination as EventsDefaultPageNumberPagination,
+  type UsageEventListParams as UsageEventListParams,
+  type UsageEventIngestParams as UsageEventIngestParams
+};
 
-  export {
-    Meters as Meters,
-    type Conjunction as Conjunction,
-    type FilterOperator as FilterOperator,
-    type Meter as Meter,
-    type MeterAggregation as MeterAggregation,
-    type MeterFilter as MeterFilter,
-    type MetersDefaultPageNumberPagination as MetersDefaultPageNumberPagination,
-    type MeterCreateParams as MeterCreateParams,
-    type MeterListParams as MeterListParams,
-  };
+export {
+  Meters as Meters,
+  type Conjunction as Conjunction,
+  type FilterOperator as FilterOperator,
+  type Meter as Meter,
+  type MeterAggregation as MeterAggregation,
+  type MeterFilter as MeterFilter,
+  type MetersDefaultPageNumberPagination as MetersDefaultPageNumberPagination,
+  type MeterCreateParams as MeterCreateParams,
+  type MeterListParams as MeterListParams
+};
 
-  export {
-    Balances as Balances,
-    type BalanceLedgerEntry as BalanceLedgerEntry,
-    type BalanceLedgerEntriesDefaultPageNumberPagination as BalanceLedgerEntriesDefaultPageNumberPagination,
-    type BalanceRetrieveLedgerParams as BalanceRetrieveLedgerParams,
-  };
+export {
+  Balances as Balances,
+  type BalanceLedgerEntry as BalanceLedgerEntry,
+  type BalanceLedgerEntriesDefaultPageNumberPagination as BalanceLedgerEntriesDefaultPageNumberPagination,
+  type BalanceRetrieveLedgerParams as BalanceRetrieveLedgerParams
+};
 
-  export {
-    CreditEntitlements as CreditEntitlements,
-    type CbbOverageBehavior as CbbOverageBehavior,
-    type CreditEntitlement as CreditEntitlement,
-    type CreditEntitlementsDefaultPageNumberPagination as CreditEntitlementsDefaultPageNumberPagination,
-    type CreditEntitlementCreateParams as CreditEntitlementCreateParams,
-    type CreditEntitlementUpdateParams as CreditEntitlementUpdateParams,
-    type CreditEntitlementListParams as CreditEntitlementListParams,
-  };
-}
+export {
+  CreditEntitlements as CreditEntitlements,
+  type CbbOverageBehavior as CbbOverageBehavior,
+  type CreditEntitlement as CreditEntitlement,
+  type CreditEntitlementsDefaultPageNumberPagination as CreditEntitlementsDefaultPageNumberPagination,
+  type CreditEntitlementCreateParams as CreditEntitlementCreateParams,
+  type CreditEntitlementUpdateParams as CreditEntitlementUpdateParams,
+  type CreditEntitlementListParams as CreditEntitlementListParams
+};
+    }

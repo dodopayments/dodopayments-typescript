@@ -11,5 +11,7 @@ export class Invoices extends APIResource {
 Invoices.Payments = Payments;
 
 export declare namespace Invoices {
-  export { Payments as Payments };
+  export {
+    Payments as Payments
+  };
 }

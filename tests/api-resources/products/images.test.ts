@@ -2,10 +2,7 @@
 
 import DodoPayments from 'dodopayments';
 
-const client = new DodoPayments({
-  bearerToken: 'My Bearer Token',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new DodoPayments({ bearerToken: 'My Bearer Token', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
 describe('resource images', () => {
   test('update', async () => {
@@ -21,8 +18,8 @@ describe('resource images', () => {
 
   test('update: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.products.images.update('id', { force_update: true }, { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(DodoPayments.NotFoundError);
+    await expect(client.products.images.update('id', { force_update: true }, { path: '/_stainless_unknown_path' }))
+      .rejects
+      .toThrow(DodoPayments.NotFoundError);
   });
 });
