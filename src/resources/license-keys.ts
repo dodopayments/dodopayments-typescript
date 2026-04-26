@@ -2,11 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
-import {
-  DefaultPageNumberPagination,
-  type DefaultPageNumberPaginationParams,
-  PagePromise,
-} from '../core/pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../core/pagination';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
@@ -42,18 +38,12 @@ export class LicenseKeys extends APIResource {
   /**
    * @deprecated
    */
-  list(
-    query: LicenseKeyListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<LicenseKeysDefaultPageNumberPagination, LicenseKey> {
-    return this._client.getAPIList('/license_keys', DefaultPageNumberPagination<LicenseKey>, {
-      query,
-      ...options,
-    });
+  list(query: LicenseKeyListParams | null | undefined = {}, options?: RequestOptions): PagePromise<LicenseKeysDefaultPageNumberPagination, LicenseKey> {
+    return this._client.getAPIList('/license_keys', DefaultPageNumberPagination<LicenseKey>, { query, ...options });
   }
 }
 
-export type LicenseKeysDefaultPageNumberPagination = DefaultPageNumberPagination<LicenseKey>;
+export type LicenseKeysDefaultPageNumberPagination = DefaultPageNumberPagination<LicenseKey>
 
 export interface LicenseKey {
   /**
@@ -124,7 +114,7 @@ export interface LicenseKey {
   subscription_id?: string | null;
 }
 
-export type LicenseKeyStatus = 'active' | 'expired' | 'disabled';
+export type LicenseKeyStatus = 'active' | 'expired' | 'disabled'
 
 export interface LicenseKeyCreateParams {
   /**
@@ -212,6 +202,6 @@ export declare namespace LicenseKeys {
     type LicenseKeysDefaultPageNumberPagination as LicenseKeysDefaultPageNumberPagination,
     type LicenseKeyCreateParams as LicenseKeyCreateParams,
     type LicenseKeyUpdateParams as LicenseKeyUpdateParams,
-    type LicenseKeyListParams as LicenseKeyListParams,
+    type LicenseKeyListParams as LicenseKeyListParams
   };
 }

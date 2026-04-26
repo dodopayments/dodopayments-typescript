@@ -8,20 +8,9 @@ import * as CreditEntitlementsAPI from '../credit-entitlements/credit-entitlemen
 import * as ImagesAPI from './images';
 import { ImageUpdateParams, ImageUpdateResponse, Images } from './images';
 import * as ShortLinksAPI from './short-links';
-import {
-  ShortLinkCreateParams,
-  ShortLinkCreateResponse,
-  ShortLinkListParams,
-  ShortLinkListResponse,
-  ShortLinkListResponsesDefaultPageNumberPagination,
-  ShortLinks,
-} from './short-links';
+import { ShortLinkCreateParams, ShortLinkCreateResponse, ShortLinkListParams, ShortLinkListResponse, ShortLinkListResponsesDefaultPageNumberPagination, ShortLinks } from './short-links';
 import { APIPromise } from '../../core/api-promise';
-import {
-  DefaultPageNumberPagination,
-  type DefaultPageNumberPaginationParams,
-  PagePromise,
-} from '../../core/pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../../core/pagination';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
@@ -39,48 +28,27 @@ export class Products extends APIResource {
   }
 
   update(id: string, body: ProductUpdateParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.patch(path`/products/${id}`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.patch(path`/products/${id}`, { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
-  list(
-    query: ProductListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<ProductListResponsesDefaultPageNumberPagination, ProductListResponse> {
-    return this._client.getAPIList('/products', DefaultPageNumberPagination<ProductListResponse>, {
-      query,
-      ...options,
-    });
+  list(query: ProductListParams | null | undefined = {}, options?: RequestOptions): PagePromise<ProductListResponsesDefaultPageNumberPagination, ProductListResponse> {
+    return this._client.getAPIList('/products', DefaultPageNumberPagination<ProductListResponse>, { query, ...options });
   }
 
   archive(id: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/products/${id}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.delete(path`/products/${id}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   unarchive(id: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/products/${id}/unarchive`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post(path`/products/${id}/unarchive`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
-  updateFiles(
-    id: string,
-    body: ProductUpdateFilesParams,
-    options?: RequestOptions,
-  ): APIPromise<ProductUpdateFilesResponse> {
+  updateFiles(id: string, body: ProductUpdateFilesParams, options?: RequestOptions): APIPromise<ProductUpdateFilesResponse> {
     return this._client.put(path`/products/${id}/files`, { body, ...options });
   }
 }
 
-export type ProductListResponsesDefaultPageNumberPagination =
-  DefaultPageNumberPagination<ProductListResponse>;
+export type ProductListResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<ProductListResponse>
 
 export interface AddMeterToPrice {
   meter_id: string;
@@ -210,7 +178,7 @@ export interface AttachCreditEntitlement {
   trial_credits_expire_after_trial?: boolean | null;
 }
 
-export type CbbProrationBehavior = 'prorate' | 'no_prorate';
+export type CbbProrationBehavior = 'prorate' | 'no_prorate'
 
 /**
  * Response struct for credit entitlement mapping
@@ -351,7 +319,7 @@ export interface LicenseKeyDuration {
 /**
  * One-time price details.
  */
-export type Price = Price.OneTimePrice | Price.RecurringPrice | Price.UsageBasedPrice;
+export type Price = Price.OneTimePrice | Price.RecurringPrice | Price.UsageBasedPrice
 
 export namespace Price {
   /**
@@ -636,25 +604,9 @@ export namespace Product {
      * Platform-specific configuration for an entitlement. Each variant uses unique
      * field names so `#[serde(untagged)]` can disambiguate correctly.
      */
-    integration_config:
-      | Entitlement.GitHubConfig
-      | Entitlement.DiscordConfig
-      | Entitlement.TelegramConfig
-      | Entitlement.FigmaConfig
-      | Entitlement.FramerConfig
-      | Entitlement.NotionConfig
-      | Entitlement.DigitalFilesConfig
-      | Entitlement.LicenseKeyConfig;
+    integration_config: Entitlement.GitHubConfig | Entitlement.DiscordConfig | Entitlement.TelegramConfig | Entitlement.FigmaConfig | Entitlement.FramerConfig | Entitlement.NotionConfig | Entitlement.DigitalFilesConfig | Entitlement.LicenseKeyConfig;
 
-    integration_type:
-      | 'discord'
-      | 'telegram'
-      | 'github'
-      | 'figma'
-      | 'framer'
-      | 'notion'
-      | 'digital_files'
-      | 'license_key';
+    integration_type: 'discord' | 'telegram' | 'github' | 'figma' | 'framer' | 'notion' | 'digital_files' | 'license_key';
 
     name: string;
 
@@ -810,25 +762,9 @@ export namespace ProductListResponse {
      * Platform-specific configuration for an entitlement. Each variant uses unique
      * field names so `#[serde(untagged)]` can disambiguate correctly.
      */
-    integration_config:
-      | Entitlement.GitHubConfig
-      | Entitlement.DiscordConfig
-      | Entitlement.TelegramConfig
-      | Entitlement.FigmaConfig
-      | Entitlement.FramerConfig
-      | Entitlement.NotionConfig
-      | Entitlement.DigitalFilesConfig
-      | Entitlement.LicenseKeyConfig;
+    integration_config: Entitlement.GitHubConfig | Entitlement.DiscordConfig | Entitlement.TelegramConfig | Entitlement.FigmaConfig | Entitlement.FramerConfig | Entitlement.NotionConfig | Entitlement.DigitalFilesConfig | Entitlement.LicenseKeyConfig;
 
-    integration_type:
-      | 'discord'
-      | 'telegram'
-      | 'github'
-      | 'figma'
-      | 'framer'
-      | 'notion'
-      | 'digital_files'
-      | 'license_key';
+    integration_type: 'discord' | 'telegram' | 'github' | 'figma' | 'framer' | 'notion' | 'digital_files' | 'license_key';
 
     name: string;
 
@@ -1141,13 +1077,13 @@ export declare namespace Products {
     type ProductCreateParams as ProductCreateParams,
     type ProductUpdateParams as ProductUpdateParams,
     type ProductListParams as ProductListParams,
-    type ProductUpdateFilesParams as ProductUpdateFilesParams,
+    type ProductUpdateFilesParams as ProductUpdateFilesParams
   };
 
   export {
     Images as Images,
     type ImageUpdateResponse as ImageUpdateResponse,
-    type ImageUpdateParams as ImageUpdateParams,
+    type ImageUpdateParams as ImageUpdateParams
   };
 
   export {
@@ -1156,6 +1092,6 @@ export declare namespace Products {
     type ShortLinkListResponse as ShortLinkListResponse,
     type ShortLinkListResponsesDefaultPageNumberPagination as ShortLinkListResponsesDefaultPageNumberPagination,
     type ShortLinkCreateParams as ShortLinkCreateParams,
-    type ShortLinkListParams as ShortLinkListParams,
+    type ShortLinkListParams as ShortLinkListParams
   };
 }

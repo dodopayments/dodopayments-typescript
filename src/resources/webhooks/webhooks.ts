@@ -44,10 +44,7 @@ export class Webhooks extends APIResource {
   /**
    * List all webhooks
    */
-  list(
-    query: WebhookListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<WebhookDetailsCursorPagePagination, WebhookDetails> {
+  list(query: WebhookListParams | null | undefined = {}, options?: RequestOptions): PagePromise<WebhookDetailsCursorPagePagination, WebhookDetails> {
     return this._client.getAPIList('/webhooks', CursorPagePagination<WebhookDetails>, { query, ...options });
   }
 
@@ -55,10 +52,7 @@ export class Webhooks extends APIResource {
    * Delete a webhook by id
    */
   delete(webhookID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/webhooks/${webhookID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.delete(path`/webhooks/${webhookID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   /**
@@ -72,10 +66,7 @@ export class Webhooks extends APIResource {
     return JSON.parse(body) as UnsafeUnwrapWebhookEvent;
   }
 
-  unwrap(
-    body: string,
-    { headers, key }: { headers: Record<string, string>; key?: string },
-  ): UnwrapWebhookEvent {
+  unwrap(body: string, { headers, key }: { headers: Record<string, string>; key?: string }): UnwrapWebhookEvent {
     if (headers !== undefined) {
       const keyStr: string | null = key === undefined ? this._client.webhookKey : key;
       if (keyStr === null) throw new Error('Webhook key must not be null in order to unwrap');
@@ -86,7 +77,7 @@ export class Webhooks extends APIResource {
   }
 }
 
-export type WebhookDetailsCursorPagePagination = CursorPagePagination<WebhookDetails>;
+export type WebhookDetailsCursorPagePagination = CursorPagePagination<WebhookDetails>
 
 export interface WebhookDetails {
   /**
@@ -1761,77 +1752,9 @@ export interface SubscriptionUpdatedWebhookEvent {
   type: 'subscription.updated';
 }
 
-export type UnsafeUnwrapWebhookEvent =
-  | AbandonedCheckoutDetectedWebhookEvent
-  | AbandonedCheckoutRecoveredWebhookEvent
-  | CreditAddedWebhookEvent
-  | CreditBalanceLowWebhookEvent
-  | CreditDeductedWebhookEvent
-  | CreditExpiredWebhookEvent
-  | CreditManualAdjustmentWebhookEvent
-  | CreditOverageChargedWebhookEvent
-  | CreditRolledOverWebhookEvent
-  | CreditRolloverForfeitedWebhookEvent
-  | DisputeAcceptedWebhookEvent
-  | DisputeCancelledWebhookEvent
-  | DisputeChallengedWebhookEvent
-  | DisputeExpiredWebhookEvent
-  | DisputeLostWebhookEvent
-  | DisputeOpenedWebhookEvent
-  | DisputeWonWebhookEvent
-  | DunningRecoveredWebhookEvent
-  | DunningStartedWebhookEvent
-  | LicenseKeyCreatedWebhookEvent
-  | PaymentCancelledWebhookEvent
-  | PaymentFailedWebhookEvent
-  | PaymentProcessingWebhookEvent
-  | PaymentSucceededWebhookEvent
-  | RefundFailedWebhookEvent
-  | RefundSucceededWebhookEvent
-  | SubscriptionActiveWebhookEvent
-  | SubscriptionCancelledWebhookEvent
-  | SubscriptionExpiredWebhookEvent
-  | SubscriptionFailedWebhookEvent
-  | SubscriptionOnHoldWebhookEvent
-  | SubscriptionPlanChangedWebhookEvent
-  | SubscriptionRenewedWebhookEvent
-  | SubscriptionUpdatedWebhookEvent;
+export type UnsafeUnwrapWebhookEvent = AbandonedCheckoutDetectedWebhookEvent | AbandonedCheckoutRecoveredWebhookEvent | CreditAddedWebhookEvent | CreditBalanceLowWebhookEvent | CreditDeductedWebhookEvent | CreditExpiredWebhookEvent | CreditManualAdjustmentWebhookEvent | CreditOverageChargedWebhookEvent | CreditRolledOverWebhookEvent | CreditRolloverForfeitedWebhookEvent | DisputeAcceptedWebhookEvent | DisputeCancelledWebhookEvent | DisputeChallengedWebhookEvent | DisputeExpiredWebhookEvent | DisputeLostWebhookEvent | DisputeOpenedWebhookEvent | DisputeWonWebhookEvent | DunningRecoveredWebhookEvent | DunningStartedWebhookEvent | LicenseKeyCreatedWebhookEvent | PaymentCancelledWebhookEvent | PaymentFailedWebhookEvent | PaymentProcessingWebhookEvent | PaymentSucceededWebhookEvent | RefundFailedWebhookEvent | RefundSucceededWebhookEvent | SubscriptionActiveWebhookEvent | SubscriptionCancelledWebhookEvent | SubscriptionExpiredWebhookEvent | SubscriptionFailedWebhookEvent | SubscriptionOnHoldWebhookEvent | SubscriptionPlanChangedWebhookEvent | SubscriptionRenewedWebhookEvent | SubscriptionUpdatedWebhookEvent
 
-export type UnwrapWebhookEvent =
-  | AbandonedCheckoutDetectedWebhookEvent
-  | AbandonedCheckoutRecoveredWebhookEvent
-  | CreditAddedWebhookEvent
-  | CreditBalanceLowWebhookEvent
-  | CreditDeductedWebhookEvent
-  | CreditExpiredWebhookEvent
-  | CreditManualAdjustmentWebhookEvent
-  | CreditOverageChargedWebhookEvent
-  | CreditRolledOverWebhookEvent
-  | CreditRolloverForfeitedWebhookEvent
-  | DisputeAcceptedWebhookEvent
-  | DisputeCancelledWebhookEvent
-  | DisputeChallengedWebhookEvent
-  | DisputeExpiredWebhookEvent
-  | DisputeLostWebhookEvent
-  | DisputeOpenedWebhookEvent
-  | DisputeWonWebhookEvent
-  | DunningRecoveredWebhookEvent
-  | DunningStartedWebhookEvent
-  | LicenseKeyCreatedWebhookEvent
-  | PaymentCancelledWebhookEvent
-  | PaymentFailedWebhookEvent
-  | PaymentProcessingWebhookEvent
-  | PaymentSucceededWebhookEvent
-  | RefundFailedWebhookEvent
-  | RefundSucceededWebhookEvent
-  | SubscriptionActiveWebhookEvent
-  | SubscriptionCancelledWebhookEvent
-  | SubscriptionExpiredWebhookEvent
-  | SubscriptionFailedWebhookEvent
-  | SubscriptionOnHoldWebhookEvent
-  | SubscriptionPlanChangedWebhookEvent
-  | SubscriptionRenewedWebhookEvent
-  | SubscriptionUpdatedWebhookEvent;
+export type UnwrapWebhookEvent = AbandonedCheckoutDetectedWebhookEvent | AbandonedCheckoutRecoveredWebhookEvent | CreditAddedWebhookEvent | CreditBalanceLowWebhookEvent | CreditDeductedWebhookEvent | CreditExpiredWebhookEvent | CreditManualAdjustmentWebhookEvent | CreditOverageChargedWebhookEvent | CreditRolledOverWebhookEvent | CreditRolloverForfeitedWebhookEvent | DisputeAcceptedWebhookEvent | DisputeCancelledWebhookEvent | DisputeChallengedWebhookEvent | DisputeExpiredWebhookEvent | DisputeLostWebhookEvent | DisputeOpenedWebhookEvent | DisputeWonWebhookEvent | DunningRecoveredWebhookEvent | DunningStartedWebhookEvent | LicenseKeyCreatedWebhookEvent | PaymentCancelledWebhookEvent | PaymentFailedWebhookEvent | PaymentProcessingWebhookEvent | PaymentSucceededWebhookEvent | RefundFailedWebhookEvent | RefundSucceededWebhookEvent | SubscriptionActiveWebhookEvent | SubscriptionCancelledWebhookEvent | SubscriptionExpiredWebhookEvent | SubscriptionFailedWebhookEvent | SubscriptionOnHoldWebhookEvent | SubscriptionPlanChangedWebhookEvent | SubscriptionRenewedWebhookEvent | SubscriptionUpdatedWebhookEvent
 
 export interface WebhookCreateParams {
   /**
@@ -1907,7 +1830,8 @@ export interface WebhookUpdateParams {
   url?: string | null;
 }
 
-export interface WebhookListParams extends CursorPagePaginationParams {}
+export interface WebhookListParams extends CursorPagePaginationParams {
+}
 
 Webhooks.Headers = Headers;
 
@@ -1954,12 +1878,12 @@ export declare namespace Webhooks {
     type WebhookDetailsCursorPagePagination as WebhookDetailsCursorPagePagination,
     type WebhookCreateParams as WebhookCreateParams,
     type WebhookUpdateParams as WebhookUpdateParams,
-    type WebhookListParams as WebhookListParams,
+    type WebhookListParams as WebhookListParams
   };
 
   export {
     Headers as Headers,
     type HeaderRetrieveResponse as HeaderRetrieveResponse,
-    type HeaderUpdateParams as HeaderUpdateParams,
+    type HeaderUpdateParams as HeaderUpdateParams
   };
 }

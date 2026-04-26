@@ -6,11 +6,7 @@ import * as MiscAPI from './misc';
 import * as PaymentsAPI from './payments';
 import * as CreditEntitlementsAPI from './credit-entitlements/credit-entitlements';
 import { APIPromise } from '../core/api-promise';
-import {
-  DefaultPageNumberPagination,
-  type DefaultPageNumberPaginationParams,
-  PagePromise,
-} from '../core/pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../core/pagination';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -27,66 +23,31 @@ export class Subscriptions extends APIResource {
     return this._client.get(path`/subscriptions/${subscriptionID}`, options);
   }
 
-  update(
-    subscriptionID: string,
-    body: SubscriptionUpdateParams,
-    options?: RequestOptions,
-  ): APIPromise<Subscription> {
+  update(subscriptionID: string, body: SubscriptionUpdateParams, options?: RequestOptions): APIPromise<Subscription> {
     return this._client.patch(path`/subscriptions/${subscriptionID}`, { body, ...options });
   }
 
-  list(
-    query: SubscriptionListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<SubscriptionListResponsesDefaultPageNumberPagination, SubscriptionListResponse> {
-    return this._client.getAPIList('/subscriptions', DefaultPageNumberPagination<SubscriptionListResponse>, {
-      query,
-      ...options,
-    });
+  list(query: SubscriptionListParams | null | undefined = {}, options?: RequestOptions): PagePromise<SubscriptionListResponsesDefaultPageNumberPagination, SubscriptionListResponse> {
+    return this._client.getAPIList('/subscriptions', DefaultPageNumberPagination<SubscriptionListResponse>, { query, ...options });
   }
 
   cancelChangePlan(subscriptionID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/subscriptions/${subscriptionID}/change-plan/scheduled`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.delete(path`/subscriptions/${subscriptionID}/change-plan/scheduled`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
-  changePlan(
-    subscriptionID: string,
-    body: SubscriptionChangePlanParams,
-    options?: RequestOptions,
-  ): APIPromise<void> {
-    return this._client.post(path`/subscriptions/${subscriptionID}/change-plan`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  changePlan(subscriptionID: string, body: SubscriptionChangePlanParams, options?: RequestOptions): APIPromise<void> {
+    return this._client.post(path`/subscriptions/${subscriptionID}/change-plan`, { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
-  charge(
-    subscriptionID: string,
-    body: SubscriptionChargeParams,
-    options?: RequestOptions,
-  ): APIPromise<SubscriptionChargeResponse> {
+  charge(subscriptionID: string, body: SubscriptionChargeParams, options?: RequestOptions): APIPromise<SubscriptionChargeResponse> {
     return this._client.post(path`/subscriptions/${subscriptionID}/charge`, { body, ...options });
   }
 
-  previewChangePlan(
-    subscriptionID: string,
-    body: SubscriptionPreviewChangePlanParams,
-    options?: RequestOptions,
-  ): APIPromise<SubscriptionPreviewChangePlanResponse> {
-    return this._client.post(path`/subscriptions/${subscriptionID}/change-plan/preview`, {
-      body,
-      ...options,
-    });
+  previewChangePlan(subscriptionID: string, body: SubscriptionPreviewChangePlanParams, options?: RequestOptions): APIPromise<SubscriptionPreviewChangePlanResponse> {
+    return this._client.post(path`/subscriptions/${subscriptionID}/change-plan/preview`, { body, ...options });
   }
 
-  retrieveCreditUsage(
-    subscriptionID: string,
-    options?: RequestOptions,
-  ): APIPromise<SubscriptionRetrieveCreditUsageResponse> {
+  retrieveCreditUsage(subscriptionID: string, options?: RequestOptions): APIPromise<SubscriptionRetrieveCreditUsageResponse> {
     return this._client.get(path`/subscriptions/${subscriptionID}/credit-usage`, options);
   }
 
@@ -134,38 +95,18 @@ export class Subscriptions extends APIResource {
    * - Paginate results: `?page_size=20&page_number=1`
    * - Recent usage: `?start_date=2024-03-01T00:00:00Z` (from March 1st to now)
    */
-  retrieveUsageHistory(
-    subscriptionID: string,
-    query: SubscriptionRetrieveUsageHistoryParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<
-    SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
-    SubscriptionRetrieveUsageHistoryResponse
-  > {
-    return this._client.getAPIList(
-      path`/subscriptions/${subscriptionID}/usage-history`,
-      DefaultPageNumberPagination<SubscriptionRetrieveUsageHistoryResponse>,
-      { query, ...options },
-    );
+  retrieveUsageHistory(subscriptionID: string, query: SubscriptionRetrieveUsageHistoryParams | null | undefined = {}, options?: RequestOptions): PagePromise<SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination, SubscriptionRetrieveUsageHistoryResponse> {
+    return this._client.getAPIList(path`/subscriptions/${subscriptionID}/usage-history`, DefaultPageNumberPagination<SubscriptionRetrieveUsageHistoryResponse>, { query, ...options });
   }
 
-  updatePaymentMethod(
-    subscriptionID: string,
-    body: SubscriptionUpdatePaymentMethodParams,
-    options?: RequestOptions,
-  ): APIPromise<SubscriptionUpdatePaymentMethodResponse> {
-    return this._client.post(path`/subscriptions/${subscriptionID}/update-payment-method`, {
-      body,
-      ...options,
-    });
+  updatePaymentMethod(subscriptionID: string, body: SubscriptionUpdatePaymentMethodParams, options?: RequestOptions): APIPromise<SubscriptionUpdatePaymentMethodResponse> {
+    return this._client.post(path`/subscriptions/${subscriptionID}/update-payment-method`, { body, ...options });
   }
 }
 
-export type SubscriptionListResponsesDefaultPageNumberPagination =
-  DefaultPageNumberPagination<SubscriptionListResponse>;
+export type SubscriptionListResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<SubscriptionListResponse>
 
-export type SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination =
-  DefaultPageNumberPagination<SubscriptionRetrieveUsageHistoryResponse>;
+export type SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<SubscriptionRetrieveUsageHistoryResponse>
 
 /**
  * Response struct representing subscription details
@@ -542,9 +483,9 @@ export namespace Subscription {
   }
 }
 
-export type SubscriptionStatus = 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired';
+export type SubscriptionStatus = 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired'
 
-export type TimeInterval = 'Day' | 'Week' | 'Month' | 'Year';
+export type TimeInterval = 'Day' | 'Week' | 'Month' | 'Year'
 
 export interface UpdateSubscriptionPlanReq {
   /**
@@ -555,11 +496,7 @@ export interface UpdateSubscriptionPlanReq {
   /**
    * Proration Billing Mode
    */
-  proration_billing_mode:
-    | 'prorated_immediately'
-    | 'full_immediately'
-    | 'difference_immediately'
-    | 'do_not_bill';
+  proration_billing_mode: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill';
 
   /**
    * Number of units to subscribe for. Must be at least 1.
@@ -1265,11 +1202,7 @@ export interface SubscriptionUpdateParams {
    */
   cancel_at_next_billing_date?: boolean | null;
 
-  cancel_reason?:
-    | 'cancelled_by_customer'
-    | 'cancelled_by_merchant'
-    | 'cancelled_by_merchant_send_dunning'
-    | null;
+  cancel_reason?: 'cancelled_by_customer' | 'cancelled_by_merchant' | 'cancelled_by_merchant_send_dunning' | null;
 
   /**
    * Update credit entitlement cart settings
@@ -1360,11 +1293,7 @@ export interface SubscriptionChangePlanParams {
   /**
    * Proration Billing Mode
    */
-  proration_billing_mode:
-    | 'prorated_immediately'
-    | 'full_immediately'
-    | 'difference_immediately'
-    | 'do_not_bill';
+  proration_billing_mode: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill';
 
   /**
    * Number of units to subscribe for. Must be at least 1.
@@ -1475,11 +1404,7 @@ export interface SubscriptionPreviewChangePlanParams {
   /**
    * Proration Billing Mode
    */
-  proration_billing_mode:
-    | 'prorated_immediately'
-    | 'full_immediately'
-    | 'difference_immediately'
-    | 'do_not_bill';
+  proration_billing_mode: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill';
 
   /**
    * Number of units to subscribe for. Must be at least 1.
@@ -1543,9 +1468,7 @@ export interface SubscriptionRetrieveUsageHistoryParams extends DefaultPageNumbe
   start_date?: string | null;
 }
 
-export type SubscriptionUpdatePaymentMethodParams =
-  | SubscriptionUpdatePaymentMethodParams.New
-  | SubscriptionUpdatePaymentMethodParams.Existing;
+export type SubscriptionUpdatePaymentMethodParams = SubscriptionUpdatePaymentMethodParams.New | SubscriptionUpdatePaymentMethodParams.Existing
 
 export declare namespace SubscriptionUpdatePaymentMethodParams {
   export interface New {
@@ -1589,6 +1512,6 @@ export declare namespace Subscriptions {
     type SubscriptionChargeParams as SubscriptionChargeParams,
     type SubscriptionPreviewChangePlanParams as SubscriptionPreviewChangePlanParams,
     type SubscriptionRetrieveUsageHistoryParams as SubscriptionRetrieveUsageHistoryParams,
-    type SubscriptionUpdatePaymentMethodParams as SubscriptionUpdatePaymentMethodParams,
+    type SubscriptionUpdatePaymentMethodParams as SubscriptionUpdatePaymentMethodParams
   };
 }

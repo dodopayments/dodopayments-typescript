@@ -10,7 +10,9 @@ const config: JestConfigWithTsJest = {
     '^dodopayments-mcp$': '<rootDir>/src/index.ts',
     '^dodopayments-mcp/(.*)$': '<rootDir>/src/$1',
   },
-  modulePathIgnorePatterns: ['<rootDir>/dist/'],
+  modulePathIgnorePatterns: [
+    '<rootDir>/dist/',
+  ],
   testPathIgnorePatterns: ['scripts'],
 };
 

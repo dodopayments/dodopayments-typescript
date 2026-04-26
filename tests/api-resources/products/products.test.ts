@@ -2,24 +2,21 @@
 
 import DodoPayments from 'dodopayments';
 
-const client = new DodoPayments({
-  bearerToken: 'My Bearer Token',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new DodoPayments({ bearerToken: 'My Bearer Token', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
 describe('resource products', () => {
   test('create: only required params', async () => {
     const responsePromise = client.products.create({
-      name: 'name',
-      price: {
-        currency: 'AED',
-        discount: 0,
-        price: 0,
-        purchasing_power_parity: true,
-        type: 'one_time_price',
-      },
-      tax_category: 'digital_products',
-    });
+    name: 'name',
+    price: {
+    currency: 'AED',
+    discount: 0,
+    price: 0,
+    purchasing_power_parity: true,
+    type: 'one_time_price',
+  },
+    tax_category: 'digital_products',
+  });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -31,50 +28,48 @@ describe('resource products', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.products.create({
-      name: 'name',
-      price: {
-        currency: 'AED',
-        discount: 0,
-        price: 0,
-        purchasing_power_parity: true,
-        type: 'one_time_price',
-        pay_what_you_want: true,
-        suggested_price: 0,
-        tax_inclusive: true,
-      },
-      tax_category: 'digital_products',
-      addons: ['string'],
-      brand_id: 'brand_id',
-      credit_entitlements: [
-        {
-          credit_entitlement_id: 'credit_entitlement_id',
-          credits_amount: 'credits_amount',
-          currency: 'AED',
-          expires_after_days: 0,
-          low_balance_threshold_percent: 0,
-          max_rollover_count: 0,
-          overage_behavior: 'forgive_at_reset',
-          overage_enabled: true,
-          overage_limit: 'overage_limit',
-          price_per_unit: 'price_per_unit',
-          proration_behavior: 'prorate',
-          rollover_enabled: true,
-          rollover_percentage: 0,
-          rollover_timeframe_count: 0,
-          rollover_timeframe_interval: 'Day',
-          trial_credits: 'trial_credits',
-          trial_credits_expire_after_trial: true,
-        },
-      ],
-      description: 'description',
-      digital_product_delivery: { external_url: 'external_url', instructions: 'instructions' },
-      entitlement_ids: ['string'],
-      license_key_activation_message: 'license_key_activation_message',
-      license_key_activations_limit: 0,
-      license_key_duration: { count: 0, interval: 'Day' },
-      license_key_enabled: true,
-      metadata: { foo: 'string' },
-    });
+    name: 'name',
+    price: {
+    currency: 'AED',
+    discount: 0,
+    price: 0,
+    purchasing_power_parity: true,
+    type: 'one_time_price',
+    pay_what_you_want: true,
+    suggested_price: 0,
+    tax_inclusive: true,
+  },
+    tax_category: 'digital_products',
+    addons: ['string'],
+    brand_id: 'brand_id',
+    credit_entitlements: [{
+    credit_entitlement_id: 'credit_entitlement_id',
+    credits_amount: 'credits_amount',
+    currency: 'AED',
+    expires_after_days: 0,
+    low_balance_threshold_percent: 0,
+    max_rollover_count: 0,
+    overage_behavior: 'forgive_at_reset',
+    overage_enabled: true,
+    overage_limit: 'overage_limit',
+    price_per_unit: 'price_per_unit',
+    proration_behavior: 'prorate',
+    rollover_enabled: true,
+    rollover_percentage: 0,
+    rollover_timeframe_count: 0,
+    rollover_timeframe_interval: 'Day',
+    trial_credits: 'trial_credits',
+    trial_credits_expire_after_trial: true,
+  }],
+    description: 'description',
+    digital_product_delivery: { external_url: 'external_url', instructions: 'instructions' },
+    entitlement_ids: ['string'],
+    license_key_activation_message: 'license_key_activation_message',
+    license_key_activations_limit: 0,
+    license_key_duration: { count: 0, interval: 'Day' },
+    license_key_enabled: true,
+    metadata: { foo: 'string' },
+  });
   });
 
   test('retrieve', async () => {
@@ -112,18 +107,15 @@ describe('resource products', () => {
 
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.products.list(
-        {
-          archived: true,
-          brand_id: 'brand_id',
-          page_number: 0,
-          page_size: 0,
-          recurring: true,
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(DodoPayments.NotFoundError);
+    await expect(client.products.list({
+    archived: true,
+    brand_id: 'brand_id',
+    page_number: 0,
+    page_size: 0,
+    recurring: true,
+  }, { path: '/_stainless_unknown_path' }))
+      .rejects
+      .toThrow(DodoPayments.NotFoundError);
   });
 
   test('archive', async () => {

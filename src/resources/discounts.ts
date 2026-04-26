@@ -2,11 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
-import {
-  DefaultPageNumberPagination,
-  type DefaultPageNumberPaginationParams,
-  PagePromise,
-} from '../core/pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../core/pagination';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -37,24 +33,15 @@ export class Discounts extends APIResource {
   /**
    * GET /discounts
    */
-  list(
-    query: DiscountListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<DiscountsDefaultPageNumberPagination, Discount> {
-    return this._client.getAPIList('/discounts', DefaultPageNumberPagination<Discount>, {
-      query,
-      ...options,
-    });
+  list(query: DiscountListParams | null | undefined = {}, options?: RequestOptions): PagePromise<DiscountsDefaultPageNumberPagination, Discount> {
+    return this._client.getAPIList('/discounts', DefaultPageNumberPagination<Discount>, { query, ...options });
   }
 
   /**
    * DELETE /discounts/{discount_id}
    */
   delete(discountID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/discounts/${discountID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.delete(path`/discounts/${discountID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   /**
@@ -67,7 +54,7 @@ export class Discounts extends APIResource {
   }
 }
 
-export type DiscountsDefaultPageNumberPagination = DefaultPageNumberPagination<Discount>;
+export type DiscountsDefaultPageNumberPagination = DefaultPageNumberPagination<Discount>
 
 export interface Discount {
   /**
@@ -145,7 +132,7 @@ export interface Discount {
   usage_limit?: number | null;
 }
 
-export type DiscountType = 'percentage';
+export type DiscountType = 'percentage'
 
 export interface DiscountCreateParams {
   /**
@@ -291,6 +278,6 @@ export declare namespace Discounts {
     type DiscountsDefaultPageNumberPagination as DiscountsDefaultPageNumberPagination,
     type DiscountCreateParams as DiscountCreateParams,
     type DiscountUpdateParams as DiscountUpdateParams,
-    type DiscountListParams as DiscountListParams,
+    type DiscountListParams as DiscountListParams
   };
 }

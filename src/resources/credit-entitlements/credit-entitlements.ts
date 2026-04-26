@@ -4,28 +4,9 @@ import { APIResource } from '../../core/resource';
 import * as MiscAPI from '../misc';
 import * as SubscriptionsAPI from '../subscriptions';
 import * as BalancesAPI from './balances';
-import {
-  BalanceCreateLedgerEntryParams,
-  BalanceCreateLedgerEntryResponse,
-  BalanceListGrantsParams,
-  BalanceListGrantsResponse,
-  BalanceListGrantsResponsesDefaultPageNumberPagination,
-  BalanceListLedgerParams,
-  BalanceListParams,
-  BalanceRetrieveParams,
-  Balances,
-  CreditLedgerEntriesDefaultPageNumberPagination,
-  CreditLedgerEntry,
-  CustomerCreditBalance,
-  CustomerCreditBalancesDefaultPageNumberPagination,
-  LedgerEntryType,
-} from './balances';
+import { BalanceCreateLedgerEntryParams, BalanceCreateLedgerEntryResponse, BalanceListGrantsParams, BalanceListGrantsResponse, BalanceListGrantsResponsesDefaultPageNumberPagination, BalanceListLedgerParams, BalanceListParams, BalanceRetrieveParams, Balances, CreditLedgerEntriesDefaultPageNumberPagination, CreditLedgerEntry, CustomerCreditBalance, CustomerCreditBalancesDefaultPageNumberPagination, LedgerEntryType } from './balances';
 import { APIPromise } from '../../core/api-promise';
-import {
-  DefaultPageNumberPagination,
-  type DefaultPageNumberPaginationParams,
-  PagePromise,
-} from '../../core/pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../../core/pagination';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
@@ -171,11 +152,7 @@ export class CreditEntitlements extends APIResource {
    *   timeframe fields together, price required for overage
    */
   update(id: string, body: CreditEntitlementUpdateParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.patch(path`/credit-entitlements/${id}`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.patch(path`/credit-entitlements/${id}`, { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   /**
@@ -206,21 +183,12 @@ export class CreditEntitlements extends APIResource {
    * - The `deleted` parameter controls visibility of soft-deleted entitlements
    * - Pagination uses offset-based pagination (offset = page_number \* page_size)
    */
-  list(
-    query: CreditEntitlementListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<CreditEntitlementsDefaultPageNumberPagination, CreditEntitlement> {
-    return this._client.getAPIList('/credit-entitlements', DefaultPageNumberPagination<CreditEntitlement>, {
-      query,
-      ...options,
-    });
+  list(query: CreditEntitlementListParams | null | undefined = {}, options?: RequestOptions): PagePromise<CreditEntitlementsDefaultPageNumberPagination, CreditEntitlement> {
+    return this._client.getAPIList('/credit-entitlements', DefaultPageNumberPagination<CreditEntitlement>, { query, ...options });
   }
 
   delete(id: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/credit-entitlements/${id}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.delete(path`/credit-entitlements/${id}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   /**
@@ -266,14 +234,11 @@ export class CreditEntitlements extends APIResource {
    * endpoint.
    */
   undelete(id: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/credit-entitlements/${id}/undelete`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post(path`/credit-entitlements/${id}/undelete`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
 
-export type CreditEntitlementsDefaultPageNumberPagination = DefaultPageNumberPagination<CreditEntitlement>;
+export type CreditEntitlementsDefaultPageNumberPagination = DefaultPageNumberPagination<CreditEntitlement>
 
 /**
  * Controls how overage is handled at the end of a billing cycle.
@@ -285,11 +250,7 @@ export type CreditEntitlementsDefaultPageNumberPagination = DefaultPageNumberPag
  * | `carry_deficit`            |        No         |           No           |            Yes            |
  * | `carry_deficit_auto_repay` |        No         |          Yes           |            Yes            |
  */
-export type CbbOverageBehavior =
-  | 'forgive_at_reset'
-  | 'invoice_at_billing'
-  | 'carry_deficit'
-  | 'carry_deficit_auto_repay';
+export type CbbOverageBehavior = 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'
 
 export interface CreditEntitlement {
   id: string;
@@ -503,7 +464,7 @@ export declare namespace CreditEntitlements {
     type CreditEntitlementsDefaultPageNumberPagination as CreditEntitlementsDefaultPageNumberPagination,
     type CreditEntitlementCreateParams as CreditEntitlementCreateParams,
     type CreditEntitlementUpdateParams as CreditEntitlementUpdateParams,
-    type CreditEntitlementListParams as CreditEntitlementListParams,
+    type CreditEntitlementListParams as CreditEntitlementListParams
   };
 
   export {
@@ -520,6 +481,6 @@ export declare namespace CreditEntitlements {
     type BalanceListParams as BalanceListParams,
     type BalanceCreateLedgerEntryParams as BalanceCreateLedgerEntryParams,
     type BalanceListGrantsParams as BalanceListGrantsParams,
-    type BalanceListLedgerParams as BalanceListLedgerParams,
+    type BalanceListLedgerParams as BalanceListLedgerParams
   };
 }

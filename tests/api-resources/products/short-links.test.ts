@@ -2,10 +2,7 @@
 
 import DodoPayments from 'dodopayments';
 
-const client = new DodoPayments({
-  bearerToken: 'My Bearer Token',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new DodoPayments({ bearerToken: 'My Bearer Token', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
 describe('resource shortLinks', () => {
   test('create: only required params', async () => {
@@ -21,9 +18,9 @@ describe('resource shortLinks', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.products.shortLinks.create('id', {
-      slug: 'slug',
-      static_checkout_params: { foo: 'string' },
-    });
+    slug: 'slug',
+    static_checkout_params: { foo: 'string' },
+  });
   });
 
   test('list', async () => {
@@ -39,15 +36,12 @@ describe('resource shortLinks', () => {
 
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.products.shortLinks.list(
-        {
-          page_number: 0,
-          page_size: 0,
-          product_id: 'product_id',
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(DodoPayments.NotFoundError);
+    await expect(client.products.shortLinks.list({
+    page_number: 0,
+    page_size: 0,
+    product_id: 'product_id',
+  }, { path: '/_stainless_unknown_path' }))
+      .rejects
+      .toThrow(DodoPayments.NotFoundError);
   });
 });

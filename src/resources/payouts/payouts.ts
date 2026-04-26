@@ -4,28 +4,18 @@ import { APIResource } from '../../core/resource';
 import * as MiscAPI from '../misc';
 import * as BreakupAPI from './breakup/breakup';
 import { Breakup, BreakupRetrieveResponse } from './breakup/breakup';
-import {
-  DefaultPageNumberPagination,
-  type DefaultPageNumberPaginationParams,
-  PagePromise,
-} from '../../core/pagination';
+import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../../core/pagination';
 import { RequestOptions } from '../../internal/request-options';
 
 export class Payouts extends APIResource {
   breakup: BreakupAPI.Breakup = new BreakupAPI.Breakup(this._client);
 
-  list(
-    query: PayoutListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<PayoutListResponsesDefaultPageNumberPagination, PayoutListResponse> {
-    return this._client.getAPIList('/payouts', DefaultPageNumberPagination<PayoutListResponse>, {
-      query,
-      ...options,
-    });
+  list(query: PayoutListParams | null | undefined = {}, options?: RequestOptions): PagePromise<PayoutListResponsesDefaultPageNumberPagination, PayoutListResponse> {
+    return this._client.getAPIList('/payouts', DefaultPageNumberPagination<PayoutListResponse>, { query, ...options });
   }
 }
 
-export type PayoutListResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<PayoutListResponse>;
+export type PayoutListResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<PayoutListResponse>
 
 export interface PayoutListResponse {
   /**
@@ -122,8 +112,11 @@ export declare namespace Payouts {
   export {
     type PayoutListResponse as PayoutListResponse,
     type PayoutListResponsesDefaultPageNumberPagination as PayoutListResponsesDefaultPageNumberPagination,
-    type PayoutListParams as PayoutListParams,
+    type PayoutListParams as PayoutListParams
   };
 
-  export { Breakup as Breakup, type BreakupRetrieveResponse as BreakupRetrieveResponse };
+  export {
+    Breakup as Breakup,
+    type BreakupRetrieveResponse as BreakupRetrieveResponse
+  };
 }
