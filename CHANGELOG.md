@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.29.0 (2026-04-28)
+
+Full Changelog: [v2.28.2...v2.29.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.28.2...v2.29.0)
+
+### Features
+
+* support setting headers via env ([5f12398](https://github.com/dodopayments/dodopayments-typescript/commit/5f123981cf972c2496148f29d6ee1ca7a2ca5874))
+
+
+### Chores
+
+* **formatter:** run prettier and eslint separately ([1ecbd38](https://github.com/dodopayments/dodopayments-typescript/commit/1ecbd38765222d49cb4de3e318170357115a15bb))
+* **internal:** codegen related update ([189f28c](https://github.com/dodopayments/dodopayments-typescript/commit/189f28c960e0167df02f6a10fd4f6f169083a037))
+* **internal:** more robust bootstrap script ([341f2cf](https://github.com/dodopayments/dodopayments-typescript/commit/341f2cf48b97959b295728ca418826d801ef7875))
+* **internal:** update docs ordering ([e7282c8](https://github.com/dodopayments/dodopayments-typescript/commit/e7282c89e264caafb4da6ddefb8a9091fc82a0f5))
+* restructure docs search code ([b8a1b49](https://github.com/dodopayments/dodopayments-typescript/commit/b8a1b493df0f1549c69564c731ae69cb27b37f6c))
+
 ## 2.28.2 (2026-04-18)
 
 Full Changelog: [v2.28.1...v2.28.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.28.1...v2.28.2)
