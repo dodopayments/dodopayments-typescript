@@ -8,7 +8,11 @@ import { CustomerPortal, CustomerPortalCreateParams } from './customer-portal';
 import * as WalletsAPI from './wallets/wallets';
 import { CustomerWallet, WalletListResponse, Wallets } from './wallets/wallets';
 import { APIPromise } from '../../core/api-promise';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../../core/pagination';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../../core/pagination';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
@@ -29,28 +33,47 @@ export class Customers extends APIResource {
     return this._client.patch(path`/customers/${customerID}`, { body, ...options });
   }
 
-  list(query: CustomerListParams | null | undefined = {}, options?: RequestOptions): PagePromise<CustomersDefaultPageNumberPagination, Customer> {
-    return this._client.getAPIList('/customers', DefaultPageNumberPagination<Customer>, { query, ...options });
+  list(
+    query: CustomerListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<CustomersDefaultPageNumberPagination, Customer> {
+    return this._client.getAPIList('/customers', DefaultPageNumberPagination<Customer>, {
+      query,
+      ...options,
+    });
   }
 
-  deletePaymentMethod(paymentMethodID: string, params: CustomerDeletePaymentMethodParams, options?: RequestOptions): APIPromise<void> {
-    const { customer_id } = params
-    return this._client.delete(path`/customers/${customer_id}/payment-methods/${paymentMethodID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+  deletePaymentMethod(
+    paymentMethodID: string,
+    params: CustomerDeletePaymentMethodParams,
+    options?: RequestOptions,
+  ): APIPromise<void> {
+    const { customer_id } = params;
+    return this._client.delete(path`/customers/${customer_id}/payment-methods/${paymentMethodID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   /**
    * List all credit entitlements for a customer with their current balances
    */
-  listCreditEntitlements(customerID: string, options?: RequestOptions): APIPromise<CustomerListCreditEntitlementsResponse> {
+  listCreditEntitlements(
+    customerID: string,
+    options?: RequestOptions,
+  ): APIPromise<CustomerListCreditEntitlementsResponse> {
     return this._client.get(path`/customers/${customerID}/credit-entitlements`, options);
   }
 
-  retrievePaymentMethods(customerID: string, options?: RequestOptions): APIPromise<CustomerRetrievePaymentMethodsResponse> {
+  retrievePaymentMethods(
+    customerID: string,
+    options?: RequestOptions,
+  ): APIPromise<CustomerRetrievePaymentMethodsResponse> {
     return this._client.get(path`/customers/${customerID}/payment-methods`, options);
   }
 }
 
-export type CustomersDefaultPageNumberPagination = DefaultPageNumberPagination<Customer>
+export type CustomersDefaultPageNumberPagination = DefaultPageNumberPagination<Customer>;
 
 export interface Customer {
   business_id: string;
@@ -122,7 +145,22 @@ export interface CustomerRetrievePaymentMethodsResponse {
 
 export namespace CustomerRetrievePaymentMethodsResponse {
   export interface Item {
-    payment_method: 'card' | 'card_redirect' | 'pay_later' | 'wallet' | 'bank_redirect' | 'bank_transfer' | 'crypto' | 'bank_debit' | 'reward' | 'real_time_payment' | 'upi' | 'voucher' | 'gift_card' | 'open_banking' | 'mobile_payment';
+    payment_method:
+      | 'card'
+      | 'card_redirect'
+      | 'pay_later'
+      | 'wallet'
+      | 'bank_redirect'
+      | 'bank_transfer'
+      | 'crypto'
+      | 'bank_debit'
+      | 'reward'
+      | 'real_time_payment'
+      | 'upi'
+      | 'voucher'
+      | 'gift_card'
+      | 'open_banking'
+      | 'mobile_payment';
 
     payment_method_id: string;
 
@@ -230,17 +268,14 @@ export declare namespace Customers {
     type CustomerCreateParams as CustomerCreateParams,
     type CustomerUpdateParams as CustomerUpdateParams,
     type CustomerListParams as CustomerListParams,
-    type CustomerDeletePaymentMethodParams as CustomerDeletePaymentMethodParams
+    type CustomerDeletePaymentMethodParams as CustomerDeletePaymentMethodParams,
   };
 
-  export {
-    CustomerPortal as CustomerPortal,
-    type CustomerPortalCreateParams as CustomerPortalCreateParams
-  };
+  export { CustomerPortal as CustomerPortal, type CustomerPortalCreateParams as CustomerPortalCreateParams };
 
   export {
     Wallets as Wallets,
     type CustomerWallet as CustomerWallet,
-    type WalletListResponse as WalletListResponse
+    type WalletListResponse as WalletListResponse,
   };
 }

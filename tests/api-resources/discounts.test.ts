@@ -2,7 +2,10 @@
 
 import DodoPayments from 'dodopayments';
 
-const client = new DodoPayments({ bearerToken: 'My Bearer Token', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new DodoPayments({
+  bearerToken: 'My Bearer Token',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 describe('resource discounts', () => {
   test('create: only required params', async () => {
@@ -18,17 +21,17 @@ describe('resource discounts', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.discounts.create({
-    amount: 0,
-    type: 'percentage',
-    code: 'code',
-    expires_at: '2019-12-27T18:11:19.117Z',
-    metadata: { foo: 'string' },
-    name: 'name',
-    preserve_on_plan_change: true,
-    restricted_to: ['string'],
-    subscription_cycles: 0,
-    usage_limit: 0,
-  });
+      amount: 0,
+      type: 'percentage',
+      code: 'code',
+      expires_at: '2019-12-27T18:11:19.117Z',
+      metadata: { foo: 'string' },
+      name: 'name',
+      preserve_on_plan_change: true,
+      restricted_to: ['string'],
+      subscription_cycles: 0,
+      usage_limit: 0,
+    });
   });
 
   test('retrieve', async () => {
@@ -66,16 +69,19 @@ describe('resource discounts', () => {
 
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.discounts.list({
-    active: true,
-    code: 'code',
-    discount_type: 'percentage',
-    page_number: 0,
-    page_size: 0,
-    product_id: 'product_id',
-  }, { path: '/_stainless_unknown_path' }))
-      .rejects
-      .toThrow(DodoPayments.NotFoundError);
+    await expect(
+      client.discounts.list(
+        {
+          active: true,
+          code: 'code',
+          discount_type: 'percentage',
+          page_number: 0,
+          page_size: 0,
+          product_id: 'product_id',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
   test('delete', async () => {

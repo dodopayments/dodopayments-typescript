@@ -87,7 +87,8 @@ export class PagePromise<
     super(
       client,
       request,
-      async (client, props) => new Page(client, props.response, await defaultParseResponse(client, props), props.options)
+      async (client, props) =>
+        new Page(client, props.response, await defaultParseResponse(client, props), props.options),
     );
   }
 
@@ -116,10 +117,18 @@ export interface DefaultPageNumberPaginationParams {
   page_size?: number;
 }
 
-export class DefaultPageNumberPagination<Item> extends AbstractPage<Item> implements DefaultPageNumberPaginationResponse<Item> {
+export class DefaultPageNumberPagination<Item>
+  extends AbstractPage<Item>
+  implements DefaultPageNumberPaginationResponse<Item>
+{
   items: Array<Item>;
 
-  constructor(client: DodoPayments, response: Response, body: DefaultPageNumberPaginationResponse<Item>, options: FinalRequestOptions) {
+  constructor(
+    client: DodoPayments,
+    response: Response,
+    body: DefaultPageNumberPaginationResponse<Item>,
+    options: FinalRequestOptions,
+  ) {
     super(client, response, body, options);
 
     this.items = body.items || [];
@@ -157,14 +166,22 @@ export interface CursorPagePaginationParams {
   limit?: number;
 }
 
-export class CursorPagePagination<Item> extends AbstractPage<Item> implements CursorPagePaginationResponse<Item> {
+export class CursorPagePagination<Item>
+  extends AbstractPage<Item>
+  implements CursorPagePaginationResponse<Item>
+{
   data: Array<Item>;
 
   iterator: string;
 
   done: boolean;
 
-  constructor(client: DodoPayments, response: Response, body: CursorPagePaginationResponse<Item>, options: FinalRequestOptions) {
+  constructor(
+    client: DodoPayments,
+    response: Response,
+    body: CursorPagePaginationResponse<Item>,
+    options: FinalRequestOptions,
+  ) {
     super(client, response, body, options);
 
     this.data = body.data || [];
@@ -185,7 +202,7 @@ export class CursorPagePagination<Item> extends AbstractPage<Item> implements Cu
   }
 
   nextPageRequestOptions(): PageRequestOptions | null {
-    const cursor = this.iterator
+    const cursor = this.iterator;
     if (!cursor) {
       return null;
     }
