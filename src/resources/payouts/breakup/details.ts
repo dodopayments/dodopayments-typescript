@@ -2,7 +2,11 @@
 
 import { APIResource } from '../../../core/resource';
 import { APIPromise } from '../../../core/api-promise';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../../../core/pagination';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../../../core/pagination';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
@@ -14,8 +18,16 @@ export class Details extends APIResource {
    * `page_size` (default 10, max 100) and `page_number` (default 0) query
    * parameters.
    */
-  list(payoutID: string, query: DetailListParams | null | undefined = {}, options?: RequestOptions): PagePromise<DetailListResponsesDefaultPageNumberPagination, DetailListResponse> {
-    return this._client.getAPIList(path`/payouts/${payoutID}/breakup/details`, DefaultPageNumberPagination<DetailListResponse>, { query, ...options });
+  list(
+    payoutID: string,
+    query: DetailListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<DetailListResponsesDefaultPageNumberPagination, DetailListResponse> {
+    return this._client.getAPIList(
+      path`/payouts/${payoutID}/breakup/details`,
+      DefaultPageNumberPagination<DetailListResponse>,
+      { query, ...options },
+    );
   }
 
   /**
@@ -25,11 +37,14 @@ export class Details extends APIResource {
    * Amount, and Payout Currency Amount.
    */
   downloadCsv(payoutID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/payouts/${payoutID}/breakup/details/csv`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/payouts/${payoutID}/breakup/details/csv`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 
-export type DetailListResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<DetailListResponse>
+export type DetailListResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<DetailListResponse>;
 
 /**
  * Individual balance ledger entry for a payout, with amounts pro-rated into the
@@ -85,13 +100,12 @@ export interface DetailListResponse {
   reference_object_id?: string | null;
 }
 
-export interface DetailListParams extends DefaultPageNumberPaginationParams {
-}
+export interface DetailListParams extends DefaultPageNumberPaginationParams {}
 
 export declare namespace Details {
   export {
     type DetailListResponse as DetailListResponse,
     type DetailListResponsesDefaultPageNumberPagination as DetailListResponsesDefaultPageNumberPagination,
-    type DetailListParams as DetailListParams
+    type DetailListParams as DetailListParams,
   };
 }

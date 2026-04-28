@@ -8,14 +8,57 @@ import * as RefundsAPI from './refunds';
 import * as SubscriptionsAPI from './subscriptions';
 import * as BalancesAPI from './credit-entitlements/balances';
 
-export class WebhookEvents extends APIResource {
-
-}
+export class WebhookEvents extends APIResource {}
 
 /**
  * Event types for Dodo events
  */
-export type WebhookEventType = 'payment.succeeded' | 'payment.failed' | 'payment.processing' | 'payment.cancelled' | 'refund.succeeded' | 'refund.failed' | 'dispute.opened' | 'dispute.expired' | 'dispute.accepted' | 'dispute.cancelled' | 'dispute.challenged' | 'dispute.won' | 'dispute.lost' | 'subscription.active' | 'subscription.renewed' | 'subscription.on_hold' | 'subscription.cancelled' | 'subscription.failed' | 'subscription.expired' | 'subscription.plan_changed' | 'subscription.updated' | 'license_key.created' | 'payout.not_initiated' | 'payout.on_hold' | 'payout.in_progress' | 'payout.failed' | 'payout.success' | 'credit.added' | 'credit.deducted' | 'credit.expired' | 'credit.rolled_over' | 'credit.rollover_forfeited' | 'credit.overage_charged' | 'credit.manual_adjustment' | 'credit.balance_low' | 'abandoned_checkout.detected' | 'abandoned_checkout.recovered' | 'dunning.started' | 'dunning.recovered' | 'acr.email' | 'dunning.email' | 'entitlement_grant.created' | 'entitlement_grant.delivered' | 'entitlement_grant.failed' | 'entitlement_grant.revoked'
+export type WebhookEventType =
+  | 'payment.succeeded'
+  | 'payment.failed'
+  | 'payment.processing'
+  | 'payment.cancelled'
+  | 'refund.succeeded'
+  | 'refund.failed'
+  | 'dispute.opened'
+  | 'dispute.expired'
+  | 'dispute.accepted'
+  | 'dispute.cancelled'
+  | 'dispute.challenged'
+  | 'dispute.won'
+  | 'dispute.lost'
+  | 'subscription.active'
+  | 'subscription.renewed'
+  | 'subscription.on_hold'
+  | 'subscription.cancelled'
+  | 'subscription.failed'
+  | 'subscription.expired'
+  | 'subscription.plan_changed'
+  | 'subscription.updated'
+  | 'license_key.created'
+  | 'payout.not_initiated'
+  | 'payout.on_hold'
+  | 'payout.in_progress'
+  | 'payout.failed'
+  | 'payout.success'
+  | 'credit.added'
+  | 'credit.deducted'
+  | 'credit.expired'
+  | 'credit.rolled_over'
+  | 'credit.rollover_forfeited'
+  | 'credit.overage_charged'
+  | 'credit.manual_adjustment'
+  | 'credit.balance_low'
+  | 'abandoned_checkout.detected'
+  | 'abandoned_checkout.recovered'
+  | 'dunning.started'
+  | 'dunning.recovered'
+  | 'acr.email'
+  | 'dunning.email'
+  | 'entitlement_grant.created'
+  | 'entitlement_grant.delivered'
+  | 'entitlement_grant.failed'
+  | 'entitlement_grant.revoked';
 
 export interface WebhookPayload {
   business_id: string;
@@ -23,7 +66,17 @@ export interface WebhookPayload {
   /**
    * The latest data at the time of delivery attempt
    */
-  data: WebhookPayload.Payment | WebhookPayload.Subscription | WebhookPayload.Refund | WebhookPayload.Dispute | WebhookPayload.LicenseKey | WebhookPayload.CreditLedgerEntry | WebhookPayload.CreditBalanceLow | WebhookPayload.AbandonedCheckout | WebhookPayload.DunningAttempt | WebhookPayload.EntitlementGrant;
+  data:
+    | WebhookPayload.Payment
+    | WebhookPayload.Subscription
+    | WebhookPayload.Refund
+    | WebhookPayload.Dispute
+    | WebhookPayload.LicenseKey
+    | WebhookPayload.CreditLedgerEntry
+    | WebhookPayload.CreditBalanceLow
+    | WebhookPayload.AbandonedCheckout
+    | WebhookPayload.DunningAttempt
+    | WebhookPayload.EntitlementGrant;
 
   /**
    * The timestamp of when the event occurred (not necessarily the same of when it
@@ -172,8 +225,5 @@ export namespace WebhookPayload {
 }
 
 export declare namespace WebhookEvents {
-  export {
-    type WebhookEventType as WebhookEventType,
-    type WebhookPayload as WebhookPayload
-  };
+  export { type WebhookEventType as WebhookEventType, type WebhookPayload as WebhookPayload };
 }

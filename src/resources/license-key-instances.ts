@@ -2,7 +2,11 @@
 
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../core/pagination';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../core/pagination';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
@@ -27,7 +31,11 @@ export class LicenseKeyInstances extends APIResource {
    *   });
    * ```
    */
-  update(id: string, body: LicenseKeyInstanceUpdateParams, options?: RequestOptions): APIPromise<LicenseKeyInstance> {
+  update(
+    id: string,
+    body: LicenseKeyInstanceUpdateParams,
+    options?: RequestOptions,
+  ): APIPromise<LicenseKeyInstance> {
     return this._client.patch(path`/license_key_instances/${id}`, { body, ...options });
   }
 
@@ -40,12 +48,19 @@ export class LicenseKeyInstances extends APIResource {
    * }
    * ```
    */
-  list(query: LicenseKeyInstanceListParams | null | undefined = {}, options?: RequestOptions): PagePromise<LicenseKeyInstancesDefaultPageNumberPagination, LicenseKeyInstance> {
-    return this._client.getAPIList('/license_key_instances', DefaultPageNumberPagination<LicenseKeyInstance>, { query, ...options });
+  list(
+    query: LicenseKeyInstanceListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<LicenseKeyInstancesDefaultPageNumberPagination, LicenseKeyInstance> {
+    return this._client.getAPIList(
+      '/license_key_instances',
+      DefaultPageNumberPagination<LicenseKeyInstance>,
+      { query, ...options },
+    );
   }
 }
 
-export type LicenseKeyInstancesDefaultPageNumberPagination = DefaultPageNumberPagination<LicenseKeyInstance>
+export type LicenseKeyInstancesDefaultPageNumberPagination = DefaultPageNumberPagination<LicenseKeyInstance>;
 
 export interface LicenseKeyInstance {
   id: string;
@@ -75,6 +90,6 @@ export declare namespace LicenseKeyInstances {
     type LicenseKeyInstance as LicenseKeyInstance,
     type LicenseKeyInstancesDefaultPageNumberPagination as LicenseKeyInstancesDefaultPageNumberPagination,
     type LicenseKeyInstanceUpdateParams as LicenseKeyInstanceUpdateParams,
-    type LicenseKeyInstanceListParams as LicenseKeyInstanceListParams
+    type LicenseKeyInstanceListParams as LicenseKeyInstanceListParams,
   };
 }

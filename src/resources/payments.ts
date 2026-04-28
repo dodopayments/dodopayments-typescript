@@ -5,7 +5,11 @@ import * as DisputesAPI from './disputes';
 import * as MiscAPI from './misc';
 import * as RefundsAPI from './refunds';
 import { APIPromise } from '../core/api-promise';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../core/pagination';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../core/pagination';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
@@ -21,18 +25,28 @@ export class Payments extends APIResource {
     return this._client.get(path`/payments/${paymentID}`, options);
   }
 
-  list(query: PaymentListParams | null | undefined = {}, options?: RequestOptions): PagePromise<PaymentListResponsesDefaultPageNumberPagination, PaymentListResponse> {
-    return this._client.getAPIList('/payments', DefaultPageNumberPagination<PaymentListResponse>, { query, ...options });
+  list(
+    query: PaymentListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<PaymentListResponsesDefaultPageNumberPagination, PaymentListResponse> {
+    return this._client.getAPIList('/payments', DefaultPageNumberPagination<PaymentListResponse>, {
+      query,
+      ...options,
+    });
   }
 
-  retrieveLineItems(paymentID: string, options?: RequestOptions): APIPromise<PaymentRetrieveLineItemsResponse> {
+  retrieveLineItems(
+    paymentID: string,
+    options?: RequestOptions,
+  ): APIPromise<PaymentRetrieveLineItemsResponse> {
     return this._client.get(path`/payments/${paymentID}/line-items`, options);
   }
 }
 
-export type PaymentListResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<PaymentListResponse>
+export type PaymentListResponsesDefaultPageNumberPagination =
+  DefaultPageNumberPagination<PaymentListResponse>;
 
-export type RefundListItemsDefaultPageNumberPagination = DefaultPageNumberPagination<RefundListItem>
+export type RefundListItemsDefaultPageNumberPagination = DefaultPageNumberPagination<RefundListItem>;
 
 export interface AttachExistingCustomer {
   customer_id: string;
@@ -122,9 +136,20 @@ export interface CustomerLimitedDetails {
   phone_number?: string | null;
 }
 
-export type CustomerRequest = AttachExistingCustomer | NewCustomer
+export type CustomerRequest = AttachExistingCustomer | NewCustomer;
 
-export type IntentStatus = 'succeeded' | 'failed' | 'cancelled' | 'processing' | 'requires_customer_action' | 'requires_merchant_action' | 'requires_payment_method' | 'requires_confirmation' | 'requires_capture' | 'partially_captured' | 'partially_captured_and_capturable'
+export type IntentStatus =
+  | 'succeeded'
+  | 'failed'
+  | 'cancelled'
+  | 'processing'
+  | 'requires_customer_action'
+  | 'requires_merchant_action'
+  | 'requires_payment_method'
+  | 'requires_confirmation'
+  | 'requires_capture'
+  | 'partially_captured'
+  | 'partially_captured_and_capturable';
 
 export interface NewCustomer {
   /**
@@ -344,9 +369,113 @@ export interface Payment {
  *
  * Used for disabled-payment-methods filtering and validation.
  */
-export type PaymentMethodTypes = 'ach' | 'affirm' | 'afterpay_clearpay' | 'alfamart' | 'ali_pay' | 'ali_pay_hk' | 'alma' | 'amazon_pay' | 'apple_pay' | 'atome' | 'bacs' | 'bancontact_card' | 'becs' | 'benefit' | 'bizum' | 'blik' | 'boleto' | 'bca_bank_transfer' | 'bni_va' | 'bri_va' | 'card_redirect' | 'cimb_va' | 'classic' | 'credit' | 'crypto_currency' | 'cashapp' | 'dana' | 'danamon_va' | 'debit' | 'duit_now' | 'efecty' | 'eft' | 'eps' | 'fps' | 'evoucher' | 'giropay' | 'givex' | 'google_pay' | 'go_pay' | 'gcash' | 'ideal' | 'interac' | 'indomaret' | 'klarna' | 'kakao_pay' | 'local_bank_redirect' | 'mandiri_va' | 'knet' | 'mb_way' | 'mobile_pay' | 'momo' | 'momo_atm' | 'multibanco' | 'online_banking_thailand' | 'online_banking_czech_republic' | 'online_banking_finland' | 'online_banking_fpx' | 'online_banking_poland' | 'online_banking_slovakia' | 'oxxo' | 'pago_efectivo' | 'permata_bank_transfer' | 'open_banking_uk' | 'pay_bright' | 'paypal' | 'paze' | 'pix' | 'pay_safe_card' | 'przelewy24' | 'prompt_pay' | 'pse' | 'red_compra' | 'red_pagos' | 'samsung_pay' | 'sepa' | 'sepa_bank_transfer' | 'sofort' | 'swish' | 'touch_n_go' | 'trustly' | 'twint' | 'upi_collect' | 'upi_intent' | 'vipps' | 'viet_qr' | 'venmo' | 'walley' | 'we_chat_pay' | 'seven_eleven' | 'lawson' | 'mini_stop' | 'family_mart' | 'seicomart' | 'pay_easy' | 'local_bank_transfer' | 'mifinity' | 'open_banking_pis' | 'direct_carrier_billing' | 'instant_bank_transfer' | 'billie' | 'zip' | 'revolut_pay' | 'naver_pay' | 'payco'
+export type PaymentMethodTypes =
+  | 'ach'
+  | 'affirm'
+  | 'afterpay_clearpay'
+  | 'alfamart'
+  | 'ali_pay'
+  | 'ali_pay_hk'
+  | 'alma'
+  | 'amazon_pay'
+  | 'apple_pay'
+  | 'atome'
+  | 'bacs'
+  | 'bancontact_card'
+  | 'becs'
+  | 'benefit'
+  | 'bizum'
+  | 'blik'
+  | 'boleto'
+  | 'bca_bank_transfer'
+  | 'bni_va'
+  | 'bri_va'
+  | 'card_redirect'
+  | 'cimb_va'
+  | 'classic'
+  | 'credit'
+  | 'crypto_currency'
+  | 'cashapp'
+  | 'dana'
+  | 'danamon_va'
+  | 'debit'
+  | 'duit_now'
+  | 'efecty'
+  | 'eft'
+  | 'eps'
+  | 'fps'
+  | 'evoucher'
+  | 'giropay'
+  | 'givex'
+  | 'google_pay'
+  | 'go_pay'
+  | 'gcash'
+  | 'ideal'
+  | 'interac'
+  | 'indomaret'
+  | 'klarna'
+  | 'kakao_pay'
+  | 'local_bank_redirect'
+  | 'mandiri_va'
+  | 'knet'
+  | 'mb_way'
+  | 'mobile_pay'
+  | 'momo'
+  | 'momo_atm'
+  | 'multibanco'
+  | 'online_banking_thailand'
+  | 'online_banking_czech_republic'
+  | 'online_banking_finland'
+  | 'online_banking_fpx'
+  | 'online_banking_poland'
+  | 'online_banking_slovakia'
+  | 'oxxo'
+  | 'pago_efectivo'
+  | 'permata_bank_transfer'
+  | 'open_banking_uk'
+  | 'pay_bright'
+  | 'paypal'
+  | 'paze'
+  | 'pix'
+  | 'pay_safe_card'
+  | 'przelewy24'
+  | 'prompt_pay'
+  | 'pse'
+  | 'red_compra'
+  | 'red_pagos'
+  | 'samsung_pay'
+  | 'sepa'
+  | 'sepa_bank_transfer'
+  | 'sofort'
+  | 'swish'
+  | 'touch_n_go'
+  | 'trustly'
+  | 'twint'
+  | 'upi_collect'
+  | 'upi_intent'
+  | 'vipps'
+  | 'viet_qr'
+  | 'venmo'
+  | 'walley'
+  | 'we_chat_pay'
+  | 'seven_eleven'
+  | 'lawson'
+  | 'mini_stop'
+  | 'family_mart'
+  | 'seicomart'
+  | 'pay_easy'
+  | 'local_bank_transfer'
+  | 'mifinity'
+  | 'open_banking_pis'
+  | 'direct_carrier_billing'
+  | 'instant_bank_transfer'
+  | 'billie'
+  | 'zip'
+  | 'revolut_pay'
+  | 'naver_pay'
+  | 'payco';
 
-export type PaymentRefundStatus = 'partial' | 'full'
+export type PaymentRefundStatus = 'partial' | 'full';
 
 export interface RefundListItem {
   /**
@@ -662,7 +791,18 @@ export interface PaymentListParams extends DefaultPageNumberPaginationParams {
   /**
    * Filter by status
    */
-  status?: 'succeeded' | 'failed' | 'cancelled' | 'processing' | 'requires_customer_action' | 'requires_merchant_action' | 'requires_payment_method' | 'requires_confirmation' | 'requires_capture' | 'partially_captured' | 'partially_captured_and_capturable';
+  status?:
+    | 'succeeded'
+    | 'failed'
+    | 'cancelled'
+    | 'processing'
+    | 'requires_customer_action'
+    | 'requires_merchant_action'
+    | 'requires_payment_method'
+    | 'requires_confirmation'
+    | 'requires_capture'
+    | 'partially_captured'
+    | 'partially_captured_and_capturable';
 
   /**
    * Filter by subscription id
@@ -690,6 +830,6 @@ export declare namespace Payments {
     type PaymentRetrieveLineItemsResponse as PaymentRetrieveLineItemsResponse,
     type PaymentListResponsesDefaultPageNumberPagination as PaymentListResponsesDefaultPageNumberPagination,
     type PaymentCreateParams as PaymentCreateParams,
-    type PaymentListParams as PaymentListParams
+    type PaymentListParams as PaymentListParams,
   };
 }

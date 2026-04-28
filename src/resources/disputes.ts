@@ -3,7 +3,11 @@
 import { APIResource } from '../core/resource';
 import * as PaymentsAPI from './payments';
 import { APIPromise } from '../core/api-promise';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../core/pagination';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../core/pagination';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
@@ -12,12 +16,19 @@ export class Disputes extends APIResource {
     return this._client.get(path`/disputes/${disputeID}`, options);
   }
 
-  list(query: DisputeListParams | null | undefined = {}, options?: RequestOptions): PagePromise<DisputeListResponsesDefaultPageNumberPagination, DisputeListResponse> {
-    return this._client.getAPIList('/disputes', DefaultPageNumberPagination<DisputeListResponse>, { query, ...options });
+  list(
+    query: DisputeListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<DisputeListResponsesDefaultPageNumberPagination, DisputeListResponse> {
+    return this._client.getAPIList('/disputes', DefaultPageNumberPagination<DisputeListResponse>, {
+      query,
+      ...options,
+    });
   }
 }
 
-export type DisputeListResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<DisputeListResponse>
+export type DisputeListResponsesDefaultPageNumberPagination =
+  DefaultPageNumberPagination<DisputeListResponse>;
 
 export interface Dispute {
   /**
@@ -72,9 +83,16 @@ export interface Dispute {
   remarks?: string | null;
 }
 
-export type DisputeStage = 'pre_dispute' | 'dispute' | 'pre_arbitration'
+export type DisputeStage = 'pre_dispute' | 'dispute' | 'pre_arbitration';
 
-export type DisputeStatus = 'dispute_opened' | 'dispute_expired' | 'dispute_accepted' | 'dispute_cancelled' | 'dispute_challenged' | 'dispute_won' | 'dispute_lost'
+export type DisputeStatus =
+  | 'dispute_opened'
+  | 'dispute_expired'
+  | 'dispute_accepted'
+  | 'dispute_cancelled'
+  | 'dispute_challenged'
+  | 'dispute_won'
+  | 'dispute_lost';
 
 export interface GetDispute {
   /**
@@ -211,7 +229,14 @@ export interface DisputeListParams extends DefaultPageNumberPaginationParams {
   /**
    * Filter by dispute status
    */
-  dispute_status?: 'dispute_opened' | 'dispute_expired' | 'dispute_accepted' | 'dispute_cancelled' | 'dispute_challenged' | 'dispute_won' | 'dispute_lost';
+  dispute_status?:
+    | 'dispute_opened'
+    | 'dispute_expired'
+    | 'dispute_accepted'
+    | 'dispute_cancelled'
+    | 'dispute_challenged'
+    | 'dispute_won'
+    | 'dispute_lost';
 }
 
 export declare namespace Disputes {
@@ -222,6 +247,6 @@ export declare namespace Disputes {
     type GetDispute as GetDispute,
     type DisputeListResponse as DisputeListResponse,
     type DisputeListResponsesDefaultPageNumberPagination as DisputeListResponsesDefaultPageNumberPagination,
-    type DisputeListParams as DisputeListParams
+    type DisputeListParams as DisputeListParams,
   };
 }

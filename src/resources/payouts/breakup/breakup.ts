@@ -2,7 +2,12 @@
 
 import { APIResource } from '../../../core/resource';
 import * as DetailsAPI from './details';
-import { DetailListParams, DetailListResponse, DetailListResponsesDefaultPageNumberPagination, Details } from './details';
+import {
+  DetailListParams,
+  DetailListResponse,
+  DetailListResponsesDefaultPageNumberPagination,
+  Details,
+} from './details';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
@@ -21,7 +26,7 @@ export class Breakup extends APIResource {
   }
 }
 
-export type BreakupRetrieveResponse = Array<BreakupRetrieveResponse.BreakupRetrieveResponseItem>
+export type BreakupRetrieveResponse = Array<BreakupRetrieveResponse.BreakupRetrieveResponseItem>;
 
 export namespace BreakupRetrieveResponse {
   /**
@@ -45,14 +50,12 @@ export namespace BreakupRetrieveResponse {
 Breakup.Details = Details;
 
 export declare namespace Breakup {
-  export {
-    type BreakupRetrieveResponse as BreakupRetrieveResponse
-  };
+  export { type BreakupRetrieveResponse as BreakupRetrieveResponse };
 
   export {
     Details as Details,
     type DetailListResponse as DetailListResponse,
     type DetailListResponsesDefaultPageNumberPagination as DetailListResponsesDefaultPageNumberPagination,
-    type DetailListParams as DetailListParams
+    type DetailListParams as DetailListParams,
   };
 }

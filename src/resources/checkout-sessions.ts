@@ -17,7 +17,10 @@ export class CheckoutSessions extends APIResource {
     return this._client.get(path`/checkouts/${id}`, options);
   }
 
-  preview(body: CheckoutSessionPreviewParams, options?: RequestOptions): APIPromise<CheckoutSessionPreviewResponse> {
+  preview(
+    body: CheckoutSessionPreviewParams,
+    options?: RequestOptions,
+  ): APIPromise<CheckoutSessionPreviewResponse> {
     return this._client.post('/checkouts/preview', { body, ...options });
   }
 }
@@ -990,6 +993,6 @@ export declare namespace CheckoutSessions {
     type ThemeModeConfig as ThemeModeConfig,
     type CheckoutSessionPreviewResponse as CheckoutSessionPreviewResponse,
     type CheckoutSessionCreateParams as CheckoutSessionCreateParams,
-    type CheckoutSessionPreviewParams as CheckoutSessionPreviewParams
+    type CheckoutSessionPreviewParams as CheckoutSessionPreviewParams,
   };
 }
