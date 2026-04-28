@@ -4,7 +4,10 @@ import { Webhook } from 'standardwebhooks';
 
 import DodoPayments from 'dodopayments';
 
-const client = new DodoPayments({ bearerToken: 'My Bearer Token', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new DodoPayments({
+  bearerToken: 'My Bearer Token',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 describe('resource webhooks', () => {
   test('create: only required params', async () => {
@@ -20,15 +23,15 @@ describe('resource webhooks', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.webhooks.create({
-    url: 'url',
-    description: 'description',
-    disabled: true,
-    filter_types: ['payment.succeeded'],
-    headers: { foo: 'string' },
-    idempotency_key: 'idempotency_key',
-    metadata: { foo: 'string' },
-    rate_limit: 0,
-  });
+      url: 'url',
+      description: 'description',
+      disabled: true,
+      filter_types: ['payment.succeeded'],
+      headers: { foo: 'string' },
+      idempotency_key: 'idempotency_key',
+      metadata: { foo: 'string' },
+      rate_limit: 0,
+    });
   });
 
   test('retrieve', async () => {
@@ -66,9 +69,9 @@ describe('resource webhooks', () => {
 
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.webhooks.list({ iterator: 'iterator', limit: 0 }, { path: '/_stainless_unknown_path' }))
-      .rejects
-      .toThrow(DodoPayments.NotFoundError);
+    await expect(
+      client.webhooks.list({ iterator: 'iterator', limit: 0 }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
   test('delete', async () => {
@@ -95,7 +98,8 @@ describe('resource webhooks', () => {
 
   test('unwrap', () => {
     const key = 'whsec_c2VjcmV0Cg==';
-    const payload = '{"business_id":"business_id","data":{"abandoned_at":"2019-12-27T18:11:19.117Z","abandonment_reason":"payment_failed","customer_id":"customer_id","payment_id":"payment_id","status":"abandoned","recovered_payment_id":"recovered_payment_id"},"timestamp":"2019-12-27T18:11:19.117Z","type":"abandoned_checkout.detected"}';
+    const payload =
+      '{"business_id":"business_id","data":{"abandoned_at":"2019-12-27T18:11:19.117Z","abandonment_reason":"payment_failed","customer_id":"customer_id","payment_id":"payment_id","status":"abandoned","recovered_payment_id":"recovered_payment_id"},"timestamp":"2019-12-27T18:11:19.117Z","type":"abandoned_checkout.detected"}';
     const msgID = '1';
     const timestamp = new Date();
     const wh = new Webhook('whsec_c2VjcmV0Cg==');
@@ -103,38 +107,44 @@ describe('resource webhooks', () => {
     const headers: Record<string, string> = {
       'webhook-signature': signature,
       'webhook-id': msgID,
-      'webhook-timestamp': String(Math.floor(timestamp.getTime()/1000)),
+      'webhook-timestamp': String(Math.floor(timestamp.getTime() / 1000)),
     };
-    client.webhooks.unwrap(payload, { headers, key })
-    client.withOptions({webhookKey: key}).webhooks.unwrap(payload, { headers })
-    client.withOptions({webhookKey: 'whsec_aaaaaaaaaa=='}).webhooks.unwrap(payload, { headers, key })
+    client.webhooks.unwrap(payload, { headers, key });
+    client.withOptions({ webhookKey: key }).webhooks.unwrap(payload, { headers });
+    client.withOptions({ webhookKey: 'whsec_aaaaaaaaaa==' }).webhooks.unwrap(payload, { headers, key });
     expect(() => {
       const wrongKey = 'whsec_aaaaaaaaaa==';
-      client.webhooks.unwrap(payload, { headers, key: wrongKey })
+      client.webhooks.unwrap(payload, { headers, key: wrongKey });
     }).toThrow('No matching signature found');
     expect(() => {
       const wrongKey = 'whsec_aaaaaaaaaa==';
-      client.withOptions({webhookKey: wrongKey}).webhooks.unwrap(payload, { headers })
+      client.withOptions({ webhookKey: wrongKey }).webhooks.unwrap(payload, { headers });
     }).toThrow('No matching signature found');
     expect(() => {
       const badSig = wh.sign(msgID, timestamp, 'some other payload');
-      client.webhooks.unwrap(payload, { headers: {...headers, 'webhook-signature': badSig }, key})
+      client.webhooks.unwrap(payload, { headers: { ...headers, 'webhook-signature': badSig }, key });
     }).toThrow('No matching signature found');
     expect(() => {
       const badSig = wh.sign(msgID, timestamp, 'some other payload');
-      client.withOptions({webhookKey: key}).webhooks.unwrap(payload, { headers: {...headers, 'webhook-signature': badSig }})
+      client
+        .withOptions({ webhookKey: key })
+        .webhooks.unwrap(payload, { headers: { ...headers, 'webhook-signature': badSig } });
     }).toThrow('No matching signature found');
     expect(() => {
-      client.webhooks.unwrap(payload, { headers: {...headers, 'webhook-timestamp': '5' }, key})
+      client.webhooks.unwrap(payload, { headers: { ...headers, 'webhook-timestamp': '5' }, key });
     }).toThrow('Message timestamp too old');
     expect(() => {
-      client.withOptions({webhookKey: key}).webhooks.unwrap(payload, { headers: {...headers, 'webhook-timestamp': '5' }})
+      client
+        .withOptions({ webhookKey: key })
+        .webhooks.unwrap(payload, { headers: { ...headers, 'webhook-timestamp': '5' } });
     }).toThrow('Message timestamp too old');
     expect(() => {
-      client.webhooks.unwrap(payload, { headers: {...headers, 'webhook-id': 'wrong' }, key})
+      client.webhooks.unwrap(payload, { headers: { ...headers, 'webhook-id': 'wrong' }, key });
     }).toThrow('No matching signature found');
     expect(() => {
-      client.withOptions({webhookKey: key}).webhooks.unwrap(payload, { headers: {...headers, 'webhook-id': 'wrong' }})
+      client
+        .withOptions({ webhookKey: key })
+        .webhooks.unwrap(payload, { headers: { ...headers, 'webhook-id': 'wrong' } });
     }).toThrow('No matching signature found');
   });
 });

@@ -3,7 +3,13 @@
 import { APIResource } from '../../../core/resource';
 import * as MiscAPI from '../../misc';
 import * as LedgerEntriesAPI from './ledger-entries';
-import { CustomerWalletTransaction, CustomerWalletTransactionsDefaultPageNumberPagination, LedgerEntries, LedgerEntryCreateParams, LedgerEntryListParams } from './ledger-entries';
+import {
+  CustomerWalletTransaction,
+  CustomerWalletTransactionsDefaultPageNumberPagination,
+  LedgerEntries,
+  LedgerEntryCreateParams,
+  LedgerEntryListParams,
+} from './ledger-entries';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
@@ -40,16 +46,13 @@ export interface WalletListResponse {
 Wallets.LedgerEntries = LedgerEntries;
 
 export declare namespace Wallets {
-  export {
-    type CustomerWallet as CustomerWallet,
-    type WalletListResponse as WalletListResponse
-  };
+  export { type CustomerWallet as CustomerWallet, type WalletListResponse as WalletListResponse };
 
   export {
     LedgerEntries as LedgerEntries,
     type CustomerWalletTransaction as CustomerWalletTransaction,
     type CustomerWalletTransactionsDefaultPageNumberPagination as CustomerWalletTransactionsDefaultPageNumberPagination,
     type LedgerEntryCreateParams as LedgerEntryCreateParams,
-    type LedgerEntryListParams as LedgerEntryListParams
+    type LedgerEntryListParams as LedgerEntryListParams,
   };
 }

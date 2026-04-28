@@ -30,7 +30,11 @@ export class Licenses extends APIResource {
    * ```
    */
   deactivate(body: LicenseDeactivateParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/licenses/deactivate', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/licenses/deactivate', {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   /**
@@ -128,6 +132,6 @@ export declare namespace Licenses {
     type LicenseValidateResponse as LicenseValidateResponse,
     type LicenseActivateParams as LicenseActivateParams,
     type LicenseDeactivateParams as LicenseDeactivateParams,
-    type LicenseValidateParams as LicenseValidateParams
+    type LicenseValidateParams as LicenseValidateParams,
   };
 }

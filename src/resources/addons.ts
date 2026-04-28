@@ -3,7 +3,11 @@
 import { APIResource } from '../core/resource';
 import * as MiscAPI from './misc';
 import { APIPromise } from '../core/api-promise';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../core/pagination';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../core/pagination';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
@@ -20,8 +24,14 @@ export class Addons extends APIResource {
     return this._client.patch(path`/addons/${id}`, { body, ...options });
   }
 
-  list(query: AddonListParams | null | undefined = {}, options?: RequestOptions): PagePromise<AddonResponsesDefaultPageNumberPagination, AddonResponse> {
-    return this._client.getAPIList('/addons', DefaultPageNumberPagination<AddonResponse>, { query, ...options });
+  list(
+    query: AddonListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<AddonResponsesDefaultPageNumberPagination, AddonResponse> {
+    return this._client.getAPIList('/addons', DefaultPageNumberPagination<AddonResponse>, {
+      query,
+      ...options,
+    });
   }
 
   updateImages(id: string, options?: RequestOptions): APIPromise<AddonUpdateImagesResponse> {
@@ -29,7 +39,7 @@ export class Addons extends APIResource {
   }
 }
 
-export type AddonResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<AddonResponse>
+export type AddonResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<AddonResponse>;
 
 export interface AddonResponse {
   /**
@@ -148,8 +158,7 @@ export interface AddonUpdateParams {
   tax_category?: MiscAPI.TaxCategory | null;
 }
 
-export interface AddonListParams extends DefaultPageNumberPaginationParams {
-}
+export interface AddonListParams extends DefaultPageNumberPaginationParams {}
 
 export declare namespace Addons {
   export {
@@ -158,6 +167,6 @@ export declare namespace Addons {
     type AddonResponsesDefaultPageNumberPagination as AddonResponsesDefaultPageNumberPagination,
     type AddonCreateParams as AddonCreateParams,
     type AddonUpdateParams as AddonUpdateParams,
-    type AddonListParams as AddonListParams
+    type AddonListParams as AddonListParams,
   };
 }

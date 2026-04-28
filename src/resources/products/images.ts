@@ -6,8 +6,12 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class Images extends APIResource {
-  update(id: string, params: ImageUpdateParams | null | undefined = {}, options?: RequestOptions): APIPromise<ImageUpdateResponse> {
-    const { force_update } = params ?? {}
+  update(
+    id: string,
+    params: ImageUpdateParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ImageUpdateResponse> {
+    const { force_update } = params ?? {};
     return this._client.put(path`/products/${id}/images`, { query: { force_update }, ...options });
   }
 }
@@ -23,8 +27,5 @@ export interface ImageUpdateParams {
 }
 
 export declare namespace Images {
-  export {
-    type ImageUpdateResponse as ImageUpdateResponse,
-    type ImageUpdateParams as ImageUpdateParams
-  };
+  export { type ImageUpdateResponse as ImageUpdateResponse, type ImageUpdateParams as ImageUpdateParams };
 }

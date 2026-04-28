@@ -5,7 +5,11 @@ import * as MiscAPI from './misc';
 import * as PaymentsAPI from './payments';
 import { RefundListItemsDefaultPageNumberPagination } from './payments';
 import { APIPromise } from '../core/api-promise';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../core/pagination';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../core/pagination';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
@@ -18,8 +22,14 @@ export class Refunds extends APIResource {
     return this._client.get(path`/refunds/${refundID}`, options);
   }
 
-  list(query: RefundListParams | null | undefined = {}, options?: RequestOptions): PagePromise<RefundListItemsDefaultPageNumberPagination, PaymentsAPI.RefundListItem> {
-    return this._client.getAPIList('/refunds', DefaultPageNumberPagination<PaymentsAPI.RefundListItem>, { query, ...options });
+  list(
+    query: RefundListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<RefundListItemsDefaultPageNumberPagination, PaymentsAPI.RefundListItem> {
+    return this._client.getAPIList('/refunds', DefaultPageNumberPagination<PaymentsAPI.RefundListItem>, {
+      query,
+      ...options,
+    });
   }
 }
 
@@ -80,7 +90,7 @@ export interface Refund {
   reason?: string | null;
 }
 
-export type RefundStatus = 'succeeded' | 'failed' | 'pending' | 'review'
+export type RefundStatus = 'succeeded' | 'failed' | 'pending' | 'review';
 
 export interface RefundCreateParams {
   /**
@@ -155,8 +165,8 @@ export declare namespace Refunds {
     type Refund as Refund,
     type RefundStatus as RefundStatus,
     type RefundCreateParams as RefundCreateParams,
-    type RefundListParams as RefundListParams
+    type RefundListParams as RefundListParams,
   };
 }
 
-export { type RefundListItemsDefaultPageNumberPagination }
+export { type RefundListItemsDefaultPageNumberPagination };

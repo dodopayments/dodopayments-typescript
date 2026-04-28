@@ -4,21 +4,38 @@ import { APIResource } from '../../../core/resource';
 import * as MiscAPI from '../../misc';
 import * as WalletsAPI from './wallets';
 import { APIPromise } from '../../../core/api-promise';
-import { DefaultPageNumberPagination, type DefaultPageNumberPaginationParams, PagePromise } from '../../../core/pagination';
+import {
+  DefaultPageNumberPagination,
+  type DefaultPageNumberPaginationParams,
+  PagePromise,
+} from '../../../core/pagination';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class LedgerEntries extends APIResource {
-  create(customerID: string, body: LedgerEntryCreateParams, options?: RequestOptions): APIPromise<WalletsAPI.CustomerWallet> {
+  create(
+    customerID: string,
+    body: LedgerEntryCreateParams,
+    options?: RequestOptions,
+  ): APIPromise<WalletsAPI.CustomerWallet> {
     return this._client.post(path`/customers/${customerID}/wallets/ledger-entries`, { body, ...options });
   }
 
-  list(customerID: string, query: LedgerEntryListParams | null | undefined = {}, options?: RequestOptions): PagePromise<CustomerWalletTransactionsDefaultPageNumberPagination, CustomerWalletTransaction> {
-    return this._client.getAPIList(path`/customers/${customerID}/wallets/ledger-entries`, DefaultPageNumberPagination<CustomerWalletTransaction>, { query, ...options });
+  list(
+    customerID: string,
+    query: LedgerEntryListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<CustomerWalletTransactionsDefaultPageNumberPagination, CustomerWalletTransaction> {
+    return this._client.getAPIList(
+      path`/customers/${customerID}/wallets/ledger-entries`,
+      DefaultPageNumberPagination<CustomerWalletTransaction>,
+      { query, ...options },
+    );
   }
 }
 
-export type CustomerWalletTransactionsDefaultPageNumberPagination = DefaultPageNumberPagination<CustomerWalletTransaction>
+export type CustomerWalletTransactionsDefaultPageNumberPagination =
+  DefaultPageNumberPagination<CustomerWalletTransaction>;
 
 export interface CustomerWalletTransaction {
   id: string;
@@ -37,7 +54,14 @@ export interface CustomerWalletTransaction {
 
   customer_id: string;
 
-  event_type: 'payment' | 'payment_reversal' | 'refund' | 'refund_reversal' | 'dispute' | 'dispute_reversal' | 'merchant_adjustment';
+  event_type:
+    | 'payment'
+    | 'payment_reversal'
+    | 'refund'
+    | 'refund_reversal'
+    | 'dispute'
+    | 'dispute_reversal'
+    | 'merchant_adjustment';
 
   is_credit: boolean;
 
@@ -79,6 +103,6 @@ export declare namespace LedgerEntries {
     type CustomerWalletTransaction as CustomerWalletTransaction,
     type CustomerWalletTransactionsDefaultPageNumberPagination as CustomerWalletTransactionsDefaultPageNumberPagination,
     type LedgerEntryCreateParams as LedgerEntryCreateParams,
-    type LedgerEntryListParams as LedgerEntryListParams
+    type LedgerEntryListParams as LedgerEntryListParams,
   };
 }
