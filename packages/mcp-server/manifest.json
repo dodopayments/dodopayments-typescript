@@ -18,9 +18,7 @@
     "entry_point": "index.js",
     "mcp_config": {
       "command": "node",
-      "args": [
-        "${__dirname}/index.js"
-      ],
+      "args": ["${__dirname}/index.js"],
       "env": {
         "DODO_PAYMENTS_API_KEY": "${user_config.DODO_PAYMENTS_API_KEY}",
         "DODO_PAYMENTS_WEBHOOK_KEY": "${user_config.DODO_PAYMENTS_WEBHOOK_KEY}"
@@ -48,7 +46,5 @@
       "node": ">=18.0.0"
     }
   },
-  "keywords": [
-    "api"
-  ]
+  "keywords": ["api"]
 }
