@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.29.1 (2026-04-29)
+
+Full Changelog: [v2.29.0...v2.29.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.29.0...v2.29.1)
+
+### Chores
+
+* **internal:** codegen related update ([f83448a](https://github.com/dodopayments/dodopayments-typescript/commit/f83448a70aaafd8d10bd05ed1d741b41a13d1789))
+
 ## 2.29.0 (2026-04-28)
 
 Full Changelog: [v2.28.2...v2.29.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.28.2...v2.29.0)
