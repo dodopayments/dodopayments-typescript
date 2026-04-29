@@ -3,36 +3,36 @@
  * https://developers.cloudflare.com/workers/wrangler/configuration/
  */
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "dodopayments-api-mcp-server",
-	"main": "src/index.ts",
-	"compatibility_date": "2025-03-10",
-	"compatibility_flags": ["nodejs_compat"],
-	"migrations": [
-		{
-			"new_sqlite_classes": ["MyMCP"],
-			"tag": "v1"
-		}
-	],
-	"durable_objects": {
-		"bindings": [
-			{
-				"class_name": "MyMCP",
-				"name": "MCP_OBJECT"
-			}
-		]
-	},
-	"kv_namespaces": [
-		{
-			"binding": "OAUTH_KV",
-			"id": "f6b42367fc184a6a81d0f17ebfb0b537"
-		}
-	],
-	"observability": {
-		"enabled": true
-	},
-	"assets": { "directory": "./static/", "binding": "ASSETS" },
-	"alias": {
-		"@valtown/deno-http-worker": "./src/stubs/deno-http-worker.ts"
-	}
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dodopayments-api-mcp-server",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-03-10",
+  "compatibility_flags": ["nodejs_compat"],
+  "migrations": [
+    {
+      "new_sqlite_classes": ["MyMCP"],
+      "tag": "v1"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "class_name": "MyMCP",
+        "name": "MCP_OBJECT"
+      }
+    ]
+  },
+  "kv_namespaces": [
+    {
+      "binding": "OAUTH_KV",
+      "id": "f6b42367fc184a6a81d0f17ebfb0b537"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  },
+  "assets": { "directory": "./static/", "binding": "ASSETS" },
+  "alias": {
+    "@valtown/deno-http-worker": "./src/stubs/deno-http-worker.ts"
+  }
 }
