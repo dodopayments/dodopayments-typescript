@@ -5,6 +5,7 @@ import * as MiscAPI from '../misc';
 import * as PaymentsAPI from '../payments';
 import * as CustomerPortalAPI from './customer-portal';
 import { CustomerPortal, CustomerPortalCreateParams } from './customer-portal';
+import * as EntitlementsAPI from '../entitlements/entitlements';
 import * as WalletsAPI from './wallets/wallets';
 import { CustomerWallet, WalletListResponse, Wallets } from './wallets/wallets';
 import { APIPromise } from '../../core/api-promise';
@@ -169,15 +170,7 @@ export namespace CustomerListEntitlementsResponse {
      */
     grant_id: string;
 
-    integration_type:
-      | 'discord'
-      | 'telegram'
-      | 'github'
-      | 'figma'
-      | 'framer'
-      | 'notion'
-      | 'digital_files'
-      | 'license_key';
+    integration_type: EntitlementsAPI.EntitlementIntegrationType;
 
     status: 'pending' | 'delivered' | 'failed' | 'revoked';
 

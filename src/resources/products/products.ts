@@ -5,6 +5,7 @@ import * as ProductsAPI from './products';
 import * as MiscAPI from '../misc';
 import * as SubscriptionsAPI from '../subscriptions';
 import * as CreditEntitlementsAPI from '../credit-entitlements/credit-entitlements';
+import * as EntitlementsAPI from '../entitlements/entitlements';
 import * as ImagesAPI from './images';
 import { ImageUpdateParams, ImageUpdateResponse, Images } from './images';
 import * as ShortLinksAPI from './short-links';
@@ -208,6 +209,20 @@ export interface AttachCreditEntitlement {
    * Whether trial credits expire when trial ends
    */
   trial_credits_expire_after_trial?: boolean | null;
+}
+
+/**
+ * Request struct for attaching an entitlement to a product.
+ *
+ * Mirrors the `credit_entitlements` attach shape — every "attach something to a
+ * product" array takes objects, not bare IDs. Uniform shape leaves room for
+ * per-attachment settings later without another API break.
+ */
+export interface AttachProductEntitlement {
+  /**
+   * ID of the entitlement to attach to the product
+   */
+  entitlement_id: string;
 }
 
 export type CbbProrationBehavior = 'prorate' | 'no_prorate';
@@ -551,7 +566,7 @@ export interface Product {
   /**
    * Attached entitlements (integration-based access grants)
    */
-  entitlements: Array<Product.Entitlement>;
+  entitlements: Array<ProductEntitlementSummary>;
 
   /**
    * Indicates if the product is recurring (e.g., subscriptions).
@@ -637,139 +652,30 @@ export interface Product {
   product_collection_id?: string | null;
 }
 
-export namespace Product {
+/**
+ * Summary of an entitlement attached to a product.
+ *
+ * `integration_config` uses [`IntegrationConfigResponse`] (NOT the persisted
+ * [`IntegrationConfig`]) so digital_files entitlements embed the resolved
+ * `digital_files` object — matching what `GET /entitlements/{id}` returns. All
+ * other variants pass through unchanged via `#[serde(untagged)]`.
+ */
+export interface ProductEntitlementSummary {
+  id: string;
+
   /**
-   * Summary of an entitlement attached to a product.
-   *
-   * `integration_config` uses [`IntegrationConfigResponse`] (NOT the persisted
-   * [`IntegrationConfig`]) so digital_files entitlements embed the resolved
-   * `digital_files` object — matching what `GET /entitlements/{id}` returns. All
-   * other variants pass through unchanged via `#[serde(untagged)]`.
+   * Public-facing variant of [`IntegrationConfig`]. Mirrors every variant shape on
+   * the wire EXCEPT `DigitalFiles`, which is replaced with a hydrated
+   * `digital_files` object (resolved download URLs etc.). The persisted JSONB stays
+   * ID-only via [`IntegrationConfig`]; this enum is response-only.
    */
-  export interface Entitlement {
-    id: string;
+  integration_config: EntitlementsAPI.IntegrationConfigResponse;
 
-    /**
-     * Public-facing variant of [`IntegrationConfig`]. Mirrors every variant shape on
-     * the wire EXCEPT `DigitalFiles`, which is replaced with a hydrated
-     * `digital_files` object (resolved download URLs etc.). The persisted JSONB stays
-     * ID-only via [`IntegrationConfig`]; this enum is response-only.
-     */
-    integration_config:
-      | Entitlement.GitHubConfig
-      | Entitlement.DiscordConfig
-      | Entitlement.TelegramConfig
-      | Entitlement.FigmaConfig
-      | Entitlement.FramerConfig
-      | Entitlement.NotionConfig
-      | Entitlement.DigitalFilesConfig
-      | Entitlement.LicenseKeyConfig;
+  integration_type: EntitlementsAPI.EntitlementIntegrationType;
 
-    integration_type:
-      | 'discord'
-      | 'telegram'
-      | 'github'
-      | 'figma'
-      | 'framer'
-      | 'notion'
-      | 'digital_files'
-      | 'license_key';
+  name: string;
 
-    name: string;
-
-    description?: string | null;
-  }
-
-  export namespace Entitlement {
-    export interface GitHubConfig {
-      permission: string;
-
-      target_id: string;
-    }
-
-    export interface DiscordConfig {
-      guild_id: string;
-
-      role_id?: string | null;
-    }
-
-    export interface TelegramConfig {
-      chat_id: string;
-    }
-
-    export interface FigmaConfig {
-      figma_file_id: string;
-    }
-
-    export interface FramerConfig {
-      framer_template_id: string;
-    }
-
-    export interface NotionConfig {
-      notion_template_id: string;
-    }
-
-    export interface DigitalFilesConfig {
-      /**
-       * Populated digital-files payload for entitlement read surfaces. Mirrors
-       * `DigitalProductDelivery` but is sourced from an entitlement's
-       * `integration_config` (not a grant) and tags each file with its origin (`legacy`
-       * vs `ee`).
-       */
-      digital_files: DigitalFilesConfig.DigitalFiles;
-    }
-
-    export namespace DigitalFilesConfig {
-      /**
-       * Populated digital-files payload for entitlement read surfaces. Mirrors
-       * `DigitalProductDelivery` but is sourced from an entitlement's
-       * `integration_config` (not a grant) and tags each file with its origin (`legacy`
-       * vs `ee`).
-       */
-      export interface DigitalFiles {
-        files: Array<DigitalFiles.File>;
-
-        external_url?: string | null;
-
-        instructions?: string | null;
-      }
-
-      export namespace DigitalFiles {
-        export interface File {
-          download_url: string;
-
-          /**
-           * Seconds until `download_url` expires.
-           */
-          expires_in: number;
-
-          file_id: string;
-
-          filename: string;
-
-          /**
-           * `"legacy"` for files in `product_files`, `"ee"` for files managed by the
-           * Entitlements Engine.
-           */
-          source: string;
-
-          content_type?: string | null;
-
-          file_size?: number | null;
-        }
-      }
-    }
-
-    export interface LicenseKeyConfig {
-      activation_message?: string | null;
-
-      activations_limit?: number | null;
-
-      duration_count?: number | null;
-
-      duration_interval?: SubscriptionsAPI.TimeInterval | null;
-    }
-  }
+  description?: string | null;
 }
 
 export interface ProductListResponse {
@@ -786,7 +692,7 @@ export interface ProductListResponse {
   /**
    * Entitlements linked to this product
    */
-  entitlements: Array<ProductListResponse.Entitlement>;
+  entitlements: Array<ProductEntitlementSummary>;
 
   /**
    * Indicates if the product is recurring (e.g., subscriptions).
@@ -858,141 +764,6 @@ export interface ProductListResponse {
   tax_inclusive?: boolean | null;
 }
 
-export namespace ProductListResponse {
-  /**
-   * Summary of an entitlement attached to a product.
-   *
-   * `integration_config` uses [`IntegrationConfigResponse`] (NOT the persisted
-   * [`IntegrationConfig`]) so digital_files entitlements embed the resolved
-   * `digital_files` object — matching what `GET /entitlements/{id}` returns. All
-   * other variants pass through unchanged via `#[serde(untagged)]`.
-   */
-  export interface Entitlement {
-    id: string;
-
-    /**
-     * Public-facing variant of [`IntegrationConfig`]. Mirrors every variant shape on
-     * the wire EXCEPT `DigitalFiles`, which is replaced with a hydrated
-     * `digital_files` object (resolved download URLs etc.). The persisted JSONB stays
-     * ID-only via [`IntegrationConfig`]; this enum is response-only.
-     */
-    integration_config:
-      | Entitlement.GitHubConfig
-      | Entitlement.DiscordConfig
-      | Entitlement.TelegramConfig
-      | Entitlement.FigmaConfig
-      | Entitlement.FramerConfig
-      | Entitlement.NotionConfig
-      | Entitlement.DigitalFilesConfig
-      | Entitlement.LicenseKeyConfig;
-
-    integration_type:
-      | 'discord'
-      | 'telegram'
-      | 'github'
-      | 'figma'
-      | 'framer'
-      | 'notion'
-      | 'digital_files'
-      | 'license_key';
-
-    name: string;
-
-    description?: string | null;
-  }
-
-  export namespace Entitlement {
-    export interface GitHubConfig {
-      permission: string;
-
-      target_id: string;
-    }
-
-    export interface DiscordConfig {
-      guild_id: string;
-
-      role_id?: string | null;
-    }
-
-    export interface TelegramConfig {
-      chat_id: string;
-    }
-
-    export interface FigmaConfig {
-      figma_file_id: string;
-    }
-
-    export interface FramerConfig {
-      framer_template_id: string;
-    }
-
-    export interface NotionConfig {
-      notion_template_id: string;
-    }
-
-    export interface DigitalFilesConfig {
-      /**
-       * Populated digital-files payload for entitlement read surfaces. Mirrors
-       * `DigitalProductDelivery` but is sourced from an entitlement's
-       * `integration_config` (not a grant) and tags each file with its origin (`legacy`
-       * vs `ee`).
-       */
-      digital_files: DigitalFilesConfig.DigitalFiles;
-    }
-
-    export namespace DigitalFilesConfig {
-      /**
-       * Populated digital-files payload for entitlement read surfaces. Mirrors
-       * `DigitalProductDelivery` but is sourced from an entitlement's
-       * `integration_config` (not a grant) and tags each file with its origin (`legacy`
-       * vs `ee`).
-       */
-      export interface DigitalFiles {
-        files: Array<DigitalFiles.File>;
-
-        external_url?: string | null;
-
-        instructions?: string | null;
-      }
-
-      export namespace DigitalFiles {
-        export interface File {
-          download_url: string;
-
-          /**
-           * Seconds until `download_url` expires.
-           */
-          expires_in: number;
-
-          file_id: string;
-
-          filename: string;
-
-          /**
-           * `"legacy"` for files in `product_files`, `"ee"` for files managed by the
-           * Entitlements Engine.
-           */
-          source: string;
-
-          content_type?: string | null;
-
-          file_size?: number | null;
-        }
-      }
-    }
-
-    export interface LicenseKeyConfig {
-      activation_message?: string | null;
-
-      activations_limit?: number | null;
-
-      duration_count?: number | null;
-
-      duration_interval?: SubscriptionsAPI.TimeInterval | null;
-    }
-  }
-}
-
 export interface ProductUpdateFilesResponse {
   file_id: string;
 
@@ -1045,7 +816,7 @@ export interface ProductCreateParams {
   /**
    * Optional entitlements to attach to this product (max 20)
    */
-  entitlements?: Array<ProductCreateParams.Entitlement> | null;
+  entitlements?: Array<AttachProductEntitlement> | null;
 
   /**
    * @deprecated Optional message displayed during license key activation
@@ -1107,20 +878,6 @@ export namespace ProductCreateParams {
      */
     instructions?: string | null;
   }
-
-  /**
-   * Request struct for attaching an entitlement to a product.
-   *
-   * Mirrors the `credit_entitlements` attach shape — every "attach something to a
-   * product" array takes objects, not bare IDs. Uniform shape leaves room for
-   * per-attachment settings later without another API break.
-   */
-  export interface Entitlement {
-    /**
-     * ID of the entitlement to attach to the product
-     */
-    entitlement_id: string;
-  }
 }
 
 export interface ProductUpdateParams {
@@ -1153,7 +910,7 @@ export interface ProductUpdateParams {
    * Entitlements to attach (replaces all existing when present) Send empty array to
    * remove all, omit field to leave unchanged
    */
-  entitlements?: Array<ProductUpdateParams.Entitlement> | null;
+  entitlements?: Array<AttachProductEntitlement> | null;
 
   /**
    * Product image id after its uploaded to S3
@@ -1243,20 +1000,6 @@ export namespace ProductUpdateParams {
      */
     instructions?: string | null;
   }
-
-  /**
-   * Request struct for attaching an entitlement to a product.
-   *
-   * Mirrors the `credit_entitlements` attach shape — every "attach something to a
-   * product" array takes objects, not bare IDs. Uniform shape leaves room for
-   * per-attachment settings later without another API break.
-   */
-  export interface Entitlement {
-    /**
-     * ID of the entitlement to attach to the product
-     */
-    entitlement_id: string;
-  }
 }
 
 export interface ProductListParams extends DefaultPageNumberPaginationParams {
@@ -1291,6 +1034,7 @@ export declare namespace Products {
   export {
     type AddMeterToPrice as AddMeterToPrice,
     type AttachCreditEntitlement as AttachCreditEntitlement,
+    type AttachProductEntitlement as AttachProductEntitlement,
     type CbbProrationBehavior as CbbProrationBehavior,
     type CreditEntitlementMappingResponse as CreditEntitlementMappingResponse,
     type DigitalProductDelivery as DigitalProductDelivery,
@@ -1298,6 +1042,7 @@ export declare namespace Products {
     type LicenseKeyDuration as LicenseKeyDuration,
     type Price as Price,
     type Product as Product,
+    type ProductEntitlementSummary as ProductEntitlementSummary,
     type ProductListResponse as ProductListResponse,
     type ProductUpdateFilesResponse as ProductUpdateFilesResponse,
     type ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,

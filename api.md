@@ -55,10 +55,12 @@ Types:
 
 - <code><a href="./src/resources/subscriptions.ts">AddonCartResponseItem</a></code>
 - <code><a href="./src/resources/subscriptions.ts">AttachAddon</a></code>
+- <code><a href="./src/resources/subscriptions.ts">CancellationFeedback</a></code>
 - <code><a href="./src/resources/subscriptions.ts">CreditEntitlementCartResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">MeterCartResponseItem</a></code>
 - <code><a href="./src/resources/subscriptions.ts">MeterCreditEntitlementCartResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">OnDemandSubscription</a></code>
+- <code><a href="./src/resources/subscriptions.ts">ScheduledPlanChange</a></code>
 - <code><a href="./src/resources/subscriptions.ts">Subscription</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionStatus</a></code>
 - <code><a href="./src/resources/subscriptions.ts">TimeInterval</a></code>
@@ -247,6 +249,7 @@ Types:
 
 - <code><a href="./src/resources/products/products.ts">AddMeterToPrice</a></code>
 - <code><a href="./src/resources/products/products.ts">AttachCreditEntitlement</a></code>
+- <code><a href="./src/resources/products/products.ts">AttachProductEntitlement</a></code>
 - <code><a href="./src/resources/products/products.ts">CbbProrationBehavior</a></code>
 - <code><a href="./src/resources/products/products.ts">CreditEntitlementMappingResponse</a></code>
 - <code><a href="./src/resources/products/products.ts">DigitalProductDelivery</a></code>
@@ -254,6 +257,7 @@ Types:
 - <code><a href="./src/resources/products/products.ts">LicenseKeyDuration</a></code>
 - <code><a href="./src/resources/products/products.ts">Price</a></code>
 - <code><a href="./src/resources/products/products.ts">Product</a></code>
+- <code><a href="./src/resources/products/products.ts">ProductEntitlementSummary</a></code>
 - <code><a href="./src/resources/products/products.ts">ProductListResponse</a></code>
 - <code><a href="./src/resources/products/products.ts">ProductUpdateFilesResponse</a></code>
 
@@ -545,17 +549,17 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/entitlements/entitlements.ts">EntitlementCreateResponse</a></code>
-- <code><a href="./src/resources/entitlements/entitlements.ts">EntitlementRetrieveResponse</a></code>
-- <code><a href="./src/resources/entitlements/entitlements.ts">EntitlementUpdateResponse</a></code>
-- <code><a href="./src/resources/entitlements/entitlements.ts">EntitlementListResponse</a></code>
+- <code><a href="./src/resources/entitlements/entitlements.ts">Entitlement</a></code>
+- <code><a href="./src/resources/entitlements/entitlements.ts">EntitlementIntegrationType</a></code>
+- <code><a href="./src/resources/entitlements/entitlements.ts">IntegrationConfig</a></code>
+- <code><a href="./src/resources/entitlements/entitlements.ts">IntegrationConfigResponse</a></code>
 
 Methods:
 
-- <code title="post /entitlements">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">create</a>({ ...params }) -> EntitlementCreateResponse</code>
-- <code title="get /entitlements/{id}">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">retrieve</a>(id) -> EntitlementRetrieveResponse</code>
-- <code title="patch /entitlements/{id}">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">update</a>(id, { ...params }) -> EntitlementUpdateResponse</code>
-- <code title="get /entitlements">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">list</a>({ ...params }) -> EntitlementListResponsesDefaultPageNumberPagination</code>
+- <code title="post /entitlements">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">create</a>({ ...params }) -> Entitlement</code>
+- <code title="get /entitlements/{id}">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">retrieve</a>(id) -> Entitlement</code>
+- <code title="patch /entitlements/{id}">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">update</a>(id, { ...params }) -> Entitlement</code>
+- <code title="get /entitlements">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">list</a>({ ...params }) -> EntitlementsDefaultPageNumberPagination</code>
 - <code title="delete /entitlements/{id}">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">delete</a>(id) -> void</code>
 
 ## Files
@@ -573,10 +577,10 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/entitlements/grants.ts">GrantListResponse</a></code>
-- <code><a href="./src/resources/entitlements/grants.ts">GrantRevokeResponse</a></code>
+- <code><a href="./src/resources/entitlements/grants.ts">EntitlementGrant</a></code>
+- <code><a href="./src/resources/entitlements/grants.ts">LicenseKeyGrant</a></code>
 
 Methods:
 
-- <code title="get /entitlements/{id}/grants">client.entitlements.grants.<a href="./src/resources/entitlements/grants.ts">list</a>(id, { ...params }) -> GrantListResponsesDefaultPageNumberPagination</code>
-- <code title="delete /entitlements/{id}/grants/{grant_id}">client.entitlements.grants.<a href="./src/resources/entitlements/grants.ts">revoke</a>(grantID, { ...params }) -> GrantRevokeResponse</code>
+- <code title="get /entitlements/{id}/grants">client.entitlements.grants.<a href="./src/resources/entitlements/grants.ts">list</a>(id, { ...params }) -> EntitlementGrantsDefaultPageNumberPagination</code>
+- <code title="delete /entitlements/{id}/grants/{grant_id}">client.entitlements.grants.<a href="./src/resources/entitlements/grants.ts">revoke</a>(grantID, { ...params }) -> EntitlementGrant</code>

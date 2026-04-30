@@ -182,6 +182,16 @@ export interface AttachAddon {
   quantity: number;
 }
 
+export type CancellationFeedback =
+  | 'too_expensive'
+  | 'missing_features'
+  | 'switched_service'
+  | 'unused'
+  | 'customer_service'
+  | 'low_quality'
+  | 'too_complex'
+  | 'other';
+
 /**
  * Response struct representing credit entitlement cart details for a subscription
  */
@@ -307,6 +317,67 @@ export interface OnDemandSubscription {
    * currency (e.g., cents for USD). For example, to charge $1.00, pass `100`.
    */
   product_price?: number | null;
+}
+
+export interface ScheduledPlanChange {
+  /**
+   * The scheduled plan change ID
+   */
+  id: string;
+
+  /**
+   * Addons included in the scheduled change
+   */
+  addons: Array<ScheduledPlanChange.Addon>;
+
+  /**
+   * When this scheduled change was created
+   */
+  created_at: string;
+
+  /**
+   * When the change will be applied
+   */
+  effective_at: string;
+
+  /**
+   * The product ID the subscription will change to
+   */
+  product_id: string;
+
+  /**
+   * Quantity for the new plan
+   */
+  quantity: number;
+
+  /**
+   * Description of the product being changed to
+   */
+  product_description?: string | null;
+
+  /**
+   * Name of the product being changed to
+   */
+  product_name?: string | null;
+}
+
+export namespace ScheduledPlanChange {
+  export interface Addon {
+    /**
+     * The addon ID
+     */
+    addon_id: string;
+
+    /**
+     * Name of the addon
+     */
+    name: string;
+
+    /**
+     * Quantity of the addon
+     */
+    quantity: number;
+  }
 }
 
 /**
@@ -443,16 +514,7 @@ export interface Subscription {
   /**
    * Customer-supplied churn reason, if any
    */
-  cancellation_feedback?:
-    | 'too_expensive'
-    | 'missing_features'
-    | 'switched_service'
-    | 'unused'
-    | 'customer_service'
-    | 'low_quality'
-    | 'too_complex'
-    | 'other'
-    | null;
+  cancellation_feedback?: CancellationFeedback | null;
 
   /**
    * Cancelled timestamp if the subscription is cancelled
@@ -487,78 +549,12 @@ export interface Subscription {
   /**
    * Scheduled plan change details, if any
    */
-  scheduled_change?: Subscription.ScheduledChange | null;
+  scheduled_change?: ScheduledPlanChange | null;
 
   /**
    * Tax identifier provided for this subscription (if applicable)
    */
   tax_id?: string | null;
-}
-
-export namespace Subscription {
-  /**
-   * Scheduled plan change details, if any
-   */
-  export interface ScheduledChange {
-    /**
-     * The scheduled plan change ID
-     */
-    id: string;
-
-    /**
-     * Addons included in the scheduled change
-     */
-    addons: Array<ScheduledChange.Addon>;
-
-    /**
-     * When this scheduled change was created
-     */
-    created_at: string;
-
-    /**
-     * When the change will be applied
-     */
-    effective_at: string;
-
-    /**
-     * The product ID the subscription will change to
-     */
-    product_id: string;
-
-    /**
-     * Quantity for the new plan
-     */
-    quantity: number;
-
-    /**
-     * Description of the product being changed to
-     */
-    product_description?: string | null;
-
-    /**
-     * Name of the product being changed to
-     */
-    product_name?: string | null;
-  }
-
-  export namespace ScheduledChange {
-    export interface Addon {
-      /**
-       * The addon ID
-       */
-      addon_id: string;
-
-      /**
-       * Name of the addon
-       */
-      name: string;
-
-      /**
-       * Quantity of the addon
-       */
-      quantity: number;
-    }
-  }
 }
 
 export type SubscriptionStatus = 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired';
@@ -682,12 +678,20 @@ export interface SubscriptionCreateResponse {
   /**
    * One time products associated with the purchase of subscription
    */
-  one_time_product_cart?: Array<PaymentsAPI.OneTimeProductCartItem> | null;
+  one_time_product_cart?: Array<SubscriptionCreateResponse.OneTimeProductCart> | null;
 
   /**
    * URL to checkout page
    */
   payment_link?: string | null;
+}
+
+export namespace SubscriptionCreateResponse {
+  export interface OneTimeProductCart {
+    product_id: string;
+
+    quantity: number;
+  }
 }
 
 /**
@@ -824,78 +828,12 @@ export interface SubscriptionListResponse {
   /**
    * Scheduled plan change details, if any
    */
-  scheduled_change?: SubscriptionListResponse.ScheduledChange | null;
+  scheduled_change?: ScheduledPlanChange | null;
 
   /**
    * Tax identifier provided for this subscription (if applicable)
    */
   tax_id?: string | null;
-}
-
-export namespace SubscriptionListResponse {
-  /**
-   * Scheduled plan change details, if any
-   */
-  export interface ScheduledChange {
-    /**
-     * The scheduled plan change ID
-     */
-    id: string;
-
-    /**
-     * Addons included in the scheduled change
-     */
-    addons: Array<ScheduledChange.Addon>;
-
-    /**
-     * When this scheduled change was created
-     */
-    created_at: string;
-
-    /**
-     * When the change will be applied
-     */
-    effective_at: string;
-
-    /**
-     * The product ID the subscription will change to
-     */
-    product_id: string;
-
-    /**
-     * Quantity for the new plan
-     */
-    quantity: number;
-
-    /**
-     * Description of the product being changed to
-     */
-    product_description?: string | null;
-
-    /**
-     * Name of the product being changed to
-     */
-    product_name?: string | null;
-  }
-
-  export namespace ScheduledChange {
-    export interface Addon {
-      /**
-       * The addon ID
-       */
-      addon_id: string;
-
-      /**
-       * Name of the addon
-       */
-      name: string;
-
-      /**
-       * Quantity of the addon
-       */
-      quantity: number;
-    }
-  }
 }
 
 export interface SubscriptionChargeResponse {
@@ -1229,7 +1167,7 @@ export interface SubscriptionCreateParams {
    * List of one time products that will be bundled with the first payment for this
    * subscription
    */
-  one_time_product_cart?: Array<SubscriptionCreateParams.OneTimeProductCart> | null;
+  one_time_product_cart?: Array<PaymentsAPI.OneTimeProductCartItem> | null;
 
   /**
    * If true, generates a payment link. Defaults to false if not specified.
@@ -1284,21 +1222,6 @@ export interface SubscriptionCreateParams {
   trial_period_days?: number | null;
 }
 
-export namespace SubscriptionCreateParams {
-  export interface OneTimeProductCart {
-    product_id: string;
-
-    quantity: number;
-
-    /**
-     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
-     * amount will be ignored Represented in the lowest denomination of the currency
-     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
-     */
-    amount?: number | null;
-  }
-}
-
 export interface SubscriptionUpdateParams {
   billing?: PaymentsAPI.BillingAddress | null;
 
@@ -1324,16 +1247,7 @@ export interface SubscriptionUpdateParams {
    * Customer-supplied churn reason (only valid when cancelling or scheduling
    * cancellation).
    */
-  cancellation_feedback?:
-    | 'too_expensive'
-    | 'missing_features'
-    | 'switched_service'
-    | 'unused'
-    | 'customer_service'
-    | 'low_quality'
-    | 'too_complex'
-    | 'other'
-    | null;
+  cancellation_feedback?: CancellationFeedback | null;
 
   /**
    * Update credit entitlement cart settings
@@ -1641,10 +1555,12 @@ export declare namespace Subscriptions {
   export {
     type AddonCartResponseItem as AddonCartResponseItem,
     type AttachAddon as AttachAddon,
+    type CancellationFeedback as CancellationFeedback,
     type CreditEntitlementCartResponse as CreditEntitlementCartResponse,
     type MeterCartResponseItem as MeterCartResponseItem,
     type MeterCreditEntitlementCartResponse as MeterCreditEntitlementCartResponse,
     type OnDemandSubscription as OnDemandSubscription,
+    type ScheduledPlanChange as ScheduledPlanChange,
     type Subscription as Subscription,
     type SubscriptionStatus as SubscriptionStatus,
     type TimeInterval as TimeInterval,

@@ -19,10 +19,10 @@ export class Grants extends APIResource {
     id: string,
     query: GrantListParams | null | undefined = {},
     options?: RequestOptions,
-  ): PagePromise<GrantListResponsesDefaultPageNumberPagination, GrantListResponse> {
+  ): PagePromise<EntitlementGrantsDefaultPageNumberPagination, EntitlementGrant> {
     return this._client.getAPIList(
       path`/entitlements/${id}/grants`,
-      DefaultPageNumberPagination<GrantListResponse>,
+      DefaultPageNumberPagination<EntitlementGrant>,
       { query, ...options },
     );
   }
@@ -33,19 +33,15 @@ export class Grants extends APIResource {
    * already-revoked grant returns 200 with current state. The revocation reason is
    * always set to "manual" for API-initiated revocations.
    */
-  revoke(
-    grantID: string,
-    params: GrantRevokeParams,
-    options?: RequestOptions,
-  ): APIPromise<GrantRevokeResponse> {
+  revoke(grantID: string, params: GrantRevokeParams, options?: RequestOptions): APIPromise<EntitlementGrant> {
     const { id } = params;
     return this._client.delete(path`/entitlements/${id}/grants/${grantID}`, options);
   }
 }
 
-export type GrantListResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<GrantListResponse>;
+export type EntitlementGrantsDefaultPageNumberPagination = DefaultPageNumberPagination<EntitlementGrant>;
 
-export interface GrantListResponse {
+export interface EntitlementGrant {
   id: string;
 
   business_id: string;
@@ -77,7 +73,7 @@ export interface GrantListResponse {
   /**
    * Present only when the entitlement integration_type is `license_key`.
    */
-  license_key?: GrantListResponse.LicenseKey | null;
+  license_key?: LicenseKeyGrant | null;
 
   metadata?: unknown;
 
@@ -94,83 +90,20 @@ export interface GrantListResponse {
   subscription_id?: string | null;
 }
 
-export namespace GrantListResponse {
-  /**
-   * Present only when the entitlement integration_type is `license_key`.
-   */
-  export interface LicenseKey {
-    activations_used: number;
+/**
+ * Nested representation of license-key grant fields. Present only when the grant's
+ * entitlement has `integration_type = 'license_key'` and a row exists in
+ * `license_keys`. The grant's top-level `status` is the source of truth for the
+ * grant's lifecycle — no per-license-key status is exposed here.
+ */
+export interface LicenseKeyGrant {
+  activations_used: number;
 
-    key: string;
+  key: string;
 
-    activations_limit?: number | null;
+  activations_limit?: number | null;
 
-    expires_at?: string | null;
-  }
-}
-
-export interface GrantRevokeResponse {
-  id: string;
-
-  business_id: string;
-
-  created_at: string;
-
-  customer_id: string;
-
-  entitlement_id: string;
-
-  external_id: string;
-
-  status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
-
-  updated_at: string;
-
-  delivered_at?: string | null;
-
-  /**
-   * Present only when the entitlement integration_type is `digital_files`. Populated
-   * eagerly on every list and single-record endpoint.
-   */
-  digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
-
-  error_code?: string | null;
-
-  error_message?: string | null;
-
-  /**
-   * Present only when the entitlement integration_type is `license_key`.
-   */
-  license_key?: GrantRevokeResponse.LicenseKey | null;
-
-  metadata?: unknown;
-
-  oauth_expires_at?: string | null;
-
-  oauth_url?: string | null;
-
-  payment_id?: string | null;
-
-  revocation_reason?: string | null;
-
-  revoked_at?: string | null;
-
-  subscription_id?: string | null;
-}
-
-export namespace GrantRevokeResponse {
-  /**
-   * Present only when the entitlement integration_type is `license_key`.
-   */
-  export interface LicenseKey {
-    activations_used: number;
-
-    key: string;
-
-    activations_limit?: number | null;
-
-    expires_at?: string | null;
-  }
+  expires_at?: string | null;
 }
 
 export interface GrantListParams extends DefaultPageNumberPaginationParams {
@@ -194,9 +127,9 @@ export interface GrantRevokeParams {
 
 export declare namespace Grants {
   export {
-    type GrantListResponse as GrantListResponse,
-    type GrantRevokeResponse as GrantRevokeResponse,
-    type GrantListResponsesDefaultPageNumberPagination as GrantListResponsesDefaultPageNumberPagination,
+    type EntitlementGrant as EntitlementGrant,
+    type LicenseKeyGrant as LicenseKeyGrant,
+    type EntitlementGrantsDefaultPageNumberPagination as EntitlementGrantsDefaultPageNumberPagination,
     type GrantListParams as GrantListParams,
     type GrantRevokeParams as GrantRevokeParams,
   };
