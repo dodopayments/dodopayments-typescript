@@ -436,6 +436,25 @@ export interface Subscription {
   trial_period_days: number;
 
   /**
+   * Free-text cancellation comment, if any
+   */
+  cancellation_comment?: string | null;
+
+  /**
+   * Customer-supplied churn reason, if any
+   */
+  cancellation_feedback?:
+    | 'too_expensive'
+    | 'missing_features'
+    | 'switched_service'
+    | 'unused'
+    | 'customer_service'
+    | 'low_quality'
+    | 'too_complex'
+    | 'other'
+    | null;
+
+  /**
    * Cancelled timestamp if the subscription is cancelled
    */
   cancelled_at?: string | null;
@@ -565,6 +584,12 @@ export interface UpdateSubscriptionPlanReq {
    * Number of units to subscribe for. Must be at least 1.
    */
   quantity: number;
+
+  /**
+   * Whether adaptive currency fees should be included in the price (true) or added
+   * on top (false). If not specified, uses the subscription's stored setting.
+   */
+  adaptive_currency_fees_inclusive?: boolean | null;
 
   /**
    * Addons for the new plan. Note : Leaving this empty would remove any existing
@@ -1184,6 +1209,16 @@ export interface SubscriptionCreateParams {
   force_3ds?: boolean | null;
 
   /**
+   * Override the merchant-level mandate floor (in INR paise) for INR e-mandates on
+   * Indian-card recurring payments. The mandate amount sent to the processor is
+   * `max(this_floor, actual_billing_amount)`, so this is effectively the
+   * customer-facing authorization ceiling whenever billing is lower. When unset, the
+   * merchant setting applies; when that's also unset, the system default of ₹15,000
+   * applies.
+   */
+  mandate_min_amount_inr_paise?: number | null;
+
+  /**
    * Additional metadata for the subscription Defaults to empty if not specified
    */
   metadata?: { [key: string]: string };
@@ -1213,6 +1248,13 @@ export interface SubscriptionCreateParams {
    * default
    */
   redirect_immediately?: boolean;
+
+  /**
+   * If true, the customer's phone number is required to create this subscription.
+   * Typically set alongside `payment_link=true` so merchants can enforce phone
+   * collection on the hosted payment page. Defaults to false.
+   */
+  require_phone_number?: boolean;
 
   /**
    * Optional URL to redirect after successful subscription creation
@@ -1269,6 +1311,28 @@ export interface SubscriptionUpdateParams {
     | 'cancelled_by_customer'
     | 'cancelled_by_merchant'
     | 'cancelled_by_merchant_send_dunning'
+    | 'dodo_team'
+    | null;
+
+  /**
+   * Free-text cancellation comment (only valid when cancelling or scheduling
+   * cancellation).
+   */
+  cancellation_comment?: string | null;
+
+  /**
+   * Customer-supplied churn reason (only valid when cancelling or scheduling
+   * cancellation).
+   */
+  cancellation_feedback?:
+    | 'too_expensive'
+    | 'missing_features'
+    | 'switched_service'
+    | 'unused'
+    | 'customer_service'
+    | 'low_quality'
+    | 'too_complex'
+    | 'other'
     | null;
 
   /**
@@ -1370,6 +1434,12 @@ export interface SubscriptionChangePlanParams {
    * Number of units to subscribe for. Must be at least 1.
    */
   quantity: number;
+
+  /**
+   * Whether adaptive currency fees should be included in the price (true) or added
+   * on top (false). If not specified, uses the subscription's stored setting.
+   */
+  adaptive_currency_fees_inclusive?: boolean | null;
 
   /**
    * Addons for the new plan. Note : Leaving this empty would remove any existing
@@ -1485,6 +1555,12 @@ export interface SubscriptionPreviewChangePlanParams {
    * Number of units to subscribe for. Must be at least 1.
    */
   quantity: number;
+
+  /**
+   * Whether adaptive currency fees should be included in the price (true) or added
+   * on top (false). If not specified, uses the subscription's stored setting.
+   */
+  adaptive_currency_fees_inclusive?: boolean | null;
 
   /**
    * Addons for the new plan. Note : Leaving this empty would remove any existing

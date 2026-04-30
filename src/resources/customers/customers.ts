@@ -65,6 +65,16 @@ export class Customers extends APIResource {
     return this._client.get(path`/customers/${customerID}/credit-entitlements`, options);
   }
 
+  /**
+   * List all entitlement grants delivered (or in flight) to a customer.
+   */
+  listEntitlements(
+    customerID: string,
+    options?: RequestOptions,
+  ): APIPromise<CustomerListEntitlementsResponse> {
+    return this._client.get(path`/customers/${customerID}/entitlements`, options);
+  }
+
   retrievePaymentMethods(
     customerID: string,
     options?: RequestOptions,
@@ -136,6 +146,48 @@ export namespace CustomerListCreditEntitlementsResponse {
      * Description of the credit entitlement
      */
     description?: string | null;
+  }
+}
+
+export interface CustomerListEntitlementsResponse {
+  items: Array<CustomerListEntitlementsResponse.Item>;
+}
+
+export namespace CustomerListEntitlementsResponse {
+  export interface Item {
+    created_at: string;
+
+    /**
+     * The entitlement this grant belongs to.
+     */
+    entitlement_id: string;
+
+    entitlement_name: string;
+
+    /**
+     * Grant id (the per-customer row in `entitlement_grants`).
+     */
+    grant_id: string;
+
+    integration_type:
+      | 'discord'
+      | 'telegram'
+      | 'github'
+      | 'figma'
+      | 'framer'
+      | 'notion'
+      | 'digital_files'
+      | 'license_key';
+
+    status: 'pending' | 'delivered' | 'failed' | 'revoked';
+
+    updated_at: string;
+
+    delivered_at?: string | null;
+
+    entitlement_description?: string | null;
+
+    revoked_at?: string | null;
   }
 }
 
@@ -263,6 +315,7 @@ export declare namespace Customers {
     type Customer as Customer,
     type CustomerPortalSession as CustomerPortalSession,
     type CustomerListCreditEntitlementsResponse as CustomerListCreditEntitlementsResponse,
+    type CustomerListEntitlementsResponse as CustomerListEntitlementsResponse,
     type CustomerRetrievePaymentMethodsResponse as CustomerRetrievePaymentMethodsResponse,
     type CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
     type CustomerCreateParams as CustomerCreateParams,
