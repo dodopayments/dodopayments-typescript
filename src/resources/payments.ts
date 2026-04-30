@@ -675,6 +675,12 @@ export interface PaymentCreateParams {
   product_cart: Array<PaymentCreateParams.ProductCart>;
 
   /**
+   * Whether adaptive currency fees should be included in the price (true) or added
+   * on top (false). If not specified, defaults to the business-level setting.
+   */
+  adaptive_currency_fees_inclusive?: boolean | null;
+
+  /**
    * List of payment methods allowed during checkout.
    *
    * Customers will **never** see payment methods that are **not** in this list.
@@ -723,6 +729,13 @@ export interface PaymentCreateParams {
    * default
    */
   redirect_immediately?: boolean;
+
+  /**
+   * If true, the customer's phone number is required to create this payment.
+   * Typically set alongside `payment_link=true` so merchants can enforce phone
+   * collection on the hosted payment page. Defaults to false.
+   */
+  require_phone_number?: boolean;
 
   /**
    * Optional URL to redirect the customer after payment. Must be a valid URL if

@@ -317,29 +317,35 @@ export interface CreditEntitlementMappingResponse {
   trial_credits?: string | null;
 }
 
+/**
+ * Digital-product-delivery payload for a grant. Populated for grants whose
+ * entitlement has `integration_type = 'digital_files'`. `files` carries presigned
+ * download URLs; the source (EE service or legacy in-process S3 presigning) is
+ * opaque to the caller.
+ */
 export interface DigitalProductDelivery {
-  /**
-   * External URL to digital product
-   */
+  files: Array<DigitalProductDeliveryFile>;
+
   external_url?: string | null;
 
-  /**
-   * Uploaded files ids of digital product
-   */
-  files?: Array<DigitalProductDeliveryFile> | null;
-
-  /**
-   * Instructions to download and use the digital product
-   */
   instructions?: string | null;
 }
 
 export interface DigitalProductDeliveryFile {
+  download_url: string;
+
+  /**
+   * Seconds until `download_url` expires.
+   */
+  expires_in: number;
+
   file_id: string;
 
-  file_name: string;
+  filename: string;
 
-  url: string;
+  content_type?: string | null;
+
+  file_size?: number | null;
 }
 
 export interface LicenseKeyDuration {
@@ -592,6 +598,12 @@ export interface Product {
    */
   description?: string | null;
 
+  /**
+   * Digital-product-delivery payload for a grant. Populated for grants whose
+   * entitlement has `integration_type = 'digital_files'`. `files` carries presigned
+   * download URLs; the source (EE service or legacy in-process S3 presigning) is
+   * opaque to the caller.
+   */
   digital_product_delivery?: DigitalProductDelivery | null;
 
   /**
@@ -627,14 +639,21 @@ export interface Product {
 
 export namespace Product {
   /**
-   * Summary of an entitlement attached to a product
+   * Summary of an entitlement attached to a product.
+   *
+   * `integration_config` uses [`IntegrationConfigResponse`] (NOT the persisted
+   * [`IntegrationConfig`]) so digital_files entitlements embed the resolved
+   * `digital_files` object — matching what `GET /entitlements/{id}` returns. All
+   * other variants pass through unchanged via `#[serde(untagged)]`.
    */
   export interface Entitlement {
     id: string;
 
     /**
-     * Platform-specific configuration for an entitlement. Each variant uses unique
-     * field names so `#[serde(untagged)]` can disambiguate correctly.
+     * Public-facing variant of [`IntegrationConfig`]. Mirrors every variant shape on
+     * the wire EXCEPT `DigitalFiles`, which is replaced with a hydrated
+     * `digital_files` object (resolved download URLs etc.). The persisted JSONB stays
+     * ID-only via [`IntegrationConfig`]; this enum is response-only.
      */
     integration_config:
       | Entitlement.GitHubConfig
@@ -663,9 +682,6 @@ export namespace Product {
 
   export namespace Entitlement {
     export interface GitHubConfig {
-      /**
-       * One of: pull, push, admin, maintain, triage
-       */
       permission: string;
 
       target_id: string;
@@ -694,11 +710,54 @@ export namespace Product {
     }
 
     export interface DigitalFilesConfig {
-      digital_file_ids: Array<string>;
+      /**
+       * Populated digital-files payload for entitlement read surfaces. Mirrors
+       * `DigitalProductDelivery` but is sourced from an entitlement's
+       * `integration_config` (not a grant) and tags each file with its origin (`legacy`
+       * vs `ee`).
+       */
+      digital_files: DigitalFilesConfig.DigitalFiles;
+    }
 
-      external_url?: string | null;
+    export namespace DigitalFilesConfig {
+      /**
+       * Populated digital-files payload for entitlement read surfaces. Mirrors
+       * `DigitalProductDelivery` but is sourced from an entitlement's
+       * `integration_config` (not a grant) and tags each file with its origin (`legacy`
+       * vs `ee`).
+       */
+      export interface DigitalFiles {
+        files: Array<DigitalFiles.File>;
 
-      instructions?: string | null;
+        external_url?: string | null;
+
+        instructions?: string | null;
+      }
+
+      export namespace DigitalFiles {
+        export interface File {
+          download_url: string;
+
+          /**
+           * Seconds until `download_url` expires.
+           */
+          expires_in: number;
+
+          file_id: string;
+
+          filename: string;
+
+          /**
+           * `"legacy"` for files in `product_files`, `"ee"` for files managed by the
+           * Entitlements Engine.
+           */
+          source: string;
+
+          content_type?: string | null;
+
+          file_size?: number | null;
+        }
+      }
     }
 
     export interface LicenseKeyConfig {
@@ -708,7 +767,7 @@ export namespace Product {
 
       duration_count?: number | null;
 
-      duration_interval?: string | null;
+      duration_interval?: SubscriptionsAPI.TimeInterval | null;
     }
   }
 }
@@ -801,14 +860,21 @@ export interface ProductListResponse {
 
 export namespace ProductListResponse {
   /**
-   * Summary of an entitlement attached to a product
+   * Summary of an entitlement attached to a product.
+   *
+   * `integration_config` uses [`IntegrationConfigResponse`] (NOT the persisted
+   * [`IntegrationConfig`]) so digital_files entitlements embed the resolved
+   * `digital_files` object — matching what `GET /entitlements/{id}` returns. All
+   * other variants pass through unchanged via `#[serde(untagged)]`.
    */
   export interface Entitlement {
     id: string;
 
     /**
-     * Platform-specific configuration for an entitlement. Each variant uses unique
-     * field names so `#[serde(untagged)]` can disambiguate correctly.
+     * Public-facing variant of [`IntegrationConfig`]. Mirrors every variant shape on
+     * the wire EXCEPT `DigitalFiles`, which is replaced with a hydrated
+     * `digital_files` object (resolved download URLs etc.). The persisted JSONB stays
+     * ID-only via [`IntegrationConfig`]; this enum is response-only.
      */
     integration_config:
       | Entitlement.GitHubConfig
@@ -837,9 +903,6 @@ export namespace ProductListResponse {
 
   export namespace Entitlement {
     export interface GitHubConfig {
-      /**
-       * One of: pull, push, admin, maintain, triage
-       */
       permission: string;
 
       target_id: string;
@@ -868,11 +931,54 @@ export namespace ProductListResponse {
     }
 
     export interface DigitalFilesConfig {
-      digital_file_ids: Array<string>;
+      /**
+       * Populated digital-files payload for entitlement read surfaces. Mirrors
+       * `DigitalProductDelivery` but is sourced from an entitlement's
+       * `integration_config` (not a grant) and tags each file with its origin (`legacy`
+       * vs `ee`).
+       */
+      digital_files: DigitalFilesConfig.DigitalFiles;
+    }
 
-      external_url?: string | null;
+    export namespace DigitalFilesConfig {
+      /**
+       * Populated digital-files payload for entitlement read surfaces. Mirrors
+       * `DigitalProductDelivery` but is sourced from an entitlement's
+       * `integration_config` (not a grant) and tags each file with its origin (`legacy`
+       * vs `ee`).
+       */
+      export interface DigitalFiles {
+        files: Array<DigitalFiles.File>;
 
-      instructions?: string | null;
+        external_url?: string | null;
+
+        instructions?: string | null;
+      }
+
+      export namespace DigitalFiles {
+        export interface File {
+          download_url: string;
+
+          /**
+           * Seconds until `download_url` expires.
+           */
+          expires_in: number;
+
+          file_id: string;
+
+          filename: string;
+
+          /**
+           * `"legacy"` for files in `product_files`, `"ee"` for files managed by the
+           * Entitlements Engine.
+           */
+          source: string;
+
+          content_type?: string | null;
+
+          file_size?: number | null;
+        }
+      }
     }
 
     export interface LicenseKeyConfig {
@@ -882,7 +988,7 @@ export namespace ProductListResponse {
 
       duration_count?: number | null;
 
-      duration_interval?: string | null;
+      duration_interval?: SubscriptionsAPI.TimeInterval | null;
     }
   }
 }
@@ -931,22 +1037,30 @@ export interface ProductCreateParams {
 
   /**
    * Choose how you would like you digital product delivered
+   *
+   * deprecated: use entitlements instead
    */
   digital_product_delivery?: ProductCreateParams.DigitalProductDelivery | null;
 
   /**
-   * Optional entitlement IDs to attach to this product (max 20)
+   * Optional entitlements to attach to this product (max 20)
    */
-  entitlement_ids?: Array<string> | null;
+  entitlements?: Array<ProductCreateParams.Entitlement> | null;
 
   /**
    * @deprecated Optional message displayed during license key activation
+   *
+   * deprecated: use entitlements instead. Ignored when a `license_key` entitlement
+   * is attached via the `entitlements` field.
    */
   license_key_activation_message?: string | null;
 
   /**
    * @deprecated The number of times the license key can be activated. Must be 0 or
    * greater
+   *
+   * deprecated: use entitlements instead. Ignored when a `license_key` entitlement
+   * is attached via the `entitlements` field.
    */
   license_key_activations_limit?: number | null;
 
@@ -954,12 +1068,19 @@ export interface ProductCreateParams {
    * Duration configuration for the license key. Set to null if you don't want the
    * license key to expire. For subscriptions, the lifetime of the license key is
    * tied to the subscription period
+   *
+   * deprecated: use entitlements instead. Ignored when a `license_key` entitlement
+   * is attached via the `entitlements` field.
    */
   license_key_duration?: LicenseKeyDuration | null;
 
   /**
    * @deprecated When true, generates and sends a license key to your customer.
    * Defaults to false
+   *
+   * deprecated: use entitlements instead. If a `license_key` entitlement is also
+   * attached via the `entitlements` field, the `license_key_*` config fields below
+   * are ignored — the attached entitlement's config is the source of truth.
    */
   license_key_enabled?: boolean | null;
 
@@ -972,6 +1093,8 @@ export interface ProductCreateParams {
 export namespace ProductCreateParams {
   /**
    * Choose how you would like you digital product delivered
+   *
+   * deprecated: use entitlements instead
    */
   export interface DigitalProductDelivery {
     /**
@@ -983,6 +1106,20 @@ export namespace ProductCreateParams {
      * Instructions to download and use the digital product
      */
     instructions?: string | null;
+  }
+
+  /**
+   * Request struct for attaching an entitlement to a product.
+   *
+   * Mirrors the `credit_entitlements` attach shape — every "attach something to a
+   * product" array takes objects, not bare IDs. Uniform shape leaves room for
+   * per-attachment settings later without another API break.
+   */
+  export interface Entitlement {
+    /**
+     * ID of the entitlement to attach to the product
+     */
+    entitlement_id: string;
   }
 }
 
@@ -1007,14 +1144,16 @@ export interface ProductUpdateParams {
 
   /**
    * Choose how you would like you digital product delivered
+   *
+   * deprecated: use entitlements instead
    */
   digital_product_delivery?: ProductUpdateParams.DigitalProductDelivery | null;
 
   /**
-   * Entitlement IDs to attach (replaces all existing when present) Send empty array
-   * to remove all, omit field to leave unchanged
+   * Entitlements to attach (replaces all existing when present) Send empty array to
+   * remove all, omit field to leave unchanged
    */
-  entitlement_ids?: Array<string> | null;
+  entitlements?: Array<ProductUpdateParams.Entitlement> | null;
 
   /**
    * Product image id after its uploaded to S3
@@ -1026,6 +1165,8 @@ export interface ProductUpdateParams {
    *
    * Only applicable if `license_key_enabled` is `true`. This message contains
    * instructions for activating the license key.
+   *
+   * deprecated: use entitlements instead
    */
   license_key_activation_message?: string | null;
 
@@ -1034,6 +1175,8 @@ export interface ProductUpdateParams {
    *
    * Only applicable if `license_key_enabled` is `true`. Represents the maximum
    * number of times the license key can be activated.
+   *
+   * deprecated: use entitlements instead
    */
   license_key_activations_limit?: number | null;
 
@@ -1042,6 +1185,8 @@ export interface ProductUpdateParams {
    *
    * Only applicable if `license_key_enabled` is `true`. Represents the duration in
    * days for which the license key is valid.
+   *
+   * deprecated: use entitlements instead
    */
   license_key_duration?: LicenseKeyDuration | null;
 
@@ -1050,6 +1195,8 @@ export interface ProductUpdateParams {
    *
    * If `true`, additional fields related to license key (duration, activations
    * limit, activation message) become applicable.
+   *
+   * deprecated: use entitlements instead
    */
   license_key_enabled?: boolean | null;
 
@@ -1077,6 +1224,8 @@ export interface ProductUpdateParams {
 export namespace ProductUpdateParams {
   /**
    * Choose how you would like you digital product delivered
+   *
+   * deprecated: use entitlements instead
    */
   export interface DigitalProductDelivery {
     /**
@@ -1093,6 +1242,20 @@ export namespace ProductUpdateParams {
      * Instructions to download and use the digital product
      */
     instructions?: string | null;
+  }
+
+  /**
+   * Request struct for attaching an entitlement to a product.
+   *
+   * Mirrors the `credit_entitlements` attach shape — every "attach something to a
+   * product" array takes objects, not bare IDs. Uniform shape leaves room for
+   * per-attachment settings later without another API break.
+   */
+  export interface Entitlement {
+    /**
+     * ID of the entitlement to attach to the product
+     */
+    entitlement_id: string;
   }
 }
 

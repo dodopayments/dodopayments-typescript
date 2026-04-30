@@ -144,6 +144,14 @@ export interface CheckoutSessionFlags {
    * Default is false
    */
   redirect_immediately?: boolean;
+
+  /**
+   * If true, the customer must provide a phone number to complete checkout. Requires
+   * `allow_phone_number_collection` to also be true.
+   *
+   * Default is false
+   */
+  require_phone_number?: boolean;
 }
 
 export interface CheckoutSessionRequest {
@@ -204,6 +212,16 @@ export interface CheckoutSessionRequest {
    * Override merchant default 3DS behaviour for this session
    */
   force_3ds?: boolean | null;
+
+  /**
+   * Override the merchant-level mandate floor (in INR paise) for INR e-mandates on
+   * Indian-card recurring payments. The mandate amount sent to the processor is
+   * `max(this_floor, actual_billing_amount)`, so this is effectively the
+   * customer-facing authorization ceiling whenever billing is lower. When unset, the
+   * merchant setting applies; when that's also unset, the system default of ₹15,000
+   * applies.
+   */
+  mandate_min_amount_inr_paise?: number | null;
 
   /**
    * Additional metadata associated with the payment. Defaults to empty if not
@@ -826,6 +844,16 @@ export interface CheckoutSessionCreateParams {
   force_3ds?: boolean | null;
 
   /**
+   * Override the merchant-level mandate floor (in INR paise) for INR e-mandates on
+   * Indian-card recurring payments. The mandate amount sent to the processor is
+   * `max(this_floor, actual_billing_amount)`, so this is effectively the
+   * customer-facing authorization ceiling whenever billing is lower. When unset, the
+   * merchant setting applies; when that's also unset, the system default of ₹15,000
+   * applies.
+   */
+  mandate_min_amount_inr_paise?: number | null;
+
+  /**
    * Additional metadata associated with the payment. Defaults to empty if not
    * provided.
    */
@@ -930,6 +958,16 @@ export interface CheckoutSessionPreviewParams {
    * Override merchant default 3DS behaviour for this session
    */
   force_3ds?: boolean | null;
+
+  /**
+   * Override the merchant-level mandate floor (in INR paise) for INR e-mandates on
+   * Indian-card recurring payments. The mandate amount sent to the processor is
+   * `max(this_floor, actual_billing_amount)`, so this is effectively the
+   * customer-facing authorization ceiling whenever billing is lower. When unset, the
+   * merchant setting applies; when that's also unset, the system default of ₹15,000
+   * applies.
+   */
+  mandate_min_amount_inr_paise?: number | null;
 
   /**
    * Additional metadata associated with the payment. Defaults to empty if not

@@ -8,6 +8,7 @@ import * as RefundsAPI from '../refunds';
 import * as SubscriptionsAPI from '../subscriptions';
 import * as WebhookEventsAPI from '../webhook-events';
 import * as BalancesAPI from '../credit-entitlements/balances';
+import * as ProductsAPI from '../products/products';
 import * as HeadersAPI from './headers';
 import { HeaderRetrieveResponse, HeaderUpdateParams, Headers } from './headers';
 import { Webhook } from 'standardwebhooks';
@@ -384,6 +385,28 @@ export interface CreditOverageChargedWebhookEvent {
   type: 'credit.overage_charged';
 }
 
+export interface CreditOverageResetWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response for a ledger entry
+   */
+  data: BalancesAPI.CreditLedgerEntry;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.overage_reset';
+}
+
 export interface CreditRolledOverWebhookEvent {
   /**
    * The business identifier
@@ -640,6 +663,346 @@ export namespace DunningStartedWebhookEvent {
     trigger_state: 'on_hold' | 'cancelled';
 
     payment_id?: string | null;
+  }
+}
+
+export interface EntitlementGrantCreatedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: EntitlementGrantCreatedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'entitlement_grant.created';
+}
+
+export namespace EntitlementGrantCreatedWebhookEvent {
+  export interface Data {
+    id: string;
+
+    business_id: string;
+
+    created_at: string;
+
+    customer_id: string;
+
+    entitlement_id: string;
+
+    external_id: string;
+
+    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
+
+    updated_at: string;
+
+    delivered_at?: string | null;
+
+    /**
+     * Present only when the entitlement integration_type is `digital_files`. Populated
+     * eagerly on every list and single-record endpoint.
+     */
+    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
+
+    error_code?: string | null;
+
+    error_message?: string | null;
+
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    license_key?: Data.LicenseKey | null;
+
+    metadata?: unknown;
+
+    oauth_expires_at?: string | null;
+
+    oauth_url?: string | null;
+
+    payment_id?: string | null;
+
+    revocation_reason?: string | null;
+
+    revoked_at?: string | null;
+
+    subscription_id?: string | null;
+  }
+
+  export namespace Data {
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    export interface LicenseKey {
+      activations_used: number;
+
+      key: string;
+
+      activations_limit?: number | null;
+
+      expires_at?: string | null;
+    }
+  }
+}
+
+export interface EntitlementGrantDeliveredWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: EntitlementGrantDeliveredWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'entitlement_grant.delivered';
+}
+
+export namespace EntitlementGrantDeliveredWebhookEvent {
+  export interface Data {
+    id: string;
+
+    business_id: string;
+
+    created_at: string;
+
+    customer_id: string;
+
+    entitlement_id: string;
+
+    external_id: string;
+
+    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
+
+    updated_at: string;
+
+    delivered_at?: string | null;
+
+    /**
+     * Present only when the entitlement integration_type is `digital_files`. Populated
+     * eagerly on every list and single-record endpoint.
+     */
+    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
+
+    error_code?: string | null;
+
+    error_message?: string | null;
+
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    license_key?: Data.LicenseKey | null;
+
+    metadata?: unknown;
+
+    oauth_expires_at?: string | null;
+
+    oauth_url?: string | null;
+
+    payment_id?: string | null;
+
+    revocation_reason?: string | null;
+
+    revoked_at?: string | null;
+
+    subscription_id?: string | null;
+  }
+
+  export namespace Data {
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    export interface LicenseKey {
+      activations_used: number;
+
+      key: string;
+
+      activations_limit?: number | null;
+
+      expires_at?: string | null;
+    }
+  }
+}
+
+export interface EntitlementGrantFailedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: EntitlementGrantFailedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'entitlement_grant.failed';
+}
+
+export namespace EntitlementGrantFailedWebhookEvent {
+  export interface Data {
+    id: string;
+
+    business_id: string;
+
+    created_at: string;
+
+    customer_id: string;
+
+    entitlement_id: string;
+
+    external_id: string;
+
+    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
+
+    updated_at: string;
+
+    delivered_at?: string | null;
+
+    /**
+     * Present only when the entitlement integration_type is `digital_files`. Populated
+     * eagerly on every list and single-record endpoint.
+     */
+    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
+
+    error_code?: string | null;
+
+    error_message?: string | null;
+
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    license_key?: Data.LicenseKey | null;
+
+    metadata?: unknown;
+
+    oauth_expires_at?: string | null;
+
+    oauth_url?: string | null;
+
+    payment_id?: string | null;
+
+    revocation_reason?: string | null;
+
+    revoked_at?: string | null;
+
+    subscription_id?: string | null;
+  }
+
+  export namespace Data {
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    export interface LicenseKey {
+      activations_used: number;
+
+      key: string;
+
+      activations_limit?: number | null;
+
+      expires_at?: string | null;
+    }
+  }
+}
+
+export interface EntitlementGrantRevokedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: EntitlementGrantRevokedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'entitlement_grant.revoked';
+}
+
+export namespace EntitlementGrantRevokedWebhookEvent {
+  export interface Data {
+    id: string;
+
+    business_id: string;
+
+    created_at: string;
+
+    customer_id: string;
+
+    entitlement_id: string;
+
+    external_id: string;
+
+    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
+
+    updated_at: string;
+
+    delivered_at?: string | null;
+
+    /**
+     * Present only when the entitlement integration_type is `digital_files`. Populated
+     * eagerly on every list and single-record endpoint.
+     */
+    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
+
+    error_code?: string | null;
+
+    error_message?: string | null;
+
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    license_key?: Data.LicenseKey | null;
+
+    metadata?: unknown;
+
+    oauth_expires_at?: string | null;
+
+    oauth_url?: string | null;
+
+    payment_id?: string | null;
+
+    revocation_reason?: string | null;
+
+    revoked_at?: string | null;
+
+    subscription_id?: string | null;
+  }
+
+  export namespace Data {
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    export interface LicenseKey {
+      activations_used: number;
+
+      key: string;
+
+      activations_limit?: number | null;
+
+      expires_at?: string | null;
+    }
   }
 }
 
@@ -1193,6 +1556,28 @@ export interface CreditOverageChargedWebhookEvent {
   type: 'credit.overage_charged';
 }
 
+export interface CreditOverageResetWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response for a ledger entry
+   */
+  data: BalancesAPI.CreditLedgerEntry;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'credit.overage_reset';
+}
+
 export interface CreditRolledOverWebhookEvent {
   /**
    * The business identifier
@@ -1449,6 +1834,346 @@ export namespace DunningStartedWebhookEvent {
     trigger_state: 'on_hold' | 'cancelled';
 
     payment_id?: string | null;
+  }
+}
+
+export interface EntitlementGrantCreatedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: EntitlementGrantCreatedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'entitlement_grant.created';
+}
+
+export namespace EntitlementGrantCreatedWebhookEvent {
+  export interface Data {
+    id: string;
+
+    business_id: string;
+
+    created_at: string;
+
+    customer_id: string;
+
+    entitlement_id: string;
+
+    external_id: string;
+
+    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
+
+    updated_at: string;
+
+    delivered_at?: string | null;
+
+    /**
+     * Present only when the entitlement integration_type is `digital_files`. Populated
+     * eagerly on every list and single-record endpoint.
+     */
+    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
+
+    error_code?: string | null;
+
+    error_message?: string | null;
+
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    license_key?: Data.LicenseKey | null;
+
+    metadata?: unknown;
+
+    oauth_expires_at?: string | null;
+
+    oauth_url?: string | null;
+
+    payment_id?: string | null;
+
+    revocation_reason?: string | null;
+
+    revoked_at?: string | null;
+
+    subscription_id?: string | null;
+  }
+
+  export namespace Data {
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    export interface LicenseKey {
+      activations_used: number;
+
+      key: string;
+
+      activations_limit?: number | null;
+
+      expires_at?: string | null;
+    }
+  }
+}
+
+export interface EntitlementGrantDeliveredWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: EntitlementGrantDeliveredWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'entitlement_grant.delivered';
+}
+
+export namespace EntitlementGrantDeliveredWebhookEvent {
+  export interface Data {
+    id: string;
+
+    business_id: string;
+
+    created_at: string;
+
+    customer_id: string;
+
+    entitlement_id: string;
+
+    external_id: string;
+
+    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
+
+    updated_at: string;
+
+    delivered_at?: string | null;
+
+    /**
+     * Present only when the entitlement integration_type is `digital_files`. Populated
+     * eagerly on every list and single-record endpoint.
+     */
+    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
+
+    error_code?: string | null;
+
+    error_message?: string | null;
+
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    license_key?: Data.LicenseKey | null;
+
+    metadata?: unknown;
+
+    oauth_expires_at?: string | null;
+
+    oauth_url?: string | null;
+
+    payment_id?: string | null;
+
+    revocation_reason?: string | null;
+
+    revoked_at?: string | null;
+
+    subscription_id?: string | null;
+  }
+
+  export namespace Data {
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    export interface LicenseKey {
+      activations_used: number;
+
+      key: string;
+
+      activations_limit?: number | null;
+
+      expires_at?: string | null;
+    }
+  }
+}
+
+export interface EntitlementGrantFailedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: EntitlementGrantFailedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'entitlement_grant.failed';
+}
+
+export namespace EntitlementGrantFailedWebhookEvent {
+  export interface Data {
+    id: string;
+
+    business_id: string;
+
+    created_at: string;
+
+    customer_id: string;
+
+    entitlement_id: string;
+
+    external_id: string;
+
+    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
+
+    updated_at: string;
+
+    delivered_at?: string | null;
+
+    /**
+     * Present only when the entitlement integration_type is `digital_files`. Populated
+     * eagerly on every list and single-record endpoint.
+     */
+    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
+
+    error_code?: string | null;
+
+    error_message?: string | null;
+
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    license_key?: Data.LicenseKey | null;
+
+    metadata?: unknown;
+
+    oauth_expires_at?: string | null;
+
+    oauth_url?: string | null;
+
+    payment_id?: string | null;
+
+    revocation_reason?: string | null;
+
+    revoked_at?: string | null;
+
+    subscription_id?: string | null;
+  }
+
+  export namespace Data {
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    export interface LicenseKey {
+      activations_used: number;
+
+      key: string;
+
+      activations_limit?: number | null;
+
+      expires_at?: string | null;
+    }
+  }
+}
+
+export interface EntitlementGrantRevokedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: EntitlementGrantRevokedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'entitlement_grant.revoked';
+}
+
+export namespace EntitlementGrantRevokedWebhookEvent {
+  export interface Data {
+    id: string;
+
+    business_id: string;
+
+    created_at: string;
+
+    customer_id: string;
+
+    entitlement_id: string;
+
+    external_id: string;
+
+    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
+
+    updated_at: string;
+
+    delivered_at?: string | null;
+
+    /**
+     * Present only when the entitlement integration_type is `digital_files`. Populated
+     * eagerly on every list and single-record endpoint.
+     */
+    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
+
+    error_code?: string | null;
+
+    error_message?: string | null;
+
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    license_key?: Data.LicenseKey | null;
+
+    metadata?: unknown;
+
+    oauth_expires_at?: string | null;
+
+    oauth_url?: string | null;
+
+    payment_id?: string | null;
+
+    revocation_reason?: string | null;
+
+    revoked_at?: string | null;
+
+    subscription_id?: string | null;
+  }
+
+  export namespace Data {
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    export interface LicenseKey {
+      activations_used: number;
+
+      key: string;
+
+      activations_limit?: number | null;
+
+      expires_at?: string | null;
+    }
   }
 }
 
@@ -1770,6 +2495,7 @@ export type UnsafeUnwrapWebhookEvent =
   | CreditExpiredWebhookEvent
   | CreditManualAdjustmentWebhookEvent
   | CreditOverageChargedWebhookEvent
+  | CreditOverageResetWebhookEvent
   | CreditRolledOverWebhookEvent
   | CreditRolloverForfeitedWebhookEvent
   | DisputeAcceptedWebhookEvent
@@ -1781,6 +2507,10 @@ export type UnsafeUnwrapWebhookEvent =
   | DisputeWonWebhookEvent
   | DunningRecoveredWebhookEvent
   | DunningStartedWebhookEvent
+  | EntitlementGrantCreatedWebhookEvent
+  | EntitlementGrantDeliveredWebhookEvent
+  | EntitlementGrantFailedWebhookEvent
+  | EntitlementGrantRevokedWebhookEvent
   | LicenseKeyCreatedWebhookEvent
   | PaymentCancelledWebhookEvent
   | PaymentFailedWebhookEvent
@@ -1806,6 +2536,7 @@ export type UnwrapWebhookEvent =
   | CreditExpiredWebhookEvent
   | CreditManualAdjustmentWebhookEvent
   | CreditOverageChargedWebhookEvent
+  | CreditOverageResetWebhookEvent
   | CreditRolledOverWebhookEvent
   | CreditRolloverForfeitedWebhookEvent
   | DisputeAcceptedWebhookEvent
@@ -1817,6 +2548,10 @@ export type UnwrapWebhookEvent =
   | DisputeWonWebhookEvent
   | DunningRecoveredWebhookEvent
   | DunningStartedWebhookEvent
+  | EntitlementGrantCreatedWebhookEvent
+  | EntitlementGrantDeliveredWebhookEvent
+  | EntitlementGrantFailedWebhookEvent
+  | EntitlementGrantRevokedWebhookEvent
   | LicenseKeyCreatedWebhookEvent
   | PaymentCancelledWebhookEvent
   | PaymentFailedWebhookEvent
@@ -1923,6 +2658,7 @@ export declare namespace Webhooks {
     type CreditExpiredWebhookEvent as CreditExpiredWebhookEvent,
     type CreditManualAdjustmentWebhookEvent as CreditManualAdjustmentWebhookEvent,
     type CreditOverageChargedWebhookEvent as CreditOverageChargedWebhookEvent,
+    type CreditOverageResetWebhookEvent as CreditOverageResetWebhookEvent,
     type CreditRolledOverWebhookEvent as CreditRolledOverWebhookEvent,
     type CreditRolloverForfeitedWebhookEvent as CreditRolloverForfeitedWebhookEvent,
     type DisputeAcceptedWebhookEvent as DisputeAcceptedWebhookEvent,
@@ -1934,6 +2670,10 @@ export declare namespace Webhooks {
     type DisputeWonWebhookEvent as DisputeWonWebhookEvent,
     type DunningRecoveredWebhookEvent as DunningRecoveredWebhookEvent,
     type DunningStartedWebhookEvent as DunningStartedWebhookEvent,
+    type EntitlementGrantCreatedWebhookEvent as EntitlementGrantCreatedWebhookEvent,
+    type EntitlementGrantDeliveredWebhookEvent as EntitlementGrantDeliveredWebhookEvent,
+    type EntitlementGrantFailedWebhookEvent as EntitlementGrantFailedWebhookEvent,
+    type EntitlementGrantRevokedWebhookEvent as EntitlementGrantRevokedWebhookEvent,
     type LicenseKeyCreatedWebhookEvent as LicenseKeyCreatedWebhookEvent,
     type PaymentCancelledWebhookEvent as PaymentCancelledWebhookEvent,
     type PaymentFailedWebhookEvent as PaymentFailedWebhookEvent,

@@ -203,6 +203,7 @@ import {
   CustomerCreateParams,
   CustomerDeletePaymentMethodParams,
   CustomerListCreditEntitlementsResponse,
+  CustomerListEntitlementsResponse,
   CustomerListParams,
   CustomerPortalSession,
   CustomerRetrievePaymentMethodsResponse,
@@ -210,6 +211,17 @@ import {
   Customers,
   CustomersDefaultPageNumberPagination,
 } from './resources/customers/customers';
+import {
+  EntitlementCreateParams,
+  EntitlementCreateResponse,
+  EntitlementListParams,
+  EntitlementListResponse,
+  EntitlementListResponsesDefaultPageNumberPagination,
+  EntitlementRetrieveResponse,
+  EntitlementUpdateParams,
+  EntitlementUpdateResponse,
+  Entitlements,
+} from './resources/entitlements/entitlements';
 import { Invoices } from './resources/invoices/invoices';
 import {
   PayoutListParams,
@@ -245,6 +257,7 @@ import {
   CreditExpiredWebhookEvent,
   CreditManualAdjustmentWebhookEvent,
   CreditOverageChargedWebhookEvent,
+  CreditOverageResetWebhookEvent,
   CreditRolledOverWebhookEvent,
   CreditRolloverForfeitedWebhookEvent,
   DisputeAcceptedWebhookEvent,
@@ -256,6 +269,10 @@ import {
   DisputeWonWebhookEvent,
   DunningRecoveredWebhookEvent,
   DunningStartedWebhookEvent,
+  EntitlementGrantCreatedWebhookEvent,
+  EntitlementGrantDeliveredWebhookEvent,
+  EntitlementGrantFailedWebhookEvent,
+  EntitlementGrantRevokedWebhookEvent,
   LicenseKeyCreatedWebhookEvent,
   PaymentCancelledWebhookEvent,
   PaymentFailedWebhookEvent,
@@ -1074,6 +1091,7 @@ export class DodoPayments {
   meters: API.Meters = new API.Meters(this);
   balances: API.Balances = new API.Balances(this);
   creditEntitlements: API.CreditEntitlements = new API.CreditEntitlements(this);
+  entitlements: API.Entitlements = new API.Entitlements(this);
 }
 
 DodoPayments.CheckoutSessions = CheckoutSessions;
@@ -1098,6 +1116,7 @@ DodoPayments.UsageEvents = UsageEvents;
 DodoPayments.Meters = Meters;
 DodoPayments.Balances = Balances;
 DodoPayments.CreditEntitlements = CreditEntitlements;
+DodoPayments.Entitlements = Entitlements;
 
 export declare namespace DodoPayments {
   export type RequestOptions = Opts.RequestOptions;
@@ -1220,6 +1239,7 @@ export declare namespace DodoPayments {
     type Customer as Customer,
     type CustomerPortalSession as CustomerPortalSession,
     type CustomerListCreditEntitlementsResponse as CustomerListCreditEntitlementsResponse,
+    type CustomerListEntitlementsResponse as CustomerListEntitlementsResponse,
     type CustomerRetrievePaymentMethodsResponse as CustomerRetrievePaymentMethodsResponse,
     type CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
     type CustomerCreateParams as CustomerCreateParams,
@@ -1323,6 +1343,7 @@ export declare namespace DodoPayments {
     type CreditExpiredWebhookEvent as CreditExpiredWebhookEvent,
     type CreditManualAdjustmentWebhookEvent as CreditManualAdjustmentWebhookEvent,
     type CreditOverageChargedWebhookEvent as CreditOverageChargedWebhookEvent,
+    type CreditOverageResetWebhookEvent as CreditOverageResetWebhookEvent,
     type CreditRolledOverWebhookEvent as CreditRolledOverWebhookEvent,
     type CreditRolloverForfeitedWebhookEvent as CreditRolloverForfeitedWebhookEvent,
     type DisputeAcceptedWebhookEvent as DisputeAcceptedWebhookEvent,
@@ -1334,6 +1355,10 @@ export declare namespace DodoPayments {
     type DisputeWonWebhookEvent as DisputeWonWebhookEvent,
     type DunningRecoveredWebhookEvent as DunningRecoveredWebhookEvent,
     type DunningStartedWebhookEvent as DunningStartedWebhookEvent,
+    type EntitlementGrantCreatedWebhookEvent as EntitlementGrantCreatedWebhookEvent,
+    type EntitlementGrantDeliveredWebhookEvent as EntitlementGrantDeliveredWebhookEvent,
+    type EntitlementGrantFailedWebhookEvent as EntitlementGrantFailedWebhookEvent,
+    type EntitlementGrantRevokedWebhookEvent as EntitlementGrantRevokedWebhookEvent,
     type LicenseKeyCreatedWebhookEvent as LicenseKeyCreatedWebhookEvent,
     type PaymentCancelledWebhookEvent as PaymentCancelledWebhookEvent,
     type PaymentFailedWebhookEvent as PaymentFailedWebhookEvent,
@@ -1400,5 +1425,17 @@ export declare namespace DodoPayments {
     type CreditEntitlementCreateParams as CreditEntitlementCreateParams,
     type CreditEntitlementUpdateParams as CreditEntitlementUpdateParams,
     type CreditEntitlementListParams as CreditEntitlementListParams,
+  };
+
+  export {
+    Entitlements as Entitlements,
+    type EntitlementCreateResponse as EntitlementCreateResponse,
+    type EntitlementRetrieveResponse as EntitlementRetrieveResponse,
+    type EntitlementUpdateResponse as EntitlementUpdateResponse,
+    type EntitlementListResponse as EntitlementListResponse,
+    type EntitlementListResponsesDefaultPageNumberPagination as EntitlementListResponsesDefaultPageNumberPagination,
+    type EntitlementCreateParams as EntitlementCreateParams,
+    type EntitlementUpdateParams as EntitlementUpdateParams,
+    type EntitlementListParams as EntitlementListParams,
   };
 }

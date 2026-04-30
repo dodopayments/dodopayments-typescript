@@ -179,6 +179,72 @@
           "type": "options"
         }
       ]
+    },
+    {
+      "base": "entitlements.files",
+      "name": "delete",
+      "params": [
+        {
+          "type": "param",
+          "key": "file_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "file_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "entitlements.grants",
+      "name": "revoke",
+      "params": [
+        {
+          "type": "param",
+          "key": "grant_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "grant_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
     }
   ]
 }

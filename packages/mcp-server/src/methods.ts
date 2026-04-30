@@ -227,6 +227,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/customers/{customer_id}/credit-entitlements',
   },
   {
+    clientCallName: 'client.customers.listEntitlements',
+    fullyQualifiedName: 'customers.listEntitlements',
+    httpMethod: 'get',
+    httpPath: '/customers/{customer_id}/entitlements',
+  },
+  {
     clientCallName: 'client.customers.retrievePaymentMethods',
     fullyQualifiedName: 'customers.retrievePaymentMethods',
     httpMethod: 'get',
@@ -641,6 +647,60 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'creditEntitlements.balances.listLedger',
     httpMethod: 'get',
     httpPath: '/credit-entitlements/{credit_entitlement_id}/balances/{customer_id}/ledger',
+  },
+  {
+    clientCallName: 'client.entitlements.create',
+    fullyQualifiedName: 'entitlements.create',
+    httpMethod: 'post',
+    httpPath: '/entitlements',
+  },
+  {
+    clientCallName: 'client.entitlements.retrieve',
+    fullyQualifiedName: 'entitlements.retrieve',
+    httpMethod: 'get',
+    httpPath: '/entitlements/{id}',
+  },
+  {
+    clientCallName: 'client.entitlements.update',
+    fullyQualifiedName: 'entitlements.update',
+    httpMethod: 'patch',
+    httpPath: '/entitlements/{id}',
+  },
+  {
+    clientCallName: 'client.entitlements.list',
+    fullyQualifiedName: 'entitlements.list',
+    httpMethod: 'get',
+    httpPath: '/entitlements',
+  },
+  {
+    clientCallName: 'client.entitlements.delete',
+    fullyQualifiedName: 'entitlements.delete',
+    httpMethod: 'delete',
+    httpPath: '/entitlements/{id}',
+  },
+  {
+    clientCallName: 'client.entitlements.files.delete',
+    fullyQualifiedName: 'entitlements.files.delete',
+    httpMethod: 'delete',
+    httpPath: '/entitlements/{id}/files/{file_id}',
+  },
+  {
+    clientCallName: 'client.entitlements.files.upload',
+    fullyQualifiedName: 'entitlements.files.upload',
+    httpMethod: 'post',
+    httpPath: '/entitlements/{id}/files',
+  },
+  {
+    clientCallName: 'client.entitlements.grants.list',
+    fullyQualifiedName: 'entitlements.grants.list',
+    httpMethod: 'get',
+    httpPath: '/entitlements/{id}/grants',
+  },
+  {
+    clientCallName: 'client.entitlements.grants.revoke',
+    fullyQualifiedName: 'entitlements.grants.revoke',
+    httpMethod: 'delete',
+    httpPath: '/entitlements/{id}/grants/{grant_id}',
   },
 ];
 

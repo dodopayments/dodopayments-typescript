@@ -54,6 +54,7 @@ export {
   type Customer,
   type CustomerPortalSession,
   type CustomerListCreditEntitlementsResponse,
+  type CustomerListEntitlementsResponse,
   type CustomerRetrievePaymentMethodsResponse,
   type CustomerCreateParams,
   type CustomerUpdateParams,
@@ -80,6 +81,17 @@ export {
   type DisputeListParams,
   type DisputeListResponsesDefaultPageNumberPagination,
 } from './disputes';
+export {
+  Entitlements,
+  type EntitlementCreateResponse,
+  type EntitlementRetrieveResponse,
+  type EntitlementUpdateResponse,
+  type EntitlementListResponse,
+  type EntitlementCreateParams,
+  type EntitlementUpdateParams,
+  type EntitlementListParams,
+  type EntitlementListResponsesDefaultPageNumberPagination,
+} from './entitlements/entitlements';
 export { Invoices } from './invoices/invoices';
 export {
   LicenseKeyInstances,
@@ -230,6 +242,7 @@ export {
   type CreditExpiredWebhookEvent,
   type CreditManualAdjustmentWebhookEvent,
   type CreditOverageChargedWebhookEvent,
+  type CreditOverageResetWebhookEvent,
   type CreditRolledOverWebhookEvent,
   type CreditRolloverForfeitedWebhookEvent,
   type DisputeAcceptedWebhookEvent,
@@ -241,6 +254,10 @@ export {
   type DisputeWonWebhookEvent,
   type DunningRecoveredWebhookEvent,
   type DunningStartedWebhookEvent,
+  type EntitlementGrantCreatedWebhookEvent,
+  type EntitlementGrantDeliveredWebhookEvent,
+  type EntitlementGrantFailedWebhookEvent,
+  type EntitlementGrantRevokedWebhookEvent,
   type LicenseKeyCreatedWebhookEvent,
   type PaymentCancelledWebhookEvent,
   type PaymentFailedWebhookEvent,
