@@ -83,14 +83,14 @@ export {
 } from './disputes';
 export {
   Entitlements,
-  type EntitlementCreateResponse,
-  type EntitlementRetrieveResponse,
-  type EntitlementUpdateResponse,
-  type EntitlementListResponse,
+  type Entitlement,
+  type EntitlementIntegrationType,
+  type IntegrationConfig,
+  type IntegrationConfigResponse,
   type EntitlementCreateParams,
   type EntitlementUpdateParams,
   type EntitlementListParams,
-  type EntitlementListResponsesDefaultPageNumberPagination,
+  type EntitlementsDefaultPageNumberPagination,
 } from './entitlements/entitlements';
 export { Invoices } from './invoices/invoices';
 export {
@@ -168,6 +168,7 @@ export {
   Products,
   type AddMeterToPrice,
   type AttachCreditEntitlement,
+  type AttachProductEntitlement,
   type CbbProrationBehavior,
   type CreditEntitlementMappingResponse,
   type DigitalProductDelivery,
@@ -175,6 +176,7 @@ export {
   type LicenseKeyDuration,
   type Price,
   type Product,
+  type ProductEntitlementSummary,
   type ProductListResponse,
   type ProductUpdateFilesResponse,
   type ProductCreateParams,
@@ -194,10 +196,12 @@ export {
   Subscriptions,
   type AddonCartResponseItem,
   type AttachAddon,
+  type CancellationFeedback,
   type CreditEntitlementCartResponse,
   type MeterCartResponseItem,
   type MeterCreditEntitlementCartResponse,
   type OnDemandSubscription,
+  type ScheduledPlanChange,
   type Subscription,
   type SubscriptionStatus,
   type TimeInterval,

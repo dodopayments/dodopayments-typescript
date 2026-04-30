@@ -7,7 +7,7 @@ import * as PaymentsAPI from './payments';
 import * as RefundsAPI from './refunds';
 import * as SubscriptionsAPI from './subscriptions';
 import * as BalancesAPI from './credit-entitlements/balances';
-import * as ProductsAPI from './products/products';
+import * as GrantsAPI from './entitlements/grants';
 
 export class WebhookEvents extends APIResource {}
 
@@ -175,70 +175,8 @@ export namespace WebhookPayload {
     payment_id?: string | null;
   }
 
-  export interface EntitlementGrant {
-    id: string;
-
-    business_id: string;
-
-    created_at: string;
-
-    customer_id: string;
-
-    entitlement_id: string;
-
-    external_id: string;
-
+  export interface EntitlementGrant extends GrantsAPI.EntitlementGrant {
     payload_type: 'EntitlementGrant';
-
-    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
-
-    updated_at: string;
-
-    delivered_at?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `digital_files`. Populated
-     * eagerly on every list and single-record endpoint.
-     */
-    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
-
-    error_code?: string | null;
-
-    error_message?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    license_key?: EntitlementGrant.LicenseKey | null;
-
-    metadata?: unknown;
-
-    oauth_expires_at?: string | null;
-
-    oauth_url?: string | null;
-
-    payment_id?: string | null;
-
-    revocation_reason?: string | null;
-
-    revoked_at?: string | null;
-
-    subscription_id?: string | null;
-  }
-
-  export namespace EntitlementGrant {
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    export interface LicenseKey {
-      activations_used: number;
-
-      key: string;
-
-      activations_limit?: number | null;
-
-      expires_at?: string | null;
-    }
   }
 }
 

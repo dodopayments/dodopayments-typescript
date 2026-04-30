@@ -6,12 +6,12 @@ import * as FilesAPI from './files';
 import { FileDeleteParams, FileUploadResponse, Files } from './files';
 import * as GrantsAPI from './grants';
 import {
+  EntitlementGrant,
+  EntitlementGrantsDefaultPageNumberPagination,
   GrantListParams,
-  GrantListResponse,
-  GrantListResponsesDefaultPageNumberPagination,
   GrantRevokeParams,
-  GrantRevokeResponse,
   Grants,
+  LicenseKeyGrant,
 } from './grants';
 import { APIPromise } from '../../core/api-promise';
 import {
@@ -30,25 +30,21 @@ export class Entitlements extends APIResource {
   /**
    * POST /entitlements
    */
-  create(body: EntitlementCreateParams, options?: RequestOptions): APIPromise<EntitlementCreateResponse> {
+  create(body: EntitlementCreateParams, options?: RequestOptions): APIPromise<Entitlement> {
     return this._client.post('/entitlements', { body, ...options });
   }
 
   /**
    * GET /entitlements/{id}
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<EntitlementRetrieveResponse> {
+  retrieve(id: string, options?: RequestOptions): APIPromise<Entitlement> {
     return this._client.get(path`/entitlements/${id}`, options);
   }
 
   /**
    * PATCH /entitlements/{id}
    */
-  update(
-    id: string,
-    body: EntitlementUpdateParams,
-    options?: RequestOptions,
-  ): APIPromise<EntitlementUpdateResponse> {
+  update(id: string, body: EntitlementUpdateParams, options?: RequestOptions): APIPromise<Entitlement> {
     return this._client.patch(path`/entitlements/${id}`, { body, ...options });
   }
 
@@ -58,8 +54,8 @@ export class Entitlements extends APIResource {
   list(
     query: EntitlementListParams | null | undefined = {},
     options?: RequestOptions,
-  ): PagePromise<EntitlementListResponsesDefaultPageNumberPagination, EntitlementListResponse> {
-    return this._client.getAPIList('/entitlements', DefaultPageNumberPagination<EntitlementListResponse>, {
+  ): PagePromise<EntitlementsDefaultPageNumberPagination, Entitlement> {
+    return this._client.getAPIList('/entitlements', DefaultPageNumberPagination<Entitlement>, {
       query,
       ...options,
     });
@@ -76,10 +72,9 @@ export class Entitlements extends APIResource {
   }
 }
 
-export type EntitlementListResponsesDefaultPageNumberPagination =
-  DefaultPageNumberPagination<EntitlementListResponse>;
+export type EntitlementsDefaultPageNumberPagination = DefaultPageNumberPagination<Entitlement>;
 
-export interface EntitlementCreateResponse {
+export interface Entitlement {
   id: string;
 
   business_id: string;
@@ -92,25 +87,9 @@ export interface EntitlementCreateResponse {
    * `digital_files` object (resolved download URLs etc.). The persisted JSONB stays
    * ID-only via [`IntegrationConfig`]; this enum is response-only.
    */
-  integration_config:
-    | EntitlementCreateResponse.GitHubConfig
-    | EntitlementCreateResponse.DiscordConfig
-    | EntitlementCreateResponse.TelegramConfig
-    | EntitlementCreateResponse.FigmaConfig
-    | EntitlementCreateResponse.FramerConfig
-    | EntitlementCreateResponse.NotionConfig
-    | EntitlementCreateResponse.DigitalFilesConfig
-    | EntitlementCreateResponse.LicenseKeyConfig;
+  integration_config: IntegrationConfigResponse;
 
-  integration_type:
-    | 'discord'
-    | 'telegram'
-    | 'github'
-    | 'figma'
-    | 'framer'
-    | 'notion'
-    | 'digital_files'
-    | 'license_key';
+  integration_type: EntitlementIntegrationType;
 
   is_active: boolean;
 
@@ -123,8 +102,35 @@ export interface EntitlementCreateResponse {
   metadata?: unknown;
 }
 
-export namespace EntitlementCreateResponse {
+export type EntitlementIntegrationType =
+  | 'discord'
+  | 'telegram'
+  | 'github'
+  | 'figma'
+  | 'framer'
+  | 'notion'
+  | 'digital_files'
+  | 'license_key';
+
+/**
+ * Platform-specific configuration for an entitlement. Each variant uses unique
+ * field names so `#[serde(untagged)]` can disambiguate correctly.
+ */
+export type IntegrationConfig =
+  | IntegrationConfig.GitHubConfig
+  | IntegrationConfig.DiscordConfig
+  | IntegrationConfig.TelegramConfig
+  | IntegrationConfig.FigmaConfig
+  | IntegrationConfig.FramerConfig
+  | IntegrationConfig.NotionConfig
+  | IntegrationConfig.DigitalFilesConfig
+  | IntegrationConfig.LicenseKeyConfig;
+
+export namespace IntegrationConfig {
   export interface GitHubConfig {
+    /**
+     * One of: pull, push, admin, maintain, triage
+     */
     permission: string;
 
     target_id: string;
@@ -153,54 +159,23 @@ export namespace EntitlementCreateResponse {
   }
 
   export interface DigitalFilesConfig {
+    digital_file_ids: Array<string>;
+
+    external_url?: string | null;
+
+    instructions?: string | null;
+
     /**
-     * Populated digital-files payload for entitlement read surfaces. Mirrors
-     * `DigitalProductDelivery` but is sourced from an entitlement's
-     * `integration_config` (not a grant) and tags each file with its origin (`legacy`
-     * vs `ee`).
+     * Three-way patchable field (mirrors the credit_entitlements pattern):
+     *
+     * - omitted → preserve persisted (`None`)
+     * - `null` → clear (`Some(None)`)
+     * - `[...]` → replace (`Some(Some(...))`)
+     *
+     * On Create / storage we collapse "clear" and empty-array to `None` so the
+     * persisted JSONB never carries a `null` legacy_file_ids key.
      */
-    digital_files: DigitalFilesConfig.DigitalFiles;
-  }
-
-  export namespace DigitalFilesConfig {
-    /**
-     * Populated digital-files payload for entitlement read surfaces. Mirrors
-     * `DigitalProductDelivery` but is sourced from an entitlement's
-     * `integration_config` (not a grant) and tags each file with its origin (`legacy`
-     * vs `ee`).
-     */
-    export interface DigitalFiles {
-      files: Array<DigitalFiles.File>;
-
-      external_url?: string | null;
-
-      instructions?: string | null;
-    }
-
-    export namespace DigitalFiles {
-      export interface File {
-        download_url: string;
-
-        /**
-         * Seconds until `download_url` expires.
-         */
-        expires_in: number;
-
-        file_id: string;
-
-        filename: string;
-
-        /**
-         * `"legacy"` for files in `product_files`, `"ee"` for files managed by the
-         * Entitlements Engine.
-         */
-        source: string;
-
-        content_type?: string | null;
-
-        file_size?: number | null;
-      }
-    }
+    legacy_file_ids?: Array<string> | null;
   }
 
   export interface LicenseKeyConfig {
@@ -214,321 +189,23 @@ export namespace EntitlementCreateResponse {
   }
 }
 
-export interface EntitlementRetrieveResponse {
-  id: string;
-
-  business_id: string;
-
-  created_at: string;
-
-  /**
-   * Public-facing variant of [`IntegrationConfig`]. Mirrors every variant shape on
-   * the wire EXCEPT `DigitalFiles`, which is replaced with a hydrated
-   * `digital_files` object (resolved download URLs etc.). The persisted JSONB stays
-   * ID-only via [`IntegrationConfig`]; this enum is response-only.
-   */
-  integration_config:
-    | EntitlementRetrieveResponse.GitHubConfig
-    | EntitlementRetrieveResponse.DiscordConfig
-    | EntitlementRetrieveResponse.TelegramConfig
-    | EntitlementRetrieveResponse.FigmaConfig
-    | EntitlementRetrieveResponse.FramerConfig
-    | EntitlementRetrieveResponse.NotionConfig
-    | EntitlementRetrieveResponse.DigitalFilesConfig
-    | EntitlementRetrieveResponse.LicenseKeyConfig;
-
-  integration_type:
-    | 'discord'
-    | 'telegram'
-    | 'github'
-    | 'figma'
-    | 'framer'
-    | 'notion'
-    | 'digital_files'
-    | 'license_key';
-
-  is_active: boolean;
-
-  name: string;
-
-  updated_at: string;
-
-  description?: string | null;
-
-  metadata?: unknown;
-}
-
-export namespace EntitlementRetrieveResponse {
-  export interface GitHubConfig {
-    permission: string;
-
-    target_id: string;
-  }
-
-  export interface DiscordConfig {
-    guild_id: string;
-
-    role_id?: string | null;
-  }
-
-  export interface TelegramConfig {
-    chat_id: string;
-  }
-
-  export interface FigmaConfig {
-    figma_file_id: string;
-  }
-
-  export interface FramerConfig {
-    framer_template_id: string;
-  }
-
-  export interface NotionConfig {
-    notion_template_id: string;
-  }
-
-  export interface DigitalFilesConfig {
-    /**
-     * Populated digital-files payload for entitlement read surfaces. Mirrors
-     * `DigitalProductDelivery` but is sourced from an entitlement's
-     * `integration_config` (not a grant) and tags each file with its origin (`legacy`
-     * vs `ee`).
-     */
-    digital_files: DigitalFilesConfig.DigitalFiles;
-  }
-
-  export namespace DigitalFilesConfig {
-    /**
-     * Populated digital-files payload for entitlement read surfaces. Mirrors
-     * `DigitalProductDelivery` but is sourced from an entitlement's
-     * `integration_config` (not a grant) and tags each file with its origin (`legacy`
-     * vs `ee`).
-     */
-    export interface DigitalFiles {
-      files: Array<DigitalFiles.File>;
-
-      external_url?: string | null;
-
-      instructions?: string | null;
-    }
-
-    export namespace DigitalFiles {
-      export interface File {
-        download_url: string;
-
-        /**
-         * Seconds until `download_url` expires.
-         */
-        expires_in: number;
-
-        file_id: string;
-
-        filename: string;
-
-        /**
-         * `"legacy"` for files in `product_files`, `"ee"` for files managed by the
-         * Entitlements Engine.
-         */
-        source: string;
-
-        content_type?: string | null;
-
-        file_size?: number | null;
-      }
-    }
-  }
-
-  export interface LicenseKeyConfig {
-    activation_message?: string | null;
-
-    activations_limit?: number | null;
-
-    duration_count?: number | null;
-
-    duration_interval?: SubscriptionsAPI.TimeInterval | null;
-  }
-}
-
-export interface EntitlementUpdateResponse {
-  id: string;
-
-  business_id: string;
-
-  created_at: string;
-
-  /**
-   * Public-facing variant of [`IntegrationConfig`]. Mirrors every variant shape on
-   * the wire EXCEPT `DigitalFiles`, which is replaced with a hydrated
-   * `digital_files` object (resolved download URLs etc.). The persisted JSONB stays
-   * ID-only via [`IntegrationConfig`]; this enum is response-only.
-   */
-  integration_config:
-    | EntitlementUpdateResponse.GitHubConfig
-    | EntitlementUpdateResponse.DiscordConfig
-    | EntitlementUpdateResponse.TelegramConfig
-    | EntitlementUpdateResponse.FigmaConfig
-    | EntitlementUpdateResponse.FramerConfig
-    | EntitlementUpdateResponse.NotionConfig
-    | EntitlementUpdateResponse.DigitalFilesConfig
-    | EntitlementUpdateResponse.LicenseKeyConfig;
-
-  integration_type:
-    | 'discord'
-    | 'telegram'
-    | 'github'
-    | 'figma'
-    | 'framer'
-    | 'notion'
-    | 'digital_files'
-    | 'license_key';
-
-  is_active: boolean;
-
-  name: string;
-
-  updated_at: string;
-
-  description?: string | null;
-
-  metadata?: unknown;
-}
-
-export namespace EntitlementUpdateResponse {
-  export interface GitHubConfig {
-    permission: string;
-
-    target_id: string;
-  }
-
-  export interface DiscordConfig {
-    guild_id: string;
-
-    role_id?: string | null;
-  }
-
-  export interface TelegramConfig {
-    chat_id: string;
-  }
-
-  export interface FigmaConfig {
-    figma_file_id: string;
-  }
-
-  export interface FramerConfig {
-    framer_template_id: string;
-  }
-
-  export interface NotionConfig {
-    notion_template_id: string;
-  }
-
-  export interface DigitalFilesConfig {
-    /**
-     * Populated digital-files payload for entitlement read surfaces. Mirrors
-     * `DigitalProductDelivery` but is sourced from an entitlement's
-     * `integration_config` (not a grant) and tags each file with its origin (`legacy`
-     * vs `ee`).
-     */
-    digital_files: DigitalFilesConfig.DigitalFiles;
-  }
-
-  export namespace DigitalFilesConfig {
-    /**
-     * Populated digital-files payload for entitlement read surfaces. Mirrors
-     * `DigitalProductDelivery` but is sourced from an entitlement's
-     * `integration_config` (not a grant) and tags each file with its origin (`legacy`
-     * vs `ee`).
-     */
-    export interface DigitalFiles {
-      files: Array<DigitalFiles.File>;
-
-      external_url?: string | null;
-
-      instructions?: string | null;
-    }
-
-    export namespace DigitalFiles {
-      export interface File {
-        download_url: string;
-
-        /**
-         * Seconds until `download_url` expires.
-         */
-        expires_in: number;
-
-        file_id: string;
-
-        filename: string;
-
-        /**
-         * `"legacy"` for files in `product_files`, `"ee"` for files managed by the
-         * Entitlements Engine.
-         */
-        source: string;
-
-        content_type?: string | null;
-
-        file_size?: number | null;
-      }
-    }
-  }
-
-  export interface LicenseKeyConfig {
-    activation_message?: string | null;
-
-    activations_limit?: number | null;
-
-    duration_count?: number | null;
-
-    duration_interval?: SubscriptionsAPI.TimeInterval | null;
-  }
-}
-
-export interface EntitlementListResponse {
-  id: string;
-
-  business_id: string;
-
-  created_at: string;
-
-  /**
-   * Public-facing variant of [`IntegrationConfig`]. Mirrors every variant shape on
-   * the wire EXCEPT `DigitalFiles`, which is replaced with a hydrated
-   * `digital_files` object (resolved download URLs etc.). The persisted JSONB stays
-   * ID-only via [`IntegrationConfig`]; this enum is response-only.
-   */
-  integration_config:
-    | EntitlementListResponse.GitHubConfig
-    | EntitlementListResponse.DiscordConfig
-    | EntitlementListResponse.TelegramConfig
-    | EntitlementListResponse.FigmaConfig
-    | EntitlementListResponse.FramerConfig
-    | EntitlementListResponse.NotionConfig
-    | EntitlementListResponse.DigitalFilesConfig
-    | EntitlementListResponse.LicenseKeyConfig;
-
-  integration_type:
-    | 'discord'
-    | 'telegram'
-    | 'github'
-    | 'figma'
-    | 'framer'
-    | 'notion'
-    | 'digital_files'
-    | 'license_key';
-
-  is_active: boolean;
-
-  name: string;
-
-  updated_at: string;
-
-  description?: string | null;
-
-  metadata?: unknown;
-}
-
-export namespace EntitlementListResponse {
+/**
+ * Public-facing variant of [`IntegrationConfig`]. Mirrors every variant shape on
+ * the wire EXCEPT `DigitalFiles`, which is replaced with a hydrated
+ * `digital_files` object (resolved download URLs etc.). The persisted JSONB stays
+ * ID-only via [`IntegrationConfig`]; this enum is response-only.
+ */
+export type IntegrationConfigResponse =
+  | IntegrationConfigResponse.GitHubConfig
+  | IntegrationConfigResponse.DiscordConfig
+  | IntegrationConfigResponse.TelegramConfig
+  | IntegrationConfigResponse.FigmaConfig
+  | IntegrationConfigResponse.FramerConfig
+  | IntegrationConfigResponse.NotionConfig
+  | IntegrationConfigResponse.DigitalFilesConfig
+  | IntegrationConfigResponse.LicenseKeyConfig;
+
+export namespace IntegrationConfigResponse {
   export interface GitHubConfig {
     permission: string;
 
@@ -623,28 +300,12 @@ export interface EntitlementCreateParams {
   /**
    * Platform-specific configuration (validated per integration_type)
    */
-  integration_config:
-    | EntitlementCreateParams.GitHubConfig
-    | EntitlementCreateParams.DiscordConfig
-    | EntitlementCreateParams.TelegramConfig
-    | EntitlementCreateParams.FigmaConfig
-    | EntitlementCreateParams.FramerConfig
-    | EntitlementCreateParams.NotionConfig
-    | EntitlementCreateParams.DigitalFilesConfig
-    | EntitlementCreateParams.LicenseKeyConfig;
+  integration_config: IntegrationConfig;
 
   /**
    * Which platform integration this entitlement uses
    */
-  integration_type:
-    | 'discord'
-    | 'telegram'
-    | 'github'
-    | 'figma'
-    | 'framer'
-    | 'notion'
-    | 'digital_files'
-    | 'license_key';
+  integration_type: EntitlementIntegrationType;
 
   /**
    * Display name for this entitlement
@@ -662,69 +323,6 @@ export interface EntitlementCreateParams {
   metadata?: { [key: string]: string } | null;
 }
 
-export namespace EntitlementCreateParams {
-  export interface GitHubConfig {
-    /**
-     * One of: pull, push, admin, maintain, triage
-     */
-    permission: string;
-
-    target_id: string;
-  }
-
-  export interface DiscordConfig {
-    guild_id: string;
-
-    role_id?: string | null;
-  }
-
-  export interface TelegramConfig {
-    chat_id: string;
-  }
-
-  export interface FigmaConfig {
-    figma_file_id: string;
-  }
-
-  export interface FramerConfig {
-    framer_template_id: string;
-  }
-
-  export interface NotionConfig {
-    notion_template_id: string;
-  }
-
-  export interface DigitalFilesConfig {
-    digital_file_ids: Array<string>;
-
-    external_url?: string | null;
-
-    instructions?: string | null;
-
-    /**
-     * Three-way patchable field (mirrors the credit_entitlements pattern):
-     *
-     * - omitted → preserve persisted (`None`)
-     * - `null` → clear (`Some(None)`)
-     * - `[...]` → replace (`Some(Some(...))`)
-     *
-     * On Create / storage we collapse "clear" and empty-array to `None` so the
-     * persisted JSONB never carries a `null` legacy_file_ids key.
-     */
-    legacy_file_ids?: Array<string> | null;
-  }
-
-  export interface LicenseKeyConfig {
-    activation_message?: string | null;
-
-    activations_limit?: number | null;
-
-    duration_count?: number | null;
-
-    duration_interval?: SubscriptionsAPI.TimeInterval | null;
-  }
-}
-
 export interface EntitlementUpdateParams {
   description?: string | null;
 
@@ -732,83 +330,11 @@ export interface EntitlementUpdateParams {
    * Platform-specific configuration for an entitlement. Each variant uses unique
    * field names so `#[serde(untagged)]` can disambiguate correctly.
    */
-  integration_config?:
-    | EntitlementUpdateParams.GitHubConfig
-    | EntitlementUpdateParams.DiscordConfig
-    | EntitlementUpdateParams.TelegramConfig
-    | EntitlementUpdateParams.FigmaConfig
-    | EntitlementUpdateParams.FramerConfig
-    | EntitlementUpdateParams.NotionConfig
-    | EntitlementUpdateParams.DigitalFilesConfig
-    | EntitlementUpdateParams.LicenseKeyConfig
-    | null;
+  integration_config?: IntegrationConfig | null;
 
   metadata?: { [key: string]: string } | null;
 
   name?: string | null;
-}
-
-export namespace EntitlementUpdateParams {
-  export interface GitHubConfig {
-    /**
-     * One of: pull, push, admin, maintain, triage
-     */
-    permission: string;
-
-    target_id: string;
-  }
-
-  export interface DiscordConfig {
-    guild_id: string;
-
-    role_id?: string | null;
-  }
-
-  export interface TelegramConfig {
-    chat_id: string;
-  }
-
-  export interface FigmaConfig {
-    figma_file_id: string;
-  }
-
-  export interface FramerConfig {
-    framer_template_id: string;
-  }
-
-  export interface NotionConfig {
-    notion_template_id: string;
-  }
-
-  export interface DigitalFilesConfig {
-    digital_file_ids: Array<string>;
-
-    external_url?: string | null;
-
-    instructions?: string | null;
-
-    /**
-     * Three-way patchable field (mirrors the credit_entitlements pattern):
-     *
-     * - omitted → preserve persisted (`None`)
-     * - `null` → clear (`Some(None)`)
-     * - `[...]` → replace (`Some(Some(...))`)
-     *
-     * On Create / storage we collapse "clear" and empty-array to `None` so the
-     * persisted JSONB never carries a `null` legacy_file_ids key.
-     */
-    legacy_file_ids?: Array<string> | null;
-  }
-
-  export interface LicenseKeyConfig {
-    activation_message?: string | null;
-
-    activations_limit?: number | null;
-
-    duration_count?: number | null;
-
-    duration_interval?: SubscriptionsAPI.TimeInterval | null;
-  }
 }
 
 export interface EntitlementListParams extends DefaultPageNumberPaginationParams {
@@ -831,11 +357,11 @@ Entitlements.Grants = Grants;
 
 export declare namespace Entitlements {
   export {
-    type EntitlementCreateResponse as EntitlementCreateResponse,
-    type EntitlementRetrieveResponse as EntitlementRetrieveResponse,
-    type EntitlementUpdateResponse as EntitlementUpdateResponse,
-    type EntitlementListResponse as EntitlementListResponse,
-    type EntitlementListResponsesDefaultPageNumberPagination as EntitlementListResponsesDefaultPageNumberPagination,
+    type Entitlement as Entitlement,
+    type EntitlementIntegrationType as EntitlementIntegrationType,
+    type IntegrationConfig as IntegrationConfig,
+    type IntegrationConfigResponse as IntegrationConfigResponse,
+    type EntitlementsDefaultPageNumberPagination as EntitlementsDefaultPageNumberPagination,
     type EntitlementCreateParams as EntitlementCreateParams,
     type EntitlementUpdateParams as EntitlementUpdateParams,
     type EntitlementListParams as EntitlementListParams,
@@ -849,9 +375,9 @@ export declare namespace Entitlements {
 
   export {
     Grants as Grants,
-    type GrantListResponse as GrantListResponse,
-    type GrantRevokeResponse as GrantRevokeResponse,
-    type GrantListResponsesDefaultPageNumberPagination as GrantListResponsesDefaultPageNumberPagination,
+    type EntitlementGrant as EntitlementGrant,
+    type LicenseKeyGrant as LicenseKeyGrant,
+    type EntitlementGrantsDefaultPageNumberPagination as EntitlementGrantsDefaultPageNumberPagination,
     type GrantListParams as GrantListParams,
     type GrantRevokeParams as GrantRevokeParams,
   };
