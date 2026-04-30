@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.30.0 (2026-04-30)
+
+Full Changelog: [v2.29.1...v2.30.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.29.1...v2.30.0)
+
+### Features
+
+* **api:** added more models to make the dx easy ([eac71ff](https://github.com/dodopayments/dodopayments-typescript/commit/eac71ffba93609b6e460a13a63f3e18b8430f791))
+* **api:** updated openapi spec to v1.97.5 ([3c4e7a5](https://github.com/dodopayments/dodopayments-typescript/commit/3c4e7a5dd4a2e6982205bc4e8d0cd6f0c2678a24))
+
+
+### Chores
+
+* avoid formatting file that gets changed during releases ([16c9e78](https://github.com/dodopayments/dodopayments-typescript/commit/16c9e789fa594a3e5f945b609c1512505f3be59e))
+* **format:** run eslint and prettier separately ([0d82378](https://github.com/dodopayments/dodopayments-typescript/commit/0d823786e1f3620ce8ff42416805fd679f9bdf51))
+
 ## 2.29.1 (2026-04-29)
 
 Full Changelog: [v2.29.0...v2.29.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.29.0...v2.29.1)
