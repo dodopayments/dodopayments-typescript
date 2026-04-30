@@ -2,21 +2,21 @@
 
 export {
   Entitlements,
-  type EntitlementCreateResponse,
-  type EntitlementRetrieveResponse,
-  type EntitlementUpdateResponse,
-  type EntitlementListResponse,
+  type Entitlement,
+  type EntitlementIntegrationType,
+  type IntegrationConfig,
+  type IntegrationConfigResponse,
   type EntitlementCreateParams,
   type EntitlementUpdateParams,
   type EntitlementListParams,
-  type EntitlementListResponsesDefaultPageNumberPagination,
+  type EntitlementsDefaultPageNumberPagination,
 } from './entitlements';
 export { Files, type FileUploadResponse, type FileDeleteParams } from './files';
 export {
   Grants,
-  type GrantListResponse,
-  type GrantRevokeResponse,
+  type EntitlementGrant,
+  type LicenseKeyGrant,
   type GrantListParams,
   type GrantRevokeParams,
-  type GrantListResponsesDefaultPageNumberPagination,
+  type EntitlementGrantsDefaultPageNumberPagination,
 } from './grants';

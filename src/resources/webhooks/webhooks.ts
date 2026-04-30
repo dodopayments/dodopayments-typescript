@@ -8,7 +8,7 @@ import * as RefundsAPI from '../refunds';
 import * as SubscriptionsAPI from '../subscriptions';
 import * as WebhookEventsAPI from '../webhook-events';
 import * as BalancesAPI from '../credit-entitlements/balances';
-import * as ProductsAPI from '../products/products';
+import * as GrantsAPI from '../entitlements/grants';
 import * as HeadersAPI from './headers';
 import { HeaderRetrieveResponse, HeaderUpdateParams, Headers } from './headers';
 import { Webhook } from 'standardwebhooks';
@@ -672,7 +672,7 @@ export interface EntitlementGrantCreatedWebhookEvent {
    */
   business_id: string;
 
-  data: EntitlementGrantCreatedWebhookEvent.Data;
+  data: GrantsAPI.EntitlementGrant;
 
   /**
    * The timestamp of when the event occurred
@@ -685,79 +685,13 @@ export interface EntitlementGrantCreatedWebhookEvent {
   type: 'entitlement_grant.created';
 }
 
-export namespace EntitlementGrantCreatedWebhookEvent {
-  export interface Data {
-    id: string;
-
-    business_id: string;
-
-    created_at: string;
-
-    customer_id: string;
-
-    entitlement_id: string;
-
-    external_id: string;
-
-    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
-
-    updated_at: string;
-
-    delivered_at?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `digital_files`. Populated
-     * eagerly on every list and single-record endpoint.
-     */
-    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
-
-    error_code?: string | null;
-
-    error_message?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    license_key?: Data.LicenseKey | null;
-
-    metadata?: unknown;
-
-    oauth_expires_at?: string | null;
-
-    oauth_url?: string | null;
-
-    payment_id?: string | null;
-
-    revocation_reason?: string | null;
-
-    revoked_at?: string | null;
-
-    subscription_id?: string | null;
-  }
-
-  export namespace Data {
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    export interface LicenseKey {
-      activations_used: number;
-
-      key: string;
-
-      activations_limit?: number | null;
-
-      expires_at?: string | null;
-    }
-  }
-}
-
 export interface EntitlementGrantDeliveredWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  data: EntitlementGrantDeliveredWebhookEvent.Data;
+  data: GrantsAPI.EntitlementGrant;
 
   /**
    * The timestamp of when the event occurred
@@ -770,79 +704,13 @@ export interface EntitlementGrantDeliveredWebhookEvent {
   type: 'entitlement_grant.delivered';
 }
 
-export namespace EntitlementGrantDeliveredWebhookEvent {
-  export interface Data {
-    id: string;
-
-    business_id: string;
-
-    created_at: string;
-
-    customer_id: string;
-
-    entitlement_id: string;
-
-    external_id: string;
-
-    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
-
-    updated_at: string;
-
-    delivered_at?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `digital_files`. Populated
-     * eagerly on every list and single-record endpoint.
-     */
-    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
-
-    error_code?: string | null;
-
-    error_message?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    license_key?: Data.LicenseKey | null;
-
-    metadata?: unknown;
-
-    oauth_expires_at?: string | null;
-
-    oauth_url?: string | null;
-
-    payment_id?: string | null;
-
-    revocation_reason?: string | null;
-
-    revoked_at?: string | null;
-
-    subscription_id?: string | null;
-  }
-
-  export namespace Data {
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    export interface LicenseKey {
-      activations_used: number;
-
-      key: string;
-
-      activations_limit?: number | null;
-
-      expires_at?: string | null;
-    }
-  }
-}
-
 export interface EntitlementGrantFailedWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  data: EntitlementGrantFailedWebhookEvent.Data;
+  data: GrantsAPI.EntitlementGrant;
 
   /**
    * The timestamp of when the event occurred
@@ -855,79 +723,13 @@ export interface EntitlementGrantFailedWebhookEvent {
   type: 'entitlement_grant.failed';
 }
 
-export namespace EntitlementGrantFailedWebhookEvent {
-  export interface Data {
-    id: string;
-
-    business_id: string;
-
-    created_at: string;
-
-    customer_id: string;
-
-    entitlement_id: string;
-
-    external_id: string;
-
-    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
-
-    updated_at: string;
-
-    delivered_at?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `digital_files`. Populated
-     * eagerly on every list and single-record endpoint.
-     */
-    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
-
-    error_code?: string | null;
-
-    error_message?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    license_key?: Data.LicenseKey | null;
-
-    metadata?: unknown;
-
-    oauth_expires_at?: string | null;
-
-    oauth_url?: string | null;
-
-    payment_id?: string | null;
-
-    revocation_reason?: string | null;
-
-    revoked_at?: string | null;
-
-    subscription_id?: string | null;
-  }
-
-  export namespace Data {
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    export interface LicenseKey {
-      activations_used: number;
-
-      key: string;
-
-      activations_limit?: number | null;
-
-      expires_at?: string | null;
-    }
-  }
-}
-
 export interface EntitlementGrantRevokedWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  data: EntitlementGrantRevokedWebhookEvent.Data;
+  data: GrantsAPI.EntitlementGrant;
 
   /**
    * The timestamp of when the event occurred
@@ -938,72 +740,6 @@ export interface EntitlementGrantRevokedWebhookEvent {
    * The event type
    */
   type: 'entitlement_grant.revoked';
-}
-
-export namespace EntitlementGrantRevokedWebhookEvent {
-  export interface Data {
-    id: string;
-
-    business_id: string;
-
-    created_at: string;
-
-    customer_id: string;
-
-    entitlement_id: string;
-
-    external_id: string;
-
-    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
-
-    updated_at: string;
-
-    delivered_at?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `digital_files`. Populated
-     * eagerly on every list and single-record endpoint.
-     */
-    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
-
-    error_code?: string | null;
-
-    error_message?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    license_key?: Data.LicenseKey | null;
-
-    metadata?: unknown;
-
-    oauth_expires_at?: string | null;
-
-    oauth_url?: string | null;
-
-    payment_id?: string | null;
-
-    revocation_reason?: string | null;
-
-    revoked_at?: string | null;
-
-    subscription_id?: string | null;
-  }
-
-  export namespace Data {
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    export interface LicenseKey {
-      activations_used: number;
-
-      key: string;
-
-      activations_limit?: number | null;
-
-      expires_at?: string | null;
-    }
-  }
 }
 
 export interface LicenseKeyCreatedWebhookEvent {
@@ -1843,7 +1579,7 @@ export interface EntitlementGrantCreatedWebhookEvent {
    */
   business_id: string;
 
-  data: EntitlementGrantCreatedWebhookEvent.Data;
+  data: GrantsAPI.EntitlementGrant;
 
   /**
    * The timestamp of when the event occurred
@@ -1856,79 +1592,13 @@ export interface EntitlementGrantCreatedWebhookEvent {
   type: 'entitlement_grant.created';
 }
 
-export namespace EntitlementGrantCreatedWebhookEvent {
-  export interface Data {
-    id: string;
-
-    business_id: string;
-
-    created_at: string;
-
-    customer_id: string;
-
-    entitlement_id: string;
-
-    external_id: string;
-
-    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
-
-    updated_at: string;
-
-    delivered_at?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `digital_files`. Populated
-     * eagerly on every list and single-record endpoint.
-     */
-    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
-
-    error_code?: string | null;
-
-    error_message?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    license_key?: Data.LicenseKey | null;
-
-    metadata?: unknown;
-
-    oauth_expires_at?: string | null;
-
-    oauth_url?: string | null;
-
-    payment_id?: string | null;
-
-    revocation_reason?: string | null;
-
-    revoked_at?: string | null;
-
-    subscription_id?: string | null;
-  }
-
-  export namespace Data {
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    export interface LicenseKey {
-      activations_used: number;
-
-      key: string;
-
-      activations_limit?: number | null;
-
-      expires_at?: string | null;
-    }
-  }
-}
-
 export interface EntitlementGrantDeliveredWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  data: EntitlementGrantDeliveredWebhookEvent.Data;
+  data: GrantsAPI.EntitlementGrant;
 
   /**
    * The timestamp of when the event occurred
@@ -1941,79 +1611,13 @@ export interface EntitlementGrantDeliveredWebhookEvent {
   type: 'entitlement_grant.delivered';
 }
 
-export namespace EntitlementGrantDeliveredWebhookEvent {
-  export interface Data {
-    id: string;
-
-    business_id: string;
-
-    created_at: string;
-
-    customer_id: string;
-
-    entitlement_id: string;
-
-    external_id: string;
-
-    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
-
-    updated_at: string;
-
-    delivered_at?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `digital_files`. Populated
-     * eagerly on every list and single-record endpoint.
-     */
-    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
-
-    error_code?: string | null;
-
-    error_message?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    license_key?: Data.LicenseKey | null;
-
-    metadata?: unknown;
-
-    oauth_expires_at?: string | null;
-
-    oauth_url?: string | null;
-
-    payment_id?: string | null;
-
-    revocation_reason?: string | null;
-
-    revoked_at?: string | null;
-
-    subscription_id?: string | null;
-  }
-
-  export namespace Data {
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    export interface LicenseKey {
-      activations_used: number;
-
-      key: string;
-
-      activations_limit?: number | null;
-
-      expires_at?: string | null;
-    }
-  }
-}
-
 export interface EntitlementGrantFailedWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  data: EntitlementGrantFailedWebhookEvent.Data;
+  data: GrantsAPI.EntitlementGrant;
 
   /**
    * The timestamp of when the event occurred
@@ -2026,79 +1630,13 @@ export interface EntitlementGrantFailedWebhookEvent {
   type: 'entitlement_grant.failed';
 }
 
-export namespace EntitlementGrantFailedWebhookEvent {
-  export interface Data {
-    id: string;
-
-    business_id: string;
-
-    created_at: string;
-
-    customer_id: string;
-
-    entitlement_id: string;
-
-    external_id: string;
-
-    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
-
-    updated_at: string;
-
-    delivered_at?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `digital_files`. Populated
-     * eagerly on every list and single-record endpoint.
-     */
-    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
-
-    error_code?: string | null;
-
-    error_message?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    license_key?: Data.LicenseKey | null;
-
-    metadata?: unknown;
-
-    oauth_expires_at?: string | null;
-
-    oauth_url?: string | null;
-
-    payment_id?: string | null;
-
-    revocation_reason?: string | null;
-
-    revoked_at?: string | null;
-
-    subscription_id?: string | null;
-  }
-
-  export namespace Data {
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    export interface LicenseKey {
-      activations_used: number;
-
-      key: string;
-
-      activations_limit?: number | null;
-
-      expires_at?: string | null;
-    }
-  }
-}
-
 export interface EntitlementGrantRevokedWebhookEvent {
   /**
    * The business identifier
    */
   business_id: string;
 
-  data: EntitlementGrantRevokedWebhookEvent.Data;
+  data: GrantsAPI.EntitlementGrant;
 
   /**
    * The timestamp of when the event occurred
@@ -2109,72 +1647,6 @@ export interface EntitlementGrantRevokedWebhookEvent {
    * The event type
    */
   type: 'entitlement_grant.revoked';
-}
-
-export namespace EntitlementGrantRevokedWebhookEvent {
-  export interface Data {
-    id: string;
-
-    business_id: string;
-
-    created_at: string;
-
-    customer_id: string;
-
-    entitlement_id: string;
-
-    external_id: string;
-
-    status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
-
-    updated_at: string;
-
-    delivered_at?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `digital_files`. Populated
-     * eagerly on every list and single-record endpoint.
-     */
-    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
-
-    error_code?: string | null;
-
-    error_message?: string | null;
-
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    license_key?: Data.LicenseKey | null;
-
-    metadata?: unknown;
-
-    oauth_expires_at?: string | null;
-
-    oauth_url?: string | null;
-
-    payment_id?: string | null;
-
-    revocation_reason?: string | null;
-
-    revoked_at?: string | null;
-
-    subscription_id?: string | null;
-  }
-
-  export namespace Data {
-    /**
-     * Present only when the entitlement integration_type is `license_key`.
-     */
-    export interface LicenseKey {
-      activations_used: number;
-
-      key: string;
-
-      activations_limit?: number | null;
-
-      expires_at?: string | null;
-    }
-  }
 }
 
 export interface LicenseKeyCreatedWebhookEvent {
