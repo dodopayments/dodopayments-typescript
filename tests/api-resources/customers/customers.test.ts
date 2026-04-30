@@ -108,6 +108,17 @@ describe('resource customers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('listEntitlements', async () => {
+    const responsePromise = client.customers.listEntitlements('customer_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
   test('retrievePaymentMethods', async () => {
     const responsePromise = client.customers.retrievePaymentMethods('customer_id');
     const rawResponse = await responsePromise.asResponse();

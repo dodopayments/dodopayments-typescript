@@ -80,6 +80,11 @@ export interface LicenseKeyInstanceUpdateParams {
 
 export interface LicenseKeyInstanceListParams extends DefaultPageNumberPaginationParams {
   /**
+   * Filter instances by entitlement grant ID
+   */
+  grant_id?: string | null;
+
+  /**
    * Filter by license key ID
    */
   license_key_id?: string | null;

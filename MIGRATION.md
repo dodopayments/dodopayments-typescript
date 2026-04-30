@@ -59,6 +59,8 @@ This affects the following methods:
 - `client.creditEntitlements.balances.createLedgerEntry()`
 - `client.creditEntitlements.balances.listGrants()`
 - `client.creditEntitlements.balances.listLedger()`
+- `client.entitlements.files.delete()`
+- `client.entitlements.grants.revoke()`
 
 ### URI encoded path parameters
 
@@ -114,6 +116,8 @@ client.example.list(undefined, { headers: { ... } });
 - `client.balances.retrieveLedger()`
 - `client.creditEntitlements.list()`
 - `client.creditEntitlements.balances.list()`
+- `client.entitlements.list()`
+- `client.entitlements.grants.list()`
 
 </details>
 

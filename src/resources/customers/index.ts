@@ -6,6 +6,7 @@ export {
   type Customer,
   type CustomerPortalSession,
   type CustomerListCreditEntitlementsResponse,
+  type CustomerListEntitlementsResponse,
   type CustomerRetrievePaymentMethodsResponse,
   type CustomerCreateParams,
   type CustomerUpdateParams,

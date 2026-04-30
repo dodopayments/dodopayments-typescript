@@ -7,6 +7,7 @@ import * as PaymentsAPI from './payments';
 import * as RefundsAPI from './refunds';
 import * as SubscriptionsAPI from './subscriptions';
 import * as BalancesAPI from './credit-entitlements/balances';
+import * as ProductsAPI from './products/products';
 
 export class WebhookEvents extends APIResource {}
 
@@ -47,6 +48,7 @@ export type WebhookEventType =
   | 'credit.rolled_over'
   | 'credit.rollover_forfeited'
   | 'credit.overage_charged'
+  | 'credit.overage_reset'
   | 'credit.manual_adjustment'
   | 'credit.balance_low'
   | 'abandoned_checkout.detected'
@@ -194,19 +196,20 @@ export namespace WebhookPayload {
 
     delivered_at?: string | null;
 
+    /**
+     * Present only when the entitlement integration_type is `digital_files`. Populated
+     * eagerly on every list and single-record endpoint.
+     */
+    digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
+
     error_code?: string | null;
 
     error_message?: string | null;
 
-    license_key?: string | null;
-
-    license_key_activations_limit?: number | null;
-
-    license_key_activations_used?: number | null;
-
-    license_key_expires_at?: string | null;
-
-    license_key_status?: string | null;
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    license_key?: EntitlementGrant.LicenseKey | null;
 
     metadata?: unknown;
 
@@ -221,6 +224,21 @@ export namespace WebhookPayload {
     revoked_at?: string | null;
 
     subscription_id?: string | null;
+  }
+
+  export namespace EntitlementGrant {
+    /**
+     * Present only when the entitlement integration_type is `license_key`.
+     */
+    export interface LicenseKey {
+      activations_used: number;
+
+      key: string;
+
+      activations_limit?: number | null;
+
+      expires_at?: string | null;
+    }
   }
 }
 

@@ -237,6 +237,7 @@ export interface CreditLedgerEntry {
     | 'credit_rolled_over'
     | 'rollover_forfeited'
     | 'overage_charged'
+    | 'overage_reset'
     | 'auto_top_up'
     | 'manual_adjustment'
     | 'refund';

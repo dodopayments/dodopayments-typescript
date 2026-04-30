@@ -140,6 +140,7 @@ Types:
 - <code><a href="./src/resources/customers/customers.ts">Customer</a></code>
 - <code><a href="./src/resources/customers/customers.ts">CustomerPortalSession</a></code>
 - <code><a href="./src/resources/customers/customers.ts">CustomerListCreditEntitlementsResponse</a></code>
+- <code><a href="./src/resources/customers/customers.ts">CustomerListEntitlementsResponse</a></code>
 - <code><a href="./src/resources/customers/customers.ts">CustomerRetrievePaymentMethodsResponse</a></code>
 
 Methods:
@@ -150,6 +151,7 @@ Methods:
 - <code title="get /customers">client.customers.<a href="./src/resources/customers/customers.ts">list</a>({ ...params }) -> CustomersDefaultPageNumberPagination</code>
 - <code title="delete /customers/{customer_id}/payment-methods/{payment_method_id}">client.customers.<a href="./src/resources/customers/customers.ts">deletePaymentMethod</a>(paymentMethodID, { ...params }) -> void</code>
 - <code title="get /customers/{customer_id}/credit-entitlements">client.customers.<a href="./src/resources/customers/customers.ts">listCreditEntitlements</a>(customerID) -> CustomerListCreditEntitlementsResponse</code>
+- <code title="get /customers/{customer_id}/entitlements">client.customers.<a href="./src/resources/customers/customers.ts">listEntitlements</a>(customerID) -> CustomerListEntitlementsResponse</code>
 - <code title="get /customers/{customer_id}/payment-methods">client.customers.<a href="./src/resources/customers/customers.ts">retrievePaymentMethods</a>(customerID) -> CustomerRetrievePaymentMethodsResponse</code>
 
 ## CustomerPortal
@@ -361,6 +363,7 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">CreditExpiredWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">CreditManualAdjustmentWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">CreditOverageChargedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditOverageResetWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">CreditRolledOverWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">CreditRolloverForfeitedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeAcceptedWebhookEvent</a></code>
@@ -372,6 +375,10 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeWonWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DunningRecoveredWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DunningStartedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">EntitlementGrantCreatedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">EntitlementGrantDeliveredWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">EntitlementGrantFailedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">EntitlementGrantRevokedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">LicenseKeyCreatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentCancelledWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentFailedWebhookEvent</a></code>
@@ -395,6 +402,7 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">CreditExpiredWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">CreditManualAdjustmentWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">CreditOverageChargedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">CreditOverageResetWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">CreditRolledOverWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">CreditRolloverForfeitedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeAcceptedWebhookEvent</a></code>
@@ -406,6 +414,10 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">DisputeWonWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DunningRecoveredWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">DunningStartedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">EntitlementGrantCreatedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">EntitlementGrantDeliveredWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">EntitlementGrantFailedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">EntitlementGrantRevokedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">LicenseKeyCreatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentCancelledWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentFailedWebhookEvent</a></code>
@@ -528,3 +540,43 @@ Methods:
 - <code title="post /credit-entitlements/{credit_entitlement_id}/balances/{customer_id}/ledger-entries">client.creditEntitlements.balances.<a href="./src/resources/credit-entitlements/balances.ts">createLedgerEntry</a>(customerID, { ...params }) -> BalanceCreateLedgerEntryResponse</code>
 - <code title="get /credit-entitlements/{credit_entitlement_id}/balances/{customer_id}/grants">client.creditEntitlements.balances.<a href="./src/resources/credit-entitlements/balances.ts">listGrants</a>(customerID, { ...params }) -> BalanceListGrantsResponsesDefaultPageNumberPagination</code>
 - <code title="get /credit-entitlements/{credit_entitlement_id}/balances/{customer_id}/ledger">client.creditEntitlements.balances.<a href="./src/resources/credit-entitlements/balances.ts">listLedger</a>(customerID, { ...params }) -> CreditLedgerEntriesDefaultPageNumberPagination</code>
+
+# Entitlements
+
+Types:
+
+- <code><a href="./src/resources/entitlements/entitlements.ts">EntitlementCreateResponse</a></code>
+- <code><a href="./src/resources/entitlements/entitlements.ts">EntitlementRetrieveResponse</a></code>
+- <code><a href="./src/resources/entitlements/entitlements.ts">EntitlementUpdateResponse</a></code>
+- <code><a href="./src/resources/entitlements/entitlements.ts">EntitlementListResponse</a></code>
+
+Methods:
+
+- <code title="post /entitlements">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">create</a>({ ...params }) -> EntitlementCreateResponse</code>
+- <code title="get /entitlements/{id}">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">retrieve</a>(id) -> EntitlementRetrieveResponse</code>
+- <code title="patch /entitlements/{id}">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">update</a>(id, { ...params }) -> EntitlementUpdateResponse</code>
+- <code title="get /entitlements">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">list</a>({ ...params }) -> EntitlementListResponsesDefaultPageNumberPagination</code>
+- <code title="delete /entitlements/{id}">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">delete</a>(id) -> void</code>
+
+## Files
+
+Types:
+
+- <code><a href="./src/resources/entitlements/files.ts">FileUploadResponse</a></code>
+
+Methods:
+
+- <code title="delete /entitlements/{id}/files/{file_id}">client.entitlements.files.<a href="./src/resources/entitlements/files.ts">delete</a>(fileID, { ...params }) -> void</code>
+- <code title="post /entitlements/{id}/files">client.entitlements.files.<a href="./src/resources/entitlements/files.ts">upload</a>(id) -> FileUploadResponse</code>
+
+## Grants
+
+Types:
+
+- <code><a href="./src/resources/entitlements/grants.ts">GrantListResponse</a></code>
+- <code><a href="./src/resources/entitlements/grants.ts">GrantRevokeResponse</a></code>
+
+Methods:
+
+- <code title="get /entitlements/{id}/grants">client.entitlements.grants.<a href="./src/resources/entitlements/grants.ts">list</a>(id, { ...params }) -> GrantListResponsesDefaultPageNumberPagination</code>
+- <code title="delete /entitlements/{id}/grants/{grant_id}">client.entitlements.grants.<a href="./src/resources/entitlements/grants.ts">revoke</a>(grantID, { ...params }) -> GrantRevokeResponse</code>
