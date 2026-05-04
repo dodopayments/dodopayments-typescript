@@ -1,10 +1,15 @@
 import { makeOAuthConsent } from './app';
+// `agents` and `@modelcontextprotocol/sdk` versions must stay in sync with the
+// pins/overrides in package.json. `agents` declares an exact pin on
+// `@modelcontextprotocol/sdk`; if our resolved version drifts, npm installs a
+// second copy under `agents/node_modules/`, and `initMcpServer`'s runtime
+// `instanceof McpServer` check fails because the two `McpServer` classes are
+// distinct constructors.
 import { McpAgent } from 'agents/mcp';
 import OAuthProvider from '@cloudflare/workers-oauth-provider';
-import { Server } from '@modelcontextprotocol/sdk/server/index.js';
-import { initMcpServer } from 'dodopayments-mcp/server';
-import type { McpOptions } from 'dodopayments-mcp/options';
-import type { ClientOptions } from 'dodopayments';
+import { ClientOptions } from 'dodopayments';
+import { McpOptions } from 'dodopayments-mcp/options';
+import { initMcpServer, newMcpServer } from 'dodopayments-mcp/server';
 import type { ExportedHandler } from '@cloudflare/workers-types';
 
 type MCPProps = {
@@ -55,16 +60,17 @@ const serverConfig: ServerConfig = {
 };
 
 export class MyMCP extends McpAgent<Env, unknown, MCPProps> {
-  server = new Server(
-    { name: 'dodopayments-mcp', version: '2.22.1' },
-    { capabilities: { tools: {}, logging: {} } },
-  );
+  server = newMcpServer({});
 
   async init() {
-    await initMcpServer({
-      server: this.server,
-      clientOptions: this.props?.clientProps,
-      mcpOptions: this.props?.clientConfig,
+    if (this.props == null) {
+      throw new Error('MCP props are not initialized');
+    }
+
+    initMcpServer({
+      server: await this.server,
+      clientOptions: this.props.clientProps,
+      mcpOptions: this.props.clientConfig,
     });
   }
 }
