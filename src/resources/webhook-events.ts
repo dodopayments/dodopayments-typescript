@@ -175,6 +175,10 @@ export namespace WebhookPayload {
     payment_id?: string | null;
   }
 
+  /**
+   * Detailed view of a single entitlement grant: who it's for, its lifecycle state,
+   * and any integration-specific delivery payload.
+   */
   export interface EntitlementGrant extends GrantsAPI.EntitlementGrant {
     payload_type: 'EntitlementGrant';
   }

@@ -333,20 +333,34 @@ export interface CreditEntitlementMappingResponse {
 }
 
 /**
- * Digital-product-delivery payload for a grant. Populated for grants whose
- * entitlement has `integration_type = 'digital_files'`. `files` carries presigned
- * download URLs; the source (EE service or legacy in-process S3 presigning) is
- * opaque to the caller.
+ * Digital-product-delivery payload, present on grants for `digital_files`
+ * entitlements. Each file carries a short-lived presigned download URL.
  */
 export interface DigitalProductDelivery {
+  /**
+   * One entry per attached file.
+   */
   files: Array<DigitalProductDeliveryFile>;
 
+  /**
+   * Optional external URL, passed through from the entitlement configuration.
+   */
   external_url?: string | null;
 
+  /**
+   * Optional human-readable delivery instructions, passed through from the
+   * entitlement configuration.
+   */
   instructions?: string | null;
 }
 
+/**
+ * One file in a digital-product delivery payload.
+ */
 export interface DigitalProductDeliveryFile {
+  /**
+   * Short-lived presigned URL for downloading the file.
+   */
   download_url: string;
 
   /**
@@ -354,12 +368,24 @@ export interface DigitalProductDeliveryFile {
    */
   expires_in: number;
 
+  /**
+   * Identifier of the attached file.
+   */
   file_id: string;
 
+  /**
+   * Original filename of the attached file.
+   */
   filename: string;
 
+  /**
+   * Optional content-type declared at upload.
+   */
   content_type?: string | null;
 
+  /**
+   * Optional size of the file in bytes.
+   */
   file_size?: number | null;
 }
 
@@ -614,10 +640,8 @@ export interface Product {
   description?: string | null;
 
   /**
-   * Digital-product-delivery payload for a grant. Populated for grants whose
-   * entitlement has `integration_type = 'digital_files'`. `files` carries presigned
-   * download URLs; the source (EE service or legacy in-process S3 presigning) is
-   * opaque to the caller.
+   * Digital-product-delivery payload, present on grants for `digital_files`
+   * entitlements. Each file carries a short-lived presigned download URL.
    */
   digital_product_delivery?: DigitalProductDelivery | null;
 
@@ -664,10 +688,10 @@ export interface ProductEntitlementSummary {
   id: string;
 
   /**
-   * Public-facing variant of [`IntegrationConfig`]. Mirrors every variant shape on
-   * the wire EXCEPT `DigitalFiles`, which is replaced with a hydrated
-   * `digital_files` object (resolved download URLs etc.). The persisted JSONB stays
-   * ID-only via [`IntegrationConfig`]; this enum is response-only.
+   * Integration-specific configuration on an entitlement read response.
+   *
+   * For `digital_files` entitlements the response includes presigned download URLs
+   * for each attached file; other integrations match the shape supplied at creation.
    */
   integration_config: EntitlementsAPI.IntegrationConfigResponse;
 

@@ -28,10 +28,8 @@ export class Grants extends APIResource {
   }
 
   /**
-   * Revokes a single entitlement grant for the caller's business. For LicenseKey
-   * integrations, also disables the backing license key. Idempotent: re-revoking an
-   * already-revoked grant returns 200 with current state. The revocation reason is
-   * always set to "manual" for API-initiated revocations.
+   * Revoke a single grant. Idempotent: re-revoking an already-revoked grant returns
+   * the grant in its current state.
    */
   revoke(grantID: string, params: GrantRevokeParams, options?: RequestOptions): APIPromise<EntitlementGrant> {
     const { id } = params;
@@ -41,68 +39,134 @@ export class Grants extends APIResource {
 
 export type EntitlementGrantsDefaultPageNumberPagination = DefaultPageNumberPagination<EntitlementGrant>;
 
+/**
+ * Detailed view of a single entitlement grant: who it's for, its lifecycle state,
+ * and any integration-specific delivery payload.
+ */
 export interface EntitlementGrant {
+  /**
+   * Unique identifier of the grant.
+   */
   id: string;
 
+  /**
+   * Identifier of the business that owns the grant.
+   */
   business_id: string;
 
+  /**
+   * Timestamp when the grant was created.
+   */
   created_at: string;
 
+  /**
+   * Identifier of the customer the grant was issued to.
+   */
   customer_id: string;
 
+  /**
+   * Identifier of the entitlement this grant was issued from.
+   */
   entitlement_id: string;
 
-  external_id: string;
+  /**
+   * Arbitrary key-value metadata recorded on the grant.
+   */
+  metadata: { [key: string]: string };
 
+  /**
+   * Lifecycle status of the grant.
+   */
   status: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
 
+  /**
+   * Timestamp when the grant was last modified.
+   */
   updated_at: string;
 
+  /**
+   * Timestamp when the grant transitioned to `delivered`, when applicable.
+   */
   delivered_at?: string | null;
 
   /**
-   * Present only when the entitlement integration_type is `digital_files`. Populated
-   * eagerly on every list and single-record endpoint.
+   * Digital-product-delivery payload, present when the entitlement integration is
+   * `digital_files`.
    */
   digital_product_delivery?: ProductsAPI.DigitalProductDelivery | null;
 
+  /**
+   * Machine-readable code reported when delivery failed, when applicable.
+   */
   error_code?: string | null;
 
+  /**
+   * Human-readable message reported when delivery failed, when applicable.
+   */
   error_message?: string | null;
 
   /**
-   * Present only when the entitlement integration_type is `license_key`.
+   * License-key delivery payload, present when the entitlement integration is
+   * `license_key`.
    */
   license_key?: LicenseKeyGrant | null;
 
-  metadata?: unknown;
-
+  /**
+   * Timestamp when `oauth_url` stops being valid, when applicable.
+   */
   oauth_expires_at?: string | null;
 
+  /**
+   * Customer-facing OAuth URL for OAuth-style integrations. Populated during the
+   * customer-portal accept flow; `null` until the customer completes that step, and
+   * on grants for non-OAuth integrations.
+   */
   oauth_url?: string | null;
 
+  /**
+   * Identifier of the payment that triggered this grant, when applicable.
+   */
   payment_id?: string | null;
 
+  /**
+   * Reason recorded when the grant was revoked, when applicable.
+   */
   revocation_reason?: string | null;
 
+  /**
+   * Timestamp when the grant transitioned to `revoked`, when applicable.
+   */
   revoked_at?: string | null;
 
+  /**
+   * Identifier of the subscription that triggered this grant, when applicable.
+   */
   subscription_id?: string | null;
 }
 
 /**
- * Nested representation of license-key grant fields. Present only when the grant's
- * entitlement has `integration_type = 'license_key'` and a row exists in
- * `license_keys`. The grant's top-level `status` is the source of truth for the
- * grant's lifecycle — no per-license-key status is exposed here.
+ * License-key delivery payload, present on grants for `license_key` entitlements.
+ * The grant's top-level `status` is the source of truth for the grant's lifecycle.
  */
 export interface LicenseKeyGrant {
+  /**
+   * Number of activations consumed so far.
+   */
   activations_used: number;
 
+  /**
+   * Issued license key.
+   */
   key: string;
 
+  /**
+   * Maximum activations allowed by the entitlement, when set.
+   */
   activations_limit?: number | null;
 
+  /**
+   * When the license key expires, when applicable.
+   */
   expires_at?: string | null;
 }
 

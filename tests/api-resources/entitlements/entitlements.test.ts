@@ -10,7 +10,7 @@ const client = new DodoPayments({
 describe('resource entitlements', () => {
   test('create: only required params', async () => {
     const responsePromise = client.entitlements.create({
-      integration_config: { permission: 'permission', target_id: 'target_id' },
+      integration_config: { permission: 'pull', target_id: 'target_id' },
       integration_type: 'discord',
       name: 'name',
     });
@@ -25,7 +25,7 @@ describe('resource entitlements', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.entitlements.create({
-      integration_config: { permission: 'permission', target_id: 'target_id' },
+      integration_config: { permission: 'pull', target_id: 'target_id' },
       integration_type: 'discord',
       name: 'name',
       description: 'description',
