@@ -672,6 +672,10 @@ export interface EntitlementGrantCreatedWebhookEvent {
    */
   business_id: string;
 
+  /**
+   * Detailed view of a single entitlement grant: who it's for, its lifecycle state,
+   * and any integration-specific delivery payload.
+   */
   data: GrantsAPI.EntitlementGrant;
 
   /**
@@ -691,6 +695,10 @@ export interface EntitlementGrantDeliveredWebhookEvent {
    */
   business_id: string;
 
+  /**
+   * Detailed view of a single entitlement grant: who it's for, its lifecycle state,
+   * and any integration-specific delivery payload.
+   */
   data: GrantsAPI.EntitlementGrant;
 
   /**
@@ -710,6 +718,10 @@ export interface EntitlementGrantFailedWebhookEvent {
    */
   business_id: string;
 
+  /**
+   * Detailed view of a single entitlement grant: who it's for, its lifecycle state,
+   * and any integration-specific delivery payload.
+   */
   data: GrantsAPI.EntitlementGrant;
 
   /**
@@ -729,6 +741,10 @@ export interface EntitlementGrantRevokedWebhookEvent {
    */
   business_id: string;
 
+  /**
+   * Detailed view of a single entitlement grant: who it's for, its lifecycle state,
+   * and any integration-specific delivery payload.
+   */
   data: GrantsAPI.EntitlementGrant;
 
   /**
@@ -1579,6 +1595,10 @@ export interface EntitlementGrantCreatedWebhookEvent {
    */
   business_id: string;
 
+  /**
+   * Detailed view of a single entitlement grant: who it's for, its lifecycle state,
+   * and any integration-specific delivery payload.
+   */
   data: GrantsAPI.EntitlementGrant;
 
   /**
@@ -1598,6 +1618,10 @@ export interface EntitlementGrantDeliveredWebhookEvent {
    */
   business_id: string;
 
+  /**
+   * Detailed view of a single entitlement grant: who it's for, its lifecycle state,
+   * and any integration-specific delivery payload.
+   */
   data: GrantsAPI.EntitlementGrant;
 
   /**
@@ -1617,6 +1641,10 @@ export interface EntitlementGrantFailedWebhookEvent {
    */
   business_id: string;
 
+  /**
+   * Detailed view of a single entitlement grant: who it's for, its lifecycle state,
+   * and any integration-specific delivery payload.
+   */
   data: GrantsAPI.EntitlementGrant;
 
   /**
@@ -1636,6 +1664,10 @@ export interface EntitlementGrantRevokedWebhookEvent {
    */
   business_id: string;
 
+  /**
+   * Detailed view of a single entitlement grant: who it's for, its lifecycle state,
+   * and any integration-specific delivery payload.
+   */
   data: GrantsAPI.EntitlementGrant;
 
   /**
