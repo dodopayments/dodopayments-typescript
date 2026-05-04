@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.31.0 (2026-05-04)
+
+Full Changelog: [v2.30.0...v2.31.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.30.0...v2.31.0)
+
+### Features
+
+* **api:** update openapi spec ([2e9e91f](https://github.com/dodopayments/dodopayments-typescript/commit/2e9e91ff97cb54d1652ef5735723c275e28fa967))
+
+
+### Chores
+
+* **internal:** fix MCP cloudflare worker builds ([7557c65](https://github.com/dodopayments/dodopayments-typescript/commit/7557c656d3648b44a3d675bde9e5b216324c4653))
+
 ## 2.30.0 (2026-04-30)
 
 Full Changelog: [v2.29.1...v2.30.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.29.1...v2.30.0)
