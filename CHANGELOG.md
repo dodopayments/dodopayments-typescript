@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.31.1 (2026-05-06)
+
+Full Changelog: [v2.31.0...v2.31.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.31.0...v2.31.1)
+
+### Chores
+
+* **internal:** fix MCP cloudflare worker initialization ([a26ff9c](https://github.com/dodopayments/dodopayments-typescript/commit/a26ff9cdca004d4a5e0403a9c03ce875b4030281))
+
+
+### Documentation
+
+* clarify forwards compat behavior ([4759387](https://github.com/dodopayments/dodopayments-typescript/commit/47593879315b1f184c85f2c324e72be70dde5eba))
+* update with proxy auth info ([2742050](https://github.com/dodopayments/dodopayments-typescript/commit/2742050f3a272ac12dcf85f2367918517e3bd95b))
+
 ## 2.31.0 (2026-05-04)
 
 Full Changelog: [v2.30.0...v2.31.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.30.0...v2.31.0)
