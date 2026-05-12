@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as DiscountsAPI from './discounts';
 import * as DisputesAPI from './disputes';
 import * as MiscAPI from './misc';
 import * as RefundsAPI from './refunds';
@@ -293,9 +294,15 @@ export interface Payment {
   custom_field_responses?: Array<CustomFieldResponse> | null;
 
   /**
-   * The discount id if discount is applied
+   * @deprecated DEPRECATED: Use discounts instead. Returns the first discount's ID
+   * if present.
    */
   discount_id?: string | null;
+
+  /**
+   * All stacked discounts applied, ordered by position
+   */
+  discounts?: Array<Payment.Discount> | null;
 
   /**
    * An error code if the payment failed
@@ -372,6 +379,93 @@ export interface Payment {
 }
 
 export namespace Payment {
+  /**
+   * Response struct for a discount with its position in a stack and optional
+   * cycle-tracking information (for subscriptions).
+   */
+  export interface Discount {
+    /**
+     * The discount amount (basis points for percentage, USD cents for flat)
+     */
+    amount: number;
+
+    /**
+     * The business this discount belongs to
+     */
+    business_id: string;
+
+    /**
+     * The discount code
+     */
+    code: string;
+
+    /**
+     * Timestamp when the discount was created
+     */
+    created_at: string;
+
+    /**
+     * The unique discount ID
+     */
+    discount_id: string;
+
+    /**
+     * Additional metadata
+     */
+    metadata: { [key: string]: string };
+
+    /**
+     * Position of this discount in the stack (0-based)
+     */
+    position: number;
+
+    /**
+     * Whether this discount should be preserved when a subscription changes plans
+     */
+    preserve_on_plan_change: boolean;
+
+    /**
+     * List of product IDs to which this discount is restricted
+     */
+    restricted_to: Array<string>;
+
+    /**
+     * How many times this discount has been used
+     */
+    times_used: number;
+
+    /**
+     * The type of discount
+     */
+    type: DiscountsAPI.DiscountType;
+
+    /**
+     * Remaining billing cycles for this discount on this subscription (None for
+     * one-time payments)
+     */
+    cycles_remaining?: number | null;
+
+    /**
+     * Optional date/time after which discount is expired
+     */
+    expires_at?: string | null;
+
+    /**
+     * Name for the Discount
+     */
+    name?: string | null;
+
+    /**
+     * Number of subscription billing cycles this discount is valid for
+     */
+    subscription_cycles?: number | null;
+
+    /**
+     * Usage limit for this discount, if any
+     */
+    usage_limit?: number | null;
+  }
+
   export interface ProductCart {
     product_id: string;
 
@@ -567,9 +661,15 @@ export interface PaymentCreateResponse {
   total_amount: number;
 
   /**
-   * The discount id if discount is applied
+   * @deprecated DEPRECATED: Use discount_ids instead. Returns the first discount's
+   * ID if present.
    */
   discount_id?: string | null;
+
+  /**
+   * All stacked discount IDs applied, in order of application
+   */
+  discount_ids?: Array<string> | null;
 
   /**
    * Expiry timestamp of the payment link
@@ -697,9 +797,16 @@ export interface PaymentCreateParams {
   billing_currency?: MiscAPI.Currency | null;
 
   /**
-   * Discount Code to apply to the transaction
+   * @deprecated DEPRECATED: Use discount_codes instead. Cannot be used together with
+   * discount_codes.
    */
   discount_code?: string | null;
+
+  /**
+   * Stacked discount codes to apply, in order of application. Max 20. Cannot be used
+   * together with discount_code.
+   */
+  discount_codes?: Array<string> | null;
 
   /**
    * Override merchant default 3DS behaviour for this payment

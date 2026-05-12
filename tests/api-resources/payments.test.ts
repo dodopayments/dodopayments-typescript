@@ -44,6 +44,7 @@ describe('resource payments', () => {
       allowed_payment_method_types: ['ach'],
       billing_currency: 'AED',
       discount_code: 'discount_code',
+      discount_codes: ['string'],
       force_3ds: true,
       metadata: { foo: 'string' },
       payment_link: true,
