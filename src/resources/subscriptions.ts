@@ -2,6 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import * as SubscriptionsAPI from './subscriptions';
+import * as DiscountsAPI from './discounts';
 import * as MiscAPI from './misc';
 import * as PaymentsAPI from './payments';
 import * as CreditEntitlementsAPI from './credit-entitlements/credit-entitlements';
@@ -527,14 +528,19 @@ export interface Subscription {
   custom_field_responses?: Array<PaymentsAPI.CustomFieldResponse> | null;
 
   /**
-   * Number of remaining discount cycles if discount is applied
+   * DEPRECATED: Use discounts[].cycles_remaining instead.
    */
   discount_cycles_remaining?: number | null;
 
   /**
-   * The discount id if discount is applied
+   * DEPRECATED: Use discounts instead. Returns the first discount's ID if present.
    */
   discount_id?: string | null;
+
+  /**
+   * All stacked discounts applied, ordered by position
+   */
+  discounts?: Array<Subscription.Discount> | null;
 
   /**
    * Timestamp when the subscription will expire
@@ -555,6 +561,95 @@ export interface Subscription {
    * Tax identifier provided for this subscription (if applicable)
    */
   tax_id?: string | null;
+}
+
+export namespace Subscription {
+  /**
+   * Response struct for a discount with its position in a stack and optional
+   * cycle-tracking information (for subscriptions).
+   */
+  export interface Discount {
+    /**
+     * The discount amount (basis points for percentage, USD cents for flat)
+     */
+    amount: number;
+
+    /**
+     * The business this discount belongs to
+     */
+    business_id: string;
+
+    /**
+     * The discount code
+     */
+    code: string;
+
+    /**
+     * Timestamp when the discount was created
+     */
+    created_at: string;
+
+    /**
+     * The unique discount ID
+     */
+    discount_id: string;
+
+    /**
+     * Additional metadata
+     */
+    metadata: { [key: string]: string };
+
+    /**
+     * Position of this discount in the stack (0-based)
+     */
+    position: number;
+
+    /**
+     * Whether this discount should be preserved when a subscription changes plans
+     */
+    preserve_on_plan_change: boolean;
+
+    /**
+     * List of product IDs to which this discount is restricted
+     */
+    restricted_to: Array<string>;
+
+    /**
+     * How many times this discount has been used
+     */
+    times_used: number;
+
+    /**
+     * The type of discount
+     */
+    type: DiscountsAPI.DiscountType;
+
+    /**
+     * Remaining billing cycles for this discount on this subscription (None for
+     * one-time payments)
+     */
+    cycles_remaining?: number | null;
+
+    /**
+     * Optional date/time after which discount is expired
+     */
+    expires_at?: string | null;
+
+    /**
+     * Name for the Discount
+     */
+    name?: string | null;
+
+    /**
+     * Number of subscription billing cycles this discount is valid for
+     */
+    subscription_cycles?: number | null;
+
+    /**
+     * Usage limit for this discount, if any
+     */
+    usage_limit?: number | null;
+  }
 }
 
 export type SubscriptionStatus = 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired';
@@ -594,12 +689,18 @@ export interface UpdateSubscriptionPlanReq {
   addons?: Array<AttachAddon> | null;
 
   /**
-   * Optional discount code to apply to the new plan. If provided, validates and
-   * applies the discount to the plan change. If not provided and the subscription
-   * has an existing discount with `preserve_on_plan_change=true`, the existing
-   * discount will be preserved (if applicable to the new product).
+   * @deprecated DEPRECATED: Use discount_codes instead. Cannot be used together with
+   * discount_codes.
    */
   discount_code?: string | null;
+
+  /**
+   * Stacked discount codes to apply to the new plan. Max 20. Cannot be used together
+   * with discount_code. If provided, replaces any existing discount codes. Empty
+   * array removes all discounts. If not provided (None), existing discounts with
+   * preserve_on_plan_change=true are preserved.
+   */
+  discount_codes?: Array<string> | null;
 
   /**
    * When to apply the plan change.
@@ -666,9 +767,15 @@ export interface SubscriptionCreateResponse {
   client_secret?: string | null;
 
   /**
-   * The discount id if discount is applied
+   * @deprecated DEPRECATED: Use discount_ids instead. Returns the first discount's
+   * ID if present.
    */
   discount_id?: string | null;
+
+  /**
+   * All stacked discount IDs applied, in order of application
+   */
+  discount_ids?: Array<string> | null;
 
   /**
    * Expiry timestamp of the payment link
@@ -722,6 +829,11 @@ export interface SubscriptionListResponse {
    * Customer details associated with the subscription
    */
   customer: PaymentsAPI.CustomerLimitedDetails;
+
+  /**
+   * All stacked discounts applied, in order of application
+   */
+  discounts: Array<SubscriptionListResponse.Discount>;
 
   /**
    * Additional custom data associated with the subscription
@@ -806,12 +918,12 @@ export interface SubscriptionListResponse {
   cancelled_at?: string | null;
 
   /**
-   * Number of remaining discount cycles if discount is applied
+   * DEPRECATED: Use discounts[].cycles_remaining instead.
    */
   discount_cycles_remaining?: number | null;
 
   /**
-   * The discount id if discount is applied
+   * DEPRECATED: Use discounts instead.
    */
   discount_id?: string | null;
 
@@ -834,6 +946,24 @@ export interface SubscriptionListResponse {
    * Tax identifier provided for this subscription (if applicable)
    */
   tax_id?: string | null;
+}
+
+export namespace SubscriptionListResponse {
+  /**
+   * Lightweight discount info for list endpoints. Array order represents position
+   * (no explicit position field).
+   */
+  export interface Discount {
+    /**
+     * The unique discount ID
+     */
+    discount_id: string;
+
+    /**
+     * Remaining billing cycles for this discount on this subscription
+     */
+    discount_cycles_remaining?: number | null;
+  }
 }
 
 export interface SubscriptionChargeResponse {
@@ -1137,9 +1267,16 @@ export interface SubscriptionCreateParams {
   billing_currency?: MiscAPI.Currency | null;
 
   /**
-   * Discount Code to apply to the subscription
+   * @deprecated DEPRECATED: Use discount_codes instead. Cannot be used together with
+   * discount_codes.
    */
   discount_code?: string | null;
+
+  /**
+   * Stacked discount codes to apply, in order of application. Max 20. Cannot be used
+   * together with discount_code.
+   */
+  discount_codes?: Array<string> | null;
 
   /**
    * Override merchant default 3DS behaviour for this subscription
@@ -1362,12 +1499,18 @@ export interface SubscriptionChangePlanParams {
   addons?: Array<AttachAddon> | null;
 
   /**
-   * Optional discount code to apply to the new plan. If provided, validates and
-   * applies the discount to the plan change. If not provided and the subscription
-   * has an existing discount with `preserve_on_plan_change=true`, the existing
-   * discount will be preserved (if applicable to the new product).
+   * @deprecated DEPRECATED: Use discount_codes instead. Cannot be used together with
+   * discount_codes.
    */
   discount_code?: string | null;
+
+  /**
+   * Stacked discount codes to apply to the new plan. Max 20. Cannot be used together
+   * with discount_code. If provided, replaces any existing discount codes. Empty
+   * array removes all discounts. If not provided (None), existing discounts with
+   * preserve_on_plan_change=true are preserved.
+   */
+  discount_codes?: Array<string> | null;
 
   /**
    * When to apply the plan change.
@@ -1483,12 +1626,18 @@ export interface SubscriptionPreviewChangePlanParams {
   addons?: Array<AttachAddon> | null;
 
   /**
-   * Optional discount code to apply to the new plan. If provided, validates and
-   * applies the discount to the plan change. If not provided and the subscription
-   * has an existing discount with `preserve_on_plan_change=true`, the existing
-   * discount will be preserved (if applicable to the new product).
+   * @deprecated DEPRECATED: Use discount_codes instead. Cannot be used together with
+   * discount_codes.
    */
   discount_code?: string | null;
+
+  /**
+   * Stacked discount codes to apply to the new plan. Max 20. Cannot be used together
+   * with discount_code. If provided, replaces any existing discount codes. Empty
+   * array removes all discounts. If not provided (None), existing discounts with
+   * preserve_on_plan_change=true are preserved.
+   */
+  discount_codes?: Array<string> | null;
 
   /**
    * When to apply the plan change.
