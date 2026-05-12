@@ -204,7 +204,17 @@ export interface CheckoutSessionRequest {
    */
   customization?: CheckoutSessionCustomization;
 
+  /**
+   * @deprecated DEPRECATED: Use discount_codes instead. Cannot be used together with
+   * discount_codes.
+   */
   discount_code?: string | null;
+
+  /**
+   * Stacked discount codes to apply, in order. Max 20. Cannot be used together with
+   * discount_code.
+   */
+  discount_codes?: Array<string> | null;
 
   feature_flags?: CheckoutSessionFlags;
 
@@ -376,6 +386,35 @@ export interface ProductItemReq {
    * select the amount.
    */
   amount?: number | null;
+
+  /**
+   * Per-checkout-session overrides for credit entitlements already attached to this
+   * product. Each entry overrides the `credits_amount` granted by the referenced
+   * credit entitlement when this checkout session is fulfilled. The
+   * credit_entitlement_id must already be attached to the product.
+   */
+  credit_entitlements?: Array<ProductItemReq.CreditEntitlement> | null;
+}
+
+export namespace ProductItemReq {
+  /**
+   * Per-checkout-session override for a single credit entitlement attached to a
+   * product.
+   */
+  export interface CreditEntitlement {
+    /**
+     * ID of the credit entitlement to override. Must already be attached to the
+     * product.
+     */
+    credit_entitlement_id: string;
+
+    /**
+     * Number of credits to grant for this checkout session, overriding the
+     * product-level `credits_amount` set on the credit entitlement mapping. Must be
+     * greater than zero.
+     */
+    credits_amount: string;
+  }
 }
 
 export interface SubscriptionData {
@@ -834,7 +873,17 @@ export interface CheckoutSessionCreateParams {
    */
   customization?: CheckoutSessionCustomization;
 
+  /**
+   * @deprecated DEPRECATED: Use discount_codes instead. Cannot be used together with
+   * discount_codes.
+   */
   discount_code?: string | null;
+
+  /**
+   * Stacked discount codes to apply, in order. Max 20. Cannot be used together with
+   * discount_code.
+   */
+  discount_codes?: Array<string> | null;
 
   feature_flags?: CheckoutSessionFlags;
 
@@ -950,7 +999,17 @@ export interface CheckoutSessionPreviewParams {
    */
   customization?: CheckoutSessionCustomization;
 
+  /**
+   * @deprecated DEPRECATED: Use discount_codes instead. Cannot be used together with
+   * discount_codes.
+   */
   discount_code?: string | null;
+
+  /**
+   * Stacked discount codes to apply, in order. Max 20. Cannot be used together with
+   * discount_code.
+   */
+  discount_codes?: Array<string> | null;
 
   feature_flags?: CheckoutSessionFlags;
 

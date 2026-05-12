@@ -29,6 +29,9 @@ describe('resource checkoutSessions', () => {
           quantity: 0,
           addons: [{ addon_id: 'addon_id', quantity: 0 }],
           amount: 0,
+          credit_entitlements: [
+            { credit_entitlement_id: 'credit_entitlement_id', credits_amount: 'credits_amount' },
+          ],
         },
       ],
       allowed_payment_method_types: ['ach'],
@@ -104,6 +107,7 @@ describe('resource checkoutSessions', () => {
         },
       },
       discount_code: 'discount_code',
+      discount_codes: ['string'],
       feature_flags: {
         allow_currency_selection: true,
         allow_customer_editing_city: true,
@@ -176,6 +180,9 @@ describe('resource checkoutSessions', () => {
           quantity: 0,
           addons: [{ addon_id: 'addon_id', quantity: 0 }],
           amount: 0,
+          credit_entitlements: [
+            { credit_entitlement_id: 'credit_entitlement_id', credits_amount: 'credits_amount' },
+          ],
         },
       ],
       allowed_payment_method_types: ['ach'],
@@ -251,6 +258,7 @@ describe('resource checkoutSessions', () => {
         },
       },
       discount_code: 'discount_code',
+      discount_codes: ['string'],
       feature_flags: {
         allow_currency_selection: true,
         allow_customer_editing_city: true,
