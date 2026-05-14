@@ -205,8 +205,7 @@ export interface CheckoutSessionRequest {
   customization?: CheckoutSessionCustomization;
 
   /**
-   * @deprecated DEPRECATED: Use discount_codes instead. Cannot be used together with
-   * discount_codes.
+   * @deprecated Use `discount_id` instead.
    */
   discount_code?: string | null;
 
@@ -874,8 +873,7 @@ export interface CheckoutSessionCreateParams {
   customization?: CheckoutSessionCustomization;
 
   /**
-   * @deprecated DEPRECATED: Use discount_codes instead. Cannot be used together with
-   * discount_codes.
+   * @deprecated Use `discount_id` instead.
    */
   discount_code?: string | null;
 
@@ -1000,8 +998,7 @@ export interface CheckoutSessionPreviewParams {
   customization?: CheckoutSessionCustomization;
 
   /**
-   * @deprecated DEPRECATED: Use discount_codes instead. Cannot be used together with
-   * discount_codes.
+   * @deprecated Use `discount_id` instead.
    */
   discount_code?: string | null;
 

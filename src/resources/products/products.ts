@@ -600,7 +600,8 @@ export interface Product {
   is_recurring: boolean;
 
   /**
-   * @deprecated Indicates whether the product requires a license key.
+   * @deprecated Use the dedicated entitlements API to configure license-key
+   * delivery.
    */
   license_key_enabled: boolean;
 
@@ -651,12 +652,14 @@ export interface Product {
   image?: string | null;
 
   /**
-   * @deprecated Message sent upon license key activation, if applicable.
+   * @deprecated Use the dedicated entitlements API to configure license-key
+   * delivery.
    */
   license_key_activation_message?: string | null;
 
   /**
-   * @deprecated Limit on the number of activations for the license key, if enabled.
+   * @deprecated Use the dedicated entitlements API to configure license-key
+   * delivery.
    */
   license_key_activations_limit?: number | null;
 
@@ -843,19 +846,14 @@ export interface ProductCreateParams {
   entitlements?: Array<AttachProductEntitlement> | null;
 
   /**
-   * @deprecated Optional message displayed during license key activation
-   *
-   * deprecated: use entitlements instead. Ignored when a `license_key` entitlement
-   * is attached via the `entitlements` field.
+   * @deprecated Use the dedicated entitlements API to configure license-key
+   * delivery.
    */
   license_key_activation_message?: string | null;
 
   /**
-   * @deprecated The number of times the license key can be activated. Must be 0 or
-   * greater
-   *
-   * deprecated: use entitlements instead. Ignored when a `license_key` entitlement
-   * is attached via the `entitlements` field.
+   * @deprecated Use the dedicated entitlements API to configure license-key
+   * delivery.
    */
   license_key_activations_limit?: number | null;
 
@@ -870,12 +868,8 @@ export interface ProductCreateParams {
   license_key_duration?: LicenseKeyDuration | null;
 
   /**
-   * @deprecated When true, generates and sends a license key to your customer.
-   * Defaults to false
-   *
-   * deprecated: use entitlements instead. If a `license_key` entitlement is also
-   * attached via the `entitlements` field, the `license_key_*` config fields below
-   * are ignored — the attached entitlement's config is the source of truth.
+   * @deprecated Use the dedicated entitlements API to configure license-key
+   * delivery.
    */
   license_key_enabled?: boolean | null;
 
@@ -942,22 +936,14 @@ export interface ProductUpdateParams {
   image_id?: string | null;
 
   /**
-   * @deprecated Message sent to the customer upon license key activation.
-   *
-   * Only applicable if `license_key_enabled` is `true`. This message contains
-   * instructions for activating the license key.
-   *
-   * deprecated: use entitlements instead
+   * @deprecated Use the dedicated entitlements API to configure license-key
+   * delivery.
    */
   license_key_activation_message?: string | null;
 
   /**
-   * @deprecated Limit for the number of activations for the license key.
-   *
-   * Only applicable if `license_key_enabled` is `true`. Represents the maximum
-   * number of times the license key can be activated.
-   *
-   * deprecated: use entitlements instead
+   * @deprecated Use the dedicated entitlements API to configure license-key
+   * delivery.
    */
   license_key_activations_limit?: number | null;
 
@@ -972,12 +958,8 @@ export interface ProductUpdateParams {
   license_key_duration?: LicenseKeyDuration | null;
 
   /**
-   * @deprecated Whether the product requires a license key.
-   *
-   * If `true`, additional fields related to license key (duration, activations
-   * limit, activation message) become applicable.
-   *
-   * deprecated: use entitlements instead
+   * @deprecated Use the dedicated entitlements API to configure license-key
+   * delivery.
    */
   license_key_enabled?: boolean | null;
 
