@@ -76,6 +76,25 @@ For example:
 
 Previously without the `encodeURIComponent()` call we would have used the path `/example/string/with/slash`; now we'll use `/example/string%2Fwith%2Fslash`.
 
+### Method params must be an object
+
+When making requests to endpoints that expect something other than a JSON object, you must now pass the body as a property instead
+of an individual argument.
+
+For example, an endpoint that takes an array:
+
+```typescript
+// Before
+client.example.create([{ name: 'name' }, { name: 'name' }]);
+
+// After
+client.example.create({ items: [{ name: 'name' }, { name: 'name' }] });
+```
+
+This affects the following methods:
+
+- `client.subscriptions.updatePaymentMethod()`
+
 ### Removed request options overloads
 
 When making requests with no required body, query or header parameters, you must now explicitly pass `null`, `undefined` or an empty object `{}` to the params argument in order to customise request options.

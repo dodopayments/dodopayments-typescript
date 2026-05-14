@@ -301,7 +301,7 @@ export interface Payment {
   /**
    * All stacked discounts applied, ordered by position
    */
-  discounts?: Array<Payment.Discount> | null;
+  discounts?: Array<DiscountsAPI.DiscountDetail> | null;
 
   /**
    * An error code if the payment failed
@@ -378,93 +378,6 @@ export interface Payment {
 }
 
 export namespace Payment {
-  /**
-   * Response struct for a discount with its position in a stack and optional
-   * cycle-tracking information (for subscriptions).
-   */
-  export interface Discount {
-    /**
-     * The discount amount (basis points for percentage, USD cents for flat)
-     */
-    amount: number;
-
-    /**
-     * The business this discount belongs to
-     */
-    business_id: string;
-
-    /**
-     * The discount code
-     */
-    code: string;
-
-    /**
-     * Timestamp when the discount was created
-     */
-    created_at: string;
-
-    /**
-     * The unique discount ID
-     */
-    discount_id: string;
-
-    /**
-     * Additional metadata
-     */
-    metadata: { [key: string]: string };
-
-    /**
-     * Position of this discount in the stack (0-based)
-     */
-    position: number;
-
-    /**
-     * Whether this discount should be preserved when a subscription changes plans
-     */
-    preserve_on_plan_change: boolean;
-
-    /**
-     * List of product IDs to which this discount is restricted
-     */
-    restricted_to: Array<string>;
-
-    /**
-     * How many times this discount has been used
-     */
-    times_used: number;
-
-    /**
-     * The type of discount
-     */
-    type: DiscountsAPI.DiscountType;
-
-    /**
-     * Remaining billing cycles for this discount on this subscription (None for
-     * one-time payments)
-     */
-    cycles_remaining?: number | null;
-
-    /**
-     * Optional date/time after which discount is expired
-     */
-    expires_at?: string | null;
-
-    /**
-     * Name for the Discount
-     */
-    name?: string | null;
-
-    /**
-     * Number of subscription billing cycles this discount is valid for
-     */
-    subscription_cycles?: number | null;
-
-    /**
-     * Usage limit for this discount, if any
-     */
-    usage_limit?: number | null;
-  }
-
   export interface ProductCart {
     product_id: string;
 

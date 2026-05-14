@@ -311,6 +311,7 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/discounts.ts">Discount</a></code>
+- <code><a href="./src/resources/discounts.ts">DiscountDetail</a></code>
 - <code><a href="./src/resources/discounts.ts">DiscountType</a></code>
 
 Methods:

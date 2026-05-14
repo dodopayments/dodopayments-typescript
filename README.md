@@ -37,7 +37,7 @@ const client = new DodoPayments({
 });
 
 const checkoutSessionResponse = await client.checkoutSessions.create({
-  product_cart: [{ product_id: 'product_id', quantity: 0 }],
+  product_cart: [{ product_id: 'pdt_example', quantity: 1 }],
 });
 
 console.log(checkoutSessionResponse.session_id);
@@ -57,7 +57,7 @@ const client = new DodoPayments({
 });
 
 const params: DodoPayments.CheckoutSessionCreateParams = {
-  product_cart: [{ product_id: 'product_id', quantity: 0 }],
+  product_cart: [{ product_id: 'pdt_example', quantity: 1 }],
 };
 const checkoutSessionResponse: DodoPayments.CheckoutSessionResponse =
   await client.checkoutSessions.create(params);
@@ -74,7 +74,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 const checkoutSessionResponse = await client.checkoutSessions
-  .create({ product_cart: [{ product_id: 'product_id', quantity: 0 }] })
+  .create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] })
   .catch(async (err) => {
     if (err instanceof DodoPayments.APIError) {
       console.log(err.status); // 400
@@ -115,7 +115,7 @@ const client = new DodoPayments({
 });
 
 // Or, configure per-request:
-await client.checkoutSessions.create({ product_cart: [{ product_id: 'product_id', quantity: 0 }] }, {
+await client.checkoutSessions.create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] }, {
   maxRetries: 5,
 });
 ```
@@ -132,7 +132,7 @@ const client = new DodoPayments({
 });
 
 // Override per-request:
-await client.checkoutSessions.create({ product_cart: [{ product_id: 'product_id', quantity: 0 }] }, {
+await client.checkoutSessions.create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] }, {
   timeout: 5 * 1000,
 });
 ```
@@ -187,13 +187,13 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 const client = new DodoPayments();
 
 const response = await client.checkoutSessions
-  .create({ product_cart: [{ product_id: 'product_id', quantity: 0 }] })
+  .create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
 const { data: checkoutSessionResponse, response: raw } = await client.checkoutSessions
-  .create({ product_cart: [{ product_id: 'product_id', quantity: 0 }] })
+  .create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(checkoutSessionResponse.session_id);
