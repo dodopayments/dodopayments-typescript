@@ -39,7 +39,8 @@ export interface PayoutListResponse {
   business_id: string;
 
   /**
-   * @deprecated The total value of chargebacks associated with the payout.
+   * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+   * future release.
    */
   chargebacks: number;
 
@@ -69,7 +70,8 @@ export interface PayoutListResponse {
   payout_id: string;
 
   /**
-   * @deprecated The total value of refunds associated with the payout.
+   * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+   * future release.
    */
   refunds: number;
 
@@ -79,7 +81,8 @@ export interface PayoutListResponse {
   status: 'not_initiated' | 'in_progress' | 'on_hold' | 'failed' | 'success';
 
   /**
-   * @deprecated The tax applied to the payout.
+   * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+   * future release.
    */
   tax: number;
 

@@ -689,8 +689,7 @@ export interface UpdateSubscriptionPlanReq {
   addons?: Array<AttachAddon> | null;
 
   /**
-   * @deprecated DEPRECATED: Use discount_codes instead. Cannot be used together with
-   * discount_codes.
+   * @deprecated Use `discount_id` instead.
    */
   discount_code?: string | null;
 
@@ -767,8 +766,7 @@ export interface SubscriptionCreateResponse {
   client_secret?: string | null;
 
   /**
-   * @deprecated DEPRECATED: Use discount_ids instead. Returns the first discount's
-   * ID if present.
+   * @deprecated Use `discounts` instead.
    */
   discount_id?: string | null;
 
@@ -1267,8 +1265,7 @@ export interface SubscriptionCreateParams {
   billing_currency?: MiscAPI.Currency | null;
 
   /**
-   * @deprecated DEPRECATED: Use discount_codes instead. Cannot be used together with
-   * discount_codes.
+   * @deprecated Use `discount_id` instead.
    */
   discount_code?: string | null;
 
@@ -1499,8 +1496,7 @@ export interface SubscriptionChangePlanParams {
   addons?: Array<AttachAddon> | null;
 
   /**
-   * @deprecated DEPRECATED: Use discount_codes instead. Cannot be used together with
-   * discount_codes.
+   * @deprecated Use `discount_id` instead.
    */
   discount_code?: string | null;
 
@@ -1626,8 +1622,7 @@ export interface SubscriptionPreviewChangePlanParams {
   addons?: Array<AttachAddon> | null;
 
   /**
-   * @deprecated DEPRECATED: Use discount_codes instead. Cannot be used together with
-   * discount_codes.
+   * @deprecated Use `discount_id` instead.
    */
   discount_code?: string | null;
 
