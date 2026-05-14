@@ -294,8 +294,7 @@ export interface Payment {
   custom_field_responses?: Array<CustomFieldResponse> | null;
 
   /**
-   * @deprecated DEPRECATED: Use discounts instead. Returns the first discount's ID
-   * if present.
+   * @deprecated Use `discounts` instead.
    */
   discount_id?: string | null;
 
@@ -661,8 +660,7 @@ export interface PaymentCreateResponse {
   total_amount: number;
 
   /**
-   * @deprecated DEPRECATED: Use discount_ids instead. Returns the first discount's
-   * ID if present.
+   * @deprecated Use `discounts` instead.
    */
   discount_id?: string | null;
 
@@ -797,8 +795,7 @@ export interface PaymentCreateParams {
   billing_currency?: MiscAPI.Currency | null;
 
   /**
-   * @deprecated DEPRECATED: Use discount_codes instead. Cannot be used together with
-   * discount_codes.
+   * @deprecated Use `discount_id` instead.
    */
   discount_code?: string | null;
 
