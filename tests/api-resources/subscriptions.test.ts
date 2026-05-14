@@ -255,7 +255,9 @@ describe('resource subscriptions', () => {
   });
 
   test('updatePaymentMethod: only required params', async () => {
-    const responsePromise = client.subscriptions.updatePaymentMethod('subscription_id', { type: 'new' });
+    const responsePromise = client.subscriptions.updatePaymentMethod('subscription_id', {
+      payment_method: { type: 'new' },
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -267,8 +269,7 @@ describe('resource subscriptions', () => {
 
   test('updatePaymentMethod: required and optional params', async () => {
     const response = await client.subscriptions.updatePaymentMethod('subscription_id', {
-      type: 'new',
-      return_url: 'return_url',
+      payment_method: { type: 'new', return_url: 'return_url' },
     });
   });
 });

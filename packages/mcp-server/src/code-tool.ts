@@ -25,7 +25,7 @@ For example:
 
 \`\`\`
 async function run(client) {
-  const checkoutSessionResponse = await client.checkoutSessions.create({ product_cart: [{ product_id: 'product_id', quantity: 0 }] });
+  const checkoutSessionResponse = await client.checkoutSessions.create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] });
 
   console.log(checkoutSessionResponse.session_id);
 }

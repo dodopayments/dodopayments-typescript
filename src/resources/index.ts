@@ -65,6 +65,7 @@ export {
 export {
   Discounts,
   type Discount,
+  type DiscountDetail,
   type DiscountType,
   type DiscountCreateParams,
   type DiscountUpdateParams,

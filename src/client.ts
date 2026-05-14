@@ -68,6 +68,7 @@ import {
 import {
   Discount,
   DiscountCreateParams,
+  DiscountDetail,
   DiscountListParams,
   DiscountType,
   DiscountUpdateParams,
@@ -1313,6 +1314,7 @@ export declare namespace DodoPayments {
   export {
     Discounts as Discounts,
     type Discount as Discount,
+    type DiscountDetail as DiscountDetail,
     type DiscountType as DiscountType,
     type DiscountsDefaultPageNumberPagination as DiscountsDefaultPageNumberPagination,
     type DiscountCreateParams as DiscountCreateParams,
