@@ -1,7 +1,6 @@
 import fs from 'fs';
 import type { ResponseLike } from 'dodopayments/internal/to-file';
 import { toFile } from 'dodopayments/core/uploads';
-import { File } from 'node:buffer';
 
 class MyClass {
   name: string = 'foo';
