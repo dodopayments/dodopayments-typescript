@@ -701,12 +701,20 @@ export interface SubscriptionCreateResponse {
   /**
    * One time products associated with the purchase of subscription
    */
-  one_time_product_cart?: Array<PaymentsAPI.OneTimeProductCartItem> | null;
+  one_time_product_cart?: Array<SubscriptionCreateResponse.OneTimeProductCart> | null;
 
   /**
    * URL to checkout page
    */
   payment_link?: string | null;
+}
+
+export namespace SubscriptionCreateResponse {
+  export interface OneTimeProductCart {
+    product_id: string;
+
+    quantity: number;
+  }
 }
 
 /**
@@ -1224,7 +1232,7 @@ export interface SubscriptionCreateParams {
    * List of one time products that will be bundled with the first payment for this
    * subscription
    */
-  one_time_product_cart?: Array<SubscriptionCreateParams.OneTimeProductCart> | null;
+  one_time_product_cart?: Array<PaymentsAPI.OneTimeProductCartItem> | null;
 
   /**
    * If true, generates a payment link. Defaults to false if not specified.
@@ -1277,21 +1285,6 @@ export interface SubscriptionCreateParams {
    * period set in the product's price Must be between 0 and 10000 days
    */
   trial_period_days?: number | null;
-}
-
-export namespace SubscriptionCreateParams {
-  export interface OneTimeProductCart {
-    product_id: string;
-
-    quantity: number;
-
-    /**
-     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
-     * amount will be ignored Represented in the lowest denomination of the currency
-     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
-     */
-    amount?: number | null;
-  }
 }
 
 export interface SubscriptionUpdateParams {
