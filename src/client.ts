@@ -112,6 +112,7 @@ import {
 import {
   Conjunction,
   FilterOperator,
+  FilterType,
   Meter,
   MeterAggregation,
   MeterCreateParams,
@@ -222,6 +223,7 @@ import {
   EntitlementUpdateParams,
   Entitlements,
   EntitlementsDefaultPageNumberPagination,
+  GitHubPermission,
   IntegrationConfig,
   IntegrationConfigResponse,
 } from './resources/entitlements/entitlements';
@@ -232,6 +234,18 @@ import {
   PayoutListResponsesDefaultPageNumberPagination,
   Payouts,
 } from './resources/payouts/payouts';
+import {
+  ProductCollection,
+  ProductCollectionCreateParams,
+  ProductCollectionListParams,
+  ProductCollectionListResponse,
+  ProductCollectionListResponsesDefaultPageNumberPagination,
+  ProductCollectionUnarchiveResponse,
+  ProductCollectionUpdateImagesParams,
+  ProductCollectionUpdateImagesResponse,
+  ProductCollectionUpdateParams,
+  ProductCollections,
+} from './resources/product-collections/product-collections';
 import {
   AddMeterToPrice,
   AttachCreditEntitlement,
@@ -1097,6 +1111,7 @@ export class DodoPayments {
   balances: API.Balances = new API.Balances(this);
   creditEntitlements: API.CreditEntitlements = new API.CreditEntitlements(this);
   entitlements: API.Entitlements = new API.Entitlements(this);
+  productCollections: API.ProductCollections = new API.ProductCollections(this);
 }
 
 DodoPayments.CheckoutSessions = CheckoutSessions;
@@ -1122,6 +1137,7 @@ DodoPayments.Meters = Meters;
 DodoPayments.Balances = Balances;
 DodoPayments.CreditEntitlements = CreditEntitlements;
 DodoPayments.Entitlements = Entitlements;
+DodoPayments.ProductCollections = ProductCollections;
 
 export declare namespace DodoPayments {
   export type RequestOptions = Opts.RequestOptions;
@@ -1412,6 +1428,7 @@ export declare namespace DodoPayments {
     Meters as Meters,
     type Conjunction as Conjunction,
     type FilterOperator as FilterOperator,
+    type FilterType as FilterType,
     type Meter as Meter,
     type MeterAggregation as MeterAggregation,
     type MeterFilter as MeterFilter,
@@ -1441,11 +1458,25 @@ export declare namespace DodoPayments {
     Entitlements as Entitlements,
     type Entitlement as Entitlement,
     type EntitlementIntegrationType as EntitlementIntegrationType,
+    type GitHubPermission as GitHubPermission,
     type IntegrationConfig as IntegrationConfig,
     type IntegrationConfigResponse as IntegrationConfigResponse,
     type EntitlementsDefaultPageNumberPagination as EntitlementsDefaultPageNumberPagination,
     type EntitlementCreateParams as EntitlementCreateParams,
     type EntitlementUpdateParams as EntitlementUpdateParams,
     type EntitlementListParams as EntitlementListParams,
+  };
+
+  export {
+    ProductCollections as ProductCollections,
+    type ProductCollection as ProductCollection,
+    type ProductCollectionListResponse as ProductCollectionListResponse,
+    type ProductCollectionUnarchiveResponse as ProductCollectionUnarchiveResponse,
+    type ProductCollectionUpdateImagesResponse as ProductCollectionUpdateImagesResponse,
+    type ProductCollectionListResponsesDefaultPageNumberPagination as ProductCollectionListResponsesDefaultPageNumberPagination,
+    type ProductCollectionCreateParams as ProductCollectionCreateParams,
+    type ProductCollectionUpdateParams as ProductCollectionUpdateParams,
+    type ProductCollectionListParams as ProductCollectionListParams,
+    type ProductCollectionUpdateImagesParams as ProductCollectionUpdateImagesParams,
   };
 }

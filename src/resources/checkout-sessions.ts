@@ -93,6 +93,17 @@ export interface CheckoutSessionFlags {
    */
   allow_currency_selection?: boolean;
 
+  /**
+   * If true, the customer can supply or edit the business name associated with the
+   * tax id during checkout. Works independently of `allow_customer_editing_tax_id` —
+   * either flag (or `allow_tax_id`) is sufficient to let the customer override the
+   * session's business name. Typically set together with
+   * `allow_customer_editing_tax_id`.
+   *
+   * Default is false
+   */
+  allow_customer_editing_business_name?: boolean;
+
   allow_customer_editing_city?: boolean;
 
   allow_customer_editing_country?: boolean;
@@ -200,6 +211,13 @@ export interface CheckoutSessionRequest {
   customer?: PaymentsAPI.CustomerRequest | null;
 
   /**
+   * Optional business / legal name associated with the tax id. When provided
+   * together with a valid tax id for a B2B purchase, this name is rendered on the
+   * invoice instead of the customer's personal name.
+   */
+  customer_business_name?: string | null;
+
+  /**
    * Customization for the checkout session page
    */
   customization?: CheckoutSessionCustomization;
@@ -289,6 +307,26 @@ export interface CheckoutSessionResponse {
    * Checkout url (None when payment_method_id is provided)
    */
   checkout_url?: string | null;
+
+  /**
+   * Client secret used to load the Dodo Payments checkout SDK. Returned when
+   * `confirm: true` was passed and a PaymentIntent was created at session-creation
+   * time. `None` otherwise.
+   */
+  client_secret?: string | null;
+
+  /**
+   * Underlying payment id when `confirm: true` was passed and a PaymentIntent was
+   * created at session-creation time. `None` otherwise.
+   */
+  payment_id?: string | null;
+
+  /**
+   * Publishable key for the Dodo Payments checkout SDK. Returned when
+   * `confirm: true` was passed and a PaymentIntent was created at session-creation
+   * time. `None` otherwise.
+   */
+  publishable_key?: string | null;
 }
 
 export interface CheckoutSessionStatus {
@@ -868,6 +906,13 @@ export interface CheckoutSessionCreateParams {
   customer?: PaymentsAPI.CustomerRequest | null;
 
   /**
+   * Optional business / legal name associated with the tax id. When provided
+   * together with a valid tax id for a B2B purchase, this name is rendered on the
+   * invoice instead of the customer's personal name.
+   */
+  customer_business_name?: string | null;
+
+  /**
    * Customization for the checkout session page
    */
   customization?: CheckoutSessionCustomization;
@@ -991,6 +1036,13 @@ export interface CheckoutSessionPreviewParams {
    * Customer details for the session
    */
   customer?: PaymentsAPI.CustomerRequest | null;
+
+  /**
+   * Optional business / legal name associated with the tax id. When provided
+   * together with a valid tax id for a B2B purchase, this name is rendered on the
+   * invoice instead of the customer's personal name.
+   */
+  customer_business_name?: string | null;
 
   /**
    * Customization for the checkout session page

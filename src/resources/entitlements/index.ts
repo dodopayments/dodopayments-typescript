@@ -4,6 +4,7 @@ export {
   Entitlements,
   type Entitlement,
   type EntitlementIntegrationType,
+  type GitHubPermission,
   type IntegrationConfig,
   type IntegrationConfigResponse,
   type EntitlementCreateParams,

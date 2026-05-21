@@ -125,6 +125,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/invoices/payments/{payment_id}',
   },
   {
+    clientCallName: 'client.invoices.payments.retrievePayout',
+    fullyQualifiedName: 'invoices.payments.retrievePayout',
+    httpMethod: 'get',
+    httpPath: '/invoices/payouts/{payout_id}',
+  },
+  {
     clientCallName: 'client.invoices.payments.retrieveRefund',
     fullyQualifiedName: 'invoices.payments.retrieveRefund',
     httpMethod: 'get',
@@ -701,6 +707,84 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'entitlements.grants.revoke',
     httpMethod: 'delete',
     httpPath: '/entitlements/{id}/grants/{grant_id}',
+  },
+  {
+    clientCallName: 'client.productCollections.create',
+    fullyQualifiedName: 'productCollections.create',
+    httpMethod: 'post',
+    httpPath: '/product-collections',
+  },
+  {
+    clientCallName: 'client.productCollections.retrieve',
+    fullyQualifiedName: 'productCollections.retrieve',
+    httpMethod: 'get',
+    httpPath: '/product-collections/{id}',
+  },
+  {
+    clientCallName: 'client.productCollections.update',
+    fullyQualifiedName: 'productCollections.update',
+    httpMethod: 'patch',
+    httpPath: '/product-collections/{id}',
+  },
+  {
+    clientCallName: 'client.productCollections.list',
+    fullyQualifiedName: 'productCollections.list',
+    httpMethod: 'get',
+    httpPath: '/product-collections',
+  },
+  {
+    clientCallName: 'client.productCollections.delete',
+    fullyQualifiedName: 'productCollections.delete',
+    httpMethod: 'delete',
+    httpPath: '/product-collections/{id}',
+  },
+  {
+    clientCallName: 'client.productCollections.unarchive',
+    fullyQualifiedName: 'productCollections.unarchive',
+    httpMethod: 'post',
+    httpPath: '/product-collections/{id}/unarchive',
+  },
+  {
+    clientCallName: 'client.productCollections.updateImages',
+    fullyQualifiedName: 'productCollections.updateImages',
+    httpMethod: 'put',
+    httpPath: '/product-collections/{id}/images',
+  },
+  {
+    clientCallName: 'client.productCollections.groups.create',
+    fullyQualifiedName: 'productCollections.groups.create',
+    httpMethod: 'post',
+    httpPath: '/product-collections/{id}/groups',
+  },
+  {
+    clientCallName: 'client.productCollections.groups.update',
+    fullyQualifiedName: 'productCollections.groups.update',
+    httpMethod: 'patch',
+    httpPath: '/product-collections/{id}/groups/{group_id}',
+  },
+  {
+    clientCallName: 'client.productCollections.groups.delete',
+    fullyQualifiedName: 'productCollections.groups.delete',
+    httpMethod: 'delete',
+    httpPath: '/product-collections/{id}/groups/{group_id}',
+  },
+  {
+    clientCallName: 'client.productCollections.groups.items.create',
+    fullyQualifiedName: 'productCollections.groups.items.create',
+    httpMethod: 'post',
+    httpPath: '/product-collections/{id}/groups/{group_id}/items',
+  },
+  {
+    clientCallName: 'client.productCollections.groups.items.update',
+    fullyQualifiedName: 'productCollections.groups.items.update',
+    httpMethod: 'patch',
+    httpPath: '/product-collections/{id}/groups/{group_id}/items/{item_id}',
+  },
+  {
+    clientCallName: 'client.productCollections.groups.items.delete',
+    fullyQualifiedName: 'productCollections.groups.items.delete',
+    httpMethod: 'delete',
+    httpPath: '/product-collections/{id}/groups/{group_id}/items/{item_id}',
   },
 ];
 

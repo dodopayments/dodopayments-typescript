@@ -43,6 +43,7 @@ describe('resource payments', () => {
       adaptive_currency_fees_inclusive: true,
       allowed_payment_method_types: ['ach'],
       billing_currency: 'AED',
+      customer_business_name: 'customer_business_name',
       discount_code: 'discount_code',
       discount_codes: ['string'],
       force_3ds: true,

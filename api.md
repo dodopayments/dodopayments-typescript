@@ -94,6 +94,7 @@ Methods:
 Methods:
 
 - <code title="get /invoices/payments/{payment_id}">client.invoices.payments.<a href="./src/resources/invoices/payments.ts">retrieve</a>(paymentID) -> Response</code>
+- <code title="get /invoices/payouts/{payout_id}">client.invoices.payments.<a href="./src/resources/invoices/payments.ts">retrievePayout</a>(payoutID) -> Response</code>
 - <code title="get /invoices/refunds/{refund_id}">client.invoices.payments.<a href="./src/resources/invoices/payments.ts">retrieveRefund</a>(refundID) -> Response</code>
 
 # Licenses
@@ -490,6 +491,7 @@ Types:
 
 - <code><a href="./src/resources/meters.ts">Conjunction</a></code>
 - <code><a href="./src/resources/meters.ts">FilterOperator</a></code>
+- <code><a href="./src/resources/meters.ts">FilterType</a></code>
 - <code><a href="./src/resources/meters.ts">Meter</a></code>
 - <code><a href="./src/resources/meters.ts">MeterAggregation</a></code>
 - <code><a href="./src/resources/meters.ts">MeterFilter</a></code>
@@ -552,6 +554,7 @@ Types:
 
 - <code><a href="./src/resources/entitlements/entitlements.ts">Entitlement</a></code>
 - <code><a href="./src/resources/entitlements/entitlements.ts">EntitlementIntegrationType</a></code>
+- <code><a href="./src/resources/entitlements/entitlements.ts">GitHubPermission</a></code>
 - <code><a href="./src/resources/entitlements/entitlements.ts">IntegrationConfig</a></code>
 - <code><a href="./src/resources/entitlements/entitlements.ts">IntegrationConfigResponse</a></code>
 
@@ -585,3 +588,49 @@ Methods:
 
 - <code title="get /entitlements/{id}/grants">client.entitlements.grants.<a href="./src/resources/entitlements/grants.ts">list</a>(id, { ...params }) -> EntitlementGrantsDefaultPageNumberPagination</code>
 - <code title="delete /entitlements/{id}/grants/{grant_id}">client.entitlements.grants.<a href="./src/resources/entitlements/grants.ts">revoke</a>(grantID, { ...params }) -> EntitlementGrant</code>
+
+# ProductCollections
+
+Types:
+
+- <code><a href="./src/resources/product-collections/product-collections.ts">ProductCollection</a></code>
+- <code><a href="./src/resources/product-collections/product-collections.ts">ProductCollectionListResponse</a></code>
+- <code><a href="./src/resources/product-collections/product-collections.ts">ProductCollectionUnarchiveResponse</a></code>
+- <code><a href="./src/resources/product-collections/product-collections.ts">ProductCollectionUpdateImagesResponse</a></code>
+
+Methods:
+
+- <code title="post /product-collections">client.productCollections.<a href="./src/resources/product-collections/product-collections.ts">create</a>({ ...params }) -> ProductCollection</code>
+- <code title="get /product-collections/{id}">client.productCollections.<a href="./src/resources/product-collections/product-collections.ts">retrieve</a>(id) -> ProductCollection</code>
+- <code title="patch /product-collections/{id}">client.productCollections.<a href="./src/resources/product-collections/product-collections.ts">update</a>(id, { ...params }) -> void</code>
+- <code title="get /product-collections">client.productCollections.<a href="./src/resources/product-collections/product-collections.ts">list</a>({ ...params }) -> ProductCollectionListResponsesDefaultPageNumberPagination</code>
+- <code title="delete /product-collections/{id}">client.productCollections.<a href="./src/resources/product-collections/product-collections.ts">delete</a>(id) -> void</code>
+- <code title="post /product-collections/{id}/unarchive">client.productCollections.<a href="./src/resources/product-collections/product-collections.ts">unarchive</a>(id) -> ProductCollectionUnarchiveResponse</code>
+- <code title="put /product-collections/{id}/images">client.productCollections.<a href="./src/resources/product-collections/product-collections.ts">updateImages</a>(id, { ...params }) -> ProductCollectionUpdateImagesResponse</code>
+
+## Groups
+
+Types:
+
+- <code><a href="./src/resources/product-collections/groups/groups.ts">GroupProduct</a></code>
+- <code><a href="./src/resources/product-collections/groups/groups.ts">ProductCollectionGroupDetails</a></code>
+- <code><a href="./src/resources/product-collections/groups/groups.ts">ProductCollectionGroupResponse</a></code>
+
+Methods:
+
+- <code title="post /product-collections/{id}/groups">client.productCollections.groups.<a href="./src/resources/product-collections/groups/groups.ts">create</a>(id, { ...params }) -> ProductCollectionGroupResponse</code>
+- <code title="patch /product-collections/{id}/groups/{group_id}">client.productCollections.groups.<a href="./src/resources/product-collections/groups/groups.ts">update</a>(groupID, { ...params }) -> void</code>
+- <code title="delete /product-collections/{id}/groups/{group_id}">client.productCollections.groups.<a href="./src/resources/product-collections/groups/groups.ts">delete</a>(groupID, { ...params }) -> void</code>
+
+### Items
+
+Types:
+
+- <code><a href="./src/resources/product-collections/groups/items.ts">ProductCollectionProduct</a></code>
+- <code><a href="./src/resources/product-collections/groups/items.ts">ItemCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /product-collections/{id}/groups/{group_id}/items">client.productCollections.groups.items.<a href="./src/resources/product-collections/groups/items.ts">create</a>(groupID, { ...params }) -> ItemCreateResponse</code>
+- <code title="patch /product-collections/{id}/groups/{group_id}/items/{item_id}">client.productCollections.groups.items.<a href="./src/resources/product-collections/groups/items.ts">update</a>(itemID, { ...params }) -> void</code>
+- <code title="delete /product-collections/{id}/groups/{group_id}/items/{item_id}">client.productCollections.groups.items.<a href="./src/resources/product-collections/groups/items.ts">delete</a>(itemID, { ...params }) -> void</code>
