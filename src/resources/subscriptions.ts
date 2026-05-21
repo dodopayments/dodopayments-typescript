@@ -529,6 +529,12 @@ export interface Subscription {
   custom_field_responses?: Array<PaymentsAPI.CustomFieldResponse> | null;
 
   /**
+   * Business / legal name associated with the tax id (B2B). When set this is used on
+   * the invoice in place of the customer's personal name.
+   */
+  customer_business_name?: string | null;
+
+  /**
    * DEPRECATED: Use discounts[].cycles_remaining instead.
    */
   discount_cycles_remaining?: number | null;
@@ -695,20 +701,12 @@ export interface SubscriptionCreateResponse {
   /**
    * One time products associated with the purchase of subscription
    */
-  one_time_product_cart?: Array<SubscriptionCreateResponse.OneTimeProductCart> | null;
+  one_time_product_cart?: Array<PaymentsAPI.OneTimeProductCartItem> | null;
 
   /**
    * URL to checkout page
    */
   payment_link?: string | null;
-}
-
-export namespace SubscriptionCreateResponse {
-  export interface OneTimeProductCart {
-    product_id: string;
-
-    quantity: number;
-  }
 }
 
 /**
@@ -826,6 +824,12 @@ export interface SubscriptionListResponse {
    * Cancelled timestamp if the subscription is cancelled
    */
   cancelled_at?: string | null;
+
+  /**
+   * Business / legal name associated with the tax id (B2B). When set this is used on
+   * the invoice in place of the customer's personal name.
+   */
+  customer_business_name?: string | null;
 
   /**
    * DEPRECATED: Use discounts[].cycles_remaining instead.
@@ -1177,6 +1181,13 @@ export interface SubscriptionCreateParams {
   billing_currency?: MiscAPI.Currency | null;
 
   /**
+   * Optional business / legal name associated with the tax id. When provided
+   * together with a valid tax id for a B2B purchase, this name is rendered on the
+   * invoice instead of the customer's personal name.
+   */
+  customer_business_name?: string | null;
+
+  /**
    * @deprecated Use `discount_id` instead.
    */
   discount_code?: string | null;
@@ -1213,7 +1224,7 @@ export interface SubscriptionCreateParams {
    * List of one time products that will be bundled with the first payment for this
    * subscription
    */
-  one_time_product_cart?: Array<PaymentsAPI.OneTimeProductCartItem> | null;
+  one_time_product_cart?: Array<SubscriptionCreateParams.OneTimeProductCart> | null;
 
   /**
    * If true, generates a payment link. Defaults to false if not specified.
@@ -1268,6 +1279,21 @@ export interface SubscriptionCreateParams {
   trial_period_days?: number | null;
 }
 
+export namespace SubscriptionCreateParams {
+  export interface OneTimeProductCart {
+    product_id: string;
+
+    quantity: number;
+
+    /**
+     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
+     * amount will be ignored Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
+     */
+    amount?: number | null;
+  }
+}
+
 export interface SubscriptionUpdateParams {
   billing?: PaymentsAPI.BillingAddress | null;
 
@@ -1299,6 +1325,14 @@ export interface SubscriptionUpdateParams {
    * Update credit entitlement cart settings
    */
   credit_entitlement_cart?: Array<SubscriptionUpdateParams.CreditEntitlementCart> | null;
+
+  /**
+   * Optional business / legal name associated with the tax id. When provided
+   * together with a valid tax id for a B2B subscription, this name is rendered on
+   * the invoice instead of the customer's personal name. Send `null` to explicitly
+   * clear the business name.
+   */
+  customer_business_name?: string | null;
 
   customer_name?: string | null;
 

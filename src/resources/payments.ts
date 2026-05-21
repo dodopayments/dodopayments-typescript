@@ -172,13 +172,6 @@ export interface OneTimeProductCartItem {
   product_id: string;
 
   quantity: number;
-
-  /**
-   * Amount the customer pays if pay_what_you_want is enabled. If disabled then
-   * amount will be ignored Represented in the lowest denomination of the currency
-   * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
-   */
-  amount?: number | null;
 }
 
 export interface Payment {
@@ -341,7 +334,7 @@ export interface Payment {
   /**
    * List of products purchased in a one-time payment
    */
-  product_cart?: Array<Payment.ProductCart> | null;
+  product_cart?: Array<OneTimeProductCartItem> | null;
 
   /**
    * Summary of the refund status for this payment. None if no succeeded refunds
@@ -375,14 +368,6 @@ export interface Payment {
    * Timestamp when the payment was last updated
    */
   updated_at?: string | null;
-}
-
-export namespace Payment {
-  export interface ProductCart {
-    product_id: string;
-
-    quantity: number;
-  }
 }
 
 /**
@@ -468,6 +453,7 @@ export type PaymentMethodTypes =
   | 'sepa'
   | 'sepa_bank_transfer'
   | 'sofort'
+  | 'sunbit'
   | 'swish'
   | 'touch_n_go'
   | 'trustly'
@@ -595,7 +581,22 @@ export interface PaymentCreateResponse {
   /**
    * Optional list of products included in the payment
    */
-  product_cart?: Array<OneTimeProductCartItem> | null;
+  product_cart?: Array<PaymentCreateResponse.ProductCart> | null;
+}
+
+export namespace PaymentCreateResponse {
+  export interface ProductCart {
+    product_id: string;
+
+    quantity: number;
+
+    /**
+     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
+     * amount will be ignored Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
+     */
+    amount?: number | null;
+  }
 }
 
 export interface PaymentListResponse {
@@ -683,7 +684,7 @@ export interface PaymentCreateParams {
   /**
    * List of products in the cart. Must contain at least 1 and at most 100 items.
    */
-  product_cart: Array<OneTimeProductCartItem>;
+  product_cart: Array<PaymentCreateParams.ProductCart>;
 
   /**
    * Whether adaptive currency fees should be included in the price (true) or added
@@ -706,6 +707,13 @@ export interface PaymentCreateParams {
    * support that currency for this transaction, it will not proceed
    */
   billing_currency?: MiscAPI.Currency | null;
+
+  /**
+   * Optional business / legal name associated with the tax id. When provided
+   * together with a valid tax id for a B2B purchase, this name is rendered on the
+   * invoice instead of the customer's personal name.
+   */
+  customer_business_name?: string | null;
 
   /**
    * @deprecated Use `discount_id` instead.
@@ -775,6 +783,21 @@ export interface PaymentCreateParams {
    * creation will fail
    */
   tax_id?: string | null;
+}
+
+export namespace PaymentCreateParams {
+  export interface ProductCart {
+    product_id: string;
+
+    quantity: number;
+
+    /**
+     * Amount the customer pays if pay_what_you_want is enabled. If disabled then
+     * amount will be ignored Represented in the lowest denomination of the currency
+     * (e.g., cents for USD). For example, to charge $1.00, pass `100`.
+     */
+    amount?: number | null;
+  }
 }
 
 export interface PaymentListParams extends DefaultPageNumberPaginationParams {

@@ -39,6 +39,7 @@ describe('resource subscriptions', () => {
       addons: [{ addon_id: 'addon_id', quantity: 0 }],
       allowed_payment_method_types: ['ach'],
       billing_currency: 'AED',
+      customer_business_name: 'customer_business_name',
       discount_code: 'discount_code',
       discount_codes: ['string'],
       force_3ds: true,

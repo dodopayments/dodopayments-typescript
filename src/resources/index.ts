@@ -86,6 +86,7 @@ export {
   Entitlements,
   type Entitlement,
   type EntitlementIntegrationType,
+  type GitHubPermission,
   type IntegrationConfig,
   type IntegrationConfigResponse,
   type EntitlementCreateParams,
@@ -122,6 +123,7 @@ export {
   Meters,
   type Conjunction,
   type FilterOperator,
+  type FilterType,
   type Meter,
   type MeterAggregation,
   type MeterFilter,
@@ -165,6 +167,18 @@ export {
   type PayoutListParams,
   type PayoutListResponsesDefaultPageNumberPagination,
 } from './payouts/payouts';
+export {
+  ProductCollections,
+  type ProductCollection,
+  type ProductCollectionListResponse,
+  type ProductCollectionUnarchiveResponse,
+  type ProductCollectionUpdateImagesResponse,
+  type ProductCollectionCreateParams,
+  type ProductCollectionUpdateParams,
+  type ProductCollectionListParams,
+  type ProductCollectionUpdateImagesParams,
+  type ProductCollectionListResponsesDefaultPageNumberPagination,
+} from './product-collections/product-collections';
 export {
   Products,
   type AddMeterToPrice,
