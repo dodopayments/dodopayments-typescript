@@ -57,6 +57,32 @@ export type FilterOperator =
   | 'contains'
   | 'does_not_contain';
 
+/**
+ * Filter clauses — either a flat list of `MeterFilterCondition`s or a list of
+ * nested `MeterFilter`s. Up to 3 levels of nesting are accepted; the limit is
+ * enforced at runtime.
+ */
+export type FilterType = Array<FilterType.MeterFilterConditionList> | Array<MeterFilter>;
+
+export namespace FilterType {
+  export interface MeterFilterConditionList {
+    /**
+     * Filter key to apply
+     */
+    key: string;
+
+    /**
+     * Filter operator
+     */
+    operator: MetersAPI.FilterOperator;
+
+    /**
+     * Filter value - can be string, number, or boolean
+     */
+    value: string | number | boolean;
+  }
+}
+
 export interface Meter {
   id: string;
 
@@ -112,124 +138,12 @@ export interface MeterFilter {
    * Filter clauses - can be direct conditions or nested filters (up to 3 levels
    * deep)
    */
-  clauses: Array<MeterFilter.DirectFilterCondition> | Array<MeterFilter.NestedMeterFilter>;
+  clauses: FilterType;
 
   /**
    * Logical conjunction to apply between clauses (and/or)
    */
   conjunction: Conjunction;
-}
-
-export namespace MeterFilter {
-  /**
-   * Filter condition with key, operator, and value
-   */
-  export interface DirectFilterCondition {
-    /**
-     * Filter key to apply
-     */
-    key: string;
-
-    operator: MetersAPI.FilterOperator;
-
-    /**
-     * Filter value - can be string, number, or boolean
-     */
-    value: string | number | boolean;
-  }
-
-  /**
-   * Level 1 nested filter - can contain Level 2 filters
-   */
-  export interface NestedMeterFilter {
-    /**
-     * Level 1: Can be conditions or nested filters (2 more levels allowed)
-     */
-    clauses: Array<NestedMeterFilter.Level1FilterCondition> | Array<NestedMeterFilter.Level1NestedFilter>;
-
-    conjunction: MetersAPI.Conjunction;
-  }
-
-  export namespace NestedMeterFilter {
-    /**
-     * Filter condition with key, operator, and value
-     */
-    export interface Level1FilterCondition {
-      /**
-       * Filter key to apply
-       */
-      key: string;
-
-      operator: MetersAPI.FilterOperator;
-
-      /**
-       * Filter value - can be string, number, or boolean
-       */
-      value: string | number | boolean;
-    }
-
-    /**
-     * Level 2 nested filter
-     */
-    export interface Level1NestedFilter {
-      /**
-       * Level 2: Can be conditions or nested filters (1 more level allowed)
-       */
-      clauses: Array<Level1NestedFilter.Level2FilterCondition> | Array<Level1NestedFilter.Level2NestedFilter>;
-
-      conjunction: MetersAPI.Conjunction;
-    }
-
-    export namespace Level1NestedFilter {
-      /**
-       * Filter condition with key, operator, and value
-       */
-      export interface Level2FilterCondition {
-        /**
-         * Filter key to apply
-         */
-        key: string;
-
-        operator: MetersAPI.FilterOperator;
-
-        /**
-         * Filter value - can be string, number, or boolean
-         */
-        value: string | number | boolean;
-      }
-
-      /**
-       * Level 3 nested filter (final nesting level)
-       */
-      export interface Level2NestedFilter {
-        /**
-         * Level 3: Filter conditions only (max depth reached)
-         */
-        clauses: Array<Level2NestedFilter.Clause>;
-
-        conjunction: MetersAPI.Conjunction;
-      }
-
-      export namespace Level2NestedFilter {
-        /**
-         * Filter condition with key, operator, and value
-         */
-        export interface Clause {
-          /**
-           * Filter key to apply
-           */
-          key: string;
-
-          operator: MetersAPI.FilterOperator;
-
-          /**
-           * Filter value - can be string, number, or boolean
-           */
-          value: string | number | boolean;
-        }
-      }
-    }
-  }
 }
 
 export interface MeterCreateParams {
@@ -275,6 +189,7 @@ export declare namespace Meters {
   export {
     type Conjunction as Conjunction,
     type FilterOperator as FilterOperator,
+    type FilterType as FilterType,
     type Meter as Meter,
     type MeterAggregation as MeterAggregation,
     type MeterFilter as MeterFilter,

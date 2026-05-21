@@ -56,6 +56,7 @@ describe('resource checkoutSessions', () => {
         },
       ],
       customer: { customer_id: 'customer_id' },
+      customer_business_name: 'customer_business_name',
       customization: {
         force_language: 'force_language',
         show_on_demand_tag: true,
@@ -110,6 +111,7 @@ describe('resource checkoutSessions', () => {
       discount_codes: ['string'],
       feature_flags: {
         allow_currency_selection: true,
+        allow_customer_editing_business_name: true,
         allow_customer_editing_city: true,
         allow_customer_editing_country: true,
         allow_customer_editing_email: true,
@@ -207,6 +209,7 @@ describe('resource checkoutSessions', () => {
         },
       ],
       customer: { customer_id: 'customer_id' },
+      customer_business_name: 'customer_business_name',
       customization: {
         force_language: 'force_language',
         show_on_demand_tag: true,
@@ -261,6 +264,7 @@ describe('resource checkoutSessions', () => {
       discount_codes: ['string'],
       feature_flags: {
         allow_currency_selection: true,
+        allow_customer_editing_business_name: true,
         allow_customer_editing_city: true,
         allow_customer_editing_country: true,
         allow_customer_editing_email: true,

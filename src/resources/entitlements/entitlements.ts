@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as EntitlementsAPI from './entitlements';
 import * as SubscriptionsAPI from '../subscriptions';
 import * as FilesAPI from './files';
 import { FileDeleteParams, FileUploadResponse, Files } from './files';
@@ -143,6 +144,11 @@ export type EntitlementIntegrationType =
   | 'license_key';
 
 /**
+ * Repository permission to grant on a `github` entitlement.
+ */
+export type GitHubPermission = 'pull' | 'push' | 'admin' | 'maintain' | 'triage';
+
+/**
  * Integration-specific configuration supplied when creating or updating an
  * entitlement. The shape required matches the entitlement's `integration_type`.
  */
@@ -161,7 +167,7 @@ export namespace IntegrationConfig {
     /**
      * Permission to grant on the repository.
      */
-    permission: 'pull' | 'push' | 'admin' | 'maintain' | 'triage';
+    permission: EntitlementsAPI.GitHubPermission;
 
     /**
      * Repository or organisation slug to grant access to.
@@ -288,7 +294,7 @@ export namespace IntegrationConfigResponse {
     /**
      * Permission to grant on the repository.
      */
-    permission: 'pull' | 'push' | 'admin' | 'maintain' | 'triage';
+    permission: EntitlementsAPI.GitHubPermission;
 
     /**
      * Repository or organisation slug to grant access to.
@@ -494,6 +500,7 @@ export declare namespace Entitlements {
   export {
     type Entitlement as Entitlement,
     type EntitlementIntegrationType as EntitlementIntegrationType,
+    type GitHubPermission as GitHubPermission,
     type IntegrationConfig as IntegrationConfig,
     type IntegrationConfigResponse as IntegrationConfigResponse,
     type EntitlementsDefaultPageNumberPagination as EntitlementsDefaultPageNumberPagination,
