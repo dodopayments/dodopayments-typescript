@@ -1,5 +1,25 @@
 # Changelog
 
+## 2.32.0 (2026-05-21)
+
+Full Changelog: [v2.31.2...v2.32.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.31.2...v2.32.0)
+
+### Features
+
+* **api:** fixed a breaking modal change ([2ebadfd](https://github.com/dodopayments/dodopayments-typescript/commit/2ebadfd83adf32d8d27793242ddcc0c11472c30c))
+* **api:** stainless fixes ([de22d45](https://github.com/dodopayments/dodopayments-typescript/commit/de22d45d43fcd8111f7df9f9e32dcc41aee49799))
+* **api:** updated openapi spec to v1.99.0 and added missing endpoints as well ([355bcff](https://github.com/dodopayments/dodopayments-typescript/commit/355bcff595128ea31846c905ca88c120e0f80d6c))
+
+
+### Bug Fixes
+
+* **typescript:** upgrade tsc-multi so that it works with Node 26 ([a8a2dbe](https://github.com/dodopayments/dodopayments-typescript/commit/a8a2dbeed8f84ad36f4b88b8ff96220502a98b15))
+
+
+### Chores
+
+* **tests:** remove redundant File import ([3713e1b](https://github.com/dodopayments/dodopayments-typescript/commit/3713e1b86140cc3a495c9d9b09f2e6c7cffe01e5))
+
 ## 2.31.2 (2026-05-14)
 
 Full Changelog: [v2.31.1...v2.31.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.31.1...v2.31.2)
