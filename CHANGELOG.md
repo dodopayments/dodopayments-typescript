@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.32.1 (2026-05-29)
+
+Full Changelog: [v2.32.0...v2.32.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.32.0...v2.32.1)
+
+### Bug Fixes
+
+* **mcp:** use `pure-lockfile` when building mcp server ([8210e6d](https://github.com/dodopayments/dodopayments-typescript/commit/8210e6deedaf86a575c0bdab7c487671c52869ec))
+
+
+### Chores
+
+* **internal:** codegen related update ([f6b11d6](https://github.com/dodopayments/dodopayments-typescript/commit/f6b11d6ad0ab119f8400887ca1ad2285c73e3c75))
+
 ## 2.32.0 (2026-05-21)
 
 Full Changelog: [v2.31.2...v2.32.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.31.2...v2.32.0)
