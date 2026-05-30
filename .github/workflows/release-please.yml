@@ -1,0 +1,36 @@
+name: Release Please
+
+# Repo-local release pipeline (replaces the Stainless GitHub App).
+# Opens/maintains a release PR from Conventional Commits on main; on merge it
+# tags + creates a GitHub Release, which triggers this repo's publish-*.yml.
+# Auth: the dodo-squirrels App token (NOT GITHUB_TOKEN) so that the created
+# release fires the `release: [published]` event that publish-*.yml listens on.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mint dodo-squirrels App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          # dodo-squirrels App (app_id 3728163). Set repo/org var
+          # APP_CLIENT_ID = Iv23lizGR7cMOzRpoJHc. `client-id` replaces the
+          # deprecated `app-id` input.
+          client-id: ${{ vars.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Run release-please
+        uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
