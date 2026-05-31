@@ -12,37 +12,47 @@ import { path } from '../internal/utils/path';
 
 export class UsageEvents extends APIResource {
   /**
-   * Fetch detailed information about a single event using its unique event ID. This
-   * endpoint is useful for:
+   * This endpoint allows you to ingest custom events that can be used for:
    *
-   * - Debugging specific event ingestion issues
-   * - Retrieving event details for customer support
-   * - Validating that events were processed correctly
-   * - Getting the complete metadata for an event
+   * - Usage-based billing and metering
+   * - Analytics and reporting
+   * - Customer behavior tracking
    *
-   * ## Event ID Format:
+   * ## Important Notes:
    *
-   * The event ID should be the same value that was provided during event ingestion
-   * via the `/events/ingest` endpoint. Event IDs are case-sensitive and must match
-   * exactly.
-   *
-   * ## Response Details:
-   *
-   * The response includes all event data including:
-   *
-   * - Complete metadata key-value pairs
-   * - Original timestamp (preserved from ingestion)
-   * - Customer and business association
-   * - Event name and processing information
+   * - **Duplicate Prevention**:
+   *   - Duplicate `event_id` values within the same request are rejected (entire
+   *     request fails)
+   *   - Subsequent requests with existing `event_id` values are ignored (idempotent
+   *     behavior)
+   * - **Rate Limiting**: Maximum 1000 events per request
+   * - **Time Validation**: Events with timestamps older than 1 hour or more than 5
+   *   minutes in the future will be rejected
+   * - **Metadata Limits**: Maximum 50 key-value pairs per event, keys max 100 chars,
+   *   values max 500 chars
    *
    * ## Example Usage:
    *
-   * ```text
-   * GET /events/api_call_12345
+   * ```json
+   * {
+   *   "events": [
+   *     {
+   *       "event_id": "api_call_12345",
+   *       "customer_id": "cus_abc123",
+   *       "event_name": "api_request",
+   *       "timestamp": "2024-01-15T10:30:00Z",
+   *       "metadata": {
+   *         "endpoint": "/api/v1/users",
+   *         "method": "GET",
+   *         "tokens_used": "150"
+   *       }
+   *     }
+   *   ]
+   * }
    * ```
    */
-  retrieve(eventID: string, options?: RequestOptions): APIPromise<Event> {
-    return this._client.get(path`/events/${eventID}`, options);
+  ingest(body: UsageEventIngestParams, options?: RequestOptions): APIPromise<UsageEventIngestResponse> {
+    return this._client.post('/events/ingest', { body, ...options });
   }
 
   /**
@@ -88,47 +98,37 @@ export class UsageEvents extends APIResource {
   }
 
   /**
-   * This endpoint allows you to ingest custom events that can be used for:
+   * Fetch detailed information about a single event using its unique event ID. This
+   * endpoint is useful for:
    *
-   * - Usage-based billing and metering
-   * - Analytics and reporting
-   * - Customer behavior tracking
+   * - Debugging specific event ingestion issues
+   * - Retrieving event details for customer support
+   * - Validating that events were processed correctly
+   * - Getting the complete metadata for an event
    *
-   * ## Important Notes:
+   * ## Event ID Format:
    *
-   * - **Duplicate Prevention**:
-   *   - Duplicate `event_id` values within the same request are rejected (entire
-   *     request fails)
-   *   - Subsequent requests with existing `event_id` values are ignored (idempotent
-   *     behavior)
-   * - **Rate Limiting**: Maximum 1000 events per request
-   * - **Time Validation**: Events with timestamps older than 1 hour or more than 5
-   *   minutes in the future will be rejected
-   * - **Metadata Limits**: Maximum 50 key-value pairs per event, keys max 100 chars,
-   *   values max 500 chars
+   * The event ID should be the same value that was provided during event ingestion
+   * via the `/events/ingest` endpoint. Event IDs are case-sensitive and must match
+   * exactly.
+   *
+   * ## Response Details:
+   *
+   * The response includes all event data including:
+   *
+   * - Complete metadata key-value pairs
+   * - Original timestamp (preserved from ingestion)
+   * - Customer and business association
+   * - Event name and processing information
    *
    * ## Example Usage:
    *
-   * ```json
-   * {
-   *   "events": [
-   *     {
-   *       "event_id": "api_call_12345",
-   *       "customer_id": "cus_abc123",
-   *       "event_name": "api_request",
-   *       "timestamp": "2024-01-15T10:30:00Z",
-   *       "metadata": {
-   *         "endpoint": "/api/v1/users",
-   *         "method": "GET",
-   *         "tokens_used": "150"
-   *       }
-   *     }
-   *   ]
-   * }
+   * ```text
+   * GET /events/api_call_12345
    * ```
    */
-  ingest(body: UsageEventIngestParams, options?: RequestOptions): APIPromise<UsageEventIngestResponse> {
-    return this._client.post('/events/ingest', { body, ...options });
+  retrieve(eventID: string, options?: RequestOptions): APIPromise<Event> {
+    return this._client.get(path`/events/${eventID}`, options);
   }
 }
 
@@ -185,6 +185,13 @@ export interface UsageEventIngestResponse {
   ingested_count: number;
 }
 
+export interface UsageEventIngestParams {
+  /**
+   * List of events to be pushed
+   */
+  events: Array<EventInput>;
+}
+
 export interface UsageEventListParams extends DefaultPageNumberPaginationParams {
   /**
    * Filter events by customer ID
@@ -214,20 +221,13 @@ export interface UsageEventListParams extends DefaultPageNumberPaginationParams 
   start?: string;
 }
 
-export interface UsageEventIngestParams {
-  /**
-   * List of events to be pushed
-   */
-  events: Array<EventInput>;
-}
-
 export declare namespace UsageEvents {
   export {
     type Event as Event,
     type EventInput as EventInput,
     type UsageEventIngestResponse as UsageEventIngestResponse,
     type EventsDefaultPageNumberPagination as EventsDefaultPageNumberPagination,
-    type UsageEventListParams as UsageEventListParams,
     type UsageEventIngestParams as UsageEventIngestParams,
+    type UsageEventListParams as UsageEventListParams,
   };
 }

@@ -16,9 +16,9 @@ export {
   type ProductEntitlementSummary,
   type ProductListResponse,
   type ProductUpdateFilesResponse,
+  type ProductListParams,
   type ProductCreateParams,
   type ProductUpdateParams,
-  type ProductListParams,
   type ProductUpdateFilesParams,
   type ProductListResponsesDefaultPageNumberPagination,
 } from './products';
@@ -26,7 +26,7 @@ export {
   ShortLinks,
   type ShortLinkCreateResponse,
   type ShortLinkListResponse,
-  type ShortLinkCreateParams,
   type ShortLinkListParams,
+  type ShortLinkCreateParams,
   type ShortLinkListResponsesDefaultPageNumberPagination,
 } from './short-links';
