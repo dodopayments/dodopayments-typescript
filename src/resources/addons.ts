@@ -12,6 +12,16 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class Addons extends APIResource {
+  list(
+    query: AddonListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<AddonResponsesDefaultPageNumberPagination, AddonResponse> {
+    return this._client.getAPIList('/addons', DefaultPageNumberPagination<AddonResponse>, {
+      query,
+      ...options,
+    });
+  }
+
   create(body: AddonCreateParams, options?: RequestOptions): APIPromise<AddonResponse> {
     return this._client.post('/addons', { body, ...options });
   }
@@ -22,16 +32,6 @@ export class Addons extends APIResource {
 
   update(id: string, body: AddonUpdateParams, options?: RequestOptions): APIPromise<AddonResponse> {
     return this._client.patch(path`/addons/${id}`, { body, ...options });
-  }
-
-  list(
-    query: AddonListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<AddonResponsesDefaultPageNumberPagination, AddonResponse> {
-    return this._client.getAPIList('/addons', DefaultPageNumberPagination<AddonResponse>, {
-      query,
-      ...options,
-    });
   }
 
   updateImages(id: string, options?: RequestOptions): APIPromise<AddonUpdateImagesResponse> {
@@ -99,6 +99,8 @@ export interface AddonUpdateImagesResponse {
   url: string;
 }
 
+export interface AddonListParams extends DefaultPageNumberPaginationParams {}
+
 export interface AddonCreateParams {
   /**
    * The currency of the Addon
@@ -158,15 +160,13 @@ export interface AddonUpdateParams {
   tax_category?: MiscAPI.TaxCategory | null;
 }
 
-export interface AddonListParams extends DefaultPageNumberPaginationParams {}
-
 export declare namespace Addons {
   export {
     type AddonResponse as AddonResponse,
     type AddonUpdateImagesResponse as AddonUpdateImagesResponse,
     type AddonResponsesDefaultPageNumberPagination as AddonResponsesDefaultPageNumberPagination,
+    type AddonListParams as AddonListParams,
     type AddonCreateParams as AddonCreateParams,
     type AddonUpdateParams as AddonUpdateParams,
-    type AddonListParams as AddonListParams,
   };
 }

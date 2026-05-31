@@ -29,6 +29,25 @@ describe('resource groups', () => {
     });
   });
 
+  test('delete: only required params', async () => {
+    const responsePromise = client.productCollections.groups.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
+      id: 'id',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('delete: required and optional params', async () => {
+    const response = await client.productCollections.groups.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
+      id: 'id',
+    });
+  });
+
   test('update: only required params', async () => {
     const responsePromise = client.productCollections.groups.update('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       id: 'id',
@@ -48,25 +67,6 @@ describe('resource groups', () => {
       group_name: 'group_name',
       product_order: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
       status: true,
-    });
-  });
-
-  test('delete: only required params', async () => {
-    const responsePromise = client.productCollections.groups.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
-      id: 'id',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('delete: required and optional params', async () => {
-    const response = await client.productCollections.groups.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
-      id: 'id',
     });
   });
 });
