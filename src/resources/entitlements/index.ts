@@ -7,9 +7,9 @@ export {
   type GitHubPermission,
   type IntegrationConfig,
   type IntegrationConfigResponse,
+  type EntitlementListParams,
   type EntitlementCreateParams,
   type EntitlementUpdateParams,
-  type EntitlementListParams,
   type EntitlementsDefaultPageNumberPagination,
 } from './entitlements';
 export { Files, type FileUploadResponse, type FileDeleteParams } from './files';

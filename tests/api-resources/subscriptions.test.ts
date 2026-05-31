@@ -8,6 +8,36 @@ const client = new DodoPayments({
 });
 
 describe('resource subscriptions', () => {
+  test('list', async () => {
+    const responsePromise = client.subscriptions.list();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.subscriptions.list(
+        {
+          brand_id: 'brand_id',
+          created_at_gte: '2019-12-27T18:11:19.117Z',
+          created_at_lte: '2019-12-27T18:11:19.117Z',
+          customer_id: 'customer_id',
+          page_number: 0,
+          page_size: 0,
+          product_id: 'product_id',
+          status: 'pending',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
+
   test('create: only required params', async () => {
     const responsePromise = client.subscriptions.create({
       billing: { country: 'AF' },
@@ -93,8 +123,8 @@ describe('resource subscriptions', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('list', async () => {
-    const responsePromise = client.subscriptions.list();
+  test('charge: only required params', async () => {
+    const responsePromise = client.subscriptions.charge('subscription_id', { product_price: 0 });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -104,34 +134,15 @@ describe('resource subscriptions', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('list: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.subscriptions.list(
-        {
-          brand_id: 'brand_id',
-          created_at_gte: '2019-12-27T18:11:19.117Z',
-          created_at_lte: '2019-12-27T18:11:19.117Z',
-          customer_id: 'customer_id',
-          page_number: 0,
-          page_size: 0,
-          product_id: 'product_id',
-          status: 'pending',
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(DodoPayments.NotFoundError);
-  });
-
-  test('cancelChangePlan', async () => {
-    const responsePromise = client.subscriptions.cancelChangePlan('subscription_id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
+  test('charge: required and optional params', async () => {
+    const response = await client.subscriptions.charge('subscription_id', {
+      product_price: 0,
+      adaptive_currency_fees_inclusive: true,
+      customer_balance_config: { allow_customer_credits_purchase: true, allow_customer_credits_usage: true },
+      metadata: { foo: 'string' },
+      product_currency: 'AED',
+      product_description: 'product_description',
+    });
   });
 
   test('changePlan: only required params', async () => {
@@ -162,69 +173,6 @@ describe('resource subscriptions', () => {
       metadata: { foo: 'string' },
       on_payment_failure: 'prevent_change',
     });
-  });
-
-  test('charge: only required params', async () => {
-    const responsePromise = client.subscriptions.charge('subscription_id', { product_price: 0 });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('charge: required and optional params', async () => {
-    const response = await client.subscriptions.charge('subscription_id', {
-      product_price: 0,
-      adaptive_currency_fees_inclusive: true,
-      customer_balance_config: { allow_customer_credits_purchase: true, allow_customer_credits_usage: true },
-      metadata: { foo: 'string' },
-      product_currency: 'AED',
-      product_description: 'product_description',
-    });
-  });
-
-  test('previewChangePlan: only required params', async () => {
-    const responsePromise = client.subscriptions.previewChangePlan('subscription_id', {
-      product_id: 'product_id',
-      proration_billing_mode: 'prorated_immediately',
-      quantity: 0,
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('previewChangePlan: required and optional params', async () => {
-    const response = await client.subscriptions.previewChangePlan('subscription_id', {
-      product_id: 'product_id',
-      proration_billing_mode: 'prorated_immediately',
-      quantity: 0,
-      adaptive_currency_fees_inclusive: true,
-      addons: [{ addon_id: 'addon_id', quantity: 0 }],
-      discount_code: 'discount_code',
-      discount_codes: ['string'],
-      effective_at: 'immediately',
-      metadata: { foo: 'string' },
-      on_payment_failure: 'prevent_change',
-    });
-  });
-
-  test('retrieveCreditUsage', async () => {
-    const responsePromise = client.subscriptions.retrieveCreditUsage('subscription_id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
   });
 
   test('retrieveUsageHistory', async () => {
@@ -272,5 +220,57 @@ describe('resource subscriptions', () => {
     const response = await client.subscriptions.updatePaymentMethod('subscription_id', {
       payment_method: { type: 'new', return_url: 'return_url' },
     });
+  });
+
+  test('previewChangePlan: only required params', async () => {
+    const responsePromise = client.subscriptions.previewChangePlan('subscription_id', {
+      product_id: 'product_id',
+      proration_billing_mode: 'prorated_immediately',
+      quantity: 0,
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('previewChangePlan: required and optional params', async () => {
+    const response = await client.subscriptions.previewChangePlan('subscription_id', {
+      product_id: 'product_id',
+      proration_billing_mode: 'prorated_immediately',
+      quantity: 0,
+      adaptive_currency_fees_inclusive: true,
+      addons: [{ addon_id: 'addon_id', quantity: 0 }],
+      discount_code: 'discount_code',
+      discount_codes: ['string'],
+      effective_at: 'immediately',
+      metadata: { foo: 'string' },
+      on_payment_failure: 'prevent_change',
+    });
+  });
+
+  test('retrieveCreditUsage', async () => {
+    const responsePromise = client.subscriptions.retrieveCreditUsage('subscription_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('cancelChangePlan', async () => {
+    const responsePromise = client.subscriptions.cancelChangePlan('subscription_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
   });
 });
