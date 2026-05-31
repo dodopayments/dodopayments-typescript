@@ -52,7 +52,7 @@ export declare namespace Wallets {
     LedgerEntries as LedgerEntries,
     type CustomerWalletTransaction as CustomerWalletTransaction,
     type CustomerWalletTransactionsDefaultPageNumberPagination as CustomerWalletTransactionsDefaultPageNumberPagination,
-    type LedgerEntryCreateParams as LedgerEntryCreateParams,
     type LedgerEntryListParams as LedgerEntryListParams,
+    type LedgerEntryCreateParams as LedgerEntryCreateParams,
   };
 }

@@ -6,14 +6,14 @@ export {
   type ProductCollectionGroupDetails,
   type ProductCollectionGroupResponse,
   type GroupCreateParams,
-  type GroupUpdateParams,
   type GroupDeleteParams,
+  type GroupUpdateParams,
 } from './groups';
 export {
   Items,
   type ProductCollectionProduct,
   type ItemCreateResponse,
   type ItemCreateParams,
-  type ItemUpdateParams,
   type ItemDeleteParams,
+  type ItemUpdateParams,
 } from './items';
