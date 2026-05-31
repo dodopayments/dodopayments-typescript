@@ -13,14 +13,6 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class LedgerEntries extends APIResource {
-  create(
-    customerID: string,
-    body: LedgerEntryCreateParams,
-    options?: RequestOptions,
-  ): APIPromise<WalletsAPI.CustomerWallet> {
-    return this._client.post(path`/customers/${customerID}/wallets/ledger-entries`, { body, ...options });
-  }
-
   list(
     customerID: string,
     query: LedgerEntryListParams | null | undefined = {},
@@ -31,6 +23,14 @@ export class LedgerEntries extends APIResource {
       DefaultPageNumberPagination<CustomerWalletTransaction>,
       { query, ...options },
     );
+  }
+
+  create(
+    customerID: string,
+    body: LedgerEntryCreateParams,
+    options?: RequestOptions,
+  ): APIPromise<WalletsAPI.CustomerWallet> {
+    return this._client.post(path`/customers/${customerID}/wallets/ledger-entries`, { body, ...options });
   }
 }
 
@@ -70,6 +70,13 @@ export interface CustomerWalletTransaction {
   reference_object_id?: string | null;
 }
 
+export interface LedgerEntryListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Optional currency filter
+   */
+  currency?: MiscAPI.Currency;
+}
+
 export interface LedgerEntryCreateParams {
   amount: number;
 
@@ -91,18 +98,11 @@ export interface LedgerEntryCreateParams {
   reason?: string | null;
 }
 
-export interface LedgerEntryListParams extends DefaultPageNumberPaginationParams {
-  /**
-   * Optional currency filter
-   */
-  currency?: MiscAPI.Currency;
-}
-
 export declare namespace LedgerEntries {
   export {
     type CustomerWalletTransaction as CustomerWalletTransaction,
     type CustomerWalletTransactionsDefaultPageNumberPagination as CustomerWalletTransactionsDefaultPageNumberPagination,
-    type LedgerEntryCreateParams as LedgerEntryCreateParams,
     type LedgerEntryListParams as LedgerEntryListParams,
+    type LedgerEntryCreateParams as LedgerEntryCreateParams,
   };
 }

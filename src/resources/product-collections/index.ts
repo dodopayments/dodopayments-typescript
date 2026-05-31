@@ -6,8 +6,8 @@ export {
   type ProductCollectionGroupDetails,
   type ProductCollectionGroupResponse,
   type GroupCreateParams,
-  type GroupUpdateParams,
   type GroupDeleteParams,
+  type GroupUpdateParams,
 } from './groups/index';
 export {
   ProductCollections,
@@ -15,9 +15,9 @@ export {
   type ProductCollectionListResponse,
   type ProductCollectionUnarchiveResponse,
   type ProductCollectionUpdateImagesResponse,
+  type ProductCollectionListParams,
   type ProductCollectionCreateParams,
   type ProductCollectionUpdateParams,
-  type ProductCollectionListParams,
   type ProductCollectionUpdateImagesParams,
   type ProductCollectionListResponsesDefaultPageNumberPagination,
 } from './product-collections';

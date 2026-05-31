@@ -8,6 +8,31 @@ const client = new DodoPayments({
 });
 
 describe('resource entitlements', () => {
+  test('list', async () => {
+    const responsePromise = client.entitlements.list();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.entitlements.list(
+        {
+          integration_type: 'discord',
+          page_number: 0,
+          page_size: 0,
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
+
   test('create: only required params', async () => {
     const responsePromise = client.entitlements.create({
       integration_config: { permission: 'pull', target_id: 'target_id' },
@@ -44,44 +69,19 @@ describe('resource entitlements', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('update', async () => {
-    const responsePromise = client.entitlements.update('id', {});
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list', async () => {
-    const responsePromise = client.entitlements.list();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.entitlements.list(
-        {
-          integration_type: 'discord',
-          page_number: 0,
-          page_size: 0,
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(DodoPayments.NotFoundError);
-  });
-
   test('delete', async () => {
     const responsePromise = client.entitlements.delete('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('update', async () => {
+    const responsePromise = client.entitlements.update('id', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
