@@ -12,37 +12,6 @@ import { path } from '../../internal/utils/path';
 
 export class Balances extends APIResource {
   /**
-   * Returns the credit balance details for a specific customer and credit
-   * entitlement.
-   *
-   * # Authentication
-   *
-   * Requires an API key with `Viewer` role or higher.
-   *
-   * # Path Parameters
-   *
-   * - `credit_entitlement_id` - The unique identifier of the credit entitlement
-   * - `customer_id` - The unique identifier of the customer
-   *
-   * # Responses
-   *
-   * - `200 OK` - Returns the customer's balance
-   * - `404 Not Found` - Credit entitlement or customer balance not found
-   * - `500 Internal Server Error` - Database or server error
-   */
-  retrieve(
-    customerID: string,
-    params: BalanceRetrieveParams,
-    options?: RequestOptions,
-  ): APIPromise<CustomerCreditBalance> {
-    const { credit_entitlement_id } = params;
-    return this._client.get(
-      path`/credit-entitlements/${credit_entitlement_id}/balances/${customerID}`,
-      options,
-    );
-  }
-
-  /**
    * Returns a paginated list of customer credit balances for the given credit
    * entitlement.
    *
@@ -79,43 +48,33 @@ export class Balances extends APIResource {
   }
 
   /**
-   * For credit entries, a new grant is created. For debit entries, credits are
-   * deducted from existing grants using FIFO (oldest first).
+   * Returns the credit balance details for a specific customer and credit
+   * entitlement.
    *
    * # Authentication
    *
-   * Requires an API key with `Editor` role.
+   * Requires an API key with `Viewer` role or higher.
    *
    * # Path Parameters
    *
    * - `credit_entitlement_id` - The unique identifier of the credit entitlement
    * - `customer_id` - The unique identifier of the customer
    *
-   * # Request Body
-   *
-   * - `entry_type` - "credit" or "debit"
-   * - `amount` - Amount to credit or debit
-   * - `reason` - Optional human-readable reason
-   * - `expires_at` - Optional expiration for credited amount (only for credit type)
-   * - `idempotency_key` - Optional key to prevent duplicate entries
-   *
    * # Responses
    *
-   * - `201 Created` - Ledger entry created successfully
-   * - `400 Bad Request` - Invalid request (e.g., debit with insufficient balance)
-   * - `404 Not Found` - Credit entitlement or customer not found
-   * - `409 Conflict` - Idempotency key already exists
+   * - `200 OK` - Returns the customer's balance
+   * - `404 Not Found` - Credit entitlement or customer balance not found
    * - `500 Internal Server Error` - Database or server error
    */
-  createLedgerEntry(
+  retrieve(
     customerID: string,
-    params: BalanceCreateLedgerEntryParams,
+    params: BalanceRetrieveParams,
     options?: RequestOptions,
-  ): APIPromise<BalanceCreateLedgerEntryResponse> {
-    const { credit_entitlement_id, ...body } = params;
-    return this._client.post(
-      path`/credit-entitlements/${credit_entitlement_id}/balances/${customerID}/ledger-entries`,
-      { body, ...options },
+  ): APIPromise<CustomerCreditBalance> {
+    const { credit_entitlement_id } = params;
+    return this._client.get(
+      path`/credit-entitlements/${credit_entitlement_id}/balances/${customerID}`,
+      options,
     );
   }
 
@@ -192,6 +151,47 @@ export class Balances extends APIResource {
       path`/credit-entitlements/${credit_entitlement_id}/balances/${customerID}/ledger`,
       DefaultPageNumberPagination<CreditLedgerEntry>,
       { query, ...options },
+    );
+  }
+
+  /**
+   * For credit entries, a new grant is created. For debit entries, credits are
+   * deducted from existing grants using FIFO (oldest first).
+   *
+   * # Authentication
+   *
+   * Requires an API key with `Editor` role.
+   *
+   * # Path Parameters
+   *
+   * - `credit_entitlement_id` - The unique identifier of the credit entitlement
+   * - `customer_id` - The unique identifier of the customer
+   *
+   * # Request Body
+   *
+   * - `entry_type` - "credit" or "debit"
+   * - `amount` - Amount to credit or debit
+   * - `reason` - Optional human-readable reason
+   * - `expires_at` - Optional expiration for credited amount (only for credit type)
+   * - `idempotency_key` - Optional key to prevent duplicate entries
+   *
+   * # Responses
+   *
+   * - `201 Created` - Ledger entry created successfully
+   * - `400 Bad Request` - Invalid request (e.g., debit with insufficient balance)
+   * - `404 Not Found` - Credit entitlement or customer not found
+   * - `409 Conflict` - Idempotency key already exists
+   * - `500 Internal Server Error` - Database or server error
+   */
+  createLedgerEntry(
+    customerID: string,
+    params: BalanceCreateLedgerEntryParams,
+    options?: RequestOptions,
+  ): APIPromise<BalanceCreateLedgerEntryResponse> {
+    const { credit_entitlement_id, ...body } = params;
+    return this._client.post(
+      path`/credit-entitlements/${credit_entitlement_id}/balances/${customerID}/ledger-entries`,
+      { body, ...options },
     );
   }
 }
@@ -340,6 +340,13 @@ export interface BalanceListGrantsResponse {
   source_id?: string | null;
 }
 
+export interface BalanceListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Filter by specific customer ID
+   */
+  customer_id?: string;
+}
+
 export interface BalanceRetrieveParams {
   /**
    * Credit Entitlement ID
@@ -347,11 +354,39 @@ export interface BalanceRetrieveParams {
   credit_entitlement_id: string;
 }
 
-export interface BalanceListParams extends DefaultPageNumberPaginationParams {
+export interface BalanceListGrantsParams extends DefaultPageNumberPaginationParams {
   /**
-   * Filter by specific customer ID
+   * Path param: Credit Entitlement ID
    */
-  customer_id?: string;
+  credit_entitlement_id: string;
+
+  /**
+   * Query param: Filter by grant status: active, expired, depleted
+   */
+  status?: 'active' | 'expired' | 'depleted';
+}
+
+export interface BalanceListLedgerParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Path param: Credit Entitlement ID
+   */
+  credit_entitlement_id: string;
+
+  /**
+   * Query param: Filter by end date
+   */
+  end_date?: string;
+
+  /**
+   * Query param: Filter by start date
+   */
+  start_date?: string;
+
+  /**
+   * Query param: Filter by transaction type (snake_case: credit_added,
+   * credit_deducted, credit_expired, etc.)
+   */
+  transaction_type?: string;
 }
 
 export interface BalanceCreateLedgerEntryParams {
@@ -392,41 +427,6 @@ export interface BalanceCreateLedgerEntryParams {
   reason?: string | null;
 }
 
-export interface BalanceListGrantsParams extends DefaultPageNumberPaginationParams {
-  /**
-   * Path param: Credit Entitlement ID
-   */
-  credit_entitlement_id: string;
-
-  /**
-   * Query param: Filter by grant status: active, expired, depleted
-   */
-  status?: 'active' | 'expired' | 'depleted';
-}
-
-export interface BalanceListLedgerParams extends DefaultPageNumberPaginationParams {
-  /**
-   * Path param: Credit Entitlement ID
-   */
-  credit_entitlement_id: string;
-
-  /**
-   * Query param: Filter by end date
-   */
-  end_date?: string;
-
-  /**
-   * Query param: Filter by start date
-   */
-  start_date?: string;
-
-  /**
-   * Query param: Filter by transaction type (snake_case: credit_added,
-   * credit_deducted, credit_expired, etc.)
-   */
-  transaction_type?: string;
-}
-
 export declare namespace Balances {
   export {
     type CreditLedgerEntry as CreditLedgerEntry,
@@ -437,10 +437,10 @@ export declare namespace Balances {
     type CustomerCreditBalancesDefaultPageNumberPagination as CustomerCreditBalancesDefaultPageNumberPagination,
     type BalanceListGrantsResponsesDefaultPageNumberPagination as BalanceListGrantsResponsesDefaultPageNumberPagination,
     type CreditLedgerEntriesDefaultPageNumberPagination as CreditLedgerEntriesDefaultPageNumberPagination,
-    type BalanceRetrieveParams as BalanceRetrieveParams,
     type BalanceListParams as BalanceListParams,
-    type BalanceCreateLedgerEntryParams as BalanceCreateLedgerEntryParams,
+    type BalanceRetrieveParams as BalanceRetrieveParams,
     type BalanceListGrantsParams as BalanceListGrantsParams,
     type BalanceListLedgerParams as BalanceListLedgerParams,
+    type BalanceCreateLedgerEntryParams as BalanceCreateLedgerEntryParams,
   };
 }

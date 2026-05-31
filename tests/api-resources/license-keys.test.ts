@@ -8,53 +8,6 @@ const client = new DodoPayments({
 });
 
 describe('resource licenseKeys', () => {
-  test('create: only required params', async () => {
-    const responsePromise = client.licenseKeys.create({
-      customer_id: 'customer_id',
-      key: 'key',
-      product_id: 'product_id',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('create: required and optional params', async () => {
-    const response = await client.licenseKeys.create({
-      customer_id: 'customer_id',
-      key: 'key',
-      product_id: 'product_id',
-      activations_limit: 0,
-      expires_at: '2019-12-27T18:11:19.117Z',
-    });
-  });
-
-  test('retrieve', async () => {
-    const responsePromise = client.licenseKeys.retrieve('lic_123');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('update', async () => {
-    const responsePromise = client.licenseKeys.update('lic_123', {});
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
   test('list', async () => {
     const responsePromise = client.licenseKeys.list();
     const rawResponse = await responsePromise.asResponse();
@@ -83,5 +36,52 @@ describe('resource licenseKeys', () => {
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
+
+  test('retrieve', async () => {
+    const responsePromise = client.licenseKeys.retrieve('lic_123');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('update', async () => {
+    const responsePromise = client.licenseKeys.update('lic_123', {});
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('create: only required params', async () => {
+    const responsePromise = client.licenseKeys.create({
+      customer_id: 'customer_id',
+      key: 'key',
+      product_id: 'product_id',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('create: required and optional params', async () => {
+    const response = await client.licenseKeys.create({
+      customer_id: 'customer_id',
+      key: 'key',
+      product_id: 'product_id',
+      activations_limit: 0,
+      expires_at: '2019-12-27T18:11:19.117Z',
+    });
   });
 });

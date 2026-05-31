@@ -71,43 +71,6 @@
     },
     {
       "base": "creditEntitlements.balances",
-      "name": "createLedgerEntry",
-      "params": [
-        {
-          "type": "param",
-          "key": "customer_id",
-          "location": "path"
-        },
-        {
-          "type": "params",
-          "maybeOverload": false
-        },
-        {
-          "type": "options"
-        }
-      ],
-      "oldParams": [
-        {
-          "type": "param",
-          "key": "credit_entitlement_id",
-          "location": "path"
-        },
-        {
-          "type": "param",
-          "key": "customer_id",
-          "location": "path"
-        },
-        {
-          "type": "params",
-          "maybeOverload": false
-        },
-        {
-          "type": "options"
-        }
-      ]
-    },
-    {
-      "base": "creditEntitlements.balances",
       "name": "listGrants",
       "params": [
         {
@@ -174,6 +137,43 @@
         {
           "type": "params",
           "maybeOverload": true
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "creditEntitlements.balances",
+      "name": "createLedgerEntry",
+      "params": [
+        {
+          "type": "param",
+          "key": "customer_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "credit_entitlement_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "customer_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
         },
         {
           "type": "options"
@@ -248,6 +248,39 @@
     },
     {
       "base": "productCollections.groups",
+      "name": "delete",
+      "params": [
+        {
+          "type": "param",
+          "key": "group_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "group_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "productCollections.groups",
       "name": "update",
       "params": [
         {
@@ -277,39 +310,6 @@
         {
           "type": "params",
           "maybeOverload": false
-        },
-        {
-          "type": "options"
-        }
-      ]
-    },
-    {
-      "base": "productCollections.groups",
-      "name": "delete",
-      "params": [
-        {
-          "type": "param",
-          "key": "group_id",
-          "location": "path"
-        },
-        {
-          "type": "params",
-          "maybeOverload": false
-        },
-        {
-          "type": "options"
-        }
-      ],
-      "oldParams": [
-        {
-          "type": "param",
-          "key": "id",
-          "location": "path"
-        },
-        {
-          "type": "param",
-          "key": "group_id",
-          "location": "path"
         },
         {
           "type": "options"
@@ -355,6 +355,44 @@
     },
     {
       "base": "productCollections.groups.items",
+      "name": "delete",
+      "params": [
+        {
+          "type": "param",
+          "key": "item_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "group_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "item_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "productCollections.groups.items",
       "name": "update",
       "params": [
         {
@@ -389,44 +427,6 @@
         {
           "type": "params",
           "maybeOverload": false
-        },
-        {
-          "type": "options"
-        }
-      ]
-    },
-    {
-      "base": "productCollections.groups.items",
-      "name": "delete",
-      "params": [
-        {
-          "type": "param",
-          "key": "item_id",
-          "location": "path"
-        },
-        {
-          "type": "params",
-          "maybeOverload": false
-        },
-        {
-          "type": "options"
-        }
-      ],
-      "oldParams": [
-        {
-          "type": "param",
-          "key": "id",
-          "location": "path"
-        },
-        {
-          "type": "param",
-          "key": "group_id",
-          "location": "path"
-        },
-        {
-          "type": "param",
-          "key": "item_id",
-          "location": "path"
         },
         {
           "type": "options"
