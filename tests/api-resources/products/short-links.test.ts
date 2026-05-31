@@ -8,24 +8,6 @@ const client = new DodoPayments({
 });
 
 describe('resource shortLinks', () => {
-  test('create: only required params', async () => {
-    const responsePromise = client.products.shortLinks.create('id', { slug: 'slug' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('create: required and optional params', async () => {
-    const response = await client.products.shortLinks.create('id', {
-      slug: 'slug',
-      static_checkout_params: { foo: 'string' },
-    });
-  });
-
   test('list', async () => {
     const responsePromise = client.products.shortLinks.list();
     const rawResponse = await responsePromise.asResponse();
@@ -49,5 +31,23 @@ describe('resource shortLinks', () => {
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
+
+  test('create: only required params', async () => {
+    const responsePromise = client.products.shortLinks.create('id', { slug: 'slug' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('create: required and optional params', async () => {
+    const response = await client.products.shortLinks.create('id', {
+      slug: 'slug',
+      static_checkout_params: { foo: 'string' },
+    });
   });
 });

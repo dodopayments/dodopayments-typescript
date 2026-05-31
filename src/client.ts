@@ -1191,8 +1191,8 @@ export declare namespace DodoPayments {
     type PaymentListResponse as PaymentListResponse,
     type PaymentRetrieveLineItemsResponse as PaymentRetrieveLineItemsResponse,
     type PaymentListResponsesDefaultPageNumberPagination as PaymentListResponsesDefaultPageNumberPagination,
-    type PaymentCreateParams as PaymentCreateParams,
     type PaymentListParams as PaymentListParams,
+    type PaymentCreateParams as PaymentCreateParams,
   };
 
   export {
@@ -1218,14 +1218,14 @@ export declare namespace DodoPayments {
     type SubscriptionUpdatePaymentMethodResponse as SubscriptionUpdatePaymentMethodResponse,
     type SubscriptionListResponsesDefaultPageNumberPagination as SubscriptionListResponsesDefaultPageNumberPagination,
     type SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination as SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
+    type SubscriptionListParams as SubscriptionListParams,
     type SubscriptionCreateParams as SubscriptionCreateParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
-    type SubscriptionListParams as SubscriptionListParams,
-    type SubscriptionChangePlanParams as SubscriptionChangePlanParams,
     type SubscriptionChargeParams as SubscriptionChargeParams,
-    type SubscriptionPreviewChangePlanParams as SubscriptionPreviewChangePlanParams,
+    type SubscriptionChangePlanParams as SubscriptionChangePlanParams,
     type SubscriptionRetrieveUsageHistoryParams as SubscriptionRetrieveUsageHistoryParams,
     type SubscriptionUpdatePaymentMethodParams as SubscriptionUpdatePaymentMethodParams,
+    type SubscriptionPreviewChangePlanParams as SubscriptionPreviewChangePlanParams,
   };
 
   export { Invoices as Invoices };
@@ -1244,17 +1244,17 @@ export declare namespace DodoPayments {
     type LicenseKey as LicenseKey,
     type LicenseKeyStatus as LicenseKeyStatus,
     type LicenseKeysDefaultPageNumberPagination as LicenseKeysDefaultPageNumberPagination,
-    type LicenseKeyCreateParams as LicenseKeyCreateParams,
-    type LicenseKeyUpdateParams as LicenseKeyUpdateParams,
     type LicenseKeyListParams as LicenseKeyListParams,
+    type LicenseKeyUpdateParams as LicenseKeyUpdateParams,
+    type LicenseKeyCreateParams as LicenseKeyCreateParams,
   };
 
   export {
     LicenseKeyInstances as LicenseKeyInstances,
     type LicenseKeyInstance as LicenseKeyInstance,
     type LicenseKeyInstancesDefaultPageNumberPagination as LicenseKeyInstancesDefaultPageNumberPagination,
-    type LicenseKeyInstanceUpdateParams as LicenseKeyInstanceUpdateParams,
     type LicenseKeyInstanceListParams as LicenseKeyInstanceListParams,
+    type LicenseKeyInstanceUpdateParams as LicenseKeyInstanceUpdateParams,
   };
 
   export {
@@ -1265,9 +1265,9 @@ export declare namespace DodoPayments {
     type CustomerListEntitlementsResponse as CustomerListEntitlementsResponse,
     type CustomerRetrievePaymentMethodsResponse as CustomerRetrievePaymentMethodsResponse,
     type CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
+    type CustomerListParams as CustomerListParams,
     type CustomerCreateParams as CustomerCreateParams,
     type CustomerUpdateParams as CustomerUpdateParams,
-    type CustomerListParams as CustomerListParams,
     type CustomerDeletePaymentMethodParams as CustomerDeletePaymentMethodParams,
   };
 
@@ -1275,8 +1275,8 @@ export declare namespace DodoPayments {
     Refunds as Refunds,
     type Refund as Refund,
     type RefundStatus as RefundStatus,
-    type RefundCreateParams as RefundCreateParams,
     type RefundListParams as RefundListParams,
+    type RefundCreateParams as RefundCreateParams,
   };
 
   export {
@@ -1313,9 +1313,9 @@ export declare namespace DodoPayments {
     type ProductListResponse as ProductListResponse,
     type ProductUpdateFilesResponse as ProductUpdateFilesResponse,
     type ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
+    type ProductListParams as ProductListParams,
     type ProductCreateParams as ProductCreateParams,
     type ProductUpdateParams as ProductUpdateParams,
-    type ProductListParams as ProductListParams,
     type ProductUpdateFilesParams as ProductUpdateFilesParams,
   };
 
@@ -1333,9 +1333,9 @@ export declare namespace DodoPayments {
     type DiscountDetail as DiscountDetail,
     type DiscountType as DiscountType,
     type DiscountsDefaultPageNumberPagination as DiscountsDefaultPageNumberPagination,
+    type DiscountListParams as DiscountListParams,
     type DiscountCreateParams as DiscountCreateParams,
     type DiscountUpdateParams as DiscountUpdateParams,
-    type DiscountListParams as DiscountListParams,
   };
 
   export {
@@ -1343,9 +1343,9 @@ export declare namespace DodoPayments {
     type AddonResponse as AddonResponse,
     type AddonUpdateImagesResponse as AddonUpdateImagesResponse,
     type AddonResponsesDefaultPageNumberPagination as AddonResponsesDefaultPageNumberPagination,
+    type AddonListParams as AddonListParams,
     type AddonCreateParams as AddonCreateParams,
     type AddonUpdateParams as AddonUpdateParams,
-    type AddonListParams as AddonListParams,
   };
 
   export {
@@ -1403,9 +1403,9 @@ export declare namespace DodoPayments {
     type UnsafeUnwrapWebhookEvent as UnsafeUnwrapWebhookEvent,
     type UnwrapWebhookEvent as UnwrapWebhookEvent,
     type WebhookDetailsCursorPagePagination as WebhookDetailsCursorPagePagination,
+    type WebhookListParams as WebhookListParams,
     type WebhookCreateParams as WebhookCreateParams,
     type WebhookUpdateParams as WebhookUpdateParams,
-    type WebhookListParams as WebhookListParams,
   };
 
   export {
@@ -1420,8 +1420,8 @@ export declare namespace DodoPayments {
     type EventInput as EventInput,
     type UsageEventIngestResponse as UsageEventIngestResponse,
     type EventsDefaultPageNumberPagination as EventsDefaultPageNumberPagination,
-    type UsageEventListParams as UsageEventListParams,
     type UsageEventIngestParams as UsageEventIngestParams,
+    type UsageEventListParams as UsageEventListParams,
   };
 
   export {
@@ -1433,8 +1433,8 @@ export declare namespace DodoPayments {
     type MeterAggregation as MeterAggregation,
     type MeterFilter as MeterFilter,
     type MetersDefaultPageNumberPagination as MetersDefaultPageNumberPagination,
-    type MeterCreateParams as MeterCreateParams,
     type MeterListParams as MeterListParams,
+    type MeterCreateParams as MeterCreateParams,
   };
 
   export {
@@ -1449,9 +1449,9 @@ export declare namespace DodoPayments {
     type CbbOverageBehavior as CbbOverageBehavior,
     type CreditEntitlement as CreditEntitlement,
     type CreditEntitlementsDefaultPageNumberPagination as CreditEntitlementsDefaultPageNumberPagination,
+    type CreditEntitlementListParams as CreditEntitlementListParams,
     type CreditEntitlementCreateParams as CreditEntitlementCreateParams,
     type CreditEntitlementUpdateParams as CreditEntitlementUpdateParams,
-    type CreditEntitlementListParams as CreditEntitlementListParams,
   };
 
   export {
@@ -1462,9 +1462,9 @@ export declare namespace DodoPayments {
     type IntegrationConfig as IntegrationConfig,
     type IntegrationConfigResponse as IntegrationConfigResponse,
     type EntitlementsDefaultPageNumberPagination as EntitlementsDefaultPageNumberPagination,
+    type EntitlementListParams as EntitlementListParams,
     type EntitlementCreateParams as EntitlementCreateParams,
     type EntitlementUpdateParams as EntitlementUpdateParams,
-    type EntitlementListParams as EntitlementListParams,
   };
 
   export {
@@ -1474,9 +1474,9 @@ export declare namespace DodoPayments {
     type ProductCollectionUnarchiveResponse as ProductCollectionUnarchiveResponse,
     type ProductCollectionUpdateImagesResponse as ProductCollectionUpdateImagesResponse,
     type ProductCollectionListResponsesDefaultPageNumberPagination as ProductCollectionListResponsesDefaultPageNumberPagination,
+    type ProductCollectionListParams as ProductCollectionListParams,
     type ProductCollectionCreateParams as ProductCollectionCreateParams,
     type ProductCollectionUpdateParams as ProductCollectionUpdateParams,
-    type ProductCollectionListParams as ProductCollectionListParams,
     type ProductCollectionUpdateImagesParams as ProductCollectionUpdateImagesParams,
   };
 }

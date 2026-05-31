@@ -56,16 +56,16 @@ This affects the following methods:
 
 - `client.customers.deletePaymentMethod()`
 - `client.creditEntitlements.balances.retrieve()`
-- `client.creditEntitlements.balances.createLedgerEntry()`
 - `client.creditEntitlements.balances.listGrants()`
 - `client.creditEntitlements.balances.listLedger()`
+- `client.creditEntitlements.balances.createLedgerEntry()`
 - `client.entitlements.files.delete()`
 - `client.entitlements.grants.revoke()`
-- `client.productCollections.groups.update()`
 - `client.productCollections.groups.delete()`
+- `client.productCollections.groups.update()`
 - `client.productCollections.groups.items.create()`
-- `client.productCollections.groups.items.update()`
 - `client.productCollections.groups.items.delete()`
+- `client.productCollections.groups.items.update()`
 
 ### URI encoded path parameters
 
