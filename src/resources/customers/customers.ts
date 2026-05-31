@@ -22,18 +22,6 @@ export class Customers extends APIResource {
   customerPortal: CustomerPortalAPI.CustomerPortal = new CustomerPortalAPI.CustomerPortal(this._client);
   wallets: WalletsAPI.Wallets = new WalletsAPI.Wallets(this._client);
 
-  create(body: CustomerCreateParams, options?: RequestOptions): APIPromise<Customer> {
-    return this._client.post('/customers', { body, ...options });
-  }
-
-  retrieve(customerID: string, options?: RequestOptions): APIPromise<Customer> {
-    return this._client.get(path`/customers/${customerID}`, options);
-  }
-
-  update(customerID: string, body: CustomerUpdateParams, options?: RequestOptions): APIPromise<Customer> {
-    return this._client.patch(path`/customers/${customerID}`, { body, ...options });
-  }
-
   list(
     query: CustomerListParams | null | undefined = {},
     options?: RequestOptions,
@@ -42,6 +30,35 @@ export class Customers extends APIResource {
       query,
       ...options,
     });
+  }
+
+  retrieve(customerID: string, options?: RequestOptions): APIPromise<Customer> {
+    return this._client.get(path`/customers/${customerID}`, options);
+  }
+
+  create(body: CustomerCreateParams, options?: RequestOptions): APIPromise<Customer> {
+    return this._client.post('/customers', { body, ...options });
+  }
+
+  update(customerID: string, body: CustomerUpdateParams, options?: RequestOptions): APIPromise<Customer> {
+    return this._client.patch(path`/customers/${customerID}`, { body, ...options });
+  }
+
+  retrievePaymentMethods(
+    customerID: string,
+    options?: RequestOptions,
+  ): APIPromise<CustomerRetrievePaymentMethodsResponse> {
+    return this._client.get(path`/customers/${customerID}/payment-methods`, options);
+  }
+
+  /**
+   * List all credit entitlements for a customer with their current balances
+   */
+  listCreditEntitlements(
+    customerID: string,
+    options?: RequestOptions,
+  ): APIPromise<CustomerListCreditEntitlementsResponse> {
+    return this._client.get(path`/customers/${customerID}/credit-entitlements`, options);
   }
 
   deletePaymentMethod(
@@ -57,16 +74,6 @@ export class Customers extends APIResource {
   }
 
   /**
-   * List all credit entitlements for a customer with their current balances
-   */
-  listCreditEntitlements(
-    customerID: string,
-    options?: RequestOptions,
-  ): APIPromise<CustomerListCreditEntitlementsResponse> {
-    return this._client.get(path`/customers/${customerID}/credit-entitlements`, options);
-  }
-
-  /**
    * List all entitlement grants delivered (or in flight) to a customer.
    */
   listEntitlements(
@@ -74,13 +81,6 @@ export class Customers extends APIResource {
     options?: RequestOptions,
   ): APIPromise<CustomerListEntitlementsResponse> {
     return this._client.get(path`/customers/${customerID}/entitlements`, options);
-  }
-
-  retrievePaymentMethods(
-    customerID: string,
-    options?: RequestOptions,
-  ): APIPromise<CustomerRetrievePaymentMethodsResponse> {
-    return this._client.get(path`/customers/${customerID}/payment-methods`, options);
   }
 }
 
@@ -245,6 +245,28 @@ export namespace CustomerRetrievePaymentMethodsResponse {
   }
 }
 
+export interface CustomerListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Filter customers created on or after this timestamp
+   */
+  created_at_gte?: string;
+
+  /**
+   * Filter customers created on or before this timestamp
+   */
+  created_at_lte?: string;
+
+  /**
+   * Filter by customer email
+   */
+  email?: string;
+
+  /**
+   * Filter by customer name (partial match, case-insensitive)
+   */
+  name?: string;
+}
+
 export interface CustomerCreateParams {
   email: string;
 
@@ -271,28 +293,6 @@ export interface CustomerUpdateParams {
   phone_number?: string | null;
 }
 
-export interface CustomerListParams extends DefaultPageNumberPaginationParams {
-  /**
-   * Filter customers created on or after this timestamp
-   */
-  created_at_gte?: string;
-
-  /**
-   * Filter customers created on or before this timestamp
-   */
-  created_at_lte?: string;
-
-  /**
-   * Filter by customer email
-   */
-  email?: string;
-
-  /**
-   * Filter by customer name (partial match, case-insensitive)
-   */
-  name?: string;
-}
-
 export interface CustomerDeletePaymentMethodParams {
   /**
    * Customer Id
@@ -311,9 +311,9 @@ export declare namespace Customers {
     type CustomerListEntitlementsResponse as CustomerListEntitlementsResponse,
     type CustomerRetrievePaymentMethodsResponse as CustomerRetrievePaymentMethodsResponse,
     type CustomersDefaultPageNumberPagination as CustomersDefaultPageNumberPagination,
+    type CustomerListParams as CustomerListParams,
     type CustomerCreateParams as CustomerCreateParams,
     type CustomerUpdateParams as CustomerUpdateParams,
-    type CustomerListParams as CustomerListParams,
     type CustomerDeletePaymentMethodParams as CustomerDeletePaymentMethodParams,
   };
 

@@ -34,6 +34,44 @@ export class CreditEntitlements extends APIResource {
   balances: BalancesAPI.Balances = new BalancesAPI.Balances(this._client);
 
   /**
+   * Returns a paginated list of credit entitlements, allowing filtering of deleted
+   * entitlements. By default, only non-deleted entitlements are returned.
+   *
+   * # Authentication
+   *
+   * Requires an API key with `Viewer` role or higher.
+   *
+   * # Query Parameters
+   *
+   * - `page_size` - Number of items per page (default: 10, max: 100)
+   * - `page_number` - Zero-based page number (default: 0)
+   * - `deleted` - Boolean flag to list deleted entitlements instead of active ones
+   *   (default: false)
+   *
+   * # Responses
+   *
+   * - `200 OK` - Returns a list of credit entitlements wrapped in a response object
+   * - `422 Unprocessable Entity` - Invalid query parameters (e.g., page_size > 100)
+   * - `500 Internal Server Error` - Database or server error
+   *
+   * # Business Logic
+   *
+   * - Results are ordered by creation date in descending order (newest first)
+   * - Only entitlements belonging to the authenticated business are returned
+   * - The `deleted` parameter controls visibility of soft-deleted entitlements
+   * - Pagination uses offset-based pagination (offset = page_number \* page_size)
+   */
+  list(
+    query: CreditEntitlementListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<CreditEntitlementsDefaultPageNumberPagination, CreditEntitlement> {
+    return this._client.getAPIList('/credit-entitlements', DefaultPageNumberPagination<CreditEntitlement>, {
+      query,
+      ...options,
+    });
+  }
+
+  /**
    * Credit entitlements define reusable credit templates that can be attached to
    * products. Each entitlement defines how credits behave in terms of expiration,
    * rollover, and overage.
@@ -112,6 +150,13 @@ export class CreditEntitlements extends APIResource {
     return this._client.get(path`/credit-entitlements/${id}`, options);
   }
 
+  delete(id: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.delete(path`/credit-entitlements/${id}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
+  }
+
   /**
    * Allows partial updates to a credit entitlement's configuration. Only the fields
    * provided in the request body will be updated; all other fields remain unchanged.
@@ -173,51 +218,6 @@ export class CreditEntitlements extends APIResource {
   update(id: string, body: CreditEntitlementUpdateParams, options?: RequestOptions): APIPromise<void> {
     return this._client.patch(path`/credit-entitlements/${id}`, {
       body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  /**
-   * Returns a paginated list of credit entitlements, allowing filtering of deleted
-   * entitlements. By default, only non-deleted entitlements are returned.
-   *
-   * # Authentication
-   *
-   * Requires an API key with `Viewer` role or higher.
-   *
-   * # Query Parameters
-   *
-   * - `page_size` - Number of items per page (default: 10, max: 100)
-   * - `page_number` - Zero-based page number (default: 0)
-   * - `deleted` - Boolean flag to list deleted entitlements instead of active ones
-   *   (default: false)
-   *
-   * # Responses
-   *
-   * - `200 OK` - Returns a list of credit entitlements wrapped in a response object
-   * - `422 Unprocessable Entity` - Invalid query parameters (e.g., page_size > 100)
-   * - `500 Internal Server Error` - Database or server error
-   *
-   * # Business Logic
-   *
-   * - Results are ordered by creation date in descending order (newest first)
-   * - Only entitlements belonging to the authenticated business are returned
-   * - The `deleted` parameter controls visibility of soft-deleted entitlements
-   * - Pagination uses offset-based pagination (offset = page_number \* page_size)
-   */
-  list(
-    query: CreditEntitlementListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<CreditEntitlementsDefaultPageNumberPagination, CreditEntitlement> {
-    return this._client.getAPIList('/credit-entitlements', DefaultPageNumberPagination<CreditEntitlement>, {
-      query,
-      ...options,
-    });
-  }
-
-  delete(id: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/credit-entitlements/${id}`, {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
@@ -335,6 +335,13 @@ export interface CreditEntitlement {
   rollover_timeframe_count?: number | null;
 
   rollover_timeframe_interval?: SubscriptionsAPI.TimeInterval | null;
+}
+
+export interface CreditEntitlementListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * List deleted credit entitlements
+   */
+  deleted?: boolean;
 }
 
 export interface CreditEntitlementCreateParams {
@@ -487,13 +494,6 @@ export interface CreditEntitlementUpdateParams {
   unit?: string | null;
 }
 
-export interface CreditEntitlementListParams extends DefaultPageNumberPaginationParams {
-  /**
-   * List deleted credit entitlements
-   */
-  deleted?: boolean;
-}
-
 CreditEntitlements.Balances = Balances;
 
 export declare namespace CreditEntitlements {
@@ -501,9 +501,9 @@ export declare namespace CreditEntitlements {
     type CbbOverageBehavior as CbbOverageBehavior,
     type CreditEntitlement as CreditEntitlement,
     type CreditEntitlementsDefaultPageNumberPagination as CreditEntitlementsDefaultPageNumberPagination,
+    type CreditEntitlementListParams as CreditEntitlementListParams,
     type CreditEntitlementCreateParams as CreditEntitlementCreateParams,
     type CreditEntitlementUpdateParams as CreditEntitlementUpdateParams,
-    type CreditEntitlementListParams as CreditEntitlementListParams,
   };
 
   export {
@@ -516,10 +516,10 @@ export declare namespace CreditEntitlements {
     type CustomerCreditBalancesDefaultPageNumberPagination as CustomerCreditBalancesDefaultPageNumberPagination,
     type BalanceListGrantsResponsesDefaultPageNumberPagination as BalanceListGrantsResponsesDefaultPageNumberPagination,
     type CreditLedgerEntriesDefaultPageNumberPagination as CreditLedgerEntriesDefaultPageNumberPagination,
-    type BalanceRetrieveParams as BalanceRetrieveParams,
     type BalanceListParams as BalanceListParams,
-    type BalanceCreateLedgerEntryParams as BalanceCreateLedgerEntryParams,
+    type BalanceRetrieveParams as BalanceRetrieveParams,
     type BalanceListGrantsParams as BalanceListGrantsParams,
     type BalanceListLedgerParams as BalanceListLedgerParams,
+    type BalanceCreateLedgerEntryParams as BalanceCreateLedgerEntryParams,
   };
 }
