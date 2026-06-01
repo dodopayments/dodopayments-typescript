@@ -238,6 +238,13 @@ export interface Payment {
   refunds: Array<RefundListItem>;
 
   /**
+   * Retry attempt number for subscription renewal payments. `0` for the original
+   * payment, `1`+ for each scheduled off-session retry after a failed renewal.
+   * Always `0` for non-subscription payments.
+   */
+  retry_attempt: number;
+
+  /**
    * The amount that will be credited to your Dodo balance after currency conversion
    * and processing. Especially relevant for adaptive pricing where the customer's
    * payment currency differs from your settlement currency.
