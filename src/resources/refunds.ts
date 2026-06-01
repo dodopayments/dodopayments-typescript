@@ -14,14 +14,6 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class Refunds extends APIResource {
-  create(body: RefundCreateParams, options?: RequestOptions): APIPromise<Refund> {
-    return this._client.post('/refunds', { body, ...options });
-  }
-
-  retrieve(refundID: string, options?: RequestOptions): APIPromise<Refund> {
-    return this._client.get(path`/refunds/${refundID}`, options);
-  }
-
   list(
     query: RefundListParams | null | undefined = {},
     options?: RequestOptions,
@@ -30,6 +22,14 @@ export class Refunds extends APIResource {
       query,
       ...options,
     });
+  }
+
+  create(body: RefundCreateParams, options?: RequestOptions): APIPromise<Refund> {
+    return this._client.post('/refunds', { body, ...options });
+  }
+
+  retrieve(refundID: string, options?: RequestOptions): APIPromise<Refund> {
+    return this._client.get(path`/refunds/${refundID}`, options);
   }
 }
 
@@ -92,6 +92,33 @@ export interface Refund {
 
 export type RefundStatus = 'succeeded' | 'failed' | 'pending' | 'review';
 
+export interface RefundListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Get events after this created time
+   */
+  created_at_gte?: string;
+
+  /**
+   * Get events created before this time
+   */
+  created_at_lte?: string;
+
+  /**
+   * Filter by customer_id
+   */
+  customer_id?: string;
+
+  /**
+   * Filter by status
+   */
+  status?: 'succeeded' | 'failed' | 'pending' | 'review';
+
+  /**
+   * Filter by subscription id
+   */
+  subscription_id?: string;
+}
+
 export interface RefundCreateParams {
   /**
    * The unique identifier of the payment to be refunded.
@@ -133,39 +160,12 @@ export namespace RefundCreateParams {
   }
 }
 
-export interface RefundListParams extends DefaultPageNumberPaginationParams {
-  /**
-   * Get events after this created time
-   */
-  created_at_gte?: string;
-
-  /**
-   * Get events created before this time
-   */
-  created_at_lte?: string;
-
-  /**
-   * Filter by customer_id
-   */
-  customer_id?: string;
-
-  /**
-   * Filter by status
-   */
-  status?: 'succeeded' | 'failed' | 'pending' | 'review';
-
-  /**
-   * Filter by subscription id
-   */
-  subscription_id?: string;
-}
-
 export declare namespace Refunds {
   export {
     type Refund as Refund,
     type RefundStatus as RefundStatus,
-    type RefundCreateParams as RefundCreateParams,
     type RefundListParams as RefundListParams,
+    type RefundCreateParams as RefundCreateParams,
   };
 }
 
