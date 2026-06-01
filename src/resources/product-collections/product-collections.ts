@@ -24,22 +24,6 @@ import { path } from '../../internal/utils/path';
 export class ProductCollections extends APIResource {
   groups: GroupsAPI.Groups = new GroupsAPI.Groups(this._client);
 
-  create(body: ProductCollectionCreateParams, options?: RequestOptions): APIPromise<ProductCollection> {
-    return this._client.post('/product-collections', { body, ...options });
-  }
-
-  retrieve(id: string, options?: RequestOptions): APIPromise<ProductCollection> {
-    return this._client.get(path`/product-collections/${id}`, options);
-  }
-
-  update(id: string, body: ProductCollectionUpdateParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.patch(path`/product-collections/${id}`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
   list(
     query: ProductCollectionListParams | null | undefined = {},
     options?: RequestOptions,
@@ -51,6 +35,14 @@ export class ProductCollections extends APIResource {
     );
   }
 
+  create(body: ProductCollectionCreateParams, options?: RequestOptions): APIPromise<ProductCollection> {
+    return this._client.post('/product-collections', { body, ...options });
+  }
+
+  retrieve(id: string, options?: RequestOptions): APIPromise<ProductCollection> {
+    return this._client.get(path`/product-collections/${id}`, options);
+  }
+
   delete(id: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/product-collections/${id}`, {
       ...options,
@@ -58,8 +50,12 @@ export class ProductCollections extends APIResource {
     });
   }
 
-  unarchive(id: string, options?: RequestOptions): APIPromise<ProductCollectionUnarchiveResponse> {
-    return this._client.post(path`/product-collections/${id}/unarchive`, options);
+  update(id: string, body: ProductCollectionUpdateParams, options?: RequestOptions): APIPromise<void> {
+    return this._client.patch(path`/product-collections/${id}`, {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   updateImages(
@@ -69,6 +65,10 @@ export class ProductCollections extends APIResource {
   ): APIPromise<ProductCollectionUpdateImagesResponse> {
     const { force_update } = params ?? {};
     return this._client.put(path`/product-collections/${id}/images`, { query: { force_update }, ...options });
+  }
+
+  unarchive(id: string, options?: RequestOptions): APIPromise<ProductCollectionUnarchiveResponse> {
+    return this._client.post(path`/product-collections/${id}/unarchive`, options);
   }
 }
 
@@ -183,6 +183,18 @@ export interface ProductCollectionUpdateImagesResponse {
   image_id?: string | null;
 }
 
+export interface ProductCollectionListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * List archived collections
+   */
+  archived?: boolean;
+
+  /**
+   * Filter by Brand id
+   */
+  brand_id?: string;
+}
+
 export interface ProductCollectionCreateParams {
   /**
    * Groups of products in this collection
@@ -232,18 +244,6 @@ export interface ProductCollectionUpdateParams {
   name?: string | null;
 }
 
-export interface ProductCollectionListParams extends DefaultPageNumberPaginationParams {
-  /**
-   * List archived collections
-   */
-  archived?: boolean;
-
-  /**
-   * Filter by Brand id
-   */
-  brand_id?: string;
-}
-
 export interface ProductCollectionUpdateImagesParams {
   /**
    * If true, generates a new image ID to force cache invalidation
@@ -260,9 +260,9 @@ export declare namespace ProductCollections {
     type ProductCollectionUnarchiveResponse as ProductCollectionUnarchiveResponse,
     type ProductCollectionUpdateImagesResponse as ProductCollectionUpdateImagesResponse,
     type ProductCollectionListResponsesDefaultPageNumberPagination as ProductCollectionListResponsesDefaultPageNumberPagination,
+    type ProductCollectionListParams as ProductCollectionListParams,
     type ProductCollectionCreateParams as ProductCollectionCreateParams,
     type ProductCollectionUpdateParams as ProductCollectionUpdateParams,
-    type ProductCollectionListParams as ProductCollectionListParams,
     type ProductCollectionUpdateImagesParams as ProductCollectionUpdateImagesParams,
   };
 
@@ -272,7 +272,7 @@ export declare namespace ProductCollections {
     type ProductCollectionGroupDetails as ProductCollectionGroupDetails,
     type ProductCollectionGroupResponse as ProductCollectionGroupResponse,
     type GroupCreateParams as GroupCreateParams,
-    type GroupUpdateParams as GroupUpdateParams,
     type GroupDeleteParams as GroupDeleteParams,
+    type GroupUpdateParams as GroupUpdateParams,
   };
 }

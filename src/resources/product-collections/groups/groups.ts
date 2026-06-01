@@ -26,18 +26,18 @@ export class Groups extends APIResource {
     return this._client.post(path`/product-collections/${id}/groups`, { body, ...options });
   }
 
-  update(groupID: string, params: GroupUpdateParams, options?: RequestOptions): APIPromise<void> {
-    const { id, ...body } = params;
-    return this._client.patch(path`/product-collections/${id}/groups/${groupID}`, {
-      body,
+  delete(groupID: string, params: GroupDeleteParams, options?: RequestOptions): APIPromise<void> {
+    const { id } = params;
+    return this._client.delete(path`/product-collections/${id}/groups/${groupID}`, {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
-  delete(groupID: string, params: GroupDeleteParams, options?: RequestOptions): APIPromise<void> {
-    const { id } = params;
-    return this._client.delete(path`/product-collections/${id}/groups/${groupID}`, {
+  update(groupID: string, params: GroupUpdateParams, options?: RequestOptions): APIPromise<void> {
+    const { id, ...body } = params;
+    return this._client.patch(path`/product-collections/${id}/groups/${groupID}`, {
+      body,
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
@@ -102,6 +102,13 @@ export interface GroupCreateParams {
   status?: boolean | null;
 }
 
+export interface GroupDeleteParams {
+  /**
+   * Product Collection Id
+   */
+  id: string;
+}
+
 export interface GroupUpdateParams {
   /**
    * Path param: Product Collection Id
@@ -126,13 +133,6 @@ export interface GroupUpdateParams {
   status?: boolean | null;
 }
 
-export interface GroupDeleteParams {
-  /**
-   * Product Collection Id
-   */
-  id: string;
-}
-
 Groups.Items = Items;
 
 export declare namespace Groups {
@@ -141,8 +141,8 @@ export declare namespace Groups {
     type ProductCollectionGroupDetails as ProductCollectionGroupDetails,
     type ProductCollectionGroupResponse as ProductCollectionGroupResponse,
     type GroupCreateParams as GroupCreateParams,
-    type GroupUpdateParams as GroupUpdateParams,
     type GroupDeleteParams as GroupDeleteParams,
+    type GroupUpdateParams as GroupUpdateParams,
   };
 
   export {
@@ -150,7 +150,7 @@ export declare namespace Groups {
     type ProductCollectionProduct as ProductCollectionProduct,
     type ItemCreateResponse as ItemCreateResponse,
     type ItemCreateParams as ItemCreateParams,
-    type ItemUpdateParams as ItemUpdateParams,
     type ItemDeleteParams as ItemDeleteParams,
+    type ItemUpdateParams as ItemUpdateParams,
   };
 }

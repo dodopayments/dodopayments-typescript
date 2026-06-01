@@ -8,6 +8,17 @@ const client = new DodoPayments({
 });
 
 describe('resource files', () => {
+  test('upload', async () => {
+    const responsePromise = client.entitlements.files.upload('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
   test('delete: only required params', async () => {
     const responsePromise = client.entitlements.files.delete('file_id', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
@@ -21,16 +32,5 @@ describe('resource files', () => {
 
   test('delete: required and optional params', async () => {
     const response = await client.entitlements.files.delete('file_id', { id: 'id' });
-  });
-
-  test('upload', async () => {
-    const responsePromise = client.entitlements.files.upload('id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
   });
 });

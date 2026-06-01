@@ -13,19 +13,19 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class Meters extends APIResource {
+  list(
+    query: MeterListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<MetersDefaultPageNumberPagination, Meter> {
+    return this._client.getAPIList('/meters', DefaultPageNumberPagination<Meter>, { query, ...options });
+  }
+
   create(body: MeterCreateParams, options?: RequestOptions): APIPromise<Meter> {
     return this._client.post('/meters', { body, ...options });
   }
 
   retrieve(id: string, options?: RequestOptions): APIPromise<Meter> {
     return this._client.get(path`/meters/${id}`, options);
-  }
-
-  list(
-    query: MeterListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<MetersDefaultPageNumberPagination, Meter> {
-    return this._client.getAPIList('/meters', DefaultPageNumberPagination<Meter>, { query, ...options });
   }
 
   archive(id: string, options?: RequestOptions): APIPromise<void> {
@@ -146,6 +146,13 @@ export interface MeterFilter {
   conjunction: Conjunction;
 }
 
+export interface MeterListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * List archived meters
+   */
+  archived?: boolean;
+}
+
 export interface MeterCreateParams {
   /**
    * Aggregation configuration for the meter
@@ -178,13 +185,6 @@ export interface MeterCreateParams {
   filter?: MeterFilter | null;
 }
 
-export interface MeterListParams extends DefaultPageNumberPaginationParams {
-  /**
-   * List archived meters
-   */
-  archived?: boolean;
-}
-
 export declare namespace Meters {
   export {
     type Conjunction as Conjunction,
@@ -194,7 +194,7 @@ export declare namespace Meters {
     type MeterAggregation as MeterAggregation,
     type MeterFilter as MeterFilter,
     type MetersDefaultPageNumberPagination as MetersDefaultPageNumberPagination,
-    type MeterCreateParams as MeterCreateParams,
     type MeterListParams as MeterListParams,
+    type MeterCreateParams as MeterCreateParams,
   };
 }
