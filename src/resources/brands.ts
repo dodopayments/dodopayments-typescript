@@ -6,6 +6,10 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class Brands extends APIResource {
+  list(options?: RequestOptions): APIPromise<BrandListResponse> {
+    return this._client.get('/brands', options);
+  }
+
   create(body: BrandCreateParams, options?: RequestOptions): APIPromise<Brand> {
     return this._client.post('/brands', { body, ...options });
   }
@@ -19,10 +23,6 @@ export class Brands extends APIResource {
 
   update(id: string, body: BrandUpdateParams, options?: RequestOptions): APIPromise<Brand> {
     return this._client.patch(path`/brands/${id}`, { body, ...options });
-  }
-
-  list(options?: RequestOptions): APIPromise<BrandListResponse> {
-    return this._client.get('/brands', options);
   }
 
   updateImages(id: string, options?: RequestOptions): APIPromise<BrandUpdateImagesResponse> {

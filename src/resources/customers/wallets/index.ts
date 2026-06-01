@@ -3,8 +3,8 @@
 export {
   LedgerEntries,
   type CustomerWalletTransaction,
-  type LedgerEntryCreateParams,
   type LedgerEntryListParams,
+  type LedgerEntryCreateParams,
   type CustomerWalletTransactionsDefaultPageNumberPagination,
 } from './ledger-entries';
 export { Wallets, type CustomerWallet, type WalletListResponse } from './wallets';
