@@ -19,18 +19,18 @@ export class Items extends APIResource {
     return this._client.post(path`/product-collections/${id}/groups/${groupID}/items`, { body, ...options });
   }
 
-  update(itemID: string, params: ItemUpdateParams, options?: RequestOptions): APIPromise<void> {
-    const { id, group_id, ...body } = params;
-    return this._client.patch(path`/product-collections/${id}/groups/${group_id}/items/${itemID}`, {
-      body,
+  delete(itemID: string, params: ItemDeleteParams, options?: RequestOptions): APIPromise<void> {
+    const { id, group_id } = params;
+    return this._client.delete(path`/product-collections/${id}/groups/${group_id}/items/${itemID}`, {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 
-  delete(itemID: string, params: ItemDeleteParams, options?: RequestOptions): APIPromise<void> {
-    const { id, group_id } = params;
-    return this._client.delete(path`/product-collections/${id}/groups/${group_id}/items/${itemID}`, {
+  update(itemID: string, params: ItemUpdateParams, options?: RequestOptions): APIPromise<void> {
+    const { id, group_id, ...body } = params;
+    return this._client.patch(path`/product-collections/${id}/groups/${group_id}/items/${itemID}`, {
+      body,
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
@@ -95,6 +95,18 @@ export interface ItemCreateParams {
   products: Array<GroupsAPI.GroupProduct>;
 }
 
+export interface ItemDeleteParams {
+  /**
+   * Product Collection Id
+   */
+  id: string;
+
+  /**
+   * Product Collection Group Id
+   */
+  group_id: string;
+}
+
 export interface ItemUpdateParams {
   /**
    * Path param: Product Collection Id
@@ -112,24 +124,12 @@ export interface ItemUpdateParams {
   status: boolean;
 }
 
-export interface ItemDeleteParams {
-  /**
-   * Product Collection Id
-   */
-  id: string;
-
-  /**
-   * Product Collection Group Id
-   */
-  group_id: string;
-}
-
 export declare namespace Items {
   export {
     type ProductCollectionProduct as ProductCollectionProduct,
     type ItemCreateResponse as ItemCreateResponse,
     type ItemCreateParams as ItemCreateParams,
-    type ItemUpdateParams as ItemUpdateParams,
     type ItemDeleteParams as ItemDeleteParams,
+    type ItemUpdateParams as ItemUpdateParams,
   };
 }

@@ -17,6 +17,16 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class Subscriptions extends APIResource {
+  list(
+    query: SubscriptionListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<SubscriptionListResponsesDefaultPageNumberPagination, SubscriptionListResponse> {
+    return this._client.getAPIList('/subscriptions', DefaultPageNumberPagination<SubscriptionListResponse>, {
+      query,
+      ...options,
+    });
+  }
+
   /**
    * @deprecated
    */
@@ -36,21 +46,12 @@ export class Subscriptions extends APIResource {
     return this._client.patch(path`/subscriptions/${subscriptionID}`, { body, ...options });
   }
 
-  list(
-    query: SubscriptionListParams | null | undefined = {},
+  charge(
+    subscriptionID: string,
+    body: SubscriptionChargeParams,
     options?: RequestOptions,
-  ): PagePromise<SubscriptionListResponsesDefaultPageNumberPagination, SubscriptionListResponse> {
-    return this._client.getAPIList('/subscriptions', DefaultPageNumberPagination<SubscriptionListResponse>, {
-      query,
-      ...options,
-    });
-  }
-
-  cancelChangePlan(subscriptionID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/subscriptions/${subscriptionID}/change-plan/scheduled`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  ): APIPromise<SubscriptionChargeResponse> {
+    return this._client.post(path`/subscriptions/${subscriptionID}/charge`, { body, ...options });
   }
 
   changePlan(
@@ -63,32 +64,6 @@ export class Subscriptions extends APIResource {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
-  }
-
-  charge(
-    subscriptionID: string,
-    body: SubscriptionChargeParams,
-    options?: RequestOptions,
-  ): APIPromise<SubscriptionChargeResponse> {
-    return this._client.post(path`/subscriptions/${subscriptionID}/charge`, { body, ...options });
-  }
-
-  previewChangePlan(
-    subscriptionID: string,
-    body: SubscriptionPreviewChangePlanParams,
-    options?: RequestOptions,
-  ): APIPromise<SubscriptionPreviewChangePlanResponse> {
-    return this._client.post(path`/subscriptions/${subscriptionID}/change-plan/preview`, {
-      body,
-      ...options,
-    });
-  }
-
-  retrieveCreditUsage(
-    subscriptionID: string,
-    options?: RequestOptions,
-  ): APIPromise<SubscriptionRetrieveCreditUsageResponse> {
-    return this._client.get(path`/subscriptions/${subscriptionID}/credit-usage`, options);
   }
 
   /**
@@ -159,6 +134,31 @@ export class Subscriptions extends APIResource {
     return this._client.post(path`/subscriptions/${subscriptionID}/update-payment-method`, {
       body: payment_method,
       ...options,
+    });
+  }
+
+  previewChangePlan(
+    subscriptionID: string,
+    body: SubscriptionPreviewChangePlanParams,
+    options?: RequestOptions,
+  ): APIPromise<SubscriptionPreviewChangePlanResponse> {
+    return this._client.post(path`/subscriptions/${subscriptionID}/change-plan/preview`, {
+      body,
+      ...options,
+    });
+  }
+
+  retrieveCreditUsage(
+    subscriptionID: string,
+    options?: RequestOptions,
+  ): APIPromise<SubscriptionRetrieveCreditUsageResponse> {
+    return this._client.get(path`/subscriptions/${subscriptionID}/credit-usage`, options);
+  }
+
+  cancelChangePlan(subscriptionID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.delete(path`/subscriptions/${subscriptionID}/change-plan/scheduled`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 }
@@ -1146,6 +1146,38 @@ export interface SubscriptionUpdatePaymentMethodResponse {
   payment_link?: string | null;
 }
 
+export interface SubscriptionListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * filter by Brand id
+   */
+  brand_id?: string;
+
+  /**
+   * Get events after this created time
+   */
+  created_at_gte?: string;
+
+  /**
+   * Get events created before this time
+   */
+  created_at_lte?: string;
+
+  /**
+   * Filter by customer id
+   */
+  customer_id?: string;
+
+  /**
+   * Filter by product id
+   */
+  product_id?: string;
+
+  /**
+   * Filter by status
+   */
+  status?: 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired';
+}
+
 export interface SubscriptionCreateParams {
   /**
    * Billing address information for the subscription
@@ -1370,109 +1402,6 @@ export namespace SubscriptionUpdateParams {
   }
 }
 
-export interface SubscriptionListParams extends DefaultPageNumberPaginationParams {
-  /**
-   * filter by Brand id
-   */
-  brand_id?: string;
-
-  /**
-   * Get events after this created time
-   */
-  created_at_gte?: string;
-
-  /**
-   * Get events created before this time
-   */
-  created_at_lte?: string;
-
-  /**
-   * Filter by customer id
-   */
-  customer_id?: string;
-
-  /**
-   * Filter by product id
-   */
-  product_id?: string;
-
-  /**
-   * Filter by status
-   */
-  status?: 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired';
-}
-
-export interface SubscriptionChangePlanParams {
-  /**
-   * Unique identifier of the product to subscribe to
-   */
-  product_id: string;
-
-  /**
-   * Proration Billing Mode
-   */
-  proration_billing_mode:
-    | 'prorated_immediately'
-    | 'full_immediately'
-    | 'difference_immediately'
-    | 'do_not_bill';
-
-  /**
-   * Number of units to subscribe for. Must be at least 1.
-   */
-  quantity: number;
-
-  /**
-   * Whether adaptive currency fees should be included in the price (true) or added
-   * on top (false). If not specified, uses the subscription's stored setting.
-   */
-  adaptive_currency_fees_inclusive?: boolean | null;
-
-  /**
-   * Addons for the new plan. Note : Leaving this empty would remove any existing
-   * addons
-   */
-  addons?: Array<AttachAddon> | null;
-
-  /**
-   * @deprecated Use `discount_id` instead.
-   */
-  discount_code?: string | null;
-
-  /**
-   * Stacked discount codes to apply to the new plan. Max 20. Cannot be used together
-   * with discount_code. If provided, replaces any existing discount codes. Empty
-   * array removes all discounts. If not provided (None), existing discounts with
-   * preserve_on_plan_change=true are preserved.
-   */
-  discount_codes?: Array<string> | null;
-
-  /**
-   * When to apply the plan change.
-   *
-   * - `immediately` (default): Apply the plan change right away
-   * - `next_billing_date`: Schedule the change for the next billing date
-   */
-  effective_at?: 'immediately' | 'next_billing_date';
-
-  /**
-   * Metadata for the payment. If not passed, the metadata of the subscription will
-   * be taken
-   */
-  metadata?: { [key: string]: string } | null;
-
-  /**
-   * Controls behavior when the plan change payment fails.
-   *
-   * - `prevent_change`: Keep subscription on current plan until payment succeeds
-   * - `apply_change` (default): Apply plan change immediately regardless of payment
-   *   outcome
-   *
-   * If not specified, uses the business-level default setting.
-   */
-  on_payment_failure?: 'prevent_change' | 'apply_change' | null;
-}
-
 export interface SubscriptionChargeParams {
   /**
    * The product price. Represented in the lowest denomination of the currency (e.g.,
@@ -1528,7 +1457,7 @@ export namespace SubscriptionChargeParams {
   }
 }
 
-export interface SubscriptionPreviewChangePlanParams {
+export interface SubscriptionChangePlanParams {
   /**
    * Unique identifier of the product to subscribe to
    */
@@ -1634,6 +1563,77 @@ export namespace SubscriptionUpdatePaymentMethodParams {
   }
 }
 
+export interface SubscriptionPreviewChangePlanParams {
+  /**
+   * Unique identifier of the product to subscribe to
+   */
+  product_id: string;
+
+  /**
+   * Proration Billing Mode
+   */
+  proration_billing_mode:
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill';
+
+  /**
+   * Number of units to subscribe for. Must be at least 1.
+   */
+  quantity: number;
+
+  /**
+   * Whether adaptive currency fees should be included in the price (true) or added
+   * on top (false). If not specified, uses the subscription's stored setting.
+   */
+  adaptive_currency_fees_inclusive?: boolean | null;
+
+  /**
+   * Addons for the new plan. Note : Leaving this empty would remove any existing
+   * addons
+   */
+  addons?: Array<AttachAddon> | null;
+
+  /**
+   * @deprecated Use `discount_id` instead.
+   */
+  discount_code?: string | null;
+
+  /**
+   * Stacked discount codes to apply to the new plan. Max 20. Cannot be used together
+   * with discount_code. If provided, replaces any existing discount codes. Empty
+   * array removes all discounts. If not provided (None), existing discounts with
+   * preserve_on_plan_change=true are preserved.
+   */
+  discount_codes?: Array<string> | null;
+
+  /**
+   * When to apply the plan change.
+   *
+   * - `immediately` (default): Apply the plan change right away
+   * - `next_billing_date`: Schedule the change for the next billing date
+   */
+  effective_at?: 'immediately' | 'next_billing_date';
+
+  /**
+   * Metadata for the payment. If not passed, the metadata of the subscription will
+   * be taken
+   */
+  metadata?: { [key: string]: string } | null;
+
+  /**
+   * Controls behavior when the plan change payment fails.
+   *
+   * - `prevent_change`: Keep subscription on current plan until payment succeeds
+   * - `apply_change` (default): Apply plan change immediately regardless of payment
+   *   outcome
+   *
+   * If not specified, uses the business-level default setting.
+   */
+  on_payment_failure?: 'prevent_change' | 'apply_change' | null;
+}
+
 export declare namespace Subscriptions {
   export {
     type AddonCartResponseItem as AddonCartResponseItem,
@@ -1657,13 +1657,13 @@ export declare namespace Subscriptions {
     type SubscriptionUpdatePaymentMethodResponse as SubscriptionUpdatePaymentMethodResponse,
     type SubscriptionListResponsesDefaultPageNumberPagination as SubscriptionListResponsesDefaultPageNumberPagination,
     type SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination as SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
+    type SubscriptionListParams as SubscriptionListParams,
     type SubscriptionCreateParams as SubscriptionCreateParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
-    type SubscriptionListParams as SubscriptionListParams,
-    type SubscriptionChangePlanParams as SubscriptionChangePlanParams,
     type SubscriptionChargeParams as SubscriptionChargeParams,
-    type SubscriptionPreviewChangePlanParams as SubscriptionPreviewChangePlanParams,
+    type SubscriptionChangePlanParams as SubscriptionChangePlanParams,
     type SubscriptionRetrieveUsageHistoryParams as SubscriptionRetrieveUsageHistoryParams,
     type SubscriptionUpdatePaymentMethodParams as SubscriptionUpdatePaymentMethodParams,
+    type SubscriptionPreviewChangePlanParams as SubscriptionPreviewChangePlanParams,
   };
 }

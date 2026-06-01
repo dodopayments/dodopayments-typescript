@@ -31,6 +31,16 @@ export class Products extends APIResource {
   images: ImagesAPI.Images = new ImagesAPI.Images(this._client);
   shortLinks: ShortLinksAPI.ShortLinks = new ShortLinksAPI.ShortLinks(this._client);
 
+  list(
+    query: ProductListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<ProductListResponsesDefaultPageNumberPagination, ProductListResponse> {
+    return this._client.getAPIList('/products', DefaultPageNumberPagination<ProductListResponse>, {
+      query,
+      ...options,
+    });
+  }
+
   create(body: ProductCreateParams, options?: RequestOptions): APIPromise<Product> {
     return this._client.post('/products', { body, ...options });
   }
@@ -44,16 +54,6 @@ export class Products extends APIResource {
       body,
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  list(
-    query: ProductListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<ProductListResponsesDefaultPageNumberPagination, ProductListResponse> {
-    return this._client.getAPIList('/products', DefaultPageNumberPagination<ProductListResponse>, {
-      query,
-      ...options,
     });
   }
 
@@ -797,6 +797,27 @@ export interface ProductUpdateFilesResponse {
   url: string;
 }
 
+export interface ProductListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * List archived products
+   */
+  archived?: boolean;
+
+  /**
+   * filter by Brand id
+   */
+  brand_id?: string;
+
+  /**
+   * Filter products by pricing type:
+   *
+   * - `true`: Show only recurring pricing products (e.g. subscriptions)
+   * - `false`: Show only one-time price products
+   * - `null` or absent: Show both types of products
+   */
+  recurring?: boolean;
+}
+
 export interface ProductCreateParams {
   /**
    * Name of the product
@@ -1008,27 +1029,6 @@ export namespace ProductUpdateParams {
   }
 }
 
-export interface ProductListParams extends DefaultPageNumberPaginationParams {
-  /**
-   * List archived products
-   */
-  archived?: boolean;
-
-  /**
-   * filter by Brand id
-   */
-  brand_id?: string;
-
-  /**
-   * Filter products by pricing type:
-   *
-   * - `true`: Show only recurring pricing products (e.g. subscriptions)
-   * - `false`: Show only one-time price products
-   * - `null` or absent: Show both types of products
-   */
-  recurring?: boolean;
-}
-
 export interface ProductUpdateFilesParams {
   file_name: string;
 }
@@ -1052,9 +1052,9 @@ export declare namespace Products {
     type ProductListResponse as ProductListResponse,
     type ProductUpdateFilesResponse as ProductUpdateFilesResponse,
     type ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
+    type ProductListParams as ProductListParams,
     type ProductCreateParams as ProductCreateParams,
     type ProductUpdateParams as ProductUpdateParams,
-    type ProductListParams as ProductListParams,
     type ProductUpdateFilesParams as ProductUpdateFilesParams,
   };
 
@@ -1069,7 +1069,7 @@ export declare namespace Products {
     type ShortLinkCreateResponse as ShortLinkCreateResponse,
     type ShortLinkListResponse as ShortLinkListResponse,
     type ShortLinkListResponsesDefaultPageNumberPagination as ShortLinkListResponsesDefaultPageNumberPagination,
-    type ShortLinkCreateParams as ShortLinkCreateParams,
     type ShortLinkListParams as ShortLinkListParams,
+    type ShortLinkCreateParams as ShortLinkCreateParams,
   };
 }
