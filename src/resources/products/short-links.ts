@@ -12,18 +12,6 @@ import { path } from '../../internal/utils/path';
 
 export class ShortLinks extends APIResource {
   /**
-   * Gives a Short Checkout URL with custom slug for a product. Uses a Static
-   * Checkout URL under the hood.
-   */
-  create(
-    id: string,
-    body: ShortLinkCreateParams,
-    options?: RequestOptions,
-  ): APIPromise<ShortLinkCreateResponse> {
-    return this._client.post(path`/products/${id}/short_links`, { body, ...options });
-  }
-
-  /**
    * Lists all short links created by the business.
    */
   list(
@@ -35,6 +23,18 @@ export class ShortLinks extends APIResource {
       DefaultPageNumberPagination<ShortLinkListResponse>,
       { query, ...options },
     );
+  }
+
+  /**
+   * Gives a Short Checkout URL with custom slug for a product. Uses a Static
+   * Checkout URL under the hood.
+   */
+  create(
+    id: string,
+    body: ShortLinkCreateParams,
+    options?: RequestOptions,
+  ): APIPromise<ShortLinkCreateResponse> {
+    return this._client.post(path`/products/${id}/short_links`, { body, ...options });
   }
 }
 
@@ -75,6 +75,13 @@ export interface ShortLinkListResponse {
   short_url: string;
 }
 
+export interface ShortLinkListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Filter by product ID
+   */
+  product_id?: string;
+}
+
 export interface ShortLinkCreateParams {
   /**
    * Slug for the short link.
@@ -87,19 +94,12 @@ export interface ShortLinkCreateParams {
   static_checkout_params?: { [key: string]: string } | null;
 }
 
-export interface ShortLinkListParams extends DefaultPageNumberPaginationParams {
-  /**
-   * Filter by product ID
-   */
-  product_id?: string;
-}
-
 export declare namespace ShortLinks {
   export {
     type ShortLinkCreateResponse as ShortLinkCreateResponse,
     type ShortLinkListResponse as ShortLinkListResponse,
     type ShortLinkListResponsesDefaultPageNumberPagination as ShortLinkListResponsesDefaultPageNumberPagination,
-    type ShortLinkCreateParams as ShortLinkCreateParams,
     type ShortLinkListParams as ShortLinkListParams,
+    type ShortLinkCreateParams as ShortLinkCreateParams,
   };
 }
