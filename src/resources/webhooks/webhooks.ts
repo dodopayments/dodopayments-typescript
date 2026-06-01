@@ -22,6 +22,16 @@ export class Webhooks extends APIResource {
   headers: HeadersAPI.Headers = new HeadersAPI.Headers(this._client);
 
   /**
+   * List all webhooks
+   */
+  list(
+    query: WebhookListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<WebhookDetailsCursorPagePagination, WebhookDetails> {
+    return this._client.getAPIList('/webhooks', CursorPagePagination<WebhookDetails>, { query, ...options });
+  }
+
+  /**
    * Create a new webhook
    */
   create(body: WebhookCreateParams, options?: RequestOptions): APIPromise<WebhookDetails> {
@@ -36,23 +46,6 @@ export class Webhooks extends APIResource {
   }
 
   /**
-   * Patch a webhook by id
-   */
-  update(webhookID: string, body: WebhookUpdateParams, options?: RequestOptions): APIPromise<WebhookDetails> {
-    return this._client.patch(path`/webhooks/${webhookID}`, { body, ...options });
-  }
-
-  /**
-   * List all webhooks
-   */
-  list(
-    query: WebhookListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<WebhookDetailsCursorPagePagination, WebhookDetails> {
-    return this._client.getAPIList('/webhooks', CursorPagePagination<WebhookDetails>, { query, ...options });
-  }
-
-  /**
    * Delete a webhook by id
    */
   delete(webhookID: string, options?: RequestOptions): APIPromise<void> {
@@ -63,14 +56,17 @@ export class Webhooks extends APIResource {
   }
 
   /**
+   * Patch a webhook by id
+   */
+  update(webhookID: string, body: WebhookUpdateParams, options?: RequestOptions): APIPromise<WebhookDetails> {
+    return this._client.patch(path`/webhooks/${webhookID}`, { body, ...options });
+  }
+
+  /**
    * Get webhook secret by id
    */
   retrieveSecret(webhookID: string, options?: RequestOptions): APIPromise<WebhookRetrieveSecretResponse> {
     return this._client.get(path`/webhooks/${webhookID}/secret`, options);
-  }
-
-  unsafeUnwrap(body: string): UnsafeUnwrapWebhookEvent {
-    return JSON.parse(body) as UnsafeUnwrapWebhookEvent;
   }
 
   unwrap(
@@ -84,6 +80,10 @@ export class Webhooks extends APIResource {
       wh.verify(body, headers);
     }
     return JSON.parse(body) as UnwrapWebhookEvent;
+  }
+
+  unsafeUnwrap(body: string): UnsafeUnwrapWebhookEvent {
+    return JSON.parse(body) as UnsafeUnwrapWebhookEvent;
   }
 }
 
@@ -2072,6 +2072,8 @@ export type UnwrapWebhookEvent =
   | SubscriptionRenewedWebhookEvent
   | SubscriptionUpdatedWebhookEvent;
 
+export interface WebhookListParams extends CursorPagePaginationParams {}
+
 export interface WebhookCreateParams {
   /**
    * Url of the webhook
@@ -2146,8 +2148,6 @@ export interface WebhookUpdateParams {
   url?: string | null;
 }
 
-export interface WebhookListParams extends CursorPagePaginationParams {}
-
 Webhooks.Headers = Headers;
 
 export declare namespace Webhooks {
@@ -2196,9 +2196,9 @@ export declare namespace Webhooks {
     type UnsafeUnwrapWebhookEvent as UnsafeUnwrapWebhookEvent,
     type UnwrapWebhookEvent as UnwrapWebhookEvent,
     type WebhookDetailsCursorPagePagination as WebhookDetailsCursorPagePagination,
+    type WebhookListParams as WebhookListParams,
     type WebhookCreateParams as WebhookCreateParams,
     type WebhookUpdateParams as WebhookUpdateParams,
-    type WebhookListParams as WebhookListParams,
   };
 
   export {

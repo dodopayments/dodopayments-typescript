@@ -13,6 +13,19 @@ import { path } from '../internal/utils/path';
 
 export class Discounts extends APIResource {
   /**
+   * GET /discounts
+   */
+  list(
+    query: DiscountListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<DiscountsDefaultPageNumberPagination, Discount> {
+    return this._client.getAPIList('/discounts', DefaultPageNumberPagination<Discount>, {
+      query,
+      ...options,
+    });
+  }
+
+  /**
    * POST /discounts If `code` is omitted or empty, a random 16-char uppercase code
    * is generated.
    */
@@ -28,26 +41,6 @@ export class Discounts extends APIResource {
   }
 
   /**
-   * PATCH /discounts/{discount_id}
-   */
-  update(discountID: string, body: DiscountUpdateParams, options?: RequestOptions): APIPromise<Discount> {
-    return this._client.patch(path`/discounts/${discountID}`, { body, ...options });
-  }
-
-  /**
-   * GET /discounts
-   */
-  list(
-    query: DiscountListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<DiscountsDefaultPageNumberPagination, Discount> {
-    return this._client.getAPIList('/discounts', DefaultPageNumberPagination<Discount>, {
-      query,
-      ...options,
-    });
-  }
-
-  /**
    * DELETE /discounts/{discount_id}
    */
   delete(discountID: string, options?: RequestOptions): APIPromise<void> {
@@ -55,6 +48,13 @@ export class Discounts extends APIResource {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
+  }
+
+  /**
+   * PATCH /discounts/{discount_id}
+   */
+  update(discountID: string, body: DiscountUpdateParams, options?: RequestOptions): APIPromise<Discount> {
+    return this._client.patch(path`/discounts/${discountID}`, { body, ...options });
   }
 
   /**
@@ -71,11 +71,7 @@ export type DiscountsDefaultPageNumberPagination = DefaultPageNumberPagination<D
 
 export interface Discount {
   /**
-   * The discount amount.
-   *
-   * - If `discount_type` is `percentage`, this is in **basis points** (e.g., 540 =>
-   *   5.4%).
-   * - Otherwise, this is **USD cents** (e.g., 100 => `$1.00`).
+   * The discount amount in **basis points** (e.g., 540 => 5.4%).
    */
   amount: number;
 
@@ -118,7 +114,7 @@ export interface Discount {
   times_used: number;
 
   /**
-   * The type of discount, e.g. `percentage`, `flat`, or `flat_per_unit`.
+   * The type of discount. Currently only `percentage` is supported.
    */
   type: DiscountType;
 
@@ -151,7 +147,7 @@ export interface Discount {
  */
 export interface DiscountDetail {
   /**
-   * The discount amount (basis points for percentage, USD cents for flat)
+   * The discount amount in **basis points** (e.g., 540 => 5.4%).
    */
   amount: number;
 
@@ -234,21 +230,39 @@ export interface DiscountDetail {
 
 export type DiscountType = 'percentage';
 
+export interface DiscountListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Filter by active status (true = not expired, false = expired)
+   */
+  active?: boolean;
+
+  /**
+   * Filter by discount code (partial match, case-insensitive)
+   */
+  code?: string;
+
+  /**
+   * Filter by discount type
+   */
+  discount_type?: DiscountType;
+
+  /**
+   * Filter by product restriction (only discounts that apply to this product)
+   */
+  product_id?: string;
+}
+
 export interface DiscountCreateParams {
   /**
-   * The discount amount.
-   *
-   * - If `discount_type` is **not** `percentage`, `amount` is in **USD cents**. For
-   *   example, `100` means `$1.00`. Only USD is allowed.
-   * - If `discount_type` **is** `percentage`, `amount` is in **basis points**. For
-   *   example, `540` means `5.4%`.
+   * The discount amount in **basis points** (e.g. `540` means `5.4%`, `10000` means
+   * `100%`).
    *
    * Must be at least 1.
    */
   amount: number;
 
   /**
-   * The discount type (e.g. `percentage`, `flat`, or `flat_per_unit`).
+   * The discount type. Currently only `percentage` is supported.
    */
   type: DiscountType;
 
@@ -298,11 +312,8 @@ export interface DiscountCreateParams {
 
 export interface DiscountUpdateParams {
   /**
-   * If present, update the discount amount:
-   *
-   * - If `discount_type` is `percentage`, this represents **basis points** (e.g.,
-   *   `540` = `5.4%`).
-   * - Otherwise, this represents **USD cents** (e.g., `100` = `$1.00`).
+   * If present, update the discount amount in **basis points** (e.g., `540` =
+   * `5.4%`, `10000` = `100%`).
    *
    * Must be at least 1 if provided.
    */
@@ -342,33 +353,11 @@ export interface DiscountUpdateParams {
   subscription_cycles?: number | null;
 
   /**
-   * If present, update the discount type.
+   * If present, update the discount type. Currently only `percentage` is supported.
    */
   type?: DiscountType | null;
 
   usage_limit?: number | null;
-}
-
-export interface DiscountListParams extends DefaultPageNumberPaginationParams {
-  /**
-   * Filter by active status (true = not expired, false = expired)
-   */
-  active?: boolean;
-
-  /**
-   * Filter by discount code (partial match, case-insensitive)
-   */
-  code?: string;
-
-  /**
-   * Filter by discount type (percentage)
-   */
-  discount_type?: DiscountType;
-
-  /**
-   * Filter by product restriction (only discounts that apply to this product)
-   */
-  product_id?: string;
 }
 
 export declare namespace Discounts {
@@ -377,8 +366,8 @@ export declare namespace Discounts {
     type DiscountDetail as DiscountDetail,
     type DiscountType as DiscountType,
     type DiscountsDefaultPageNumberPagination as DiscountsDefaultPageNumberPagination,
+    type DiscountListParams as DiscountListParams,
     type DiscountCreateParams as DiscountCreateParams,
     type DiscountUpdateParams as DiscountUpdateParams,
-    type DiscountListParams as DiscountListParams,
   };
 }

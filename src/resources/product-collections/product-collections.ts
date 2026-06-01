@@ -24,22 +24,6 @@ import { path } from '../../internal/utils/path';
 export class ProductCollections extends APIResource {
   groups: GroupsAPI.Groups = new GroupsAPI.Groups(this._client);
 
-  create(body: ProductCollectionCreateParams, options?: RequestOptions): APIPromise<ProductCollection> {
-    return this._client.post('/product-collections', { body, ...options });
-  }
-
-  retrieve(id: string, options?: RequestOptions): APIPromise<ProductCollection> {
-    return this._client.get(path`/product-collections/${id}`, options);
-  }
-
-  update(id: string, body: ProductCollectionUpdateParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.patch(path`/product-collections/${id}`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
   list(
     query: ProductCollectionListParams | null | undefined = {},
     options?: RequestOptions,
@@ -51,6 +35,14 @@ export class ProductCollections extends APIResource {
     );
   }
 
+  create(body: ProductCollectionCreateParams, options?: RequestOptions): APIPromise<ProductCollection> {
+    return this._client.post('/product-collections', { body, ...options });
+  }
+
+  retrieve(id: string, options?: RequestOptions): APIPromise<ProductCollection> {
+    return this._client.get(path`/product-collections/${id}`, options);
+  }
+
   delete(id: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/product-collections/${id}`, {
       ...options,
@@ -58,8 +50,12 @@ export class ProductCollections extends APIResource {
     });
   }
 
-  unarchive(id: string, options?: RequestOptions): APIPromise<ProductCollectionUnarchiveResponse> {
-    return this._client.post(path`/product-collections/${id}/unarchive`, options);
+  update(id: string, body: ProductCollectionUpdateParams, options?: RequestOptions): APIPromise<void> {
+    return this._client.patch(path`/product-collections/${id}`, {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   updateImages(
@@ -69,6 +65,10 @@ export class ProductCollections extends APIResource {
   ): APIPromise<ProductCollectionUpdateImagesResponse> {
     const { force_update } = params ?? {};
     return this._client.put(path`/product-collections/${id}/images`, { query: { force_update }, ...options });
+  }
+
+  unarchive(id: string, options?: RequestOptions): APIPromise<ProductCollectionUnarchiveResponse> {
+    return this._client.post(path`/product-collections/${id}/unarchive`, options);
   }
 }
 
@@ -112,9 +112,49 @@ export interface ProductCollection {
   description?: string | null;
 
   /**
+   * Default effective_at setting for subscription plan downgrades (null = inherit
+   * from business)
+   */
+  effective_at_on_downgrade?: 'immediately' | 'next_billing_date' | null;
+
+  /**
+   * Default effective_at setting for subscription plan upgrades (null = inherit from
+   * business)
+   */
+  effective_at_on_upgrade?: 'immediately' | 'next_billing_date' | null;
+
+  /**
    * URL of the collection image
    */
   image?: string | null;
+
+  /**
+   * Default behavior for subscription plan changes on payment failure (null =
+   * inherit from business)
+   */
+  on_payment_failure?: 'prevent_change' | 'apply_change' | null;
+
+  /**
+   * Default proration billing mode for subscription plan downgrades (null = inherit
+   * from business)
+   */
+  proration_billing_mode_on_downgrade?:
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | null;
+
+  /**
+   * Default proration billing mode for subscription plan upgrades (null = inherit
+   * from business)
+   */
+  proration_billing_mode_on_upgrade?:
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | null;
 }
 
 export interface ProductCollectionListResponse {
@@ -183,6 +223,18 @@ export interface ProductCollectionUpdateImagesResponse {
   image_id?: string | null;
 }
 
+export interface ProductCollectionListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * List archived collections
+   */
+  archived?: boolean;
+
+  /**
+   * Filter by Brand id
+   */
+  brand_id?: string;
+}
+
 export interface ProductCollectionCreateParams {
   /**
    * Groups of products in this collection
@@ -203,6 +255,46 @@ export interface ProductCollectionCreateParams {
    * Optional description of the product collection
    */
   description?: string | null;
+
+  /**
+   * Default effective_at setting for subscription plan downgrades (NULL = inherit
+   * from business)
+   */
+  effective_at_on_downgrade?: 'immediately' | 'next_billing_date' | null;
+
+  /**
+   * Default effective_at setting for subscription plan upgrades (NULL = inherit from
+   * business)
+   */
+  effective_at_on_upgrade?: 'immediately' | 'next_billing_date' | null;
+
+  /**
+   * Default behavior for subscription plan changes on payment failure (NULL =
+   * inherit from business)
+   */
+  on_payment_failure?: 'prevent_change' | 'apply_change' | null;
+
+  /**
+   * Default proration billing mode for subscription plan downgrades (NULL = inherit
+   * from business)
+   */
+  proration_billing_mode_on_downgrade?:
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | null;
+
+  /**
+   * Default proration billing mode for subscription plan upgrades (NULL = inherit
+   * from business)
+   */
+  proration_billing_mode_on_upgrade?:
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | null;
 }
 
 export interface ProductCollectionUpdateParams {
@@ -215,6 +307,18 @@ export interface ProductCollectionUpdateParams {
    * Optional description update - pass null to remove, omit to keep unchanged
    */
   description?: string | null;
+
+  /**
+   * Effective_at setting for downgrades: Some(Some(val)) = set, Some(None) = clear
+   * (inherit), None = no change
+   */
+  effective_at_on_downgrade?: 'immediately' | 'next_billing_date' | null;
+
+  /**
+   * Effective_at setting for upgrades: Some(Some(val)) = set, Some(None) = clear
+   * (inherit), None = no change
+   */
+  effective_at_on_upgrade?: 'immediately' | 'next_billing_date' | null;
 
   /**
    * Optional new order for groups (array of group UUIDs in desired order)
@@ -230,18 +334,34 @@ export interface ProductCollectionUpdateParams {
    * Optional new name for the collection
    */
   name?: string | null;
-}
-
-export interface ProductCollectionListParams extends DefaultPageNumberPaginationParams {
-  /**
-   * List archived collections
-   */
-  archived?: boolean;
 
   /**
-   * Filter by Brand id
+   * On payment failure behavior: Some(Some(val)) = set, Some(None) = clear
+   * (inherit), None = no change
    */
-  brand_id?: string;
+  on_payment_failure?: 'prevent_change' | 'apply_change' | null;
+
+  /**
+   * Proration billing mode for downgrades: Some(Some(val)) = set, Some(None) = clear
+   * (inherit), None = no change
+   */
+  proration_billing_mode_on_downgrade?:
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | null;
+
+  /**
+   * Proration billing mode for upgrades: Some(Some(val)) = set, Some(None) = clear
+   * (inherit), None = no change
+   */
+  proration_billing_mode_on_upgrade?:
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | null;
 }
 
 export interface ProductCollectionUpdateImagesParams {
@@ -260,9 +380,9 @@ export declare namespace ProductCollections {
     type ProductCollectionUnarchiveResponse as ProductCollectionUnarchiveResponse,
     type ProductCollectionUpdateImagesResponse as ProductCollectionUpdateImagesResponse,
     type ProductCollectionListResponsesDefaultPageNumberPagination as ProductCollectionListResponsesDefaultPageNumberPagination,
+    type ProductCollectionListParams as ProductCollectionListParams,
     type ProductCollectionCreateParams as ProductCollectionCreateParams,
     type ProductCollectionUpdateParams as ProductCollectionUpdateParams,
-    type ProductCollectionListParams as ProductCollectionListParams,
     type ProductCollectionUpdateImagesParams as ProductCollectionUpdateImagesParams,
   };
 
@@ -272,7 +392,7 @@ export declare namespace ProductCollections {
     type ProductCollectionGroupDetails as ProductCollectionGroupDetails,
     type ProductCollectionGroupResponse as ProductCollectionGroupResponse,
     type GroupCreateParams as GroupCreateParams,
-    type GroupUpdateParams as GroupUpdateParams,
     type GroupDeleteParams as GroupDeleteParams,
+    type GroupUpdateParams as GroupUpdateParams,
   };
 }

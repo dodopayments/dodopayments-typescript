@@ -94,6 +94,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst checkoutSessionResponse = await client.checkoutSessions.create({\n  product_cart: [{ product_id: 'product_id', quantity: 0 }],\n});\n\nconsole.log(checkoutSessionResponse.session_id);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/checkouts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "product_cart": [\n            {\n              "product_id": "product_id",\n              "quantity": 0\n            }\n          ]\n        }\'',
+      },
       python: {
         method: 'checkout_sessions.create',
         example:
@@ -119,11 +123,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ncheckout_session_response = dodo_payments.checkout_sessions.create(product_cart: [{product_id: "product_id", quantity: 0}])\n\nputs(checkout_session_response)',
       },
-      cli: {
-        method: 'checkout_sessions create',
-        example:
-          "dodo-payments-cli checkout-sessions create \\\n  --bearer-token 'My Bearer Token' \\\n  --product-cart '{product_id: product_id, quantity: 0}'",
-      },
       php: {
         method: 'checkoutSessions->create',
         example:
@@ -133,10 +132,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'CheckoutSessions.Create',
         example:
           'CheckoutSessionCreateParams parameters = new()\n{\n    ProductCart =\n    [\n        new()\n        {\n            ProductID = "product_id",\n            Quantity = 0,\n            Addons =\n            [\n                new()\n                {\n                    AddonID = "addon_id",\n                    Quantity = 0,\n                },\n            ],\n            Amount = 0,\n            CreditEntitlements =\n            [\n                new()\n                {\n                    CreditEntitlementID = "credit_entitlement_id",\n                    CreditsAmount = "credits_amount",\n                },\n            ],\n        },\n    ],\n};\n\nvar checkoutSessionResponse = await client.CheckoutSessions.Create(parameters);\n\nConsole.WriteLine(checkoutSessionResponse);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/checkouts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "product_cart": [\n            {\n              "product_id": "product_id",\n              "quantity": 0\n            }\n          ]\n        }\'',
       },
     },
   },
@@ -158,6 +153,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.checkoutSessions.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst checkoutSessionStatus = await client.checkoutSessions.retrieve('id');\n\nconsole.log(checkoutSessionStatus.id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/checkouts/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'checkout_sessions.retrieve',
@@ -184,11 +183,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ncheckout_session_status = dodo_payments.checkout_sessions.retrieve("id")\n\nputs(checkout_session_status)',
       },
-      cli: {
-        method: 'checkout_sessions retrieve',
-        example:
-          "dodo-payments-cli checkout-sessions retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'checkoutSessions->retrieve',
         example:
@@ -198,10 +192,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'CheckoutSessions.Retrieve',
         example:
           'CheckoutSessionRetrieveParams parameters = new() { ID = "id" };\n\nvar checkoutSessionStatus = await client.CheckoutSessions.Retrieve(parameters);\n\nConsole.WriteLine(checkoutSessionStatus);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/checkouts/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -249,6 +239,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.checkoutSessions.preview({\n  product_cart: [{ product_id: 'product_id', quantity: 0 }],\n});\n\nconsole.log(response.tax_id_err_msg);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/checkouts/preview \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "product_cart": [\n            {\n              "product_id": "product_id",\n              "quantity": 0\n            }\n          ]\n        }\'',
+      },
       python: {
         method: 'checkout_sessions.preview',
         example:
@@ -274,11 +268,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.checkout_sessions.preview(product_cart: [{product_id: "product_id", quantity: 0}])\n\nputs(response)',
       },
-      cli: {
-        method: 'checkout_sessions preview',
-        example:
-          "dodo-payments-cli checkout-sessions preview \\\n  --bearer-token 'My Bearer Token' \\\n  --product-cart '{product_id: product_id, quantity: 0}'",
-      },
       php: {
         method: 'checkoutSessions->preview',
         example:
@@ -288,10 +277,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'CheckoutSessions.Preview',
         example:
           'CheckoutSessionPreviewParams parameters = new()\n{\n    ProductCart =\n    [\n        new()\n        {\n            ProductID = "product_id",\n            Quantity = 0,\n            Addons =\n            [\n                new()\n                {\n                    AddonID = "addon_id",\n                    Quantity = 0,\n                },\n            ],\n            Amount = 0,\n            CreditEntitlements =\n            [\n                new()\n                {\n                    CreditEntitlementID = "credit_entitlement_id",\n                    CreditsAmount = "credits_amount",\n                },\n            ],\n        },\n    ],\n};\n\nvar response = await client.CheckoutSessions.Preview(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/checkouts/preview \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "product_cart": [\n            {\n              "product_id": "product_id",\n              "quantity": 0\n            }\n          ]\n        }\'',
       },
     },
   },
@@ -324,6 +309,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const paymentListResponse of client.payments.list()) {\n  console.log(paymentListResponse.brand_id);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/payments \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'payments.list',
         example:
@@ -349,10 +338,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.payments.list\n\nputs(page)',
       },
-      cli: {
-        method: 'payments list',
-        example: "dodo-payments-cli payments list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'payments->list',
         example:
@@ -362,10 +347,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Payments.List',
         example:
           'PaymentListParams parameters = new();\n\nvar page = await client.Payments.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/payments \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -408,6 +389,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst payment = await client.payments.create({\n  billing: { country: 'AF' },\n  customer: { customer_id: 'customer_id' },\n  product_cart: [{ product_id: 'product_id', quantity: 0 }],\n});\n\nconsole.log(payment.payment_id);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/payments \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "billing": {\n            "country": "AF"\n          },\n          "customer": {\n            "customer_id": "customer_id"\n          },\n          "product_cart": [\n            {\n              "product_id": "product_id",\n              "quantity": 0\n            }\n          ]\n        }\'',
+      },
       python: {
         method: 'payments.create',
         example:
@@ -433,11 +418,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npayment = dodo_payments.payments.create(\n  billing: {country: :AF},\n  customer: {customer_id: "customer_id"},\n  product_cart: [{product_id: "product_id", quantity: 0}]\n)\n\nputs(payment)',
       },
-      cli: {
-        method: 'payments create',
-        example:
-          "dodo-payments-cli payments create \\\n  --bearer-token 'My Bearer Token' \\\n  --billing '{country: AF}' \\\n  --customer '{customer_id: customer_id}' \\\n  --product-cart '{product_id: product_id, quantity: 0}'",
-      },
       php: {
         method: 'payments->create',
         example:
@@ -447,10 +427,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Payments.Create',
         example:
           'PaymentCreateParams parameters = new()\n{\n    Billing = new()\n    {\n        Country = CountryCode.Af,\n        City = "city",\n        State = "state",\n        Street = "street",\n        Zipcode = "zipcode",\n    },\n    Customer = new AttachExistingCustomer("customer_id"),\n    ProductCart =\n    [\n        new()\n        {\n            ProductID = "product_id",\n            Quantity = 0,\n            Amount = 0,\n        },\n    ],\n};\n\nvar payment = await client.Payments.Create(parameters);\n\nConsole.WriteLine(payment);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/payments \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "billing": {\n            "country": "AF"\n          },\n          "customer": {\n            "customer_id": "customer_id"\n          },\n          "product_cart": [\n            {\n              "product_id": "product_id",\n              "quantity": 0\n            }\n          ]\n        }\'',
       },
     },
   },
@@ -464,14 +440,18 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     qualified: 'client.payments.retrieve',
     params: ['payment_id: string;'],
     response:
-      "{ billing: object; brand_id: string; business_id: string; created_at: string; currency: string; customer: object; digital_products_delivered: boolean; disputes: object[]; metadata: object; payment_id: string; refunds: object[]; settlement_amount: number; settlement_currency: string; total_amount: number; card_holder_name?: string; card_issuing_country?: string; card_last_four?: string; card_network?: string; card_type?: string; checkout_session_id?: string; custom_field_responses?: object[]; discount_id?: string; discounts?: object[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_type?: string; product_cart?: { product_id: string; quantity: number; }[]; refund_status?: 'partial' | 'full'; settlement_tax?: number; status?: string; subscription_id?: string; tax?: number; updated_at?: string; }",
+      "{ billing: object; brand_id: string; business_id: string; created_at: string; currency: string; customer: object; digital_products_delivered: boolean; disputes: object[]; metadata: object; payment_id: string; refunds: object[]; retry_attempt: number; settlement_amount: number; settlement_currency: string; total_amount: number; card_holder_name?: string; card_issuing_country?: string; card_last_four?: string; card_network?: string; card_type?: string; checkout_session_id?: string; custom_field_responses?: object[]; discount_id?: string; discounts?: object[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_type?: string; product_cart?: { product_id: string; quantity: number; }[]; refund_status?: 'partial' | 'full'; settlement_tax?: number; status?: string; subscription_id?: string; tax?: number; updated_at?: string; }",
     markdown:
-      "## retrieve\n\n`client.payments.retrieve(payment_id: string): { billing: billing_address; brand_id: string; business_id: string; created_at: string; currency: currency; customer: customer_limited_details; digital_products_delivered: boolean; disputes: dispute[]; metadata: object; payment_id: string; refunds: refund_list_item[]; settlement_amount: number; settlement_currency: currency; total_amount: number; card_holder_name?: string; card_issuing_country?: country_code; card_last_four?: string; card_network?: string; card_type?: string; checkout_session_id?: string; custom_field_responses?: custom_field_response[]; discount_id?: string; discounts?: discount_detail[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_type?: string; product_cart?: object[]; refund_status?: payment_refund_status; settlement_tax?: number; status?: intent_status; subscription_id?: string; tax?: number; updated_at?: string; }`\n\n**get** `/payments/{payment_id}`\n\n### Parameters\n\n- `payment_id: string`\n\n### Returns\n\n- `{ billing: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }; brand_id: string; business_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }; digital_products_delivered: boolean; disputes: { amount: string; business_id: string; created_at: string; currency: string; dispute_id: string; dispute_stage: dispute_stage; dispute_status: dispute_status; payment_id: string; is_resolved_by_rdr?: boolean; remarks?: string; }[]; metadata: object; payment_id: string; refunds: { business_id: string; created_at: string; is_partial: boolean; payment_id: string; refund_id: string; status: refund_status; amount?: number; currency?: currency; reason?: string; }[]; settlement_amount: number; settlement_currency: string; total_amount: number; card_holder_name?: string; card_issuing_country?: string; card_last_four?: string; card_network?: string; card_type?: string; checkout_session_id?: string; custom_field_responses?: { key: string; value: string; }[]; discount_id?: string; discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_type?: string; product_cart?: { product_id: string; quantity: number; }[]; refund_status?: 'partial' | 'full'; settlement_tax?: number; status?: string; subscription_id?: string; tax?: number; updated_at?: string; }`\n\n  - `billing: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  - `brand_id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `digital_products_delivered: boolean`\n  - `disputes: { amount: string; business_id: string; created_at: string; currency: string; dispute_id: string; dispute_stage: 'pre_dispute' | 'dispute' | 'pre_arbitration'; dispute_status: string; payment_id: string; is_resolved_by_rdr?: boolean; remarks?: string; }[]`\n  - `metadata: object`\n  - `payment_id: string`\n  - `refunds: { business_id: string; created_at: string; is_partial: boolean; payment_id: string; refund_id: string; status: 'succeeded' | 'failed' | 'pending' | 'review'; amount?: number; currency?: string; reason?: string; }[]`\n  - `settlement_amount: number`\n  - `settlement_currency: string`\n  - `total_amount: number`\n  - `card_holder_name?: string`\n  - `card_issuing_country?: string`\n  - `card_last_four?: string`\n  - `card_network?: string`\n  - `card_type?: string`\n  - `checkout_session_id?: string`\n  - `custom_field_responses?: { key: string; value: string; }[]`\n  - `discount_id?: string`\n  - `discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'percentage'; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]`\n  - `error_code?: string`\n  - `error_message?: string`\n  - `invoice_id?: string`\n  - `invoice_url?: string`\n  - `payment_link?: string`\n  - `payment_method?: string`\n  - `payment_method_type?: string`\n  - `product_cart?: { product_id: string; quantity: number; }[]`\n  - `refund_status?: 'partial' | 'full'`\n  - `settlement_tax?: number`\n  - `status?: string`\n  - `subscription_id?: string`\n  - `tax?: number`\n  - `updated_at?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst payment = await client.payments.retrieve('payment_id');\n\nconsole.log(payment);\n```",
+      "## retrieve\n\n`client.payments.retrieve(payment_id: string): { billing: billing_address; brand_id: string; business_id: string; created_at: string; currency: currency; customer: customer_limited_details; digital_products_delivered: boolean; disputes: dispute[]; metadata: object; payment_id: string; refunds: refund_list_item[]; retry_attempt: number; settlement_amount: number; settlement_currency: currency; total_amount: number; card_holder_name?: string; card_issuing_country?: country_code; card_last_four?: string; card_network?: string; card_type?: string; checkout_session_id?: string; custom_field_responses?: custom_field_response[]; discount_id?: string; discounts?: discount_detail[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_type?: string; product_cart?: object[]; refund_status?: payment_refund_status; settlement_tax?: number; status?: intent_status; subscription_id?: string; tax?: number; updated_at?: string; }`\n\n**get** `/payments/{payment_id}`\n\n### Parameters\n\n- `payment_id: string`\n\n### Returns\n\n- `{ billing: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }; brand_id: string; business_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }; digital_products_delivered: boolean; disputes: { amount: string; business_id: string; created_at: string; currency: string; dispute_id: string; dispute_stage: dispute_stage; dispute_status: dispute_status; payment_id: string; is_resolved_by_rdr?: boolean; remarks?: string; }[]; metadata: object; payment_id: string; refunds: { business_id: string; created_at: string; is_partial: boolean; payment_id: string; refund_id: string; status: refund_status; amount?: number; currency?: currency; reason?: string; }[]; retry_attempt: number; settlement_amount: number; settlement_currency: string; total_amount: number; card_holder_name?: string; card_issuing_country?: string; card_last_four?: string; card_network?: string; card_type?: string; checkout_session_id?: string; custom_field_responses?: { key: string; value: string; }[]; discount_id?: string; discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_type?: string; product_cart?: { product_id: string; quantity: number; }[]; refund_status?: 'partial' | 'full'; settlement_tax?: number; status?: string; subscription_id?: string; tax?: number; updated_at?: string; }`\n\n  - `billing: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  - `brand_id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `digital_products_delivered: boolean`\n  - `disputes: { amount: string; business_id: string; created_at: string; currency: string; dispute_id: string; dispute_stage: 'pre_dispute' | 'dispute' | 'pre_arbitration'; dispute_status: string; payment_id: string; is_resolved_by_rdr?: boolean; remarks?: string; }[]`\n  - `metadata: object`\n  - `payment_id: string`\n  - `refunds: { business_id: string; created_at: string; is_partial: boolean; payment_id: string; refund_id: string; status: 'succeeded' | 'failed' | 'pending' | 'review'; amount?: number; currency?: string; reason?: string; }[]`\n  - `retry_attempt: number`\n  - `settlement_amount: number`\n  - `settlement_currency: string`\n  - `total_amount: number`\n  - `card_holder_name?: string`\n  - `card_issuing_country?: string`\n  - `card_last_four?: string`\n  - `card_network?: string`\n  - `card_type?: string`\n  - `checkout_session_id?: string`\n  - `custom_field_responses?: { key: string; value: string; }[]`\n  - `discount_id?: string`\n  - `discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'percentage'; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]`\n  - `error_code?: string`\n  - `error_message?: string`\n  - `invoice_id?: string`\n  - `invoice_url?: string`\n  - `payment_link?: string`\n  - `payment_method?: string`\n  - `payment_method_type?: string`\n  - `product_cart?: { product_id: string; quantity: number; }[]`\n  - `refund_status?: 'partial' | 'full'`\n  - `settlement_tax?: number`\n  - `status?: string`\n  - `subscription_id?: string`\n  - `tax?: number`\n  - `updated_at?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst payment = await client.payments.retrieve('payment_id');\n\nconsole.log(payment);\n```",
     perLanguage: {
       typescript: {
         method: 'client.payments.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst payment = await client.payments.retrieve('payment_id');\n\nconsole.log(payment.brand_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/payments/$PAYMENT_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'payments.retrieve',
@@ -498,11 +478,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npayment = dodo_payments.payments.retrieve("payment_id")\n\nputs(payment)',
       },
-      cli: {
-        method: 'payments retrieve',
-        example:
-          "dodo-payments-cli payments retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --payment-id payment_id",
-      },
       php: {
         method: 'payments->retrieve',
         example:
@@ -512,10 +487,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Payments.Retrieve',
         example:
           'PaymentRetrieveParams parameters = new() { PaymentID = "payment_id" };\n\nvar payment = await client.Payments.Retrieve(parameters);\n\nConsole.WriteLine(payment);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/payments/$PAYMENT_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -537,6 +508,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.payments.retrieveLineItems',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.payments.retrieveLineItems('payment_id');\n\nconsole.log(response.currency);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/payments/$PAYMENT_ID/line-items \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'payments.retrieve_line_items',
@@ -563,11 +538,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.payments.retrieve_line_items("payment_id")\n\nputs(response)',
       },
-      cli: {
-        method: 'payments retrieve_line_items',
-        example:
-          "dodo-payments-cli payments retrieve-line-items \\\n  --bearer-token 'My Bearer Token' \\\n  --payment-id payment_id",
-      },
       php: {
         method: 'payments->retrieveLineItems',
         example:
@@ -577,10 +547,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Payments.RetrieveLineItems',
         example:
           'PaymentRetrieveLineItemsParams parameters = new() { PaymentID = "payment_id" };\n\nvar response = await client.Payments.RetrieveLineItems(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/payments/$PAYMENT_ID/line-items \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -612,6 +578,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const subscriptionListResponse of client.subscriptions.list()) {\n  console.log(subscriptionListResponse.product_id);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/subscriptions \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'subscriptions.list',
         example:
@@ -637,10 +607,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.subscriptions.list\n\nputs(page)',
       },
-      cli: {
-        method: 'subscriptions list',
-        example: "dodo-payments-cli subscriptions list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'subscriptions->list',
         example:
@@ -650,10 +616,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Subscriptions.List',
         example:
           'SubscriptionListParams parameters = new();\n\nvar page = await client.Subscriptions.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/subscriptions \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -701,6 +663,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst subscription = await client.subscriptions.create({\n  billing: { country: 'AF' },\n  customer: { customer_id: 'customer_id' },\n  product_id: 'product_id',\n  quantity: 0,\n});\n\nconsole.log(subscription.payment_id);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/subscriptions \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "billing": {\n            "country": "AF"\n          },\n          "customer": {\n            "customer_id": "customer_id"\n          },\n          "product_id": "product_id",\n          "quantity": 0\n        }\'',
+      },
       python: {
         method: 'subscriptions.create',
         example:
@@ -726,11 +692,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nsubscription = dodo_payments.subscriptions.create(\n  billing: {country: :AF},\n  customer: {customer_id: "customer_id"},\n  product_id: "product_id",\n  quantity: 0\n)\n\nputs(subscription)',
       },
-      cli: {
-        method: 'subscriptions create',
-        example:
-          "dodo-payments-cli subscriptions create \\\n  --bearer-token 'My Bearer Token' \\\n  --billing '{country: AF}' \\\n  --customer '{customer_id: customer_id}' \\\n  --product-id product_id \\\n  --quantity 0",
-      },
       php: {
         method: 'subscriptions->create',
         example:
@@ -740,10 +701,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Subscriptions.Create',
         example:
           'SubscriptionCreateParams parameters = new()\n{\n    Billing = new()\n    {\n        Country = CountryCode.Af,\n        City = "city",\n        State = "state",\n        Street = "street",\n        Zipcode = "zipcode",\n    },\n    Customer = new AttachExistingCustomer("customer_id"),\n    ProductID = "product_id",\n    Quantity = 0,\n};\n\nvar subscription = await client.Subscriptions.Create(parameters);\n\nConsole.WriteLine(subscription);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/subscriptions \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "billing": {\n            "country": "AF"\n          },\n          "customer": {\n            "customer_id": "customer_id"\n          },\n          "product_id": "product_id",\n          "quantity": 0\n        }\'',
       },
     },
   },
@@ -765,6 +722,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.subscriptions.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst subscription = await client.subscriptions.retrieve('subscription_id');\n\nconsole.log(subscription.product_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'subscriptions.retrieve',
@@ -791,11 +752,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nsubscription = dodo_payments.subscriptions.retrieve("subscription_id")\n\nputs(subscription)',
       },
-      cli: {
-        method: 'subscriptions retrieve',
-        example:
-          "dodo-payments-cli subscriptions retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id",
-      },
       php: {
         method: 'subscriptions->retrieve',
         example:
@@ -805,10 +761,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Subscriptions.Retrieve',
         example:
           'SubscriptionRetrieveParams parameters = new()\n{\n    SubscriptionID = "subscription_id"\n};\n\nvar subscription = await client.Subscriptions.Retrieve(parameters);\n\nConsole.WriteLine(subscription);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -846,6 +798,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst subscription = await client.subscriptions.update('subscription_id');\n\nconsole.log(subscription.product_id);",
       },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
       python: {
         method: 'subscriptions.update',
         example:
@@ -871,11 +827,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nsubscription = dodo_payments.subscriptions.update("subscription_id")\n\nputs(subscription)',
       },
-      cli: {
-        method: 'subscriptions update',
-        example:
-          "dodo-payments-cli subscriptions update \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id",
-      },
       php: {
         method: 'subscriptions->update',
         example:
@@ -885,10 +836,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Subscriptions.Update',
         example:
           'SubscriptionUpdateParams parameters = new()\n{\n    SubscriptionID = "subscription_id"\n};\n\nvar subscription = await client.Subscriptions.Update(parameters);\n\nConsole.WriteLine(subscription);',
-      },
-      http: {
-        example:
-          "curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -918,6 +865,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.subscriptions.charge('subscription_id', { product_price: 0 });\n\nconsole.log(response.payment_id);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/charge \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "product_price": 0\n        }\'',
+      },
       python: {
         method: 'subscriptions.charge',
         example:
@@ -943,11 +894,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.subscriptions.charge("subscription_id", product_price: 0)\n\nputs(response)',
       },
-      cli: {
-        method: 'subscriptions charge',
-        example:
-          "dodo-payments-cli subscriptions charge \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id \\\n  --product-price 0",
-      },
       php: {
         method: 'subscriptions->charge',
         example:
@@ -957,10 +903,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Subscriptions.Charge',
         example:
           'SubscriptionChargeParams parameters = new()\n{\n    SubscriptionID = "subscription_id",\n    ProductPrice = 0,\n};\n\nvar response = await client.Subscriptions.Charge(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/charge \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "product_price": 0\n        }\'',
       },
     },
   },
@@ -993,6 +935,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.subscriptions.changePlan('subscription_id', {\n  product_id: 'product_id',\n  proration_billing_mode: 'prorated_immediately',\n  quantity: 0,\n});",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/change-plan \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "product_id": "product_id",\n          "proration_billing_mode": "prorated_immediately",\n          "quantity": 0\n        }\'',
+      },
       python: {
         method: 'subscriptions.change_plan',
         example:
@@ -1018,11 +964,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.subscriptions.change_plan(\n  "subscription_id",\n  product_id: "product_id",\n  proration_billing_mode: :prorated_immediately,\n  quantity: 0\n)\n\nputs(result)',
       },
-      cli: {
-        method: 'subscriptions change_plan',
-        example:
-          "dodo-payments-cli subscriptions change-plan \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id \\\n  --product-id product_id \\\n  --proration-billing-mode prorated_immediately \\\n  --quantity 0",
-      },
       php: {
         method: 'subscriptions->changePlan',
         example:
@@ -1032,10 +973,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Subscriptions.ChangePlan',
         example:
           'SubscriptionChangePlanParams parameters = new()\n{\n    SubscriptionID = "subscription_id",\n    ProductID = "product_id",\n    ProrationBillingMode = ProrationBillingMode.ProratedImmediately,\n    Quantity = 0,\n};\n\nawait client.Subscriptions.ChangePlan(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/change-plan \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "product_id": "product_id",\n          "proration_billing_mode": "prorated_immediately",\n          "quantity": 0\n        }\'',
       },
     },
   },
@@ -1066,6 +1003,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const subscriptionRetrieveUsageHistoryResponse of client.subscriptions.retrieveUsageHistory(\n  'subscription_id',\n)) {\n  console.log(subscriptionRetrieveUsageHistoryResponse.end_date);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/usage-history \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'subscriptions.retrieve_usage_history',
         example:
@@ -1091,11 +1032,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.subscriptions.retrieve_usage_history("subscription_id")\n\nputs(page)',
       },
-      cli: {
-        method: 'subscriptions retrieve_usage_history',
-        example:
-          "dodo-payments-cli subscriptions retrieve-usage-history \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id",
-      },
       php: {
         method: 'subscriptions->retrieveUsageHistory',
         example:
@@ -1105,10 +1041,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Subscriptions.RetrieveUsageHistory',
         example:
           'SubscriptionRetrieveUsageHistoryParams parameters = new()\n{\n    SubscriptionID = "subscription_id"\n};\n\nvar page = await client.Subscriptions.RetrieveUsageHistory(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/usage-history \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -1132,6 +1064,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.subscriptions.updatePaymentMethod',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.subscriptions.updatePaymentMethod('subscription_id', {\n  payment_method: { type: 'new' },\n});\n\nconsole.log(response.payment_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/update-payment-method \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "type": "new",\n          "return_url": "return_url"\n        }\'',
       },
       python: {
         method: 'subscriptions.update_payment_method',
@@ -1158,11 +1094,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.subscriptions.update_payment_method("subscription_id", payment_method: {type: :new})\n\nputs(response)',
       },
-      cli: {
-        method: 'subscriptions update_payment_method',
-        example:
-          "dodo-payments-cli subscriptions update-payment-method \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id \\\n  --payment-method '{type: new}'",
-      },
       php: {
         method: 'subscriptions->updatePaymentMethod',
         example:
@@ -1172,10 +1103,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Subscriptions.UpdatePaymentMethod',
         example:
           'SubscriptionUpdatePaymentMethodParams parameters = new()\n{\n    SubscriptionID = "subscription_id",\n    PaymentMethod = new New() { ReturnUrl = "return_url" },\n};\n\nvar response = await client.Subscriptions.UpdatePaymentMethod(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/update-payment-method \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "type": "new",\n          "return_url": "return_url"\n        }\'',
       },
     },
   },
@@ -1210,6 +1137,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.subscriptions.previewChangePlan('subscription_id', {\n  product_id: 'product_id',\n  proration_billing_mode: 'prorated_immediately',\n  quantity: 0,\n});\n\nconsole.log(response.immediate_charge);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/change-plan/preview \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "product_id": "product_id",\n          "proration_billing_mode": "prorated_immediately",\n          "quantity": 0\n        }\'',
+      },
       python: {
         method: 'subscriptions.preview_change_plan',
         example:
@@ -1235,11 +1166,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.subscriptions.preview_change_plan(\n  "subscription_id",\n  product_id: "product_id",\n  proration_billing_mode: :prorated_immediately,\n  quantity: 0\n)\n\nputs(response)',
       },
-      cli: {
-        method: 'subscriptions preview_change_plan',
-        example:
-          "dodo-payments-cli subscriptions preview-change-plan \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id \\\n  --product-id product_id \\\n  --proration-billing-mode prorated_immediately \\\n  --quantity 0",
-      },
       php: {
         method: 'subscriptions->previewChangePlan',
         example:
@@ -1249,10 +1175,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Subscriptions.PreviewChangePlan',
         example:
           'SubscriptionPreviewChangePlanParams parameters = new()\n{\n    SubscriptionID = "subscription_id",\n    ProductID = "product_id",\n    ProrationBillingMode = ProrationBillingMode.ProratedImmediately,\n    Quantity = 0,\n};\n\nvar response = await client.Subscriptions.PreviewChangePlan(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/change-plan/preview \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "product_id": "product_id",\n          "proration_billing_mode": "prorated_immediately",\n          "quantity": 0\n        }\'',
       },
     },
   },
@@ -1274,6 +1196,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.subscriptions.retrieveCreditUsage',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.subscriptions.retrieveCreditUsage('subscription_id');\n\nconsole.log(response.subscription_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/credit-usage \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'subscriptions.retrieve_credit_usage',
@@ -1300,11 +1226,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.subscriptions.retrieve_credit_usage("subscription_id")\n\nputs(response)',
       },
-      cli: {
-        method: 'subscriptions retrieve_credit_usage',
-        example:
-          "dodo-payments-cli subscriptions retrieve-credit-usage \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id",
-      },
       php: {
         method: 'subscriptions->retrieveCreditUsage',
         example:
@@ -1314,10 +1235,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Subscriptions.RetrieveCreditUsage',
         example:
           'SubscriptionRetrieveCreditUsageParams parameters = new()\n{\n    SubscriptionID = "subscription_id"\n};\n\nvar response = await client.Subscriptions.RetrieveCreditUsage(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/credit-usage \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -1337,6 +1254,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.subscriptions.cancelChangePlan',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.subscriptions.cancelChangePlan('subscription_id');",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/change-plan/scheduled \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'subscriptions.cancel_change_plan',
@@ -1363,11 +1284,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.subscriptions.cancel_change_plan("subscription_id")\n\nputs(result)',
       },
-      cli: {
-        method: 'subscriptions cancel_change_plan',
-        example:
-          "dodo-payments-cli subscriptions cancel-change-plan \\\n  --bearer-token 'My Bearer Token' \\\n  --subscription-id subscription_id",
-      },
       php: {
         method: 'subscriptions->cancelChangePlan',
         example:
@@ -1377,10 +1293,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Subscriptions.CancelChangePlan',
         example:
           'SubscriptionCancelChangePlanParams parameters = new()\n{\n    SubscriptionID = "subscription_id"\n};\n\nawait client.Subscriptions.CancelChangePlan(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/change-plan/scheduled \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -1401,6 +1313,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.invoices.payments.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst payment = await client.invoices.payments.retrieve('payment_id');\n\nconsole.log(payment);\n\nconst content = await payment.blob();\nconsole.log(content);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/invoices/payments/$PAYMENT_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'invoices.payments.retrieve',
@@ -1427,11 +1343,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npayment = dodo_payments.invoices.payments.retrieve("payment_id")\n\nputs(payment)',
       },
-      cli: {
-        method: 'payments retrieve',
-        example:
-          "dodo-payments-cli invoices:payments retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --payment-id payment_id",
-      },
       php: {
         method: 'invoices->payments->retrieve',
         example:
@@ -1441,10 +1352,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Invoices.Payments.Retrieve',
         example:
           'PaymentRetrieveParams parameters = new() { PaymentID = "payment_id" };\n\nvar payment = await client.Invoices.Payments.Retrieve(parameters);\n\nConsole.WriteLine(payment);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/invoices/payments/$PAYMENT_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -1465,6 +1372,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.invoices.payments.retrieveRefund',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.invoices.payments.retrieveRefund('refund_id');\n\nconsole.log(response);\n\nconst content = await response.blob();\nconsole.log(content);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/invoices/refunds/$REFUND_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'invoices.payments.retrieve_refund',
@@ -1491,11 +1402,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.invoices.payments.retrieve_refund("refund_id")\n\nputs(response)',
       },
-      cli: {
-        method: 'payments retrieve_refund',
-        example:
-          "dodo-payments-cli invoices:payments retrieve-refund \\\n  --bearer-token 'My Bearer Token' \\\n  --refund-id refund_id",
-      },
       php: {
         method: 'invoices->payments->retrieveRefund',
         example:
@@ -1505,10 +1411,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Invoices.Payments.RetrieveRefund',
         example:
           'PaymentRetrieveRefundParams parameters = new() { RefundID = "refund_id" };\n\nvar response = await client.Invoices.Payments.RetrieveRefund(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/invoices/refunds/$REFUND_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -1529,6 +1431,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.invoices.payments.retrievePayout',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.invoices.payments.retrievePayout('payout_id');\n\nconsole.log(response);\n\nconst content = await response.blob();\nconsole.log(content);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/invoices/payouts/$PAYOUT_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'invoices.payments.retrieve_payout',
@@ -1555,11 +1461,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.invoices.payments.retrieve_payout("payout_id")\n\nputs(response)',
       },
-      cli: {
-        method: 'payments retrieve_payout',
-        example:
-          "dodo-payments-cli invoices:payments retrieve-payout \\\n  --bearer-token 'My Bearer Token' \\\n  --payout-id payout_id",
-      },
       php: {
         method: 'invoices->payments->retrievePayout',
         example:
@@ -1569,10 +1470,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Invoices.Payments.RetrievePayout',
         example:
           'PaymentRetrievePayoutParams parameters = new() { PayoutID = "payout_id" };\n\nvar response = await client.Invoices.Payments.RetrievePayout(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/invoices/payouts/$PAYOUT_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -1594,6 +1491,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.licenses.activate',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.licenses.activate({ license_key: 'license_key', name: 'name' });\n\nconsole.log(response.id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/licenses/activate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "license_key": "license_key",\n          "name": "name"\n        }\'',
       },
       python: {
         method: 'licenses.activate',
@@ -1620,11 +1521,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.licenses.activate(license_key: "license_key", name: "name")\n\nputs(response)',
       },
-      cli: {
-        method: 'licenses activate',
-        example:
-          "dodo-payments-cli licenses activate \\\n  --bearer-token 'My Bearer Token' \\\n  --license-key license_key \\\n  --name name",
-      },
       php: {
         method: 'licenses->activate',
         example:
@@ -1634,10 +1530,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Licenses.Activate',
         example:
           'LicenseActivateParams parameters = new()\n{\n    LicenseKey = "license_key",\n    Name = "name",\n};\n\nvar response = await client.Licenses.Activate(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/licenses/activate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "license_key": "license_key",\n          "name": "name"\n        }\'',
       },
     },
   },
@@ -1657,6 +1549,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.licenses.deactivate',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.licenses.deactivate({\n  license_key: 'license_key',\n  license_key_instance_id: 'license_key_instance_id',\n});",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/licenses/deactivate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "license_key": "license_key",\n          "license_key_instance_id": "license_key_instance_id"\n        }\'',
       },
       python: {
         method: 'licenses.deactivate',
@@ -1683,11 +1579,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.licenses.deactivate(\n  license_key: "license_key",\n  license_key_instance_id: "license_key_instance_id"\n)\n\nputs(result)',
       },
-      cli: {
-        method: 'licenses deactivate',
-        example:
-          "dodo-payments-cli licenses deactivate \\\n  --bearer-token 'My Bearer Token' \\\n  --license-key license_key \\\n  --license-key-instance-id license_key_instance_id",
-      },
       php: {
         method: 'licenses->deactivate',
         example:
@@ -1697,10 +1588,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Licenses.Deactivate',
         example:
           'LicenseDeactivateParams parameters = new()\n{\n    LicenseKey = "license_key",\n    LicenseKeyInstanceID = "license_key_instance_id",\n};\n\nawait client.Licenses.Deactivate(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/licenses/deactivate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "license_key": "license_key",\n          "license_key_instance_id": "license_key_instance_id"\n        }\'',
       },
     },
   },
@@ -1721,6 +1608,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.licenses.validate',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.licenses.validate({\n  license_key: '2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43',\n});\n\nconsole.log(response.valid);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/licenses/validate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "license_key": "2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43",\n          "license_key_instance_id": "lki_123"\n        }\'',
       },
       python: {
         method: 'licenses.validate',
@@ -1747,11 +1638,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.licenses.validate(license_key: "2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43")\n\nputs(response)',
       },
-      cli: {
-        method: 'licenses validate',
-        example:
-          "dodo-payments-cli licenses validate \\\n  --bearer-token 'My Bearer Token' \\\n  --license-key 2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43",
-      },
       php: {
         method: 'licenses->validate',
         example:
@@ -1761,10 +1647,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Licenses.Validate',
         example:
           'LicenseValidateParams parameters = new()\n{\n    LicenseKey = "2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43"\n};\n\nvar response = await client.Licenses.Validate(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/licenses/validate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "license_key": "2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43",\n          "license_key_instance_id": "lki_123"\n        }\'',
       },
     },
   },
@@ -1796,6 +1678,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const licenseKey of client.licenseKeys.list()) {\n  console.log(licenseKey.id);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/license_keys \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'license_keys.list',
         example:
@@ -1821,10 +1707,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.license_keys.list\n\nputs(page)',
       },
-      cli: {
-        method: 'license_keys list',
-        example: "dodo-payments-cli license-keys list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'licenseKeys->list',
         example:
@@ -1834,10 +1716,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'LicenseKeys.List',
         example:
           'LicenseKeyListParams parameters = new();\n\nvar page = await client.LicenseKeys.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/license_keys \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -1859,6 +1737,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.licenseKeys.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst licenseKey = await client.licenseKeys.retrieve('lic_123');\n\nconsole.log(licenseKey.id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/license_keys/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'license_keys.retrieve',
@@ -1885,11 +1767,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nlicense_key = dodo_payments.license_keys.retrieve("lic_123")\n\nputs(license_key)',
       },
-      cli: {
-        method: 'license_keys retrieve',
-        example:
-          "dodo-payments-cli license-keys retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id lic_123",
-      },
       php: {
         method: 'licenseKeys->retrieve',
         example:
@@ -1899,10 +1776,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'LicenseKeys.Retrieve',
         example:
           'LicenseKeyRetrieveParams parameters = new() { ID = "lic_123" };\n\nvar licenseKey = await client.LicenseKeys.Retrieve(parameters);\n\nConsole.WriteLine(licenseKey);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/license_keys/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -1924,6 +1797,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.licenseKeys.update',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst licenseKey = await client.licenseKeys.update('lic_123');\n\nconsole.log(licenseKey.id);",
+      },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/license_keys/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
       python: {
         method: 'license_keys.update',
@@ -1950,11 +1827,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nlicense_key = dodo_payments.license_keys.update("lic_123")\n\nputs(license_key)',
       },
-      cli: {
-        method: 'license_keys update',
-        example:
-          "dodo-payments-cli license-keys update \\\n  --bearer-token 'My Bearer Token' \\\n  --id lic_123",
-      },
       php: {
         method: 'licenseKeys->update',
         example:
@@ -1964,10 +1836,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'LicenseKeys.Update',
         example:
           'LicenseKeyUpdateParams parameters = new() { ID = "lic_123" };\n\nvar licenseKey = await client.LicenseKeys.Update(parameters);\n\nConsole.WriteLine(licenseKey);',
-      },
-      http: {
-        example:
-          "curl https://live.dodopayments.com/license_keys/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -1996,6 +1864,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst licenseKey = await client.licenseKeys.create({\n  customer_id: 'customer_id',\n  key: 'key',\n  product_id: 'product_id',\n});\n\nconsole.log(licenseKey.id);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/license_keys \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "customer_id": "customer_id",\n          "key": "key",\n          "product_id": "product_id"\n        }\'',
+      },
       python: {
         method: 'license_keys.create',
         example:
@@ -2021,11 +1893,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nlicense_key = dodo_payments.license_keys.create(customer_id: "customer_id", key: "key", product_id: "product_id")\n\nputs(license_key)',
       },
-      cli: {
-        method: 'license_keys create',
-        example:
-          "dodo-payments-cli license-keys create \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id \\\n  --key key \\\n  --product-id product_id",
-      },
       php: {
         method: 'licenseKeys->create',
         example:
@@ -2035,10 +1902,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'LicenseKeys.Create',
         example:
           'LicenseKeyCreateParams parameters = new()\n{\n    CustomerID = "customer_id",\n    Key = "key",\n    ProductID = "product_id",\n};\n\nvar licenseKey = await client.LicenseKeys.Create(parameters);\n\nConsole.WriteLine(licenseKey);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/license_keys \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "customer_id": "customer_id",\n          "key": "key",\n          "product_id": "product_id"\n        }\'',
       },
     },
   },
@@ -2066,6 +1929,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const licenseKeyInstance of client.licenseKeyInstances.list()) {\n  console.log(licenseKeyInstance.id);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/license_key_instances \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'license_key_instances.list',
         example:
@@ -2091,10 +1958,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.license_key_instances.list\n\nputs(page)',
       },
-      cli: {
-        method: 'license_key_instances list',
-        example: "dodo-payments-cli license-key-instances list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'licenseKeyInstances->list',
         example:
@@ -2104,10 +1967,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'LicenseKeyInstances.List',
         example:
           'LicenseKeyInstanceListParams parameters = new();\n\nvar page = await client.LicenseKeyInstances.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/license_key_instances \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -2129,6 +1988,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.licenseKeyInstances.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst licenseKeyInstance = await client.licenseKeyInstances.retrieve('lki_123');\n\nconsole.log(licenseKeyInstance.id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/license_key_instances/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'license_key_instances.retrieve',
@@ -2155,11 +2018,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nlicense_key_instance = dodo_payments.license_key_instances.retrieve("lki_123")\n\nputs(license_key_instance)',
       },
-      cli: {
-        method: 'license_key_instances retrieve',
-        example:
-          "dodo-payments-cli license-key-instances retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id lki_123",
-      },
       php: {
         method: 'licenseKeyInstances->retrieve',
         example:
@@ -2169,10 +2027,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'LicenseKeyInstances.Retrieve',
         example:
           'LicenseKeyInstanceRetrieveParams parameters = new() { ID = "lki_123" };\n\nvar licenseKeyInstance = await client.LicenseKeyInstances.Retrieve(parameters);\n\nConsole.WriteLine(licenseKeyInstance);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/license_key_instances/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -2194,6 +2048,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.licenseKeyInstances.update',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst licenseKeyInstance = await client.licenseKeyInstances.update('lki_123', { name: 'name' });\n\nconsole.log(licenseKeyInstance.id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/license_key_instances/$ID \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "name": "name"\n        }\'',
       },
       python: {
         method: 'license_key_instances.update',
@@ -2220,11 +2078,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nlicense_key_instance = dodo_payments.license_key_instances.update("lki_123", name: "name")\n\nputs(license_key_instance)',
       },
-      cli: {
-        method: 'license_key_instances update',
-        example:
-          "dodo-payments-cli license-key-instances update \\\n  --bearer-token 'My Bearer Token' \\\n  --id lki_123 \\\n  --name name",
-      },
       php: {
         method: 'licenseKeyInstances->update',
         example:
@@ -2234,10 +2087,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'LicenseKeyInstances.Update',
         example:
           'LicenseKeyInstanceUpdateParams parameters = new()\n{\n    ID = "lki_123",\n    Name = "name",\n};\n\nvar licenseKeyInstance = await client.LicenseKeyInstances.Update(parameters);\n\nConsole.WriteLine(licenseKeyInstance);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/license_key_instances/$ID \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "name": "name"\n        }\'',
       },
     },
   },
@@ -2267,6 +2116,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const customer of client.customers.list()) {\n  console.log(customer.business_id);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/customers \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'customers.list',
         example:
@@ -2292,10 +2145,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.customers.list\n\nputs(page)',
       },
-      cli: {
-        method: 'customers list',
-        example: "dodo-payments-cli customers list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'customers->list',
         example:
@@ -2305,10 +2154,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Customers.List',
         example:
           'CustomerListParams parameters = new();\n\nvar page = await client.Customers.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/customers \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -2330,6 +2175,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.customers.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst customer = await client.customers.retrieve('customer_id');\n\nconsole.log(customer.business_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'customers.retrieve',
@@ -2356,11 +2205,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ncustomer = dodo_payments.customers.retrieve("customer_id")\n\nputs(customer)',
       },
-      cli: {
-        method: 'customers retrieve',
-        example:
-          "dodo-payments-cli customers retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id",
-      },
       php: {
         method: 'customers->retrieve',
         example:
@@ -2370,10 +2214,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Customers.Retrieve',
         example:
           'CustomerRetrieveParams parameters = new() { CustomerID = "customer_id" };\n\nvar customer = await client.Customers.Retrieve(parameters);\n\nConsole.WriteLine(customer);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -2395,6 +2235,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.customers.create',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst customer = await client.customers.create({ email: 'email', name: 'name' });\n\nconsole.log(customer.business_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/customers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "email": "email",\n          "name": "name"\n        }\'',
       },
       python: {
         method: 'customers.create',
@@ -2421,11 +2265,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ncustomer = dodo_payments.customers.create(email: "email", name: "name")\n\nputs(customer)',
       },
-      cli: {
-        method: 'customers create',
-        example:
-          "dodo-payments-cli customers create \\\n  --bearer-token 'My Bearer Token' \\\n  --email email \\\n  --name name",
-      },
       php: {
         method: 'customers->create',
         example:
@@ -2435,10 +2274,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Customers.Create',
         example:
           'CustomerCreateParams parameters = new()\n{\n    Email = "email",\n    Name = "name",\n};\n\nvar customer = await client.Customers.Create(parameters);\n\nConsole.WriteLine(customer);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/customers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "email": "email",\n          "name": "name"\n        }\'',
       },
     },
   },
@@ -2467,6 +2302,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst customer = await client.customers.update('customer_id');\n\nconsole.log(customer.business_id);",
       },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/customers/$CUSTOMER_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
       python: {
         method: 'customers.update',
         example:
@@ -2492,11 +2331,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ncustomer = dodo_payments.customers.update("customer_id")\n\nputs(customer)',
       },
-      cli: {
-        method: 'customers update',
-        example:
-          "dodo-payments-cli customers update \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id",
-      },
       php: {
         method: 'customers->update',
         example:
@@ -2506,10 +2340,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Customers.Update',
         example:
           'CustomerUpdateParams parameters = new() { CustomerID = "customer_id" };\n\nvar customer = await client.Customers.Update(parameters);\n\nConsole.WriteLine(customer);',
-      },
-      http: {
-        example:
-          "curl https://live.dodopayments.com/customers/$CUSTOMER_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -2531,6 +2361,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.customers.retrievePaymentMethods',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.customers.retrievePaymentMethods('customer_id');\n\nconsole.log(response.items);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/payment-methods \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'customers.retrieve_payment_methods',
@@ -2557,11 +2391,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.customers.retrieve_payment_methods("customer_id")\n\nputs(response)',
       },
-      cli: {
-        method: 'customers retrieve_payment_methods',
-        example:
-          "dodo-payments-cli customers retrieve-payment-methods \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id",
-      },
       php: {
         method: 'customers->retrievePaymentMethods',
         example:
@@ -2571,10 +2400,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Customers.RetrievePaymentMethods',
         example:
           'CustomerRetrievePaymentMethodsParams parameters = new()\n{\n    CustomerID = "customer_id"\n};\n\nvar response = await client.Customers.RetrievePaymentMethods(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/payment-methods \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -2596,6 +2421,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.customers.listCreditEntitlements',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.customers.listCreditEntitlements('customer_id');\n\nconsole.log(response.items);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/credit-entitlements \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'customers.list_credit_entitlements',
@@ -2622,11 +2451,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.customers.list_credit_entitlements("customer_id")\n\nputs(response)',
       },
-      cli: {
-        method: 'customers list_credit_entitlements',
-        example:
-          "dodo-payments-cli customers list-credit-entitlements \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id",
-      },
       php: {
         method: 'customers->listCreditEntitlements',
         example:
@@ -2636,10 +2460,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Customers.ListCreditEntitlements',
         example:
           'CustomerListCreditEntitlementsParams parameters = new()\n{\n    CustomerID = "customer_id"\n};\n\nvar response = await client.Customers.ListCreditEntitlements(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/credit-entitlements \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -2659,6 +2479,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.customers.deletePaymentMethod',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.customers.deletePaymentMethod('payment_method_id', { customer_id: 'customer_id' });",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/payment-methods/$PAYMENT_METHOD_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'customers.delete_payment_method',
@@ -2685,11 +2509,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.customers.delete_payment_method("payment_method_id", customer_id: "customer_id")\n\nputs(result)',
       },
-      cli: {
-        method: 'customers delete_payment_method',
-        example:
-          "dodo-payments-cli customers delete-payment-method \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id \\\n  --payment-method-id payment_method_id",
-      },
       php: {
         method: 'customers->deletePaymentMethod',
         example:
@@ -2699,10 +2518,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Customers.DeletePaymentMethod',
         example:
           'CustomerDeletePaymentMethodParams parameters = new()\n{\n    CustomerID = "customer_id",\n    PaymentMethodID = "payment_method_id",\n};\n\nawait client.Customers.DeletePaymentMethod(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/payment-methods/$PAYMENT_METHOD_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -2724,6 +2539,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.customers.listEntitlements',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.customers.listEntitlements('customer_id');\n\nconsole.log(response.items);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/entitlements \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'customers.list_entitlements',
@@ -2750,11 +2569,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.customers.list_entitlements("customer_id")\n\nputs(response)',
       },
-      cli: {
-        method: 'customers list_entitlements',
-        example:
-          "dodo-payments-cli customers list-entitlements \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id",
-      },
       php: {
         method: 'customers->listEntitlements',
         example:
@@ -2764,10 +2578,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Customers.ListEntitlements',
         example:
           'CustomerListEntitlementsParams parameters = new()\n{\n    CustomerID = "customer_id"\n};\n\nvar response = await client.Customers.ListEntitlements(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/entitlements \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -2788,6 +2598,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.customers.customerPortal.create',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst customerPortalSession = await client.customers.customerPortal.create('customer_id');\n\nconsole.log(customerPortalSession.link);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/customer-portal/session \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'customers.customer_portal.create',
@@ -2814,11 +2628,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ncustomer_portal_session = dodo_payments.customers.customer_portal.create("customer_id")\n\nputs(customer_portal_session)',
       },
-      cli: {
-        method: 'customer_portal create',
-        example:
-          "dodo-payments-cli customers:customer-portal create \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id",
-      },
       php: {
         method: 'customers->customerPortal->create',
         example:
@@ -2828,10 +2637,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Customers.CustomerPortal.Create',
         example:
           'CustomerPortalCreateParams parameters = new() { CustomerID = "customer_id" };\n\nvar customerPortalSession = await client.Customers.CustomerPortal.Create(parameters);\n\nConsole.WriteLine(customerPortalSession);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/customer-portal/session \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -2853,6 +2658,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.customers.wallets.list',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst wallets = await client.customers.wallets.list('customer_id');\n\nconsole.log(wallets.items);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/wallets \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'customers.wallets.list',
@@ -2879,11 +2688,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nwallets = dodo_payments.customers.wallets.list("customer_id")\n\nputs(wallets)',
       },
-      cli: {
-        method: 'wallets list',
-        example:
-          "dodo-payments-cli customers:wallets list \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id",
-      },
       php: {
         method: 'customers->wallets->list',
         example:
@@ -2893,10 +2697,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Customers.Wallets.List',
         example:
           'WalletListParams parameters = new() { CustomerID = "customer_id" };\n\nvar wallets = await client.Customers.Wallets.List(parameters);\n\nConsole.WriteLine(wallets);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/wallets \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -2918,6 +2718,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.customers.wallets.ledgerEntries.list',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const customerWalletTransaction of client.customers.wallets.ledgerEntries.list(\n  'customer_id',\n)) {\n  console.log(customerWalletTransaction.id);\n}",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/wallets/ledger-entries \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'customers.wallets.ledger_entries.list',
@@ -2944,11 +2748,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.customers.wallets.ledger_entries.list("customer_id")\n\nputs(page)',
       },
-      cli: {
-        method: 'ledger_entries list',
-        example:
-          "dodo-payments-cli customers:wallets:ledger-entries list \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id",
-      },
       php: {
         method: 'customers->wallets->ledgerEntries->list',
         example:
@@ -2958,10 +2757,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Customers.Wallets.LedgerEntries.List',
         example:
           'LedgerEntryListParams parameters = new() { CustomerID = "customer_id" };\n\nvar page = await client.Customers.Wallets.LedgerEntries.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/wallets/ledger-entries \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -2991,6 +2786,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst customerWallet = await client.customers.wallets.ledgerEntries.create('customer_id', {\n  amount: 0,\n  currency: 'AED',\n  entry_type: 'credit',\n});\n\nconsole.log(customerWallet.customer_id);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/wallets/ledger-entries \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "amount": 0,\n          "currency": "AED",\n          "entry_type": "credit"\n        }\'',
+      },
       python: {
         method: 'customers.wallets.ledger_entries.create',
         example:
@@ -3016,11 +2815,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ncustomer_wallet = dodo_payments.customers.wallets.ledger_entries.create(\n  "customer_id",\n  amount: 0,\n  currency: :AED,\n  entry_type: :credit\n)\n\nputs(customer_wallet)',
       },
-      cli: {
-        method: 'ledger_entries create',
-        example:
-          "dodo-payments-cli customers:wallets:ledger-entries create \\\n  --bearer-token 'My Bearer Token' \\\n  --customer-id customer_id \\\n  --amount 0 \\\n  --currency AED \\\n  --entry-type credit",
-      },
       php: {
         method: 'customers->wallets->ledgerEntries->create',
         example:
@@ -3030,10 +2824,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Customers.Wallets.LedgerEntries.Create',
         example:
           'LedgerEntryCreateParams parameters = new()\n{\n    CustomerID = "customer_id",\n    Amount = 0,\n    Currency = Currency.Aed,\n    EntryType = EntryType.Credit,\n};\n\nvar customerWallet = await client.Customers.Wallets.LedgerEntries.Create(parameters);\n\nConsole.WriteLine(customerWallet);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/wallets/ledger-entries \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "amount": 0,\n          "currency": "AED",\n          "entry_type": "credit"\n        }\'',
       },
     },
   },
@@ -3064,6 +2854,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const refundListItem of client.refunds.list()) {\n  console.log(refundListItem.business_id);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/refunds \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'refunds.list',
         example:
@@ -3089,10 +2883,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.refunds.list\n\nputs(page)',
       },
-      cli: {
-        method: 'refunds list',
-        example: "dodo-payments-cli refunds list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'refunds->list',
         example:
@@ -3102,10 +2892,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Refunds.List',
         example:
           'RefundListParams parameters = new();\n\nvar page = await client.Refunds.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/refunds \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -3133,6 +2919,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst refund = await client.refunds.create({ payment_id: 'payment_id' });\n\nconsole.log(refund.business_id);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/refunds \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "payment_id": "payment_id"\n        }\'',
+      },
       python: {
         method: 'refunds.create',
         example:
@@ -3158,11 +2948,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nrefund = dodo_payments.refunds.create(payment_id: "payment_id")\n\nputs(refund)',
       },
-      cli: {
-        method: 'refunds create',
-        example:
-          "dodo-payments-cli refunds create \\\n  --bearer-token 'My Bearer Token' \\\n  --payment-id payment_id",
-      },
       php: {
         method: 'refunds->create',
         example:
@@ -3172,10 +2957,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Refunds.Create',
         example:
           'RefundCreateParams parameters = new() { PaymentID = "payment_id" };\n\nvar refund = await client.Refunds.Create(parameters);\n\nConsole.WriteLine(refund);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/refunds \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "payment_id": "payment_id"\n        }\'',
       },
     },
   },
@@ -3197,6 +2978,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.refunds.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst refund = await client.refunds.retrieve('refund_id');\n\nconsole.log(refund.business_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/refunds/$REFUND_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'refunds.retrieve',
@@ -3223,11 +3008,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nrefund = dodo_payments.refunds.retrieve("refund_id")\n\nputs(refund)',
       },
-      cli: {
-        method: 'refunds retrieve',
-        example:
-          "dodo-payments-cli refunds retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --refund-id refund_id",
-      },
       php: {
         method: 'refunds->retrieve',
         example:
@@ -3237,10 +3017,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Refunds.Retrieve',
         example:
           'RefundRetrieveParams parameters = new() { RefundID = "refund_id" };\n\nvar refund = await client.Refunds.Retrieve(parameters);\n\nConsole.WriteLine(refund);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/refunds/$REFUND_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -3271,6 +3047,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const disputeListResponse of client.disputes.list()) {\n  console.log(disputeListResponse.business_id);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/disputes \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'disputes.list',
         example:
@@ -3296,10 +3076,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.disputes.list\n\nputs(page)',
       },
-      cli: {
-        method: 'disputes list',
-        example: "dodo-payments-cli disputes list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'disputes->list',
         example:
@@ -3309,10 +3085,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Disputes.List',
         example:
           'DisputeListParams parameters = new();\n\nvar page = await client.Disputes.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/disputes \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -3334,6 +3106,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.disputes.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst getDispute = await client.disputes.retrieve('dispute_id');\n\nconsole.log(getDispute.business_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/disputes/$DISPUTE_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'disputes.retrieve',
@@ -3360,11 +3136,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nget_dispute = dodo_payments.disputes.retrieve("dispute_id")\n\nputs(get_dispute)',
       },
-      cli: {
-        method: 'disputes retrieve',
-        example:
-          "dodo-payments-cli disputes retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --dispute-id dispute_id",
-      },
       php: {
         method: 'disputes->retrieve',
         example:
@@ -3374,10 +3145,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Disputes.Retrieve',
         example:
           'DisputeRetrieveParams parameters = new() { DisputeID = "dispute_id" };\n\nvar getDispute = await client.Disputes.Retrieve(parameters);\n\nConsole.WriteLine(getDispute);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/disputes/$DISPUTE_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -3405,6 +3172,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const payoutListResponse of client.payouts.list()) {\n  console.log(payoutListResponse.business_id);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/payouts \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'payouts.list',
         example:
@@ -3430,10 +3201,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.payouts.list\n\nputs(page)',
       },
-      cli: {
-        method: 'payouts list',
-        example: "dodo-payments-cli payouts list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'payouts->list',
         example:
@@ -3443,10 +3210,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Payouts.List',
         example:
           'PayoutListParams parameters = new();\n\nvar page = await client.Payouts.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/payouts \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -3468,6 +3231,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.payouts.breakup.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst breakups = await client.payouts.breakup.retrieve('payout_id');\n\nconsole.log(breakups);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/payouts/$PAYOUT_ID/breakup \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'payouts.breakup.retrieve',
@@ -3494,11 +3261,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nbreakups = dodo_payments.payouts.breakup.retrieve("payout_id")\n\nputs(breakups)',
       },
-      cli: {
-        method: 'breakup retrieve',
-        example:
-          "dodo-payments-cli payouts:breakup retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --payout-id payout_id",
-      },
       php: {
         method: 'payouts->breakup->retrieve',
         example:
@@ -3508,10 +3270,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Payouts.Breakup.Retrieve',
         example:
           'BreakupRetrieveParams parameters = new() { PayoutID = "payout_id" };\n\nvar breakups = await client.Payouts.Breakup.Retrieve(parameters);\n\nConsole.WriteLine(breakups);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/payouts/$PAYOUT_ID/breakup \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -3534,6 +3292,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.payouts.breakup.details.list',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const detailListResponse of client.payouts.breakup.details.list('payout_id')) {\n  console.log(detailListResponse.id);\n}",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/payouts/$PAYOUT_ID/breakup/details \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'payouts.breakup.details.list',
@@ -3560,11 +3322,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.payouts.breakup.details.list("payout_id")\n\nputs(page)',
       },
-      cli: {
-        method: 'details list',
-        example:
-          "dodo-payments-cli payouts:breakup:details list \\\n  --bearer-token 'My Bearer Token' \\\n  --payout-id payout_id",
-      },
       php: {
         method: 'payouts->breakup->details->list',
         example:
@@ -3574,10 +3331,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Payouts.Breakup.Details.List',
         example:
           'DetailListParams parameters = new() { PayoutID = "payout_id" };\n\nvar page = await client.Payouts.Breakup.Details.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/payouts/$PAYOUT_ID/breakup/details \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -3598,6 +3351,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.payouts.breakup.details.downloadCsv',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.payouts.breakup.details.downloadCsv('payout_id');",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/payouts/$PAYOUT_ID/breakup/details/csv \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'payouts.breakup.details.download_csv',
@@ -3624,11 +3381,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.payouts.breakup.details.download_csv("payout_id")\n\nputs(result)',
       },
-      cli: {
-        method: 'details download_csv',
-        example:
-          "dodo-payments-cli payouts:breakup:details download-csv \\\n  --bearer-token 'My Bearer Token' \\\n  --payout-id payout_id",
-      },
       php: {
         method: 'payouts->breakup->details->downloadCsv',
         example:
@@ -3638,10 +3390,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Payouts.Breakup.Details.DownloadCsv',
         example:
           'DetailDownloadCsvParams parameters = new() { PayoutID = "payout_id" };\n\nawait client.Payouts.Breakup.Details.DownloadCsv(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/payouts/$PAYOUT_ID/breakup/details/csv \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -3670,6 +3418,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const productListResponse of client.products.list()) {\n  console.log(productListResponse.business_id);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/products \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'products.list',
         example:
@@ -3695,10 +3447,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.products.list\n\nputs(page)',
       },
-      cli: {
-        method: 'products list',
-        example: "dodo-payments-cli products list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'products->list',
         example:
@@ -3708,10 +3456,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Products.List',
         example:
           'ProductListParams parameters = new();\n\nvar page = await client.Products.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/products \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -3749,6 +3493,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst product = await client.products.create({\n  name: 'name',\n  price: {\n    currency: 'AED',\n    discount: 0,\n    price: 0,\n    purchasing_power_parity: true,\n    type: 'one_time_price',\n  },\n  tax_category: 'digital_products',\n});\n\nconsole.log(product.brand_id);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/products \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "name": "name",\n          "price": {\n            "currency": "AED",\n            "discount": 0,\n            "price": 0,\n            "purchasing_power_parity": true,\n            "type": "one_time_price"\n          },\n          "tax_category": "digital_products"\n        }\'',
+      },
       python: {
         method: 'products.create',
         example:
@@ -3774,11 +3522,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nproduct = dodo_payments.products.create(\n  name: "name",\n  price: {currency: :AED, discount: 0, price: 0, purchasing_power_parity: true, type: :one_time_price},\n  tax_category: :digital_products\n)\n\nputs(product)',
       },
-      cli: {
-        method: 'products create',
-        example:
-          "dodo-payments-cli products create \\\n  --bearer-token 'My Bearer Token' \\\n  --name name \\\n  --price '{currency: AED, discount: 0, price: 0, purchasing_power_parity: true, type: one_time_price}' \\\n  --tax-category digital_products",
-      },
       php: {
         method: 'products->create',
         example:
@@ -3788,10 +3531,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Products.Create',
         example:
           'ProductCreateParams parameters = new()\n{\n    Name = "name",\n    Price = new OneTimePrice()\n    {\n        Currency = Currency.Aed,\n        Discount = 0,\n        Price = 0,\n        PurchasingPowerParity = true,\n        PayWhatYouWant = true,\n        SuggestedPrice = 0,\n        TaxInclusive = true,\n    },\n    TaxCategory = TaxCategory.DigitalProducts,\n};\n\nvar product = await client.Products.Create(parameters);\n\nConsole.WriteLine(product);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/products \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "name": "name",\n          "price": {\n            "currency": "AED",\n            "discount": 0,\n            "price": 0,\n            "purchasing_power_parity": true,\n            "type": "one_time_price"\n          },\n          "tax_category": "digital_products"\n        }\'',
       },
     },
   },
@@ -3813,6 +3552,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.products.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst product = await client.products.retrieve('id');\n\nconsole.log(product.brand_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/products/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'products.retrieve',
@@ -3839,10 +3582,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nproduct = dodo_payments.products.retrieve("id")\n\nputs(product)',
       },
-      cli: {
-        method: 'products retrieve',
-        example: "dodo-payments-cli products retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'products->retrieve',
         example:
@@ -3852,10 +3591,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Products.Retrieve',
         example:
           'ProductRetrieveParams parameters = new() { ID = "id" };\n\nvar product = await client.Products.Retrieve(parameters);\n\nConsole.WriteLine(product);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/products/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -3893,6 +3628,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.products.update('id');",
       },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/products/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
       python: {
         method: 'products.update',
         example:
@@ -3918,10 +3657,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.products.update("id")\n\nputs(result)',
       },
-      cli: {
-        method: 'products update',
-        example: "dodo-payments-cli products update \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'products->update',
         example:
@@ -3931,10 +3666,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Products.Update',
         example:
           'ProductUpdateParams parameters = new() { ID = "id" };\n\nawait client.Products.Update(parameters);',
-      },
-      http: {
-        example:
-          "curl https://live.dodopayments.com/products/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -3954,6 +3685,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.products.archive',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.products.archive('id');",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/products/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'products.archive',
@@ -3980,10 +3715,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.products.archive("id")\n\nputs(result)',
       },
-      cli: {
-        method: 'products archive',
-        example: "dodo-payments-cli products archive \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'products->archive',
         example:
@@ -3993,10 +3724,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Products.Archive',
         example:
           'ProductArchiveParams parameters = new() { ID = "id" };\n\nawait client.Products.Archive(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/products/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -4016,6 +3743,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.products.unarchive',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.products.unarchive('id');",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/products/$ID/unarchive \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'products.unarchive',
@@ -4042,10 +3773,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.products.unarchive("id")\n\nputs(result)',
       },
-      cli: {
-        method: 'products unarchive',
-        example: "dodo-payments-cli products unarchive \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'products->unarchive',
         example:
@@ -4055,10 +3782,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Products.Unarchive',
         example:
           'ProductUnarchiveParams parameters = new() { ID = "id" };\n\nawait client.Products.Unarchive(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/products/$ID/unarchive \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -4079,6 +3802,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.products.updateFiles',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.products.updateFiles('id', { file_name: 'file_name' });\n\nconsole.log(response.file_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/products/$ID/files \\\n    -X PUT \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "file_name": "file_name"\n        }\'',
       },
       python: {
         method: 'products.update_files',
@@ -4105,11 +3832,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.products.update_files("id", file_name: "file_name")\n\nputs(response)',
       },
-      cli: {
-        method: 'products update_files',
-        example:
-          "dodo-payments-cli products update-files \\\n  --bearer-token 'My Bearer Token' \\\n  --id id \\\n  --file-name file_name",
-      },
       php: {
         method: 'products->updateFiles',
         example:
@@ -4119,10 +3841,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Products.UpdateFiles',
         example:
           'ProductUpdateFilesParams parameters = new()\n{\n    ID = "id",\n    FileName = "file_name",\n};\n\nvar response = await client.Products.UpdateFiles(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/products/$ID/files \\\n    -X PUT \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "file_name": "file_name"\n        }\'',
       },
     },
   },
@@ -4143,6 +3861,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.products.images.update',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst image = await client.products.images.update('id');\n\nconsole.log(image.image_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/products/$ID/images \\\n    -X PUT \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'products.images.update',
@@ -4169,11 +3891,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nimage = dodo_payments.products.images.update("id")\n\nputs(image)',
       },
-      cli: {
-        method: 'images update',
-        example:
-          "dodo-payments-cli products:images update \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'products->images->update',
         example:
@@ -4183,10 +3900,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Products.Images.Update',
         example:
           'ImageUpdateParams parameters = new() { ID = "id" };\n\nvar image = await client.Products.Images.Update(parameters);\n\nConsole.WriteLine(image);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/products/$ID/images \\\n    -X PUT \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -4207,6 +3920,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.products.shortLinks.list',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const shortLinkListResponse of client.products.shortLinks.list()) {\n  console.log(shortLinkListResponse.product_id);\n}",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/products/short_links \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'products.short_links.list',
@@ -4233,10 +3950,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.products.short_links.list\n\nputs(page)',
       },
-      cli: {
-        method: 'short_links list',
-        example: "dodo-payments-cli products:short-links list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'products->shortLinks->list',
         example:
@@ -4246,10 +3959,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Products.ShortLinks.List',
         example:
           'ShortLinkListParams parameters = new();\n\nvar page = await client.Products.ShortLinks.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/products/short_links \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -4272,6 +3981,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.products.shortLinks.create',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst shortLink = await client.products.shortLinks.create('id', { slug: 'slug' });\n\nconsole.log(shortLink.full_url);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/products/$ID/short_links \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "slug": "slug"\n        }\'',
       },
       python: {
         method: 'products.short_links.create',
@@ -4298,11 +4011,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nshort_link = dodo_payments.products.short_links.create("id", slug: "slug")\n\nputs(short_link)',
       },
-      cli: {
-        method: 'short_links create',
-        example:
-          "dodo-payments-cli products:short-links create \\\n  --bearer-token 'My Bearer Token' \\\n  --id id \\\n  --slug slug",
-      },
       php: {
         method: 'products->shortLinks->create',
         example:
@@ -4312,10 +4020,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Products.ShortLinks.Create',
         example:
           'ShortLinkCreateParams parameters = new()\n{\n    ID = "id",\n    Slug = "slug",\n};\n\nvar shortLink = await client.Products.ShortLinks.Create(parameters);\n\nConsole.WriteLine(shortLink);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/products/$ID/short_links \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "slug": "slug"\n        }\'',
       },
     },
   },
@@ -4335,6 +4039,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.misc.listSupportedCountries',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst countryCodes = await client.misc.listSupportedCountries();\n\nconsole.log(countryCodes);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/checkout/supported_countries \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'misc.list_supported_countries',
@@ -4361,10 +4069,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ncountry_codes = dodo_payments.misc.list_supported_countries\n\nputs(country_codes)',
       },
-      cli: {
-        method: 'misc list_supported_countries',
-        example: "dodo-payments-cli misc list-supported-countries \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'misc->listSupportedCountries',
         example:
@@ -4374,10 +4078,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Misc.ListSupportedCountries',
         example:
           'MiscListSupportedCountriesParams parameters = new();\n\nvar countryCodes = await client.Misc.ListSupportedCountries(parameters);\n\nConsole.WriteLine(countryCodes);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/checkout/supported_countries \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -4400,12 +4100,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     response:
       "{ amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'percentage'; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }",
     markdown:
-      "## list\n\n`client.discounts.list(active?: boolean, code?: string, discount_type?: 'percentage', page_number?: number, page_size?: number, product_id?: string): { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }`\n\n**get** `/discounts`\n\nGET /discounts\n\n### Parameters\n\n- `active?: boolean`\n  Filter by active status (true = not expired, false = expired)\n\n- `code?: string`\n  Filter by discount code (partial match, case-insensitive)\n\n- `discount_type?: 'percentage'`\n  Filter by discount type (percentage)\n\n- `page_number?: number`\n  Page number (default = 0).\n\n- `page_size?: number`\n  Page size (default = 10, max = 100).\n\n- `product_id?: string`\n  Filter by product restriction (only discounts that apply to this product)\n\n### Returns\n\n- `{ amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'percentage'; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }`\n\n  - `amount: number`\n  - `business_id: string`\n  - `code: string`\n  - `created_at: string`\n  - `discount_id: string`\n  - `metadata: object`\n  - `preserve_on_plan_change: boolean`\n  - `restricted_to: string[]`\n  - `times_used: number`\n  - `type: 'percentage'`\n  - `expires_at?: string`\n  - `name?: string`\n  - `subscription_cycles?: number`\n  - `usage_limit?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const discount of client.discounts.list()) {\n  console.log(discount);\n}\n```",
+      "## list\n\n`client.discounts.list(active?: boolean, code?: string, discount_type?: 'percentage', page_number?: number, page_size?: number, product_id?: string): { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }`\n\n**get** `/discounts`\n\nGET /discounts\n\n### Parameters\n\n- `active?: boolean`\n  Filter by active status (true = not expired, false = expired)\n\n- `code?: string`\n  Filter by discount code (partial match, case-insensitive)\n\n- `discount_type?: 'percentage'`\n  Filter by discount type\n\n- `page_number?: number`\n  Page number (default = 0).\n\n- `page_size?: number`\n  Page size (default = 10, max = 100).\n\n- `product_id?: string`\n  Filter by product restriction (only discounts that apply to this product)\n\n### Returns\n\n- `{ amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'percentage'; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }`\n\n  - `amount: number`\n  - `business_id: string`\n  - `code: string`\n  - `created_at: string`\n  - `discount_id: string`\n  - `metadata: object`\n  - `preserve_on_plan_change: boolean`\n  - `restricted_to: string[]`\n  - `times_used: number`\n  - `type: 'percentage'`\n  - `expires_at?: string`\n  - `name?: string`\n  - `subscription_cycles?: number`\n  - `usage_limit?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const discount of client.discounts.list()) {\n  console.log(discount);\n}\n```",
     perLanguage: {
       typescript: {
         method: 'client.discounts.list',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const discount of client.discounts.list()) {\n  console.log(discount.business_id);\n}",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/discounts \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'discounts.list',
@@ -4432,10 +4136,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.discounts.list\n\nputs(page)',
       },
-      cli: {
-        method: 'discounts list',
-        example: "dodo-payments-cli discounts list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'discounts->list',
         example:
@@ -4445,10 +4145,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Discounts.List',
         example:
           'DiscountListParams parameters = new();\n\nvar page = await client.Discounts.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/discounts \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -4476,12 +4172,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     response:
       "{ amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'percentage'; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }",
     markdown:
-      "## create\n\n`client.discounts.create(amount: number, type: 'percentage', code?: string, expires_at?: string, metadata?: object, name?: string, preserve_on_plan_change?: boolean, restricted_to?: string[], subscription_cycles?: number, usage_limit?: number): { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }`\n\n**post** `/discounts`\n\nPOST /discounts\nIf `code` is omitted or empty, a random 16-char uppercase code is generated.\n\n### Parameters\n\n- `amount: number`\n  The discount amount.\n\n- If `discount_type` is **not** `percentage`, `amount` is in **USD cents**. For example, `100` means `$1.00`.\n  Only USD is allowed.\n- If `discount_type` **is** `percentage`, `amount` is in **basis points**. For example, `540` means `5.4%`.\n\nMust be at least 1.\n\n- `type: 'percentage'`\n  The discount type (e.g. `percentage`, `flat`, or `flat_per_unit`).\n\n- `code?: string`\n  Optionally supply a code (will be uppercased).\n- Must be at least 3 characters if provided.\n- If omitted, a random 16-character code is generated.\n\n- `expires_at?: string`\n  When the discount expires, if ever.\n\n- `metadata?: object`\n  Additional metadata for the discount\n\n- `name?: string`\n\n- `preserve_on_plan_change?: boolean`\n  Whether this discount should be preserved when a subscription changes plans.\nDefault: false (discount is removed on plan change)\n\n- `restricted_to?: string[]`\n  List of product IDs to restrict usage (if any).\n\n- `subscription_cycles?: number`\n  Number of subscription billing cycles this discount is valid for.\nIf not provided, the discount will be applied indefinitely to\nall recurring payments related to the subscription.\n\n- `usage_limit?: number`\n  How many times this discount can be used (if any).\nMust be >= 1 if provided.\n\n### Returns\n\n- `{ amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'percentage'; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }`\n\n  - `amount: number`\n  - `business_id: string`\n  - `code: string`\n  - `created_at: string`\n  - `discount_id: string`\n  - `metadata: object`\n  - `preserve_on_plan_change: boolean`\n  - `restricted_to: string[]`\n  - `times_used: number`\n  - `type: 'percentage'`\n  - `expires_at?: string`\n  - `name?: string`\n  - `subscription_cycles?: number`\n  - `usage_limit?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst discount = await client.discounts.create({ amount: 0, type: 'percentage' });\n\nconsole.log(discount);\n```",
+      "## create\n\n`client.discounts.create(amount: number, type: 'percentage', code?: string, expires_at?: string, metadata?: object, name?: string, preserve_on_plan_change?: boolean, restricted_to?: string[], subscription_cycles?: number, usage_limit?: number): { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }`\n\n**post** `/discounts`\n\nPOST /discounts\nIf `code` is omitted or empty, a random 16-char uppercase code is generated.\n\n### Parameters\n\n- `amount: number`\n  The discount amount in **basis points** (e.g. `540` means `5.4%`, `10000` means `100%`).\n\nMust be at least 1.\n\n- `type: 'percentage'`\n  The discount type. Currently only `percentage` is supported.\n\n- `code?: string`\n  Optionally supply a code (will be uppercased).\n- Must be at least 3 characters if provided.\n- If omitted, a random 16-character code is generated.\n\n- `expires_at?: string`\n  When the discount expires, if ever.\n\n- `metadata?: object`\n  Additional metadata for the discount\n\n- `name?: string`\n\n- `preserve_on_plan_change?: boolean`\n  Whether this discount should be preserved when a subscription changes plans.\nDefault: false (discount is removed on plan change)\n\n- `restricted_to?: string[]`\n  List of product IDs to restrict usage (if any).\n\n- `subscription_cycles?: number`\n  Number of subscription billing cycles this discount is valid for.\nIf not provided, the discount will be applied indefinitely to\nall recurring payments related to the subscription.\n\n- `usage_limit?: number`\n  How many times this discount can be used (if any).\nMust be >= 1 if provided.\n\n### Returns\n\n- `{ amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'percentage'; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }`\n\n  - `amount: number`\n  - `business_id: string`\n  - `code: string`\n  - `created_at: string`\n  - `discount_id: string`\n  - `metadata: object`\n  - `preserve_on_plan_change: boolean`\n  - `restricted_to: string[]`\n  - `times_used: number`\n  - `type: 'percentage'`\n  - `expires_at?: string`\n  - `name?: string`\n  - `subscription_cycles?: number`\n  - `usage_limit?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst discount = await client.discounts.create({ amount: 0, type: 'percentage' });\n\nconsole.log(discount);\n```",
     perLanguage: {
       typescript: {
         method: 'client.discounts.create',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst discount = await client.discounts.create({ amount: 0, type: 'percentage' });\n\nconsole.log(discount.business_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/discounts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "amount": 0,\n          "type": "percentage"\n        }\'',
       },
       python: {
         method: 'discounts.create',
@@ -4508,11 +4208,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ndiscount = dodo_payments.discounts.create(amount: 0, type: :percentage)\n\nputs(discount)',
       },
-      cli: {
-        method: 'discounts create',
-        example:
-          "dodo-payments-cli discounts create \\\n  --bearer-token 'My Bearer Token' \\\n  --amount 0 \\\n  --type percentage",
-      },
       php: {
         method: 'discounts->create',
         example:
@@ -4522,10 +4217,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Discounts.Create',
         example:
           'DiscountCreateParams parameters = new()\n{\n    Amount = 0,\n    Type = DiscountType.Percentage,\n};\n\nvar discount = await client.Discounts.Create(parameters);\n\nConsole.WriteLine(discount);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/discounts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "amount": 0,\n          "type": "percentage"\n        }\'',
       },
     },
   },
@@ -4547,6 +4238,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.discounts.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst discount = await client.discounts.retrieve('discount_id');\n\nconsole.log(discount.business_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/discounts/$DISCOUNT_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'discounts.retrieve',
@@ -4573,11 +4268,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ndiscount = dodo_payments.discounts.retrieve("discount_id")\n\nputs(discount)',
       },
-      cli: {
-        method: 'discounts retrieve',
-        example:
-          "dodo-payments-cli discounts retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --discount-id discount_id",
-      },
       php: {
         method: 'discounts->retrieve',
         example:
@@ -4587,10 +4277,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Discounts.Retrieve',
         example:
           'DiscountRetrieveParams parameters = new() { DiscountID = "discount_id" };\n\nvar discount = await client.Discounts.Retrieve(parameters);\n\nConsole.WriteLine(discount);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/discounts/$DISCOUNT_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -4610,6 +4296,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.discounts.delete',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.discounts.delete('discount_id');",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/discounts/$DISCOUNT_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'discounts.delete',
@@ -4636,11 +4326,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.discounts.delete("discount_id")\n\nputs(result)',
       },
-      cli: {
-        method: 'discounts delete',
-        example:
-          "dodo-payments-cli discounts delete \\\n  --bearer-token 'My Bearer Token' \\\n  --discount-id discount_id",
-      },
       php: {
         method: 'discounts->delete',
         example:
@@ -4650,10 +4335,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Discounts.Delete',
         example:
           'DiscountDeleteParams parameters = new() { DiscountID = "discount_id" };\n\nawait client.Discounts.Delete(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/discounts/$DISCOUNT_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -4681,12 +4362,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     response:
       "{ amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'percentage'; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }",
     markdown:
-      "## update\n\n`client.discounts.update(discount_id: string, amount?: number, code?: string, expires_at?: string, metadata?: object, name?: string, preserve_on_plan_change?: boolean, restricted_to?: string[], subscription_cycles?: number, type?: 'percentage', usage_limit?: number): { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }`\n\n**patch** `/discounts/{discount_id}`\n\nPATCH /discounts/{discount_id}\n\n### Parameters\n\n- `discount_id: string`\n\n- `amount?: number`\n  If present, update the discount amount:\n- If `discount_type` is `percentage`, this represents **basis points** (e.g., `540` = `5.4%`).\n- Otherwise, this represents **USD cents** (e.g., `100` = `$1.00`).\n\nMust be at least 1 if provided.\n\n- `code?: string`\n  If present, update the discount code (uppercase).\n\n- `expires_at?: string`\n\n- `metadata?: object`\n  Additional metadata for the discount\n\n- `name?: string`\n\n- `preserve_on_plan_change?: boolean`\n  Whether this discount should be preserved when a subscription changes plans.\nIf not provided, the existing value is kept.\n\n- `restricted_to?: string[]`\n  If present, replaces all restricted product IDs with this new set.\nTo remove all restrictions, send empty array\n\n- `subscription_cycles?: number`\n  Number of subscription billing cycles this discount is valid for.\nIf not provided, the discount will be applied indefinitely to\nall recurring payments related to the subscription.\n\n- `type?: 'percentage'`\n  If present, update the discount type.\n\n- `usage_limit?: number`\n\n### Returns\n\n- `{ amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'percentage'; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }`\n\n  - `amount: number`\n  - `business_id: string`\n  - `code: string`\n  - `created_at: string`\n  - `discount_id: string`\n  - `metadata: object`\n  - `preserve_on_plan_change: boolean`\n  - `restricted_to: string[]`\n  - `times_used: number`\n  - `type: 'percentage'`\n  - `expires_at?: string`\n  - `name?: string`\n  - `subscription_cycles?: number`\n  - `usage_limit?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst discount = await client.discounts.update('discount_id');\n\nconsole.log(discount);\n```",
+      "## update\n\n`client.discounts.update(discount_id: string, amount?: number, code?: string, expires_at?: string, metadata?: object, name?: string, preserve_on_plan_change?: boolean, restricted_to?: string[], subscription_cycles?: number, type?: 'percentage', usage_limit?: number): { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }`\n\n**patch** `/discounts/{discount_id}`\n\nPATCH /discounts/{discount_id}\n\n### Parameters\n\n- `discount_id: string`\n\n- `amount?: number`\n  If present, update the discount amount in **basis points** (e.g., `540` = `5.4%`, `10000` = `100%`).\n\nMust be at least 1 if provided.\n\n- `code?: string`\n  If present, update the discount code (uppercase).\n\n- `expires_at?: string`\n\n- `metadata?: object`\n  Additional metadata for the discount\n\n- `name?: string`\n\n- `preserve_on_plan_change?: boolean`\n  Whether this discount should be preserved when a subscription changes plans.\nIf not provided, the existing value is kept.\n\n- `restricted_to?: string[]`\n  If present, replaces all restricted product IDs with this new set.\nTo remove all restrictions, send empty array\n\n- `subscription_cycles?: number`\n  Number of subscription billing cycles this discount is valid for.\nIf not provided, the discount will be applied indefinitely to\nall recurring payments related to the subscription.\n\n- `type?: 'percentage'`\n  If present, update the discount type. Currently only `percentage` is supported.\n\n- `usage_limit?: number`\n\n### Returns\n\n- `{ amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'percentage'; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }`\n\n  - `amount: number`\n  - `business_id: string`\n  - `code: string`\n  - `created_at: string`\n  - `discount_id: string`\n  - `metadata: object`\n  - `preserve_on_plan_change: boolean`\n  - `restricted_to: string[]`\n  - `times_used: number`\n  - `type: 'percentage'`\n  - `expires_at?: string`\n  - `name?: string`\n  - `subscription_cycles?: number`\n  - `usage_limit?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst discount = await client.discounts.update('discount_id');\n\nconsole.log(discount);\n```",
     perLanguage: {
       typescript: {
         method: 'client.discounts.update',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst discount = await client.discounts.update('discount_id');\n\nconsole.log(discount.business_id);",
+      },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/discounts/$DISCOUNT_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
       python: {
         method: 'discounts.update',
@@ -4713,11 +4398,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ndiscount = dodo_payments.discounts.update("discount_id")\n\nputs(discount)',
       },
-      cli: {
-        method: 'discounts update',
-        example:
-          "dodo-payments-cli discounts update \\\n  --bearer-token 'My Bearer Token' \\\n  --discount-id discount_id",
-      },
       php: {
         method: 'discounts->update',
         example:
@@ -4727,10 +4407,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Discounts.Update',
         example:
           'DiscountUpdateParams parameters = new() { DiscountID = "discount_id" };\n\nvar discount = await client.Discounts.Update(parameters);\n\nConsole.WriteLine(discount);',
-      },
-      http: {
-        example:
-          "curl https://live.dodopayments.com/discounts/$DISCOUNT_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -4753,6 +4429,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.discounts.retrieveByCode',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst discount = await client.discounts.retrieveByCode('code');\n\nconsole.log(discount.business_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/discounts/code/$CODE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'discounts.retrieve_by_code',
@@ -4779,11 +4459,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ndiscount = dodo_payments.discounts.retrieve_by_code("code")\n\nputs(discount)',
       },
-      cli: {
-        method: 'discounts retrieve_by_code',
-        example:
-          "dodo-payments-cli discounts retrieve-by-code \\\n  --bearer-token 'My Bearer Token' \\\n  --code code",
-      },
       php: {
         method: 'discounts->retrieveByCode',
         example:
@@ -4793,10 +4468,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Discounts.RetrieveByCode',
         example:
           'DiscountRetrieveByCodeParams parameters = new() { Code = "code" };\n\nvar discount = await client.Discounts.RetrieveByCode(parameters);\n\nConsole.WriteLine(discount);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/discounts/code/$CODE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -4818,6 +4489,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.addons.list',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const addonResponse of client.addons.list()) {\n  console.log(addonResponse.id);\n}",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/addons \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'addons.list',
@@ -4844,10 +4519,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.addons.list\n\nputs(page)',
       },
-      cli: {
-        method: 'addons list',
-        example: "dodo-payments-cli addons list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'addons->list',
         example:
@@ -4857,10 +4528,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Addons.List',
         example:
           'AddonListParams parameters = new();\n\nvar page = await client.Addons.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/addons \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -4889,6 +4556,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst addonResponse = await client.addons.create({\n  currency: 'AED',\n  name: 'name',\n  price: 0,\n  tax_category: 'digital_products',\n});\n\nconsole.log(addonResponse.id);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/addons \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "currency": "AED",\n          "name": "name",\n          "price": 0,\n          "tax_category": "digital_products"\n        }\'',
+      },
       python: {
         method: 'addons.create',
         example:
@@ -4914,11 +4585,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\naddon_response = dodo_payments.addons.create(currency: :AED, name: "name", price: 0, tax_category: :digital_products)\n\nputs(addon_response)',
       },
-      cli: {
-        method: 'addons create',
-        example:
-          "dodo-payments-cli addons create \\\n  --bearer-token 'My Bearer Token' \\\n  --currency AED \\\n  --name name \\\n  --price 0 \\\n  --tax-category digital_products",
-      },
       php: {
         method: 'addons->create',
         example:
@@ -4928,10 +4594,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Addons.Create',
         example:
           'AddonCreateParams parameters = new()\n{\n    Currency = Currency.Aed,\n    Name = "name",\n    Price = 0,\n    TaxCategory = TaxCategory.DigitalProducts,\n};\n\nvar addonResponse = await client.Addons.Create(parameters);\n\nConsole.WriteLine(addonResponse);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/addons \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "currency": "AED",\n          "name": "name",\n          "price": 0,\n          "tax_category": "digital_products"\n        }\'',
       },
     },
   },
@@ -4953,6 +4615,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.addons.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst addonResponse = await client.addons.retrieve('id');\n\nconsole.log(addonResponse.id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/addons/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'addons.retrieve',
@@ -4979,10 +4645,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\naddon_response = dodo_payments.addons.retrieve("id")\n\nputs(addon_response)',
       },
-      cli: {
-        method: 'addons retrieve',
-        example: "dodo-payments-cli addons retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'addons->retrieve',
         example:
@@ -4992,10 +4654,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Addons.Retrieve',
         example:
           'AddonRetrieveParams parameters = new() { ID = "id" };\n\nvar addonResponse = await client.Addons.Retrieve(parameters);\n\nConsole.WriteLine(addonResponse);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/addons/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -5026,6 +4684,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst addonResponse = await client.addons.update('id');\n\nconsole.log(addonResponse.id);",
       },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/addons/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
       python: {
         method: 'addons.update',
         example:
@@ -5051,10 +4713,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\naddon_response = dodo_payments.addons.update("id")\n\nputs(addon_response)',
       },
-      cli: {
-        method: 'addons update',
-        example: "dodo-payments-cli addons update \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'addons->update',
         example:
@@ -5064,10 +4722,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Addons.Update',
         example:
           'AddonUpdateParams parameters = new() { ID = "id" };\n\nvar addonResponse = await client.Addons.Update(parameters);\n\nConsole.WriteLine(addonResponse);',
-      },
-      http: {
-        example:
-          "curl https://live.dodopayments.com/addons/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -5088,6 +4742,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.addons.updateImages',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.addons.updateImages('id');\n\nconsole.log(response.image_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/addons/$ID/images \\\n    -X PUT \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'addons.update_images',
@@ -5114,11 +4772,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.addons.update_images("id")\n\nputs(response)',
       },
-      cli: {
-        method: 'addons update_images',
-        example:
-          "dodo-payments-cli addons update-images \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'addons->updateImages',
         example:
@@ -5128,10 +4781,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Addons.UpdateImages',
         example:
           'AddonUpdateImagesParams parameters = new() { ID = "id" };\n\nvar response = await client.Addons.UpdateImages(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/addons/$ID/images \\\n    -X PUT \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -5152,6 +4801,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.brands.list',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst brands = await client.brands.list();\n\nconsole.log(brands.items);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/brands \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'brands.list',
@@ -5178,10 +4831,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nbrands = dodo_payments.brands.list\n\nputs(brands)',
       },
-      cli: {
-        method: 'brands list',
-        example: "dodo-payments-cli brands list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'brands->list',
         example:
@@ -5191,10 +4840,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Brands.List',
         example:
           'BrandListParams parameters = new();\n\nvar brands = await client.Brands.List(parameters);\n\nConsole.WriteLine(brands);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/brands \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -5223,6 +4868,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst brand = await client.brands.create();\n\nconsole.log(brand.brand_id);",
       },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/brands \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
       python: {
         method: 'brands.create',
         example:
@@ -5248,10 +4897,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nbrand = dodo_payments.brands.create\n\nputs(brand)',
       },
-      cli: {
-        method: 'brands create',
-        example: "dodo-payments-cli brands create \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'brands->create',
         example:
@@ -5261,10 +4906,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Brands.Create',
         example:
           'BrandCreateParams parameters = new();\n\nvar brand = await client.Brands.Create(parameters);\n\nConsole.WriteLine(brand);',
-      },
-      http: {
-        example:
-          "curl https://live.dodopayments.com/brands \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -5286,6 +4927,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.brands.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst brand = await client.brands.retrieve('id');\n\nconsole.log(brand.brand_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/brands/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'brands.retrieve',
@@ -5312,10 +4957,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nbrand = dodo_payments.brands.retrieve("id")\n\nputs(brand)',
       },
-      cli: {
-        method: 'brands retrieve',
-        example: "dodo-payments-cli brands retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'brands->retrieve',
         example:
@@ -5325,10 +4966,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Brands.Retrieve',
         example:
           'BrandRetrieveParams parameters = new() { ID = "id" };\n\nvar brand = await client.Brands.Retrieve(parameters);\n\nConsole.WriteLine(brand);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/brands/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -5359,6 +4996,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst brand = await client.brands.update('id');\n\nconsole.log(brand.brand_id);",
       },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/brands/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
       python: {
         method: 'brands.update',
         example:
@@ -5384,10 +5025,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nbrand = dodo_payments.brands.update("id")\n\nputs(brand)',
       },
-      cli: {
-        method: 'brands update',
-        example: "dodo-payments-cli brands update \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'brands->update',
         example:
@@ -5397,10 +5034,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Brands.Update',
         example:
           'BrandUpdateParams parameters = new() { ID = "id" };\n\nvar brand = await client.Brands.Update(parameters);\n\nConsole.WriteLine(brand);',
-      },
-      http: {
-        example:
-          "curl https://live.dodopayments.com/brands/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -5421,6 +5054,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.brands.updateImages',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.brands.updateImages('id');\n\nconsole.log(response.image_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/brands/$ID/images \\\n    -X PUT \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'brands.update_images',
@@ -5447,11 +5084,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.brands.update_images("id")\n\nputs(response)',
       },
-      cli: {
-        method: 'brands update_images',
-        example:
-          "dodo-payments-cli brands update-images \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'brands->updateImages',
         example:
@@ -5461,10 +5093,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Brands.UpdateImages',
         example:
           'BrandUpdateImagesParams parameters = new() { ID = "id" };\n\nvar response = await client.Brands.UpdateImages(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/brands/$ID/images \\\n    -X PUT \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -5486,6 +5114,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.webhooks.list',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const webhookDetails of client.webhooks.list()) {\n  console.log(webhookDetails.id);\n}",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/webhooks \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'webhooks.list',
@@ -5512,10 +5144,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.webhooks.list\n\nputs(page)',
       },
-      cli: {
-        method: 'webhooks list',
-        example: "dodo-payments-cli webhooks list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'webhooks->list',
         example:
@@ -5525,10 +5153,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Webhooks.List',
         example:
           'WebhookListParams parameters = new();\n\nvar page = await client.Webhooks.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/webhooks \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -5560,6 +5184,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst webhookDetails = await client.webhooks.create({ url: 'url' });\n\nconsole.log(webhookDetails.id);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/webhooks \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "url": "url"\n        }\'',
+      },
       python: {
         method: 'webhooks.create',
         example:
@@ -5585,10 +5213,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nwebhook_details = dodo_payments.webhooks.create(url: "url")\n\nputs(webhook_details)',
       },
-      cli: {
-        method: 'webhooks create',
-        example: "dodo-payments-cli webhooks create \\\n  --bearer-token 'My Bearer Token' \\\n  --url url",
-      },
       php: {
         method: 'webhooks->create',
         example:
@@ -5598,10 +5222,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Webhooks.Create',
         example:
           'WebhookCreateParams parameters = new() { Url = "url" };\n\nvar webhookDetails = await client.Webhooks.Create(parameters);\n\nConsole.WriteLine(webhookDetails);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/webhooks \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "url": "url"\n        }\'',
       },
     },
   },
@@ -5623,6 +5243,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.webhooks.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst webhookDetails = await client.webhooks.retrieve('webhook_id');\n\nconsole.log(webhookDetails.id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'webhooks.retrieve',
@@ -5649,11 +5273,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nwebhook_details = dodo_payments.webhooks.retrieve("webhook_id")\n\nputs(webhook_details)',
       },
-      cli: {
-        method: 'webhooks retrieve',
-        example:
-          "dodo-payments-cli webhooks retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --webhook-id webhook_id",
-      },
       php: {
         method: 'webhooks->retrieve',
         example:
@@ -5663,10 +5282,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Webhooks.Retrieve',
         example:
           'WebhookRetrieveParams parameters = new() { WebhookID = "webhook_id" };\n\nvar webhookDetails = await client.Webhooks.Retrieve(parameters);\n\nConsole.WriteLine(webhookDetails);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -5686,6 +5301,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.webhooks.delete',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.webhooks.delete('webhook_id');",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'webhooks.delete',
@@ -5712,11 +5331,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.webhooks.delete("webhook_id")\n\nputs(result)',
       },
-      cli: {
-        method: 'webhooks delete',
-        example:
-          "dodo-payments-cli webhooks delete \\\n  --bearer-token 'My Bearer Token' \\\n  --webhook-id webhook_id",
-      },
       php: {
         method: 'webhooks->delete',
         example:
@@ -5726,10 +5340,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Webhooks.Delete',
         example:
           'WebhookDeleteParams parameters = new() { WebhookID = "webhook_id" };\n\nawait client.Webhooks.Delete(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -5760,6 +5370,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst webhookDetails = await client.webhooks.update('webhook_id');\n\nconsole.log(webhookDetails.id);",
       },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
       python: {
         method: 'webhooks.update',
         example:
@@ -5785,11 +5399,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nwebhook_details = dodo_payments.webhooks.update("webhook_id")\n\nputs(webhook_details)',
       },
-      cli: {
-        method: 'webhooks update',
-        example:
-          "dodo-payments-cli webhooks update \\\n  --bearer-token 'My Bearer Token' \\\n  --webhook-id webhook_id",
-      },
       php: {
         method: 'webhooks->update',
         example:
@@ -5799,10 +5408,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Webhooks.Update',
         example:
           'WebhookUpdateParams parameters = new() { WebhookID = "webhook_id" };\n\nvar webhookDetails = await client.Webhooks.Update(parameters);\n\nConsole.WriteLine(webhookDetails);',
-      },
-      http: {
-        example:
-          "curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -5823,6 +5428,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.webhooks.retrieveSecret',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.webhooks.retrieveSecret('webhook_id');\n\nconsole.log(response.secret);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID/secret \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'webhooks.retrieve_secret',
@@ -5849,11 +5458,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.webhooks.retrieve_secret("webhook_id")\n\nputs(response)',
       },
-      cli: {
-        method: 'webhooks retrieve_secret',
-        example:
-          "dodo-payments-cli webhooks retrieve-secret \\\n  --bearer-token 'My Bearer Token' \\\n  --webhook-id webhook_id",
-      },
       php: {
         method: 'webhooks->retrieveSecret',
         example:
@@ -5863,10 +5467,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Webhooks.RetrieveSecret',
         example:
           'WebhookRetrieveSecretParams parameters = new() { WebhookID = "webhook_id" };\n\nvar response = await client.Webhooks.RetrieveSecret(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID/secret \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -5906,9 +5506,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'webhooks.unwrap',
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.webhooks.unwrap\n\nputs(result)',
-      },
-      cli: {
-        example: "dodo-payments-cli webhooks unwrap \\\n  --bearer-token 'My Bearer Token'",
       },
       php: {
         method: 'webhooks->unwrap',
@@ -5957,9 +5554,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.webhooks.unsafe_unwrap\n\nputs(result)',
       },
-      cli: {
-        example: "dodo-payments-cli webhooks unsafe-unwrap \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'webhooks->unsafeUnwrap',
         example:
@@ -5989,6 +5583,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst header = await client.webhooks.headers.retrieve('webhook_id');\n\nconsole.log(header.headers);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID/headers \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'webhooks.headers.retrieve',
         example:
@@ -6014,11 +5612,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nheader = dodo_payments.webhooks.headers.retrieve("webhook_id")\n\nputs(header)',
       },
-      cli: {
-        method: 'headers retrieve',
-        example:
-          "dodo-payments-cli webhooks:headers retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --webhook-id webhook_id",
-      },
       php: {
         method: 'webhooks->headers->retrieve',
         example:
@@ -6028,10 +5621,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Webhooks.Headers.Retrieve',
         example:
           'HeaderRetrieveParams parameters = new() { WebhookID = "webhook_id" };\n\nvar header = await client.Webhooks.Headers.Retrieve(parameters);\n\nConsole.WriteLine(header);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID/headers \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -6051,6 +5640,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.webhooks.headers.update',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.webhooks.headers.update('webhook_id', { headers: { foo: 'string' } });",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID/headers \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "headers": {\n            "foo": "string"\n          }\n        }\'',
       },
       python: {
         method: 'webhooks.headers.update',
@@ -6077,11 +5670,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.webhooks.headers.update("webhook_id", headers: {foo: "string"})\n\nputs(result)',
       },
-      cli: {
-        method: 'headers update',
-        example:
-          "dodo-payments-cli webhooks:headers update \\\n  --bearer-token 'My Bearer Token' \\\n  --webhook-id webhook_id \\\n  --headers '{foo: string}'",
-      },
       php: {
         method: 'webhooks->headers->update',
         example:
@@ -6091,10 +5679,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Webhooks.Headers.Update',
         example:
           'HeaderUpdateParams parameters = new()\n{\n    WebhookID = "webhook_id",\n    Headers = new Dictionary<string, string>() { { "foo", "string" } },\n};\n\nawait client.Webhooks.Headers.Update(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID/headers \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "headers": {\n            "foo": "string"\n          }\n        }\'',
       },
     },
   },
@@ -6118,6 +5702,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.usageEvents.ingest',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.usageEvents.ingest({\n  events: [\n    {\n      customer_id: 'customer_id',\n      event_id: 'event_id',\n      event_name: 'event_name',\n    },\n  ],\n});\n\nconsole.log(response.ingested_count);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/events/ingest \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "events": [\n            {\n              "customer_id": "customer_id",\n              "event_id": "event_id",\n              "event_name": "event_name"\n            }\n          ]\n        }\'',
       },
       python: {
         method: 'usage_events.ingest',
@@ -6144,11 +5732,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.usage_events.ingest(\n  events: [{customer_id: "customer_id", event_id: "event_id", event_name: "event_name"}]\n)\n\nputs(response)',
       },
-      cli: {
-        method: 'usage_events ingest',
-        example:
-          "dodo-payments-cli usage-events ingest \\\n  --bearer-token 'My Bearer Token' \\\n  --event '{customer_id: customer_id, event_id: event_id, event_name: event_name}'",
-      },
       php: {
         method: 'usageEvents->ingest',
         example:
@@ -6158,10 +5741,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'UsageEvents.Ingest',
         example:
           'UsageEventIngestParams parameters = new()\n{\n    Events =\n    [\n        new()\n        {\n            CustomerID = "customer_id",\n            EventID = "event_id",\n            EventName = "event_name",\n            Metadata = new Dictionary<string, Metadata>()\n            {\n                { "foo", "string" }\n            },\n            Timestamp = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),\n        },\n    ],\n};\n\nvar response = await client.UsageEvents.Ingest(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/events/ingest \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "events": [\n            {\n              "customer_id": "customer_id",\n              "event_id": "event_id",\n              "event_name": "event_name"\n            }\n          ]\n        }\'',
       },
     },
   },
@@ -6193,6 +5772,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const event of client.usageEvents.list()) {\n  console.log(event.business_id);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/events \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'usage_events.list',
         example:
@@ -6218,10 +5801,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.usage_events.list\n\nputs(page)',
       },
-      cli: {
-        method: 'usage_events list',
-        example: "dodo-payments-cli usage-events list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'usageEvents->list',
         example:
@@ -6231,10 +5810,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'UsageEvents.List',
         example:
           'UsageEventListParams parameters = new();\n\nvar page = await client.UsageEvents.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/events \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -6257,6 +5832,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.usageEvents.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst event = await client.usageEvents.retrieve('event_id');\n\nconsole.log(event.business_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/events/$EVENT_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'usage_events.retrieve',
@@ -6283,11 +5862,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nevent = dodo_payments.usage_events.retrieve("event_id")\n\nputs(event)',
       },
-      cli: {
-        method: 'usage_events retrieve',
-        example:
-          "dodo-payments-cli usage-events retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --event-id event_id",
-      },
       php: {
         method: 'usageEvents->retrieve',
         example:
@@ -6297,10 +5871,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'UsageEvents.Retrieve',
         example:
           'UsageEventRetrieveParams parameters = new() { EventID = "event_id" };\n\nvar event_ = await client.UsageEvents.Retrieve(parameters);\n\nConsole.WriteLine(event_);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/events/$EVENT_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -6322,6 +5892,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.meters.list',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const meter of client.meters.list()) {\n  console.log(meter.id);\n}",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/meters \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'meters.list',
@@ -6348,10 +5922,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.meters.list\n\nputs(page)',
       },
-      cli: {
-        method: 'meters list',
-        example: "dodo-payments-cli meters list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'meters->list',
         example:
@@ -6361,10 +5931,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Meters.List',
         example:
           'MeterListParams parameters = new();\n\nvar page = await client.Meters.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/meters \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -6394,6 +5960,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst meter = await client.meters.create({\n  aggregation: { type: 'count' },\n  event_name: 'event_name',\n  measurement_unit: 'measurement_unit',\n  name: 'name',\n});\n\nconsole.log(meter.id);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/meters \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "aggregation": {\n            "type": "count"\n          },\n          "event_name": "event_name",\n          "measurement_unit": "measurement_unit",\n          "name": "name"\n        }\'',
+      },
       python: {
         method: 'meters.create',
         example:
@@ -6419,11 +5989,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nmeter = dodo_payments.meters.create(\n  aggregation: {type: :count},\n  event_name: "event_name",\n  measurement_unit: "measurement_unit",\n  name: "name"\n)\n\nputs(meter)',
       },
-      cli: {
-        method: 'meters create',
-        example:
-          "dodo-payments-cli meters create \\\n  --bearer-token 'My Bearer Token' \\\n  --aggregation '{type: count}' \\\n  --event-name event_name \\\n  --measurement-unit measurement_unit \\\n  --name name",
-      },
       php: {
         method: 'meters->create',
         example:
@@ -6433,10 +5998,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Meters.Create',
         example:
           'MeterCreateParams parameters = new()\n{\n    Aggregation = new()\n    {\n        Type = Type.Count,\n        Key = "key",\n    },\n    EventName = "event_name",\n    MeasurementUnit = "measurement_unit",\n    Name = "name",\n};\n\nvar meter = await client.Meters.Create(parameters);\n\nConsole.WriteLine(meter);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/meters \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "aggregation": {\n            "type": "count"\n          },\n          "event_name": "event_name",\n          "measurement_unit": "measurement_unit",\n          "name": "name"\n        }\'',
       },
     },
   },
@@ -6458,6 +6019,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.meters.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst meter = await client.meters.retrieve('id');\n\nconsole.log(meter.id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/meters/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'meters.retrieve',
@@ -6484,10 +6049,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nmeter = dodo_payments.meters.retrieve("id")\n\nputs(meter)',
       },
-      cli: {
-        method: 'meters retrieve',
-        example: "dodo-payments-cli meters retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'meters->retrieve',
         example:
@@ -6497,10 +6058,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Meters.Retrieve',
         example:
           'MeterRetrieveParams parameters = new() { ID = "id" };\n\nvar meter = await client.Meters.Retrieve(parameters);\n\nConsole.WriteLine(meter);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/meters/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -6520,6 +6077,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.meters.archive',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.meters.archive('id');",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/meters/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'meters.archive',
@@ -6546,10 +6107,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.meters.archive("id")\n\nputs(result)',
       },
-      cli: {
-        method: 'meters archive',
-        example: "dodo-payments-cli meters archive \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'meters->archive',
         example:
@@ -6559,10 +6116,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Meters.Archive',
         example:
           'MeterArchiveParams parameters = new() { ID = "id" };\n\nawait client.Meters.Archive(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/meters/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -6582,6 +6135,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.meters.unarchive',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.meters.unarchive('id');",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/meters/$ID/unarchive \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'meters.unarchive',
@@ -6608,10 +6165,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.meters.unarchive("id")\n\nputs(result)',
       },
-      cli: {
-        method: 'meters unarchive',
-        example: "dodo-payments-cli meters unarchive \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'meters->unarchive',
         example:
@@ -6621,10 +6174,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Meters.Unarchive',
         example:
           'MeterUnarchiveParams parameters = new() { ID = "id" };\n\nawait client.Meters.Unarchive(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/meters/$ID/unarchive \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -6656,6 +6205,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const balanceLedgerEntry of client.balances.retrieveLedger()) {\n  console.log(balanceLedgerEntry.id);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/balances/ledger \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'balances.retrieve_ledger',
         example:
@@ -6681,10 +6234,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.balances.retrieve_ledger\n\nputs(page)',
       },
-      cli: {
-        method: 'balances retrieve_ledger',
-        example: "dodo-payments-cli balances retrieve-ledger \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'balances->retrieveLedger',
         example:
@@ -6694,10 +6243,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Balances.RetrieveLedger',
         example:
           'BalanceRetrieveLedgerParams parameters = new();\n\nvar page = await client.Balances.RetrieveLedger(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/balances/ledger \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -6720,6 +6265,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.creditEntitlements.list',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const creditEntitlement of client.creditEntitlements.list()) {\n  console.log(creditEntitlement.id);\n}",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/credit-entitlements \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'credit_entitlements.list',
@@ -6746,10 +6295,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.credit_entitlements.list\n\nputs(page)',
       },
-      cli: {
-        method: 'credit_entitlements list',
-        example: "dodo-payments-cli credit-entitlements list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'creditEntitlements->list',
         example:
@@ -6759,10 +6304,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'CreditEntitlements.List',
         example:
           'CreditEntitlementListParams parameters = new();\n\nvar page = await client.CreditEntitlements.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/credit-entitlements \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -6802,6 +6343,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst creditEntitlement = await client.creditEntitlements.create({\n  name: 'name',\n  overage_enabled: true,\n  precision: 0,\n  rollover_enabled: true,\n  unit: 'unit',\n});\n\nconsole.log(creditEntitlement.id);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/credit-entitlements \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "name": "name",\n          "overage_enabled": true,\n          "precision": 0,\n          "rollover_enabled": true,\n          "unit": "unit"\n        }\'',
+      },
       python: {
         method: 'credit_entitlements.create',
         example:
@@ -6827,11 +6372,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ncredit_entitlement = dodo_payments.credit_entitlements.create(\n  name: "name",\n  overage_enabled: true,\n  precision: 0,\n  rollover_enabled: true,\n  unit: "unit"\n)\n\nputs(credit_entitlement)',
       },
-      cli: {
-        method: 'credit_entitlements create',
-        example:
-          "dodo-payments-cli credit-entitlements create \\\n  --bearer-token 'My Bearer Token' \\\n  --name name \\\n  --overage-enabled \\\n  --precision 0 \\\n  --rollover-enabled \\\n  --unit unit",
-      },
       php: {
         method: 'creditEntitlements->create',
         example:
@@ -6841,10 +6381,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'CreditEntitlements.Create',
         example:
           'CreditEntitlementCreateParams parameters = new()\n{\n    Name = "name",\n    OverageEnabled = true,\n    Precision = 0,\n    RolloverEnabled = true,\n    Unit = "unit",\n};\n\nvar creditEntitlement = await client.CreditEntitlements.Create(parameters);\n\nConsole.WriteLine(creditEntitlement);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/credit-entitlements \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "name": "name",\n          "overage_enabled": true,\n          "precision": 0,\n          "rollover_enabled": true,\n          "unit": "unit"\n        }\'',
       },
     },
   },
@@ -6867,6 +6403,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.creditEntitlements.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst creditEntitlement = await client.creditEntitlements.retrieve('id');\n\nconsole.log(creditEntitlement.id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/credit-entitlements/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'credit_entitlements.retrieve',
@@ -6893,11 +6433,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ncredit_entitlement = dodo_payments.credit_entitlements.retrieve("id")\n\nputs(credit_entitlement)',
       },
-      cli: {
-        method: 'credit_entitlements retrieve',
-        example:
-          "dodo-payments-cli credit-entitlements retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'creditEntitlements->retrieve',
         example:
@@ -6907,10 +6442,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'CreditEntitlements.Retrieve',
         example:
           'CreditEntitlementRetrieveParams parameters = new() { ID = "id" };\n\nvar creditEntitlement = await client.CreditEntitlements.Retrieve(parameters);\n\nConsole.WriteLine(creditEntitlement);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/credit-entitlements/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -6930,6 +6461,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.creditEntitlements.delete',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.creditEntitlements.delete('id');",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/credit-entitlements/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'credit_entitlements.delete',
@@ -6956,11 +6491,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.credit_entitlements.delete("id")\n\nputs(result)',
       },
-      cli: {
-        method: 'credit_entitlements delete',
-        example:
-          "dodo-payments-cli credit-entitlements delete \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'creditEntitlements->delete',
         example:
@@ -6970,10 +6500,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'CreditEntitlements.Delete',
         example:
           'CreditEntitlementDeleteParams parameters = new() { ID = "id" };\n\nawait client.CreditEntitlements.Delete(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/credit-entitlements/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -7011,6 +6537,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.creditEntitlements.update('id');",
       },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/credit-entitlements/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
       python: {
         method: 'credit_entitlements.update',
         example:
@@ -7036,11 +6566,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.credit_entitlements.update("id")\n\nputs(result)',
       },
-      cli: {
-        method: 'credit_entitlements update',
-        example:
-          "dodo-payments-cli credit-entitlements update \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'creditEntitlements->update',
         example:
@@ -7050,10 +6575,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'CreditEntitlements.Update',
         example:
           'CreditEntitlementUpdateParams parameters = new() { ID = "id" };\n\nawait client.CreditEntitlements.Update(parameters);',
-      },
-      http: {
-        example:
-          "curl https://live.dodopayments.com/credit-entitlements/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -7074,6 +6595,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.creditEntitlements.undelete',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.creditEntitlements.undelete('id');",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/credit-entitlements/$ID/undelete \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'credit_entitlements.undelete',
@@ -7100,11 +6625,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.credit_entitlements.undelete("id")\n\nputs(result)',
       },
-      cli: {
-        method: 'credit_entitlements undelete',
-        example:
-          "dodo-payments-cli credit-entitlements undelete \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'creditEntitlements->undelete',
         example:
@@ -7114,10 +6634,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'CreditEntitlements.Undelete',
         example:
           'CreditEntitlementUndeleteParams parameters = new() { ID = "id" };\n\nawait client.CreditEntitlements.Undelete(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/credit-entitlements/$ID/undelete \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -7146,6 +6662,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const customerCreditBalance of client.creditEntitlements.balances.list(\n  'credit_entitlement_id',\n)) {\n  console.log(customerCreditBalance.id);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/credit-entitlements/$CREDIT_ENTITLEMENT_ID/balances \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'credit_entitlements.balances.list',
         example:
@@ -7171,11 +6691,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.credit_entitlements.balances.list("credit_entitlement_id")\n\nputs(page)',
       },
-      cli: {
-        method: 'balances list',
-        example:
-          "dodo-payments-cli credit-entitlements:balances list \\\n  --bearer-token 'My Bearer Token' \\\n  --credit-entitlement-id credit_entitlement_id",
-      },
       php: {
         method: 'creditEntitlements->balances->list',
         example:
@@ -7185,10 +6700,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'CreditEntitlements.Balances.List',
         example:
           'BalanceListParams parameters = new()\n{\n    CreditEntitlementID = "credit_entitlement_id"\n};\n\nvar page = await client.CreditEntitlements.Balances.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/credit-entitlements/$CREDIT_ENTITLEMENT_ID/balances \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -7211,6 +6722,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.creditEntitlements.balances.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst customerCreditBalance = await client.creditEntitlements.balances.retrieve('customer_id', {\n  credit_entitlement_id: 'credit_entitlement_id',\n});\n\nconsole.log(customerCreditBalance.id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/credit-entitlements/$CREDIT_ENTITLEMENT_ID/balances/$CUSTOMER_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'credit_entitlements.balances.retrieve',
@@ -7237,11 +6752,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ncustomer_credit_balance = dodo_payments.credit_entitlements.balances.retrieve(\n  "customer_id",\n  credit_entitlement_id: "credit_entitlement_id"\n)\n\nputs(customer_credit_balance)',
       },
-      cli: {
-        method: 'balances retrieve',
-        example:
-          "dodo-payments-cli credit-entitlements:balances retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --credit-entitlement-id credit_entitlement_id \\\n  --customer-id customer_id",
-      },
       php: {
         method: 'creditEntitlements->balances->retrieve',
         example:
@@ -7251,10 +6761,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'CreditEntitlements.Balances.Retrieve',
         example:
           'BalanceRetrieveParams parameters = new()\n{\n    CreditEntitlementID = "credit_entitlement_id",\n    CustomerID = "customer_id",\n};\n\nvar customerCreditBalance = await client.CreditEntitlements.Balances.Retrieve(parameters);\n\nConsole.WriteLine(customerCreditBalance);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/credit-entitlements/$CREDIT_ENTITLEMENT_ID/balances/$CUSTOMER_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -7284,6 +6790,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const balanceListGrantsResponse of client.creditEntitlements.balances.listGrants(\n  'customer_id',\n  { credit_entitlement_id: 'credit_entitlement_id' },\n)) {\n  console.log(balanceListGrantsResponse.id);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/credit-entitlements/$CREDIT_ENTITLEMENT_ID/balances/$CUSTOMER_ID/grants \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'credit_entitlements.balances.list_grants',
         example:
@@ -7309,11 +6819,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.credit_entitlements.balances.list_grants(\n  "customer_id",\n  credit_entitlement_id: "credit_entitlement_id"\n)\n\nputs(page)',
       },
-      cli: {
-        method: 'balances list_grants',
-        example:
-          "dodo-payments-cli credit-entitlements:balances list-grants \\\n  --bearer-token 'My Bearer Token' \\\n  --credit-entitlement-id credit_entitlement_id \\\n  --customer-id customer_id",
-      },
       php: {
         method: 'creditEntitlements->balances->listGrants',
         example:
@@ -7323,10 +6828,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'CreditEntitlements.Balances.ListGrants',
         example:
           'BalanceListGrantsParams parameters = new()\n{\n    CreditEntitlementID = "credit_entitlement_id",\n    CustomerID = "customer_id",\n};\n\nvar page = await client.CreditEntitlements.Balances.ListGrants(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/credit-entitlements/$CREDIT_ENTITLEMENT_ID/balances/$CUSTOMER_ID/grants \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -7358,6 +6859,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const creditLedgerEntry of client.creditEntitlements.balances.listLedger('customer_id', {\n  credit_entitlement_id: 'credit_entitlement_id',\n})) {\n  console.log(creditLedgerEntry.id);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/credit-entitlements/$CREDIT_ENTITLEMENT_ID/balances/$CUSTOMER_ID/ledger \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'credit_entitlements.balances.list_ledger',
         example:
@@ -7383,11 +6888,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.credit_entitlements.balances.list_ledger(\n  "customer_id",\n  credit_entitlement_id: "credit_entitlement_id"\n)\n\nputs(page)',
       },
-      cli: {
-        method: 'balances list_ledger',
-        example:
-          "dodo-payments-cli credit-entitlements:balances list-ledger \\\n  --bearer-token 'My Bearer Token' \\\n  --credit-entitlement-id credit_entitlement_id \\\n  --customer-id customer_id",
-      },
       php: {
         method: 'creditEntitlements->balances->listLedger',
         example:
@@ -7397,10 +6897,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'CreditEntitlements.Balances.ListLedger',
         example:
           'BalanceListLedgerParams parameters = new()\n{\n    CreditEntitlementID = "credit_entitlement_id",\n    CustomerID = "customer_id",\n};\n\nvar page = await client.CreditEntitlements.Balances.ListLedger(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/credit-entitlements/$CREDIT_ENTITLEMENT_ID/balances/$CUSTOMER_ID/ledger \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -7433,6 +6929,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.creditEntitlements.balances.createLedgerEntry('customer_id', {\n  credit_entitlement_id: 'credit_entitlement_id',\n  amount: 'amount',\n  entry_type: 'credit',\n});\n\nconsole.log(response.id);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/credit-entitlements/$CREDIT_ENTITLEMENT_ID/balances/$CUSTOMER_ID/ledger-entries \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "amount": "amount",\n          "entry_type": "credit"\n        }\'',
+      },
       python: {
         method: 'credit_entitlements.balances.create_ledger_entry',
         example:
@@ -7458,11 +6958,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.credit_entitlements.balances.create_ledger_entry(\n  "customer_id",\n  credit_entitlement_id: "credit_entitlement_id",\n  amount: "amount",\n  entry_type: :credit\n)\n\nputs(response)',
       },
-      cli: {
-        method: 'balances create_ledger_entry',
-        example:
-          "dodo-payments-cli credit-entitlements:balances create-ledger-entry \\\n  --bearer-token 'My Bearer Token' \\\n  --credit-entitlement-id credit_entitlement_id \\\n  --customer-id customer_id \\\n  --amount amount \\\n  --entry-type credit",
-      },
       php: {
         method: 'creditEntitlements->balances->createLedgerEntry',
         example:
@@ -7472,10 +6967,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'CreditEntitlements.Balances.CreateLedgerEntry',
         example:
           'BalanceCreateLedgerEntryParams parameters = new()\n{\n    CreditEntitlementID = "credit_entitlement_id",\n    CustomerID = "customer_id",\n    Amount = "amount",\n    EntryType = LedgerEntryType.Credit,\n};\n\nvar response = await client.CreditEntitlements.Balances.CreateLedgerEntry(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/credit-entitlements/$CREDIT_ENTITLEMENT_ID/balances/$CUSTOMER_ID/ledger-entries \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "amount": "amount",\n          "entry_type": "credit"\n        }\'',
       },
     },
   },
@@ -7502,6 +6993,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const entitlement of client.entitlements.list()) {\n  console.log(entitlement.id);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/entitlements \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'entitlements.list',
         example:
@@ -7527,10 +7022,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.entitlements.list\n\nputs(page)',
       },
-      cli: {
-        method: 'entitlements list',
-        example: "dodo-payments-cli entitlements list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'entitlements->list',
         example:
@@ -7540,10 +7031,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Entitlements.List',
         example:
           'EntitlementListParams parameters = new();\n\nvar page = await client.Entitlements.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/entitlements \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -7572,6 +7059,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst entitlement = await client.entitlements.create({\n  integration_config: { permission: 'pull', target_id: 'target_id' },\n  integration_type: 'discord',\n  name: 'name',\n});\n\nconsole.log(entitlement.id);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/entitlements \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "integration_config": {\n            "permission": "pull",\n            "target_id": "target_id"\n          },\n          "integration_type": "discord",\n          "name": "name"\n        }\'',
+      },
       python: {
         method: 'entitlements.create',
         example:
@@ -7597,11 +7088,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nentitlement = dodo_payments.entitlements.create(\n  integration_config: {permission: :pull, target_id: "target_id"},\n  integration_type: :discord,\n  name: "name"\n)\n\nputs(entitlement)',
       },
-      cli: {
-        method: 'entitlements create',
-        example:
-          "dodo-payments-cli entitlements create \\\n  --bearer-token 'My Bearer Token' \\\n  --integration-config '{permission: pull, target_id: target_id}' \\\n  --integration-type discord \\\n  --name name",
-      },
       php: {
         method: 'entitlements->create',
         example:
@@ -7611,10 +7097,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Entitlements.Create',
         example:
           'EntitlementCreateParams parameters = new()\n{\n    IntegrationConfig = new GitHubConfig()\n    {\n        Permission = GitHubPermission.Pull,\n        TargetID = "target_id",\n    },\n    IntegrationType = EntitlementIntegrationType.Discord,\n    Name = "name",\n};\n\nvar entitlement = await client.Entitlements.Create(parameters);\n\nConsole.WriteLine(entitlement);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/entitlements \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "integration_config": {\n            "permission": "pull",\n            "target_id": "target_id"\n          },\n          "integration_type": "discord",\n          "name": "name"\n        }\'',
       },
     },
   },
@@ -7636,6 +7118,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.entitlements.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst entitlement = await client.entitlements.retrieve('id');\n\nconsole.log(entitlement.id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/entitlements/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'entitlements.retrieve',
@@ -7662,11 +7148,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nentitlement = dodo_payments.entitlements.retrieve("id")\n\nputs(entitlement)',
       },
-      cli: {
-        method: 'entitlements retrieve',
-        example:
-          "dodo-payments-cli entitlements retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'entitlements->retrieve',
         example:
@@ -7676,10 +7157,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Entitlements.Retrieve',
         example:
           'EntitlementRetrieveParams parameters = new() { ID = "id" };\n\nvar entitlement = await client.Entitlements.Retrieve(parameters);\n\nConsole.WriteLine(entitlement);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/entitlements/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -7699,6 +7176,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.entitlements.delete',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.entitlements.delete('id');",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/entitlements/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'entitlements.delete',
@@ -7725,10 +7206,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.entitlements.delete("id")\n\nputs(result)',
       },
-      cli: {
-        method: 'entitlements delete',
-        example: "dodo-payments-cli entitlements delete \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'entitlements->delete',
         example:
@@ -7738,10 +7215,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Entitlements.Delete',
         example:
           'EntitlementDeleteParams parameters = new() { ID = "id" };\n\nawait client.Entitlements.Delete(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/entitlements/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -7770,6 +7243,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst entitlement = await client.entitlements.update('id');\n\nconsole.log(entitlement.id);",
       },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/entitlements/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
       python: {
         method: 'entitlements.update',
         example:
@@ -7795,10 +7272,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nentitlement = dodo_payments.entitlements.update("id")\n\nputs(entitlement)',
       },
-      cli: {
-        method: 'entitlements update',
-        example: "dodo-payments-cli entitlements update \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'entitlements->update',
         example:
@@ -7808,10 +7281,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Entitlements.Update',
         example:
           'EntitlementUpdateParams parameters = new() { ID = "id" };\n\nvar entitlement = await client.Entitlements.Update(parameters);\n\nConsole.WriteLine(entitlement);',
-      },
-      http: {
-        example:
-          "curl https://live.dodopayments.com/entitlements/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -7832,6 +7301,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.entitlements.files.upload',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.entitlements.files.upload('id');\n\nconsole.log(response.file_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/entitlements/$ID/files \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'entitlements.files.upload',
@@ -7858,11 +7331,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.entitlements.files.upload("id")\n\nputs(response)',
       },
-      cli: {
-        method: 'files upload',
-        example:
-          "dodo-payments-cli entitlements:files upload \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'entitlements->files->upload',
         example:
@@ -7872,10 +7340,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Entitlements.Files.Upload',
         example:
           'FileUploadParams parameters = new() { ID = "id" };\n\nvar response = await client.Entitlements.Files.Upload(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/entitlements/$ID/files \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -7895,6 +7359,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.entitlements.files.delete',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.entitlements.files.delete('file_id', { id: 'id' });",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/entitlements/$ID/files/$FILE_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'entitlements.files.delete',
@@ -7921,11 +7389,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.entitlements.files.delete("file_id", id: "id")\n\nputs(result)',
       },
-      cli: {
-        method: 'files delete',
-        example:
-          "dodo-payments-cli entitlements:files delete \\\n  --bearer-token 'My Bearer Token' \\\n  --id id \\\n  --file-id file_id",
-      },
       php: {
         method: 'entitlements->files->delete',
         example:
@@ -7935,10 +7398,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Entitlements.Files.Delete',
         example:
           'FileDeleteParams parameters = new()\n{\n    ID = "id",\n    FileID = "file_id",\n};\n\nawait client.Entitlements.Files.Delete(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/entitlements/$ID/files/$FILE_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -7967,6 +7426,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const entitlementGrant of client.entitlements.grants.list('id')) {\n  console.log(entitlementGrant.id);\n}",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/entitlements/$ID/grants \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
       python: {
         method: 'entitlements.grants.list',
         example:
@@ -7992,11 +7455,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.entitlements.grants.list("id")\n\nputs(page)',
       },
-      cli: {
-        method: 'grants list',
-        example:
-          "dodo-payments-cli entitlements:grants list \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'entitlements->grants->list',
         example:
@@ -8006,10 +7464,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Entitlements.Grants.List',
         example:
           'GrantListParams parameters = new() { ID = "id" };\n\nvar page = await client.Entitlements.Grants.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/entitlements/$ID/grants \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -8033,6 +7487,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.entitlements.grants.revoke',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst entitlementGrant = await client.entitlements.grants.revoke('grant_id', { id: 'id' });\n\nconsole.log(entitlementGrant.id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/entitlements/$ID/grants/$GRANT_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'entitlements.grants.revoke',
@@ -8059,11 +7517,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nentitlement_grant = dodo_payments.entitlements.grants.revoke("grant_id", id: "id")\n\nputs(entitlement_grant)',
       },
-      cli: {
-        method: 'grants revoke',
-        example:
-          "dodo-payments-cli entitlements:grants revoke \\\n  --bearer-token 'My Bearer Token' \\\n  --id id \\\n  --grant-id grant_id",
-      },
       php: {
         method: 'entitlements->grants->revoke',
         example:
@@ -8073,10 +7526,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Entitlements.Grants.Revoke',
         example:
           'GrantRevokeParams parameters = new()\n{\n    ID = "id",\n    GrantID = "grant_id",\n};\n\nvar entitlementGrant = await client.Entitlements.Grants.Revoke(parameters);\n\nConsole.WriteLine(entitlementGrant);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/entitlements/$ID/grants/$GRANT_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -8098,6 +7547,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.productCollections.list',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const productCollectionListResponse of client.productCollections.list()) {\n  console.log(productCollectionListResponse.id);\n}",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/product-collections \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'product_collections.list',
@@ -8124,10 +7577,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\npage = dodo_payments.product_collections.list\n\nputs(page)',
       },
-      cli: {
-        method: 'product_collections list',
-        example: "dodo-payments-cli product-collections list \\\n  --bearer-token 'My Bearer Token'",
-      },
       php: {
         method: 'productCollections->list',
         example:
@@ -8137,10 +7586,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'ProductCollections.List',
         example:
           'ProductCollectionListParams parameters = new();\n\nvar page = await client.ProductCollections.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/product-collections \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -8157,16 +7602,25 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'name: string;',
       'brand_id?: string;',
       'description?: string;',
+      "effective_at_on_downgrade?: 'immediately' | 'next_billing_date';",
+      "effective_at_on_upgrade?: 'immediately' | 'next_billing_date';",
+      "on_payment_failure?: 'prevent_change' | 'apply_change';",
+      "proration_billing_mode_on_downgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill';",
+      "proration_billing_mode_on_upgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill';",
     ],
     response:
-      '{ id: string; brand_id: string; created_at: string; groups: { group_id: string; products: product_collection_product[]; status: boolean; group_name?: string; }[]; name: string; updated_at: string; description?: string; image?: string; }',
+      "{ id: string; brand_id: string; created_at: string; groups: { group_id: string; products: product_collection_product[]; status: boolean; group_name?: string; }[]; name: string; updated_at: string; description?: string; effective_at_on_downgrade?: 'immediately' | 'next_billing_date'; effective_at_on_upgrade?: 'immediately' | 'next_billing_date'; image?: string; on_payment_failure?: 'prevent_change' | 'apply_change'; proration_billing_mode_on_downgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'; proration_billing_mode_on_upgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'; }",
     markdown:
-      "## create\n\n`client.productCollections.create(groups: { products: group_product[]; group_name?: string; status?: boolean; }[], name: string, brand_id?: string, description?: string): { id: string; brand_id: string; created_at: string; groups: product_collection_group_response[]; name: string; updated_at: string; description?: string; image?: string; }`\n\n**post** `/product-collections`\n\n### Parameters\n\n- `groups: { products: { product_id: string; status?: boolean; }[]; group_name?: string; status?: boolean; }[]`\n  Groups of products in this collection\n\n- `name: string`\n  Name of the product collection\n\n- `brand_id?: string`\n  Brand id for the collection, if not provided will default to primary brand\n\n- `description?: string`\n  Optional description of the product collection\n\n### Returns\n\n- `{ id: string; brand_id: string; created_at: string; groups: { group_id: string; products: product_collection_product[]; status: boolean; group_name?: string; }[]; name: string; updated_at: string; description?: string; image?: string; }`\n\n  - `id: string`\n  - `brand_id: string`\n  - `created_at: string`\n  - `groups: { group_id: string; products: { id: string; addons_count: number; files_count: number; has_credit_entitlements: boolean; is_recurring: boolean; license_key_enabled: boolean; meters_count: number; product_id: string; status: boolean; currency?: currency; description?: string; name?: string; price?: number; price_detail?: price; tax_category?: tax_category; tax_inclusive?: boolean; }[]; status: boolean; group_name?: string; }[]`\n  - `name: string`\n  - `updated_at: string`\n  - `description?: string`\n  - `image?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst productCollection = await client.productCollections.create({ groups: [{ products: [{ product_id: 'product_id' }] }], name: 'name' });\n\nconsole.log(productCollection);\n```",
+      "## create\n\n`client.productCollections.create(groups: { products: group_product[]; group_name?: string; status?: boolean; }[], name: string, brand_id?: string, description?: string, effective_at_on_downgrade?: 'immediately' | 'next_billing_date', effective_at_on_upgrade?: 'immediately' | 'next_billing_date', on_payment_failure?: 'prevent_change' | 'apply_change', proration_billing_mode_on_downgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill', proration_billing_mode_on_upgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'): { id: string; brand_id: string; created_at: string; groups: product_collection_group_response[]; name: string; updated_at: string; description?: string; effective_at_on_downgrade?: 'immediately' | 'next_billing_date'; effective_at_on_upgrade?: 'immediately' | 'next_billing_date'; image?: string; on_payment_failure?: 'prevent_change' | 'apply_change'; proration_billing_mode_on_downgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'; proration_billing_mode_on_upgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'; }`\n\n**post** `/product-collections`\n\n### Parameters\n\n- `groups: { products: { product_id: string; status?: boolean; }[]; group_name?: string; status?: boolean; }[]`\n  Groups of products in this collection\n\n- `name: string`\n  Name of the product collection\n\n- `brand_id?: string`\n  Brand id for the collection, if not provided will default to primary brand\n\n- `description?: string`\n  Optional description of the product collection\n\n- `effective_at_on_downgrade?: 'immediately' | 'next_billing_date'`\n  Default effective_at setting for subscription plan downgrades (NULL = inherit from business)\n\n- `effective_at_on_upgrade?: 'immediately' | 'next_billing_date'`\n  Default effective_at setting for subscription plan upgrades (NULL = inherit from business)\n\n- `on_payment_failure?: 'prevent_change' | 'apply_change'`\n  Default behavior for subscription plan changes on payment failure (NULL = inherit from business)\n\n- `proration_billing_mode_on_downgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'`\n  Default proration billing mode for subscription plan downgrades (NULL = inherit from business)\n\n- `proration_billing_mode_on_upgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'`\n  Default proration billing mode for subscription plan upgrades (NULL = inherit from business)\n\n### Returns\n\n- `{ id: string; brand_id: string; created_at: string; groups: { group_id: string; products: product_collection_product[]; status: boolean; group_name?: string; }[]; name: string; updated_at: string; description?: string; effective_at_on_downgrade?: 'immediately' | 'next_billing_date'; effective_at_on_upgrade?: 'immediately' | 'next_billing_date'; image?: string; on_payment_failure?: 'prevent_change' | 'apply_change'; proration_billing_mode_on_downgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'; proration_billing_mode_on_upgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'; }`\n\n  - `id: string`\n  - `brand_id: string`\n  - `created_at: string`\n  - `groups: { group_id: string; products: { id: string; addons_count: number; files_count: number; has_credit_entitlements: boolean; is_recurring: boolean; license_key_enabled: boolean; meters_count: number; product_id: string; status: boolean; currency?: currency; description?: string; name?: string; price?: number; price_detail?: price; tax_category?: tax_category; tax_inclusive?: boolean; }[]; status: boolean; group_name?: string; }[]`\n  - `name: string`\n  - `updated_at: string`\n  - `description?: string`\n  - `effective_at_on_downgrade?: 'immediately' | 'next_billing_date'`\n  - `effective_at_on_upgrade?: 'immediately' | 'next_billing_date'`\n  - `image?: string`\n  - `on_payment_failure?: 'prevent_change' | 'apply_change'`\n  - `proration_billing_mode_on_downgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'`\n  - `proration_billing_mode_on_upgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst productCollection = await client.productCollections.create({ groups: [{ products: [{ product_id: 'product_id' }] }], name: 'name' });\n\nconsole.log(productCollection);\n```",
     perLanguage: {
       typescript: {
         method: 'client.productCollections.create',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst productCollection = await client.productCollections.create({\n  groups: [{ products: [{ product_id: 'product_id' }] }],\n  name: 'name',\n});\n\nconsole.log(productCollection.id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/product-collections \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "groups": [\n            {\n              "products": [\n                {\n                  "product_id": "product_id"\n                }\n              ]\n            }\n          ],\n          "name": "name"\n        }\'',
       },
       python: {
         method: 'product_collections.create',
@@ -8193,24 +7647,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nproduct_collection = dodo_payments.product_collections.create(groups: [{products: [{product_id: "product_id"}]}], name: "name")\n\nputs(product_collection)',
       },
-      cli: {
-        method: 'product_collections create',
-        example:
-          "dodo-payments-cli product-collections create \\\n  --bearer-token 'My Bearer Token' \\\n  --group '{products: [{product_id: product_id}]}' \\\n  --name name",
-      },
       php: {
         method: 'productCollections->create',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$productCollection = $client->productCollections->create(\n  groups: [\n    [\n      'products' => [['productID' => 'product_id', 'status' => true]],\n      'groupName' => 'group_name',\n      'status' => true,\n    ],\n  ],\n  name: 'name',\n  brandID: 'brand_id',\n  description: 'description',\n);\n\nvar_dump($productCollection);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$productCollection = $client->productCollections->create(\n  groups: [\n    [\n      'products' => [['productID' => 'product_id', 'status' => true]],\n      'groupName' => 'group_name',\n      'status' => true,\n    ],\n  ],\n  name: 'name',\n  brandID: 'brand_id',\n  description: 'description',\n  effectiveAtOnDowngrade: 'immediately',\n  effectiveAtOnUpgrade: 'immediately',\n  onPaymentFailure: 'prevent_change',\n  prorationBillingModeOnDowngrade: 'prorated_immediately',\n  prorationBillingModeOnUpgrade: 'prorated_immediately',\n);\n\nvar_dump($productCollection);",
       },
       csharp: {
         method: 'ProductCollections.Create',
         example:
           'ProductCollectionCreateParams parameters = new()\n{\n    Groups =\n    [\n        new()\n        {\n            Products =\n            [\n                new()\n                {\n                    ProductID = "product_id",\n                    Status = true,\n                },\n            ],\n            GroupName = "group_name",\n            Status = true,\n        },\n    ],\n    Name = "name",\n};\n\nvar productCollection = await client.ProductCollections.Create(parameters);\n\nConsole.WriteLine(productCollection);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/product-collections \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "groups": [\n            {\n              "products": [\n                {\n                  "product_id": "product_id"\n                }\n              ]\n            }\n          ],\n          "name": "name"\n        }\'',
       },
     },
   },
@@ -8224,14 +7669,18 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     qualified: 'client.productCollections.retrieve',
     params: ['id: string;'],
     response:
-      '{ id: string; brand_id: string; created_at: string; groups: { group_id: string; products: product_collection_product[]; status: boolean; group_name?: string; }[]; name: string; updated_at: string; description?: string; image?: string; }',
+      "{ id: string; brand_id: string; created_at: string; groups: { group_id: string; products: product_collection_product[]; status: boolean; group_name?: string; }[]; name: string; updated_at: string; description?: string; effective_at_on_downgrade?: 'immediately' | 'next_billing_date'; effective_at_on_upgrade?: 'immediately' | 'next_billing_date'; image?: string; on_payment_failure?: 'prevent_change' | 'apply_change'; proration_billing_mode_on_downgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'; proration_billing_mode_on_upgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'; }",
     markdown:
-      "## retrieve\n\n`client.productCollections.retrieve(id: string): { id: string; brand_id: string; created_at: string; groups: product_collection_group_response[]; name: string; updated_at: string; description?: string; image?: string; }`\n\n**get** `/product-collections/{id}`\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ id: string; brand_id: string; created_at: string; groups: { group_id: string; products: product_collection_product[]; status: boolean; group_name?: string; }[]; name: string; updated_at: string; description?: string; image?: string; }`\n\n  - `id: string`\n  - `brand_id: string`\n  - `created_at: string`\n  - `groups: { group_id: string; products: { id: string; addons_count: number; files_count: number; has_credit_entitlements: boolean; is_recurring: boolean; license_key_enabled: boolean; meters_count: number; product_id: string; status: boolean; currency?: currency; description?: string; name?: string; price?: number; price_detail?: price; tax_category?: tax_category; tax_inclusive?: boolean; }[]; status: boolean; group_name?: string; }[]`\n  - `name: string`\n  - `updated_at: string`\n  - `description?: string`\n  - `image?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst productCollection = await client.productCollections.retrieve('id');\n\nconsole.log(productCollection);\n```",
+      "## retrieve\n\n`client.productCollections.retrieve(id: string): { id: string; brand_id: string; created_at: string; groups: product_collection_group_response[]; name: string; updated_at: string; description?: string; effective_at_on_downgrade?: 'immediately' | 'next_billing_date'; effective_at_on_upgrade?: 'immediately' | 'next_billing_date'; image?: string; on_payment_failure?: 'prevent_change' | 'apply_change'; proration_billing_mode_on_downgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'; proration_billing_mode_on_upgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'; }`\n\n**get** `/product-collections/{id}`\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ id: string; brand_id: string; created_at: string; groups: { group_id: string; products: product_collection_product[]; status: boolean; group_name?: string; }[]; name: string; updated_at: string; description?: string; effective_at_on_downgrade?: 'immediately' | 'next_billing_date'; effective_at_on_upgrade?: 'immediately' | 'next_billing_date'; image?: string; on_payment_failure?: 'prevent_change' | 'apply_change'; proration_billing_mode_on_downgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'; proration_billing_mode_on_upgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'; }`\n\n  - `id: string`\n  - `brand_id: string`\n  - `created_at: string`\n  - `groups: { group_id: string; products: { id: string; addons_count: number; files_count: number; has_credit_entitlements: boolean; is_recurring: boolean; license_key_enabled: boolean; meters_count: number; product_id: string; status: boolean; currency?: currency; description?: string; name?: string; price?: number; price_detail?: price; tax_category?: tax_category; tax_inclusive?: boolean; }[]; status: boolean; group_name?: string; }[]`\n  - `name: string`\n  - `updated_at: string`\n  - `description?: string`\n  - `effective_at_on_downgrade?: 'immediately' | 'next_billing_date'`\n  - `effective_at_on_upgrade?: 'immediately' | 'next_billing_date'`\n  - `image?: string`\n  - `on_payment_failure?: 'prevent_change' | 'apply_change'`\n  - `proration_billing_mode_on_downgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'`\n  - `proration_billing_mode_on_upgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst productCollection = await client.productCollections.retrieve('id');\n\nconsole.log(productCollection);\n```",
     perLanguage: {
       typescript: {
         method: 'client.productCollections.retrieve',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst productCollection = await client.productCollections.retrieve('id');\n\nconsole.log(productCollection.id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/product-collections/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'product_collections.retrieve',
@@ -8258,11 +7707,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nproduct_collection = dodo_payments.product_collections.retrieve("id")\n\nputs(product_collection)',
       },
-      cli: {
-        method: 'product_collections retrieve',
-        example:
-          "dodo-payments-cli product-collections retrieve \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'productCollections->retrieve',
         example:
@@ -8272,10 +7716,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'ProductCollections.Retrieve',
         example:
           'ProductCollectionRetrieveParams parameters = new() { ID = "id" };\n\nvar productCollection = await client.ProductCollections.Retrieve(parameters);\n\nConsole.WriteLine(productCollection);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/product-collections/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -8295,6 +7735,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.productCollections.delete',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.productCollections.delete('id');",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/product-collections/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'product_collections.delete',
@@ -8321,11 +7765,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.product_collections.delete("id")\n\nputs(result)',
       },
-      cli: {
-        method: 'product_collections delete',
-        example:
-          "dodo-payments-cli product-collections delete \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'productCollections->delete',
         example:
@@ -8335,10 +7774,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'ProductCollections.Delete',
         example:
           'ProductCollectionDeleteParams parameters = new() { ID = "id" };\n\nawait client.ProductCollections.Delete(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/product-collections/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -8354,17 +7789,26 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'id: string;',
       'brand_id?: string;',
       'description?: string;',
+      "effective_at_on_downgrade?: 'immediately' | 'next_billing_date';",
+      "effective_at_on_upgrade?: 'immediately' | 'next_billing_date';",
       'group_order?: string[];',
       'image_id?: string;',
       'name?: string;',
+      "on_payment_failure?: 'prevent_change' | 'apply_change';",
+      "proration_billing_mode_on_downgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill';",
+      "proration_billing_mode_on_upgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill';",
     ],
     markdown:
-      "## update\n\n`client.productCollections.update(id: string, brand_id?: string, description?: string, group_order?: string[], image_id?: string, name?: string): void`\n\n**patch** `/product-collections/{id}`\n\n### Parameters\n\n- `id: string`\n\n- `brand_id?: string`\n  Optional brand_id update\n\n- `description?: string`\n  Optional description update - pass null to remove, omit to keep unchanged\n\n- `group_order?: string[]`\n  Optional new order for groups (array of group UUIDs in desired order)\n\n- `image_id?: string`\n  Optional image update - pass null to remove, omit to keep unchanged\n\n- `name?: string`\n  Optional new name for the collection\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nawait client.productCollections.update('id')\n```",
+      "## update\n\n`client.productCollections.update(id: string, brand_id?: string, description?: string, effective_at_on_downgrade?: 'immediately' | 'next_billing_date', effective_at_on_upgrade?: 'immediately' | 'next_billing_date', group_order?: string[], image_id?: string, name?: string, on_payment_failure?: 'prevent_change' | 'apply_change', proration_billing_mode_on_downgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill', proration_billing_mode_on_upgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'): void`\n\n**patch** `/product-collections/{id}`\n\n### Parameters\n\n- `id: string`\n\n- `brand_id?: string`\n  Optional brand_id update\n\n- `description?: string`\n  Optional description update - pass null to remove, omit to keep unchanged\n\n- `effective_at_on_downgrade?: 'immediately' | 'next_billing_date'`\n  Effective_at setting for downgrades: Some(Some(val)) = set, Some(None) = clear (inherit), None = no change\n\n- `effective_at_on_upgrade?: 'immediately' | 'next_billing_date'`\n  Effective_at setting for upgrades: Some(Some(val)) = set, Some(None) = clear (inherit), None = no change\n\n- `group_order?: string[]`\n  Optional new order for groups (array of group UUIDs in desired order)\n\n- `image_id?: string`\n  Optional image update - pass null to remove, omit to keep unchanged\n\n- `name?: string`\n  Optional new name for the collection\n\n- `on_payment_failure?: 'prevent_change' | 'apply_change'`\n  On payment failure behavior: Some(Some(val)) = set, Some(None) = clear (inherit), None = no change\n\n- `proration_billing_mode_on_downgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'`\n  Proration billing mode for downgrades: Some(Some(val)) = set, Some(None) = clear (inherit), None = no change\n\n- `proration_billing_mode_on_upgrade?: 'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill'`\n  Proration billing mode for upgrades: Some(Some(val)) = set, Some(None) = clear (inherit), None = no change\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nawait client.productCollections.update('id')\n```",
     perLanguage: {
       typescript: {
         method: 'client.productCollections.update',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.productCollections.update('id');",
+      },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/product-collections/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
       python: {
         method: 'product_collections.update',
@@ -8391,24 +7835,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.product_collections.update("id")\n\nputs(result)',
       },
-      cli: {
-        method: 'product_collections update',
-        example:
-          "dodo-payments-cli product-collections update \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'productCollections->update',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->productCollections->update(\n  'id',\n  brandID: 'brand_id',\n  description: 'description',\n  groupOrder: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],\n  imageID: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  name: 'name',\n);\n\nvar_dump($result);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->productCollections->update(\n  'id',\n  brandID: 'brand_id',\n  description: 'description',\n  effectiveAtOnDowngrade: 'immediately',\n  effectiveAtOnUpgrade: 'immediately',\n  groupOrder: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],\n  imageID: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  name: 'name',\n  onPaymentFailure: 'prevent_change',\n  prorationBillingModeOnDowngrade: 'prorated_immediately',\n  prorationBillingModeOnUpgrade: 'prorated_immediately',\n);\n\nvar_dump($result);",
       },
       csharp: {
         method: 'ProductCollections.Update',
         example:
           'ProductCollectionUpdateParams parameters = new() { ID = "id" };\n\nawait client.ProductCollections.Update(parameters);',
-      },
-      http: {
-        example:
-          "curl https://live.dodopayments.com/product-collections/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -8429,6 +7864,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.productCollections.updateImages',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.productCollections.updateImages('id');\n\nconsole.log(response.image_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/product-collections/$ID/images \\\n    -X PUT \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'product_collections.update_images',
@@ -8455,11 +7894,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.product_collections.update_images("id")\n\nputs(response)',
       },
-      cli: {
-        method: 'product_collections update_images',
-        example:
-          "dodo-payments-cli product-collections update-images \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'productCollections->updateImages',
         example:
@@ -8469,10 +7903,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'ProductCollections.UpdateImages',
         example:
           'ProductCollectionUpdateImagesParams parameters = new() { ID = "id" };\n\nvar response = await client.ProductCollections.UpdateImages(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/product-collections/$ID/images \\\n    -X PUT \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -8493,6 +7923,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.productCollections.unarchive',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.productCollections.unarchive('id');\n\nconsole.log(response.collection_id);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/product-collections/$ID/unarchive \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'product_collections.unarchive',
@@ -8519,11 +7953,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.product_collections.unarchive("id")\n\nputs(response)',
       },
-      cli: {
-        method: 'product_collections unarchive',
-        example:
-          "dodo-payments-cli product-collections unarchive \\\n  --bearer-token 'My Bearer Token' \\\n  --id id",
-      },
       php: {
         method: 'productCollections->unarchive',
         example:
@@ -8533,10 +7962,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'ProductCollections.Unarchive',
         example:
           'ProductCollectionUnarchiveParams parameters = new() { ID = "id" };\n\nvar response = await client.ProductCollections.Unarchive(parameters);\n\nConsole.WriteLine(response);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/product-collections/$ID/unarchive \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -8564,6 +7989,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst productCollectionGroupResponse = await client.productCollections.groups.create('id', {\n  products: [{ product_id: 'product_id' }],\n});\n\nconsole.log(productCollectionGroupResponse.group_id);",
       },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/product-collections/$ID/groups \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "products": [\n            {\n              "product_id": "product_id"\n            }\n          ]\n        }\'',
+      },
       python: {
         method: 'product_collections.groups.create',
         example:
@@ -8589,11 +8018,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nproduct_collection_group_response = dodo_payments.product_collections.groups.create("id", products: [{product_id: "product_id"}])\n\nputs(product_collection_group_response)',
       },
-      cli: {
-        method: 'groups create',
-        example:
-          "dodo-payments-cli product-collections:groups create \\\n  --bearer-token 'My Bearer Token' \\\n  --id id \\\n  --product '{product_id: product_id}'",
-      },
       php: {
         method: 'productCollections->groups->create',
         example:
@@ -8603,10 +8027,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'ProductCollections.Groups.Create',
         example:
           'GroupCreateParams parameters = new()\n{\n    ID = "id",\n    Products =\n    [\n        new()\n        {\n            ProductID = "product_id",\n            Status = true,\n        },\n    ],\n};\n\nvar productCollectionGroupResponse = await client.ProductCollections.Groups.Create(parameters);\n\nConsole.WriteLine(productCollectionGroupResponse);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/product-collections/$ID/groups \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "products": [\n            {\n              "product_id": "product_id"\n            }\n          ]\n        }\'',
       },
     },
   },
@@ -8626,6 +8046,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.productCollections.groups.delete',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.productCollections.groups.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { id: 'id' });",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/product-collections/$ID/groups/$GROUP_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'product_collections.groups.delete',
@@ -8652,11 +8076,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.product_collections.groups.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", id: "id")\n\nputs(result)',
       },
-      cli: {
-        method: 'groups delete',
-        example:
-          "dodo-payments-cli product-collections:groups delete \\\n  --bearer-token 'My Bearer Token' \\\n  --id id \\\n  --group-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      },
       php: {
         method: 'productCollections->groups->delete',
         example:
@@ -8666,10 +8085,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'ProductCollections.Groups.Delete',
         example:
           'GroupDeleteParams parameters = new()\n{\n    ID = "id",\n    GroupID = "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n};\n\nawait client.ProductCollections.Groups.Delete(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/product-collections/$ID/groups/$GROUP_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -8696,6 +8111,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.productCollections.groups.update('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { id: 'id' });",
       },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/product-collections/$ID/groups/$GROUP_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
       python: {
         method: 'product_collections.groups.update',
         example:
@@ -8721,11 +8140,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.product_collections.groups.update("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", id: "id")\n\nputs(result)',
       },
-      cli: {
-        method: 'groups update',
-        example:
-          "dodo-payments-cli product-collections:groups update \\\n  --bearer-token 'My Bearer Token' \\\n  --id id \\\n  --group-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      },
       php: {
         method: 'productCollections->groups->update',
         example:
@@ -8735,10 +8149,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'ProductCollections.Groups.Update',
         example:
           'GroupUpdateParams parameters = new()\n{\n    ID = "id",\n    GroupID = "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n};\n\nawait client.ProductCollections.Groups.Update(parameters);',
-      },
-      http: {
-        example:
-          "curl https://live.dodopayments.com/product-collections/$ID/groups/$GROUP_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -8760,6 +8170,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.productCollections.groups.items.create',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst productCollectionProducts = await client.productCollections.groups.items.create(\n  '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  { id: 'id', products: [{ product_id: 'product_id' }] },\n);\n\nconsole.log(productCollectionProducts);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/product-collections/$ID/groups/$GROUP_ID/items \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "products": [\n            {\n              "product_id": "product_id"\n            }\n          ]\n        }\'',
       },
       python: {
         method: 'product_collections.groups.items.create',
@@ -8786,11 +8200,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nproduct_collection_products = dodo_payments.product_collections.groups.items.create(\n  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n  id: "id",\n  products: [{product_id: "product_id"}]\n)\n\nputs(product_collection_products)',
       },
-      cli: {
-        method: 'items create',
-        example:
-          "dodo-payments-cli product-collections:groups:items create \\\n  --bearer-token 'My Bearer Token' \\\n  --id id \\\n  --group-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e \\\n  --product '{product_id: product_id}'",
-      },
       php: {
         method: 'productCollections->groups->items->create',
         example:
@@ -8800,10 +8209,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'ProductCollections.Groups.Items.Create',
         example:
           'ItemCreateParams parameters = new()\n{\n    ID = "id",\n    GroupID = "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    Products =\n    [\n        new()\n        {\n            ProductID = "product_id",\n            Status = true,\n        },\n    ],\n};\n\nvar productCollectionProducts = await client.ProductCollections.Groups.Items.Create(parameters);\n\nConsole.WriteLine(productCollectionProducts);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/product-collections/$ID/groups/$GROUP_ID/items \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "products": [\n            {\n              "product_id": "product_id"\n            }\n          ]\n        }\'',
       },
     },
   },
@@ -8823,6 +8228,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.productCollections.groups.items.delete',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.productCollections.groups.items.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n  id: 'id',\n  group_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n});",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/product-collections/$ID/groups/$GROUP_ID/items/$ITEM_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
       python: {
         method: 'product_collections.groups.items.delete',
@@ -8849,11 +8258,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.product_collections.groups.items.delete(\n  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n  id: "id",\n  group_id: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"\n)\n\nputs(result)',
       },
-      cli: {
-        method: 'items delete',
-        example:
-          "dodo-payments-cli product-collections:groups:items delete \\\n  --bearer-token 'My Bearer Token' \\\n  --id id \\\n  --group-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e \\\n  --item-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      },
       php: {
         method: 'productCollections->groups->items->delete',
         example:
@@ -8863,10 +8267,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'ProductCollections.Groups.Items.Delete',
         example:
           'ItemDeleteParams parameters = new()\n{\n    ID = "id",\n    GroupID = "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    ItemID = "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n};\n\nawait client.ProductCollections.Groups.Items.Delete(parameters);',
-      },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/product-collections/$ID/groups/$GROUP_ID/items/$ITEM_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
     },
   },
@@ -8886,6 +8286,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'client.productCollections.groups.items.update',
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.productCollections.groups.items.update('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n  id: 'id',\n  group_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  status: true,\n});",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/product-collections/$ID/groups/$GROUP_ID/items/$ITEM_ID \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "status": true\n        }\'',
       },
       python: {
         method: 'product_collections.groups.items.update',
@@ -8912,11 +8316,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.product_collections.groups.items.update(\n  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n  id: "id",\n  group_id: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n  status: true\n)\n\nputs(result)',
       },
-      cli: {
-        method: 'items update',
-        example:
-          "dodo-payments-cli product-collections:groups:items update \\\n  --bearer-token 'My Bearer Token' \\\n  --id id \\\n  --group-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e \\\n  --item-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e \\\n  --status",
-      },
       php: {
         method: 'productCollections->groups->items->update',
         example:
@@ -8927,29 +8326,20 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'ItemUpdateParams parameters = new()\n{\n    ID = "id",\n    GroupID = "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    ItemID = "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    Status = true,\n};\n\nawait client.ProductCollections.Groups.Items.Update(parameters);',
       },
-      http: {
-        example:
-          'curl https://live.dodopayments.com/product-collections/$ID/groups/$GROUP_ID/items/$ITEM_ID \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "status": true\n        }\'',
-      },
     },
   },
 ];
 
 const EMBEDDED_READMES: { language: string; content: string }[] = [
   {
-    language: 'cli',
+    language: 'typescript',
     content:
-      "# Dodo Payments CLI\n\nThe official CLI for the [Dodo Payments REST API](https://docs.dodopayments.com/api-reference/introduction).\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## Installation\n\n### Installing with Go\n\nTo test or install the CLI locally, you need [Go](https://go.dev/doc/install) version 1.22 or later installed.\n\n~~~sh\ngo install 'github.com/stainless-sdks/dodo-payments-cli/cmd/dodo-payments-cli@latest'\n~~~\n\nOnce you have run `go install`, the binary is placed in your Go bin directory:\n\n- **Default location**: `$HOME/go/bin` (or `$GOPATH/bin` if GOPATH is set)\n- **Check your path**: Run `go env GOPATH` to see the base directory\n\nIf commands aren't found after installation, add the Go bin directory to your PATH:\n\n~~~sh\n# Add to your shell profile (.zshrc, .bashrc, etc.)\nexport PATH=\"$PATH:$(go env GOPATH)/bin\"\n~~~\n\n### Running Locally\n\nAfter cloning the git repository for this project, you can use the\n`scripts/run` script to run the tool locally:\n\n~~~sh\n./scripts/run args...\n~~~\n\n## Usage\n\nThe CLI follows a resource-based command structure:\n\n~~~sh\ndodo-payments-cli [resource] <command> [flags...]\n~~~\n\n~~~sh\ndodo-payments-cli checkout-sessions create \\\n  --bearer-token 'My Bearer Token' \\\n  --product-cart '{product_id: pdt_example, quantity: 1}'\n~~~\n\nFor details about specific commands, use the `--help` flag.\n\n### Environment variables\n\n| Environment variable        | Description                         | Required | Default value |\n| --------------------------- | ----------------------------------- | -------- | ------------- |\n| `DODO_PAYMENTS_API_KEY`     | Bearer Token for API authentication | yes      |               |\n| `DODO_PAYMENTS_WEBHOOK_KEY` |                                     | no       | `null`        |\n\n### Global flags\n\n- `--bearer-token` - Bearer Token for API authentication (can also be set with `DODO_PAYMENTS_API_KEY` env var)\n- `--webhook-key` (can also be set with `DODO_PAYMENTS_WEBHOOK_KEY` env var)\n- `--help` - Show command line usage\n- `--debug` - Enable debug logging (includes HTTP request/response details)\n- `--version`, `-v` - Show the CLI version\n- `--base-url` - Use a custom API backend URL\n- `--format` - Change the output format (`auto`, `explore`, `json`, `jsonl`, `pretty`, `raw`, `yaml`)\n- `--format-error` - Change the output format for errors (`auto`, `explore`, `json`, `jsonl`, `pretty`, `raw`, `yaml`)\n- `--transform` - Transform the data output using [GJSON syntax](https://github.com/tidwall/gjson/blob/master/SYNTAX.md)\n- `--transform-error` - Transform the error output using [GJSON syntax](https://github.com/tidwall/gjson/blob/master/SYNTAX.md)\n\n### Passing files as arguments\n\nTo pass files to your API, you can use the `@myfile.ext` syntax:\n\n~~~bash\ndodo-payments-cli <command> --arg @abe.jpg\n~~~\n\nFiles can also be passed inside JSON or YAML blobs:\n\n~~~bash\ndodo-payments-cli <command> --arg '{image: \"@abe.jpg\"}'\n# Equivalent:\ndodo-payments-cli <command> <<YAML\narg:\n  image: \"@abe.jpg\"\nYAML\n~~~\n\nIf you need to pass a string literal that begins with an `@` sign, you can\nescape the `@` sign to avoid accidentally passing a file.\n\n~~~bash\ndodo-payments-cli <command> --username '\\@abe'\n~~~\n\n#### Explicit encoding\n\nFor JSON endpoints, the CLI tool does filetype sniffing to determine whether the\nfile contents should be sent as a string literal (for plain text files) or as a\nbase64-encoded string literal (for binary files). If you need to explicitly send\nthe file as either plain text or base64-encoded data, you can use\n`@file://myfile.txt` (for string encoding) or `@data://myfile.dat` (for\nbase64-encoding). Note that absolute paths will begin with `@file://` or\n`@data://`, followed by a third `/` (for example, `@file:///tmp/file.txt`).\n\n~~~bash\ndodo-payments-cli <command> --arg @data://file.txt\n~~~\n\n## Linking different Go SDK versions\n\nYou can link the CLI against a different version of the Dodo Payments Go SDK\nfor development purposes using the `./scripts/link` script.\n\nTo link to a specific version from a repository (version can be a branch,\ngit tag, or commit hash):\n\n~~~bash\n./scripts/link github.com/org/repo@version\n~~~\n\nTo link to a local copy of the SDK:\n\n~~~bash\n./scripts/link ../path/to/dodopayments-go\n~~~\n\nIf you run the link script without any arguments, it will default to `../dodopayments-go`.\n",
+      "# Dodo Payments TypeScript API Library\n\n[![NPM version](https://img.shields.io/npm/v/dodopayments.svg?label=npm%20(stable))](https://npmjs.org/package/dodopayments) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/dodopayments)\n\nThis library provides convenient access to the Dodo Payments REST API from server-side TypeScript or JavaScript.\n\n\n\nThe REST API documentation can be found on [docs.dodopayments.com](https://docs.dodopayments.com/api-reference/introduction). The full API of this library can be found in [api.md](api.md).\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## MCP Server\n\nUse the Dodo Payments MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6Ik15IEJlYXJlciBUb2tlbiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJNeSBXZWJob29rIEtleSJ9fQ)\n[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22dodopayments-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22dodopayments-mcp%22%5D%2C%22env%22%3A%7B%22DODO_PAYMENTS_API_KEY%22%3A%22My%20Bearer%20Token%22%2C%22DODO_PAYMENTS_WEBHOOK_KEY%22%3A%22My%20Webhook%20Key%22%7D%7D)\n\n> Note: You may need to set environment variables in your MCP client.\n\n## Installation\n\n```sh\nnpm install dodopayments\n```\n\n\n\n## Usage\n\nThe full API of this library can be found in [api.md](api.md).\n\n<!-- prettier-ignore -->\n```js\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n  environment: 'test_mode', // defaults to 'live_mode'\n});\n\nconst checkoutSessionResponse = await client.checkoutSessions.create({\n  product_cart: [{ product_id: 'pdt_example', quantity: 1 }],\n});\n\nconsole.log(checkoutSessionResponse.session_id);\n```\n\n\n\n### Request & Response types\n\nThis library includes TypeScript definitions for all request params and response fields. You may import and use them like so:\n\n<!-- prettier-ignore -->\n```ts\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n  environment: 'test_mode', // defaults to 'live_mode'\n});\n\nconst params: DodoPayments.CheckoutSessionCreateParams = {\n  product_cart: [{ product_id: 'pdt_example', quantity: 1 }],\n};\nconst checkoutSessionResponse: DodoPayments.CheckoutSessionResponse =\n  await client.checkoutSessions.create(params);\n```\n\nDocumentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.\n\n\n\n\n\n## Handling errors\n\nWhen the library is unable to connect to the API,\nor if the API returns a non-success status code (i.e., 4xx or 5xx response),\na subclass of `APIError` will be thrown:\n\n<!-- prettier-ignore -->\n```ts\nconst checkoutSessionResponse = await client.checkoutSessions\n  .create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] })\n  .catch(async (err) => {\n    if (err instanceof DodoPayments.APIError) {\n      console.log(err.status); // 400\n      console.log(err.name); // BadRequestError\n      console.log(err.headers); // {server: 'nginx', ...}\n    } else {\n      throw err;\n    }\n  });\n```\n\nError codes are as follows:\n\n| Status Code | Error Type                 |\n| ----------- | -------------------------- |\n| 400         | `BadRequestError`          |\n| 401         | `AuthenticationError`      |\n| 403         | `PermissionDeniedError`    |\n| 404         | `NotFoundError`            |\n| 422         | `UnprocessableEntityError` |\n| 429         | `RateLimitError`           |\n| >=500       | `InternalServerError`      |\n| N/A         | `APIConnectionError`       |\n\n### Retries\n\nCertain errors will be automatically retried 2 times by default, with a short exponential backoff.\nConnection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,\n429 Rate Limit, and >=500 Internal errors will all be retried by default.\n\nYou can use the `maxRetries` option to configure or disable this:\n\n<!-- prettier-ignore -->\n```js\n// Configure the default for all requests:\nconst client = new DodoPayments({\n  maxRetries: 0, // default is 2\n});\n\n// Or, configure per-request:\nawait client.checkoutSessions.create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] }, {\n  maxRetries: 5,\n});\n```\n\n### Timeouts\n\nRequests time out after 1 minute by default. You can configure this with a `timeout` option:\n\n<!-- prettier-ignore -->\n```ts\n// Configure the default for all requests:\nconst client = new DodoPayments({\n  timeout: 20 * 1000, // 20 seconds (default is 1 minute)\n});\n\n// Override per-request:\nawait client.checkoutSessions.create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] }, {\n  timeout: 5 * 1000,\n});\n```\n\nOn timeout, an `APIConnectionTimeoutError` is thrown.\n\nNote that requests which time out will be [retried twice by default](#retries).\n\n## Auto-pagination\n\nList methods in the DodoPayments API are paginated.\nYou can use the `for await … of` syntax to iterate through items across all pages:\n\n```ts\nasync function fetchAllPaymentListResponses(params) {\n  const allPaymentListResponses = [];\n  // Automatically fetches more pages as needed.\n  for await (const paymentListResponse of client.payments.list()) {\n    allPaymentListResponses.push(paymentListResponse);\n  }\n  return allPaymentListResponses;\n}\n```\n\nAlternatively, you can request a single page at a time:\n\n```ts\nlet page = await client.payments.list();\nfor (const paymentListResponse of page.items) {\n  console.log(paymentListResponse);\n}\n\n// Convenience methods are provided for manually paginating:\nwhile (page.hasNextPage()) {\n  page = await page.getNextPage();\n  // ...\n}\n```\n\n\n\n## Advanced Usage\n\n### Accessing raw Response data (e.g., headers)\n\nThe \"raw\" `Response` returned by `fetch()` can be accessed through the `.asResponse()` method on the `APIPromise` type that all methods return.\nThis method returns as soon as the headers for a successful response are received and does not consume the response body, so you are free to write custom parsing or streaming logic.\n\nYou can also use the `.withResponse()` method to get the raw `Response` along with the parsed data.\nUnlike `.asResponse()` this method consumes the body, returning once it is parsed.\n\n<!-- prettier-ignore -->\n```ts\nconst client = new DodoPayments();\n\nconst response = await client.checkoutSessions\n  .create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] })\n  .asResponse();\nconsole.log(response.headers.get('X-My-Header'));\nconsole.log(response.statusText); // access the underlying Response object\n\nconst { data: checkoutSessionResponse, response: raw } = await client.checkoutSessions\n  .create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] })\n  .withResponse();\nconsole.log(raw.headers.get('X-My-Header'));\nconsole.log(checkoutSessionResponse.session_id);\n```\n\n### Logging\n\n> [!IMPORTANT]\n> All log messages are intended for debugging only. The format and content of log messages\n> may change between releases.\n\n#### Log levels\n\nThe log level can be configured in two ways:\n\n1. Via the `DODO_PAYMENTS_LOG` environment variable\n2. Using the `logLevel` client option (overrides the environment variable if set)\n\n```ts\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  logLevel: 'debug', // Show all log messages\n});\n```\n\nAvailable log levels, from most to least verbose:\n\n- `'debug'` - Show debug messages, info, warnings, and errors\n- `'info'` - Show info messages, warnings, and errors\n- `'warn'` - Show warnings and errors (default)\n- `'error'` - Show only errors\n- `'off'` - Disable all logging\n\nAt the `'debug'` level, all HTTP requests and responses are logged, including headers and bodies.\nSome authentication-related headers are redacted, but sensitive data in request and response bodies\nmay still be visible.\n\n#### Custom logger\n\nBy default, this library logs to `globalThis.console`. You can also provide a custom logger.\nMost logging libraries are supported, including [pino](https://www.npmjs.com/package/pino), [winston](https://www.npmjs.com/package/winston), [bunyan](https://www.npmjs.com/package/bunyan), [consola](https://www.npmjs.com/package/consola), [signale](https://www.npmjs.com/package/signale), and [@std/log](https://jsr.io/@std/log). If your logger doesn't work, please open an issue.\n\nWhen providing a custom logger, the `logLevel` option still controls which messages are emitted, messages\nbelow the configured level will not be sent to your logger.\n\n```ts\nimport DodoPayments from 'dodopayments';\nimport pino from 'pino';\n\nconst logger = pino();\n\nconst client = new DodoPayments({\n  logger: logger.child({ name: 'DodoPayments' }),\n  logLevel: 'debug', // Send all messages to pino, allowing it to filter\n});\n```\n\n### Making custom/undocumented requests\n\nThis library is typed for convenient access to the documented API. If you need to access undocumented\nendpoints, params, or response properties, the library can still be used.\n\n#### Undocumented endpoints\n\nTo make requests to undocumented endpoints, you can use `client.get`, `client.post`, and other HTTP verbs.\nOptions on the client, such as retries, will be respected when making these requests.\n\n```ts\nawait client.post('/some/path', {\n  body: { some_prop: 'foo' },\n  query: { some_query_arg: 'bar' },\n});\n```\n\n#### Undocumented request params\n\nTo make requests using undocumented parameters, you may use `// @ts-expect-error` on the undocumented\nparameter. This library doesn't validate at runtime that the request matches the type, so any extra values you\nsend will be sent as-is.\n\n```ts\nclient.checkoutSessions.create({\n  // ...\n  // @ts-expect-error baz is not yet public\n  baz: 'undocumented option',\n});\n```\n\nFor requests with the `GET` verb, any extra params will be in the query, all other requests will send the\nextra param in the body.\n\nIf you want to explicitly send an extra argument, you can do so with the `query`, `body`, and `headers` request\noptions.\n\n#### Undocumented response properties\n\nTo access undocumented response properties, you may access the response object with `// @ts-expect-error` on\nthe response object, or cast the response object to the requisite type. Like the request params, we do not\nvalidate or strip extra properties from the response from the API.\n\n### Customizing the fetch client\n\nBy default, this library expects a global `fetch` function is defined.\n\nIf you want to use a different `fetch` function, you can either polyfill the global:\n\n```ts\nimport fetch from 'my-fetch';\n\nglobalThis.fetch = fetch;\n```\n\nOr pass it to the client:\n\n```ts\nimport DodoPayments from 'dodopayments';\nimport fetch from 'my-fetch';\n\nconst client = new DodoPayments({ fetch });\n```\n\n### Fetch options\n\nIf you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)\n\n```ts\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  fetchOptions: {\n    // `RequestInit` options\n  },\n});\n```\n\n#### Configuring proxies\n\nTo modify proxy behavior, you can provide custom `fetchOptions` that add runtime-specific proxy\noptions to requests:\n\n<img src=\"https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg\" align=\"top\" width=\"18\" height=\"21\"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>\n\n```ts\nimport DodoPayments from 'dodopayments';\nimport * as undici from 'undici';\n\nconst proxyAgent = new undici.ProxyAgent('http://localhost:8888');\nconst client = new DodoPayments({\n  fetchOptions: {\n    dispatcher: proxyAgent,\n  },\n});\n```\n\n<img src=\"https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg\" align=\"top\" width=\"18\" height=\"21\"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>\n\n```ts\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  fetchOptions: {\n    proxy: 'http://localhost:8888',\n  },\n});\n```\n\n<img src=\"https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg\" align=\"top\" width=\"18\" height=\"21\"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>\n\n```ts\nimport DodoPayments from 'npm:dodopayments';\n\nconst httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });\nconst client = new DodoPayments({\n  fetchOptions: {\n    client: httpClient,\n  },\n});\n```\n\n## Frequently Asked Questions\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes that only affect static types, without breaking runtime behavior.\n2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n3. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/dodopayments/dodopayments-typescript/issues) with questions, bugs, or suggestions.\n\n## Requirements\n\nTypeScript >= 4.9 is supported.\n\nThe following runtimes are supported:\n\n- Web browsers (Up-to-date Chrome, Firefox, Safari, Edge, and more)\n- Node.js 20 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.\n- Deno v1.28.0 or higher.\n- Bun 1.0 or later.\n- Cloudflare Workers.\n- Vercel Edge Runtime.\n- Jest 28 or greater with the `\"node\"` environment (`\"jsdom\"` is not supported at this time).\n- Nitro v2.6 or greater.\n\nNote that React Native is not supported at this time.\n\nIf you are interested in other runtime environments, please open or upvote an issue on GitHub.\n\n## Contributing\n\nSee [the contributing documentation](./CONTRIBUTING.md).\n",
   },
   {
-    language: 'csharp',
+    language: 'python',
     content:
-      '# Dodo Payments C# API Library\n\nThe Dodo Payments C# SDK provides convenient access to the [Dodo Payments REST API](https://docs.dodopayments.com/api-reference/introduction) from applications written in   C#.\n\n## Installation\n\nInstall the package from [NuGet](https://www.nuget.org/packages/DodoPayments.Client):\n\n```bash\ndotnet add package DodoPayments.Client\n```\n\n## Requirements\n\nThis library requires .NET Standard 2.0 or later.\n\n## Usage\n\nSee the [`examples`](examples) directory for complete and runnable examples.\n\n```csharp\nDodoPaymentsClient client = new();\n\nCheckoutSessionCreateParams parameters = new()\n{\n    ProductCart =\n    [\n        new()\n        {\n            ProductID = "pdt_example",\n            Quantity = 1,\n        },\n    ],\n};\n\nvar checkoutSessionResponse = await client.CheckoutSessions.Create(parameters);\n\nConsole.WriteLine(checkoutSessionResponse);\n```',
-  },
-  {
-    language: 'go',
-    content:
-      '# Dodo Payments Go API Library\n\n<a href="https://pkg.go.dev/github.com/dodopayments/dodopayments-go"><img src="https://pkg.go.dev/badge/github.com/dodopayments/dodopayments-go.svg" alt="Go Reference"></a>\n\nThe Dodo Payments Go library provides convenient access to the [Dodo Payments REST API](https://docs.dodopayments.com/api-reference/introduction)\nfrom applications written in Go.\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## MCP Server\n\nUse the Dodo Payments MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6Ik15IEJlYXJlciBUb2tlbiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJNeSBXZWJob29rIEtleSJ9fQ)\n[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22dodopayments-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22dodopayments-mcp%22%5D%2C%22env%22%3A%7B%22DODO_PAYMENTS_API_KEY%22%3A%22My%20Bearer%20Token%22%2C%22DODO_PAYMENTS_WEBHOOK_KEY%22%3A%22My%20Webhook%20Key%22%7D%7D)\n\n> Note: You may need to set environment variables in your MCP client.\n\n## Installation\n\n<!-- x-release-please-start-version -->\n\n```go\nimport (\n\t"github.com/dodopayments/dodopayments-go" // imported as SDK_PackageName\n)\n```\n\n<!-- x-release-please-end -->\n\nOr to pin the version:\n\n<!-- x-release-please-start-version -->\n\n```sh\ngo get -u \'github.com/dodopayments/dodopayments-go@v0.0.1\'\n```\n\n<!-- x-release-please-end -->\n\n## Requirements\n\nThis library requires Go 1.22+.\n\n## Usage\n\nThe full API of this library can be found in [api.md](api.md).\n\n```go\npackage main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"), // defaults to os.LookupEnv("DODO_PAYMENTS_API_KEY")\n\t\toption.WithEnvironmentTestMode(),          // defaults to option.WithEnvironmentLiveMode()\n\t)\n\tcheckoutSessionResponse, err := client.CheckoutSessions.New(context.TODO(), dodopayments.CheckoutSessionNewParams{\n\t\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t\t}}),\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", checkoutSessionResponse.SessionID)\n}\n\n```\n\n### Request fields\n\nAll request parameters are wrapped in a generic `Field` type,\nwhich we use to distinguish zero values from null or omitted fields.\n\nThis prevents accidentally sending a zero value if you forget a required parameter,\nand enables explicitly sending `null`, `false`, `\'\'`, or `0` on optional parameters.\nAny field not specified is not sent.\n\nTo construct fields with values, use the helpers `String()`, `Int()`, `Float()`, or most commonly, the generic `F[T]()`.\nTo send a null, use `Null[T]()`, and to send a nonconforming value, use `Raw[T](any)`. For example:\n\n```go\nparams := FooParams{\n\tName: SDK_PackageName.F("hello"),\n\n\t// Explicitly send `"description": null`\n\tDescription: SDK_PackageName.Null[string](),\n\n\tPoint: SDK_PackageName.F(SDK_PackageName.Point{\n\t\tX: SDK_PackageName.Int(0),\n\t\tY: SDK_PackageName.Int(1),\n\n\t\t// In cases where the API specifies a given type,\n\t\t// but you want to send something else, use `Raw`:\n\t\tZ: SDK_PackageName.Raw[int64](0.01), // sends a float\n\t}),\n}\n```\n\n### Response objects\n\nAll fields in response structs are value types (not pointers or wrappers).\n\nIf a given field is `null`, not present, or invalid, the corresponding field\nwill simply be its zero value.\n\nAll response structs also include a special `JSON` field, containing more detailed\ninformation about each property, which you can use like so:\n\n```go\nif res.Name == "" {\n\t// true if `"name"` is either not present or explicitly null\n\tres.JSON.Name.IsNull()\n\n\t// true if the `"name"` key was not present in the response JSON at all\n\tres.JSON.Name.IsMissing()\n\n\t// When the API returns data that cannot be coerced to the expected type:\n\tif res.JSON.Name.IsInvalid() {\n\t\traw := res.JSON.Name.Raw()\n\n\t\tlegacyName := struct{\n\t\t\tFirst string `json:"first"`\n\t\t\tLast  string `json:"last"`\n\t\t}{}\n\t\tjson.Unmarshal([]byte(raw), &legacyName)\n\t\tname = legacyName.First + " " + legacyName.Last\n\t}\n}\n```\n\nThese `.JSON` structs also include an `Extras` map containing\nany properties in the json response that were not specified\nin the struct. This can be useful for API features not yet\npresent in the SDK.\n\n```go\nbody := res.JSON.ExtraFields["my_unexpected_field"].Raw()\n```\n\n### RequestOptions\n\nThis library uses the functional options pattern. Functions defined in the\n`SDK_PackageOptionName` package return a `RequestOption`, which is a closure that mutates a\n`RequestConfig`. These options can be supplied to the client or at individual\nrequests. For example:\n\n```go\nclient := SDK_PackageName.SDK_ClientInitializerName(\n\t// Adds a header to every request made by the client\n\tSDK_PackageOptionName.WithHeader("X-Some-Header", "custom_header_info"),\n)\n\nclient.CheckoutSessions.New(context.TODO(), ...,\n\t// Override the header\n\tSDK_PackageOptionName.WithHeader("X-Some-Header", "some_other_custom_header_info"),\n\t// Add an undocumented field to the request body, using sjson syntax\n\tSDK_PackageOptionName.WithJSONSet("some.json.path", map[string]string{"my": "object"}),\n)\n```\n\nSee the [full list of request options](https://pkg.go.dev/github.com/dodopayments/dodopayments-go/SDK_PackageOptionName).\n\n### Pagination\n\nThis library provides some conveniences for working with paginated list endpoints.\n\nYou can use `.ListAutoPaging()` methods to iterate through items across all pages:\n\n```go\niter := client.Payments.ListAutoPaging(context.TODO(), dodopayments.PaymentListParams{})\n// Automatically fetches more pages as needed.\nfor iter.Next() {\n\tpaymentListResponse := iter.Current()\n\tfmt.Printf("%+v\\n", paymentListResponse)\n}\nif err := iter.Err(); err != nil {\n\tpanic(err.Error())\n}\n```\n\nOr you can use simple `.List()` methods to fetch a single page and receive a standard response object\nwith additional helper methods like `.GetNextPage()`, e.g.:\n\n```go\npage, err := client.Payments.List(context.TODO(), dodopayments.PaymentListParams{})\nfor page != nil {\n\tfor _, payment := range page.Items {\n\t\tfmt.Printf("%+v\\n", payment)\n\t}\n\tpage, err = page.GetNextPage()\n}\nif err != nil {\n\tpanic(err.Error())\n}\n```\n\n### Errors\n\nWhen the API returns a non-success status code, we return an error with type\n`*SDK_PackageName.Error`. This contains the `StatusCode`, `*http.Request`, and\n`*http.Response` values of the request, as well as the JSON of the error body\n(much like other response objects in the SDK).\n\nTo handle errors, we recommend that you use the `errors.As` pattern:\n\n```go\n_, err := client.CheckoutSessions.New(context.TODO(), dodopayments.CheckoutSessionNewParams{\n\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t}}),\n\t},\n})\nif err != nil {\n\tvar apierr *dodopayments.Error\n\tif errors.As(err, &apierr) {\n\t\tprintln(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request\n\t\tprintln(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response\n\t}\n\tpanic(err.Error()) // GET "/checkouts": 400 Bad Request { ... }\n}\n```\n\nWhen other errors occur, they are returned unwrapped; for example,\nif HTTP transport fails, you might receive `*url.Error` wrapping `*net.OpError`.\n\n### Timeouts\n\nRequests do not time out by default; use context to configure a timeout for a request lifecycle.\n\nNote that if a request is [retried](#retries), the context timeout does not start over.\nTo set a per-retry timeout, use `SDK_PackageOptionName.WithRequestTimeout()`.\n\n```go\n// This sets the timeout for the request, including all the retries.\nctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)\ndefer cancel()\nclient.CheckoutSessions.New(\n\tctx,\n\tdodopayments.CheckoutSessionNewParams{\n\t\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t\t}}),\n\t\t},\n\t},\n\t// This sets the per-retry timeout\n\toption.WithRequestTimeout(20*time.Second),\n)\n```\n\n### File uploads\n\nRequest parameters that correspond to file uploads in multipart requests are typed as\n`param.Field[io.Reader]`. The contents of the `io.Reader` will by default be sent as a multipart form\npart with the file name of "anonymous_file" and content-type of "application/octet-stream".\n\nThe file name and content-type can be customized by implementing `Name() string` or `ContentType()\nstring` on the run-time type of `io.Reader`. Note that `os.File` implements `Name() string`, so a\nfile returned by `os.Open` will be sent with the file name on disk.\n\nWe also provide a helper `SDK_PackageName.FileParam(reader io.Reader, filename string, contentType string)`\nwhich can be used to wrap any `io.Reader` with the appropriate file name and content type.\n\n\n\n### Retries\n\nCertain errors will be automatically retried 2 times by default, with a short exponential backoff.\nWe retry by default all connection errors, 408 Request Timeout, 409 Conflict, 429 Rate Limit,\nand >=500 Internal errors.\n\nYou can use the `WithMaxRetries` option to configure or disable this:\n\n```go\n// Configure the default for all requests:\nclient := dodopayments.NewClient(\n\toption.WithMaxRetries(0), // default is 2\n)\n\n// Override per-request:\nclient.CheckoutSessions.New(\n\tcontext.TODO(),\n\tdodopayments.CheckoutSessionNewParams{\n\t\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t\t}}),\n\t\t},\n\t},\n\toption.WithMaxRetries(5),\n)\n```\n\n\n### Accessing raw response data (e.g. response headers)\n\nYou can access the raw HTTP response data by using the `option.WithResponseInto()` request option. This is useful when\nyou need to examine response headers, status codes, or other details.\n\n```go\n// Create a variable to store the HTTP response\nvar response *http.Response\ncheckoutSessionResponse, err := client.CheckoutSessions.New(\n\tcontext.TODO(),\n\tdodopayments.CheckoutSessionNewParams{\n\t\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t\t}}),\n\t\t},\n\t},\n\toption.WithResponseInto(&response),\n)\nif err != nil {\n\t// handle error\n}\nfmt.Printf("%+v\\n", checkoutSessionResponse)\n\nfmt.Printf("Status Code: %d\\n", response.StatusCode)\nfmt.Printf("Headers: %+#v\\n", response.Header)\n```\n\n### Making custom/undocumented requests\n\nThis library is typed for convenient access to the documented API. If you need to access undocumented\nendpoints, params, or response properties, the library can still be used.\n\n#### Undocumented endpoints\n\nTo make requests to undocumented endpoints, you can use `client.Get`, `client.Post`, and other HTTP verbs.\n`RequestOptions` on the client, such as retries, will be respected when making these requests.\n\n```go\nvar (\n    // params can be an io.Reader, a []byte, an encoding/json serializable object,\n    // or a "…Params" struct defined in this library.\n    params map[string]interface{}\n\n    // result can be an []byte, *http.Response, a encoding/json deserializable object,\n    // or a model defined in this library.\n    result *http.Response\n)\nerr := client.Post(context.Background(), "/unspecified", params, &result)\nif err != nil {\n    …\n}\n```\n\n#### Undocumented request params\n\nTo make requests using undocumented parameters, you may use either the `SDK_PackageOptionName.WithQuerySet()`\nor the `SDK_PackageOptionName.WithJSONSet()` methods.\n\n```go\nparams := FooNewParams{\n    ID:   SDK_PackageName.F("id_xxxx"),\n    Data: SDK_PackageName.F(FooNewParamsData{\n        FirstName: SDK_PackageName.F("John"),\n    }),\n}\nclient.Foo.New(context.Background(), params, SDK_PackageOptionName.WithJSONSet("data.last_name", "Doe"))\n```\n\n#### Undocumented response properties\n\nTo access undocumented response properties, you may either access the raw JSON of the response as a string\nwith `result.JSON.RawJSON()`, or get the raw JSON of a particular field on the result with\n`result.JSON.Foo.Raw()`.\n\nAny fields that are not present on the response struct will be saved and can be accessed by `result.JSON.ExtraFields()` which returns the extra fields as a `map[string]Field`.\n\n### Middleware\n\nWe provide `SDK_PackageOptionName.WithMiddleware` which applies the given\nmiddleware to requests.\n\n```go\nfunc Logger(req *http.Request, next SDK_PackageOptionName.MiddlewareNext) (res *http.Response, err error) {\n\t// Before the request\n\tstart := time.Now()\n\tLogReq(req)\n\n\t// Forward the request to the next handler\n\tres, err = next(req)\n\n\t// Handle stuff after the request\n\tend := time.Now()\n\tLogRes(res, err, start - end)\n\n    return res, err\n}\n\nclient := SDK_PackageName.SDK_ClientInitializerName(\n\tSDK_PackageOptionName.WithMiddleware(Logger),\n)\n```\n\nWhen multiple middlewares are provided as variadic arguments, the middlewares\nare applied left to right. If `SDK_PackageOptionName.WithMiddleware` is given\nmultiple times, for example first in the client then the method, the\nmiddleware in the client will run first and the middleware given in the method\nwill run next.\n\nYou may also replace the default `http.Client` with\n`SDK_PackageOptionName.WithHTTPClient(client)`. Only one http client is\naccepted (this overwrites any previous client) and receives requests after any\nmiddleware has been applied.\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n2. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/dodopayments/dodopayments-go/issues) with questions, bugs, or suggestions.\n\n## Contributing\n\nSee [the contributing documentation](./CONTRIBUTING.md).\n',
+      '# Dodo Payments Python API library\n\n<!-- prettier-ignore -->\n[![PyPI version](https://img.shields.io/pypi/v/dodopayments.svg?label=pypi%20(stable))](https://pypi.org/project/dodopayments/)\n\nThe Dodo Payments Python library provides convenient access to the Dodo Payments REST API from any Python 3.9+\napplication. The library includes type definitions for all request params and response fields,\nand offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).\n\n\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## MCP Server\n\nUse the Dodo Payments MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6Ik15IEJlYXJlciBUb2tlbiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJNeSBXZWJob29rIEtleSJ9fQ)\n[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22dodopayments-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22dodopayments-mcp%22%5D%2C%22env%22%3A%7B%22DODO_PAYMENTS_API_KEY%22%3A%22My%20Bearer%20Token%22%2C%22DODO_PAYMENTS_WEBHOOK_KEY%22%3A%22My%20Webhook%20Key%22%7D%7D)\n\n> Note: You may need to set environment variables in your MCP client.\n\n## Documentation\n\nThe REST API documentation can be found on [docs.dodopayments.com](https://docs.dodopayments.com/api-reference/introduction). The full API of this library can be found in [api.md](api.md).\n\n## Installation\n\n```sh\n# install from PyPI\npip install dodopayments\n```\n\n## Usage\n\nThe full API of this library can be found in [api.md](api.md).\n\n```python\nimport os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n    # defaults to "live_mode".\n    environment="test_mode",\n)\n\ncheckout_session_response = client.checkout_sessions.create(\n    product_cart=[{\n        "product_id": "pdt_example",\n        "quantity": 1,\n    }],\n)\nprint(checkout_session_response.session_id)\n```\n\nWhile you can provide a `bearer_token` keyword argument,\nwe recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)\nto add `DODO_PAYMENTS_API_KEY="My Bearer Token"` to your `.env` file\nso that your Bearer Token is not stored in source control.\n\n## Async usage\n\nSimply import `AsyncDodoPayments` instead of `DodoPayments` and use `await` with each API call:\n\n```python\nimport os\nimport asyncio\nfrom dodopayments import AsyncDodoPayments\n\nclient = AsyncDodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n    # defaults to "live_mode".\n    environment="test_mode",\n)\n\nasync def main() -> None:\n  checkout_session_response = await client.checkout_sessions.create(\n      product_cart=[{\n          "product_id": "pdt_example",\n          "quantity": 1,\n      }],\n  )\n  print(checkout_session_response.session_id)\n\nasyncio.run(main())\n```\n\nFunctionality between the synchronous and asynchronous clients is otherwise identical.\n\n### With aiohttp\n\nBy default, the async client uses `httpx` for HTTP requests. However, for improved concurrency performance you may also use `aiohttp` as the HTTP backend.\n\nYou can enable this by installing `aiohttp`:\n\n```sh\n# install from PyPI\npip install dodopayments[aiohttp]\n```\n\nThen you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:\n\n```python\nimport os\nimport asyncio\nfrom dodopayments import DefaultAioHttpClient\nfrom dodopayments import AsyncDodoPayments\n\nasync def main() -> None:\n  async with AsyncDodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n    http_client=DefaultAioHttpClient(),\n) as client:\n    checkout_session_response = await client.checkout_sessions.create(\n        product_cart=[{\n            "product_id": "pdt_example",\n            "quantity": 1,\n        }],\n    )\n    print(checkout_session_response.session_id)\n\nasyncio.run(main())\n```\n\n\n\n## Using types\n\nNested request parameters are [TypedDicts](https://docs.python.org/3/library/typing.html#typing.TypedDict). Responses are [Pydantic models](https://docs.pydantic.dev) which also provide helper methods for things like:\n\n- Serializing back into JSON, `model.to_json()`\n- Converting to a dictionary, `model.to_dict()`\n\nTyped requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.\n\n## Pagination\n\nList methods in the Dodo Payments API are paginated.\n\nThis library provides auto-paginating iterators with each list response, so you do not have to request successive pages manually:\n\n```python\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments()\n\nall_payments = []\n# Automatically fetches more pages as needed.\nfor payment in client.payments.list():\n    # Do something with payment here\n    all_payments.append(payment)\nprint(all_payments)\n```\n\nOr, asynchronously:\n\n```python\nimport asyncio\nfrom dodopayments import AsyncDodoPayments\n\nclient = AsyncDodoPayments()\n\nasync def main() -> None:\n    all_payments = []\n    # Iterate through items across all pages, issuing requests as needed.\n    async for payment in client.payments.list():\n        all_payments.append(payment)\n    print(all_payments)\n\nasyncio.run(main())\n```\n\nAlternatively, you can use the `.has_next_page()`, `.next_page_info()`, or  `.get_next_page()` methods for more granular control working with pages:\n\n```python\nfirst_page = await client.payments.list()\nif first_page.has_next_page():\n    print(f"will fetch next page using these details: {first_page.next_page_info()}")\n    next_page = await first_page.get_next_page()\n    print(f"number of items we just fetched: {len(next_page.items)}")\n\n# Remove `await` for non-async usage.\n```\n\nOr just work directly with the returned data:\n\n```python\nfirst_page = await client.payments.list()\nfor payment in first_page.items:\n    print(payment.brand_id)\n\n# Remove `await` for non-async usage.\n```\n\n## Nested params\n\nNested parameters are dictionaries, typed using `TypedDict`, for example:\n\n```python\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments()\n\ncheckout_session_response = client.checkout_sessions.create(\n    product_cart=[{\n        "product_id": "product_id",\n        "quantity": 0,\n    }],\n    billing_address={\n        "country": "AF"\n    },\n)\nprint(checkout_session_response.billing_address)\n```\n\n\n\n## Handling errors\n\nWhen the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `dodopayments.APIConnectionError` is raised.\n\nWhen the API returns a non-success status code (that is, 4xx or 5xx\nresponse), a subclass of `dodopayments.APIStatusError` is raised, containing `status_code` and `response` properties.\n\nAll errors inherit from `dodopayments.APIError`.\n\n```python\nimport dodopayments\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments()\n\ntry:\n    client.checkout_sessions.create(\n        product_cart=[{\n            "product_id": "pdt_example",\n            "quantity": 1,\n        }],\n    )\nexcept dodopayments.APIConnectionError as e:\n    print("The server could not be reached")\n    print(e.__cause__) # an underlying Exception, likely raised within httpx.\nexcept dodopayments.RateLimitError as e:\n    print("A 429 status code was received; we should back off a bit.")\nexcept dodopayments.APIStatusError as e:\n    print("Another non-200-range status code was received")\n    print(e.status_code)\n    print(e.response)\n```\n\nError codes are as follows:\n\n| Status Code | Error Type                 |\n| ----------- | -------------------------- |\n| 400         | `BadRequestError`          |\n| 401         | `AuthenticationError`      |\n| 403         | `PermissionDeniedError`    |\n| 404         | `NotFoundError`            |\n| 422         | `UnprocessableEntityError` |\n| 429         | `RateLimitError`           |\n| >=500       | `InternalServerError`      |\n| N/A         | `APIConnectionError`       |\n\n### Retries\n\nCertain errors are automatically retried 2 times by default, with a short exponential backoff.\nConnection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,\n429 Rate Limit, and >=500 Internal errors are all retried by default.\n\nYou can use the `max_retries` option to configure or disable retry settings:\n\n```python\nfrom dodopayments import DodoPayments\n\n# Configure the default for all requests:\nclient = DodoPayments(\n    # default is 2\n    max_retries=0,\n)\n\n# Or, configure per-request:\nclient.with_options(max_retries = 5).checkout_sessions.create(\n    product_cart=[{\n        "product_id": "pdt_example",\n        "quantity": 1,\n    }],\n)\n```\n\n### Timeouts\n\nBy default requests time out after 1 minute. You can configure this with a `timeout` option,\nwhich accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:\n\n```python\nfrom dodopayments import DodoPayments\n\n# Configure the default for all requests:\nclient = DodoPayments(\n    # 20 seconds (default is 1 minute)\n    timeout=20.0,\n)\n\n# More granular control:\nclient = DodoPayments(\n    timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),\n)\n\n# Override per-request:\nclient.with_options(timeout = 5.0).checkout_sessions.create(\n    product_cart=[{\n        "product_id": "pdt_example",\n        "quantity": 1,\n    }],\n)\n```\n\nOn timeout, an `APITimeoutError` is thrown.\n\nNote that requests that time out are [retried twice by default](#retries).\n\n\n\n## Advanced\n\n### Logging\n\nWe use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.\n\nYou can enable logging by setting the environment variable `DODO_PAYMENTS_LOG` to `info`.\n\n```shell\n$ export DODO_PAYMENTS_LOG=info\n```\n\nOr to `debug` for more verbose logging.\n\n### How to tell whether `None` means `null` or missing\n\nIn an API response, a field may be explicitly `null`, or missing entirely; in either case, its value is `None` in this library. You can differentiate the two cases with `.model_fields_set`:\n\n```py\nif response.my_field is None:\n  if \'my_field\' not in response.model_fields_set:\n    print(\'Got json like {}, without a "my_field" key present at all.\')\n  else:\n    print(\'Got json like {"my_field": null}.\')\n```\n\n### Accessing raw response data (e.g. headers)\n\nThe "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,\n\n```py\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments()\nresponse = client.checkout_sessions.with_raw_response.create(\n    product_cart=[{\n        "product_id": "pdt_example",\n        "quantity": 1,\n    }],\n)\nprint(response.headers.get(\'X-My-Header\'))\n\ncheckout_session = response.parse()  # get the object that `checkout_sessions.create()` would have returned\nprint(checkout_session.session_id)\n```\n\nThese methods return an [`APIResponse`](https://github.com/dodopayments/dodopayments-python/tree/main/src/dodopayments/_response.py) object.\n\nThe async client returns an [`AsyncAPIResponse`](https://github.com/dodopayments/dodopayments-python/tree/main/src/dodopayments/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.\n\n#### `.with_streaming_response`\n\nThe above interface eagerly reads the full response body when you make the request, which may not always be what you want.\n\nTo stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.\n\n```python\nwith client.checkout_sessions.with_streaming_response.create(\n    product_cart=[{\n        "product_id": "pdt_example",\n        "quantity": 1,\n    }],\n) as response :\n    print(response.headers.get(\'X-My-Header\'))\n\n    for line in response.iter_lines():\n      print(line)\n```\n\nThe context manager is required so that the response will reliably be closed.\n\n### Making custom/undocumented requests\n\nThis library is typed for convenient access to the documented API.\n\nIf you need to access undocumented endpoints, params, or response properties, the library can still be used.\n\n#### Undocumented endpoints\n\nTo make requests to undocumented endpoints, you can make requests using `client.get`, `client.post`, and other\nhttp verbs. Options on the client will be respected (such as retries) when making this request.\n\n```py\nimport httpx\n\nresponse = client.post(\n    "/foo",\n    cast_to=httpx.Response,\n    body={"my_param": True},\n)\n\nprint(response.headers.get("x-foo"))\n```\n\n#### Undocumented request params\n\nIf you want to explicitly send an extra param, you can do so with the `extra_query`, `extra_body`, and `extra_headers` request\noptions.\n\n#### Undocumented response properties\n\nTo access undocumented response properties, you can access the extra fields like `response.unknown_prop`. You\ncan also get all the extra fields on the Pydantic model as a dict with\n[`response.model_extra`](https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel.model_extra).\n\n### Configuring the HTTP client\n\nYou can directly override the [httpx client](https://www.python-httpx.org/api/#client) to customize it for your use case, including:\n\n- Support for [proxies](https://www.python-httpx.org/advanced/proxies/)\n- Custom [transports](https://www.python-httpx.org/advanced/transports/)\n- Additional [advanced](https://www.python-httpx.org/advanced/clients/) functionality\n\n```python\nimport httpx\nfrom dodopayments import DodoPayments, DefaultHttpxClient\n\nclient = DodoPayments(\n    # Or use the `DODO_PAYMENTS_BASE_URL` env var\n    base_url="http://my.test.server.example.com:8083",\n    http_client=DefaultHttpxClient(proxy="http://my.test.proxy.example.com", transport=httpx.HTTPTransport(local_address="0.0.0.0")),\n)\n```\n\nYou can also customize the client on a per-request basis by using `with_options()`:\n\n```python\nclient.with_options(http_client=DefaultHttpxClient(...))\n```\n\n### Managing HTTP resources\n\nBy default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.\n\n```py\nfrom dodopayments import DodoPayments\n\nwith DodoPayments() as client:\n  # make requests here\n  ...\n\n# HTTP client is now closed\n```\n\n## Versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes that only affect static types, without breaking runtime behavior.\n2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n3. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/dodopayments/dodopayments-python/issues) with questions, bugs, or suggestions.\n\n### Determining the installed version\n\nIf you\'ve upgraded to the latest version but aren\'t seeing any new features you were expecting then your python environment is likely still using an older version.\n\nYou can determine the version that is being used at runtime with:\n\n```py\nimport dodopayments\nprint(dodopayments.__version__)\n```\n\n## Requirements\n\nPython 3.9 or higher.\n\n## Contributing\n\nSee [the contributing documentation](./CONTRIBUTING.md).\n',
   },
   {
     language: 'java',
@@ -8962,14 +8352,9 @@ const EMBEDDED_READMES: { language: string; content: string }[] = [
       '# Dodo Payments Kotlin API Library\n\n<!-- x-release-please-start-version -->\n[![Maven Central](https://img.shields.io/maven-central/v/com.dodopayments.api/dodo-payments-kotlin)](https://central.sonatype.com/artifact/com.dodopayments.api/dodo-payments-kotlin/0.0.1)\n[![javadoc](https://javadoc.io/badge2/com.dodopayments.api/dodo-payments-kotlin/0.0.1/javadoc.svg)](https://javadoc.io/doc/com.dodopayments.api/dodo-payments-kotlin/0.0.1)\n<!-- x-release-please-end -->\n\nThe Dodo Payments Kotlin SDK provides convenient access to the [Dodo Payments REST API](https://docs.dodopayments.com/api-reference/introduction)   from applications written in Kotlin.\n\nThe Dodo Payments Kotlin SDK is similar to the Dodo Payments Java SDK but with minor differences that       make it more ergonomic for use in Kotlin, such as nullable values instead of `Optional`,       `Sequence` instead of `Stream`, and suspend functions instead of `CompletableFuture`.\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## MCP Server\n\nUse the Dodo Payments MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6Ik15IEJlYXJlciBUb2tlbiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJNeSBXZWJob29rIEtleSJ9fQ)\n[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22dodopayments-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22dodopayments-mcp%22%5D%2C%22env%22%3A%7B%22DODO_PAYMENTS_API_KEY%22%3A%22My%20Bearer%20Token%22%2C%22DODO_PAYMENTS_WEBHOOK_KEY%22%3A%22My%20Webhook%20Key%22%7D%7D)\n\n> Note: You may need to set environment variables in your MCP client.\n\n<!-- x-release-please-start-version -->\n\nThe REST API documentation can be found on [docs.dodopayments.com](https://docs.dodopayments.com/api-reference/introduction). KDocs are available on [javadoc.io](https://javadoc.io/doc/com.dodopayments.api/dodo-payments-kotlin/0.0.1).\n\n<!-- x-release-please-end -->\n\n## Installation\n\n<!-- x-release-please-start-version -->\n\n### Gradle\n\n~~~kotlin\nimplementation("com.dodopayments.api:dodo-payments-kotlin:0.0.1")\n~~~\n\n### Maven\n\n~~~xml\n<dependency>\n  <groupId>com.dodopayments.api</groupId>\n  <artifactId>dodo-payments-kotlin</artifactId>\n  <version>0.0.1</version>\n</dependency>\n~~~\n\n<!-- x-release-please-end -->\n\n## Requirements\n\nThis library requires Java 8 or later.\n\n## Usage\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq\n\n// Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n// Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\nval params: CheckoutSessionRequest = CheckoutSessionRequest.builder()\n    .addProductCart(ProductItemReq.builder()\n        .productId("product_id")\n        .quantity(0)\n        .build())\n    .build()\nval checkoutSessionResponse: CheckoutSessionResponse = client.checkoutSessions().create(params)\n```\n\n## Client configuration\n\nConfigure the client using system properties or environment variables:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\n\n// Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n// Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n```\n\nOr manually:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .bearerToken("My Bearer Token")\n    .build()\n```\n\nOr using a combination of the two approaches:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    // Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n    // Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\n    .fromEnv()\n    .bearerToken("My Bearer Token")\n    .build()\n```\n\nSee this table for the available options:\n\n| Setter        | System property           | Environment variable        | Required | Default value                     |\n| ------------- | ------------------------- | --------------------------- | -------- | --------------------------------- |\n| `bearerToken` | `dodopayments.apiKey`     | `DODO_PAYMENTS_API_KEY`     | true     | -                                 |\n| `webhookKey`  | `dodopayments.webhookKey` | `DODO_PAYMENTS_WEBHOOK_KEY` | false    | -                                 |\n| `baseUrl`     | `dodopayments.baseUrl`    | `DODO_PAYMENTS_BASE_URL`    | true     | `"https://live.dodopayments.com"` |\n\nSystem properties take precedence over environment variables.\n\n> [!TIP]\n> Don\'t create more than one client in the same application. Each client has a connection pool and\n> thread pools, which are more efficient to share between requests.\n\n### Modifying configuration\n\nTo temporarily use a modified client configuration, while reusing the same connection and thread       pools, call `withOptions()` on any client or service:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\n\nval clientWithOptions: DodoPaymentsClient = client.withOptions {\n    it.baseUrl("https://example.com")\n    it.maxRetries(42)\n}\n```\n\nThe `withOptions()` method does not affect the original client or service.\n\n## Requests and responses\n\nTo send a request to the Dodo Payments API, build an instance of some `Params` class and pass it to the     corresponding client method. When the response is received, it will be deserialized into an instance of     a Kotlin class.\n\nFor example, `client.checkoutSessions().create(...)` should be called with an instance of `CheckoutSessionCreateParams`, and it     will return an instance of `CheckoutSessionResponse`.\n\n## Immutability\n\nEach class in the SDK has an associated   [builder](https://blogs.oracle.com/javamagazine/post/exploring-joshua-blochs-builder-design-pattern-in-java)   or factory method for constructing it.\n\nEach class is [immutable](https://docs.oracle.com/javase/tutorial/essential/concurrency/immutable.html)   once constructed. If the class has an associated builder, then it has a `toBuilder()` method, which can   be used to convert it back to a builder for making a modified copy.\n\nBecause each class is immutable, builder modification will _never_ affect already built class instances.\n\n## Asynchronous execution\n\nThe default client is synchronous. To switch to asynchronous execution, call the `async()` method:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq\n\n// Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n// Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\nval params: CheckoutSessionRequest = CheckoutSessionRequest.builder()\n    .addProductCart(ProductItemReq.builder()\n        .productId("product_id")\n        .quantity(0)\n        .build())\n    .build()\nval checkoutSessionResponse: CheckoutSessionResponse = client.async().checkoutSessions().create(params)\n```\n\nOr create an asynchronous client from the beginning:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClientAsync\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClientAsync\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq\n\n// Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n// Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\nval client: DodoPaymentsClientAsync = DodoPaymentsOkHttpClientAsync.fromEnv()\n\nval params: CheckoutSessionRequest = CheckoutSessionRequest.builder()\n    .addProductCart(ProductItemReq.builder()\n        .productId("product_id")\n        .quantity(0)\n        .build())\n    .build()\nval checkoutSessionResponse: CheckoutSessionResponse = client.checkoutSessions().create(params)\n```\n\nThe asynchronous client supports the same options as the synchronous one, except most methods are [suspending](https://kotlinlang.org/docs/coroutines-guide.html).\n\n\n\n\n\n## Binary responses\n\nThe SDK defines methods that return binary responses, which are used for API responses that shouldn\'t     necessarily be parsed, like non-JSON data.\n\nThese methods return [`HttpResponse`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/core/http/HttpResponse.kt):\n\n```kotlin\nimport com.dodopayments.api.core.http.HttpResponse\nimport com.dodopayments.api.models.invoices.payments.PaymentRetrieveParams\n\nval payment: HttpResponse = client.invoices().payments().retrieve("payment_id")\n```\n\nTo save the response content to a file, use the     [`Files.copy(...)`](https://docs.oracle.com/javase/8/docs/api/java/nio/file/Files.html#copy-java.io.InputStream-java.nio.file.Path-java.nio.file.CopyOption...-)     method:\n\n```kotlin\nimport java.nio.file.Files\nimport java.nio.file.Paths\nimport java.nio.file.StandardCopyOption\n\nclient.invoices().payments().retrieve(params).use {\n    Files.copy(\n        it.body(),\n        Paths.get(path),\n        StandardCopyOption.REPLACE_EXISTING\n    )\n}\n```\n\nOr transfer the response content to any     [`OutputStream`](https://docs.oracle.com/javase/8/docs/api/java/io/OutputStream.html):\n\n```kotlin\nimport java.nio.file.Files\nimport java.nio.file.Paths\n\nclient.invoices().payments().retrieve(params).use {\n    it.body().transferTo(Files.newOutputStream(Paths.get(path)))\n}\n```\n\n## Raw responses\n\nThe SDK defines methods that deserialize responses into instances of Kotlin classes.       However, these methods don\'t provide access to the response headers, status code, or the raw response       body.\n\nTo access this data, prefix any HTTP method call on a client or service with `withRawResponse()`:\n\n```kotlin\nimport com.dodopayments.api.core.http.Headers\nimport com.dodopayments.api.core.http.HttpResponseFor\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq\n\nval params: CheckoutSessionRequest = CheckoutSessionRequest.builder()\n    .addProductCart(ProductItemReq.builder()\n        .productId("product_id")\n        .quantity(0)\n        .build())\n    .build()\nval checkoutSessionResponse: HttpResponseFor<CheckoutSessionResponse> = client.checkoutSessions().withRawResponse().create(params)\n\nval statusCode: Int = checkoutSessionResponse.statusCode()\nval headers: Headers = checkoutSessionResponse.headers()\n```\n\nYou can still deserialize the response into an instance of a Kotlin class if needed:\n\n```kotlin\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\n\nval parsedCheckoutSessionResponse: CheckoutSessionResponse = checkoutSessionResponse.parse()\n```\n\n## Error handling\n\nThe SDK throws custom unchecked exception types:\n\n- [`DodoPaymentsServiceException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsServiceException.kt): Base class for HTTP errors. See this table for which exception       subclass is thrown for each HTTP status code:\n\n  | Status | Exception                                          |\n  | ------ | -------------------------------------------------- |\n  | 400    | [`BadRequestException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/BadRequestException.kt)           |\n  | 401    | [`UnauthorizedException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/UnauthorizedException.kt)         |\n  | 403    | [`PermissionDeniedException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/PermissionDeniedException.kt)     |\n  | 404    | [`NotFoundException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/NotFoundException.kt)             |\n  | 422    | [`UnprocessableEntityException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/UnprocessableEntityException.kt)  |\n  | 429    | [`RateLimitException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/RateLimitException.kt)            |\n  | 5xx    | [`InternalServerException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/InternalServerException.kt)       |\n  | others | [`UnexpectedStatusCodeException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/UnexpectedStatusCodeException.kt) |\n\n- [`DodoPaymentsIoException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsIoException.kt): I/O networking errors.\n\n- [`DodoPaymentsRetryableException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsRetryableException.kt): Generic error indicating a failure that could be retried by the client.\n\n- [`DodoPaymentsInvalidDataException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsInvalidDataException.kt): Failure to interpret successfully parsed data. For example,       when accessing a property that\'s supposed to be required, but the API unexpectedly omitted it from the       response.\n\n- [`DodoPaymentsException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsException.kt): Base class for all exceptions. Most errors will result in one of the       previously mentioned ones, but completely generic errors may be thrown using the base class.\n\n## Pagination\n\nThe SDK defines methods that return a paginated lists of results. It provides convenient ways to access     the results either one page at a time or item-by-item across all pages.\n\n### Auto-pagination\n\nTo iterate through all results across all pages, use the `autoPager()` method, which automatically     fetches more pages as needed.\n\nWhen using the synchronous client, the method returns a [`Sequence`](https://kotlinlang.org/docs/sequences.html)\n\n```kotlin\nimport com.dodopayments.api.models.payments.PaymentListPage\n\nval page: PaymentListPage = client.payments().list()\npage.autoPager()\n    .take(50)\n    .forEach { payment -> println(payment) }\n```\n\nWhen using the asynchronous client, the method returns a [`Flow`](https://kotlinlang.org/docs/flow.html):\n\n```kotlin\nimport com.dodopayments.api.models.payments.PaymentListPageAsync\n\nval page: PaymentListPageAsync = client.async().payments().list()\npage.autoPager()\n    .take(50)\n    .forEach { payment -> println(payment) }\n```\n\n### Manual pagination\n\nTo access individual page items and manually request the next page, use the `items()`,\n`hasNextPage()`, and `nextPage()` methods:\n\n```kotlin\nimport com.dodopayments.api.models.payments.PaymentListPage\nimport com.dodopayments.api.models.payments.PaymentListResponse\n\nval page: PaymentListPage = client.payments().list()\nwhile (true) {\n    for (payment in page.items()) {\n        println(payment)\n    }\n\n    if (!page.hasNextPage()) {\n        break\n    }\n\n    page = page.nextPage()\n}\n```\n\n## Logging\n\nEnable logging by setting the `DODO_PAYMENTS_LOG` environment variable to   `info`:\n\n```sh\nexport DODO_PAYMENTS_LOG=info\n```\n\nOr to `debug` for more verbose logging:\n\n```sh\nexport DODO_PAYMENTS_LOG=debug\n```\n\nOr configure the client manually using the `logLevel` method:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.core.LogLevel\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .logLevel(LogLevel.INFO)\n    .build()\n```\n\n## ProGuard and R8\n\nAlthough the SDK uses reflection, it is still usable with     [ProGuard](https://github.com/Guardsquare/proguard) and     [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because     `dodo-payments-kotlin-core` is published with a     [configuration file](dodo-payments-kotlin-core/src/main/resources/META-INF/proguard/dodo-payments-kotlin-core.pro) containing     [keep rules](https://www.guardsquare.com/manual/configuration/usage).\n\nProGuard and R8 should automatically detect and use the published rules, but you can also manually copy     the keep rules if necessary.\n\n\n\n\n\n## Jackson\n\nThe SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON     serialization/deserialization. It is compatible with version 2.13.4 or higher,     but depends on version 2.18.2 by default.\n\nThe SDK throws an exception if it detects an incompatible Jackson version at runtime (e.g. if the     default version was overridden in your Maven or Gradle config).\n\nIf the SDK threw an exception, but you\'re _certain_ the version is compatible, then disable the version     check using the `checkJacksonVersionCompatibility` on [`DodoPaymentsOkHttpClient`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClient.kt) or     [`DodoPaymentsOkHttpClientAsync`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClientAsync.kt).\n\n> [!CAUTION]\n> We make no guarantee that the SDK works correctly when the Jackson version check is disabled.\n\nAlso note that there are bugs in older Jackson versions that can affect the SDK. We don\'t work around all     Jackson bugs ([example](https://github.com/FasterXML/jackson-databind/issues/3240)) and expect users to     upgrade Jackson for those instead.\n\n## Network options\n\n### Retries\n\nThe SDK automatically retries 2 times by default, with a short exponential backoff between requests.\n\nOnly the following error types are retried:\n- Connection errors (for example, due to a network connectivity problem)\n- 408 Request Timeout\n- 409 Conflict\n- 429 Rate Limit\n- 5xx Internal\n\nThe API may also explicitly instruct the SDK to retry or not retry a request.\n\nTo set a custom number of retries, configure the client using the `maxRetries` method:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .maxRetries(4)\n    .build()\n```\n\n### Timeouts\n\nRequests time out after 1 minute by default.\n\nTo set a custom timeout, configure the method call using the `timeout` method:\n\n```kotlin\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\n\nval checkoutSessionResponse: CheckoutSessionResponse = client.checkoutSessions().create(\n  params, RequestOptions.builder().timeout(Duration.ofSeconds(30)).build()\n)\n```\n\nOr configure the default for all method calls at the client level:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport java.time.Duration\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .timeout(Duration.ofSeconds(30))\n    .build()\n```\n\n### Proxies\n\nTo route requests through a proxy, configure the client using the `proxy` method:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport java.net.InetSocketAddress\nimport java.net.Proxy\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .proxy(Proxy(\n      Proxy.Type.HTTP, InetSocketAddress(\n        "https://example.com", 8080\n      )\n    ))\n    .build()\n```\n\nIf the proxy responds with `407 Proxy Authentication Required`, supply credentials by also   configuring `proxyAuthenticator`:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.core.http.ProxyAuthenticator\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .proxy(...)\n    // Or a custom implementation of `ProxyAuthenticator`.\n    .proxyAuthenticator(ProxyAuthenticator.basic("username", "password"))\n    .build()\n```\n\n### Connection pooling\n\nTo customize the underlying OkHttp connection pool, configure the client using the   `maxIdleConnections` and `keepAliveDuration` methods:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport java.time.Duration\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    // If `maxIdleConnections` is set, then `keepAliveDuration` must be set, and vice versa.\n    .maxIdleConnections(10)\n    .keepAliveDuration(Duration.ofMinutes(2))\n    .build()\n```\n\nIf both options are unset, OkHttp\'s default connection pool settings are used.\n\n### HTTPS\n\n> [!NOTE]\n> Most applications should not call these methods, and instead use the system defaults. The defaults include\n> special optimizations that can be lost if the implementations are modified.\n\nTo configure how HTTPS connections are secured, configure the client using the `sslSocketFactory`,   `trustManager`, and `hostnameVerifier` methods:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    // If `sslSocketFactory` is set, then `trustManager` must be set, and vice versa.\n    .sslSocketFactory(yourSSLSocketFactory)\n    .trustManager(yourTrustManager)\n    .hostnameVerifier(yourHostnameVerifier)\n    .build()\n```\n\n### Environments\n\nThe SDK sends requests to the live_mode by default. To send requests to a different     environment, configure the client like so:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .testMode()\n    .build()\n```\n\n### Custom HTTP client\n\nThe SDK consists of three artifacts:\n- `dodo-payments-kotlin-core`\n  - Contains core SDK logic\n  - Does not depend on [OkHttp](https://square.github.io/okhttp)\n  - Exposes [`DodoPaymentsClient`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClient.kt), [`DodoPaymentsClientAsync`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsync.kt),             [`DodoPaymentsClientImpl`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientImpl.kt), and [`DodoPaymentsClientAsyncImpl`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsyncImpl.kt), all of which can             work with any HTTP client\n- `dodo-payments-kotlin-client-okhttp`\n  - Depends on [OkHttp](https://square.github.io/okhttp)\n  - Exposes [`DodoPaymentsOkHttpClient`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClient.kt) and [`DodoPaymentsOkHttpClientAsync`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClientAsync.kt), which             provide a way to construct [`DodoPaymentsClientImpl`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientImpl.kt) and             [`DodoPaymentsClientAsyncImpl`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsyncImpl.kt), respectively, using OkHttp\n- `dodo-payments-kotlin`\n  - Depends on and exposes the APIs of both `dodo-payments-kotlin-core` and `dodo-payments-kotlin-client-okhttp`\n  - Does not have its own logic\n\nThis structure allows replacing the SDK\'s default HTTP client without pulling in unnecessary dependencies.\n\n#### Customized [`OkHttpClient`](https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html)\n\n> [!TIP]\n> Try the available [network options](#network-options) before replacing the default client.\n\nTo use a customized `OkHttpClient`:\n\n1. Replace your [`dodo-payments-kotlin` dependency](#installation) with `dodo-payments-kotlin-core`\n2. Copy `dodo-payments-kotlin-client-okhttp`\'s [`OkHttpClient`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/OkHttpClient.kt) class into your code and        customize it\n3. Construct [`DodoPaymentsClientImpl`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientImpl.kt) or [`DodoPaymentsClientAsyncImpl`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsyncImpl.kt), similarly to        [`DodoPaymentsOkHttpClient`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClient.kt) or [`DodoPaymentsOkHttpClientAsync`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClientAsync.kt), using your        customized client\n\n### Completely custom HTTP client\n\nTo use a completely custom HTTP client:\n\n1. Replace your [`dodo-payments-kotlin` dependency](#installation) with `dodo-payments-kotlin-core`\n2. Write a class that implements the [`HttpClient`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/core/http/HttpClient.kt) interface\n3. Construct [`DodoPaymentsClientImpl`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientImpl.kt) or [`DodoPaymentsClientAsyncImpl`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsyncImpl.kt), similarly to        [`DodoPaymentsOkHttpClient`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClient.kt) or [`DodoPaymentsOkHttpClientAsync`](dodo-payments-kotlin-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClientAsync.kt), using your new        client class\n\n## Undocumented API functionality\n\nThe SDK is typed for convenient usage of the documented API. However, it also supports working with undocumented or not yet supported parts of the API.\n\n### Parameters\n\nTo set undocumented parameters, call the `putAdditionalHeader`, `putAdditionalQueryParam`, or       `putAdditionalBodyProperty` methods on any `Params` class:\n\n```kotlin\nimport com.dodopayments.api.core.JsonValue\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams\n\nval params: CheckoutSessionCreateParams = CheckoutSessionCreateParams.builder()\n    .putAdditionalHeader("Secret-Header", "42")\n    .putAdditionalQueryParam("secret_query_param", "42")\n    .putAdditionalBodyProperty("secretProperty", JsonValue.from("42"))\n    .build()\n```\n\nThese can be accessed on the built object later using the `_additionalHeaders()`,       `_additionalQueryParams()`, and `_additionalBodyProperties()` methods.\n\nTo set a documented parameter or property to an undocumented or not yet supported _value_, pass a       [`JsonValue`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/core/Values.kt) object to its setter:\n\n```kotlin\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq\n\nval params: CheckoutSessionCreateParams = CheckoutSessionCreateParams.builder()\n    .checkoutSessionRequest(CheckoutSessionRequest.builder()\n        .addProductCart(ProductItemReq.builder()\n            .productId("product_id")\n            .quantity(0)\n            .build())\n        .build())\n    .build()\n```\n\nThe most straightforward way to create a [`JsonValue`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/core/Values.kt) is using its       `from(...)` method:\n\n```kotlin\nimport com.dodopayments.api.core.JsonValue\n\n// Create primitive JSON values\nval nullValue: JsonValue = JsonValue.from(null)\nval booleanValue: JsonValue = JsonValue.from(true)\nval numberValue: JsonValue = JsonValue.from(42)\nval stringValue: JsonValue = JsonValue.from("Hello World!")\n\n// Create a JSON array value equivalent to `["Hello", "World"]`\nval arrayValue: JsonValue = JsonValue.from(listOf(\n  "Hello", "World"\n))\n\n// Create a JSON object value equivalent to `{ "a": 1, "b": 2 }`\nval objectValue: JsonValue = JsonValue.from(mapOf(\n  "a" to 1, "b" to 2\n))\n\n// Create an arbitrarily nested JSON equivalent to:\n// {\n//   "a": [1, 2],\n//   "b": [3, 4]\n// }\nval complexValue: JsonValue = JsonValue.from(mapOf(\n  "a" to listOf(\n    1, 2\n  ), "b" to listOf(\n    3, 4\n  )\n))\n```\n\nNormally a `Builder` class\'s `build` method will throw         [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html)         if any required parameter or property is unset.\n\nTo forcibly omit a required parameter or property, pass [`JsonMissing`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/core/Values.kt):\n\n```kotlin\nimport com.dodopayments.api.core.JsonMissing\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq\n\nval params: CheckoutSessionCreateParams = CheckoutSessionCreateParams.builder()\n    .checkoutSessionRequest(CheckoutSessionRequest.builder()\n        .addProductCart(ProductItemReq.builder()\n            .productId("product_id")\n            .quantity(0)\n            .build())\n        .build())\n    .productCart(JsonMissing.of())\n    .build()\n```\n\n### Response properties\n\nTo access undocumented response properties, call the `_additionalProperties()` method:\n\n```kotlin\nimport com.dodopayments.api.core.JsonBoolean\nimport com.dodopayments.api.core.JsonNull\nimport com.dodopayments.api.core.JsonNumber\nimport com.dodopayments.api.core.JsonValue\n\nval additionalProperties: Map<String, JsonValue> = client.checkoutSessions().create(params)._additionalProperties()\nval secretPropertyValue: JsonValue = additionalProperties.get("secretProperty")\n\nval result = when (secretPropertyValue) {\n    is JsonNull -> "It\'s null!"\n    is JsonBoolean -> "It\'s a boolean!"\n    is JsonNumber -> "It\'s a number!"\n    // Other types include `JsonMissing`, `JsonString`, `JsonArray`, and `JsonObject`\n    else -> "It\'s something else!"\n}\n```\n\nTo access a property\'s raw JSON value, which may be undocumented, call its `_` prefixed method:\n\n```kotlin\nimport com.dodopayments.api.core.JsonField\n\nval field: JsonField<Any> = client.checkoutSessions().create(params)._field()\n\nif (field.isMissing()) {\n  // The property is absent from the JSON response\n} else if (field.isNull()) {\n  // The property was set to literal null\n} else {\n  // Check if value was provided as a string\n  // Other methods include `asNumber()`, `asBoolean()`, etc.\n  val jsonString: String? = field.asString();\n\n  // Try to deserialize into a custom type\n  val myObject: MyClass = field.asUnknown()!!.convert(MyClass::class.java)\n}\n```\n\n### Response validation\n\nIn rare cases, the API may return a response that doesn\'t match the expected type. For example, the SDK     may expect a property to contain a `String`, but the API could return something else.\n\nBy default, the SDK will not throw an exception in this case. It will throw     [`DodoPaymentsInvalidDataException`](dodo-payments-kotlin-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsInvalidDataException.kt) only if you directly access the property.\n\nValidating the response is _not_ forwards compatible with new types from the API for existing fields.\n\nIf you would still prefer to check that the response is completely well-typed upfront, then either call     `validate()`:\n\n```kotlin\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\n\nval checkoutSessionResponse: CheckoutSessionResponse = client.checkoutSessions().create(params).validate()\n```\n\nOr configure the method call to validate the response using the `responseValidation` method:\n\n```kotlin\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse\n\nval checkoutSessionResponse: CheckoutSessionResponse = client.checkoutSessions().create(\n  params, RequestOptions.builder().responseValidation(true).build()\n)\n```\n\nOr configure the default for all method calls at the client level:\n\n```kotlin\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\n\nval client: DodoPaymentsClient = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .responseValidation(true)\n    .build()\n```\n\n## FAQ\n\n### Why don\'t you use plain `enum` classes?\n\nKotlin `enum` classes are not trivially   [forwards compatible](https://www.stainless.com/blog/making-java-enums-forwards-compatible). Using them in   the SDK could cause runtime exceptions if the API is updated to respond with a new enum value.\n\n### Why do you represent fields using `JsonField<T>` instead of just plain `T`?\n\nUsing `JsonField<T>` enables a few features:\n\n- Allowing usage of [undocumented API functionality](#undocumented-api-functionality)\n- Lazily [validating the API response against the expected shape](#response-validation)\n- Representing absent vs explicitly null values\n\n### Why don\'t you use [`data` classes](https://kotlinlang.org/docs/data-classes.html)?\n\nIt is not [backwards compatible to add new fields to a data class](https://kotlinlang.org/docs/api-guidelines-backward-compatibility.html#avoid-using-data-classes-in-your-api)   and we don\'t want to introduce a breaking change every time we add a field to a class.\n\n### Why don\'t you use checked exceptions?\n\nChecked exceptions are widely considered a mistake in the Java programming language. In fact, they were   omitted from Kotlin for this reason.\n\nChecked exceptions:\n\n- Are verbose to handle\n- Encourage error handling at the wrong level of abstraction, where nothing can be done about the error\n- Are tedious to propagate due to the [function coloring problem](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function)\n- Don\'t play well with lambdas (also due to the function coloring problem)\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n2. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/dodopayments/dodopayments-kotlin/issues) with questions, bugs, or suggestions.\n',
   },
   {
-    language: 'php',
+    language: 'go',
     content:
-      "# Dodo Payments PHP API Library\n\nThe Dodo Payments PHP library provides convenient access to the Dodo Payments REST API from any PHP 8.1.0+ application.\n\n## Installation\n\n<!-- x-release-please-start-version -->\n```\ncomposer require \"dodopayments/client 0.0.1\"\n```\n<!-- x-release-please-end -->\n\n## Usage\n\n```php\n<?php\n\n$client = new Client(\n  bearerToken: getenv('DODO_PAYMENTS_API_KEY') ?: 'My Bearer Token',\n  environment: 'test_mode',\n);\n\n$checkoutSessionResponse = $client->checkoutSessions->create(\n  productCart: [['productID' => 'pdt_example', 'quantity' => 1]]\n);\n\nvar_dump($checkoutSessionResponse->session_id);\n```",
-  },
-  {
-    language: 'python',
-    content:
-      '# Dodo Payments Python API library\n\n<!-- prettier-ignore -->\n[![PyPI version](https://img.shields.io/pypi/v/dodopayments.svg?label=pypi%20(stable))](https://pypi.org/project/dodopayments/)\n\nThe Dodo Payments Python library provides convenient access to the Dodo Payments REST API from any Python 3.9+\napplication. The library includes type definitions for all request params and response fields,\nand offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).\n\n\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## MCP Server\n\nUse the Dodo Payments MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6Ik15IEJlYXJlciBUb2tlbiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJNeSBXZWJob29rIEtleSJ9fQ)\n[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22dodopayments-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22dodopayments-mcp%22%5D%2C%22env%22%3A%7B%22DODO_PAYMENTS_API_KEY%22%3A%22My%20Bearer%20Token%22%2C%22DODO_PAYMENTS_WEBHOOK_KEY%22%3A%22My%20Webhook%20Key%22%7D%7D)\n\n> Note: You may need to set environment variables in your MCP client.\n\n## Documentation\n\nThe REST API documentation can be found on [docs.dodopayments.com](https://docs.dodopayments.com/api-reference/introduction). The full API of this library can be found in [api.md](api.md).\n\n## Installation\n\n```sh\n# install from PyPI\npip install dodopayments\n```\n\n## Usage\n\nThe full API of this library can be found in [api.md](api.md).\n\n```python\nimport os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n    # defaults to "live_mode".\n    environment="test_mode",\n)\n\ncheckout_session_response = client.checkout_sessions.create(\n    product_cart=[{\n        "product_id": "pdt_example",\n        "quantity": 1,\n    }],\n)\nprint(checkout_session_response.session_id)\n```\n\nWhile you can provide a `bearer_token` keyword argument,\nwe recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)\nto add `DODO_PAYMENTS_API_KEY="My Bearer Token"` to your `.env` file\nso that your Bearer Token is not stored in source control.\n\n## Async usage\n\nSimply import `AsyncDodoPayments` instead of `DodoPayments` and use `await` with each API call:\n\n```python\nimport os\nimport asyncio\nfrom dodopayments import AsyncDodoPayments\n\nclient = AsyncDodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n    # defaults to "live_mode".\n    environment="test_mode",\n)\n\nasync def main() -> None:\n  checkout_session_response = await client.checkout_sessions.create(\n      product_cart=[{\n          "product_id": "pdt_example",\n          "quantity": 1,\n      }],\n  )\n  print(checkout_session_response.session_id)\n\nasyncio.run(main())\n```\n\nFunctionality between the synchronous and asynchronous clients is otherwise identical.\n\n### With aiohttp\n\nBy default, the async client uses `httpx` for HTTP requests. However, for improved concurrency performance you may also use `aiohttp` as the HTTP backend.\n\nYou can enable this by installing `aiohttp`:\n\n```sh\n# install from PyPI\npip install dodopayments[aiohttp]\n```\n\nThen you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:\n\n```python\nimport os\nimport asyncio\nfrom dodopayments import DefaultAioHttpClient\nfrom dodopayments import AsyncDodoPayments\n\nasync def main() -> None:\n  async with AsyncDodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n    http_client=DefaultAioHttpClient(),\n) as client:\n    checkout_session_response = await client.checkout_sessions.create(\n        product_cart=[{\n            "product_id": "pdt_example",\n            "quantity": 1,\n        }],\n    )\n    print(checkout_session_response.session_id)\n\nasyncio.run(main())\n```\n\n\n\n## Using types\n\nNested request parameters are [TypedDicts](https://docs.python.org/3/library/typing.html#typing.TypedDict). Responses are [Pydantic models](https://docs.pydantic.dev) which also provide helper methods for things like:\n\n- Serializing back into JSON, `model.to_json()`\n- Converting to a dictionary, `model.to_dict()`\n\nTyped requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.\n\n## Pagination\n\nList methods in the Dodo Payments API are paginated.\n\nThis library provides auto-paginating iterators with each list response, so you do not have to request successive pages manually:\n\n```python\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments()\n\nall_payments = []\n# Automatically fetches more pages as needed.\nfor payment in client.payments.list():\n    # Do something with payment here\n    all_payments.append(payment)\nprint(all_payments)\n```\n\nOr, asynchronously:\n\n```python\nimport asyncio\nfrom dodopayments import AsyncDodoPayments\n\nclient = AsyncDodoPayments()\n\nasync def main() -> None:\n    all_payments = []\n    # Iterate through items across all pages, issuing requests as needed.\n    async for payment in client.payments.list():\n        all_payments.append(payment)\n    print(all_payments)\n\nasyncio.run(main())\n```\n\nAlternatively, you can use the `.has_next_page()`, `.next_page_info()`, or  `.get_next_page()` methods for more granular control working with pages:\n\n```python\nfirst_page = await client.payments.list()\nif first_page.has_next_page():\n    print(f"will fetch next page using these details: {first_page.next_page_info()}")\n    next_page = await first_page.get_next_page()\n    print(f"number of items we just fetched: {len(next_page.items)}")\n\n# Remove `await` for non-async usage.\n```\n\nOr just work directly with the returned data:\n\n```python\nfirst_page = await client.payments.list()\nfor payment in first_page.items:\n    print(payment.brand_id)\n\n# Remove `await` for non-async usage.\n```\n\n## Nested params\n\nNested parameters are dictionaries, typed using `TypedDict`, for example:\n\n```python\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments()\n\ncheckout_session_response = client.checkout_sessions.create(\n    product_cart=[{\n        "product_id": "product_id",\n        "quantity": 0,\n    }],\n    billing_address={\n        "country": "AF"\n    },\n)\nprint(checkout_session_response.billing_address)\n```\n\n\n\n## Handling errors\n\nWhen the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `dodopayments.APIConnectionError` is raised.\n\nWhen the API returns a non-success status code (that is, 4xx or 5xx\nresponse), a subclass of `dodopayments.APIStatusError` is raised, containing `status_code` and `response` properties.\n\nAll errors inherit from `dodopayments.APIError`.\n\n```python\nimport dodopayments\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments()\n\ntry:\n    client.checkout_sessions.create(\n        product_cart=[{\n            "product_id": "pdt_example",\n            "quantity": 1,\n        }],\n    )\nexcept dodopayments.APIConnectionError as e:\n    print("The server could not be reached")\n    print(e.__cause__) # an underlying Exception, likely raised within httpx.\nexcept dodopayments.RateLimitError as e:\n    print("A 429 status code was received; we should back off a bit.")\nexcept dodopayments.APIStatusError as e:\n    print("Another non-200-range status code was received")\n    print(e.status_code)\n    print(e.response)\n```\n\nError codes are as follows:\n\n| Status Code | Error Type                 |\n| ----------- | -------------------------- |\n| 400         | `BadRequestError`          |\n| 401         | `AuthenticationError`      |\n| 403         | `PermissionDeniedError`    |\n| 404         | `NotFoundError`            |\n| 422         | `UnprocessableEntityError` |\n| 429         | `RateLimitError`           |\n| >=500       | `InternalServerError`      |\n| N/A         | `APIConnectionError`       |\n\n### Retries\n\nCertain errors are automatically retried 2 times by default, with a short exponential backoff.\nConnection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,\n429 Rate Limit, and >=500 Internal errors are all retried by default.\n\nYou can use the `max_retries` option to configure or disable retry settings:\n\n```python\nfrom dodopayments import DodoPayments\n\n# Configure the default for all requests:\nclient = DodoPayments(\n    # default is 2\n    max_retries=0,\n)\n\n# Or, configure per-request:\nclient.with_options(max_retries = 5).checkout_sessions.create(\n    product_cart=[{\n        "product_id": "pdt_example",\n        "quantity": 1,\n    }],\n)\n```\n\n### Timeouts\n\nBy default requests time out after 1 minute. You can configure this with a `timeout` option,\nwhich accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:\n\n```python\nfrom dodopayments import DodoPayments\n\n# Configure the default for all requests:\nclient = DodoPayments(\n    # 20 seconds (default is 1 minute)\n    timeout=20.0,\n)\n\n# More granular control:\nclient = DodoPayments(\n    timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),\n)\n\n# Override per-request:\nclient.with_options(timeout = 5.0).checkout_sessions.create(\n    product_cart=[{\n        "product_id": "pdt_example",\n        "quantity": 1,\n    }],\n)\n```\n\nOn timeout, an `APITimeoutError` is thrown.\n\nNote that requests that time out are [retried twice by default](#retries).\n\n\n\n## Advanced\n\n### Logging\n\nWe use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.\n\nYou can enable logging by setting the environment variable `DODO_PAYMENTS_LOG` to `info`.\n\n```shell\n$ export DODO_PAYMENTS_LOG=info\n```\n\nOr to `debug` for more verbose logging.\n\n### How to tell whether `None` means `null` or missing\n\nIn an API response, a field may be explicitly `null`, or missing entirely; in either case, its value is `None` in this library. You can differentiate the two cases with `.model_fields_set`:\n\n```py\nif response.my_field is None:\n  if \'my_field\' not in response.model_fields_set:\n    print(\'Got json like {}, without a "my_field" key present at all.\')\n  else:\n    print(\'Got json like {"my_field": null}.\')\n```\n\n### Accessing raw response data (e.g. headers)\n\nThe "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,\n\n```py\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments()\nresponse = client.checkout_sessions.with_raw_response.create(\n    product_cart=[{\n        "product_id": "pdt_example",\n        "quantity": 1,\n    }],\n)\nprint(response.headers.get(\'X-My-Header\'))\n\ncheckout_session = response.parse()  # get the object that `checkout_sessions.create()` would have returned\nprint(checkout_session.session_id)\n```\n\nThese methods return an [`APIResponse`](https://github.com/dodopayments/dodopayments-python/tree/main/src/dodopayments/_response.py) object.\n\nThe async client returns an [`AsyncAPIResponse`](https://github.com/dodopayments/dodopayments-python/tree/main/src/dodopayments/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.\n\n#### `.with_streaming_response`\n\nThe above interface eagerly reads the full response body when you make the request, which may not always be what you want.\n\nTo stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.\n\n```python\nwith client.checkout_sessions.with_streaming_response.create(\n    product_cart=[{\n        "product_id": "pdt_example",\n        "quantity": 1,\n    }],\n) as response :\n    print(response.headers.get(\'X-My-Header\'))\n\n    for line in response.iter_lines():\n      print(line)\n```\n\nThe context manager is required so that the response will reliably be closed.\n\n### Making custom/undocumented requests\n\nThis library is typed for convenient access to the documented API.\n\nIf you need to access undocumented endpoints, params, or response properties, the library can still be used.\n\n#### Undocumented endpoints\n\nTo make requests to undocumented endpoints, you can make requests using `client.get`, `client.post`, and other\nhttp verbs. Options on the client will be respected (such as retries) when making this request.\n\n```py\nimport httpx\n\nresponse = client.post(\n    "/foo",\n    cast_to=httpx.Response,\n    body={"my_param": True},\n)\n\nprint(response.headers.get("x-foo"))\n```\n\n#### Undocumented request params\n\nIf you want to explicitly send an extra param, you can do so with the `extra_query`, `extra_body`, and `extra_headers` request\noptions.\n\n#### Undocumented response properties\n\nTo access undocumented response properties, you can access the extra fields like `response.unknown_prop`. You\ncan also get all the extra fields on the Pydantic model as a dict with\n[`response.model_extra`](https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel.model_extra).\n\n### Configuring the HTTP client\n\nYou can directly override the [httpx client](https://www.python-httpx.org/api/#client) to customize it for your use case, including:\n\n- Support for [proxies](https://www.python-httpx.org/advanced/proxies/)\n- Custom [transports](https://www.python-httpx.org/advanced/transports/)\n- Additional [advanced](https://www.python-httpx.org/advanced/clients/) functionality\n\n```python\nimport httpx\nfrom dodopayments import DodoPayments, DefaultHttpxClient\n\nclient = DodoPayments(\n    # Or use the `DODO_PAYMENTS_BASE_URL` env var\n    base_url="http://my.test.server.example.com:8083",\n    http_client=DefaultHttpxClient(proxy="http://my.test.proxy.example.com", transport=httpx.HTTPTransport(local_address="0.0.0.0")),\n)\n```\n\nYou can also customize the client on a per-request basis by using `with_options()`:\n\n```python\nclient.with_options(http_client=DefaultHttpxClient(...))\n```\n\n### Managing HTTP resources\n\nBy default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.\n\n```py\nfrom dodopayments import DodoPayments\n\nwith DodoPayments() as client:\n  # make requests here\n  ...\n\n# HTTP client is now closed\n```\n\n## Versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes that only affect static types, without breaking runtime behavior.\n2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n3. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/dodopayments/dodopayments-python/issues) with questions, bugs, or suggestions.\n\n### Determining the installed version\n\nIf you\'ve upgraded to the latest version but aren\'t seeing any new features you were expecting then your python environment is likely still using an older version.\n\nYou can determine the version that is being used at runtime with:\n\n```py\nimport dodopayments\nprint(dodopayments.__version__)\n```\n\n## Requirements\n\nPython 3.9 or higher.\n\n## Contributing\n\nSee [the contributing documentation](./CONTRIBUTING.md).\n',
+      '# Dodo Payments Go API Library\n\n<a href="https://pkg.go.dev/github.com/dodopayments/dodopayments-go"><img src="https://pkg.go.dev/badge/github.com/dodopayments/dodopayments-go.svg" alt="Go Reference"></a>\n\nThe Dodo Payments Go library provides convenient access to the [Dodo Payments REST API](https://docs.dodopayments.com/api-reference/introduction)\nfrom applications written in Go.\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## MCP Server\n\nUse the Dodo Payments MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6Ik15IEJlYXJlciBUb2tlbiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJNeSBXZWJob29rIEtleSJ9fQ)\n[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22dodopayments-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22dodopayments-mcp%22%5D%2C%22env%22%3A%7B%22DODO_PAYMENTS_API_KEY%22%3A%22My%20Bearer%20Token%22%2C%22DODO_PAYMENTS_WEBHOOK_KEY%22%3A%22My%20Webhook%20Key%22%7D%7D)\n\n> Note: You may need to set environment variables in your MCP client.\n\n## Installation\n\n<!-- x-release-please-start-version -->\n\n```go\nimport (\n\t"github.com/dodopayments/dodopayments-go" // imported as SDK_PackageName\n)\n```\n\n<!-- x-release-please-end -->\n\nOr to pin the version:\n\n<!-- x-release-please-start-version -->\n\n```sh\ngo get -u \'github.com/dodopayments/dodopayments-go@v0.0.1\'\n```\n\n<!-- x-release-please-end -->\n\n## Requirements\n\nThis library requires Go 1.22+.\n\n## Usage\n\nThe full API of this library can be found in [api.md](api.md).\n\n```go\npackage main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"), // defaults to os.LookupEnv("DODO_PAYMENTS_API_KEY")\n\t\toption.WithEnvironmentTestMode(),          // defaults to option.WithEnvironmentLiveMode()\n\t)\n\tcheckoutSessionResponse, err := client.CheckoutSessions.New(context.TODO(), dodopayments.CheckoutSessionNewParams{\n\t\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t\t}}),\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", checkoutSessionResponse.SessionID)\n}\n\n```\n\n### Request fields\n\nAll request parameters are wrapped in a generic `Field` type,\nwhich we use to distinguish zero values from null or omitted fields.\n\nThis prevents accidentally sending a zero value if you forget a required parameter,\nand enables explicitly sending `null`, `false`, `\'\'`, or `0` on optional parameters.\nAny field not specified is not sent.\n\nTo construct fields with values, use the helpers `String()`, `Int()`, `Float()`, or most commonly, the generic `F[T]()`.\nTo send a null, use `Null[T]()`, and to send a nonconforming value, use `Raw[T](any)`. For example:\n\n```go\nparams := FooParams{\n\tName: SDK_PackageName.F("hello"),\n\n\t// Explicitly send `"description": null`\n\tDescription: SDK_PackageName.Null[string](),\n\n\tPoint: SDK_PackageName.F(SDK_PackageName.Point{\n\t\tX: SDK_PackageName.Int(0),\n\t\tY: SDK_PackageName.Int(1),\n\n\t\t// In cases where the API specifies a given type,\n\t\t// but you want to send something else, use `Raw`:\n\t\tZ: SDK_PackageName.Raw[int64](0.01), // sends a float\n\t}),\n}\n```\n\n### Response objects\n\nAll fields in response structs are value types (not pointers or wrappers).\n\nIf a given field is `null`, not present, or invalid, the corresponding field\nwill simply be its zero value.\n\nAll response structs also include a special `JSON` field, containing more detailed\ninformation about each property, which you can use like so:\n\n```go\nif res.Name == "" {\n\t// true if `"name"` is either not present or explicitly null\n\tres.JSON.Name.IsNull()\n\n\t// true if the `"name"` key was not present in the response JSON at all\n\tres.JSON.Name.IsMissing()\n\n\t// When the API returns data that cannot be coerced to the expected type:\n\tif res.JSON.Name.IsInvalid() {\n\t\traw := res.JSON.Name.Raw()\n\n\t\tlegacyName := struct{\n\t\t\tFirst string `json:"first"`\n\t\t\tLast  string `json:"last"`\n\t\t}{}\n\t\tjson.Unmarshal([]byte(raw), &legacyName)\n\t\tname = legacyName.First + " " + legacyName.Last\n\t}\n}\n```\n\nThese `.JSON` structs also include an `Extras` map containing\nany properties in the json response that were not specified\nin the struct. This can be useful for API features not yet\npresent in the SDK.\n\n```go\nbody := res.JSON.ExtraFields["my_unexpected_field"].Raw()\n```\n\n### RequestOptions\n\nThis library uses the functional options pattern. Functions defined in the\n`SDK_PackageOptionName` package return a `RequestOption`, which is a closure that mutates a\n`RequestConfig`. These options can be supplied to the client or at individual\nrequests. For example:\n\n```go\nclient := SDK_PackageName.SDK_ClientInitializerName(\n\t// Adds a header to every request made by the client\n\tSDK_PackageOptionName.WithHeader("X-Some-Header", "custom_header_info"),\n)\n\nclient.CheckoutSessions.New(context.TODO(), ...,\n\t// Override the header\n\tSDK_PackageOptionName.WithHeader("X-Some-Header", "some_other_custom_header_info"),\n\t// Add an undocumented field to the request body, using sjson syntax\n\tSDK_PackageOptionName.WithJSONSet("some.json.path", map[string]string{"my": "object"}),\n)\n```\n\nSee the [full list of request options](https://pkg.go.dev/github.com/dodopayments/dodopayments-go/SDK_PackageOptionName).\n\n### Pagination\n\nThis library provides some conveniences for working with paginated list endpoints.\n\nYou can use `.ListAutoPaging()` methods to iterate through items across all pages:\n\n```go\niter := client.Payments.ListAutoPaging(context.TODO(), dodopayments.PaymentListParams{})\n// Automatically fetches more pages as needed.\nfor iter.Next() {\n\tpaymentListResponse := iter.Current()\n\tfmt.Printf("%+v\\n", paymentListResponse)\n}\nif err := iter.Err(); err != nil {\n\tpanic(err.Error())\n}\n```\n\nOr you can use simple `.List()` methods to fetch a single page and receive a standard response object\nwith additional helper methods like `.GetNextPage()`, e.g.:\n\n```go\npage, err := client.Payments.List(context.TODO(), dodopayments.PaymentListParams{})\nfor page != nil {\n\tfor _, payment := range page.Items {\n\t\tfmt.Printf("%+v\\n", payment)\n\t}\n\tpage, err = page.GetNextPage()\n}\nif err != nil {\n\tpanic(err.Error())\n}\n```\n\n### Errors\n\nWhen the API returns a non-success status code, we return an error with type\n`*SDK_PackageName.Error`. This contains the `StatusCode`, `*http.Request`, and\n`*http.Response` values of the request, as well as the JSON of the error body\n(much like other response objects in the SDK).\n\nTo handle errors, we recommend that you use the `errors.As` pattern:\n\n```go\n_, err := client.CheckoutSessions.New(context.TODO(), dodopayments.CheckoutSessionNewParams{\n\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t}}),\n\t},\n})\nif err != nil {\n\tvar apierr *dodopayments.Error\n\tif errors.As(err, &apierr) {\n\t\tprintln(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request\n\t\tprintln(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response\n\t}\n\tpanic(err.Error()) // GET "/checkouts": 400 Bad Request { ... }\n}\n```\n\nWhen other errors occur, they are returned unwrapped; for example,\nif HTTP transport fails, you might receive `*url.Error` wrapping `*net.OpError`.\n\n### Timeouts\n\nRequests do not time out by default; use context to configure a timeout for a request lifecycle.\n\nNote that if a request is [retried](#retries), the context timeout does not start over.\nTo set a per-retry timeout, use `SDK_PackageOptionName.WithRequestTimeout()`.\n\n```go\n// This sets the timeout for the request, including all the retries.\nctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)\ndefer cancel()\nclient.CheckoutSessions.New(\n\tctx,\n\tdodopayments.CheckoutSessionNewParams{\n\t\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t\t}}),\n\t\t},\n\t},\n\t// This sets the per-retry timeout\n\toption.WithRequestTimeout(20*time.Second),\n)\n```\n\n### File uploads\n\nRequest parameters that correspond to file uploads in multipart requests are typed as\n`param.Field[io.Reader]`. The contents of the `io.Reader` will by default be sent as a multipart form\npart with the file name of "anonymous_file" and content-type of "application/octet-stream".\n\nThe file name and content-type can be customized by implementing `Name() string` or `ContentType()\nstring` on the run-time type of `io.Reader`. Note that `os.File` implements `Name() string`, so a\nfile returned by `os.Open` will be sent with the file name on disk.\n\nWe also provide a helper `SDK_PackageName.FileParam(reader io.Reader, filename string, contentType string)`\nwhich can be used to wrap any `io.Reader` with the appropriate file name and content type.\n\n\n\n### Retries\n\nCertain errors will be automatically retried 2 times by default, with a short exponential backoff.\nWe retry by default all connection errors, 408 Request Timeout, 409 Conflict, 429 Rate Limit,\nand >=500 Internal errors.\n\nYou can use the `WithMaxRetries` option to configure or disable this:\n\n```go\n// Configure the default for all requests:\nclient := dodopayments.NewClient(\n\toption.WithMaxRetries(0), // default is 2\n)\n\n// Override per-request:\nclient.CheckoutSessions.New(\n\tcontext.TODO(),\n\tdodopayments.CheckoutSessionNewParams{\n\t\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t\t}}),\n\t\t},\n\t},\n\toption.WithMaxRetries(5),\n)\n```\n\n\n### Accessing raw response data (e.g. response headers)\n\nYou can access the raw HTTP response data by using the `option.WithResponseInto()` request option. This is useful when\nyou need to examine response headers, status codes, or other details.\n\n```go\n// Create a variable to store the HTTP response\nvar response *http.Response\ncheckoutSessionResponse, err := client.CheckoutSessions.New(\n\tcontext.TODO(),\n\tdodopayments.CheckoutSessionNewParams{\n\t\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t\t}}),\n\t\t},\n\t},\n\toption.WithResponseInto(&response),\n)\nif err != nil {\n\t// handle error\n}\nfmt.Printf("%+v\\n", checkoutSessionResponse)\n\nfmt.Printf("Status Code: %d\\n", response.StatusCode)\nfmt.Printf("Headers: %+#v\\n", response.Header)\n```\n\n### Making custom/undocumented requests\n\nThis library is typed for convenient access to the documented API. If you need to access undocumented\nendpoints, params, or response properties, the library can still be used.\n\n#### Undocumented endpoints\n\nTo make requests to undocumented endpoints, you can use `client.Get`, `client.Post`, and other HTTP verbs.\n`RequestOptions` on the client, such as retries, will be respected when making these requests.\n\n```go\nvar (\n    // params can be an io.Reader, a []byte, an encoding/json serializable object,\n    // or a "…Params" struct defined in this library.\n    params map[string]interface{}\n\n    // result can be an []byte, *http.Response, a encoding/json deserializable object,\n    // or a model defined in this library.\n    result *http.Response\n)\nerr := client.Post(context.Background(), "/unspecified", params, &result)\nif err != nil {\n    …\n}\n```\n\n#### Undocumented request params\n\nTo make requests using undocumented parameters, you may use either the `SDK_PackageOptionName.WithQuerySet()`\nor the `SDK_PackageOptionName.WithJSONSet()` methods.\n\n```go\nparams := FooNewParams{\n    ID:   SDK_PackageName.F("id_xxxx"),\n    Data: SDK_PackageName.F(FooNewParamsData{\n        FirstName: SDK_PackageName.F("John"),\n    }),\n}\nclient.Foo.New(context.Background(), params, SDK_PackageOptionName.WithJSONSet("data.last_name", "Doe"))\n```\n\n#### Undocumented response properties\n\nTo access undocumented response properties, you may either access the raw JSON of the response as a string\nwith `result.JSON.RawJSON()`, or get the raw JSON of a particular field on the result with\n`result.JSON.Foo.Raw()`.\n\nAny fields that are not present on the response struct will be saved and can be accessed by `result.JSON.ExtraFields()` which returns the extra fields as a `map[string]Field`.\n\n### Middleware\n\nWe provide `SDK_PackageOptionName.WithMiddleware` which applies the given\nmiddleware to requests.\n\n```go\nfunc Logger(req *http.Request, next SDK_PackageOptionName.MiddlewareNext) (res *http.Response, err error) {\n\t// Before the request\n\tstart := time.Now()\n\tLogReq(req)\n\n\t// Forward the request to the next handler\n\tres, err = next(req)\n\n\t// Handle stuff after the request\n\tend := time.Now()\n\tLogRes(res, err, start - end)\n\n    return res, err\n}\n\nclient := SDK_PackageName.SDK_ClientInitializerName(\n\tSDK_PackageOptionName.WithMiddleware(Logger),\n)\n```\n\nWhen multiple middlewares are provided as variadic arguments, the middlewares\nare applied left to right. If `SDK_PackageOptionName.WithMiddleware` is given\nmultiple times, for example first in the client then the method, the\nmiddleware in the client will run first and the middleware given in the method\nwill run next.\n\nYou may also replace the default `http.Client` with\n`SDK_PackageOptionName.WithHTTPClient(client)`. Only one http client is\naccepted (this overwrites any previous client) and receives requests after any\nmiddleware has been applied.\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n2. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/dodopayments/dodopayments-go/issues) with questions, bugs, or suggestions.\n\n## Contributing\n\nSee [the contributing documentation](./CONTRIBUTING.md).\n',
   },
   {
     language: 'ruby',
@@ -8977,9 +8362,14 @@ const EMBEDDED_READMES: { language: string; content: string }[] = [
       '# Dodo Payments Ruby API library\n\nThe Dodo Payments Ruby library provides convenient access to the Dodo Payments REST API from any Ruby 3.2.0+ application. It ships with comprehensive types & docstrings in Yard, RBS, and RBI – [see below](https://github.com/dodopayments/dodopayments-ruby#Sorbet) for usage with Sorbet. The standard library\'s `net/http` is used as the HTTP transport, with connection pooling via the `connection_pool` gem.\n\n\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## MCP Server\n\nUse the Dodo Payments MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6Ik15IEJlYXJlciBUb2tlbiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJNeSBXZWJob29rIEtleSJ9fQ)\n[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22dodopayments-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22dodopayments-mcp%22%5D%2C%22env%22%3A%7B%22DODO_PAYMENTS_API_KEY%22%3A%22My%20Bearer%20Token%22%2C%22DODO_PAYMENTS_WEBHOOK_KEY%22%3A%22My%20Webhook%20Key%22%7D%7D)\n\n> Note: You may need to set environment variables in your MCP client.\n\n## Documentation\n\nDocumentation for releases of this gem can be found [on RubyDoc](https://gemdocs.org/gems/dodopayments).\n\nThe REST API documentation can be found on [docs.dodopayments.com](https://docs.dodopayments.com/api-reference/introduction).\n\n## Installation\n\nTo use this gem, install via Bundler by adding the following to your application\'s `Gemfile`:\n\n<!-- x-release-please-start-version -->\n\n```ruby\ngem "dodopayments", "~> 0.0.1"\n```\n\n<!-- x-release-please-end -->\n\n## Usage\n\n```ruby\nrequire "bundler/setup"\nrequire "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: ENV["DODO_PAYMENTS_API_KEY"], # This is the default and can be omitted\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ncheckout_session_response = dodo_payments.checkout_sessions.create(product_cart: [{product_id: "pdt_example", quantity: 1}])\n\nputs(checkout_session_response.session_id)\n```\n\n\n\n### Pagination\n\nList methods in the Dodo Payments API are paginated.\n\nThis library provides auto-paginating iterators with each list response, so you do not have to request successive pages manually:\n\n```ruby\npage = dodo_payments.payments.list\n\n# Fetch single item from page.\npayment = page.items[0]\nputs(payment.brand_id)\n\n# Automatically fetches more pages as needed.\npage.auto_paging_each do |payment|\n  puts(payment.brand_id)\nend\n```\n\nAlternatively, you can use the `#next_page?` and `#next_page` methods for more granular control working with pages.\n\n```ruby\nif page.next_page?\n  new_page = page.next_page\n  puts(new_page.items[0].brand_id)\nend\n```\n\n\n\n### Handling errors\n\nWhen the library is unable to connect to the API, or if the API returns a non-success status code (i.e., 4xx or 5xx response), a subclass of `Dodopayments::Errors::APIError` will be thrown:\n\n```ruby\nbegin\n  checkout_session = dodo_payments.checkout_sessions.create(product_cart: [{product_id: "pdt_example", quantity: 1}])\nrescue Dodopayments::Errors::APIConnectionError => e\n  puts("The server could not be reached")\n  puts(e.cause)  # an underlying Exception, likely raised within `net/http`\nrescue Dodopayments::Errors::RateLimitError => e\n  puts("A 429 status code was received; we should back off a bit.")\nrescue Dodopayments::Errors::APIStatusError => e\n  puts("Another non-200-range status code was received")\n  puts(e.status)\nend\n```\n\nError codes are as follows:\n\n| Cause            | Error Type                 |\n| ---------------- | -------------------------- |\n| HTTP 400         | `BadRequestError`          |\n| HTTP 401         | `AuthenticationError`      |\n| HTTP 403         | `PermissionDeniedError`    |\n| HTTP 404         | `NotFoundError`            |\n| HTTP 409         | `ConflictError`            |\n| HTTP 422         | `UnprocessableEntityError` |\n| HTTP 429         | `RateLimitError`           |\n| HTTP >= 500      | `InternalServerError`      |\n| Other HTTP error | `APIStatusError`           |\n| Timeout          | `APITimeoutError`          |\n| Network error    | `APIConnectionError`       |\n\n### Retries\n\nCertain errors will be automatically retried 2 times by default, with a short exponential backoff.\n\nConnection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict, 429 Rate Limit, >=500 Internal errors, and timeouts will all be retried by default.\n\nYou can use the `max_retries` option to configure or disable this:\n\n```ruby\n# Configure the default for all requests:\ndodo_payments = Dodopayments::Client.new(\n  max_retries: 0 # default is 2\n)\n\n# Or, configure per-request:\ndodo_payments.checkout_sessions.create(\n  product_cart: [{product_id: "pdt_example", quantity: 1}],\n  request_options: {max_retries: 5}\n)\n```\n\n### Timeouts\n\nBy default, requests will time out after 60 seconds. You can use the timeout option to configure or disable this:\n\n```ruby\n# Configure the default for all requests:\ndodo_payments = Dodopayments::Client.new(\n  timeout: nil # default is 60\n)\n\n# Or, configure per-request:\ndodo_payments.checkout_sessions.create(\n  product_cart: [{product_id: "pdt_example", quantity: 1}],\n  request_options: {timeout: 5}\n)\n```\n\nOn timeout, `Dodopayments::Errors::APITimeoutError` is raised.\n\nNote that requests that time out are retried by default.\n\n## Advanced concepts\n\n### BaseModel\n\nAll parameter and response objects inherit from `Dodopayments::Internal::Type::BaseModel`, which provides several conveniences, including:\n\n1. All fields, including unknown ones, are accessible with `obj[:prop]` syntax, and can be destructured with `obj => {prop: prop}` or pattern-matching syntax.\n\n2. Structural equivalence for equality; if two API calls return the same values, comparing the responses with == will return true.\n\n3. Both instances and the classes themselves can be pretty-printed.\n\n4. Helpers such as `#to_h`, `#deep_to_h`, `#to_json`, and `#to_yaml`.\n\n### Making custom or undocumented requests\n\n#### Undocumented properties\n\nYou can send undocumented parameters to any endpoint, and read undocumented response properties, like so:\n\nNote: the `extra_` parameters of the same name overrides the documented parameters.\n\n```ruby\ncheckout_session_response =\n  dodo_payments.checkout_sessions.create(\n    product_cart: [{product_id: "pdt_example", quantity: 1}],\n    request_options: {\n      extra_query: {my_query_parameter: value},\n      extra_body: {my_body_parameter: value},\n      extra_headers: {"my-header": value}\n    }\n  )\n\nputs(checkout_session_response[:my_undocumented_property])\n```\n\n#### Undocumented request params\n\nIf you want to explicitly send an extra param, you can do so with the `extra_query`, `extra_body`, and `extra_headers` under the `request_options:` parameter when making a request, as seen in the examples above.\n\n#### Undocumented endpoints\n\nTo make requests to undocumented endpoints while retaining the benefit of auth, retries, and so on, you can make requests using `client.request`, like so:\n\n```ruby\nresponse = client.request(\n  method: :post,\n  path: \'/undocumented/endpoint\',\n  query: {"dog": "woof"},\n  headers: {"useful-header": "interesting-value"},\n  body: {"hello": "world"}\n)\n```\n\n### Concurrency & connection pooling\n\nThe `Dodopayments::Client` instances are threadsafe, but are only are fork-safe when there are no in-flight HTTP requests.\n\nEach instance of `Dodopayments::Client` has its own HTTP connection pool with a default size of 99. As such, we recommend instantiating the client once per application in most settings.\n\nWhen all available connections from the pool are checked out, requests wait for a new connection to become available, with queue time counting towards the request timeout.\n\nUnless otherwise specified, other classes in the SDK do not have locks protecting their underlying data structure.\n\n## Sorbet\n\nThis library provides comprehensive [RBI](https://sorbet.org/docs/rbi) definitions, and has no dependency on sorbet-runtime.\n\nYou can provide typesafe request parameters like so:\n\n```ruby\ndodo_payments.checkout_sessions.create(\n  product_cart: [Dodopayments::ProductItemReq.new(product_id: "pdt_example", quantity: 1)]\n)\n```\n\nOr, equivalently:\n\n```ruby\n# Hashes work, but are not typesafe:\ndodo_payments.checkout_sessions.create(product_cart: [{product_id: "pdt_example", quantity: 1}])\n\n# You can also splat a full Params class:\nparams = Dodopayments::CheckoutSessionCreateParams.new(\n  product_cart: [Dodopayments::ProductItemReq.new(product_id: "pdt_example", quantity: 1)]\n)\ndodo_payments.checkout_sessions.create(**params)\n```\n\n### Enums\n\nSince this library does not depend on `sorbet-runtime`, it cannot provide [`T::Enum`](https://sorbet.org/docs/tenum) instances. Instead, we provide "tagged symbols" instead, which is always a primitive at runtime:\n\n```ruby\n# :AED\nputs(Dodopayments::Currency::AED)\n\n# Revealed type: `T.all(Dodopayments::Currency, Symbol)`\nT.reveal_type(Dodopayments::Currency::AED)\n```\n\nEnum parameters have a "relaxed" type, so you can either pass in enum constants or their literal value:\n\n```ruby\n# Using the enum constants preserves the tagged type information:\ndodo_payments.checkout_sessions.create(\n  billing_currency: Dodopayments::Currency::AED,\n  # …\n)\n\n# Literal values are also permissible:\ndodo_payments.checkout_sessions.create(\n  billing_currency: :AED,\n  # …\n)\n```\n\n## Versioning\n\nThis package follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions. As the library is in initial development and has a major version of `0`, APIs may change at any time.\n\nThis package considers improvements to the (non-runtime) `*.rbi` and `*.rbs` type definitions to be non-breaking changes.\n\n## Requirements\n\nRuby 3.2.0 or higher.\n\n## Contributing\n\nSee [the contributing documentation](https://github.com/dodopayments/dodopayments-ruby/tree/main/CONTRIBUTING.md).\n',
   },
   {
-    language: 'typescript',
+    language: 'php',
     content:
-      "# Dodo Payments TypeScript API Library\n\n[![NPM version](https://img.shields.io/npm/v/dodopayments.svg?label=npm%20(stable))](https://npmjs.org/package/dodopayments) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/dodopayments)\n\nThis library provides convenient access to the Dodo Payments REST API from server-side TypeScript or JavaScript.\n\n\n\nThe REST API documentation can be found on [docs.dodopayments.com](https://docs.dodopayments.com/api-reference/introduction). The full API of this library can be found in [api.md](api.md).\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## MCP Server\n\nUse the Dodo Payments MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6Ik15IEJlYXJlciBUb2tlbiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJNeSBXZWJob29rIEtleSJ9fQ)\n[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22dodopayments-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22dodopayments-mcp%22%5D%2C%22env%22%3A%7B%22DODO_PAYMENTS_API_KEY%22%3A%22My%20Bearer%20Token%22%2C%22DODO_PAYMENTS_WEBHOOK_KEY%22%3A%22My%20Webhook%20Key%22%7D%7D)\n\n> Note: You may need to set environment variables in your MCP client.\n\n## Installation\n\n```sh\nnpm install dodopayments\n```\n\n\n\n## Usage\n\nThe full API of this library can be found in [api.md](api.md).\n\n<!-- prettier-ignore -->\n```js\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n  environment: 'test_mode', // defaults to 'live_mode'\n});\n\nconst checkoutSessionResponse = await client.checkoutSessions.create({\n  product_cart: [{ product_id: 'pdt_example', quantity: 1 }],\n});\n\nconsole.log(checkoutSessionResponse.session_id);\n```\n\n\n\n### Request & Response types\n\nThis library includes TypeScript definitions for all request params and response fields. You may import and use them like so:\n\n<!-- prettier-ignore -->\n```ts\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n  environment: 'test_mode', // defaults to 'live_mode'\n});\n\nconst params: DodoPayments.CheckoutSessionCreateParams = {\n  product_cart: [{ product_id: 'pdt_example', quantity: 1 }],\n};\nconst checkoutSessionResponse: DodoPayments.CheckoutSessionResponse =\n  await client.checkoutSessions.create(params);\n```\n\nDocumentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.\n\n\n\n\n\n## Handling errors\n\nWhen the library is unable to connect to the API,\nor if the API returns a non-success status code (i.e., 4xx or 5xx response),\na subclass of `APIError` will be thrown:\n\n<!-- prettier-ignore -->\n```ts\nconst checkoutSessionResponse = await client.checkoutSessions\n  .create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] })\n  .catch(async (err) => {\n    if (err instanceof DodoPayments.APIError) {\n      console.log(err.status); // 400\n      console.log(err.name); // BadRequestError\n      console.log(err.headers); // {server: 'nginx', ...}\n    } else {\n      throw err;\n    }\n  });\n```\n\nError codes are as follows:\n\n| Status Code | Error Type                 |\n| ----------- | -------------------------- |\n| 400         | `BadRequestError`          |\n| 401         | `AuthenticationError`      |\n| 403         | `PermissionDeniedError`    |\n| 404         | `NotFoundError`            |\n| 422         | `UnprocessableEntityError` |\n| 429         | `RateLimitError`           |\n| >=500       | `InternalServerError`      |\n| N/A         | `APIConnectionError`       |\n\n### Retries\n\nCertain errors will be automatically retried 2 times by default, with a short exponential backoff.\nConnection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,\n429 Rate Limit, and >=500 Internal errors will all be retried by default.\n\nYou can use the `maxRetries` option to configure or disable this:\n\n<!-- prettier-ignore -->\n```js\n// Configure the default for all requests:\nconst client = new DodoPayments({\n  maxRetries: 0, // default is 2\n});\n\n// Or, configure per-request:\nawait client.checkoutSessions.create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] }, {\n  maxRetries: 5,\n});\n```\n\n### Timeouts\n\nRequests time out after 1 minute by default. You can configure this with a `timeout` option:\n\n<!-- prettier-ignore -->\n```ts\n// Configure the default for all requests:\nconst client = new DodoPayments({\n  timeout: 20 * 1000, // 20 seconds (default is 1 minute)\n});\n\n// Override per-request:\nawait client.checkoutSessions.create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] }, {\n  timeout: 5 * 1000,\n});\n```\n\nOn timeout, an `APIConnectionTimeoutError` is thrown.\n\nNote that requests which time out will be [retried twice by default](#retries).\n\n## Auto-pagination\n\nList methods in the DodoPayments API are paginated.\nYou can use the `for await … of` syntax to iterate through items across all pages:\n\n```ts\nasync function fetchAllPaymentListResponses(params) {\n  const allPaymentListResponses = [];\n  // Automatically fetches more pages as needed.\n  for await (const paymentListResponse of client.payments.list()) {\n    allPaymentListResponses.push(paymentListResponse);\n  }\n  return allPaymentListResponses;\n}\n```\n\nAlternatively, you can request a single page at a time:\n\n```ts\nlet page = await client.payments.list();\nfor (const paymentListResponse of page.items) {\n  console.log(paymentListResponse);\n}\n\n// Convenience methods are provided for manually paginating:\nwhile (page.hasNextPage()) {\n  page = await page.getNextPage();\n  // ...\n}\n```\n\n\n\n## Advanced Usage\n\n### Accessing raw Response data (e.g., headers)\n\nThe \"raw\" `Response` returned by `fetch()` can be accessed through the `.asResponse()` method on the `APIPromise` type that all methods return.\nThis method returns as soon as the headers for a successful response are received and does not consume the response body, so you are free to write custom parsing or streaming logic.\n\nYou can also use the `.withResponse()` method to get the raw `Response` along with the parsed data.\nUnlike `.asResponse()` this method consumes the body, returning once it is parsed.\n\n<!-- prettier-ignore -->\n```ts\nconst client = new DodoPayments();\n\nconst response = await client.checkoutSessions\n  .create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] })\n  .asResponse();\nconsole.log(response.headers.get('X-My-Header'));\nconsole.log(response.statusText); // access the underlying Response object\n\nconst { data: checkoutSessionResponse, response: raw } = await client.checkoutSessions\n  .create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] })\n  .withResponse();\nconsole.log(raw.headers.get('X-My-Header'));\nconsole.log(checkoutSessionResponse.session_id);\n```\n\n### Logging\n\n> [!IMPORTANT]\n> All log messages are intended for debugging only. The format and content of log messages\n> may change between releases.\n\n#### Log levels\n\nThe log level can be configured in two ways:\n\n1. Via the `DODO_PAYMENTS_LOG` environment variable\n2. Using the `logLevel` client option (overrides the environment variable if set)\n\n```ts\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  logLevel: 'debug', // Show all log messages\n});\n```\n\nAvailable log levels, from most to least verbose:\n\n- `'debug'` - Show debug messages, info, warnings, and errors\n- `'info'` - Show info messages, warnings, and errors\n- `'warn'` - Show warnings and errors (default)\n- `'error'` - Show only errors\n- `'off'` - Disable all logging\n\nAt the `'debug'` level, all HTTP requests and responses are logged, including headers and bodies.\nSome authentication-related headers are redacted, but sensitive data in request and response bodies\nmay still be visible.\n\n#### Custom logger\n\nBy default, this library logs to `globalThis.console`. You can also provide a custom logger.\nMost logging libraries are supported, including [pino](https://www.npmjs.com/package/pino), [winston](https://www.npmjs.com/package/winston), [bunyan](https://www.npmjs.com/package/bunyan), [consola](https://www.npmjs.com/package/consola), [signale](https://www.npmjs.com/package/signale), and [@std/log](https://jsr.io/@std/log). If your logger doesn't work, please open an issue.\n\nWhen providing a custom logger, the `logLevel` option still controls which messages are emitted, messages\nbelow the configured level will not be sent to your logger.\n\n```ts\nimport DodoPayments from 'dodopayments';\nimport pino from 'pino';\n\nconst logger = pino();\n\nconst client = new DodoPayments({\n  logger: logger.child({ name: 'DodoPayments' }),\n  logLevel: 'debug', // Send all messages to pino, allowing it to filter\n});\n```\n\n### Making custom/undocumented requests\n\nThis library is typed for convenient access to the documented API. If you need to access undocumented\nendpoints, params, or response properties, the library can still be used.\n\n#### Undocumented endpoints\n\nTo make requests to undocumented endpoints, you can use `client.get`, `client.post`, and other HTTP verbs.\nOptions on the client, such as retries, will be respected when making these requests.\n\n```ts\nawait client.post('/some/path', {\n  body: { some_prop: 'foo' },\n  query: { some_query_arg: 'bar' },\n});\n```\n\n#### Undocumented request params\n\nTo make requests using undocumented parameters, you may use `// @ts-expect-error` on the undocumented\nparameter. This library doesn't validate at runtime that the request matches the type, so any extra values you\nsend will be sent as-is.\n\n```ts\nclient.checkoutSessions.create({\n  // ...\n  // @ts-expect-error baz is not yet public\n  baz: 'undocumented option',\n});\n```\n\nFor requests with the `GET` verb, any extra params will be in the query, all other requests will send the\nextra param in the body.\n\nIf you want to explicitly send an extra argument, you can do so with the `query`, `body`, and `headers` request\noptions.\n\n#### Undocumented response properties\n\nTo access undocumented response properties, you may access the response object with `// @ts-expect-error` on\nthe response object, or cast the response object to the requisite type. Like the request params, we do not\nvalidate or strip extra properties from the response from the API.\n\n### Customizing the fetch client\n\nBy default, this library expects a global `fetch` function is defined.\n\nIf you want to use a different `fetch` function, you can either polyfill the global:\n\n```ts\nimport fetch from 'my-fetch';\n\nglobalThis.fetch = fetch;\n```\n\nOr pass it to the client:\n\n```ts\nimport DodoPayments from 'dodopayments';\nimport fetch from 'my-fetch';\n\nconst client = new DodoPayments({ fetch });\n```\n\n### Fetch options\n\nIf you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)\n\n```ts\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  fetchOptions: {\n    // `RequestInit` options\n  },\n});\n```\n\n#### Configuring proxies\n\nTo modify proxy behavior, you can provide custom `fetchOptions` that add runtime-specific proxy\noptions to requests:\n\n<img src=\"https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg\" align=\"top\" width=\"18\" height=\"21\"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>\n\n```ts\nimport DodoPayments from 'dodopayments';\nimport * as undici from 'undici';\n\nconst proxyAgent = new undici.ProxyAgent('http://localhost:8888');\nconst client = new DodoPayments({\n  fetchOptions: {\n    dispatcher: proxyAgent,\n  },\n});\n```\n\n<img src=\"https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg\" align=\"top\" width=\"18\" height=\"21\"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>\n\n```ts\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  fetchOptions: {\n    proxy: 'http://localhost:8888',\n  },\n});\n```\n\n<img src=\"https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg\" align=\"top\" width=\"18\" height=\"21\"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>\n\n```ts\nimport DodoPayments from 'npm:dodopayments';\n\nconst httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });\nconst client = new DodoPayments({\n  fetchOptions: {\n    client: httpClient,\n  },\n});\n```\n\n## Frequently Asked Questions\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes that only affect static types, without breaking runtime behavior.\n2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n3. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/dodopayments/dodopayments-typescript/issues) with questions, bugs, or suggestions.\n\n## Requirements\n\nTypeScript >= 4.9 is supported.\n\nThe following runtimes are supported:\n\n- Web browsers (Up-to-date Chrome, Firefox, Safari, Edge, and more)\n- Node.js 20 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.\n- Deno v1.28.0 or higher.\n- Bun 1.0 or later.\n- Cloudflare Workers.\n- Vercel Edge Runtime.\n- Jest 28 or greater with the `\"node\"` environment (`\"jsdom\"` is not supported at this time).\n- Nitro v2.6 or greater.\n\nNote that React Native is not supported at this time.\n\nIf you are interested in other runtime environments, please open or upvote an issue on GitHub.\n\n## Contributing\n\nSee [the contributing documentation](./CONTRIBUTING.md).\n",
+      "# Dodo Payments PHP API Library\n\nThe Dodo Payments PHP library provides convenient access to the Dodo Payments REST API from any PHP 8.1.0+ application.\n\n## Installation\n\n<!-- x-release-please-start-version -->\n```\ncomposer require \"dodopayments/client 0.0.1\"\n```\n<!-- x-release-please-end -->\n\n## Usage\n\n```php\n<?php\n\n$client = new Client(\n  bearerToken: getenv('DODO_PAYMENTS_API_KEY') ?: 'My Bearer Token',\n  environment: 'test_mode',\n);\n\n$checkoutSessionResponse = $client->checkoutSessions->create(\n  productCart: [['productID' => 'pdt_example', 'quantity' => 1]]\n);\n\nvar_dump($checkoutSessionResponse->session_id);\n```",
+  },
+  {
+    language: 'csharp',
+    content:
+      '# Dodo Payments C# API Library\n\nThe Dodo Payments C# SDK provides convenient access to the [Dodo Payments REST API](https://docs.dodopayments.com/api-reference/introduction) from applications written in   C#.\n\n## Installation\n\nInstall the package from [NuGet](https://www.nuget.org/packages/DodoPayments.Client):\n\n```bash\ndotnet add package DodoPayments.Client\n```\n\n## Requirements\n\nThis library requires .NET Standard 2.0 or later.\n\n## Usage\n\nSee the [`examples`](examples) directory for complete and runnable examples.\n\n```csharp\nDodoPaymentsClient client = new();\n\nCheckoutSessionCreateParams parameters = new()\n{\n    ProductCart =\n    [\n        new()\n        {\n            ProductID = "pdt_example",\n            Quantity = 1,\n        },\n    ],\n};\n\nvar checkoutSessionResponse = await client.CheckoutSessions.Create(parameters);\n\nConsole.WriteLine(checkoutSessionResponse);\n```',
   },
 ];
 
