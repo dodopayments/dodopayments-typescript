@@ -13,6 +13,19 @@ import { path } from '../internal/utils/path';
 
 export class Discounts extends APIResource {
   /**
+   * GET /discounts
+   */
+  list(
+    query: DiscountListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<DiscountsDefaultPageNumberPagination, Discount> {
+    return this._client.getAPIList('/discounts', DefaultPageNumberPagination<Discount>, {
+      query,
+      ...options,
+    });
+  }
+
+  /**
    * POST /discounts If `code` is omitted or empty, a random 16-char uppercase code
    * is generated.
    */
@@ -28,26 +41,6 @@ export class Discounts extends APIResource {
   }
 
   /**
-   * PATCH /discounts/{discount_id}
-   */
-  update(discountID: string, body: DiscountUpdateParams, options?: RequestOptions): APIPromise<Discount> {
-    return this._client.patch(path`/discounts/${discountID}`, { body, ...options });
-  }
-
-  /**
-   * GET /discounts
-   */
-  list(
-    query: DiscountListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<DiscountsDefaultPageNumberPagination, Discount> {
-    return this._client.getAPIList('/discounts', DefaultPageNumberPagination<Discount>, {
-      query,
-      ...options,
-    });
-  }
-
-  /**
    * DELETE /discounts/{discount_id}
    */
   delete(discountID: string, options?: RequestOptions): APIPromise<void> {
@@ -55,6 +48,13 @@ export class Discounts extends APIResource {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
+  }
+
+  /**
+   * PATCH /discounts/{discount_id}
+   */
+  update(discountID: string, body: DiscountUpdateParams, options?: RequestOptions): APIPromise<Discount> {
+    return this._client.patch(path`/discounts/${discountID}`, { body, ...options });
   }
 
   /**
@@ -234,6 +234,28 @@ export interface DiscountDetail {
 
 export type DiscountType = 'percentage';
 
+export interface DiscountListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Filter by active status (true = not expired, false = expired)
+   */
+  active?: boolean;
+
+  /**
+   * Filter by discount code (partial match, case-insensitive)
+   */
+  code?: string;
+
+  /**
+   * Filter by discount type (percentage)
+   */
+  discount_type?: DiscountType;
+
+  /**
+   * Filter by product restriction (only discounts that apply to this product)
+   */
+  product_id?: string;
+}
+
 export interface DiscountCreateParams {
   /**
    * The discount amount.
@@ -349,36 +371,14 @@ export interface DiscountUpdateParams {
   usage_limit?: number | null;
 }
 
-export interface DiscountListParams extends DefaultPageNumberPaginationParams {
-  /**
-   * Filter by active status (true = not expired, false = expired)
-   */
-  active?: boolean;
-
-  /**
-   * Filter by discount code (partial match, case-insensitive)
-   */
-  code?: string;
-
-  /**
-   * Filter by discount type (percentage)
-   */
-  discount_type?: DiscountType;
-
-  /**
-   * Filter by product restriction (only discounts that apply to this product)
-   */
-  product_id?: string;
-}
-
 export declare namespace Discounts {
   export {
     type Discount as Discount,
     type DiscountDetail as DiscountDetail,
     type DiscountType as DiscountType,
     type DiscountsDefaultPageNumberPagination as DiscountsDefaultPageNumberPagination,
+    type DiscountListParams as DiscountListParams,
     type DiscountCreateParams as DiscountCreateParams,
     type DiscountUpdateParams as DiscountUpdateParams,
-    type DiscountListParams as DiscountListParams,
   };
 }

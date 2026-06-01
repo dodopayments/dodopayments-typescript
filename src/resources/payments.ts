@@ -15,6 +15,16 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class Payments extends APIResource {
+  list(
+    query: PaymentListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<PaymentListResponsesDefaultPageNumberPagination, PaymentListResponse> {
+    return this._client.getAPIList('/payments', DefaultPageNumberPagination<PaymentListResponse>, {
+      query,
+      ...options,
+    });
+  }
+
   /**
    * @deprecated
    */
@@ -24,16 +34,6 @@ export class Payments extends APIResource {
 
   retrieve(paymentID: string, options?: RequestOptions): APIPromise<Payment> {
     return this._client.get(path`/payments/${paymentID}`, options);
-  }
-
-  list(
-    query: PaymentListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<PaymentListResponsesDefaultPageNumberPagination, PaymentListResponse> {
-    return this._client.getAPIList('/payments', DefaultPageNumberPagination<PaymentListResponse>, {
-      query,
-      ...options,
-    });
   }
 
   retrieveLineItems(
@@ -670,6 +670,54 @@ export namespace PaymentRetrieveLineItemsResponse {
   }
 }
 
+export interface PaymentListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * filter by Brand id
+   */
+  brand_id?: string;
+
+  /**
+   * Get events after this created time
+   */
+  created_at_gte?: string;
+
+  /**
+   * Get events created before this time
+   */
+  created_at_lte?: string;
+
+  /**
+   * Filter by customer id
+   */
+  customer_id?: string;
+
+  /**
+   * Filter by product id
+   */
+  product_id?: string;
+
+  /**
+   * Filter by status
+   */
+  status?:
+    | 'succeeded'
+    | 'failed'
+    | 'cancelled'
+    | 'processing'
+    | 'requires_customer_action'
+    | 'requires_merchant_action'
+    | 'requires_payment_method'
+    | 'requires_confirmation'
+    | 'requires_capture'
+    | 'partially_captured'
+    | 'partially_captured_and_capturable';
+
+  /**
+   * Filter by subscription id
+   */
+  subscription_id?: string;
+}
+
 export interface PaymentCreateParams {
   /**
    * Billing address details for the payment
@@ -785,54 +833,6 @@ export interface PaymentCreateParams {
   tax_id?: string | null;
 }
 
-export interface PaymentListParams extends DefaultPageNumberPaginationParams {
-  /**
-   * filter by Brand id
-   */
-  brand_id?: string;
-
-  /**
-   * Get events after this created time
-   */
-  created_at_gte?: string;
-
-  /**
-   * Get events created before this time
-   */
-  created_at_lte?: string;
-
-  /**
-   * Filter by customer id
-   */
-  customer_id?: string;
-
-  /**
-   * Filter by product id
-   */
-  product_id?: string;
-
-  /**
-   * Filter by status
-   */
-  status?:
-    | 'succeeded'
-    | 'failed'
-    | 'cancelled'
-    | 'processing'
-    | 'requires_customer_action'
-    | 'requires_merchant_action'
-    | 'requires_payment_method'
-    | 'requires_confirmation'
-    | 'requires_capture'
-    | 'partially_captured'
-    | 'partially_captured_and_capturable';
-
-  /**
-   * Filter by subscription id
-   */
-  subscription_id?: string;
-}
-
 export declare namespace Payments {
   export {
     type AttachExistingCustomer as AttachExistingCustomer,
@@ -852,7 +852,7 @@ export declare namespace Payments {
     type PaymentListResponse as PaymentListResponse,
     type PaymentRetrieveLineItemsResponse as PaymentRetrieveLineItemsResponse,
     type PaymentListResponsesDefaultPageNumberPagination as PaymentListResponsesDefaultPageNumberPagination,
-    type PaymentCreateParams as PaymentCreateParams,
     type PaymentListParams as PaymentListParams,
+    type PaymentCreateParams as PaymentCreateParams,
   };
 }

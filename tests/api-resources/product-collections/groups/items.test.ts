@@ -29,6 +29,27 @@ describe('resource items', () => {
     );
   });
 
+  test('delete: only required params', async () => {
+    const responsePromise = client.productCollections.groups.items.delete(
+      '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      { id: 'id', group_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
+    );
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('delete: required and optional params', async () => {
+    const response = await client.productCollections.groups.items.delete(
+      '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      { id: 'id', group_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
+    );
+  });
+
   test('update: only required params', async () => {
     const responsePromise = client.productCollections.groups.items.update(
       '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -55,27 +76,6 @@ describe('resource items', () => {
         group_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
         status: true,
       },
-    );
-  });
-
-  test('delete: only required params', async () => {
-    const responsePromise = client.productCollections.groups.items.delete(
-      '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      { id: 'id', group_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
-    );
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('delete: required and optional params', async () => {
-    const response = await client.productCollections.groups.items.delete(
-      '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      { id: 'id', group_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
     );
   });
 });

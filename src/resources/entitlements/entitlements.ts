@@ -29,6 +29,19 @@ export class Entitlements extends APIResource {
   grants: GrantsAPI.Grants = new GrantsAPI.Grants(this._client);
 
   /**
+   * GET /entitlements
+   */
+  list(
+    query: EntitlementListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<EntitlementsDefaultPageNumberPagination, Entitlement> {
+    return this._client.getAPIList('/entitlements', DefaultPageNumberPagination<Entitlement>, {
+      query,
+      ...options,
+    });
+  }
+
+  /**
    * POST /entitlements
    */
   create(body: EntitlementCreateParams, options?: RequestOptions): APIPromise<Entitlement> {
@@ -43,26 +56,6 @@ export class Entitlements extends APIResource {
   }
 
   /**
-   * PATCH /entitlements/{id}
-   */
-  update(id: string, body: EntitlementUpdateParams, options?: RequestOptions): APIPromise<Entitlement> {
-    return this._client.patch(path`/entitlements/${id}`, { body, ...options });
-  }
-
-  /**
-   * GET /entitlements
-   */
-  list(
-    query: EntitlementListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<EntitlementsDefaultPageNumberPagination, Entitlement> {
-    return this._client.getAPIList('/entitlements', DefaultPageNumberPagination<Entitlement>, {
-      query,
-      ...options,
-    });
-  }
-
-  /**
    * DELETE /entitlements/{id} (soft-delete)
    */
   delete(id: string, options?: RequestOptions): APIPromise<void> {
@@ -70,6 +63,13 @@ export class Entitlements extends APIResource {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
+  }
+
+  /**
+   * PATCH /entitlements/{id}
+   */
+  update(id: string, body: EntitlementUpdateParams, options?: RequestOptions): APIPromise<Entitlement> {
+    return this._client.patch(path`/entitlements/${id}`, { body, ...options });
   }
 }
 
@@ -437,6 +437,21 @@ export namespace IntegrationConfigResponse {
   }
 }
 
+export interface EntitlementListParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Filter by integration type
+   */
+  integration_type?:
+    | 'discord'
+    | 'telegram'
+    | 'github'
+    | 'figma'
+    | 'framer'
+    | 'notion'
+    | 'digital_files'
+    | 'license_key';
+}
+
 export interface EntitlementCreateParams {
   /**
    * Platform-specific configuration (validated per integration_type)
@@ -478,21 +493,6 @@ export interface EntitlementUpdateParams {
   name?: string | null;
 }
 
-export interface EntitlementListParams extends DefaultPageNumberPaginationParams {
-  /**
-   * Filter by integration type
-   */
-  integration_type?:
-    | 'discord'
-    | 'telegram'
-    | 'github'
-    | 'figma'
-    | 'framer'
-    | 'notion'
-    | 'digital_files'
-    | 'license_key';
-}
-
 Entitlements.Files = Files;
 Entitlements.Grants = Grants;
 
@@ -504,9 +504,9 @@ export declare namespace Entitlements {
     type IntegrationConfig as IntegrationConfig,
     type IntegrationConfigResponse as IntegrationConfigResponse,
     type EntitlementsDefaultPageNumberPagination as EntitlementsDefaultPageNumberPagination,
+    type EntitlementListParams as EntitlementListParams,
     type EntitlementCreateParams as EntitlementCreateParams,
     type EntitlementUpdateParams as EntitlementUpdateParams,
-    type EntitlementListParams as EntitlementListParams,
   };
 
   export {

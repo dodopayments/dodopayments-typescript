@@ -14,6 +14,26 @@ export class LicenseKeyInstances extends APIResource {
   /**
    * @example
    * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const licenseKeyInstance of client.licenseKeyInstances.list()) {
+   *   // ...
+   * }
+   * ```
+   */
+  list(
+    query: LicenseKeyInstanceListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<LicenseKeyInstancesDefaultPageNumberPagination, LicenseKeyInstance> {
+    return this._client.getAPIList(
+      '/license_key_instances',
+      DefaultPageNumberPagination<LicenseKeyInstance>,
+      { query, ...options },
+    );
+  }
+
+  /**
+   * @example
+   * ```ts
    * const licenseKeyInstance =
    *   await client.licenseKeyInstances.retrieve('lki_123');
    * ```
@@ -38,26 +58,6 @@ export class LicenseKeyInstances extends APIResource {
   ): APIPromise<LicenseKeyInstance> {
     return this._client.patch(path`/license_key_instances/${id}`, { body, ...options });
   }
-
-  /**
-   * @example
-   * ```ts
-   * // Automatically fetches more pages as needed.
-   * for await (const licenseKeyInstance of client.licenseKeyInstances.list()) {
-   *   // ...
-   * }
-   * ```
-   */
-  list(
-    query: LicenseKeyInstanceListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<LicenseKeyInstancesDefaultPageNumberPagination, LicenseKeyInstance> {
-    return this._client.getAPIList(
-      '/license_key_instances',
-      DefaultPageNumberPagination<LicenseKeyInstance>,
-      { query, ...options },
-    );
-  }
 }
 
 export type LicenseKeyInstancesDefaultPageNumberPagination = DefaultPageNumberPagination<LicenseKeyInstance>;
@@ -74,10 +74,6 @@ export interface LicenseKeyInstance {
   name: string;
 }
 
-export interface LicenseKeyInstanceUpdateParams {
-  name: string;
-}
-
 export interface LicenseKeyInstanceListParams extends DefaultPageNumberPaginationParams {
   /**
    * Filter instances by entitlement grant ID
@@ -90,11 +86,15 @@ export interface LicenseKeyInstanceListParams extends DefaultPageNumberPaginatio
   license_key_id?: string | null;
 }
 
+export interface LicenseKeyInstanceUpdateParams {
+  name: string;
+}
+
 export declare namespace LicenseKeyInstances {
   export {
     type LicenseKeyInstance as LicenseKeyInstance,
     type LicenseKeyInstancesDefaultPageNumberPagination as LicenseKeyInstancesDefaultPageNumberPagination,
-    type LicenseKeyInstanceUpdateParams as LicenseKeyInstanceUpdateParams,
     type LicenseKeyInstanceListParams as LicenseKeyInstanceListParams,
+    type LicenseKeyInstanceUpdateParams as LicenseKeyInstanceUpdateParams,
   };
 }
