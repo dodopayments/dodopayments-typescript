@@ -29,6 +29,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/checkouts/preview',
   },
   {
+    clientCallName: 'client.payments.list',
+    fullyQualifiedName: 'payments.list',
+    httpMethod: 'get',
+    httpPath: '/payments',
+  },
+  {
     clientCallName: 'client.payments.create',
     fullyQualifiedName: 'payments.create',
     httpMethod: 'post',
@@ -41,16 +47,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/payments/{payment_id}',
   },
   {
-    clientCallName: 'client.payments.list',
-    fullyQualifiedName: 'payments.list',
-    httpMethod: 'get',
-    httpPath: '/payments',
-  },
-  {
     clientCallName: 'client.payments.retrieveLineItems',
     fullyQualifiedName: 'payments.retrieveLineItems',
     httpMethod: 'get',
     httpPath: '/payments/{payment_id}/line-items',
+  },
+  {
+    clientCallName: 'client.subscriptions.list',
+    fullyQualifiedName: 'subscriptions.list',
+    httpMethod: 'get',
+    httpPath: '/subscriptions',
   },
   {
     clientCallName: 'client.subscriptions.create',
@@ -71,40 +77,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/subscriptions/{subscription_id}',
   },
   {
-    clientCallName: 'client.subscriptions.list',
-    fullyQualifiedName: 'subscriptions.list',
-    httpMethod: 'get',
-    httpPath: '/subscriptions',
-  },
-  {
-    clientCallName: 'client.subscriptions.cancelChangePlan',
-    fullyQualifiedName: 'subscriptions.cancelChangePlan',
-    httpMethod: 'delete',
-    httpPath: '/subscriptions/{subscription_id}/change-plan/scheduled',
-  },
-  {
-    clientCallName: 'client.subscriptions.changePlan',
-    fullyQualifiedName: 'subscriptions.changePlan',
-    httpMethod: 'post',
-    httpPath: '/subscriptions/{subscription_id}/change-plan',
-  },
-  {
     clientCallName: 'client.subscriptions.charge',
     fullyQualifiedName: 'subscriptions.charge',
     httpMethod: 'post',
     httpPath: '/subscriptions/{subscription_id}/charge',
   },
   {
-    clientCallName: 'client.subscriptions.previewChangePlan',
-    fullyQualifiedName: 'subscriptions.previewChangePlan',
+    clientCallName: 'client.subscriptions.changePlan',
+    fullyQualifiedName: 'subscriptions.changePlan',
     httpMethod: 'post',
-    httpPath: '/subscriptions/{subscription_id}/change-plan/preview',
-  },
-  {
-    clientCallName: 'client.subscriptions.retrieveCreditUsage',
-    fullyQualifiedName: 'subscriptions.retrieveCreditUsage',
-    httpMethod: 'get',
-    httpPath: '/subscriptions/{subscription_id}/credit-usage',
+    httpPath: '/subscriptions/{subscription_id}/change-plan',
   },
   {
     clientCallName: 'client.subscriptions.retrieveUsageHistory',
@@ -119,22 +101,40 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/subscriptions/{subscription_id}/update-payment-method',
   },
   {
+    clientCallName: 'client.subscriptions.previewChangePlan',
+    fullyQualifiedName: 'subscriptions.previewChangePlan',
+    httpMethod: 'post',
+    httpPath: '/subscriptions/{subscription_id}/change-plan/preview',
+  },
+  {
+    clientCallName: 'client.subscriptions.retrieveCreditUsage',
+    fullyQualifiedName: 'subscriptions.retrieveCreditUsage',
+    httpMethod: 'get',
+    httpPath: '/subscriptions/{subscription_id}/credit-usage',
+  },
+  {
+    clientCallName: 'client.subscriptions.cancelChangePlan',
+    fullyQualifiedName: 'subscriptions.cancelChangePlan',
+    httpMethod: 'delete',
+    httpPath: '/subscriptions/{subscription_id}/change-plan/scheduled',
+  },
+  {
     clientCallName: 'client.invoices.payments.retrieve',
     fullyQualifiedName: 'invoices.payments.retrieve',
     httpMethod: 'get',
     httpPath: '/invoices/payments/{payment_id}',
   },
   {
-    clientCallName: 'client.invoices.payments.retrievePayout',
-    fullyQualifiedName: 'invoices.payments.retrievePayout',
-    httpMethod: 'get',
-    httpPath: '/invoices/payouts/{payout_id}',
-  },
-  {
     clientCallName: 'client.invoices.payments.retrieveRefund',
     fullyQualifiedName: 'invoices.payments.retrieveRefund',
     httpMethod: 'get',
     httpPath: '/invoices/refunds/{refund_id}',
+  },
+  {
+    clientCallName: 'client.invoices.payments.retrievePayout',
+    fullyQualifiedName: 'invoices.payments.retrievePayout',
+    httpMethod: 'get',
+    httpPath: '/invoices/payouts/{payout_id}',
   },
   {
     clientCallName: 'client.licenses.activate',
@@ -155,9 +155,9 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/licenses/validate',
   },
   {
-    clientCallName: 'client.licenseKeys.create',
-    fullyQualifiedName: 'licenseKeys.create',
-    httpMethod: 'post',
+    clientCallName: 'client.licenseKeys.list',
+    fullyQualifiedName: 'licenseKeys.list',
+    httpMethod: 'get',
     httpPath: '/license_keys',
   },
   {
@@ -173,10 +173,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/license_keys/{id}',
   },
   {
-    clientCallName: 'client.licenseKeys.list',
-    fullyQualifiedName: 'licenseKeys.list',
-    httpMethod: 'get',
+    clientCallName: 'client.licenseKeys.create',
+    fullyQualifiedName: 'licenseKeys.create',
+    httpMethod: 'post',
     httpPath: '/license_keys',
+  },
+  {
+    clientCallName: 'client.licenseKeyInstances.list',
+    fullyQualifiedName: 'licenseKeyInstances.list',
+    httpMethod: 'get',
+    httpPath: '/license_key_instances',
   },
   {
     clientCallName: 'client.licenseKeyInstances.retrieve',
@@ -191,15 +197,9 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/license_key_instances/{id}',
   },
   {
-    clientCallName: 'client.licenseKeyInstances.list',
-    fullyQualifiedName: 'licenseKeyInstances.list',
+    clientCallName: 'client.customers.list',
+    fullyQualifiedName: 'customers.list',
     httpMethod: 'get',
-    httpPath: '/license_key_instances',
-  },
-  {
-    clientCallName: 'client.customers.create',
-    fullyQualifiedName: 'customers.create',
-    httpMethod: 'post',
     httpPath: '/customers',
   },
   {
@@ -209,22 +209,22 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/customers/{customer_id}',
   },
   {
+    clientCallName: 'client.customers.create',
+    fullyQualifiedName: 'customers.create',
+    httpMethod: 'post',
+    httpPath: '/customers',
+  },
+  {
     clientCallName: 'client.customers.update',
     fullyQualifiedName: 'customers.update',
     httpMethod: 'patch',
     httpPath: '/customers/{customer_id}',
   },
   {
-    clientCallName: 'client.customers.list',
-    fullyQualifiedName: 'customers.list',
+    clientCallName: 'client.customers.retrievePaymentMethods',
+    fullyQualifiedName: 'customers.retrievePaymentMethods',
     httpMethod: 'get',
-    httpPath: '/customers',
-  },
-  {
-    clientCallName: 'client.customers.deletePaymentMethod',
-    fullyQualifiedName: 'customers.deletePaymentMethod',
-    httpMethod: 'delete',
-    httpPath: '/customers/{customer_id}/payment-methods/{payment_method_id}',
+    httpPath: '/customers/{customer_id}/payment-methods',
   },
   {
     clientCallName: 'client.customers.listCreditEntitlements',
@@ -233,16 +233,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/customers/{customer_id}/credit-entitlements',
   },
   {
+    clientCallName: 'client.customers.deletePaymentMethod',
+    fullyQualifiedName: 'customers.deletePaymentMethod',
+    httpMethod: 'delete',
+    httpPath: '/customers/{customer_id}/payment-methods/{payment_method_id}',
+  },
+  {
     clientCallName: 'client.customers.listEntitlements',
     fullyQualifiedName: 'customers.listEntitlements',
     httpMethod: 'get',
     httpPath: '/customers/{customer_id}/entitlements',
-  },
-  {
-    clientCallName: 'client.customers.retrievePaymentMethods',
-    fullyQualifiedName: 'customers.retrievePaymentMethods',
-    httpMethod: 'get',
-    httpPath: '/customers/{customer_id}/payment-methods',
   },
   {
     clientCallName: 'client.customers.customerPortal.create',
@@ -257,16 +257,22 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/customers/{customer_id}/wallets',
   },
   {
+    clientCallName: 'client.customers.wallets.ledgerEntries.list',
+    fullyQualifiedName: 'customers.wallets.ledgerEntries.list',
+    httpMethod: 'get',
+    httpPath: '/customers/{customer_id}/wallets/ledger-entries',
+  },
+  {
     clientCallName: 'client.customers.wallets.ledgerEntries.create',
     fullyQualifiedName: 'customers.wallets.ledgerEntries.create',
     httpMethod: 'post',
     httpPath: '/customers/{customer_id}/wallets/ledger-entries',
   },
   {
-    clientCallName: 'client.customers.wallets.ledgerEntries.list',
-    fullyQualifiedName: 'customers.wallets.ledgerEntries.list',
+    clientCallName: 'client.refunds.list',
+    fullyQualifiedName: 'refunds.list',
     httpMethod: 'get',
-    httpPath: '/customers/{customer_id}/wallets/ledger-entries',
+    httpPath: '/refunds',
   },
   {
     clientCallName: 'client.refunds.create',
@@ -281,22 +287,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/refunds/{refund_id}',
   },
   {
-    clientCallName: 'client.refunds.list',
-    fullyQualifiedName: 'refunds.list',
+    clientCallName: 'client.disputes.list',
+    fullyQualifiedName: 'disputes.list',
     httpMethod: 'get',
-    httpPath: '/refunds',
+    httpPath: '/disputes',
   },
   {
     clientCallName: 'client.disputes.retrieve',
     fullyQualifiedName: 'disputes.retrieve',
     httpMethod: 'get',
     httpPath: '/disputes/{dispute_id}',
-  },
-  {
-    clientCallName: 'client.disputes.list',
-    fullyQualifiedName: 'disputes.list',
-    httpMethod: 'get',
-    httpPath: '/disputes',
   },
   {
     clientCallName: 'client.payouts.list',
@@ -323,6 +323,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/payouts/{payout_id}/breakup/details/csv',
   },
   {
+    clientCallName: 'client.products.list',
+    fullyQualifiedName: 'products.list',
+    httpMethod: 'get',
+    httpPath: '/products',
+  },
+  {
     clientCallName: 'client.products.create',
     fullyQualifiedName: 'products.create',
     httpMethod: 'post',
@@ -339,12 +345,6 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'products.update',
     httpMethod: 'patch',
     httpPath: '/products/{id}',
-  },
-  {
-    clientCallName: 'client.products.list',
-    fullyQualifiedName: 'products.list',
-    httpMethod: 'get',
-    httpPath: '/products',
   },
   {
     clientCallName: 'client.products.archive',
@@ -371,22 +371,28 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/products/{id}/images',
   },
   {
-    clientCallName: 'client.products.shortLinks.create',
-    fullyQualifiedName: 'products.shortLinks.create',
-    httpMethod: 'post',
-    httpPath: '/products/{id}/short_links',
-  },
-  {
     clientCallName: 'client.products.shortLinks.list',
     fullyQualifiedName: 'products.shortLinks.list',
     httpMethod: 'get',
     httpPath: '/products/short_links',
   },
   {
+    clientCallName: 'client.products.shortLinks.create',
+    fullyQualifiedName: 'products.shortLinks.create',
+    httpMethod: 'post',
+    httpPath: '/products/{id}/short_links',
+  },
+  {
     clientCallName: 'client.misc.listSupportedCountries',
     fullyQualifiedName: 'misc.listSupportedCountries',
     httpMethod: 'get',
     httpPath: '/checkout/supported_countries',
+  },
+  {
+    clientCallName: 'client.discounts.list',
+    fullyQualifiedName: 'discounts.list',
+    httpMethod: 'get',
+    httpPath: '/discounts',
   },
   {
     clientCallName: 'client.discounts.create',
@@ -401,21 +407,15 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/discounts/{discount_id}',
   },
   {
-    clientCallName: 'client.discounts.update',
-    fullyQualifiedName: 'discounts.update',
-    httpMethod: 'patch',
-    httpPath: '/discounts/{discount_id}',
-  },
-  {
-    clientCallName: 'client.discounts.list',
-    fullyQualifiedName: 'discounts.list',
-    httpMethod: 'get',
-    httpPath: '/discounts',
-  },
-  {
     clientCallName: 'client.discounts.delete',
     fullyQualifiedName: 'discounts.delete',
     httpMethod: 'delete',
+    httpPath: '/discounts/{discount_id}',
+  },
+  {
+    clientCallName: 'client.discounts.update',
+    fullyQualifiedName: 'discounts.update',
+    httpMethod: 'patch',
     httpPath: '/discounts/{discount_id}',
   },
   {
@@ -423,6 +423,12 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'discounts.retrieveByCode',
     httpMethod: 'get',
     httpPath: '/discounts/code/{code}',
+  },
+  {
+    clientCallName: 'client.addons.list',
+    fullyQualifiedName: 'addons.list',
+    httpMethod: 'get',
+    httpPath: '/addons',
   },
   {
     clientCallName: 'client.addons.create',
@@ -443,16 +449,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/addons/{id}',
   },
   {
-    clientCallName: 'client.addons.list',
-    fullyQualifiedName: 'addons.list',
-    httpMethod: 'get',
-    httpPath: '/addons',
-  },
-  {
     clientCallName: 'client.addons.updateImages',
     fullyQualifiedName: 'addons.updateImages',
     httpMethod: 'put',
     httpPath: '/addons/{id}/images',
+  },
+  {
+    clientCallName: 'client.brands.list',
+    fullyQualifiedName: 'brands.list',
+    httpMethod: 'get',
+    httpPath: '/brands',
   },
   {
     clientCallName: 'client.brands.create',
@@ -473,16 +479,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/brands/{id}',
   },
   {
-    clientCallName: 'client.brands.list',
-    fullyQualifiedName: 'brands.list',
-    httpMethod: 'get',
-    httpPath: '/brands',
-  },
-  {
     clientCallName: 'client.brands.updateImages',
     fullyQualifiedName: 'brands.updateImages',
     httpMethod: 'put',
     httpPath: '/brands/{id}/images',
+  },
+  {
+    clientCallName: 'client.webhooks.list',
+    fullyQualifiedName: 'webhooks.list',
+    httpMethod: 'get',
+    httpPath: '/webhooks',
   },
   {
     clientCallName: 'client.webhooks.create',
@@ -497,21 +503,15 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/webhooks/{webhook_id}',
   },
   {
-    clientCallName: 'client.webhooks.update',
-    fullyQualifiedName: 'webhooks.update',
-    httpMethod: 'patch',
-    httpPath: '/webhooks/{webhook_id}',
-  },
-  {
-    clientCallName: 'client.webhooks.list',
-    fullyQualifiedName: 'webhooks.list',
-    httpMethod: 'get',
-    httpPath: '/webhooks',
-  },
-  {
     clientCallName: 'client.webhooks.delete',
     fullyQualifiedName: 'webhooks.delete',
     httpMethod: 'delete',
+    httpPath: '/webhooks/{webhook_id}',
+  },
+  {
+    clientCallName: 'client.webhooks.update',
+    fullyQualifiedName: 'webhooks.update',
+    httpMethod: 'patch',
     httpPath: '/webhooks/{webhook_id}',
   },
   {
@@ -520,8 +520,8 @@ export const sdkMethods: SdkMethod[] = [
     httpMethod: 'get',
     httpPath: '/webhooks/{webhook_id}/secret',
   },
-  { clientCallName: 'client.webhooks.unsafeUnwrap', fullyQualifiedName: 'webhooks.unsafeUnwrap' },
   { clientCallName: 'client.webhooks.unwrap', fullyQualifiedName: 'webhooks.unwrap' },
+  { clientCallName: 'client.webhooks.unsafeUnwrap', fullyQualifiedName: 'webhooks.unsafeUnwrap' },
   {
     clientCallName: 'client.webhooks.headers.retrieve',
     fullyQualifiedName: 'webhooks.headers.retrieve',
@@ -535,10 +535,10 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/webhooks/{webhook_id}/headers',
   },
   {
-    clientCallName: 'client.usageEvents.retrieve',
-    fullyQualifiedName: 'usageEvents.retrieve',
-    httpMethod: 'get',
-    httpPath: '/events/{event_id}',
+    clientCallName: 'client.usageEvents.ingest',
+    fullyQualifiedName: 'usageEvents.ingest',
+    httpMethod: 'post',
+    httpPath: '/events/ingest',
   },
   {
     clientCallName: 'client.usageEvents.list',
@@ -547,10 +547,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/events',
   },
   {
-    clientCallName: 'client.usageEvents.ingest',
-    fullyQualifiedName: 'usageEvents.ingest',
-    httpMethod: 'post',
-    httpPath: '/events/ingest',
+    clientCallName: 'client.usageEvents.retrieve',
+    fullyQualifiedName: 'usageEvents.retrieve',
+    httpMethod: 'get',
+    httpPath: '/events/{event_id}',
+  },
+  {
+    clientCallName: 'client.meters.list',
+    fullyQualifiedName: 'meters.list',
+    httpMethod: 'get',
+    httpPath: '/meters',
   },
   {
     clientCallName: 'client.meters.create',
@@ -563,12 +569,6 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'meters.retrieve',
     httpMethod: 'get',
     httpPath: '/meters/{id}',
-  },
-  {
-    clientCallName: 'client.meters.list',
-    fullyQualifiedName: 'meters.list',
-    httpMethod: 'get',
-    httpPath: '/meters',
   },
   {
     clientCallName: 'client.meters.archive',
@@ -589,6 +589,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/balances/ledger',
   },
   {
+    clientCallName: 'client.creditEntitlements.list',
+    fullyQualifiedName: 'creditEntitlements.list',
+    httpMethod: 'get',
+    httpPath: '/credit-entitlements',
+  },
+  {
     clientCallName: 'client.creditEntitlements.create',
     fullyQualifiedName: 'creditEntitlements.create',
     httpMethod: 'post',
@@ -601,21 +607,15 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/credit-entitlements/{id}',
   },
   {
-    clientCallName: 'client.creditEntitlements.update',
-    fullyQualifiedName: 'creditEntitlements.update',
-    httpMethod: 'patch',
-    httpPath: '/credit-entitlements/{id}',
-  },
-  {
-    clientCallName: 'client.creditEntitlements.list',
-    fullyQualifiedName: 'creditEntitlements.list',
-    httpMethod: 'get',
-    httpPath: '/credit-entitlements',
-  },
-  {
     clientCallName: 'client.creditEntitlements.delete',
     fullyQualifiedName: 'creditEntitlements.delete',
     httpMethod: 'delete',
+    httpPath: '/credit-entitlements/{id}',
+  },
+  {
+    clientCallName: 'client.creditEntitlements.update',
+    fullyQualifiedName: 'creditEntitlements.update',
+    httpMethod: 'patch',
     httpPath: '/credit-entitlements/{id}',
   },
   {
@@ -625,22 +625,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/credit-entitlements/{id}/undelete',
   },
   {
-    clientCallName: 'client.creditEntitlements.balances.retrieve',
-    fullyQualifiedName: 'creditEntitlements.balances.retrieve',
-    httpMethod: 'get',
-    httpPath: '/credit-entitlements/{credit_entitlement_id}/balances/{customer_id}',
-  },
-  {
     clientCallName: 'client.creditEntitlements.balances.list',
     fullyQualifiedName: 'creditEntitlements.balances.list',
     httpMethod: 'get',
     httpPath: '/credit-entitlements/{credit_entitlement_id}/balances',
   },
   {
-    clientCallName: 'client.creditEntitlements.balances.createLedgerEntry',
-    fullyQualifiedName: 'creditEntitlements.balances.createLedgerEntry',
-    httpMethod: 'post',
-    httpPath: '/credit-entitlements/{credit_entitlement_id}/balances/{customer_id}/ledger-entries',
+    clientCallName: 'client.creditEntitlements.balances.retrieve',
+    fullyQualifiedName: 'creditEntitlements.balances.retrieve',
+    httpMethod: 'get',
+    httpPath: '/credit-entitlements/{credit_entitlement_id}/balances/{customer_id}',
   },
   {
     clientCallName: 'client.creditEntitlements.balances.listGrants',
@@ -655,6 +649,18 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/credit-entitlements/{credit_entitlement_id}/balances/{customer_id}/ledger',
   },
   {
+    clientCallName: 'client.creditEntitlements.balances.createLedgerEntry',
+    fullyQualifiedName: 'creditEntitlements.balances.createLedgerEntry',
+    httpMethod: 'post',
+    httpPath: '/credit-entitlements/{credit_entitlement_id}/balances/{customer_id}/ledger-entries',
+  },
+  {
+    clientCallName: 'client.entitlements.list',
+    fullyQualifiedName: 'entitlements.list',
+    httpMethod: 'get',
+    httpPath: '/entitlements',
+  },
+  {
     clientCallName: 'client.entitlements.create',
     fullyQualifiedName: 'entitlements.create',
     httpMethod: 'post',
@@ -667,34 +673,28 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/entitlements/{id}',
   },
   {
-    clientCallName: 'client.entitlements.update',
-    fullyQualifiedName: 'entitlements.update',
-    httpMethod: 'patch',
-    httpPath: '/entitlements/{id}',
-  },
-  {
-    clientCallName: 'client.entitlements.list',
-    fullyQualifiedName: 'entitlements.list',
-    httpMethod: 'get',
-    httpPath: '/entitlements',
-  },
-  {
     clientCallName: 'client.entitlements.delete',
     fullyQualifiedName: 'entitlements.delete',
     httpMethod: 'delete',
     httpPath: '/entitlements/{id}',
   },
   {
-    clientCallName: 'client.entitlements.files.delete',
-    fullyQualifiedName: 'entitlements.files.delete',
-    httpMethod: 'delete',
-    httpPath: '/entitlements/{id}/files/{file_id}',
+    clientCallName: 'client.entitlements.update',
+    fullyQualifiedName: 'entitlements.update',
+    httpMethod: 'patch',
+    httpPath: '/entitlements/{id}',
   },
   {
     clientCallName: 'client.entitlements.files.upload',
     fullyQualifiedName: 'entitlements.files.upload',
     httpMethod: 'post',
     httpPath: '/entitlements/{id}/files',
+  },
+  {
+    clientCallName: 'client.entitlements.files.delete',
+    fullyQualifiedName: 'entitlements.files.delete',
+    httpMethod: 'delete',
+    httpPath: '/entitlements/{id}/files/{file_id}',
   },
   {
     clientCallName: 'client.entitlements.grants.list',
@@ -709,6 +709,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/entitlements/{id}/grants/{grant_id}',
   },
   {
+    clientCallName: 'client.productCollections.list',
+    fullyQualifiedName: 'productCollections.list',
+    httpMethod: 'get',
+    httpPath: '/product-collections',
+  },
+  {
     clientCallName: 'client.productCollections.create',
     fullyQualifiedName: 'productCollections.create',
     httpMethod: 'post',
@@ -721,28 +727,16 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/product-collections/{id}',
   },
   {
-    clientCallName: 'client.productCollections.update',
-    fullyQualifiedName: 'productCollections.update',
-    httpMethod: 'patch',
-    httpPath: '/product-collections/{id}',
-  },
-  {
-    clientCallName: 'client.productCollections.list',
-    fullyQualifiedName: 'productCollections.list',
-    httpMethod: 'get',
-    httpPath: '/product-collections',
-  },
-  {
     clientCallName: 'client.productCollections.delete',
     fullyQualifiedName: 'productCollections.delete',
     httpMethod: 'delete',
     httpPath: '/product-collections/{id}',
   },
   {
-    clientCallName: 'client.productCollections.unarchive',
-    fullyQualifiedName: 'productCollections.unarchive',
-    httpMethod: 'post',
-    httpPath: '/product-collections/{id}/unarchive',
+    clientCallName: 'client.productCollections.update',
+    fullyQualifiedName: 'productCollections.update',
+    httpMethod: 'patch',
+    httpPath: '/product-collections/{id}',
   },
   {
     clientCallName: 'client.productCollections.updateImages',
@@ -751,21 +745,27 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/product-collections/{id}/images',
   },
   {
+    clientCallName: 'client.productCollections.unarchive',
+    fullyQualifiedName: 'productCollections.unarchive',
+    httpMethod: 'post',
+    httpPath: '/product-collections/{id}/unarchive',
+  },
+  {
     clientCallName: 'client.productCollections.groups.create',
     fullyQualifiedName: 'productCollections.groups.create',
     httpMethod: 'post',
     httpPath: '/product-collections/{id}/groups',
   },
   {
-    clientCallName: 'client.productCollections.groups.update',
-    fullyQualifiedName: 'productCollections.groups.update',
-    httpMethod: 'patch',
-    httpPath: '/product-collections/{id}/groups/{group_id}',
-  },
-  {
     clientCallName: 'client.productCollections.groups.delete',
     fullyQualifiedName: 'productCollections.groups.delete',
     httpMethod: 'delete',
+    httpPath: '/product-collections/{id}/groups/{group_id}',
+  },
+  {
+    clientCallName: 'client.productCollections.groups.update',
+    fullyQualifiedName: 'productCollections.groups.update',
+    httpMethod: 'patch',
     httpPath: '/product-collections/{id}/groups/{group_id}',
   },
   {
@@ -775,15 +775,15 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/product-collections/{id}/groups/{group_id}/items',
   },
   {
-    clientCallName: 'client.productCollections.groups.items.update',
-    fullyQualifiedName: 'productCollections.groups.items.update',
-    httpMethod: 'patch',
-    httpPath: '/product-collections/{id}/groups/{group_id}/items/{item_id}',
-  },
-  {
     clientCallName: 'client.productCollections.groups.items.delete',
     fullyQualifiedName: 'productCollections.groups.items.delete',
     httpMethod: 'delete',
+    httpPath: '/product-collections/{id}/groups/{group_id}/items/{item_id}',
+  },
+  {
+    clientCallName: 'client.productCollections.groups.items.update',
+    fullyQualifiedName: 'productCollections.groups.items.update',
+    httpMethod: 'patch',
     httpPath: '/product-collections/{id}/groups/{group_id}/items/{item_id}',
   },
 ];

@@ -8,32 +8,6 @@ const client = new DodoPayments({
 });
 
 describe('resource licenseKeyInstances', () => {
-  test('retrieve', async () => {
-    const responsePromise = client.licenseKeyInstances.retrieve('lki_123');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('update: only required params', async () => {
-    const responsePromise = client.licenseKeyInstances.update('lki_123', { name: 'name' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('update: required and optional params', async () => {
-    const response = await client.licenseKeyInstances.update('lki_123', { name: 'name' });
-  });
-
   test('list', async () => {
     const responsePromise = client.licenseKeyInstances.list();
     const rawResponse = await responsePromise.asResponse();
@@ -58,5 +32,31 @@ describe('resource licenseKeyInstances', () => {
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
+
+  test('retrieve', async () => {
+    const responsePromise = client.licenseKeyInstances.retrieve('lki_123');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('update: only required params', async () => {
+    const responsePromise = client.licenseKeyInstances.update('lki_123', { name: 'name' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('update: required and optional params', async () => {
+    const response = await client.licenseKeyInstances.update('lki_123', { name: 'name' });
   });
 });

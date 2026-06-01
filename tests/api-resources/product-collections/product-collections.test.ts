@@ -8,6 +8,32 @@ const client = new DodoPayments({
 });
 
 describe('resource productCollections', () => {
+  test('list', async () => {
+    const responsePromise = client.productCollections.list();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.productCollections.list(
+        {
+          archived: true,
+          brand_id: 'brand_id',
+          page_number: 0,
+          page_size: 0,
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
+
   test('create: only required params', async () => {
     const responsePromise = client.productCollections.create({
       groups: [{ products: [{ product_id: 'product_id' }] }],
@@ -48,43 +74,6 @@ describe('resource productCollections', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('update', async () => {
-    const responsePromise = client.productCollections.update('id', {});
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list', async () => {
-    const responsePromise = client.productCollections.list();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.productCollections.list(
-        {
-          archived: true,
-          brand_id: 'brand_id',
-          page_number: 0,
-          page_size: 0,
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(DodoPayments.NotFoundError);
-  });
-
   test('delete', async () => {
     const responsePromise = client.productCollections.delete('id');
     const rawResponse = await responsePromise.asResponse();
@@ -96,8 +85,8 @@ describe('resource productCollections', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('unarchive', async () => {
-    const responsePromise = client.productCollections.unarchive('id');
+  test('update', async () => {
+    const responsePromise = client.productCollections.update('id', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -127,5 +116,16 @@ describe('resource productCollections', () => {
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
+
+  test('unarchive', async () => {
+    const responsePromise = client.productCollections.unarchive('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
   });
 });
