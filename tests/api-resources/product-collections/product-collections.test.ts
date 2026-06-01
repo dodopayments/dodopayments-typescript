@@ -60,6 +60,11 @@ describe('resource productCollections', () => {
       name: 'name',
       brand_id: 'brand_id',
       description: 'description',
+      effective_at_on_downgrade: 'immediately',
+      effective_at_on_upgrade: 'immediately',
+      on_payment_failure: 'prevent_change',
+      proration_billing_mode_on_downgrade: 'prorated_immediately',
+      proration_billing_mode_on_upgrade: 'prorated_immediately',
     });
   });
 
