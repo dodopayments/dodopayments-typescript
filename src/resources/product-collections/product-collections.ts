@@ -112,9 +112,49 @@ export interface ProductCollection {
   description?: string | null;
 
   /**
+   * Default effective_at setting for subscription plan downgrades (null = inherit
+   * from business)
+   */
+  effective_at_on_downgrade?: 'immediately' | 'next_billing_date' | null;
+
+  /**
+   * Default effective_at setting for subscription plan upgrades (null = inherit from
+   * business)
+   */
+  effective_at_on_upgrade?: 'immediately' | 'next_billing_date' | null;
+
+  /**
    * URL of the collection image
    */
   image?: string | null;
+
+  /**
+   * Default behavior for subscription plan changes on payment failure (null =
+   * inherit from business)
+   */
+  on_payment_failure?: 'prevent_change' | 'apply_change' | null;
+
+  /**
+   * Default proration billing mode for subscription plan downgrades (null = inherit
+   * from business)
+   */
+  proration_billing_mode_on_downgrade?:
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | null;
+
+  /**
+   * Default proration billing mode for subscription plan upgrades (null = inherit
+   * from business)
+   */
+  proration_billing_mode_on_upgrade?:
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | null;
 }
 
 export interface ProductCollectionListResponse {
@@ -215,6 +255,46 @@ export interface ProductCollectionCreateParams {
    * Optional description of the product collection
    */
   description?: string | null;
+
+  /**
+   * Default effective_at setting for subscription plan downgrades (NULL = inherit
+   * from business)
+   */
+  effective_at_on_downgrade?: 'immediately' | 'next_billing_date' | null;
+
+  /**
+   * Default effective_at setting for subscription plan upgrades (NULL = inherit from
+   * business)
+   */
+  effective_at_on_upgrade?: 'immediately' | 'next_billing_date' | null;
+
+  /**
+   * Default behavior for subscription plan changes on payment failure (NULL =
+   * inherit from business)
+   */
+  on_payment_failure?: 'prevent_change' | 'apply_change' | null;
+
+  /**
+   * Default proration billing mode for subscription plan downgrades (NULL = inherit
+   * from business)
+   */
+  proration_billing_mode_on_downgrade?:
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | null;
+
+  /**
+   * Default proration billing mode for subscription plan upgrades (NULL = inherit
+   * from business)
+   */
+  proration_billing_mode_on_upgrade?:
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | null;
 }
 
 export interface ProductCollectionUpdateParams {
@@ -227,6 +307,18 @@ export interface ProductCollectionUpdateParams {
    * Optional description update - pass null to remove, omit to keep unchanged
    */
   description?: string | null;
+
+  /**
+   * Effective_at setting for downgrades: Some(Some(val)) = set, Some(None) = clear
+   * (inherit), None = no change
+   */
+  effective_at_on_downgrade?: 'immediately' | 'next_billing_date' | null;
+
+  /**
+   * Effective_at setting for upgrades: Some(Some(val)) = set, Some(None) = clear
+   * (inherit), None = no change
+   */
+  effective_at_on_upgrade?: 'immediately' | 'next_billing_date' | null;
 
   /**
    * Optional new order for groups (array of group UUIDs in desired order)
@@ -242,6 +334,34 @@ export interface ProductCollectionUpdateParams {
    * Optional new name for the collection
    */
   name?: string | null;
+
+  /**
+   * On payment failure behavior: Some(Some(val)) = set, Some(None) = clear
+   * (inherit), None = no change
+   */
+  on_payment_failure?: 'prevent_change' | 'apply_change' | null;
+
+  /**
+   * Proration billing mode for downgrades: Some(Some(val)) = set, Some(None) = clear
+   * (inherit), None = no change
+   */
+  proration_billing_mode_on_downgrade?:
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | null;
+
+  /**
+   * Proration billing mode for upgrades: Some(Some(val)) = set, Some(None) = clear
+   * (inherit), None = no change
+   */
+  proration_billing_mode_on_upgrade?:
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | null;
 }
 
 export interface ProductCollectionUpdateImagesParams {
