@@ -5512,9 +5512,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->webhooks->unwrap();\n\nvar_dump($result);",
       },
-      csharp: {
-        example: 'WebhookUnwrapParams parameters = new();\n\nawait client.Webhooks.Unwrap(parameters);',
-      },
     },
   },
   {
@@ -5558,10 +5555,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'webhooks->unsafeUnwrap',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->webhooks->unsafeUnwrap();\n\nvar_dump($result);",
-      },
-      csharp: {
-        example:
-          'WebhookUnsafeUnwrapParams parameters = new();\n\nawait client.Webhooks.UnsafeUnwrap(parameters);',
       },
     },
   },
