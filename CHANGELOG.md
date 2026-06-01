@@ -1,13 +1,5 @@
 # Changelog
 
-## [2.34.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.33.0...v2.34.0) (2026-06-01)
-
-
-### Features
-
-* **readme:** drop 'generated with Stainless' attribution from SDK READMEs ([b263085](https://github.com/dodopayments/dodopayments-typescript/commit/b263085f1a4ec952049a2aa2e60f3e19e69e412b))
-* **readme:** drop 'generated with Stainless' attribution from SDK READMEs ([ecb1f48](https://github.com/dodopayments/dodopayments-typescript/commit/ecb1f4866992b21a414001129fe3a00ab81459d4))
-
 ## [2.32.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.32.1...v2.32.2) (2026-06-01)
 
 
