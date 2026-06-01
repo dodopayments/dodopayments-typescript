@@ -8,6 +8,13 @@ import { path } from '../../internal/utils/path';
 
 export class Files extends APIResource {
   /**
+   * Attach a file to a `digital_files` entitlement. Per-file size cap: 500 MiB.
+   */
+  upload(id: string, options?: RequestOptions): APIPromise<FileUploadResponse> {
+    return this._client.post(path`/entitlements/${id}/files`, options);
+  }
+
+  /**
    * Detach a previously-attached file from a `digital_files` entitlement.
    */
   delete(fileID: string, params: FileDeleteParams, options?: RequestOptions): APIPromise<void> {
@@ -16,13 +23,6 @@ export class Files extends APIResource {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
-  }
-
-  /**
-   * Attach a file to a `digital_files` entitlement. Per-file size cap: 500 MiB.
-   */
-  upload(id: string, options?: RequestOptions): APIPromise<FileUploadResponse> {
-    return this._client.post(path`/entitlements/${id}/files`, options);
   }
 }
 

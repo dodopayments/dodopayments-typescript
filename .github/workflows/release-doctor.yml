@@ -18,5 +18,6 @@ jobs:
         run: |
           bash ./bin/check-release-environment
         env:
+          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
           NPM_TOKEN: ${{ secrets.DODO_PAYMENTS_NPM_TOKEN || secrets.NPM_TOKEN }}
           DOCKERHUB_TOKEN: ${{ secrets.DODO_PAYMENTS_DOCKERHUB_TOKEN || secrets.DOCKERHUB_TOKEN }}

@@ -8,6 +8,33 @@ const client = new DodoPayments({
 });
 
 describe('resource products', () => {
+  test('list', async () => {
+    const responsePromise = client.products.list();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.products.list(
+        {
+          archived: true,
+          brand_id: 'brand_id',
+          page_number: 0,
+          page_size: 0,
+          recurring: true,
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
+
   test('create: only required params', async () => {
     const responsePromise = client.products.create({
       name: 'name',
@@ -97,33 +124,6 @@ describe('resource products', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list', async () => {
-    const responsePromise = client.products.list();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.products.list(
-        {
-          archived: true,
-          brand_id: 'brand_id',
-          page_number: 0,
-          page_size: 0,
-          recurring: true,
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
   test('archive', async () => {
