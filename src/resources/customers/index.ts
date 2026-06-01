@@ -8,9 +8,9 @@ export {
   type CustomerListCreditEntitlementsResponse,
   type CustomerListEntitlementsResponse,
   type CustomerRetrievePaymentMethodsResponse,
+  type CustomerListParams,
   type CustomerCreateParams,
   type CustomerUpdateParams,
-  type CustomerListParams,
   type CustomerDeletePaymentMethodParams,
   type CustomersDefaultPageNumberPagination,
 } from './customers';

@@ -12,10 +12,6 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class Disputes extends APIResource {
-  retrieve(disputeID: string, options?: RequestOptions): APIPromise<GetDispute> {
-    return this._client.get(path`/disputes/${disputeID}`, options);
-  }
-
   list(
     query: DisputeListParams | null | undefined = {},
     options?: RequestOptions,
@@ -24,6 +20,10 @@ export class Disputes extends APIResource {
       query,
       ...options,
     });
+  }
+
+  retrieve(disputeID: string, options?: RequestOptions): APIPromise<GetDispute> {
+    return this._client.get(path`/disputes/${disputeID}`, options);
   }
 }
 

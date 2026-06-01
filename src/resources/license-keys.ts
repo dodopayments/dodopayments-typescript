@@ -12,17 +12,16 @@ import { path } from '../internal/utils/path';
 
 export class LicenseKeys extends APIResource {
   /**
-   * @example
-   * ```ts
-   * const licenseKey = await client.licenseKeys.create({
-   *   customer_id: 'customer_id',
-   *   key: 'key',
-   *   product_id: 'product_id',
-   * });
-   * ```
+   * @deprecated
    */
-  create(body: LicenseKeyCreateParams, options?: RequestOptions): APIPromise<LicenseKey> {
-    return this._client.post('/license_keys', { body, ...options });
+  list(
+    query: LicenseKeyListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<LicenseKeysDefaultPageNumberPagination, LicenseKey> {
+    return this._client.getAPIList('/license_keys', DefaultPageNumberPagination<LicenseKey>, {
+      query,
+      ...options,
+    });
   }
 
   /**
@@ -40,16 +39,17 @@ export class LicenseKeys extends APIResource {
   }
 
   /**
-   * @deprecated
+   * @example
+   * ```ts
+   * const licenseKey = await client.licenseKeys.create({
+   *   customer_id: 'customer_id',
+   *   key: 'key',
+   *   product_id: 'product_id',
+   * });
+   * ```
    */
-  list(
-    query: LicenseKeyListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): PagePromise<LicenseKeysDefaultPageNumberPagination, LicenseKey> {
-    return this._client.getAPIList('/license_keys', DefaultPageNumberPagination<LicenseKey>, {
-      query,
-      ...options,
-    });
+  create(body: LicenseKeyCreateParams, options?: RequestOptions): APIPromise<LicenseKey> {
+    return this._client.post('/license_keys', { body, ...options });
   }
 }
 
@@ -126,53 +126,6 @@ export interface LicenseKey {
 
 export type LicenseKeyStatus = 'active' | 'expired' | 'disabled';
 
-export interface LicenseKeyCreateParams {
-  /**
-   * The customer this license key belongs to.
-   */
-  customer_id: string;
-
-  /**
-   * The license key string to import.
-   */
-  key: string;
-
-  /**
-   * The product this license key is for.
-   */
-  product_id: string;
-
-  /**
-   * Maximum number of activations allowed. Null means unlimited.
-   */
-  activations_limit?: number | null;
-
-  /**
-   * Expiration timestamp. Null means the key never expires.
-   */
-  expires_at?: string | null;
-}
-
-export interface LicenseKeyUpdateParams {
-  /**
-   * The updated activation limit for the license key. Use `null` to remove the
-   * limit, or omit this field to leave it unchanged.
-   */
-  activations_limit?: number | null;
-
-  /**
-   * Indicates whether the license key should be disabled. A value of `true` disables
-   * the key, while `false` enables it. Omit this field to leave it unchanged.
-   */
-  disabled?: boolean | null;
-
-  /**
-   * The updated expiration timestamp for the license key in UTC. Use `null` to
-   * remove the expiration date, or omit this field to leave it unchanged.
-   */
-  expires_at?: string | null;
-}
-
 export interface LicenseKeyListParams extends DefaultPageNumberPaginationParams {
   /**
    * Filter license keys created on or after this timestamp
@@ -205,13 +158,60 @@ export interface LicenseKeyListParams extends DefaultPageNumberPaginationParams 
   status?: 'active' | 'expired' | 'disabled';
 }
 
+export interface LicenseKeyUpdateParams {
+  /**
+   * The updated activation limit for the license key. Use `null` to remove the
+   * limit, or omit this field to leave it unchanged.
+   */
+  activations_limit?: number | null;
+
+  /**
+   * Indicates whether the license key should be disabled. A value of `true` disables
+   * the key, while `false` enables it. Omit this field to leave it unchanged.
+   */
+  disabled?: boolean | null;
+
+  /**
+   * The updated expiration timestamp for the license key in UTC. Use `null` to
+   * remove the expiration date, or omit this field to leave it unchanged.
+   */
+  expires_at?: string | null;
+}
+
+export interface LicenseKeyCreateParams {
+  /**
+   * The customer this license key belongs to.
+   */
+  customer_id: string;
+
+  /**
+   * The license key string to import.
+   */
+  key: string;
+
+  /**
+   * The product this license key is for.
+   */
+  product_id: string;
+
+  /**
+   * Maximum number of activations allowed. Null means unlimited.
+   */
+  activations_limit?: number | null;
+
+  /**
+   * Expiration timestamp. Null means the key never expires.
+   */
+  expires_at?: string | null;
+}
+
 export declare namespace LicenseKeys {
   export {
     type LicenseKey as LicenseKey,
     type LicenseKeyStatus as LicenseKeyStatus,
     type LicenseKeysDefaultPageNumberPagination as LicenseKeysDefaultPageNumberPagination,
-    type LicenseKeyCreateParams as LicenseKeyCreateParams,
-    type LicenseKeyUpdateParams as LicenseKeyUpdateParams,
     type LicenseKeyListParams as LicenseKeyListParams,
+    type LicenseKeyUpdateParams as LicenseKeyUpdateParams,
+    type LicenseKeyCreateParams as LicenseKeyCreateParams,
   };
 }
