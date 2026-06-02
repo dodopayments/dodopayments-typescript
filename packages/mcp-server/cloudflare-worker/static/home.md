@@ -1,4 +1,4 @@
-# DodoPayments Remote MCP Server
+# Dodo Payments Remote MCP Server
 
 This MCP server is available at:
 
