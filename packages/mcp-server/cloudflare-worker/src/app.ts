@@ -56,7 +56,10 @@ export function makeOAuthConsent(config: ServerConfig) {
 
     // The key probe below makes a live authenticated call to the Dodo API, which
     // would otherwise turn /approve into an unauthenticated key-validation oracle.
-    // Rate-limit per client IP to bound abuse before any outbound request.
+    // Rate-limit per client IP to bound abuse before any outbound request. Note this
+    // is best-effort defense-in-depth, not a hard control: Workers rate limits are
+    // per-Cloudflare-PoP and IP keys can be shared/rotated. The Dodo API's own auth
+    // layer remains the authoritative validation surface.
     const clientIp = c.req.header('CF-Connecting-IP') ?? 'unknown';
     if (!(await c.env.APPROVE_RATE_LIMITER.limit({ key: clientIp })).success) {
       return c.html(
