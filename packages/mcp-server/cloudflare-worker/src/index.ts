@@ -165,8 +165,9 @@ export class MyMCP extends McpAgent<Env, unknown, MCPProps> {
     const innerCall = handlers.get('tools/call');
 
     raw.setRequestHandler(ListToolsRequestSchema, async (request, extra): Promise<ServerResult> => {
-      const base = innerList
-        ? ((await innerList(request, extra)) as ListToolsResult)
+      const base =
+        innerList ?
+          ((await innerList(request, extra)) as ListToolsResult)
         : ({ tools: [] } as ListToolsResult);
       return { ...base, tools: [...base.tools, executeToolDescriptor] };
     });
