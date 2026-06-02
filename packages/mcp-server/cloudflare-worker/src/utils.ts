@@ -6,6 +6,50 @@ import type { AuthRequest } from '@cloudflare/workers-oauth-provider';
 import { env } from 'cloudflare:workers';
 import { ServerConfig, ClientProperty } from '.';
 
+// Mirrors the `environment` → base URL mapping in the dodopayments SDK. A bearer
+// token only authenticates against its own environment's host, so a test key sent
+// to live_mode (or vice versa) yields a 401 — the mismatch we probe for below.
+const ENVIRONMENT_BASE_URLS: Record<string, string> = {
+  live_mode: 'https://live.dodopayments.com',
+  test_mode: 'https://test.dodopayments.com',
+};
+
+export const ALLOWED_ENVIRONMENTS = Object.keys(ENVIRONMENT_BASE_URLS);
+
+const PROBE_TIMEOUT_MS = 5000;
+
+export type ProbeOutcome = 'ok' | 'rejected' | 'unverified';
+
+// Validates a bearer token against the selected environment BEFORE the OAuth grant
+// is stored, so a key/environment mismatch surfaces on the consent page instead of
+// as an opaque 401 hours later inside the `execute` tool. Only a definitive 401
+// blocks (returns 'rejected'); network errors, timeouts, rate limits, and 5xx are
+// treated as 'unverified' so transient issues never reject a valid key. Uses raw
+// `fetch` (no SDK retries/long timeouts) and never logs the token.
+export const probeApiKey = async (environment: string, bearerToken: string): Promise<ProbeOutcome> => {
+  const baseURL = ENVIRONMENT_BASE_URLS[environment];
+  if (!baseURL || !bearerToken) {
+    return 'unverified';
+  }
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), PROBE_TIMEOUT_MS);
+  try {
+    const res = await fetch(`${baseURL}/customers?page_size=1`, {
+      headers: { Authorization: `Bearer ${bearerToken}` },
+      signal: controller.signal,
+    });
+    if (res.status === 401) {
+      return 'rejected';
+    }
+    return res.ok ? 'ok' : 'unverified';
+  } catch {
+    return 'unverified';
+  } finally {
+    clearTimeout(timer);
+  }
+};
+
 export const layout = (content: HtmlEscapedString | string, title: string, config: ServerConfig) => html`
   <!doctype html>
   <html lang="en">
@@ -163,12 +207,26 @@ export const homeContent = async (req: Request): Promise<HtmlEscapedString> => {
   return html` <div class="max-w-4xl mx-auto markdown">${raw(content)}</div> `;
 };
 
-export const renderLoggedOutAuthorizeScreen = async (config: ServerConfig, oauthReqInfo: AuthRequest) => {
-  const checked = (condition: boolean) => (condition ? 'checked' : '');
-  const selected = (condition: boolean) => (condition ? 'selected' : '');
+// `password` fields carry live credentials; their submitted values are never
+// echoed back into the re-rendered form, so the user re-pastes them on retry.
+const isSecretField = (field: ClientProperty) => field.type === 'password';
+
+export type AuthorizeFormState = {
+  values?: Record<string, string>;
+  formError?: string;
+};
+
+export const renderLoggedOutAuthorizeScreen = async (
+  config: ServerConfig,
+  oauthReqInfo: AuthRequest,
+  state: AuthorizeFormState = {},
+) => {
+  const submitted = state.values ?? {};
 
   const renderField = (field: ClientProperty) => {
+    const submittedValue = isSecretField(field) ? undefined : submitted[field.key];
     if (field.type === 'select' && field.options) {
+      const activeValue = submittedValue ?? (field.default as string | undefined);
       return html`
         <div>
           <label for="${`clientopt_${field.key}`}" class="block text-sm font-medium text-gray-700 mb-1"
@@ -182,7 +240,7 @@ export const renderLoggedOutAuthorizeScreen = async (config: ServerConfig, oauth
           >
             ${field.options.map(
               (opt: { label: string; value: string }) => html`
-                <option value="${opt.value}" ${field.default === opt.value ? 'selected' : ''}>
+                <option value="${opt.value}" ${activeValue === opt.value ? 'selected' : ''}>
                   ${opt.label}
                 </option>
               `,
@@ -201,6 +259,7 @@ export const renderLoggedOutAuthorizeScreen = async (config: ServerConfig, oauth
           id="${`clientopt_${field.key}`}"
           name="${`clientopt_${field.key}`}"
           ${field.required ? 'required' : ''}
+          ${submittedValue ? html`value="${submittedValue}"` : ''}
           ${field.placeholder ? html`placeholder="${field.placeholder}"` : ''}
           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
         />
@@ -230,6 +289,14 @@ export const renderLoggedOutAuthorizeScreen = async (config: ServerConfig, oauth
         : 'instructions'}
         to get started.
       </div>
+      ${state.formError ?
+        html`<div
+          role="alert"
+          class="mb-4 px-4 py-3 bg-red-50 border border-red-200 text-red-800 rounded-md text-sm"
+        >
+          ${state.formError}
+        </div>`
+      : ''}
       <form action="/approve" method="POST" class="space-y-4">
         <input type="hidden" name="oauthReqInfo" value="${JSON.stringify(oauthReqInfo)}" />
         <div class="space-y-4">${config.clientProperties.map(renderField)}</div>
@@ -303,7 +370,12 @@ export const parseApproveFormBody = async (
   const parsedClientProps = Object.fromEntries(
     config.clientProperties.map((prop: ClientProperty) => {
       const rawValue = body[`clientopt_${prop.key}`];
-      const value = prop.type === 'number' ? Number(rawValue) : rawValue;
+      // Trim string inputs so a pasted token/environment with stray whitespace
+      // doesn't silently fail authentication later.
+      const value =
+        prop.type === 'number' ? Number(rawValue)
+        : typeof rawValue === 'string' ? rawValue.trim()
+        : rawValue;
       return [prop.key, value];
     }),
   );
