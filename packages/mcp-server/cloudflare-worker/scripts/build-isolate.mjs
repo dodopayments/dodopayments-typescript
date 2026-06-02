@@ -1,5 +1,5 @@
 import { build } from 'esbuild';
-import { existsSync, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
@@ -35,19 +35,22 @@ try {
   console.log(`Wrote src/isolate-bundle.generated.ts (${bundled.length} bytes bundled)`);
 } catch (err) {
   // During `postinstall` in a partially-bootstrapped monorepo the `dodopayments`
-  // SDK may not be resolvable yet. Don't fail `npm install`: emit a placeholder
-  // that throws if used, and let the explicit `build:isolate` step (run by
-  // dev/deploy/CI) produce the real bundle. Never overwrite a good bundle.
+  // SDK may not be resolvable yet. Don't fail `npm install`: write a placeholder
+  // only if one isn't already present, and let the explicit `build:isolate` step
+  // (run by dev/deploy/CI) produce the real bundle. The `wx` flag makes the write
+  // atomic and fail if the file exists, avoiding a check-then-write race.
   const reason = err instanceof Error ? err.message : String(err);
-  if (existsSync(outFile)) {
-    console.warn(`build-isolate: keeping existing bundle; rebuild skipped (${reason})`);
-  } else {
-    writeFileSync(
-      outFile,
-      `${header}\nexport const ISOLATE_BOOTSTRAP = (() => {\n  throw new Error('isolate bundle not built — run "npm run build:isolate"');\n})();\n`,
-    );
+  const placeholder = `${header}\nexport const ISOLATE_BOOTSTRAP = (() => {\n  throw new Error('isolate bundle not built — run "npm run build:isolate"');\n})();\n`;
+  try {
+    writeFileSync(outFile, placeholder, { flag: 'wx' });
     console.warn(
       `build-isolate: wrote placeholder; run "npm run build:isolate" before dev/deploy (${reason})`,
     );
+  } catch (writeErr) {
+    if (writeErr && writeErr.code === 'EEXIST') {
+      console.warn(`build-isolate: keeping existing bundle; rebuild skipped (${reason})`);
+    } else {
+      throw writeErr;
+    }
   }
 }
