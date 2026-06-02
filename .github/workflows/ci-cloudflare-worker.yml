@@ -1,0 +1,50 @@
+name: CI Cloudflare Worker
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!integrated/**'
+      - '!stl-preview-head/**'
+      - '!stl-preview-base/**'
+      - '!generated'
+      - '!codegen/**'
+      - 'codegen/stl/**'
+    paths:
+      - 'packages/mcp-server/cloudflare-worker/**'
+      - '.github/workflows/ci-cloudflare-worker.yml'
+  pull_request:
+    branches-ignore:
+      - 'stl-preview-head/**'
+      - 'stl-preview-base/**'
+    paths:
+      - 'packages/mcp-server/cloudflare-worker/**'
+      - '.github/workflows/ci-cloudflare-worker.yml'
+
+jobs:
+  worker:
+    timeout-minutes: 10
+    name: typecheck and build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/mcp-server/cloudflare-worker
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build isolate bundle
+        run: npm run build:isolate
+
+      - name: Check types
+        run: npm run typecheck
+
+      - name: Validate worker build
+        run: npx wrangler deploy --dry-run

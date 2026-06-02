@@ -7,12 +7,20 @@ import { makeOAuthConsent } from './app';
 // distinct constructors.
 import { McpAgent } from 'agents/mcp';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import {
+  CallToolRequestSchema,
+  ListToolsRequestSchema,
+  type CallToolRequest,
+  type ListToolsResult,
+  type ServerResult,
+} from '@modelcontextprotocol/sdk/types.js';
 import OAuthProvider from '@cloudflare/workers-oauth-provider';
 import { ClientOptions } from 'dodopayments';
 import { McpOptions } from 'dodopayments-mcp/options';
 import { initMcpServer, newMcpServer } from 'dodopayments-mcp/server';
 import { configureLogger } from 'dodopayments-mcp/logger';
 import type { ExportedHandler } from '@cloudflare/workers-types';
+import { executeToolDescriptor, runExecute } from './execute-tool';
 
 type MCPProps = {
   clientProps: ClientOptions;
@@ -118,13 +126,14 @@ export class MyMCP extends McpAgent<Env, unknown, MCPProps> {
 
       const server = await buildMcpServer(this.props.clientConfig?.stainlessApiKey);
 
-      // `stainless-sandbox` proxies `execute` to the remote Stainless code-tool over
-      // HTTP; the `local` mode spawns a Deno subprocess, which CF Workers cannot do.
-      // `docsSearchMode: 'local'` makes `initMcpServer` build the embedded (no-fs)
-      // docs index that `search_docs` needs; without it the tool is uninitialized.
+      // `includeCodeTool: false` stops `dodopayments-mcp` from registering its own
+      // `execute` tool (which would proxy code to the remote Stainless sandbox).
+      // We register a self-hosted `execute` below that runs code in a Cloudflare
+      // Worker Loader isolate instead. `docsSearchMode: 'local'` makes
+      // `initMcpServer` build the embedded (no-fs) docs index `search_docs` needs.
       const mcpOptions: McpOptions = {
         ...this.props.clientConfig,
-        codeExecutionMode: 'stainless-sandbox',
+        includeCodeTool: false,
         docsSearchMode: 'local',
       };
 
@@ -134,11 +143,51 @@ export class MyMCP extends McpAgent<Env, unknown, MCPProps> {
         mcpOptions,
       });
 
+      this.#installExecuteTool(server, this.props.clientProps);
+
       this.#resolveServer(server);
     } catch (error) {
       this.#rejectServer(error);
       throw error;
     }
+  }
+
+  // `initMcpServer` installs the `tools/list` and `tools/call` handlers directly on
+  // the low-level `Server`. `McpServer.registerTool` would throw here because that
+  // handler already exists, so we instead re-install both handlers via the
+  // last-write-wins `setRequestHandler`, capturing the package's handlers and
+  // delegating to them for every tool except our self-hosted `execute`.
+  #installExecuteTool(server: McpServer, clientProps: ClientOptions) {
+    const raw = server.server;
+    type InnerHandler = (request: unknown, extra: unknown) => Promise<ServerResult>;
+    const handlers = (raw as unknown as { _requestHandlers: Map<string, InnerHandler> })._requestHandlers;
+    const innerList = handlers.get('tools/list');
+    const innerCall = handlers.get('tools/call');
+
+    raw.setRequestHandler(ListToolsRequestSchema, async (request, extra): Promise<ServerResult> => {
+      const base = innerList
+        ? ((await innerList(request, extra)) as ListToolsResult)
+        : ({ tools: [] } as ListToolsResult);
+      return { ...base, tools: [...base.tools, executeToolDescriptor] };
+    });
+
+    raw.setRequestHandler(
+      CallToolRequestSchema,
+      async (request: CallToolRequest, extra): Promise<ServerResult> => {
+        if (request.params.name !== 'execute') {
+          if (!innerCall) {
+            throw new Error(`Unknown tool: ${request.params.name}`);
+          }
+          return innerCall(request, extra);
+        }
+        const code = String(request.params.arguments?.code ?? '');
+        return runExecute({
+          code,
+          loader: this.env.LOADER,
+          clientOptions: clientProps,
+        });
+      },
+    );
   }
 }
 
