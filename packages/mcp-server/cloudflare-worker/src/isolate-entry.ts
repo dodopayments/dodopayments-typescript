@@ -48,7 +48,10 @@ export default {
         );
       }
 
-      const clientOptions = (env.DODO_CLIENT_OPTIONS ? JSON.parse(env.DODO_CLIENT_OPTIONS) : {}) as ClientOptions;
+      const clientOptions = (
+        env.DODO_CLIENT_OPTIONS ?
+          JSON.parse(env.DODO_CLIENT_OPTIONS)
+        : {}) as ClientOptions;
       const client = new DodoPayments(clientOptions);
       const result = await (userRun as (client: DodoPayments) => Promise<unknown>)(client);
       return Response.json({ is_error: false, result, log_lines, err_lines } satisfies ExecutionResult);
