@@ -6,8 +6,9 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "dodopayments-api-mcp-server",
   "main": "src/index.ts",
-  "compatibility_date": "2025-03-10",
+  "compatibility_date": "2025-10-01",
   "compatibility_flags": ["nodejs_compat"],
+  "worker_loaders": [{ "binding": "LOADER" }],
   "migrations": [
     {
       "new_sqlite_classes": ["MyMCP"],
