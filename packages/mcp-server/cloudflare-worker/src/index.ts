@@ -118,10 +118,20 @@ export class MyMCP extends McpAgent<Env, unknown, MCPProps> {
 
       const server = await buildMcpServer(this.props.clientConfig?.stainlessApiKey);
 
+      // `stainless-sandbox` proxies `execute` to the remote Stainless code-tool over
+      // HTTP; the `local` mode spawns a Deno subprocess, which CF Workers cannot do.
+      // `docsSearchMode: 'local'` makes `initMcpServer` build the embedded (no-fs)
+      // docs index that `search_docs` needs; without it the tool is uninitialized.
+      const mcpOptions: McpOptions = {
+        ...this.props.clientConfig,
+        codeExecutionMode: 'stainless-sandbox',
+        docsSearchMode: 'local',
+      };
+
       await initMcpServer({
         server,
         clientOptions: this.props.clientProps,
-        mcpOptions: this.props.clientConfig,
+        mcpOptions,
       });
 
       this.#resolveServer(server);
