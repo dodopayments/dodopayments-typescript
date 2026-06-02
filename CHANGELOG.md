@@ -1,5 +1,39 @@
 # Changelog
 
+## [2.35.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.34.0...v2.35.0) (2026-06-02)
+
+
+### Features
+
+* **mcp:** Dodo-brand the consent + landing pages, drop webhook field ([f690b67](https://github.com/dodopayments/dodopayments-typescript/commit/f690b679c6cc98b7bf7906bd696c043cc08ae0f5))
+* **mcp:** self-host execute tool via Cloudflare Worker Loader ([f0681cb](https://github.com/dodopayments/dodopayments-typescript/commit/f0681cb9a2b8dbf5e9972466a60f06ccfc77f924))
+* **mcp:** validate API key against environment on consent page ([ac7966b](https://github.com/dodopayments/dodopayments-typescript/commit/ac7966bd284f8c62f12da18f2cff4d25b36fe585))
+
+
+### Bug Fixes
+
+* **mcp:** address PR review on self-hosted execute ([3f6641c](https://github.com/dodopayments/dodopayments-typescript/commit/3f6641cf7d7654777cbe0642ee23adb6d5093d06))
+* **mcp:** address review — throttle /approve probe, harden + UI polish ([f41c872](https://github.com/dodopayments/dodopayments-typescript/commit/f41c87226c7cefb68a7511d295e6d1f63be01155))
+* **mcp:** eliminate reflected XSS in consent redirect ([8e59b49](https://github.com/dodopayments/dodopayments-typescript/commit/8e59b49b3d96c0ca211d248566eb7475b65cbee3))
+* **mcp:** remove file-system race in build-isolate placeholder ([d433bdc](https://github.com/dodopayments/dodopayments-typescript/commit/d433bdc871651e17bedbc0661f9a2eb013bb31d0))
+* **mcp:** restore CF worker execute & search_docs tools ([5bcbb32](https://github.com/dodopayments/dodopayments-typescript/commit/5bcbb32a962fa841d0b239412e2495ac535918d3))
+
+
+### Chores
+
+* **mcp:** track latest dodopayments-mcp in cloudflare-worker ([97befe8](https://github.com/dodopayments/dodopayments-typescript/commit/97befe8a4fb75ee0fd3ad5aa3396c19282e0a674))
+
+
+### Documentation
+
+* **mcp:** correct deno stub comment to reference Worker Loader isolate ([c2a66ef](https://github.com/dodopayments/dodopayments-typescript/commit/c2a66ef830c656d126e153e6252a3b85eeae514d))
+* **mcp:** note rate-limit is best-effort, not a hard control ([2d92db2](https://github.com/dodopayments/dodopayments-typescript/commit/2d92db2c5481fb3d204d1ecf219f25753fa2282b))
+
+
+### Styles
+
+* **mcp:** apply repo prettier formatting to worker execute files ([a21babb](https://github.com/dodopayments/dodopayments-typescript/commit/a21babb8f7cf3581b9c5fb45202b5ce2f4e714af))
+
 ## [2.34.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.33.0...v2.34.0) (2026-06-01)
 
 
