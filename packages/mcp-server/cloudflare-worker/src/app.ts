@@ -69,7 +69,7 @@ export function makeOAuthConsent(config: ServerConfig) {
         layout(
           await renderLoggedOutAuthorizeScreen(config, oauthReqInfo, {
             values: { environment },
-            formError: `That API key was rejected for ${environmentLabel}. If this is a test-mode key, select test_mode (and use live_mode for a live key), then try again.`,
+            formError: `Your API key was rejected for ${environmentLabel}. Double-check that the key is correct and not expired, and that the environment matches your key — use test_mode for a test key and live_mode for a live key.`,
           }),
           'Authorization',
           config,

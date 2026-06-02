@@ -31,7 +31,7 @@ type MCPProps = {
  * The information displayed on the OAuth consent screen
  */
 const serverConfig: ServerConfig = {
-  orgName: 'DodoPayments',
+  orgName: 'Dodo Payments',
   instructionsUrl: undefined, // Set a url for where you show users how to get an API key
   logoUrl: undefined, // Set a custom logo url to appear during the OAuth flow
   clientProperties: [
@@ -43,15 +43,6 @@ const serverConfig: ServerConfig = {
       default: undefined,
       placeholder: 'My Bearer Token',
       type: 'password',
-    },
-    {
-      key: 'webhookKey',
-      label: 'Webhook Key',
-      description: '',
-      required: false,
-      default: null,
-      placeholder: 'My Webhook Key',
-      type: 'string',
     },
     {
       key: 'environment',
