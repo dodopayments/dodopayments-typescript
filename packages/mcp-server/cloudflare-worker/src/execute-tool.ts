@@ -62,22 +62,30 @@ export async function runExecute(args: {
       'bootstrap.js': ISOLATE_BOOTSTRAP,
       'user-code.js': buildUserModule(code),
     },
+    // DODO_CLIENT_OPTIONS carries the caller's live API key in plaintext into the
+    // isolate. Worker Loader `env` is not a secrets store, so never log this object
+    // or the isolate config; the key is the caller's own credential.
     env: { DODO_CLIENT_OPTIONS: JSON.stringify(clientOptions) },
     limits: { cpuMs: ISOLATE_CPU_LIMIT_MS, subRequests: ISOLATE_SUBREQUEST_LIMIT },
   }));
 
-  const timeout = new Promise<never>((_, reject) =>
-    setTimeout(
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timeoutId = setTimeout(
       () => reject(new Error(`Code execution exceeded the ${WALL_CLOCK_TIMEOUT_MS / 1000}s time limit.`)),
       WALL_CLOCK_TIMEOUT_MS,
-    ),
-  );
+    );
+  });
 
   let response: Response;
   try {
     response = await Promise.race([stub.getEntrypoint().fetch(new Request('https://isolate/')), timeout]);
   } catch (e) {
     return asErrorResult(e instanceof Error ? e.message : String(e));
+  } finally {
+    if (timeoutId != null) {
+      clearTimeout(timeoutId);
+    }
   }
 
   let output: IsolateOutput;

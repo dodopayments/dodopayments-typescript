@@ -164,11 +164,18 @@ export class MyMCP extends McpAgent<Env, unknown, MCPProps> {
     const innerList = handlers.get('tools/list');
     const innerCall = handlers.get('tools/call');
 
+    // Fail loudly at init rather than silently degrading at runtime: if a future
+    // `@modelcontextprotocol/sdk` release renames `_requestHandlers`, these lookups
+    // return undefined and we must not ship a server that drops `search_docs`.
+    if (!innerList || !innerCall) {
+      throw new Error(
+        'Expected dodopayments-mcp to have installed tools/list and tools/call handlers. ' +
+          'This usually means the @modelcontextprotocol/sdk internals changed; check version compatibility.',
+      );
+    }
+
     raw.setRequestHandler(ListToolsRequestSchema, async (request, extra): Promise<ServerResult> => {
-      const base =
-        innerList ?
-          ((await innerList(request, extra)) as ListToolsResult)
-        : ({ tools: [] } as ListToolsResult);
+      const base = (await innerList(request, extra)) as ListToolsResult;
       return { ...base, tools: [...base.tools, executeToolDescriptor] };
     });
 
@@ -176,9 +183,6 @@ export class MyMCP extends McpAgent<Env, unknown, MCPProps> {
       CallToolRequestSchema,
       async (request: CallToolRequest, extra): Promise<ServerResult> => {
         if (request.params.name !== 'execute') {
-          if (!innerCall) {
-            throw new Error(`Unknown tool: ${request.params.name}`);
-          }
           return innerCall(request, extra);
         }
         const code = String(request.params.arguments?.code ?? '');
