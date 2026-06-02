@@ -414,7 +414,23 @@ export const renderLoggedOutAuthorizeScreen = async (
   `;
 };
 
+// The reject path passes a client-supplied redirect URL, so it must never reach a
+// script sink. Accept only absolute http(s) URLs; this blocks `javascript:`/`data:`
+// navigation and rejects anything unparseable.
+const normalizeRedirectUrl = (input: string): string | null => {
+  try {
+    const url = new URL(input);
+    return url.protocol === 'http:' || url.protocol === 'https:' ? url.toString() : null;
+  } catch {
+    return null;
+  }
+};
+
 export const renderApproveContent = async (message: string, status: string, redirectUrl: string) => {
+  // Put the URL in an auto-escaped href and let a static script read it back, rather
+  // than interpolating it into the script body (a `</script>` breakout would defeat
+  // JSON-encoding, and string-escaping alone wouldn't stop `javascript:` URLs).
+  const safeRedirectUrl = normalizeRedirectUrl(redirectUrl);
   return html`
     <div
       class="max-w-md mx-auto bg-white border border-border-secondary p-8 rounded-lg shadow-sm text-center"
@@ -429,20 +445,28 @@ export const renderApproveContent = async (message: string, status: string, redi
         </span>
       </div>
       <h1 class="text-xl font-heading font-semibold mb-2 text-text-primary">${message}</h1>
-      <p class="mb-6 text-sm text-text-secondary">You will be redirected back to the application shortly.</p>
+      <p class="mb-6 text-sm text-text-secondary">
+        ${safeRedirectUrl ?
+          'You will be redirected back to the application shortly.'
+        : 'You can now close this window.'}
+      </p>
       <a
-        href="/"
+        id="redirect-link"
+        href="${safeRedirectUrl ?? '/'}"
         class="inline-flex items-center justify-center h-10 px-4 font-heading font-medium text-sm rounded-lg border border-transparent bg-ink text-white transition-all duration-300 hover:bg-brand hover:text-ink hover:border-border-primary focus:outline-none focus:ring-2 focus:ring-brand-border focus:ring-offset-2"
       >
-        Return to Home
+        ${safeRedirectUrl ? 'Continue now' : 'Return to Home'}
       </a>
-      ${raw(`
-                <script>
-                    setTimeout(() => {
-                        window.location.href = "${redirectUrl}";
-                    }, 2000);
-                </script>
-            `)}
+      ${safeRedirectUrl ?
+        html`<script>
+          setTimeout(() => {
+            const link = document.getElementById('redirect-link');
+            if (link instanceof HTMLAnchorElement) {
+              window.location.assign(link.href);
+            }
+          }, 2000);
+        </script>`
+      : ''}
     </div>
   `;
 };
