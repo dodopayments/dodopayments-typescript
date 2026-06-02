@@ -3,6 +3,7 @@ import {
   layout,
   homeContent,
   parseApproveFormBody,
+  probeApiKey,
   renderAuthorizationApprovedContent,
   renderLoggedOutAuthorizeScreen,
   renderAuthorizationRejectedContent,
@@ -50,6 +51,31 @@ export function makeOAuthConsent(config: ServerConfig) {
 
     if (!oauthReqInfo || !clientProps) {
       return c.html('INVALID LOGIN', 401);
+    }
+
+    const environment = String(clientProps.environment ?? '');
+    const bearerToken = String(clientProps.bearerToken ?? '');
+
+    // Validate the key against the chosen environment before the grant is stored,
+    // so a test-key/live-mode (or vice versa) mismatch is caught here instead of
+    // as an opaque 401 inside the `execute` tool later. Only a definitive
+    // rejection blocks; transient/unverifiable results fall through.
+    if ((await probeApiKey(environment, bearerToken)) === 'rejected') {
+      const environmentLabel =
+        config.clientProperties
+          .find((p) => p.key === 'environment')
+          ?.options?.find((o) => o.value === environment)?.label ?? environment;
+      return c.html(
+        layout(
+          await renderLoggedOutAuthorizeScreen(config, oauthReqInfo, {
+            values: { environment },
+            formError: `That API key was rejected for ${environmentLabel}. If this is a test-mode key, select test_mode (and use live_mode for a live key), then try again.`,
+          }),
+          'Authorization',
+          config,
+        ),
+        400,
+      );
     }
 
     // We don't have a real user ID, just tokens, so we generate a random one
