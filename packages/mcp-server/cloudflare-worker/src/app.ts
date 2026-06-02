@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import {
+  ALLOWED_ENVIRONMENTS,
   layout,
   homeContent,
   parseApproveFormBody,
@@ -53,6 +54,30 @@ export function makeOAuthConsent(config: ServerConfig) {
       return c.html('INVALID LOGIN', 401);
     }
 
+    // The key probe below makes a live authenticated call to the Dodo API, which
+    // would otherwise turn /approve into an unauthenticated key-validation oracle.
+    // Rate-limit per client IP to bound abuse before any outbound request.
+    const clientIp = c.req.header('CF-Connecting-IP') ?? 'unknown';
+    if (!(await c.env.APPROVE_RATE_LIMITER.limit({ key: clientIp })).success) {
+      return c.html(
+        layout(
+          await renderLoggedOutAuthorizeScreen(config, oauthReqInfo, {
+            formError: 'Too many attempts. Please wait a moment and try again.',
+          }),
+          'Authorization',
+          config,
+        ),
+        429,
+      );
+    }
+
+    // Only probe for OAuth requests naming a registered client; a forged or unknown
+    // clientId is rejected here so the probe is never reachable with arbitrary input.
+    const registeredClient = await c.env.OAUTH_PROVIDER.lookupClient(oauthReqInfo.clientId);
+    if (!registeredClient) {
+      return c.html('INVALID LOGIN', 401);
+    }
+
     const environment = String(clientProps.environment ?? '');
     const bearerToken = String(clientProps.bearerToken ?? '');
 
@@ -60,7 +85,10 @@ export function makeOAuthConsent(config: ServerConfig) {
     // so a test-key/live-mode (or vice versa) mismatch is caught here instead of
     // as an opaque 401 inside the `execute` tool later. Only a definitive
     // rejection blocks; transient/unverifiable results fall through.
-    if ((await probeApiKey(environment, bearerToken)) === 'rejected') {
+    if (
+      ALLOWED_ENVIRONMENTS.includes(environment) &&
+      (await probeApiKey(environment, bearerToken)) === 'rejected'
+    ) {
       const environmentLabel =
         config.clientProperties
           .find((p) => p.key === 'environment')

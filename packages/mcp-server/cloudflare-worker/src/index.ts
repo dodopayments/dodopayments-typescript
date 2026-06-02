@@ -37,11 +37,11 @@ const serverConfig: ServerConfig = {
   clientProperties: [
     {
       key: 'bearerToken',
-      label: 'Bearer Token',
-      description: 'Bearer Token for API authentication',
+      label: 'API Key',
+      description: 'Your Dodo Payments API key',
       required: true,
       default: undefined,
-      placeholder: 'My Bearer Token',
+      placeholder: 'Enter your API key',
       type: 'password',
     },
     {
@@ -51,10 +51,10 @@ const serverConfig: ServerConfig = {
       required: false,
       default: 'live_mode',
       placeholder: 'live_mode',
-      type: 'select',
+      type: 'radio',
       options: [
-        { label: 'live_mode', value: 'live_mode' },
-        { label: 'test_mode', value: 'test_mode' },
+        { label: 'Live Mode', value: 'live_mode' },
+        { label: 'Test Mode', value: 'test_mode' },
       ],
     },
   ],
@@ -216,8 +216,8 @@ export type ClientProperty = {
   required: boolean;
   default?: unknown;
   placeholder?: string;
-  type: 'string' | 'number' | 'password' | 'select';
-  options?: { label: string; value: string }[];
+  type: 'string' | 'number' | 'password' | 'select' | 'radio';
+  options?: { label: string; value: string; description?: string }[];
 };
 
 // Export the OAuth handler as the default

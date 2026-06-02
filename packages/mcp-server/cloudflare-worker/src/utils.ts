@@ -39,6 +39,9 @@ export const probeApiKey = async (environment: string, bearerToken: string): Pro
       headers: { Authorization: `Bearer ${bearerToken}` },
       signal: controller.signal,
     });
+    // Release the response stream eagerly; on Cloudflare Workers an unconsumed
+    // body keeps the underlying socket open until the request is GC'd.
+    await res.body?.cancel();
     if (res.status === 401) {
       return 'rejected';
     }
@@ -267,6 +270,39 @@ export const renderLoggedOutAuthorizeScreen = async (
 
   const renderField = (field: ClientProperty) => {
     const submittedValue = isSecretField(field) ? undefined : submitted[field.key];
+    if (field.type === 'radio' && field.options) {
+      const activeValue = submittedValue ?? (field.default as string | undefined);
+      return html`
+        <div>
+          <span class="${labelClass}"
+            >${field.label}${field.required ? html`<span class="text-error-text ml-0.5">*</span>` : ''}</span
+          >
+          <div class="grid grid-cols-2 gap-2.5">
+            ${field.options.map(
+              (opt: { label: string; value: string; description?: string }) => html`
+                <label
+                  class="group flex flex-col gap-0.5 px-3.5 py-2.5 rounded-lg border bg-white cursor-pointer transition-colors border-border-primary hover:bg-bg-secondary has-[:checked]:border-brand-border has-[:checked]:bg-bg-secondary has-[:checked]:ring-1 has-[:checked]:ring-brand-border focus-within:ring-2 focus-within:ring-brand-border"
+                >
+                  <span class="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="${`clientopt_${field.key}`}"
+                      value="${opt.value}"
+                      ${activeValue === opt.value ? 'checked' : ''}
+                      class="h-4 w-4 accent-ink"
+                    />
+                    <span class="text-sm font-medium text-text-primary">${opt.label}</span>
+                  </span>
+                  ${opt.description ?
+                    html`<span class="text-xs text-text-secondary pl-6">${opt.description}</span>`
+                  : ''}
+                </label>
+              `,
+            )}
+          </div>
+        </div>
+      `;
+    }
     if (field.type === 'select' && field.options) {
       const activeValue = submittedValue ?? (field.default as string | undefined);
       return html`
