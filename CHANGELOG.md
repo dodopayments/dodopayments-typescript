@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.36.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.36.0...v2.36.1) (2026-06-06)
+
+
+### Bug Fixes
+
+* **mcp:** restore Cloudflare Worker custom code clobbered by regen ([4dca615](https://github.com/dodopayments/dodopayments-typescript/commit/4dca61508b6bdd6699ee765af7dade9f36d8d760))
+* **mcp:** restore Cloudflare Worker custom code clobbered by regen ([93f0308](https://github.com/dodopayments/dodopayments-typescript/commit/93f0308fb25749a55fa6eac65efe9c6ed8b41dc5))
+
 ## [2.36.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.35.0...v2.36.0) (2026-06-06)
 
 
