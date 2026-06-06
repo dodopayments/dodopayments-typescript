@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.36.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.35.0...v2.36.0) (2026-06-06)
+
+
+### Features
+
+* **api:** regenerate SDK from latest OpenAPI spec ([7e25016](https://github.com/dodopayments/dodopayments-typescript/commit/7e25016a14ff641264eb54b4d8ee2b30ffffb762))
+* **api:** regenerate SDK from latest OpenAPI spec ([277415d](https://github.com/dodopayments/dodopayments-typescript/commit/277415dd49daf87ddd0c374f88dfd2a663243a1b))
+
 ## [2.32.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.32.1...v2.32.2) (2026-06-01)
 
 
