@@ -7,4 +7,3 @@ CHANGELOG.md
 
 # don't format tsc output, will break source maps
 dist
-/packages/mcp-server/cloudflare-worker/src/isolate-bundle.generated.ts

@@ -218,7 +218,11 @@ describe('resource subscriptions', () => {
 
   test('updatePaymentMethod: required and optional params', async () => {
     const response = await client.subscriptions.updatePaymentMethod('subscription_id', {
-      payment_method: { type: 'new', return_url: 'return_url' },
+      payment_method: {
+        type: 'new',
+        allowed_payment_method_types: ['ach'],
+        return_url: 'return_url',
+      },
     });
   });
 
