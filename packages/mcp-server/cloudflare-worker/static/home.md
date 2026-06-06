@@ -1,4 +1,4 @@
-# Dodo Payments Remote MCP Server
+# DodoPayments Remote MCP Server
 
 This MCP server is available at:
 
@@ -27,7 +27,7 @@ Claude Desktop requires using the `mcp-remote` package to connect to remote MCP 
 ```json
 {
   "mcpServers": {
-    "dodopayments-mcp": {
+    "dodopayments_api": {
       "command": "npx",
       "args": ["-y", "mcp-remote@latest", "{{cloudflareWorkerUrl}}"]
     }
@@ -45,7 +45,7 @@ Claude Desktop requires using the `mcp-remote` package to connect to remote MCP 
 ```json
 {
   "mcpServers": {
-    "dodopayments-mcp": {
+    "dodopayments_api": {
       "command": "npx",
       "args": ["-y", "mcp-remote@latest", "{{cloudflareWorkerUrl}}"]
     }
@@ -61,7 +61,7 @@ Claude Desktop requires using the `mcp-remote` package to connect to remote MCP 
 ```json
 {
   "mcpServers": {
-    "dodopayments-mcp": {
+    "dodopayments_api": {
       "command": "npx",
       "args": ["-y", "mcp-remote@latest", "{{cloudflareWorkerUrl}}"]
     }

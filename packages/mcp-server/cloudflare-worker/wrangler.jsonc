@@ -6,16 +6,8 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "dodopayments-api-mcp-server",
   "main": "src/index.ts",
-  "compatibility_date": "2025-10-01",
+  "compatibility_date": "2025-03-10",
   "compatibility_flags": ["nodejs_compat"],
-  "worker_loaders": [{ "binding": "LOADER" }],
-  "ratelimits": [
-    {
-      "name": "APPROVE_RATE_LIMITER",
-      "namespace_id": "1001",
-      "simple": { "limit": 10, "period": 60 }
-    }
-  ],
   "migrations": [
     {
       "new_sqlite_classes": ["MyMCP"],
@@ -33,14 +25,11 @@
   "kv_namespaces": [
     {
       "binding": "OAUTH_KV",
-      "id": "f6b42367fc184a6a81d0f17ebfb0b537"
+      "id": "ae6fe7d7993146a9b8d54d87f73b0bdf"
     }
   ],
   "observability": {
     "enabled": true
   },
-  "assets": { "directory": "./static/", "binding": "ASSETS" },
-  "alias": {
-    "@valtown/deno-http-worker": "./src/stubs/deno-http-worker.ts"
-  }
+  "assets": { "directory": "./static/", "binding": "ASSETS" }
 }

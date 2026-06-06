@@ -7,20 +7,12 @@ import { makeOAuthConsent } from './app';
 // distinct constructors.
 import { McpAgent } from 'agents/mcp';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import {
-  CallToolRequestSchema,
-  ListToolsRequestSchema,
-  type CallToolRequest,
-  type ListToolsResult,
-  type ServerResult,
-} from '@modelcontextprotocol/sdk/types.js';
 import OAuthProvider from '@cloudflare/workers-oauth-provider';
 import { ClientOptions } from 'dodopayments';
 import { McpOptions } from 'dodopayments-mcp/options';
 import { initMcpServer, newMcpServer } from 'dodopayments-mcp/server';
 import { configureLogger } from 'dodopayments-mcp/logger';
 import type { ExportedHandler } from '@cloudflare/workers-types';
-import { executeToolDescriptor, runExecute } from './execute-tool';
 
 type MCPProps = {
   clientProps: ClientOptions;
@@ -31,18 +23,27 @@ type MCPProps = {
  * The information displayed on the OAuth consent screen
  */
 const serverConfig: ServerConfig = {
-  orgName: 'Dodo Payments',
+  orgName: 'DodoPayments',
   instructionsUrl: undefined, // Set a url for where you show users how to get an API key
   logoUrl: undefined, // Set a custom logo url to appear during the OAuth flow
   clientProperties: [
     {
       key: 'bearerToken',
-      label: 'API Key',
-      description: 'Your Dodo Payments API key',
+      label: 'Bearer Token',
+      description: 'Bearer Token for API authentication',
       required: true,
       default: undefined,
-      placeholder: 'Enter your API key',
+      placeholder: 'My Bearer Token',
       type: 'password',
+    },
+    {
+      key: 'webhookKey',
+      label: 'Webhook Key',
+      description: '',
+      required: false,
+      default: null,
+      placeholder: 'My Webhook Key',
+      type: 'string',
     },
     {
       key: 'environment',
@@ -51,10 +52,10 @@ const serverConfig: ServerConfig = {
       required: false,
       default: 'live_mode',
       placeholder: 'live_mode',
-      type: 'radio',
+      type: 'select',
       options: [
-        { label: 'Live Mode', value: 'live_mode' },
-        { label: 'Test Mode', value: 'test_mode' },
+        { label: 'live_mode', value: 'live_mode' },
+        { label: 'test_mode', value: 'test_mode' },
       ],
     },
   ],
@@ -70,7 +71,7 @@ const INSTRUCTIONS_FETCH_TIMEOUT_MS = 5000;
 
 function fallbackMcpServer(): McpServer {
   return new McpServer(
-    { name: 'dodopayments_api', version: '2.33.0' },
+    { name: 'dodopayments_api', version: '2.36.0' },
     { capabilities: { tools: {}, logging: {} } },
   );
 }
@@ -117,73 +118,17 @@ export class MyMCP extends McpAgent<Env, unknown, MCPProps> {
 
       const server = await buildMcpServer(this.props.clientConfig?.stainlessApiKey);
 
-      // `includeCodeTool: false` stops `dodopayments-mcp` from registering its own
-      // `execute` tool (which would proxy code to the remote Stainless sandbox).
-      // We register a self-hosted `execute` below that runs code in a Cloudflare
-      // Worker Loader isolate instead. `docsSearchMode: 'local'` makes
-      // `initMcpServer` build the embedded (no-fs) docs index `search_docs` needs.
-      const mcpOptions: McpOptions = {
-        ...this.props.clientConfig,
-        includeCodeTool: false,
-        docsSearchMode: 'local',
-      };
-
       await initMcpServer({
         server,
         clientOptions: this.props.clientProps,
-        mcpOptions,
+        mcpOptions: this.props.clientConfig,
       });
-
-      this.#installExecuteTool(server, this.props.clientProps);
 
       this.#resolveServer(server);
     } catch (error) {
       this.#rejectServer(error);
       throw error;
     }
-  }
-
-  // `initMcpServer` installs the `tools/list` and `tools/call` handlers directly on
-  // the low-level `Server`. `McpServer.registerTool` would throw here because that
-  // handler already exists, so we instead re-install both handlers via the
-  // last-write-wins `setRequestHandler`, capturing the package's handlers and
-  // delegating to them for every tool except our self-hosted `execute`.
-  #installExecuteTool(server: McpServer, clientProps: ClientOptions) {
-    const raw = server.server;
-    type InnerHandler = (request: unknown, extra: unknown) => Promise<ServerResult>;
-    const handlers = (raw as unknown as { _requestHandlers: Map<string, InnerHandler> })._requestHandlers;
-    const innerList = handlers.get('tools/list');
-    const innerCall = handlers.get('tools/call');
-
-    // Fail loudly at init rather than silently degrading at runtime: if a future
-    // `@modelcontextprotocol/sdk` release renames `_requestHandlers`, these lookups
-    // return undefined and we must not ship a server that drops `search_docs`.
-    if (!innerList || !innerCall) {
-      throw new Error(
-        'Expected dodopayments-mcp to have installed tools/list and tools/call handlers. ' +
-          'This usually means the @modelcontextprotocol/sdk internals changed; check version compatibility.',
-      );
-    }
-
-    raw.setRequestHandler(ListToolsRequestSchema, async (request, extra): Promise<ServerResult> => {
-      const base = (await innerList(request, extra)) as ListToolsResult;
-      return { ...base, tools: [...base.tools, executeToolDescriptor] };
-    });
-
-    raw.setRequestHandler(
-      CallToolRequestSchema,
-      async (request: CallToolRequest, extra): Promise<ServerResult> => {
-        if (request.params.name !== 'execute') {
-          return innerCall(request, extra);
-        }
-        const code = String(request.params.arguments?.code ?? '');
-        return runExecute({
-          code,
-          loader: this.env.LOADER,
-          clientOptions: clientProps,
-        });
-      },
-    );
   }
 }
 
@@ -216,8 +161,8 @@ export type ClientProperty = {
   required: boolean;
   default?: unknown;
   placeholder?: string;
-  type: 'string' | 'number' | 'password' | 'select' | 'radio';
-  options?: { label: string; value: string; description?: string }[];
+  type: 'string' | 'number' | 'password' | 'select';
+  options?: { label: string; value: string }[];
 };
 
 // Export the OAuth handler as the default
