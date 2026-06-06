@@ -1,7 +1,5 @@
 # Dodo Payments TypeScript MCP Server
 
-It is generated with [Stainless](https://www.stainless.com/).
-
 ## Installation
 
 ### Direct invocation
