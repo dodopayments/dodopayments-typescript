@@ -2,25 +2,40 @@
  * Patches dodopayments-mcp for Cloudflare Workers compatibility.
  *
  * Issues patched:
- * 1. instructions.{mjs,js} uses setInterval() + .unref() in global scope
+ * 1. code-tool-paths.cjs uses require.resolve() (not available in CF Workers)
+ * 2. instructions.{mjs,js} uses setInterval() + .unref() in global scope
  *    (CF Workers forbid async I/O and timers in global scope)
- * 2. logger.{mjs,js} uses pino + process.stderr (not available in CF Workers)
+ * 3. logger.{mjs,js} uses pino + process.stderr (not available in CF Workers)
  *    and requires configureLogger() to be called before getLogger()
  *
- * Both are safe to stub/strip — CF Workers don't need pino or global timers.
+ * All are safe to stub/strip — CF Workers don't need pino, local Deno execution,
+ * or global timers.
  *
- * The `execute` tool runs in `stainless-sandbox` mode (see src/index.ts), which
- * proxies code over HTTP and never touches the local Deno path, so
- * code-tool-paths.cjs / @valtown/deno-http-worker are not exercised at runtime.
- * The deno-http-worker import is stubbed via wrangler alias only so the module
- * graph resolves at build time.
+ * Note: @valtown/deno-http-worker is separately handled via wrangler alias config.
  */
 const fs = require('fs');
 const path = require('path');
 
 const pkgDir = path.join(__dirname, '..', 'node_modules', 'dodopayments-mcp');
 
-// 1. Strip global setInterval + .unref() from instructions.{mjs,js}
+// 1. Stub code-tool-paths.cjs (require.resolve not available in CF Workers)
+const filesToPatch = [
+  {
+    file: 'code-tool-paths.cjs',
+    content:
+      '"use strict";\nObject.defineProperty(exports, "__esModule", { value: true });\nexports.workerPath = "";\n',
+  },
+];
+
+for (const { file, content } of filesToPatch) {
+  const filePath = path.join(pkgDir, file);
+  try {
+    fs.writeFileSync(filePath, content);
+    console.log(`Patched ${file} for CF Workers compatibility`);
+  } catch (_) {}
+}
+
+// 2. Strip global setInterval + .unref() from instructions.{mjs,js}
 //    CF Workers forbid setInterval/setTimeout in global scope.
 //    The cache still works; it just won't auto-evict stale entries (fine for short-lived workers).
 for (const ext of ['mjs', 'js']) {
@@ -37,7 +52,7 @@ for (const ext of ['mjs', 'js']) {
   } catch (_) {}
 }
 
-// 2. Replace logger.{mjs,js} with a CF Workers-compatible console-based logger.
+// 3. Replace logger.{mjs,js} with a CF Workers-compatible console-based logger.
 //    The original uses pino + process.stderr which aren't available in CF Workers.
 //    getLogger() also throws if configureLogger() wasn't called first.
 const loggerMjs = `

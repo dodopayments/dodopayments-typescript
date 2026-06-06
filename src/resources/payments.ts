@@ -233,6 +233,13 @@ export interface Payment {
   payment_id: string;
 
   /**
+   * Which processor handled this payment. `stripe` / `adyen` for BYOP routes (the
+   * merchant's own Hyperswitch connector); `dodo` for everything Dodo processed
+   * itself.
+   */
+  payment_provider: 'stripe' | 'adyen' | 'dodo';
+
+  /**
    * List of refunds issued for this payment
    */
   refunds: Array<RefundListItem>;
@@ -623,7 +630,24 @@ export interface PaymentListResponse {
 
   payment_id: string;
 
+  /**
+   * Which processor handled this payment. `stripe` / `adyen` for BYOP routes (the
+   * merchant's own Hyperswitch connector); `dodo` for everything Dodo processed
+   * itself.
+   */
+  payment_provider: 'stripe' | 'adyen' | 'dodo';
+
   total_amount: number;
+
+  /**
+   * The last four digits of the card
+   */
+  card_last_four?: string | null;
+
+  /**
+   * Card network like VISA, MASTERCARD etc.
+   */
+  card_network?: string | null;
 
   /**
    * The most recent dispute status for this payment. None if no disputes exist.

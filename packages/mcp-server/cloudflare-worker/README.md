@@ -3,27 +3,6 @@
 Remote MCP servers require OAuth, so this flow implements a local version of the OAuth redirects, but instead accepts the
 API token and any other client configuration options that you'd need to instantiate your TypeScript client.
 
-## Code execution (`execute` tool)
-
-The `execute` tool runs caller-supplied TypeScript against a pre-authenticated SDK client. This worker runs that code **itself**, inside a per-request [Cloudflare Worker Loader](https://developers.cloudflare.com/dynamic-workers/) isolate — it does **not** proxy code to any external sandbox service at runtime.
-
-How it works:
-
-- `src/isolate-entry.ts` is bundled with the DodoPayments SDK into a single module (`scripts/build-isolate.mjs` → `src/isolate-bundle.generated.ts`). This is the bootstrap that runs inside each isolate.
-- At request time, `src/execute-tool.ts` loads that bootstrap plus the caller's code (as a separate `user-code.js` module) into a fresh isolate via the `LOADER` binding, passing the caller's client options through `env`.
-- The isolate builds a `DodoPayments` client, runs the caller's `run(client)`, captures `console.log`/`console.error`, and returns `{ result, log_lines, err_lines }` — the same shape the tool returned previously.
-
-Security model:
-
-- Each execution gets its own V8 isolate with no shared state between calls.
-- The isolate runs with the **caller's own** API key (same trust level as a direct API call); no shared or privileged credential is exposed to user code.
-- Outbound `fetch` is enabled so the code can reach the DodoPayments API. The isolate cannot read the parent worker's bindings (KV, Durable Object, secrets) — it only receives what is explicitly passed in `env`.
-
-Requirements:
-
-- The `worker_loaders` binding (`LOADER`) must be enabled on the Cloudflare account. Worker Loaders is in open beta; deployment fails if the account is not entitled.
-- `npm run build:isolate` runs automatically on `postinstall` and before `dev`/`deploy`; `src/isolate-bundle.generated.ts` is a generated artifact and is git-ignored.
-
 ## Usage
 
 The recommended way to use this project is to use the below "deploy to cloudflare" button to use this repo as a template for generating a server.
@@ -78,8 +57,7 @@ If you want to manually deploy this server (e.g. without the "deploy to cloudfla
 
 1. `npx wrangler@latest kv namespace create remote-mcp-server-oauth-kv`
 2. Follow the guidance to add the kv namespace ID to `wrangler.jsonc`
-3. Ensure the target Cloudflare account has the Worker Loaders beta enabled (required by the `LOADER` binding for the `execute` tool)
-4. `npm run deploy`
+3. `npm run deploy`
 
 ## Call your newly deployed remote MCP server from a remote MCP client
 
