@@ -55,7 +55,8 @@ export interface BalanceLedgerEntry {
     | 'currency_conversion'
     | 'abandoned_cart_recovery_fee'
     | 'dunning_fees'
-    | 'payment_retry_fee';
+    | 'payment_retry_fee'
+    | 'byop_fee';
 
   is_credit: boolean;
 
@@ -255,7 +256,8 @@ export interface BalanceRetrieveLedgerParams extends DefaultPageNumberPagination
     | 'currency_conversion'
     | 'abandoned_cart_recovery_fee'
     | 'dunning_fees'
-    | 'payment_retry_fee';
+    | 'payment_retry_fee'
+    | 'byop_fee';
 
   /**
    * Min : 1, Max : 100, default 10

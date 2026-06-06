@@ -200,6 +200,13 @@ export interface DisputeListResponse {
   payment_id: string;
 
   /**
+   * Which processor handled the underlying payment. `stripe` / `adyen` for BYOP
+   * routes (the merchant's own Hyperswitch connector); `dodo` for everything Dodo
+   * processed itself.
+   */
+  payment_provider: 'stripe' | 'adyen' | 'dodo';
+
+  /**
    * Whether the dispute was resolved by Rapid Dispute Resolution
    */
   is_resolved_by_rdr?: boolean | null;
