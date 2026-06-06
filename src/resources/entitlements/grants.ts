@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as EntitlementsAPI from './entitlements';
 import * as ProductsAPI from '../products/products';
 import { APIPromise } from '../../core/api-promise';
 import {
@@ -68,6 +69,11 @@ export interface EntitlementGrant {
    * Identifier of the entitlement this grant was issued from.
    */
   entitlement_id: string;
+
+  /**
+   * The integration type of the grant's entitlement (e.g. `license_key`).
+   */
+  integration_type: EntitlementsAPI.EntitlementIntegrationType;
 
   /**
    * Arbitrary key-value metadata recorded on the grant.
@@ -175,6 +181,19 @@ export interface GrantListParams extends DefaultPageNumberPaginationParams {
    * Filter by customer ID
    */
   customer_id?: string;
+
+  /**
+   * Filter by integration type
+   */
+  integration_type?:
+    | 'discord'
+    | 'telegram'
+    | 'github'
+    | 'figma'
+    | 'framer'
+    | 'notion'
+    | 'digital_files'
+    | 'license_key';
 
   /**
    * Filter by grant status
