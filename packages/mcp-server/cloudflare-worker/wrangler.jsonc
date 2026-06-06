@@ -6,8 +6,16 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "dodopayments-api-mcp-server",
   "main": "src/index.ts",
-  "compatibility_date": "2025-03-10",
+  "compatibility_date": "2025-10-01",
   "compatibility_flags": ["nodejs_compat"],
+  "worker_loaders": [{ "binding": "LOADER" }],
+  "ratelimits": [
+    {
+      "name": "APPROVE_RATE_LIMITER",
+      "namespace_id": "1001",
+      "simple": { "limit": 10, "period": 60 }
+    }
+  ],
   "migrations": [
     {
       "new_sqlite_classes": ["MyMCP"],
