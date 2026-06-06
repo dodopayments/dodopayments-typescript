@@ -26,6 +26,7 @@ describe('resource grants', () => {
         'id',
         {
           customer_id: 'customer_id',
+          integration_type: 'discord',
           page_number: 0,
           page_size: 0,
           status: 'Pending',

@@ -3,18 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build:isolate": "node scripts/build-isolate.mjs",
-    "deploy": "npm run build:isolate && wrangler deploy",
-    "dev": "npm run build:isolate && wrangler dev",
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
     "format": "biome format --write",
     "lint:fix": "biome lint --fix",
-    "start": "npm run build:isolate && wrangler dev",
-    "typecheck": "tsc --noEmit",
+    "start": "wrangler dev",
     "cf-typegen": "wrangler types",
-    "postinstall": "node scripts/patch-deps.js && node scripts/build-isolate.mjs"
+    "postinstall": "node scripts/patch-deps.js"
   },
   "devDependencies": {
-    "esbuild": "^0.28.0",
     "marked": "^15.0.11",
     "typescript": "^5.8.3",
     "workers-mcp": "0.1.0-3",
