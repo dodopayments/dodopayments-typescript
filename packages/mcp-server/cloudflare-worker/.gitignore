@@ -176,3 +176,6 @@ dist
 
 .dev.vars
 .wrangler/
+
+# Generated isolate bootstrap bundle (built by scripts/build-isolate.mjs)
+src/isolate-bundle.generated.ts
