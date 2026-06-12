@@ -101,6 +101,7 @@ describe('resource products', () => {
       license_key_duration: { count: 0, interval: 'Day' },
       license_key_enabled: true,
       metadata: { foo: 'string' },
+      pricing_mode: 'by_currency',
     });
   });
 

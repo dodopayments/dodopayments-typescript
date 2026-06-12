@@ -51,6 +51,11 @@ export interface EntitlementGrant {
   id: string;
 
   /**
+   * Brand id this grant belongs to.
+   */
+  brand_id: string;
+
+  /**
    * Identifier of the business that owns the grant.
    */
   business_id: string;
@@ -181,19 +186,6 @@ export interface GrantListParams extends DefaultPageNumberPaginationParams {
    * Filter by customer ID
    */
   customer_id?: string;
-
-  /**
-   * Filter by integration type
-   */
-  integration_type?:
-    | 'discord'
-    | 'telegram'
-    | 'github'
-    | 'figma'
-    | 'framer'
-    | 'notion'
-    | 'digital_files'
-    | 'license_key';
 
   /**
    * Filter by grant status

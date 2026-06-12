@@ -674,6 +674,12 @@ export interface Product {
   name?: string | null;
 
   /**
+   * Pricing mode for localized pricing. NULL means base-only (no localized rules
+   * apply).
+   */
+  pricing_mode?: 'by_currency' | 'by_country' | null;
+
+  /**
    * The product collection ID this product belongs to, if any
    */
   product_collection_id?: string | null;
@@ -845,7 +851,7 @@ export interface ProductCreateParams {
   brand_id?: string | null;
 
   /**
-   * Optional credit entitlements to attach (max 3)
+   * Optional credit entitlements to attach (max 5)
    */
   credit_entitlements?: Array<AttachCreditEntitlement> | null;
 
@@ -862,7 +868,7 @@ export interface ProductCreateParams {
   digital_product_delivery?: ProductCreateParams.DigitalProductDelivery | null;
 
   /**
-   * Optional entitlements to attach to this product (max 20)
+   * Optional entitlements to attach to this product (max 50)
    */
   entitlements?: Array<AttachProductEntitlement> | null;
 
@@ -898,6 +904,13 @@ export interface ProductCreateParams {
    * Additional metadata for the product
    */
   metadata?: { [key: string]: string };
+
+  /**
+   * Pricing mode for localized pricing. When set, rules from
+   * /products/{id}/localized-prices apply at checkout. NULL means base-only
+   * (existing behavior).
+   */
+  pricing_mode?: 'by_currency' | 'by_country' | null;
 }
 
 export namespace ProductCreateParams {
@@ -998,6 +1011,13 @@ export interface ProductUpdateParams {
    * Price details of the product.
    */
   price?: Price | null;
+
+  /**
+   * Update the pricing mode. Omit to leave unchanged; set to null to clear (which
+   * archives all active localized rules for this product). Changing to a different
+   * non-null mode also archives any rules whose mode doesn't match the new mode.
+   */
+  pricing_mode?: 'by_currency' | 'by_country' | null;
 
   /**
    * Tax category of the product.

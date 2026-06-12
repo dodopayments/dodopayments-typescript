@@ -68,8 +68,8 @@ export interface DetailListResponse {
   event_type: string;
 
   /**
-   * Original amount in the original currency (in smallest currency unit, e.g.,
-   * cents).
+   * Original amount in the original currency, in that currency's smallest unit
+   * (cents for USD, yen for JPY, fils for KWD).
    */
   original_amount: number;
 
@@ -79,8 +79,9 @@ export interface DetailListResponse {
   original_currency: string;
 
   /**
-   * Amount in the payout's currency (in smallest currency unit). Uses cumulative
-   * rounding to ensure sum matches payout total exactly.
+   * Amount in the payout's currency, in that currency's smallest unit (cents for
+   * USD, yen for JPY, fils for KWD). Uses cumulative rounding to ensure sum matches
+   * payout total exactly.
    */
   payout_currency_amount: number;
 

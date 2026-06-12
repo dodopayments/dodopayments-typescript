@@ -62,6 +62,11 @@ export interface LicenseKey {
   id: string;
 
   /**
+   * Brand id this license key belongs to
+   */
+  brand_id: string;
+
+  /**
    * The unique identifier of the business associated with the license key.
    */
   business_id: string;
