@@ -792,6 +792,12 @@ export interface ProductListResponse {
   price_detail?: Price | null;
 
   /**
+   * Pricing mode for localized pricing. NULL means base-only (no localized rules
+   * apply).
+   */
+  pricing_mode?: 'by_currency' | 'by_country' | null;
+
+  /**
    * Indicates if the price is tax inclusive
    */
   tax_inclusive?: boolean | null;
