@@ -234,8 +234,7 @@ export interface Payment {
 
   /**
    * Which processor handled this payment. `stripe` / `adyen` for BYOP routes (the
-   * merchant's own Hyperswitch connector); `dodo` for everything Dodo processed
-   * itself.
+   * merchant's own payment connector); `dodo` for everything Dodo processed itself.
    */
   payment_provider: 'stripe' | 'adyen' | 'dodo';
 
@@ -402,7 +401,7 @@ export namespace Payment {
 }
 
 /**
- * All supported payment method types (from Hyperswitch).
+ * All supported payment method types.
  *
  * Used for disabled-payment-methods filtering and validation.
  */
@@ -635,8 +634,7 @@ export interface PaymentListResponse {
 
   /**
    * Which processor handled this payment. `stripe` / `adyen` for BYOP routes (the
-   * merchant's own Hyperswitch connector); `dodo` for everything Dodo processed
-   * itself.
+   * merchant's own payment connector); `dodo` for everything Dodo processed itself.
    */
   payment_provider: 'stripe' | 'adyen' | 'dodo';
 

@@ -148,7 +148,7 @@ export interface GetDispute {
 
   /**
    * Which processor handled the underlying payment. `stripe` / `adyen` for BYOP
-   * routes (the merchant's own Hyperswitch connector); `dodo` for everything Dodo
+   * routes (the merchant's own payment connector); `dodo` for everything Dodo
    * processed itself.
    */
   payment_provider: 'stripe' | 'adyen' | 'dodo';
@@ -213,7 +213,7 @@ export interface DisputeListResponse {
 
   /**
    * Which processor handled the underlying payment. `stripe` / `adyen` for BYOP
-   * routes (the merchant's own Hyperswitch connector); `dodo` for everything Dodo
+   * routes (the merchant's own payment connector); `dodo` for everything Dodo
    * processed itself.
    */
   payment_provider: 'stripe' | 'adyen' | 'dodo';
