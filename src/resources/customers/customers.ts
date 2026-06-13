@@ -214,7 +214,7 @@ export namespace CustomerRetrievePaymentMethodsResponse {
     last_used_at?: string | null;
 
     /**
-     * All supported payment method types (from Hyperswitch).
+     * All supported payment method types.
      *
      * Used for disabled-payment-methods filtering and validation.
      */
