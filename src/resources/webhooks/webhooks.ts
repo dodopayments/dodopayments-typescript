@@ -177,6 +177,11 @@ export namespace AbandonedCheckoutDetectedWebhookEvent {
 
     abandonment_reason: 'payment_failed' | 'checkout_incomplete';
 
+    /**
+     * Brand id this abandoned checkout belongs to
+     */
+    brand_id: string;
+
     customer_id: string;
 
     payment_id: string;
@@ -219,6 +224,11 @@ export namespace AbandonedCheckoutRecoveredWebhookEvent {
     abandoned_at: string;
 
     abandonment_reason: 'payment_failed' | 'checkout_incomplete';
+
+    /**
+     * Brand id this abandoned checkout belongs to
+     */
+    brand_id: string;
 
     customer_id: string;
 
@@ -280,6 +290,11 @@ export namespace CreditBalanceLowWebhookEvent {
    */
   export interface Data {
     available_balance: string;
+
+    /**
+     * Brand id this credit entitlement belongs to
+     */
+    brand_id: string;
 
     credit_entitlement_id: string;
 
@@ -611,6 +626,11 @@ export namespace DunningRecoveredWebhookEvent {
    * Webhook payload for dunning.started and dunning.recovered events
    */
   export interface Data {
+    /**
+     * Brand id this dunning attempt belongs to
+     */
+    brand_id: string;
+
     created_at: string;
 
     customer_id: string;
@@ -652,6 +672,11 @@ export namespace DunningStartedWebhookEvent {
    * Webhook payload for dunning.started and dunning.recovered events
    */
   export interface Data {
+    /**
+     * Brand id this dunning attempt belongs to
+     */
+    brand_id: string;
+
     created_at: string;
 
     customer_id: string;
@@ -1100,6 +1125,11 @@ export namespace AbandonedCheckoutDetectedWebhookEvent {
 
     abandonment_reason: 'payment_failed' | 'checkout_incomplete';
 
+    /**
+     * Brand id this abandoned checkout belongs to
+     */
+    brand_id: string;
+
     customer_id: string;
 
     payment_id: string;
@@ -1142,6 +1172,11 @@ export namespace AbandonedCheckoutRecoveredWebhookEvent {
     abandoned_at: string;
 
     abandonment_reason: 'payment_failed' | 'checkout_incomplete';
+
+    /**
+     * Brand id this abandoned checkout belongs to
+     */
+    brand_id: string;
 
     customer_id: string;
 
@@ -1203,6 +1238,11 @@ export namespace CreditBalanceLowWebhookEvent {
    */
   export interface Data {
     available_balance: string;
+
+    /**
+     * Brand id this credit entitlement belongs to
+     */
+    brand_id: string;
 
     credit_entitlement_id: string;
 
@@ -1534,6 +1574,11 @@ export namespace DunningRecoveredWebhookEvent {
    * Webhook payload for dunning.started and dunning.recovered events
    */
   export interface Data {
+    /**
+     * Brand id this dunning attempt belongs to
+     */
+    brand_id: string;
+
     created_at: string;
 
     customer_id: string;
@@ -1575,6 +1620,11 @@ export namespace DunningStartedWebhookEvent {
    * Webhook payload for dunning.started and dunning.recovered events
    */
   export interface Data {
+    /**
+     * Brand id this dunning attempt belongs to
+     */
+    brand_id: string;
+
     created_at: string;
 
     customer_id: string;

@@ -266,8 +266,9 @@ export interface Payment {
   settlement_currency: MiscAPI.Currency;
 
   /**
-   * Total amount charged to the customer including tax, in smallest currency unit
-   * (e.g. cents)
+   * Total amount charged to the customer including tax, in the currency's smallest
+   * unit (e.g. cents for USD, yen for JPY, fils for KWD — see the currency's decimal
+   * places)
    */
   total_amount: number;
 
@@ -381,7 +382,8 @@ export interface Payment {
   subscription_id?: string | null;
 
   /**
-   * Amount of tax collected in smallest currency unit (e.g. cents)
+   * Amount of tax collected in the currency's smallest unit (e.g. cents for USD, yen
+   * for JPY, fils for KWD)
    */
   tax?: number | null;
 
@@ -583,7 +585,8 @@ export interface PaymentCreateResponse {
   payment_id: string;
 
   /**
-   * Total amount of the payment in smallest currency unit (e.g. cents)
+   * Total amount of the payment in the currency's smallest unit (cents for USD, yen
+   * for JPY, fils for KWD)
    */
   total_amount: number;
 
