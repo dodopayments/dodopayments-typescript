@@ -125,6 +125,11 @@ export namespace WebhookPayload {
   export interface CreditBalanceLow {
     available_balance: string;
 
+    /**
+     * Brand id this credit entitlement belongs to
+     */
+    brand_id: string;
+
     credit_entitlement_id: string;
 
     credit_entitlement_name: string;
@@ -147,6 +152,11 @@ export namespace WebhookPayload {
 
     abandonment_reason: 'payment_failed' | 'checkout_incomplete';
 
+    /**
+     * Brand id this abandoned checkout belongs to
+     */
+    brand_id: string;
+
     customer_id: string;
 
     payload_type: 'AbandonedCheckout';
@@ -159,6 +169,11 @@ export namespace WebhookPayload {
   }
 
   export interface DunningAttempt {
+    /**
+     * Brand id this dunning attempt belongs to
+     */
+    brand_id: string;
+
     created_at: string;
 
     customer_id: string;
