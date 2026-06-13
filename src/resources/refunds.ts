@@ -35,6 +35,11 @@ export class Refunds extends APIResource {
 
 export interface Refund {
   /**
+   * Brand id this refund belongs to
+   */
+  brand_id: string;
+
+  /**
    * The unique identifier of the business issuing the refund.
    */
   business_id: string;

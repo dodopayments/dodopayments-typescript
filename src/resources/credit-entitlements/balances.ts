@@ -216,6 +216,11 @@ export interface CreditLedgerEntry {
 
   balance_before: string;
 
+  /**
+   * Brand id this credit ledger entry belongs to
+   */
+  brand_id: string;
+
   business_id: string;
 
   created_at: string;

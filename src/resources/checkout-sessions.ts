@@ -626,6 +626,14 @@ export interface CheckoutSessionPreviewResponse {
   current_breakup: CheckoutSessionPreviewResponse.CurrentBreakup;
 
   /**
+   * Whether the payment will be routed through the merchant's own processor (BYOP).
+   * True when the session's business has a BYOP route configured for the billing
+   * country; in that case the quoted amounts exclude Dodo-computed tax because the
+   * merchant is MoR and owns tax.
+   */
+  is_byop: boolean;
+
+  /**
    * The total product cart
    */
   product_cart: Array<CheckoutSessionPreviewResponse.ProductCart>;
