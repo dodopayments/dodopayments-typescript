@@ -272,9 +272,9 @@ export namespace IntegrationConfig {
     duration_interval?: SubscriptionsAPI.TimeInterval | null;
 
     /**
-     * Fulfillment mode: `auto` (default) generates keys automatically; `manual`
-     * creates pending grants the merchant fulfills via the
-     * `POST /grants/{id}/license-key` endpoint.
+     * How license keys are fulfilled. `auto` (default) generates and delivers keys to
+     * customers automatically; `manual` creates pending grants that you fulfill with
+     * the supplied key via `POST /grants/{grant_id}/license-key`.
      */
     fulfillment_mode?: 'auto' | 'manual' | null;
   }
@@ -443,11 +443,9 @@ export namespace IntegrationConfigResponse {
     duration_interval?: SubscriptionsAPI.TimeInterval | null;
 
     /**
-     * Fulfillment mode:
-     *
-     * `auto` (default) generate and delivery license keys to customers automatically.
-     * `manual` creates pending grants, actual key is provided via the fulfillment API
-     * and delivered to the customer when fulfilled.
+     * How license keys are fulfilled. `auto` (default) generates and delivers keys to
+     * customers automatically; `manual` creates pending grants that you fulfill with
+     * the supplied key via `POST /grants/{grant_id}/license-key`.
      */
     fulfillment_mode?: 'auto' | 'manual' | null;
   }

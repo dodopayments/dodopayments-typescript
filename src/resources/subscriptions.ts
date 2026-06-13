@@ -397,6 +397,11 @@ export interface Subscription {
   billing: PaymentsAPI.BillingAddress;
 
   /**
+   * Brand id this subscription belongs to
+   */
+  brand_id: string;
+
+  /**
    * Indicates if the subscription will cancel at the next billing date
    */
   cancel_at_next_billing_date: boolean;
@@ -473,8 +478,8 @@ export interface Subscription {
   quantity: number;
 
   /**
-   * Amount charged before tax for each recurring payment in smallest currency unit
-   * (e.g. cents)
+   * Amount charged before tax for each recurring payment in the currency's smallest
+   * unit (cents for USD, yen for JPY, fils for KWD)
    */
   recurring_pre_tax_amount: number;
 
@@ -793,8 +798,8 @@ export interface SubscriptionListResponse {
   quantity: number;
 
   /**
-   * Amount charged before tax for each recurring payment in smallest currency unit
-   * (e.g. cents)
+   * Amount charged before tax for each recurring payment in the currency's smallest
+   * unit (cents for USD, yen for JPY, fils for KWD)
    */
   recurring_pre_tax_amount: number;
 
@@ -1001,6 +1006,13 @@ export namespace SubscriptionPreviewChangePlanResponse {
     export interface Summary {
       currency: MiscAPI.Currency;
 
+      /**
+       * Net credit movement in the smallest currency unit (e.g. cents). **Negative** –
+       * credits were deducted from the customer's balance to offset the charge (typical
+       * on upgrades). **Positive** – credits were added to the customer's balance,
+       * either from a downgrade proration refund or from topping-up the wallet to meet a
+       * gateway minimum-charge threshold. **Zero** – no credit movement occurred.
+       */
       customer_credits: number;
 
       settlement_amount: number;
@@ -1130,7 +1142,8 @@ export namespace SubscriptionRetrieveUsageHistoryResponse {
     price_per_unit: string;
 
     /**
-     * Total price charged for this meter in smallest currency unit (cents)
+     * Total price charged for this meter in the currency's smallest unit (cents for
+     * USD, yen for JPY, fils for KWD)
      */
     total_price: number;
   }
