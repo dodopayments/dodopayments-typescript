@@ -102,6 +102,11 @@ export interface GetDispute {
   amount: string;
 
   /**
+   * Brand id this dispute belongs to
+   */
+  brand_id: string;
+
+  /**
    * The unique identifier of the business involved in the dispute.
    */
   business_id: string;
@@ -140,6 +145,13 @@ export interface GetDispute {
    * The unique identifier of the payment associated with the dispute.
    */
   payment_id: string;
+
+  /**
+   * Which processor handled the underlying payment. `stripe` / `adyen` for BYOP
+   * routes (the merchant's own Hyperswitch connector); `dodo` for everything Dodo
+   * processed itself.
+   */
+  payment_provider: 'stripe' | 'adyen' | 'dodo';
 
   /**
    * Whether the dispute was resolved by Rapid Dispute Resolution
