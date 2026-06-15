@@ -53,6 +53,21 @@ export const probeApiKey = async (environment: string, bearerToken: string): Pro
   }
 };
 
+// OAuthProvider keys every grant/token under `userId` and (since 0.8.0) revokes a
+// user's prior grants for the same client on re-auth. A stable id is therefore
+// required: a random id per authorization orphans grants and defeats that cleanup,
+// causing unbounded KV growth. Derive it as a SHA-256 hex digest of (environment,
+// key) so the same credentials always map to the same owner. The digest is one-way
+// (the raw key is never embedded), the NUL separator stops env/key boundary
+// collisions, and hex output guarantees no ':' — the character OAuthProvider uses
+// internally as a token field separator.
+export const stableUserId = async (environment: string, bearerToken: string): Promise<string> => {
+  const data = new TextEncoder().encode(`${environment}\u0000${bearerToken}`);
+  const digest = await crypto.subtle.digest('SHA-256', data);
+  const hex = [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
+  return `dodo_${hex}`;
+};
+
 export const layout = (content: HtmlEscapedString | string, title: string, config: ServerConfig) => html`
   <!doctype html>
   <html lang="en">

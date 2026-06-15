@@ -19,7 +19,6 @@ import { ClientOptions } from 'dodopayments';
 import { McpOptions } from 'dodopayments-mcp/options';
 import { initMcpServer, newMcpServer } from 'dodopayments-mcp/server';
 import { configureLogger } from 'dodopayments-mcp/logger';
-import type { ExportedHandler } from '@cloudflare/workers-types';
 import { executeToolDescriptor, runExecute } from './execute-tool';
 
 type MCPProps = {
@@ -223,9 +222,7 @@ export type ClientProperty = {
 // Export the OAuth handler as the default
 export default new OAuthProvider({
   apiHandlers: {
-    // @ts-expect-error
     '/sse': MyMCP.serveSSE('/sse'), // legacy SSE
-    // @ts-expect-error
     '/mcp': MyMCP.serve('/mcp'), // Streaming HTTP
   },
   // Type assertion needed due to Headers type mismatch between Hono and @cloudflare/workers-types
@@ -234,4 +231,13 @@ export default new OAuthProvider({
   authorizeEndpoint: '/authorize',
   tokenEndpoint: '/token',
   clientRegistrationEndpoint: '/register',
+  // This provider defaults refresh tokens to 30 days and dynamically-registered
+  // clients to 90 days; letting either expire forces every MCP client to re-run
+  // the full browser authorization once the window lapses. Pin both to `undefined`
+  // (never expire) so only the 1h access token rotates and refresh keeps sessions
+  // alive indefinitely. Do NOT "simplify" these away — omitting them re-enables the
+  // 30d/90d defaults and reintroduces periodic re-authorization.
+  accessTokenTTL: 3600,
+  refreshTokenTTL: undefined,
+  clientRegistrationTTL: undefined,
 });
