@@ -43,7 +43,8 @@ export function makeOAuthConsent(config: ServerConfig) {
       return c.html(
         layout(
           await renderLoggedOutAuthorizeScreen(config, {} as AuthRequest, {
-            formError: 'This authorization request is invalid. Please restart the connection from your MCP client.',
+            formError:
+              'This authorization request is invalid. Please restart the connection from your MCP client.',
           }),
           'Authorization',
           config,
