@@ -3,6 +3,11 @@
 # determines whether MCP clients are forced to re-authorize per session.
 # Usage: bash scripts/oauth-diag.sh <BASE_URL>
 # Requires DODO_TEST_KEY (test_mode key) in the environment.
+#
+# NOTE: this harness is tightly coupled to the current consent-flow HTML — it scrapes
+# the `oauthReqInfo` hidden field out of the /authorize page and the `code=` link out
+# of the /approve response. If src/utils.ts changes that markup (field names, form
+# shape), update the grep/sed extraction in get_code()/reg_and_req() accordingly.
 set -uo pipefail
 BASE="${1:?usage: oauth-diag.sh <BASE_URL>}"; KEY="${DODO_TEST_KEY:?set DODO_TEST_KEY}"
 

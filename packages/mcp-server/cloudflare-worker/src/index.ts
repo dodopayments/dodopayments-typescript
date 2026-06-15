@@ -225,9 +225,7 @@ export default new OAuthProvider({
     '/sse': MyMCP.serveSSE('/sse'), // legacy SSE
     '/mcp': MyMCP.serve('/mcp'), // Streaming HTTP
   },
-  // Type assertion needed due to Headers type mismatch between Hono and @cloudflare/workers-types
-  // At runtime, Hono's fetch handler is fully compatible with ExportedHandler
-  defaultHandler: makeOAuthConsent(serverConfig) as unknown as ExportedHandler,
+  defaultHandler: makeOAuthConsent(serverConfig),
   authorizeEndpoint: '/authorize',
   tokenEndpoint: '/token',
   clientRegistrationEndpoint: '/register',
@@ -236,7 +234,10 @@ export default new OAuthProvider({
   // the full browser authorization once the window lapses. Pin both to `undefined`
   // (never expire) so only the 1h access token rotates and refresh keeps sessions
   // alive indefinitely. Do NOT "simplify" these away — omitting them re-enables the
-  // 30d/90d defaults and reintroduces periodic re-authorization.
+  // 30d/90d defaults and reintroduces periodic re-authorization. Verified against
+  // @cloudflare/workers-oauth-provider 0.8.0: the constructor spreads
+  // `{ ...defaults, ...options }` and every TTL usage site gates on `!== void 0`, so
+  // an explicit `undefined` overrides the default rather than falling back to it.
   accessTokenTTL: 3600,
   refreshTokenTTL: undefined,
   clientRegistrationTTL: undefined,

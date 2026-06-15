@@ -494,6 +494,28 @@ export const renderAuthorizationRejectedContent = async (redirectUrl: string) =>
   return renderApproveContent('Authorization rejected.', 'error', redirectUrl);
 };
 
+// Shown when /authorize cannot parse the request (e.g. a redirect_uri that does not
+// match the client's registration). It deliberately omits the consent form: there is
+// no valid oauthReqInfo to submit, so rendering the form would let a stray "Approve"
+// click POST `oauthReqInfo={}` and dead-end on a bare `INVALID LOGIN` 401.
+export const renderAuthorizeErrorContent = async (message: string) => html`
+  <div class="max-w-md mx-auto bg-white border border-border-secondary p-8 rounded-lg shadow-sm text-center">
+    <div class="mb-5">
+      <span
+        class="inline-flex items-center justify-center w-12 h-12 text-xl bg-error-bg text-error-text rounded-full"
+        >✗</span
+      >
+    </div>
+    <h1 class="text-xl font-heading font-semibold mb-2 text-text-primary">Authorization request invalid</h1>
+    <p class="mb-6 text-sm text-text-secondary">${message}</p>
+    <a
+      href="/"
+      class="inline-flex items-center justify-center h-10 px-4 font-heading font-medium text-sm rounded-lg border border-transparent bg-ink text-white transition-all duration-300 hover:bg-brand hover:text-ink hover:border-border-primary focus:outline-none focus:ring-2 focus:ring-brand-border focus:ring-offset-2"
+      >Return to Home</a
+    >
+  </div>
+`;
+
 export const parseApproveFormBody = async (
   body: {
     [x: string]: string | File;

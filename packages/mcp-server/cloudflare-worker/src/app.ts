@@ -8,6 +8,7 @@ import {
   renderAuthorizationApprovedContent,
   renderLoggedOutAuthorizeScreen,
   renderAuthorizationRejectedContent,
+  renderAuthorizeErrorContent,
   stableUserId,
 } from './utils';
 import type { AuthRequest, OAuthHelpers } from '@cloudflare/workers-oauth-provider';
@@ -36,16 +37,16 @@ export function makeOAuthConsent(config: ServerConfig) {
     } catch (err) {
       // parseAuthRequest throws on a malformed request or a redirect_uri that does
       // not match the client's registration. Without this catch the throw escapes as
-      // an opaque HTTP 500; return a clean 400 consent-error page instead. Log only
-      // the error message (never the raw request URL/query, which carry client
-      // identifiers) so production can tell a redirect mismatch apart from a KV/provider failure.
+      // an opaque HTTP 500; render a clean 400 error page (no form — there is no valid
+      // request to submit) instead. Log only the error message (never the raw request
+      // URL/query, which carry client identifiers) so production can tell a redirect
+      // mismatch apart from a KV/provider failure.
       console.warn('OAuth /authorize parse failed:', err instanceof Error ? err.message : String(err));
       return c.html(
         layout(
-          await renderLoggedOutAuthorizeScreen(config, {} as AuthRequest, {
-            formError:
-              'This authorization request is invalid. Please restart the connection from your MCP client.',
-          }),
+          await renderAuthorizeErrorContent(
+            'This authorization request is invalid. Please restart the connection from your MCP client.',
+          ),
           'Authorization',
           config,
         ),
