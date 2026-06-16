@@ -649,9 +649,19 @@ export interface CheckoutSessionPreviewResponse {
   recurring_breakup?: CheckoutSessionPreviewResponse.RecurringBreakup | null;
 
   /**
+   * Registered business name from the official registry (EU/GB/AU) when found
+   */
+  tax_id_business_name?: string | null;
+
+  /**
    * Error message if tax ID validation failed
    */
   tax_id_err_msg?: string | null;
+
+  /**
+   * The matched tax ID notation (e.g. "VAT Number", "GSTIN") when valid
+   */
+  tax_id_format_name?: string | null;
 
   /**
    * Total tax
