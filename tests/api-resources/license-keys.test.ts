@@ -39,7 +39,7 @@ describe('resource licenseKeys', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.licenseKeys.retrieve('lic_123');
+    const responsePromise = client.licenseKeys.retrieve('lic_7namTC0VcgrnzrF3GTSwB');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -50,7 +50,7 @@ describe('resource licenseKeys', () => {
   });
 
   test('update', async () => {
-    const responsePromise = client.licenseKeys.update('lic_123', {});
+    const responsePromise = client.licenseKeys.update('lic_7namTC0VcgrnzrF3GTSwB', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

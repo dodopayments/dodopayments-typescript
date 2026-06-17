@@ -69,7 +69,7 @@ describe('resource productCollections', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.productCollections.retrieve('id');
+    const responsePromise = client.productCollections.retrieve('pdc_8BWv0hojwUH7iCDabr0NI');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -80,7 +80,7 @@ describe('resource productCollections', () => {
   });
 
   test('delete', async () => {
-    const responsePromise = client.productCollections.delete('id');
+    const responsePromise = client.productCollections.delete('pdc_8BWv0hojwUH7iCDabr0NI');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -91,7 +91,7 @@ describe('resource productCollections', () => {
   });
 
   test('update', async () => {
-    const responsePromise = client.productCollections.update('id', {});
+    const responsePromise = client.productCollections.update('pdc_8BWv0hojwUH7iCDabr0NI', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -102,7 +102,7 @@ describe('resource productCollections', () => {
   });
 
   test('updateImages', async () => {
-    const responsePromise = client.productCollections.updateImages('id');
+    const responsePromise = client.productCollections.updateImages('pdc_8BWv0hojwUH7iCDabr0NI');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -116,7 +116,7 @@ describe('resource productCollections', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.productCollections.updateImages(
-        'id',
+        'pdc_8BWv0hojwUH7iCDabr0NI',
         { force_update: true },
         { path: '/_stainless_unknown_path' },
       ),
@@ -124,7 +124,7 @@ describe('resource productCollections', () => {
   });
 
   test('unarchive', async () => {
-    const responsePromise = client.productCollections.unarchive('id');
+    const responsePromise = client.productCollections.unarchive('pdc_8BWv0hojwUH7iCDabr0NI');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

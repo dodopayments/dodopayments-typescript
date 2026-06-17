@@ -15,6 +15,15 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class Payments extends APIResource {
+  /**
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const paymentListResponse of client.payments.list()) {
+   *   // ...
+   * }
+   * ```
+   */
   list(
     query: PaymentListParams | null | undefined = {},
     options?: RequestOptions,
@@ -32,10 +41,26 @@ export class Payments extends APIResource {
     return this._client.post('/payments', { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const payment = await client.payments.retrieve(
+   *   'pay_gr4RizvMOXFJ6xca3y2tU',
+   * );
+   * ```
+   */
   retrieve(paymentID: string, options?: RequestOptions): APIPromise<Payment> {
     return this._client.get(path`/payments/${paymentID}`, options);
   }
 
+  /**
+   * @example
+   * ```ts
+   * const response = await client.payments.retrieveLineItems(
+   *   'pay_gr4RizvMOXFJ6xca3y2tU',
+   * );
+   * ```
+   */
   retrieveLineItems(
     paymentID: string,
     options?: RequestOptions,

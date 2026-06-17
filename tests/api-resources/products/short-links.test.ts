@@ -34,7 +34,7 @@ describe('resource shortLinks', () => {
   });
 
   test('create: only required params', async () => {
-    const responsePromise = client.products.shortLinks.create('id', { slug: 'slug' });
+    const responsePromise = client.products.shortLinks.create('pdt_R8AWMPiV8RyJElcCKvAID', { slug: 'slug' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -45,7 +45,7 @@ describe('resource shortLinks', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.products.shortLinks.create('id', {
+    const response = await client.products.shortLinks.create('pdt_R8AWMPiV8RyJElcCKvAID', {
       slug: 'slug',
       static_checkout_params: { foo: 'string' },
     });

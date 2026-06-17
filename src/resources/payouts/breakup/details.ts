@@ -17,6 +17,16 @@ export class Details extends APIResource {
    * entry's amount pro-rated into the payout's currency. Supports pagination via
    * `page_size` (default 10, max 100) and `page_number` (default 0) query
    * parameters.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const detailListResponse of client.payouts.breakup.details.list(
+   *   'pyt_zFTrrn4sk3x3y2vjDBW3T',
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     payoutID: string,
@@ -35,6 +45,13 @@ export class Details extends APIResource {
    * balance ledger entry with columns: Ledger ID, Event Type, Original Amount,
    * Original Currency, Reference Object ID, Description, Created At, USD Equivalent
    * Amount, and Payout Currency Amount.
+   *
+   * @example
+   * ```ts
+   * await client.payouts.breakup.details.downloadCsv(
+   *   'pyt_zFTrrn4sk3x3y2vjDBW3T',
+   * );
+   * ```
    */
   downloadCsv(payoutID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/payouts/${payoutID}/breakup/details/csv`, {
