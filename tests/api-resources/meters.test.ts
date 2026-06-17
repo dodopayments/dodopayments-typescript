@@ -75,7 +75,7 @@ describe('resource meters', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.meters.retrieve('id');
+    const responsePromise = client.meters.retrieve('mtr_h5tgTWL55OyMO0L2Q9w9v');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -86,7 +86,7 @@ describe('resource meters', () => {
   });
 
   test('archive', async () => {
-    const responsePromise = client.meters.archive('id');
+    const responsePromise = client.meters.archive('mtr_h5tgTWL55OyMO0L2Q9w9v');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -97,7 +97,7 @@ describe('resource meters', () => {
   });
 
   test('unarchive', async () => {
-    const responsePromise = client.meters.unarchive('id');
+    const responsePromise = client.meters.unarchive('mtr_h5tgTWL55OyMO0L2Q9w9v');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

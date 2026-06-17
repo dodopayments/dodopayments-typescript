@@ -53,7 +53,7 @@ describe('resource webhooks', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.webhooks.retrieve('webhook_id');
+    const responsePromise = client.webhooks.retrieve('whk_YdWqVEGKmSYKbsIyDxEab');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -64,7 +64,7 @@ describe('resource webhooks', () => {
   });
 
   test('delete', async () => {
-    const responsePromise = client.webhooks.delete('webhook_id');
+    const responsePromise = client.webhooks.delete('whk_YdWqVEGKmSYKbsIyDxEab');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -75,7 +75,7 @@ describe('resource webhooks', () => {
   });
 
   test('update', async () => {
-    const responsePromise = client.webhooks.update('webhook_id', {});
+    const responsePromise = client.webhooks.update('whk_YdWqVEGKmSYKbsIyDxEab', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -86,7 +86,7 @@ describe('resource webhooks', () => {
   });
 
   test('retrieveSecret', async () => {
-    const responsePromise = client.webhooks.retrieveSecret('webhook_id');
+    const responsePromise = client.webhooks.retrieveSecret('whk_YdWqVEGKmSYKbsIyDxEab');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

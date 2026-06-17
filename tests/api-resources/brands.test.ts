@@ -31,7 +31,7 @@ describe('resource brands', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.brands.retrieve('id');
+    const responsePromise = client.brands.retrieve('brnd_8dFiAW42v28JzhlVSocjq');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -42,7 +42,7 @@ describe('resource brands', () => {
   });
 
   test('update', async () => {
-    const responsePromise = client.brands.update('id', {});
+    const responsePromise = client.brands.update('brnd_8dFiAW42v28JzhlVSocjq', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -53,7 +53,7 @@ describe('resource brands', () => {
   });
 
   test('updateImages', async () => {
-    const responsePromise = client.brands.updateImages('id');
+    const responsePromise = client.brands.updateImages('brnd_8dFiAW42v28JzhlVSocjq');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

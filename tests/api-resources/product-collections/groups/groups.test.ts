@@ -9,7 +9,7 @@ const client = new DodoPayments({
 
 describe('resource groups', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.productCollections.groups.create('id', {
+    const responsePromise = client.productCollections.groups.create('pdc_8BWv0hojwUH7iCDabr0NI', {
       products: [{ product_id: 'product_id' }],
     });
     const rawResponse = await responsePromise.asResponse();
@@ -22,7 +22,7 @@ describe('resource groups', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.productCollections.groups.create('id', {
+    const response = await client.productCollections.groups.create('pdc_8BWv0hojwUH7iCDabr0NI', {
       products: [{ product_id: 'product_id', status: true }],
       group_name: 'group_name',
       status: true,
@@ -31,7 +31,7 @@ describe('resource groups', () => {
 
   test('delete: only required params', async () => {
     const responsePromise = client.productCollections.groups.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
-      id: 'id',
+      id: 'pdc_8BWv0hojwUH7iCDabr0NI',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -44,13 +44,13 @@ describe('resource groups', () => {
 
   test('delete: required and optional params', async () => {
     const response = await client.productCollections.groups.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
-      id: 'id',
+      id: 'pdc_8BWv0hojwUH7iCDabr0NI',
     });
   });
 
   test('update: only required params', async () => {
     const responsePromise = client.productCollections.groups.update('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
-      id: 'id',
+      id: 'pdc_8BWv0hojwUH7iCDabr0NI',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -63,7 +63,7 @@ describe('resource groups', () => {
 
   test('update: required and optional params', async () => {
     const response = await client.productCollections.groups.update('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
-      id: 'id',
+      id: 'pdc_8BWv0hojwUH7iCDabr0NI',
       group_name: 'group_name',
       product_order: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
       status: true,

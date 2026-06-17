@@ -9,6 +9,13 @@ import { path } from '../../internal/utils/path';
 export class Headers extends APIResource {
   /**
    * Get a webhook by id
+   *
+   * @example
+   * ```ts
+   * const header = await client.webhooks.headers.retrieve(
+   *   'whk_YdWqVEGKmSYKbsIyDxEab',
+   * );
+   * ```
    */
   retrieve(webhookID: string, options?: RequestOptions): APIPromise<HeaderRetrieveResponse> {
     return this._client.get(path`/webhooks/${webhookID}/headers`, options);
@@ -16,6 +23,14 @@ export class Headers extends APIResource {
 
   /**
    * Patch a webhook by id
+   *
+   * @example
+   * ```ts
+   * await client.webhooks.headers.update(
+   *   'whk_YdWqVEGKmSYKbsIyDxEab',
+   *   { headers: { foo: 'string' } },
+   * );
+   * ```
    */
   update(webhookID: string, body: HeaderUpdateParams, options?: RequestOptions): APIPromise<void> {
     return this._client.patch(path`/webhooks/${webhookID}/headers`, {

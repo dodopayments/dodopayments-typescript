@@ -91,7 +91,7 @@ describe('resource payments', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.payments.retrieve('payment_id');
+    const responsePromise = client.payments.retrieve('pay_gr4RizvMOXFJ6xca3y2tU');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -102,7 +102,7 @@ describe('resource payments', () => {
   });
 
   test('retrieveLineItems', async () => {
-    const responsePromise = client.payments.retrieveLineItems('payment_id');
+    const responsePromise = client.payments.retrieveLineItems('pay_gr4RizvMOXFJ6xca3y2tU');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

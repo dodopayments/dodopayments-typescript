@@ -151,7 +151,7 @@ describe('resource checkoutSessions', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.checkoutSessions.retrieve('id');
+    const responsePromise = client.checkoutSessions.retrieve('cks_n010SZaY4NXc7F1ck3Tq1');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

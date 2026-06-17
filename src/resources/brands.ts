@@ -6,25 +6,60 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class Brands extends APIResource {
+  /**
+   * @example
+   * ```ts
+   * const brands = await client.brands.list();
+   * ```
+   */
   list(options?: RequestOptions): APIPromise<BrandListResponse> {
     return this._client.get('/brands', options);
   }
 
+  /**
+   * @example
+   * ```ts
+   * const brand = await client.brands.create();
+   * ```
+   */
   create(body: BrandCreateParams, options?: RequestOptions): APIPromise<Brand> {
     return this._client.post('/brands', { body, ...options });
   }
 
   /**
    * Thin handler just calls `get_brand` and wraps in `Json(...)`
+   *
+   * @example
+   * ```ts
+   * const brand = await client.brands.retrieve(
+   *   'brnd_8dFiAW42v28JzhlVSocjq',
+   * );
+   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<Brand> {
     return this._client.get(path`/brands/${id}`, options);
   }
 
+  /**
+   * @example
+   * ```ts
+   * const brand = await client.brands.update(
+   *   'brnd_8dFiAW42v28JzhlVSocjq',
+   * );
+   * ```
+   */
   update(id: string, body: BrandUpdateParams, options?: RequestOptions): APIPromise<Brand> {
     return this._client.patch(path`/brands/${id}`, { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const response = await client.brands.updateImages(
+   *   'brnd_8dFiAW42v28JzhlVSocjq',
+   * );
+   * ```
+   */
   updateImages(id: string, options?: RequestOptions): APIPromise<BrandUpdateImagesResponse> {
     return this._client.put(path`/brands/${id}/images`, options);
   }
