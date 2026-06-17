@@ -17,6 +17,14 @@ import { path } from '../../../internal/utils/path';
 export class Wallets extends APIResource {
   ledgerEntries: LedgerEntriesAPI.LedgerEntries = new LedgerEntriesAPI.LedgerEntries(this._client);
 
+  /**
+   * @example
+   * ```ts
+   * const wallets = await client.customers.wallets.list(
+   *   'cus_TV52uJWWXt2yIoBBxpjaa',
+   * );
+   * ```
+   */
   list(customerID: string, options?: RequestOptions): APIPromise<WalletListResponse> {
     return this._client.get(path`/customers/${customerID}/wallets`, options);
   }

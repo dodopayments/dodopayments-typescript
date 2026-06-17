@@ -31,6 +31,15 @@ export class Products extends APIResource {
   images: ImagesAPI.Images = new ImagesAPI.Images(this._client);
   shortLinks: ShortLinksAPI.ShortLinks = new ShortLinksAPI.ShortLinks(this._client);
 
+  /**
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const productListResponse of client.products.list()) {
+   *   // ...
+   * }
+   * ```
+   */
   list(
     query: ProductListParams | null | undefined = {},
     options?: RequestOptions,
@@ -41,14 +50,44 @@ export class Products extends APIResource {
     });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const product = await client.products.create({
+   *   name: 'name',
+   *   price: {
+   *     currency: 'AED',
+   *     discount: 0,
+   *     price: 0,
+   *     purchasing_power_parity: true,
+   *     type: 'one_time_price',
+   *   },
+   *   tax_category: 'digital_products',
+   * });
+   * ```
+   */
   create(body: ProductCreateParams, options?: RequestOptions): APIPromise<Product> {
     return this._client.post('/products', { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const product = await client.products.retrieve(
+   *   'pdt_R8AWMPiV8RyJElcCKvAID',
+   * );
+   * ```
+   */
   retrieve(id: string, options?: RequestOptions): APIPromise<Product> {
     return this._client.get(path`/products/${id}`, options);
   }
 
+  /**
+   * @example
+   * ```ts
+   * await client.products.update('pdt_R8AWMPiV8RyJElcCKvAID');
+   * ```
+   */
   update(id: string, body: ProductUpdateParams, options?: RequestOptions): APIPromise<void> {
     return this._client.patch(path`/products/${id}`, {
       body,
@@ -57,6 +96,12 @@ export class Products extends APIResource {
     });
   }
 
+  /**
+   * @example
+   * ```ts
+   * await client.products.archive('pdt_R8AWMPiV8RyJElcCKvAID');
+   * ```
+   */
   archive(id: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/products/${id}`, {
       ...options,
@@ -64,6 +109,14 @@ export class Products extends APIResource {
     });
   }
 
+  /**
+   * @example
+   * ```ts
+   * await client.products.unarchive(
+   *   'pdt_R8AWMPiV8RyJElcCKvAID',
+   * );
+   * ```
+   */
   unarchive(id: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/products/${id}/unarchive`, {
       ...options,
@@ -71,6 +124,15 @@ export class Products extends APIResource {
     });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const response = await client.products.updateFiles(
+   *   'pdt_R8AWMPiV8RyJElcCKvAID',
+   *   { file_name: 'file_name' },
+   * );
+   * ```
+   */
   updateFiles(
     id: string,
     body: ProductUpdateFilesParams,

@@ -15,6 +15,16 @@ import { path } from '../../internal/utils/path';
 export class Grants extends APIResource {
   /**
    * GET /entitlements/{id}/grants (public API)
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const entitlementGrant of client.entitlements.grants.list(
+   *   'ent_jt7jcvI79Xh8eehqgWdcm',
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     id: string,
@@ -31,6 +41,15 @@ export class Grants extends APIResource {
   /**
    * Revoke a single grant. Idempotent: re-revoking an already-revoked grant returns
    * the grant in its current state.
+   *
+   * @example
+   * ```ts
+   * const entitlementGrant =
+   *   await client.entitlements.grants.revoke(
+   *     'entg_w0ZCJZgNXuNDdMVzvja6p',
+   *     { id: 'ent_jt7jcvI79Xh8eehqgWdcm' },
+   *   );
+   * ```
    */
   revoke(grantID: string, params: GrantRevokeParams, options?: RequestOptions): APIPromise<EntitlementGrant> {
     const { id } = params;

@@ -102,7 +102,7 @@ describe('resource subscriptions', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.subscriptions.retrieve('subscription_id');
+    const responsePromise = client.subscriptions.retrieve('sub_Iuaq622bbmmfOGrVTqdXv');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -113,7 +113,7 @@ describe('resource subscriptions', () => {
   });
 
   test('update', async () => {
-    const responsePromise = client.subscriptions.update('subscription_id', {});
+    const responsePromise = client.subscriptions.update('sub_Iuaq622bbmmfOGrVTqdXv', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -124,7 +124,7 @@ describe('resource subscriptions', () => {
   });
 
   test('charge: only required params', async () => {
-    const responsePromise = client.subscriptions.charge('subscription_id', { product_price: 0 });
+    const responsePromise = client.subscriptions.charge('sub_Iuaq622bbmmfOGrVTqdXv', { product_price: 0 });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -135,7 +135,7 @@ describe('resource subscriptions', () => {
   });
 
   test('charge: required and optional params', async () => {
-    const response = await client.subscriptions.charge('subscription_id', {
+    const response = await client.subscriptions.charge('sub_Iuaq622bbmmfOGrVTqdXv', {
       product_price: 0,
       adaptive_currency_fees_inclusive: true,
       customer_balance_config: { allow_customer_credits_purchase: true, allow_customer_credits_usage: true },
@@ -146,7 +146,7 @@ describe('resource subscriptions', () => {
   });
 
   test('changePlan: only required params', async () => {
-    const responsePromise = client.subscriptions.changePlan('subscription_id', {
+    const responsePromise = client.subscriptions.changePlan('sub_Iuaq622bbmmfOGrVTqdXv', {
       product_id: 'product_id',
       proration_billing_mode: 'prorated_immediately',
       quantity: 0,
@@ -161,7 +161,7 @@ describe('resource subscriptions', () => {
   });
 
   test('changePlan: required and optional params', async () => {
-    const response = await client.subscriptions.changePlan('subscription_id', {
+    const response = await client.subscriptions.changePlan('sub_Iuaq622bbmmfOGrVTqdXv', {
       product_id: 'product_id',
       proration_billing_mode: 'prorated_immediately',
       quantity: 0,
@@ -176,7 +176,7 @@ describe('resource subscriptions', () => {
   });
 
   test('retrieveUsageHistory', async () => {
-    const responsePromise = client.subscriptions.retrieveUsageHistory('subscription_id');
+    const responsePromise = client.subscriptions.retrieveUsageHistory('sub_Iuaq622bbmmfOGrVTqdXv');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -190,7 +190,7 @@ describe('resource subscriptions', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.subscriptions.retrieveUsageHistory(
-        'subscription_id',
+        'sub_Iuaq622bbmmfOGrVTqdXv',
         {
           end_date: '2019-12-27T18:11:19.117Z',
           meter_id: 'meter_id',
@@ -204,7 +204,7 @@ describe('resource subscriptions', () => {
   });
 
   test('updatePaymentMethod: only required params', async () => {
-    const responsePromise = client.subscriptions.updatePaymentMethod('subscription_id', {
+    const responsePromise = client.subscriptions.updatePaymentMethod('sub_Iuaq622bbmmfOGrVTqdXv', {
       payment_method: { type: 'new' },
     });
     const rawResponse = await responsePromise.asResponse();
@@ -217,7 +217,7 @@ describe('resource subscriptions', () => {
   });
 
   test('updatePaymentMethod: required and optional params', async () => {
-    const response = await client.subscriptions.updatePaymentMethod('subscription_id', {
+    const response = await client.subscriptions.updatePaymentMethod('sub_Iuaq622bbmmfOGrVTqdXv', {
       payment_method: {
         type: 'new',
         allowed_payment_method_types: ['ach'],
@@ -227,7 +227,7 @@ describe('resource subscriptions', () => {
   });
 
   test('previewChangePlan: only required params', async () => {
-    const responsePromise = client.subscriptions.previewChangePlan('subscription_id', {
+    const responsePromise = client.subscriptions.previewChangePlan('sub_Iuaq622bbmmfOGrVTqdXv', {
       product_id: 'product_id',
       proration_billing_mode: 'prorated_immediately',
       quantity: 0,
@@ -242,7 +242,7 @@ describe('resource subscriptions', () => {
   });
 
   test('previewChangePlan: required and optional params', async () => {
-    const response = await client.subscriptions.previewChangePlan('subscription_id', {
+    const response = await client.subscriptions.previewChangePlan('sub_Iuaq622bbmmfOGrVTqdXv', {
       product_id: 'product_id',
       proration_billing_mode: 'prorated_immediately',
       quantity: 0,
@@ -257,7 +257,7 @@ describe('resource subscriptions', () => {
   });
 
   test('retrieveCreditUsage', async () => {
-    const responsePromise = client.subscriptions.retrieveCreditUsage('subscription_id');
+    const responsePromise = client.subscriptions.retrieveCreditUsage('sub_Iuaq622bbmmfOGrVTqdXv');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -268,7 +268,7 @@ describe('resource subscriptions', () => {
   });
 
   test('cancelChangePlan', async () => {
-    const responsePromise = client.subscriptions.cancelChangePlan('subscription_id');
+    const responsePromise = client.subscriptions.cancelChangePlan('sub_Iuaq622bbmmfOGrVTqdXv');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

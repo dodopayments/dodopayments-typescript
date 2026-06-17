@@ -9,7 +9,7 @@ const client = new DodoPayments({
 
 describe('resource details', () => {
   test('list', async () => {
-    const responsePromise = client.payouts.breakup.details.list('payout_id');
+    const responsePromise = client.payouts.breakup.details.list('pyt_zFTrrn4sk3x3y2vjDBW3T');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -23,7 +23,7 @@ describe('resource details', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.payouts.breakup.details.list(
-        'payout_id',
+        'pyt_zFTrrn4sk3x3y2vjDBW3T',
         { page_number: 0, page_size: 0 },
         { path: '/_stainless_unknown_path' },
       ),
@@ -31,7 +31,7 @@ describe('resource details', () => {
   });
 
   test('downloadCsv', async () => {
-    const responsePromise = client.payouts.breakup.details.downloadCsv('payout_id');
+    const responsePromise = client.payouts.breakup.details.downloadCsv('pyt_zFTrrn4sk3x3y2vjDBW3T');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

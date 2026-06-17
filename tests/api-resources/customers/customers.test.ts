@@ -37,7 +37,7 @@ describe('resource customers', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.customers.retrieve('customer_id');
+    const responsePromise = client.customers.retrieve('cus_TV52uJWWXt2yIoBBxpjaa');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -68,7 +68,7 @@ describe('resource customers', () => {
   });
 
   test('update', async () => {
-    const responsePromise = client.customers.update('customer_id', {});
+    const responsePromise = client.customers.update('cus_TV52uJWWXt2yIoBBxpjaa', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -79,7 +79,7 @@ describe('resource customers', () => {
   });
 
   test('retrievePaymentMethods', async () => {
-    const responsePromise = client.customers.retrievePaymentMethods('customer_id');
+    const responsePromise = client.customers.retrievePaymentMethods('cus_TV52uJWWXt2yIoBBxpjaa');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -90,7 +90,7 @@ describe('resource customers', () => {
   });
 
   test('listCreditEntitlements', async () => {
-    const responsePromise = client.customers.listCreditEntitlements('customer_id');
+    const responsePromise = client.customers.listCreditEntitlements('cus_TV52uJWWXt2yIoBBxpjaa');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -102,7 +102,7 @@ describe('resource customers', () => {
 
   test('deletePaymentMethod: only required params', async () => {
     const responsePromise = client.customers.deletePaymentMethod('payment_method_id', {
-      customer_id: 'customer_id',
+      customer_id: 'cus_TV52uJWWXt2yIoBBxpjaa',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -115,12 +115,12 @@ describe('resource customers', () => {
 
   test('deletePaymentMethod: required and optional params', async () => {
     const response = await client.customers.deletePaymentMethod('payment_method_id', {
-      customer_id: 'customer_id',
+      customer_id: 'cus_TV52uJWWXt2yIoBBxpjaa',
     });
   });
 
   test('listEntitlements', async () => {
-    const responsePromise = client.customers.listEntitlements('customer_id');
+    const responsePromise = client.customers.listEntitlements('cus_TV52uJWWXt2yIoBBxpjaa');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

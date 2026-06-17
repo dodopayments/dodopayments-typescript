@@ -24,6 +24,15 @@ import { path } from '../../internal/utils/path';
 export class ProductCollections extends APIResource {
   groups: GroupsAPI.Groups = new GroupsAPI.Groups(this._client);
 
+  /**
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const productCollectionListResponse of client.productCollections.list()) {
+   *   // ...
+   * }
+   * ```
+   */
   list(
     query: ProductCollectionListParams | null | undefined = {},
     options?: RequestOptions,
@@ -35,14 +44,41 @@ export class ProductCollections extends APIResource {
     );
   }
 
+  /**
+   * @example
+   * ```ts
+   * const productCollection =
+   *   await client.productCollections.create({
+   *     groups: [{ products: [{ product_id: 'product_id' }] }],
+   *     name: 'name',
+   *   });
+   * ```
+   */
   create(body: ProductCollectionCreateParams, options?: RequestOptions): APIPromise<ProductCollection> {
     return this._client.post('/product-collections', { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const productCollection =
+   *   await client.productCollections.retrieve(
+   *     'pdc_8BWv0hojwUH7iCDabr0NI',
+   *   );
+   * ```
+   */
   retrieve(id: string, options?: RequestOptions): APIPromise<ProductCollection> {
     return this._client.get(path`/product-collections/${id}`, options);
   }
 
+  /**
+   * @example
+   * ```ts
+   * await client.productCollections.delete(
+   *   'pdc_8BWv0hojwUH7iCDabr0NI',
+   * );
+   * ```
+   */
   delete(id: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/product-collections/${id}`, {
       ...options,
@@ -50,6 +86,14 @@ export class ProductCollections extends APIResource {
     });
   }
 
+  /**
+   * @example
+   * ```ts
+   * await client.productCollections.update(
+   *   'pdc_8BWv0hojwUH7iCDabr0NI',
+   * );
+   * ```
+   */
   update(id: string, body: ProductCollectionUpdateParams, options?: RequestOptions): APIPromise<void> {
     return this._client.patch(path`/product-collections/${id}`, {
       body,
@@ -58,6 +102,15 @@ export class ProductCollections extends APIResource {
     });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const response =
+   *   await client.productCollections.updateImages(
+   *     'pdc_8BWv0hojwUH7iCDabr0NI',
+   *   );
+   * ```
+   */
   updateImages(
     id: string,
     params: ProductCollectionUpdateImagesParams | null | undefined = {},
@@ -67,6 +120,14 @@ export class ProductCollections extends APIResource {
     return this._client.put(path`/product-collections/${id}/images`, { query: { force_update }, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const response = await client.productCollections.unarchive(
+   *   'pdc_8BWv0hojwUH7iCDabr0NI',
+   * );
+   * ```
+   */
   unarchive(id: string, options?: RequestOptions): APIPromise<ProductCollectionUnarchiveResponse> {
     return this._client.post(path`/product-collections/${id}/unarchive`, options);
   }

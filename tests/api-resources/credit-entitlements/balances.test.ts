@@ -9,7 +9,7 @@ const client = new DodoPayments({
 
 describe('resource balances', () => {
   test('list', async () => {
-    const responsePromise = client.creditEntitlements.balances.list('credit_entitlement_id');
+    const responsePromise = client.creditEntitlements.balances.list('cde_ztxm5XJsKxWucRWA3rjdM');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -23,7 +23,7 @@ describe('resource balances', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.creditEntitlements.balances.list(
-        'credit_entitlement_id',
+        'cde_ztxm5XJsKxWucRWA3rjdM',
         {
           customer_id: 'customer_id',
           page_number: 0,
@@ -35,8 +35,8 @@ describe('resource balances', () => {
   });
 
   test('retrieve: only required params', async () => {
-    const responsePromise = client.creditEntitlements.balances.retrieve('customer_id', {
-      credit_entitlement_id: 'credit_entitlement_id',
+    const responsePromise = client.creditEntitlements.balances.retrieve('cus_TV52uJWWXt2yIoBBxpjaa', {
+      credit_entitlement_id: 'cde_ztxm5XJsKxWucRWA3rjdM',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -48,14 +48,14 @@ describe('resource balances', () => {
   });
 
   test('retrieve: required and optional params', async () => {
-    const response = await client.creditEntitlements.balances.retrieve('customer_id', {
-      credit_entitlement_id: 'credit_entitlement_id',
+    const response = await client.creditEntitlements.balances.retrieve('cus_TV52uJWWXt2yIoBBxpjaa', {
+      credit_entitlement_id: 'cde_ztxm5XJsKxWucRWA3rjdM',
     });
   });
 
   test('listGrants: only required params', async () => {
-    const responsePromise = client.creditEntitlements.balances.listGrants('customer_id', {
-      credit_entitlement_id: 'credit_entitlement_id',
+    const responsePromise = client.creditEntitlements.balances.listGrants('cus_TV52uJWWXt2yIoBBxpjaa', {
+      credit_entitlement_id: 'cde_ztxm5XJsKxWucRWA3rjdM',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -67,8 +67,8 @@ describe('resource balances', () => {
   });
 
   test('listGrants: required and optional params', async () => {
-    const response = await client.creditEntitlements.balances.listGrants('customer_id', {
-      credit_entitlement_id: 'credit_entitlement_id',
+    const response = await client.creditEntitlements.balances.listGrants('cus_TV52uJWWXt2yIoBBxpjaa', {
+      credit_entitlement_id: 'cde_ztxm5XJsKxWucRWA3rjdM',
       page_number: 0,
       page_size: 0,
       status: 'active',
@@ -76,8 +76,8 @@ describe('resource balances', () => {
   });
 
   test('listLedger: only required params', async () => {
-    const responsePromise = client.creditEntitlements.balances.listLedger('customer_id', {
-      credit_entitlement_id: 'credit_entitlement_id',
+    const responsePromise = client.creditEntitlements.balances.listLedger('cus_TV52uJWWXt2yIoBBxpjaa', {
+      credit_entitlement_id: 'cde_ztxm5XJsKxWucRWA3rjdM',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -89,8 +89,8 @@ describe('resource balances', () => {
   });
 
   test('listLedger: required and optional params', async () => {
-    const response = await client.creditEntitlements.balances.listLedger('customer_id', {
-      credit_entitlement_id: 'credit_entitlement_id',
+    const response = await client.creditEntitlements.balances.listLedger('cus_TV52uJWWXt2yIoBBxpjaa', {
+      credit_entitlement_id: 'cde_ztxm5XJsKxWucRWA3rjdM',
       end_date: '2019-12-27T18:11:19.117Z',
       page_number: 0,
       page_size: 0,
@@ -100,11 +100,14 @@ describe('resource balances', () => {
   });
 
   test('createLedgerEntry: only required params', async () => {
-    const responsePromise = client.creditEntitlements.balances.createLedgerEntry('customer_id', {
-      credit_entitlement_id: 'credit_entitlement_id',
-      amount: 'amount',
-      entry_type: 'credit',
-    });
+    const responsePromise = client.creditEntitlements.balances.createLedgerEntry(
+      'cus_TV52uJWWXt2yIoBBxpjaa',
+      {
+        credit_entitlement_id: 'cde_ztxm5XJsKxWucRWA3rjdM',
+        amount: 'amount',
+        entry_type: 'credit',
+      },
+    );
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -115,8 +118,8 @@ describe('resource balances', () => {
   });
 
   test('createLedgerEntry: required and optional params', async () => {
-    const response = await client.creditEntitlements.balances.createLedgerEntry('customer_id', {
-      credit_entitlement_id: 'credit_entitlement_id',
+    const response = await client.creditEntitlements.balances.createLedgerEntry('cus_TV52uJWWXt2yIoBBxpjaa', {
+      credit_entitlement_id: 'cde_ztxm5XJsKxWucRWA3rjdM',
       amount: 'amount',
       entry_type: 'credit',
       expires_at: '2019-12-27T18:11:19.117Z',

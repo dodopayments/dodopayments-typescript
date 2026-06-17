@@ -13,6 +13,14 @@ import { path } from '../../internal/utils/path';
 export class ShortLinks extends APIResource {
   /**
    * Lists all short links created by the business.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const shortLinkListResponse of client.products.shortLinks.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query: ShortLinkListParams | null | undefined = {},
@@ -28,6 +36,14 @@ export class ShortLinks extends APIResource {
   /**
    * Gives a Short Checkout URL with custom slug for a product. Uses a Static
    * Checkout URL under the hood.
+   *
+   * @example
+   * ```ts
+   * const shortLink = await client.products.shortLinks.create(
+   *   'pdt_R8AWMPiV8RyJElcCKvAID',
+   *   { slug: 'slug' },
+   * );
+   * ```
    */
   create(
     id: string,
