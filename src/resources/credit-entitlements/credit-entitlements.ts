@@ -60,6 +60,14 @@ export class CreditEntitlements extends APIResource {
    * - Only entitlements belonging to the authenticated business are returned
    * - The `deleted` parameter controls visibility of soft-deleted entitlements
    * - Pagination uses offset-based pagination (offset = page_number \* page_size)
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const creditEntitlement of client.creditEntitlements.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query: CreditEntitlementListParams | null | undefined = {},
@@ -115,6 +123,18 @@ export class CreditEntitlements extends APIResource {
    * - price_per_unit is required when overage_enabled is true
    * - rollover_timeframe_count and rollover_timeframe_interval must both be set or
    *   both be null
+   *
+   * @example
+   * ```ts
+   * const creditEntitlement =
+   *   await client.creditEntitlements.create({
+   *     name: 'name',
+   *     overage_enabled: true,
+   *     precision: 0,
+   *     rollover_enabled: true,
+   *     unit: 'unit',
+   *   });
+   * ```
    */
   create(body: CreditEntitlementCreateParams, options?: RequestOptions): APIPromise<CreditEntitlement> {
     return this._client.post('/credit-entitlements', { body, ...options });
@@ -145,11 +165,27 @@ export class CreditEntitlements extends APIResource {
    * - The entitlement must belong to the authenticated business (business_id check)
    * - Deleted entitlements return a 404 error and must be retrieved via the list
    *   endpoint with `deleted=true`
+   *
+   * @example
+   * ```ts
+   * const creditEntitlement =
+   *   await client.creditEntitlements.retrieve(
+   *     'cde_ztxm5XJsKxWucRWA3rjdM',
+   *   );
+   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<CreditEntitlement> {
     return this._client.get(path`/credit-entitlements/${id}`, options);
   }
 
+  /**
+   * @example
+   * ```ts
+   * await client.creditEntitlements.delete(
+   *   'cde_ztxm5XJsKxWucRWA3rjdM',
+   * );
+   * ```
+   */
   delete(id: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/credit-entitlements/${id}`, {
       ...options,
@@ -214,6 +250,13 @@ export class CreditEntitlements extends APIResource {
    *   credit grants
    * - The merged state is validated: currency required with price, rollover
    *   timeframe fields together, price required for overage
+   *
+   * @example
+   * ```ts
+   * await client.creditEntitlements.update(
+   *   'cde_ztxm5XJsKxWucRWA3rjdM',
+   * );
+   * ```
    */
   update(id: string, body: CreditEntitlementUpdateParams, options?: RequestOptions): APIPromise<void> {
     return this._client.patch(path`/credit-entitlements/${id}`, {
@@ -264,6 +307,13 @@ export class CreditEntitlements extends APIResource {
    *
    * Callers should verify the entitlement exists and is deleted before calling this
    * endpoint.
+   *
+   * @example
+   * ```ts
+   * await client.creditEntitlements.undelete(
+   *   'cde_ztxm5XJsKxWucRWA3rjdM',
+   * );
+   * ```
    */
   undelete(id: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/credit-entitlements/${id}/undelete`, {

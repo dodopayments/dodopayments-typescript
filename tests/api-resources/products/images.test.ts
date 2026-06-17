@@ -9,7 +9,7 @@ const client = new DodoPayments({
 
 describe('resource images', () => {
   test('update', async () => {
-    const responsePromise = client.products.images.update('id');
+    const responsePromise = client.products.images.update('pdt_R8AWMPiV8RyJElcCKvAID');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,7 +22,11 @@ describe('resource images', () => {
   test('update: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.products.images.update('id', { force_update: true }, { path: '/_stainless_unknown_path' }),
+      client.products.images.update(
+        'pdt_R8AWMPiV8RyJElcCKvAID',
+        { force_update: true },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 });

@@ -9,7 +9,7 @@ const client = new DodoPayments({
 
 describe('resource customerPortal', () => {
   test('create', async () => {
-    const responsePromise = client.customers.customerPortal.create('customer_id');
+    const responsePromise = client.customers.customerPortal.create('cus_TV52uJWWXt2yIoBBxpjaa');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -23,7 +23,7 @@ describe('resource customerPortal', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.customers.customerPortal.create(
-        'customer_id',
+        'cus_TV52uJWWXt2yIoBBxpjaa',
         { return_url: 'return_url', send_email: true },
         { path: '/_stainless_unknown_path' },
       ),
