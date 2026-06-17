@@ -9,7 +9,7 @@ const client = new DodoPayments({
 
 describe('resource wallets', () => {
   test('list', async () => {
-    const responsePromise = client.customers.wallets.list('customer_id');
+    const responsePromise = client.customers.wallets.list('cus_TV52uJWWXt2yIoBBxpjaa');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

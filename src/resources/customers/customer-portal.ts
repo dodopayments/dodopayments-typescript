@@ -7,6 +7,15 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class CustomerPortal extends APIResource {
+  /**
+   * @example
+   * ```ts
+   * const customerPortalSession =
+   *   await client.customers.customerPortal.create(
+   *     'cus_TV52uJWWXt2yIoBBxpjaa',
+   *   );
+   * ```
+   */
   create(
     customerID: string,
     params: CustomerPortalCreateParams | null | undefined = {},

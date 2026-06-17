@@ -12,6 +12,15 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class Addons extends APIResource {
+  /**
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const addonResponse of client.addons.list()) {
+   *   // ...
+   * }
+   * ```
+   */
   list(
     query: AddonListParams | null | undefined = {},
     options?: RequestOptions,
@@ -22,18 +31,53 @@ export class Addons extends APIResource {
     });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const addonResponse = await client.addons.create({
+   *   currency: 'AED',
+   *   name: 'name',
+   *   price: 0,
+   *   tax_category: 'digital_products',
+   * });
+   * ```
+   */
   create(body: AddonCreateParams, options?: RequestOptions): APIPromise<AddonResponse> {
     return this._client.post('/addons', { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const addonResponse = await client.addons.retrieve(
+   *   'adn_NX1zdqW4Hbivsqz8vI9dc',
+   * );
+   * ```
+   */
   retrieve(id: string, options?: RequestOptions): APIPromise<AddonResponse> {
     return this._client.get(path`/addons/${id}`, options);
   }
 
+  /**
+   * @example
+   * ```ts
+   * const addonResponse = await client.addons.update(
+   *   'adn_NX1zdqW4Hbivsqz8vI9dc',
+   * );
+   * ```
+   */
   update(id: string, body: AddonUpdateParams, options?: RequestOptions): APIPromise<AddonResponse> {
     return this._client.patch(path`/addons/${id}`, { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const response = await client.addons.updateImages(
+   *   'adn_NX1zdqW4Hbivsqz8vI9dc',
+   * );
+   * ```
+   */
   updateImages(id: string, options?: RequestOptions): APIPromise<AddonUpdateImagesResponse> {
     return this._client.put(path`/addons/${id}/images`, options);
   }
