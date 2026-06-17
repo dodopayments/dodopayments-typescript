@@ -14,6 +14,15 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class Refunds extends APIResource {
+  /**
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const refundListItem of client.refunds.list()) {
+   *   // ...
+   * }
+   * ```
+   */
   list(
     query: RefundListParams | null | undefined = {},
     options?: RequestOptions,
@@ -24,10 +33,26 @@ export class Refunds extends APIResource {
     });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const refund = await client.refunds.create({
+   *   payment_id: 'payment_id',
+   * });
+   * ```
+   */
   create(body: RefundCreateParams, options?: RequestOptions): APIPromise<Refund> {
     return this._client.post('/refunds', { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const refund = await client.refunds.retrieve(
+   *   'ref_F0gZetLvTxxBrMU2CZcmy',
+   * );
+   * ```
+   */
   retrieve(refundID: string, options?: RequestOptions): APIPromise<Refund> {
     return this._client.get(path`/refunds/${refundID}`, options);
   }

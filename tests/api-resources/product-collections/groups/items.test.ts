@@ -11,7 +11,7 @@ describe('resource items', () => {
   test('create: only required params', async () => {
     const responsePromise = client.productCollections.groups.items.create(
       '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      { id: 'id', products: [{ product_id: 'product_id' }] },
+      { id: 'pdc_8BWv0hojwUH7iCDabr0NI', products: [{ product_id: 'product_id' }] },
     );
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -25,14 +25,14 @@ describe('resource items', () => {
   test('create: required and optional params', async () => {
     const response = await client.productCollections.groups.items.create(
       '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      { id: 'id', products: [{ product_id: 'product_id', status: true }] },
+      { id: 'pdc_8BWv0hojwUH7iCDabr0NI', products: [{ product_id: 'product_id', status: true }] },
     );
   });
 
   test('delete: only required params', async () => {
     const responsePromise = client.productCollections.groups.items.delete(
       '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      { id: 'id', group_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
+      { id: 'pdc_8BWv0hojwUH7iCDabr0NI', group_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
     );
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -46,7 +46,7 @@ describe('resource items', () => {
   test('delete: required and optional params', async () => {
     const response = await client.productCollections.groups.items.delete(
       '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      { id: 'id', group_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
+      { id: 'pdc_8BWv0hojwUH7iCDabr0NI', group_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
     );
   });
 
@@ -54,7 +54,7 @@ describe('resource items', () => {
     const responsePromise = client.productCollections.groups.items.update(
       '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       {
-        id: 'id',
+        id: 'pdc_8BWv0hojwUH7iCDabr0NI',
         group_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
         status: true,
       },
@@ -72,7 +72,7 @@ describe('resource items', () => {
     const response = await client.productCollections.groups.items.update(
       '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       {
-        id: 'id',
+        id: 'pdc_8BWv0hojwUH7iCDabr0NI',
         group_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
         status: true,
       },

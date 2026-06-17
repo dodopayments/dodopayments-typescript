@@ -30,6 +30,14 @@ export class Entitlements extends APIResource {
 
   /**
    * GET /entitlements
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const entitlement of client.entitlements.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query: EntitlementListParams | null | undefined = {},
@@ -43,6 +51,18 @@ export class Entitlements extends APIResource {
 
   /**
    * POST /entitlements
+   *
+   * @example
+   * ```ts
+   * const entitlement = await client.entitlements.create({
+   *   integration_config: {
+   *     permission: 'pull',
+   *     target_id: 'target_id',
+   *   },
+   *   integration_type: 'discord',
+   *   name: 'name',
+   * });
+   * ```
    */
   create(body: EntitlementCreateParams, options?: RequestOptions): APIPromise<Entitlement> {
     return this._client.post('/entitlements', { body, ...options });
@@ -50,6 +70,13 @@ export class Entitlements extends APIResource {
 
   /**
    * GET /entitlements/{id}
+   *
+   * @example
+   * ```ts
+   * const entitlement = await client.entitlements.retrieve(
+   *   'ent_jt7jcvI79Xh8eehqgWdcm',
+   * );
+   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<Entitlement> {
     return this._client.get(path`/entitlements/${id}`, options);
@@ -57,6 +84,13 @@ export class Entitlements extends APIResource {
 
   /**
    * DELETE /entitlements/{id} (soft-delete)
+   *
+   * @example
+   * ```ts
+   * await client.entitlements.delete(
+   *   'ent_jt7jcvI79Xh8eehqgWdcm',
+   * );
+   * ```
    */
   delete(id: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/entitlements/${id}`, {
@@ -67,6 +101,13 @@ export class Entitlements extends APIResource {
 
   /**
    * PATCH /entitlements/{id}
+   *
+   * @example
+   * ```ts
+   * const entitlement = await client.entitlements.update(
+   *   'ent_jt7jcvI79Xh8eehqgWdcm',
+   * );
+   * ```
    */
   update(id: string, body: EntitlementUpdateParams, options?: RequestOptions): APIPromise<Entitlement> {
     return this._client.patch(path`/entitlements/${id}`, { body, ...options });

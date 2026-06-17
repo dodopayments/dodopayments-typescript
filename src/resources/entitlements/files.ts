@@ -9,6 +9,13 @@ import { path } from '../../internal/utils/path';
 export class Files extends APIResource {
   /**
    * Attach a file to a `digital_files` entitlement. Per-file size cap: 500 MiB.
+   *
+   * @example
+   * ```ts
+   * const response = await client.entitlements.files.upload(
+   *   'ent_jt7jcvI79Xh8eehqgWdcm',
+   * );
+   * ```
    */
   upload(id: string, options?: RequestOptions): APIPromise<FileUploadResponse> {
     return this._client.post(path`/entitlements/${id}/files`, options);
@@ -16,6 +23,13 @@ export class Files extends APIResource {
 
   /**
    * Detach a previously-attached file from a `digital_files` entitlement.
+   *
+   * @example
+   * ```ts
+   * await client.entitlements.files.delete('file_id', {
+   *   id: 'ent_jt7jcvI79Xh8eehqgWdcm',
+   * });
+   * ```
    */
   delete(fileID: string, params: FileDeleteParams, options?: RequestOptions): APIPromise<void> {
     const { id } = params;

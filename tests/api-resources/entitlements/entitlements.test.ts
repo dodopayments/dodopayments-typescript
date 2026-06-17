@@ -59,7 +59,7 @@ describe('resource entitlements', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.entitlements.retrieve('id');
+    const responsePromise = client.entitlements.retrieve('ent_jt7jcvI79Xh8eehqgWdcm');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -70,7 +70,7 @@ describe('resource entitlements', () => {
   });
 
   test('delete', async () => {
-    const responsePromise = client.entitlements.delete('id');
+    const responsePromise = client.entitlements.delete('ent_jt7jcvI79Xh8eehqgWdcm');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -81,7 +81,7 @@ describe('resource entitlements', () => {
   });
 
   test('update', async () => {
-    const responsePromise = client.entitlements.update('id', {});
+    const responsePromise = client.entitlements.update('ent_jt7jcvI79Xh8eehqgWdcm', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

@@ -23,6 +23,14 @@ export class Webhooks extends APIResource {
 
   /**
    * List all webhooks
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const webhookDetails of client.webhooks.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query: WebhookListParams | null | undefined = {},
@@ -33,6 +41,13 @@ export class Webhooks extends APIResource {
 
   /**
    * Create a new webhook
+   *
+   * @example
+   * ```ts
+   * const webhookDetails = await client.webhooks.create({
+   *   url: 'url',
+   * });
+   * ```
    */
   create(body: WebhookCreateParams, options?: RequestOptions): APIPromise<WebhookDetails> {
     return this._client.post('/webhooks', { body, ...options });
@@ -40,6 +55,13 @@ export class Webhooks extends APIResource {
 
   /**
    * Get a webhook by id
+   *
+   * @example
+   * ```ts
+   * const webhookDetails = await client.webhooks.retrieve(
+   *   'whk_YdWqVEGKmSYKbsIyDxEab',
+   * );
+   * ```
    */
   retrieve(webhookID: string, options?: RequestOptions): APIPromise<WebhookDetails> {
     return this._client.get(path`/webhooks/${webhookID}`, options);
@@ -47,6 +69,11 @@ export class Webhooks extends APIResource {
 
   /**
    * Delete a webhook by id
+   *
+   * @example
+   * ```ts
+   * await client.webhooks.delete('whk_YdWqVEGKmSYKbsIyDxEab');
+   * ```
    */
   delete(webhookID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/webhooks/${webhookID}`, {
@@ -57,6 +84,13 @@ export class Webhooks extends APIResource {
 
   /**
    * Patch a webhook by id
+   *
+   * @example
+   * ```ts
+   * const webhookDetails = await client.webhooks.update(
+   *   'whk_YdWqVEGKmSYKbsIyDxEab',
+   * );
+   * ```
    */
   update(webhookID: string, body: WebhookUpdateParams, options?: RequestOptions): APIPromise<WebhookDetails> {
     return this._client.patch(path`/webhooks/${webhookID}`, { body, ...options });
@@ -64,6 +98,13 @@ export class Webhooks extends APIResource {
 
   /**
    * Get webhook secret by id
+   *
+   * @example
+   * ```ts
+   * const response = await client.webhooks.retrieveSecret(
+   *   'whk_YdWqVEGKmSYKbsIyDxEab',
+   * );
+   * ```
    */
   retrieveSecret(webhookID: string, options?: RequestOptions): APIPromise<WebhookRetrieveSecretResponse> {
     return this._client.get(path`/webhooks/${webhookID}/secret`, options);

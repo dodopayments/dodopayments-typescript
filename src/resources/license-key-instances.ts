@@ -35,7 +35,9 @@ export class LicenseKeyInstances extends APIResource {
    * @example
    * ```ts
    * const licenseKeyInstance =
-   *   await client.licenseKeyInstances.retrieve('lki_123');
+   *   await client.licenseKeyInstances.retrieve(
+   *     'lki_EeWORStkMc7z0KycI31VS',
+   *   );
    * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<LicenseKeyInstance> {
@@ -46,9 +48,10 @@ export class LicenseKeyInstances extends APIResource {
    * @example
    * ```ts
    * const licenseKeyInstance =
-   *   await client.licenseKeyInstances.update('lki_123', {
-   *     name: 'name',
-   *   });
+   *   await client.licenseKeyInstances.update(
+   *     'lki_EeWORStkMc7z0KycI31VS',
+   *     { name: 'name' },
+   *   );
    * ```
    */
   update(

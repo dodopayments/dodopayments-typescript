@@ -9,7 +9,7 @@ const client = new DodoPayments({
 
 describe('resource breakup', () => {
   test('retrieve', async () => {
-    const responsePromise = client.payouts.breakup.retrieve('payout_id');
+    const responsePromise = client.payouts.breakup.retrieve('pyt_zFTrrn4sk3x3y2vjDBW3T');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

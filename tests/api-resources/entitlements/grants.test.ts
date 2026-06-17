@@ -9,7 +9,7 @@ const client = new DodoPayments({
 
 describe('resource grants', () => {
   test('list', async () => {
-    const responsePromise = client.entitlements.grants.list('id');
+    const responsePromise = client.entitlements.grants.list('ent_jt7jcvI79Xh8eehqgWdcm');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -23,7 +23,7 @@ describe('resource grants', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.entitlements.grants.list(
-        'id',
+        'ent_jt7jcvI79Xh8eehqgWdcm',
         {
           customer_id: 'customer_id',
           page_number: 0,
@@ -36,7 +36,9 @@ describe('resource grants', () => {
   });
 
   test('revoke: only required params', async () => {
-    const responsePromise = client.entitlements.grants.revoke('grant_id', { id: 'id' });
+    const responsePromise = client.entitlements.grants.revoke('entg_w0ZCJZgNXuNDdMVzvja6p', {
+      id: 'ent_jt7jcvI79Xh8eehqgWdcm',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -47,6 +49,8 @@ describe('resource grants', () => {
   });
 
   test('revoke: required and optional params', async () => {
-    const response = await client.entitlements.grants.revoke('grant_id', { id: 'id' });
+    const response = await client.entitlements.grants.revoke('entg_w0ZCJZgNXuNDdMVzvja6p', {
+      id: 'ent_jt7jcvI79Xh8eehqgWdcm',
+    });
   });
 });

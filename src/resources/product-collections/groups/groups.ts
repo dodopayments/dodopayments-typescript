@@ -18,6 +18,16 @@ import { path } from '../../../internal/utils/path';
 export class Groups extends APIResource {
   items: ItemsAPI.Items = new ItemsAPI.Items(this._client);
 
+  /**
+   * @example
+   * ```ts
+   * const productCollectionGroupResponse =
+   *   await client.productCollections.groups.create(
+   *     'pdc_8BWv0hojwUH7iCDabr0NI',
+   *     { products: [{ product_id: 'product_id' }] },
+   *   );
+   * ```
+   */
   create(
     id: string,
     body: GroupCreateParams,
@@ -26,6 +36,15 @@ export class Groups extends APIResource {
     return this._client.post(path`/product-collections/${id}/groups`, { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * await client.productCollections.groups.delete(
+   *   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   *   { id: 'pdc_8BWv0hojwUH7iCDabr0NI' },
+   * );
+   * ```
+   */
   delete(groupID: string, params: GroupDeleteParams, options?: RequestOptions): APIPromise<void> {
     const { id } = params;
     return this._client.delete(path`/product-collections/${id}/groups/${groupID}`, {
@@ -34,6 +53,15 @@ export class Groups extends APIResource {
     });
   }
 
+  /**
+   * @example
+   * ```ts
+   * await client.productCollections.groups.update(
+   *   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   *   { id: 'pdc_8BWv0hojwUH7iCDabr0NI' },
+   * );
+   * ```
+   */
   update(groupID: string, params: GroupUpdateParams, options?: RequestOptions): APIPromise<void> {
     const { id, ...body } = params;
     return this._client.patch(path`/product-collections/${id}/groups/${groupID}`, {

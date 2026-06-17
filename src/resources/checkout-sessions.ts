@@ -9,14 +9,42 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class CheckoutSessions extends APIResource {
+  /**
+   * @example
+   * ```ts
+   * const checkoutSessionResponse =
+   *   await client.checkoutSessions.create({
+   *     product_cart: [
+   *       { product_id: 'product_id', quantity: 0 },
+   *     ],
+   *   });
+   * ```
+   */
   create(body: CheckoutSessionCreateParams, options?: RequestOptions): APIPromise<CheckoutSessionResponse> {
     return this._client.post('/checkouts', { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const checkoutSessionStatus =
+   *   await client.checkoutSessions.retrieve(
+   *     'cks_n010SZaY4NXc7F1ck3Tq1',
+   *   );
+   * ```
+   */
   retrieve(id: string, options?: RequestOptions): APIPromise<CheckoutSessionStatus> {
     return this._client.get(path`/checkouts/${id}`, options);
   }
 
+  /**
+   * @example
+   * ```ts
+   * const response = await client.checkoutSessions.preview({
+   *   product_cart: [{ product_id: 'product_id', quantity: 0 }],
+   * });
+   * ```
+   */
   preview(
     body: CheckoutSessionPreviewParams,
     options?: RequestOptions,
