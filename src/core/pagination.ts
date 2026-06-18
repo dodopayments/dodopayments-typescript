@@ -193,14 +193,6 @@ export class CursorPagePagination<Item>
     return this.data ?? [];
   }
 
-  override hasNextPage(): boolean {
-    if (this.done === false) {
-      return false;
-    }
-
-    return super.hasNextPage();
-  }
-
   nextPageRequestOptions(): PageRequestOptions | null {
     const cursor = this.iterator;
     if (!cursor) {
