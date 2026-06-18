@@ -14,6 +14,15 @@ import { RequestOptions } from '../../internal/request-options';
 export class Payouts extends APIResource {
   breakup: BreakupAPI.Breakup = new BreakupAPI.Breakup(this._client);
 
+  /**
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const payoutListResponse of client.payouts.list()) {
+   *   // ...
+   * }
+   * ```
+   */
   list(
     query: PayoutListParams | null | undefined = {},
     options?: RequestOptions,

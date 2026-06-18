@@ -14,6 +14,14 @@ import { path } from '../internal/utils/path';
 export class Discounts extends APIResource {
   /**
    * GET /discounts
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const discount of client.discounts.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query: DiscountListParams | null | undefined = {},
@@ -28,6 +36,14 @@ export class Discounts extends APIResource {
   /**
    * POST /discounts If `code` is omitted or empty, a random 16-char uppercase code
    * is generated.
+   *
+   * @example
+   * ```ts
+   * const discount = await client.discounts.create({
+   *   amount: 0,
+   *   type: 'percentage',
+   * });
+   * ```
    */
   create(body: DiscountCreateParams, options?: RequestOptions): APIPromise<Discount> {
     return this._client.post('/discounts', { body, ...options });
@@ -35,6 +51,13 @@ export class Discounts extends APIResource {
 
   /**
    * GET /discounts/{discount_id}
+   *
+   * @example
+   * ```ts
+   * const discount = await client.discounts.retrieve(
+   *   'dsc_qxxEmg5PuM1uNTE0LgkP9',
+   * );
+   * ```
    */
   retrieve(discountID: string, options?: RequestOptions): APIPromise<Discount> {
     return this._client.get(path`/discounts/${discountID}`, options);
@@ -42,6 +65,11 @@ export class Discounts extends APIResource {
 
   /**
    * DELETE /discounts/{discount_id}
+   *
+   * @example
+   * ```ts
+   * await client.discounts.delete('dsc_qxxEmg5PuM1uNTE0LgkP9');
+   * ```
    */
   delete(discountID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/discounts/${discountID}`, {
@@ -52,6 +80,13 @@ export class Discounts extends APIResource {
 
   /**
    * PATCH /discounts/{discount_id}
+   *
+   * @example
+   * ```ts
+   * const discount = await client.discounts.update(
+   *   'dsc_qxxEmg5PuM1uNTE0LgkP9',
+   * );
+   * ```
    */
   update(discountID: string, body: DiscountUpdateParams, options?: RequestOptions): APIPromise<Discount> {
     return this._client.patch(path`/discounts/${discountID}`, { body, ...options });
@@ -61,6 +96,13 @@ export class Discounts extends APIResource {
    * Validate and fetch a discount by its code name (e.g., "SAVE20"). This allows
    * real-time validation directly against the API using the human-readable discount
    * code instead of requiring the internal discount_id.
+   *
+   * @example
+   * ```ts
+   * const discount = await client.discounts.retrieveByCode(
+   *   'code',
+   * );
+   * ```
    */
   retrieveByCode(code: string, options?: RequestOptions): APIPromise<Discount> {
     return this._client.get(path`/discounts/code/${code}`, options);

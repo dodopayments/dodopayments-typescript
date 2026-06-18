@@ -64,7 +64,7 @@ describe('resource refunds', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.refunds.retrieve('refund_id');
+    const responsePromise = client.refunds.retrieve('ref_F0gZetLvTxxBrMU2CZcmy');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
