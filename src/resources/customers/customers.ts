@@ -22,6 +22,15 @@ export class Customers extends APIResource {
   customerPortal: CustomerPortalAPI.CustomerPortal = new CustomerPortalAPI.CustomerPortal(this._client);
   wallets: WalletsAPI.Wallets = new WalletsAPI.Wallets(this._client);
 
+  /**
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const customer of client.customers.list()) {
+   *   // ...
+   * }
+   * ```
+   */
   list(
     query: CustomerListParams | null | undefined = {},
     options?: RequestOptions,
@@ -32,18 +41,52 @@ export class Customers extends APIResource {
     });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const customer = await client.customers.retrieve(
+   *   'cus_TV52uJWWXt2yIoBBxpjaa',
+   * );
+   * ```
+   */
   retrieve(customerID: string, options?: RequestOptions): APIPromise<Customer> {
     return this._client.get(path`/customers/${customerID}`, options);
   }
 
+  /**
+   * @example
+   * ```ts
+   * const customer = await client.customers.create({
+   *   email: 'email',
+   *   name: 'name',
+   * });
+   * ```
+   */
   create(body: CustomerCreateParams, options?: RequestOptions): APIPromise<Customer> {
     return this._client.post('/customers', { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const customer = await client.customers.update(
+   *   'cus_TV52uJWWXt2yIoBBxpjaa',
+   * );
+   * ```
+   */
   update(customerID: string, body: CustomerUpdateParams, options?: RequestOptions): APIPromise<Customer> {
     return this._client.patch(path`/customers/${customerID}`, { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const response =
+   *   await client.customers.retrievePaymentMethods(
+   *     'cus_TV52uJWWXt2yIoBBxpjaa',
+   *   );
+   * ```
+   */
   retrievePaymentMethods(
     customerID: string,
     options?: RequestOptions,
@@ -53,6 +96,14 @@ export class Customers extends APIResource {
 
   /**
    * List all credit entitlements for a customer with their current balances
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.customers.listCreditEntitlements(
+   *     'cus_TV52uJWWXt2yIoBBxpjaa',
+   *   );
+   * ```
    */
   listCreditEntitlements(
     customerID: string,
@@ -61,6 +112,15 @@ export class Customers extends APIResource {
     return this._client.get(path`/customers/${customerID}/credit-entitlements`, options);
   }
 
+  /**
+   * @example
+   * ```ts
+   * await client.customers.deletePaymentMethod(
+   *   'payment_method_id',
+   *   { customer_id: 'cus_TV52uJWWXt2yIoBBxpjaa' },
+   * );
+   * ```
+   */
   deletePaymentMethod(
     paymentMethodID: string,
     params: CustomerDeletePaymentMethodParams,
@@ -75,6 +135,13 @@ export class Customers extends APIResource {
 
   /**
    * List all entitlement grants delivered (or in flight) to a customer.
+   *
+   * @example
+   * ```ts
+   * const response = await client.customers.listEntitlements(
+   *   'cus_TV52uJWWXt2yIoBBxpjaa',
+   * );
+   * ```
    */
   listEntitlements(
     customerID: string,

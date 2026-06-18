@@ -13,6 +13,15 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class Meters extends APIResource {
+  /**
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const meter of client.meters.list()) {
+   *   // ...
+   * }
+   * ```
+   */
   list(
     query: MeterListParams | null | undefined = {},
     options?: RequestOptions,
@@ -20,14 +29,39 @@ export class Meters extends APIResource {
     return this._client.getAPIList('/meters', DefaultPageNumberPagination<Meter>, { query, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const meter = await client.meters.create({
+   *   aggregation: { type: 'count' },
+   *   event_name: 'event_name',
+   *   measurement_unit: 'measurement_unit',
+   *   name: 'name',
+   * });
+   * ```
+   */
   create(body: MeterCreateParams, options?: RequestOptions): APIPromise<Meter> {
     return this._client.post('/meters', { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const meter = await client.meters.retrieve(
+   *   'mtr_h5tgTWL55OyMO0L2Q9w9v',
+   * );
+   * ```
+   */
   retrieve(id: string, options?: RequestOptions): APIPromise<Meter> {
     return this._client.get(path`/meters/${id}`, options);
   }
 
+  /**
+   * @example
+   * ```ts
+   * await client.meters.archive('mtr_h5tgTWL55OyMO0L2Q9w9v');
+   * ```
+   */
   archive(id: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/meters/${id}`, {
       ...options,
@@ -35,6 +69,12 @@ export class Meters extends APIResource {
     });
   }
 
+  /**
+   * @example
+   * ```ts
+   * await client.meters.unarchive('mtr_h5tgTWL55OyMO0L2Q9w9v');
+   * ```
+   */
   unarchive(id: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/meters/${id}/unarchive`, {
       ...options,

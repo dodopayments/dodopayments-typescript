@@ -20,6 +20,13 @@ export class Breakup extends APIResource {
    * fees, etc.) in the payout's currency. Each amount is proportionally allocated
    * based on USD equivalent values, ensuring the total sums exactly to the payout
    * amount.
+   *
+   * @example
+   * ```ts
+   * const breakups = await client.payouts.breakup.retrieve(
+   *   'pyt_zFTrrn4sk3x3y2vjDBW3T',
+   * );
+   * ```
    */
   retrieve(payoutID: string, options?: RequestOptions): APIPromise<BreakupRetrieveResponse> {
     return this._client.get(path`/payouts/${payoutID}/breakup`, options);

@@ -35,7 +35,7 @@ describe('resource licenseKeyInstances', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.licenseKeyInstances.retrieve('lki_123');
+    const responsePromise = client.licenseKeyInstances.retrieve('lki_EeWORStkMc7z0KycI31VS');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -46,7 +46,7 @@ describe('resource licenseKeyInstances', () => {
   });
 
   test('update: only required params', async () => {
-    const responsePromise = client.licenseKeyInstances.update('lki_123', { name: 'name' });
+    const responsePromise = client.licenseKeyInstances.update('lki_EeWORStkMc7z0KycI31VS', { name: 'name' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -57,6 +57,6 @@ describe('resource licenseKeyInstances', () => {
   });
 
   test('update: required and optional params', async () => {
-    const response = await client.licenseKeyInstances.update('lki_123', { name: 'name' });
+    const response = await client.licenseKeyInstances.update('lki_EeWORStkMc7z0KycI31VS', { name: 'name' });
   });
 });

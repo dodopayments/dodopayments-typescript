@@ -9,7 +9,7 @@ const client = new DodoPayments({
 
 describe('resource ledgerEntries', () => {
   test('list', async () => {
-    const responsePromise = client.customers.wallets.ledgerEntries.list('customer_id');
+    const responsePromise = client.customers.wallets.ledgerEntries.list('cus_TV52uJWWXt2yIoBBxpjaa');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -23,7 +23,7 @@ describe('resource ledgerEntries', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.customers.wallets.ledgerEntries.list(
-        'customer_id',
+        'cus_TV52uJWWXt2yIoBBxpjaa',
         {
           currency: 'AED',
           page_number: 0,
@@ -35,7 +35,7 @@ describe('resource ledgerEntries', () => {
   });
 
   test('create: only required params', async () => {
-    const responsePromise = client.customers.wallets.ledgerEntries.create('customer_id', {
+    const responsePromise = client.customers.wallets.ledgerEntries.create('cus_TV52uJWWXt2yIoBBxpjaa', {
       amount: 0,
       currency: 'AED',
       entry_type: 'credit',
@@ -50,7 +50,7 @@ describe('resource ledgerEntries', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.customers.wallets.ledgerEntries.create('customer_id', {
+    const response = await client.customers.wallets.ledgerEntries.create('cus_TV52uJWWXt2yIoBBxpjaa', {
       amount: 0,
       currency: 'AED',
       entry_type: 'credit',
