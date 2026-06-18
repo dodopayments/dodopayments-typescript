@@ -17,6 +17,15 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class Subscriptions extends APIResource {
+  /**
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const subscriptionListResponse of client.subscriptions.list()) {
+   *   // ...
+   * }
+   * ```
+   */
   list(
     query: SubscriptionListParams | null | undefined = {},
     options?: RequestOptions,
@@ -34,10 +43,26 @@ export class Subscriptions extends APIResource {
     return this._client.post('/subscriptions', { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const subscription = await client.subscriptions.retrieve(
+   *   'sub_Iuaq622bbmmfOGrVTqdXv',
+   * );
+   * ```
+   */
   retrieve(subscriptionID: string, options?: RequestOptions): APIPromise<Subscription> {
     return this._client.get(path`/subscriptions/${subscriptionID}`, options);
   }
 
+  /**
+   * @example
+   * ```ts
+   * const subscription = await client.subscriptions.update(
+   *   'sub_Iuaq622bbmmfOGrVTqdXv',
+   * );
+   * ```
+   */
   update(
     subscriptionID: string,
     body: SubscriptionUpdateParams,
@@ -46,6 +71,15 @@ export class Subscriptions extends APIResource {
     return this._client.patch(path`/subscriptions/${subscriptionID}`, { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const response = await client.subscriptions.charge(
+   *   'sub_Iuaq622bbmmfOGrVTqdXv',
+   *   { product_price: 0 },
+   * );
+   * ```
+   */
   charge(
     subscriptionID: string,
     body: SubscriptionChargeParams,
@@ -54,6 +88,19 @@ export class Subscriptions extends APIResource {
     return this._client.post(path`/subscriptions/${subscriptionID}/charge`, { body, ...options });
   }
 
+  /**
+   * @example
+   * ```ts
+   * await client.subscriptions.changePlan(
+   *   'sub_Iuaq622bbmmfOGrVTqdXv',
+   *   {
+   *     product_id: 'product_id',
+   *     proration_billing_mode: 'prorated_immediately',
+   *     quantity: 0,
+   *   },
+   * );
+   * ```
+   */
   changePlan(
     subscriptionID: string,
     body: SubscriptionChangePlanParams,
@@ -109,6 +156,16 @@ export class Subscriptions extends APIResource {
    * - Filter by meter: `?meter_id=mtr_api_requests`
    * - Paginate results: `?page_size=20&page_number=1`
    * - Recent usage: `?start_date=2024-03-01T00:00:00Z` (from March 1st to now)
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const subscriptionRetrieveUsageHistoryResponse of client.subscriptions.retrieveUsageHistory(
+   *   'sub_Iuaq622bbmmfOGrVTqdXv',
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   retrieveUsageHistory(
     subscriptionID: string,
@@ -125,6 +182,16 @@ export class Subscriptions extends APIResource {
     );
   }
 
+  /**
+   * @example
+   * ```ts
+   * const response =
+   *   await client.subscriptions.updatePaymentMethod(
+   *     'sub_Iuaq622bbmmfOGrVTqdXv',
+   *     { payment_method: { type: 'new' } },
+   *   );
+   * ```
+   */
   updatePaymentMethod(
     subscriptionID: string,
     params: SubscriptionUpdatePaymentMethodParams,
@@ -137,6 +204,20 @@ export class Subscriptions extends APIResource {
     });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const response =
+   *   await client.subscriptions.previewChangePlan(
+   *     'sub_Iuaq622bbmmfOGrVTqdXv',
+   *     {
+   *       product_id: 'product_id',
+   *       proration_billing_mode: 'prorated_immediately',
+   *       quantity: 0,
+   *     },
+   *   );
+   * ```
+   */
   previewChangePlan(
     subscriptionID: string,
     body: SubscriptionPreviewChangePlanParams,
@@ -148,6 +229,15 @@ export class Subscriptions extends APIResource {
     });
   }
 
+  /**
+   * @example
+   * ```ts
+   * const response =
+   *   await client.subscriptions.retrieveCreditUsage(
+   *     'sub_Iuaq622bbmmfOGrVTqdXv',
+   *   );
+   * ```
+   */
   retrieveCreditUsage(
     subscriptionID: string,
     options?: RequestOptions,
@@ -155,6 +245,14 @@ export class Subscriptions extends APIResource {
     return this._client.get(path`/subscriptions/${subscriptionID}/credit-usage`, options);
   }
 
+  /**
+   * @example
+   * ```ts
+   * await client.subscriptions.cancelChangePlan(
+   *   'sub_Iuaq622bbmmfOGrVTqdXv',
+   * );
+   * ```
+   */
   cancelChangePlan(subscriptionID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/subscriptions/${subscriptionID}/change-plan/scheduled`, {
       ...options,

@@ -6,6 +6,14 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class Images extends APIResource {
+  /**
+   * @example
+   * ```ts
+   * const image = await client.products.images.update(
+   *   'pdt_R8AWMPiV8RyJElcCKvAID',
+   * );
+   * ```
+   */
   update(
     id: string,
     params: ImageUpdateParams | null | undefined = {},

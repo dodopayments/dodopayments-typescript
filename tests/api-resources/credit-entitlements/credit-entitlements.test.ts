@@ -71,7 +71,7 @@ describe('resource creditEntitlements', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.creditEntitlements.retrieve('id');
+    const responsePromise = client.creditEntitlements.retrieve('cde_ztxm5XJsKxWucRWA3rjdM');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -82,7 +82,7 @@ describe('resource creditEntitlements', () => {
   });
 
   test('delete', async () => {
-    const responsePromise = client.creditEntitlements.delete('id');
+    const responsePromise = client.creditEntitlements.delete('cde_ztxm5XJsKxWucRWA3rjdM');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -93,7 +93,7 @@ describe('resource creditEntitlements', () => {
   });
 
   test('update', async () => {
-    const responsePromise = client.creditEntitlements.update('id', {});
+    const responsePromise = client.creditEntitlements.update('cde_ztxm5XJsKxWucRWA3rjdM', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -104,7 +104,7 @@ describe('resource creditEntitlements', () => {
   });
 
   test('undelete', async () => {
-    const responsePromise = client.creditEntitlements.undelete('id');
+    const responsePromise = client.creditEntitlements.undelete('cde_ztxm5XJsKxWucRWA3rjdM');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

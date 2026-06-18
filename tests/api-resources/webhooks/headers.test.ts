@@ -9,7 +9,7 @@ const client = new DodoPayments({
 
 describe('resource headers', () => {
   test('retrieve', async () => {
-    const responsePromise = client.webhooks.headers.retrieve('webhook_id');
+    const responsePromise = client.webhooks.headers.retrieve('whk_YdWqVEGKmSYKbsIyDxEab');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -20,7 +20,9 @@ describe('resource headers', () => {
   });
 
   test('update: only required params', async () => {
-    const responsePromise = client.webhooks.headers.update('webhook_id', { headers: { foo: 'string' } });
+    const responsePromise = client.webhooks.headers.update('whk_YdWqVEGKmSYKbsIyDxEab', {
+      headers: { foo: 'string' },
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -31,6 +33,8 @@ describe('resource headers', () => {
   });
 
   test('update: required and optional params', async () => {
-    const response = await client.webhooks.headers.update('webhook_id', { headers: { foo: 'string' } });
+    const response = await client.webhooks.headers.update('whk_YdWqVEGKmSYKbsIyDxEab', {
+      headers: { foo: 'string' },
+    });
   });
 });
