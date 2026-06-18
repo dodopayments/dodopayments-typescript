@@ -106,7 +106,7 @@ describe('resource products', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.products.retrieve('id');
+    const responsePromise = client.products.retrieve('pdt_R8AWMPiV8RyJElcCKvAID');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -117,7 +117,7 @@ describe('resource products', () => {
   });
 
   test('update', async () => {
-    const responsePromise = client.products.update('id', {});
+    const responsePromise = client.products.update('pdt_R8AWMPiV8RyJElcCKvAID', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -128,7 +128,7 @@ describe('resource products', () => {
   });
 
   test('archive', async () => {
-    const responsePromise = client.products.archive('id');
+    const responsePromise = client.products.archive('pdt_R8AWMPiV8RyJElcCKvAID');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -139,7 +139,7 @@ describe('resource products', () => {
   });
 
   test('unarchive', async () => {
-    const responsePromise = client.products.unarchive('id');
+    const responsePromise = client.products.unarchive('pdt_R8AWMPiV8RyJElcCKvAID');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -150,7 +150,9 @@ describe('resource products', () => {
   });
 
   test('updateFiles: only required params', async () => {
-    const responsePromise = client.products.updateFiles('id', { file_name: 'file_name' });
+    const responsePromise = client.products.updateFiles('pdt_R8AWMPiV8RyJElcCKvAID', {
+      file_name: 'file_name',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -161,6 +163,8 @@ describe('resource products', () => {
   });
 
   test('updateFiles: required and optional params', async () => {
-    const response = await client.products.updateFiles('id', { file_name: 'file_name' });
+    const response = await client.products.updateFiles('pdt_R8AWMPiV8RyJElcCKvAID', {
+      file_name: 'file_name',
+    });
   });
 });

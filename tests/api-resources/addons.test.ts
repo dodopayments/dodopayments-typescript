@@ -53,7 +53,7 @@ describe('resource addons', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.addons.retrieve('id');
+    const responsePromise = client.addons.retrieve('adn_NX1zdqW4Hbivsqz8vI9dc');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -64,7 +64,7 @@ describe('resource addons', () => {
   });
 
   test('update', async () => {
-    const responsePromise = client.addons.update('id', {});
+    const responsePromise = client.addons.update('adn_NX1zdqW4Hbivsqz8vI9dc', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -75,7 +75,7 @@ describe('resource addons', () => {
   });
 
   test('updateImages', async () => {
-    const responsePromise = client.addons.updateImages('id');
+    const responsePromise = client.addons.updateImages('adn_NX1zdqW4Hbivsqz8vI9dc');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

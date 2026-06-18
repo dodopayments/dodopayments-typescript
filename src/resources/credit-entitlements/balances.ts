@@ -34,6 +34,16 @@ export class Balances extends APIResource {
    * - `200 OK` - Returns list of customer balances
    * - `404 Not Found` - Credit entitlement not found
    * - `500 Internal Server Error` - Database or server error
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const customerCreditBalance of client.creditEntitlements.balances.list(
+   *   'cde_ztxm5XJsKxWucRWA3rjdM',
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     creditEntitlementID: string,
@@ -65,6 +75,15 @@ export class Balances extends APIResource {
    * - `200 OK` - Returns the customer's balance
    * - `404 Not Found` - Credit entitlement or customer balance not found
    * - `500 Internal Server Error` - Database or server error
+   *
+   * @example
+   * ```ts
+   * const customerCreditBalance =
+   *   await client.creditEntitlements.balances.retrieve(
+   *     'cus_TV52uJWWXt2yIoBBxpjaa',
+   *     { credit_entitlement_id: 'cde_ztxm5XJsKxWucRWA3rjdM' },
+   *   );
+   * ```
    */
   retrieve(
     customerID: string,
@@ -101,6 +120,17 @@ export class Balances extends APIResource {
    * - `200 OK` - Returns list of grants
    * - `404 Not Found` - Credit entitlement not found
    * - `500 Internal Server Error` - Database or server error
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const balanceListGrantsResponse of client.creditEntitlements.balances.listGrants(
+   *   'cus_TV52uJWWXt2yIoBBxpjaa',
+   *   { credit_entitlement_id: 'cde_ztxm5XJsKxWucRWA3rjdM' },
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   listGrants(
     customerID: string,
@@ -140,6 +170,17 @@ export class Balances extends APIResource {
    * - `200 OK` - Returns list of ledger entries
    * - `404 Not Found` - Credit entitlement not found
    * - `500 Internal Server Error` - Database or server error
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const creditLedgerEntry of client.creditEntitlements.balances.listLedger(
+   *   'cus_TV52uJWWXt2yIoBBxpjaa',
+   *   { credit_entitlement_id: 'cde_ztxm5XJsKxWucRWA3rjdM' },
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   listLedger(
     customerID: string,
@@ -182,6 +223,19 @@ export class Balances extends APIResource {
    * - `404 Not Found` - Credit entitlement or customer not found
    * - `409 Conflict` - Idempotency key already exists
    * - `500 Internal Server Error` - Database or server error
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.creditEntitlements.balances.createLedgerEntry(
+   *     'cus_TV52uJWWXt2yIoBBxpjaa',
+   *     {
+   *       credit_entitlement_id: 'cde_ztxm5XJsKxWucRWA3rjdM',
+   *       amount: 'amount',
+   *       entry_type: 'credit',
+   *     },
+   *   );
+   * ```
    */
   createLedgerEntry(
     customerID: string,

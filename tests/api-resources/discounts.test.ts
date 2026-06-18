@@ -63,7 +63,7 @@ describe('resource discounts', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.discounts.retrieve('discount_id');
+    const responsePromise = client.discounts.retrieve('dsc_qxxEmg5PuM1uNTE0LgkP9');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -74,7 +74,7 @@ describe('resource discounts', () => {
   });
 
   test('delete', async () => {
-    const responsePromise = client.discounts.delete('discount_id');
+    const responsePromise = client.discounts.delete('dsc_qxxEmg5PuM1uNTE0LgkP9');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -85,7 +85,7 @@ describe('resource discounts', () => {
   });
 
   test('update', async () => {
-    const responsePromise = client.discounts.update('discount_id', {});
+    const responsePromise = client.discounts.update('dsc_qxxEmg5PuM1uNTE0LgkP9', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

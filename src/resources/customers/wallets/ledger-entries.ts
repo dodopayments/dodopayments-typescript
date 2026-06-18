@@ -13,6 +13,17 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class LedgerEntries extends APIResource {
+  /**
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const customerWalletTransaction of client.customers.wallets.ledgerEntries.list(
+   *   'cus_TV52uJWWXt2yIoBBxpjaa',
+   * )) {
+   *   // ...
+   * }
+   * ```
+   */
   list(
     customerID: string,
     query: LedgerEntryListParams | null | undefined = {},
@@ -25,6 +36,20 @@ export class LedgerEntries extends APIResource {
     );
   }
 
+  /**
+   * @example
+   * ```ts
+   * const customerWallet =
+   *   await client.customers.wallets.ledgerEntries.create(
+   *     'cus_TV52uJWWXt2yIoBBxpjaa',
+   *     {
+   *       amount: 0,
+   *       currency: 'AED',
+   *       entry_type: 'credit',
+   *     },
+   *   );
+   * ```
+   */
   create(
     customerID: string,
     body: LedgerEntryCreateParams,
