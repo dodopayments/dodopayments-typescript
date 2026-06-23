@@ -53,4 +53,25 @@ describe('resource grants', () => {
       id: 'ent_jt7jcvI79Xh8eehqgWdcm',
     });
   });
+
+  test('fulfillLicenseKey: only required params', async () => {
+    const responsePromise = client.entitlements.grants.fulfillLicenseKey('entg_w0ZCJZgNXuNDdMVzvja6p', {
+      key: 'key',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('fulfillLicenseKey: required and optional params', async () => {
+    const response = await client.entitlements.grants.fulfillLicenseKey('entg_w0ZCJZgNXuNDdMVzvja6p', {
+      key: 'key',
+      activations_limit: 0,
+      expires_at: '2019-12-27T18:11:19.117Z',
+    });
+  });
 });

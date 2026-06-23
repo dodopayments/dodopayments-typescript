@@ -2,6 +2,16 @@
 
 export { Images, type ImageUpdateResponse, type ImageUpdateParams } from './images';
 export {
+  LocalizedPrices,
+  type ListLocalizedPricesResponse,
+  type LocalizedPrice,
+  type PricingMode,
+  type LocalizedPriceCreateParams,
+  type LocalizedPriceRetrieveParams,
+  type LocalizedPriceUpdateParams,
+  type LocalizedPriceArchiveParams,
+} from './localized-prices';
+export {
   Products,
   type AddMeterToPrice,
   type AttachCreditEntitlement,
