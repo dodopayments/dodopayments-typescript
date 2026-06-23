@@ -411,6 +411,8 @@ export type Currency =
   | 'ZAR'
   | 'ZMW';
 
+export type Metadata = { [key: string]: string };
+
 /**
  * Represents the different categories of taxation applicable to various products
  * and services.
@@ -423,6 +425,7 @@ export declare namespace Misc {
   export {
     type CountryCode as CountryCode,
     type Currency as Currency,
+    type Metadata as Metadata,
     type TaxCategory as TaxCategory,
     type MiscListSupportedCountriesResponse as MiscListSupportedCountriesResponse,
   };

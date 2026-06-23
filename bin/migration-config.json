@@ -37,6 +37,109 @@
       ]
     },
     {
+      "base": "products.localizedPrices",
+      "name": "retrieve",
+      "params": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "product_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "products.localizedPrices",
+      "name": "update",
+      "params": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "product_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "products.localizedPrices",
+      "name": "archive",
+      "params": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "product_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
       "base": "creditEntitlements.balances",
       "name": "retrieve",
       "params": [

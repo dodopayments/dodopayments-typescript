@@ -19,5 +19,6 @@ export {
   type LicenseKeyGrant,
   type GrantListParams,
   type GrantRevokeParams,
+  type GrantFulfillLicenseKeyParams,
   type EntitlementGrantsDefaultPageNumberPagination,
 } from './grants';
