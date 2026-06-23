@@ -294,6 +294,22 @@ Methods:
 - <code title="get /products/short_links">client.products.shortLinks.<a href="./src/resources/products/short-links.ts">list</a>({ ...params }) -> ShortLinkListResponsesDefaultPageNumberPagination</code>
 - <code title="post /products/{id}/short_links">client.products.shortLinks.<a href="./src/resources/products/short-links.ts">create</a>(id, { ...params }) -> ShortLinkCreateResponse</code>
 
+## LocalizedPrices
+
+Types:
+
+- <code><a href="./src/resources/products/localized-prices.ts">ListLocalizedPricesResponse</a></code>
+- <code><a href="./src/resources/products/localized-prices.ts">LocalizedPrice</a></code>
+- <code><a href="./src/resources/products/localized-prices.ts">PricingMode</a></code>
+
+Methods:
+
+- <code title="get /products/{product_id}/localized-prices">client.products.localizedPrices.<a href="./src/resources/products/localized-prices.ts">list</a>(productID) -> ListLocalizedPricesResponse</code>
+- <code title="post /products/{product_id}/localized-prices">client.products.localizedPrices.<a href="./src/resources/products/localized-prices.ts">create</a>(productID, { ...params }) -> LocalizedPrice</code>
+- <code title="get /products/{product_id}/localized-prices/{id}">client.products.localizedPrices.<a href="./src/resources/products/localized-prices.ts">retrieve</a>(id, { ...params }) -> LocalizedPrice</code>
+- <code title="patch /products/{product_id}/localized-prices/{id}">client.products.localizedPrices.<a href="./src/resources/products/localized-prices.ts">update</a>(id, { ...params }) -> LocalizedPrice</code>
+- <code title="delete /products/{product_id}/localized-prices/{id}">client.products.localizedPrices.<a href="./src/resources/products/localized-prices.ts">archive</a>(id, { ...params }) -> void</code>
+
 # Misc
 
 Types:
@@ -588,6 +604,7 @@ Methods:
 
 - <code title="get /entitlements/{id}/grants">client.entitlements.grants.<a href="./src/resources/entitlements/grants.ts">list</a>(id, { ...params }) -> EntitlementGrantsDefaultPageNumberPagination</code>
 - <code title="delete /entitlements/{id}/grants/{grant_id}">client.entitlements.grants.<a href="./src/resources/entitlements/grants.ts">revoke</a>(grantID, { ...params }) -> EntitlementGrant</code>
+- <code title="post /grants/{grant_id}/license-key">client.entitlements.grants.<a href="./src/resources/entitlements/grants.ts">fulfillLicenseKey</a>(grantID, { ...params }) -> EntitlementGrant</code>
 
 # ProductCollections
 

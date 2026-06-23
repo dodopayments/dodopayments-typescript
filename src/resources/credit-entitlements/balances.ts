@@ -285,6 +285,13 @@ export interface CreditLedgerEntry {
 
   is_credit: boolean;
 
+  /**
+   * Metadata associated with the credit grant's source (the subscription or payment
+   * created at checkout). Empty when the grant has no resolvable source (e.g.
+   * credits granted directly via the API).
+   */
+  metadata: { [key: string]: string };
+
   overage_after: string;
 
   overage_before: string;

@@ -9,6 +9,7 @@ import * as GrantsAPI from './grants';
 import {
   EntitlementGrant,
   EntitlementGrantsDefaultPageNumberPagination,
+  GrantFulfillLicenseKeyParams,
   GrantListParams,
   GrantRevokeParams,
   Grants,
@@ -577,5 +578,6 @@ export declare namespace Entitlements {
     type EntitlementGrantsDefaultPageNumberPagination as EntitlementGrantsDefaultPageNumberPagination,
     type GrantListParams as GrantListParams,
     type GrantRevokeParams as GrantRevokeParams,
+    type GrantFulfillLicenseKeyParams as GrantFulfillLicenseKeyParams,
   };
 }
