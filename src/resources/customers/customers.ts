@@ -167,7 +167,7 @@ export interface Customer {
   /**
    * Additional metadata for the customer
    */
-  metadata?: { [key: string]: string };
+  metadata?: MiscAPI.Metadata;
 
   phone_number?: string | null;
 }
@@ -342,7 +342,7 @@ export interface CustomerCreateParams {
   /**
    * Additional metadata for the customer
    */
-  metadata?: { [key: string]: string };
+  metadata?: MiscAPI.Metadata;
 
   phone_number?: string | null;
 }
@@ -353,7 +353,7 @@ export interface CustomerUpdateParams {
   /**
    * Additional metadata for the customer
    */
-  metadata?: { [key: string]: string } | null;
+  metadata?: MiscAPI.Metadata | null;
 
   name?: string | null;
 

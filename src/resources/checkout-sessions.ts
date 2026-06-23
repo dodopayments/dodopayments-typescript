@@ -282,7 +282,7 @@ export interface CheckoutSessionRequest {
    * Additional metadata associated with the payment. Defaults to empty if not
    * provided.
    */
-  metadata?: { [key: string]: string } | null;
+  metadata?: MiscAPI.Metadata | null;
 
   /**
    * If true, only zipcode is required when confirm is true; other address fields
@@ -995,7 +995,7 @@ export interface CheckoutSessionCreateParams {
    * Additional metadata associated with the payment. Defaults to empty if not
    * provided.
    */
-  metadata?: { [key: string]: string } | null;
+  metadata?: MiscAPI.Metadata | null;
 
   /**
    * If true, only zipcode is required when confirm is true; other address fields
@@ -1127,7 +1127,7 @@ export interface CheckoutSessionPreviewParams {
    * Additional metadata associated with the payment. Defaults to empty if not
    * provided.
    */
-  metadata?: { [key: string]: string } | null;
+  metadata?: MiscAPI.Metadata | null;
 
   /**
    * If true, only zipcode is required when confirm is true; other address fields
