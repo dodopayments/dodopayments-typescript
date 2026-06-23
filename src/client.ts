@@ -124,6 +124,7 @@ import {
 import {
   CountryCode,
   Currency,
+  Metadata,
   Misc,
   MiscListSupportedCountriesResponse,
   TaxCategory,
@@ -1323,6 +1324,7 @@ export declare namespace DodoPayments {
     Misc as Misc,
     type CountryCode as CountryCode,
     type Currency as Currency,
+    type Metadata as Metadata,
     type TaxCategory as TaxCategory,
     type MiscListSupportedCountriesResponse as MiscListSupportedCountriesResponse,
   };

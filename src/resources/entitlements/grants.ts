@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as MiscAPI from '../misc';
 import * as EntitlementsAPI from './entitlements';
 import * as ProductsAPI from '../products/products';
 import { APIPromise } from '../../core/api-promise';
@@ -55,6 +56,29 @@ export class Grants extends APIResource {
     const { id } = params;
     return this._client.delete(path`/entitlements/${id}/grants/${grantID}`, options);
   }
+
+  /**
+   * For entitlements whose license-key config uses `manual` fulfillment, grants are
+   * created in the `pending` state without a key. Call this endpoint to deliver the
+   * key: the grant moves to `delivered`, the customer is emailed the key, and the
+   * `license_key.created` and `entitlement_grant.delivered` webhook events are sent.
+   *
+   * @example
+   * ```ts
+   * const entitlementGrant =
+   *   await client.entitlements.grants.fulfillLicenseKey(
+   *     'entg_w0ZCJZgNXuNDdMVzvja6p',
+   *     { key: 'key' },
+   *   );
+   * ```
+   */
+  fulfillLicenseKey(
+    grantID: string,
+    body: GrantFulfillLicenseKeyParams,
+    options?: RequestOptions,
+  ): APIPromise<EntitlementGrant> {
+    return this._client.post(path`/grants/${grantID}/license-key`, { body, ...options });
+  }
 }
 
 export type EntitlementGrantsDefaultPageNumberPagination = DefaultPageNumberPagination<EntitlementGrant>;
@@ -102,7 +126,7 @@ export interface EntitlementGrant {
   /**
    * Arbitrary key-value metadata recorded on the grant.
    */
-  metadata: { [key: string]: string };
+  metadata: MiscAPI.Metadata;
 
   /**
    * Lifecycle status of the grant.
@@ -219,6 +243,25 @@ export interface GrantRevokeParams {
   id: string;
 }
 
+export interface GrantFulfillLicenseKeyParams {
+  /**
+   * The license key value to deliver to the customer.
+   */
+  key: string;
+
+  /**
+   * Per-key activation limit. Defaults to the entitlement's license-key
+   * configuration.
+   */
+  activations_limit?: number | null;
+
+  /**
+   * When the key expires. Defaults to the duration in the entitlement's license-key
+   * configuration.
+   */
+  expires_at?: string | null;
+}
+
 export declare namespace Grants {
   export {
     type EntitlementGrant as EntitlementGrant,
@@ -226,5 +269,6 @@ export declare namespace Grants {
     type EntitlementGrantsDefaultPageNumberPagination as EntitlementGrantsDefaultPageNumberPagination,
     type GrantListParams as GrantListParams,
     type GrantRevokeParams as GrantRevokeParams,
+    type GrantFulfillLicenseKeyParams as GrantFulfillLicenseKeyParams,
   };
 }

@@ -527,7 +527,7 @@ export interface Subscription {
   /**
    * Additional custom data associated with the subscription
    */
-  metadata: { [key: string]: string };
+  metadata: MiscAPI.Metadata;
 
   /**
    * Meter credit entitlement cart settings for this subscription
@@ -734,7 +734,7 @@ export interface UpdateSubscriptionPlanReq {
    * Metadata for the payment. If not passed, the metadata of the subscription will
    * be taken
    */
-  metadata?: { [key: string]: string } | null;
+  metadata?: MiscAPI.Metadata | null;
 
   /**
    * Controls behavior when the plan change payment fails.
@@ -762,7 +762,7 @@ export interface SubscriptionCreateResponse {
   /**
    * Additional metadata associated with the subscription
    */
-  metadata: { [key: string]: string };
+  metadata: MiscAPI.Metadata;
 
   /**
    * First payment id for the subscription
@@ -857,7 +857,7 @@ export interface SubscriptionListResponse {
   /**
    * Additional custom data associated with the subscription
    */
-  metadata: { [key: string]: string };
+  metadata: MiscAPI.Metadata;
 
   /**
    * Timestamp of the next scheduled billing. Indicates the end of current billing
@@ -1367,7 +1367,7 @@ export interface SubscriptionCreateParams {
   /**
    * Additional metadata for the subscription Defaults to empty if not specified
    */
-  metadata?: { [key: string]: string };
+  metadata?: MiscAPI.Metadata;
 
   on_demand?: OnDemandSubscription | null;
 
@@ -1474,7 +1474,7 @@ export interface SubscriptionUpdateParams {
 
   disable_on_demand?: SubscriptionUpdateParams.DisableOnDemand | null;
 
-  metadata?: { [key: string]: string } | null;
+  metadata?: MiscAPI.Metadata | null;
 
   next_billing_date?: string | null;
 
@@ -1536,7 +1536,7 @@ export interface SubscriptionChargeParams {
    * Metadata for the payment. If not passed, the metadata of the subscription will
    * be taken
    */
-  metadata?: { [key: string]: string } | null;
+  metadata?: MiscAPI.Metadata | null;
 
   /**
    * Optional currency of the product price. If not specified, defaults to the
@@ -1625,7 +1625,7 @@ export interface SubscriptionChangePlanParams {
    * Metadata for the payment. If not passed, the metadata of the subscription will
    * be taken
    */
-  metadata?: { [key: string]: string } | null;
+  metadata?: MiscAPI.Metadata | null;
 
   /**
    * Controls behavior when the plan change payment fails.
@@ -1741,7 +1741,7 @@ export interface SubscriptionPreviewChangePlanParams {
    * Metadata for the payment. If not passed, the metadata of the subscription will
    * be taken
    */
-  metadata?: { [key: string]: string } | null;
+  metadata?: MiscAPI.Metadata | null;
 
   /**
    * Controls behavior when the plan change payment fails.
