@@ -535,7 +535,8 @@ export type PaymentMethodTypes =
   | 'zip'
   | 'revolut_pay'
   | 'naver_pay'
-  | 'payco';
+  | 'payco'
+  | 'satispay';
 
 export type PaymentRefundStatus = 'partial' | 'full';
 
