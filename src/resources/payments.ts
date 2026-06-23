@@ -154,7 +154,7 @@ export interface CustomerLimitedDetails {
   /**
    * Additional metadata associated with the customer
    */
-  metadata?: { [key: string]: string };
+  metadata?: MiscAPI.Metadata;
 
   /**
    * Phone number of the customer
@@ -250,7 +250,7 @@ export interface Payment {
   /**
    * Additional custom data associated with the payment
    */
-  metadata: { [key: string]: string };
+  metadata: MiscAPI.Metadata;
 
   /**
    * Unique identifier for the payment
@@ -535,7 +535,8 @@ export type PaymentMethodTypes =
   | 'zip'
   | 'revolut_pay'
   | 'naver_pay'
-  | 'payco';
+  | 'payco'
+  | 'satispay';
 
 export type PaymentRefundStatus = 'partial' | 'full';
 
@@ -601,7 +602,7 @@ export interface PaymentCreateResponse {
   /**
    * Additional metadata associated with the payment
    */
-  metadata: { [key: string]: string };
+  metadata: MiscAPI.Metadata;
 
   /**
    * Unique identifier for the payment
@@ -653,7 +654,7 @@ export interface PaymentListResponse {
 
   has_license_key: boolean;
 
-  metadata: { [key: string]: string };
+  metadata: MiscAPI.Metadata;
 
   payment_id: string;
 
@@ -840,7 +841,7 @@ export interface PaymentCreateParams {
    * Additional metadata associated with the payment. Defaults to empty if not
    * provided.
    */
-  metadata?: { [key: string]: string };
+  metadata?: MiscAPI.Metadata;
 
   /**
    * Whether to generate a payment link. Defaults to false if not specified.

@@ -383,6 +383,36 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/products/{id}/short_links',
   },
   {
+    clientCallName: 'client.products.localizedPrices.list',
+    fullyQualifiedName: 'products.localizedPrices.list',
+    httpMethod: 'get',
+    httpPath: '/products/{product_id}/localized-prices',
+  },
+  {
+    clientCallName: 'client.products.localizedPrices.create',
+    fullyQualifiedName: 'products.localizedPrices.create',
+    httpMethod: 'post',
+    httpPath: '/products/{product_id}/localized-prices',
+  },
+  {
+    clientCallName: 'client.products.localizedPrices.retrieve',
+    fullyQualifiedName: 'products.localizedPrices.retrieve',
+    httpMethod: 'get',
+    httpPath: '/products/{product_id}/localized-prices/{id}',
+  },
+  {
+    clientCallName: 'client.products.localizedPrices.update',
+    fullyQualifiedName: 'products.localizedPrices.update',
+    httpMethod: 'patch',
+    httpPath: '/products/{product_id}/localized-prices/{id}',
+  },
+  {
+    clientCallName: 'client.products.localizedPrices.archive',
+    fullyQualifiedName: 'products.localizedPrices.archive',
+    httpMethod: 'delete',
+    httpPath: '/products/{product_id}/localized-prices/{id}',
+  },
+  {
     clientCallName: 'client.misc.listSupportedCountries',
     fullyQualifiedName: 'misc.listSupportedCountries',
     httpMethod: 'get',
@@ -707,6 +737,12 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'entitlements.grants.revoke',
     httpMethod: 'delete',
     httpPath: '/entitlements/{id}/grants/{grant_id}',
+  },
+  {
+    clientCallName: 'client.entitlements.grants.fulfillLicenseKey',
+    fullyQualifiedName: 'entitlements.grants.fulfillLicenseKey',
+    httpMethod: 'post',
+    httpPath: '/grants/{grant_id}/license-key',
   },
   {
     clientCallName: 'client.productCollections.list',

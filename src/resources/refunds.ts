@@ -87,7 +87,7 @@ export interface Refund {
   /**
    * Additional metadata stored with the refund.
    */
-  metadata: { [key: string]: string };
+  metadata: MiscAPI.Metadata;
 
   /**
    * The unique identifier of the payment associated with the refund.
@@ -163,7 +163,7 @@ export interface RefundCreateParams {
   /**
    * Additional metadata associated with the refund.
    */
-  metadata?: { [key: string]: string };
+  metadata?: MiscAPI.Metadata;
 
   /**
    * The reason for the refund, if any. Maximum length is 3000 characters. Optional.

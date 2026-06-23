@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as MiscAPI from './misc';
 import { APIPromise } from '../core/api-promise';
 import {
   DefaultPageNumberPagination,
@@ -137,7 +138,7 @@ export interface Discount {
    */
   discount_id: string;
 
-  metadata: { [key: string]: string };
+  metadata: MiscAPI.Metadata;
 
   /**
    * Whether this discount should be preserved when a subscription changes plans.
@@ -216,7 +217,7 @@ export interface DiscountDetail {
   /**
    * Additional metadata
    */
-  metadata: { [key: string]: string };
+  metadata: MiscAPI.Metadata;
 
   /**
    * Position of this discount in the stack (0-based)
@@ -324,7 +325,7 @@ export interface DiscountCreateParams {
   /**
    * Additional metadata for the discount
    */
-  metadata?: { [key: string]: string };
+  metadata?: MiscAPI.Metadata;
 
   name?: string | null;
 
@@ -371,7 +372,7 @@ export interface DiscountUpdateParams {
   /**
    * Additional metadata for the discount
    */
-  metadata?: { [key: string]: string } | null;
+  metadata?: MiscAPI.Metadata | null;
 
   name?: string | null;
 

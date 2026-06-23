@@ -2,6 +2,7 @@
 
 import { APIResource } from '../../core/resource';
 import * as EntitlementsAPI from './entitlements';
+import * as MiscAPI from '../misc';
 import * as SubscriptionsAPI from '../subscriptions';
 import * as FilesAPI from './files';
 import { FileDeleteParams, FileUploadResponse, Files } from './files';
@@ -9,6 +10,7 @@ import * as GrantsAPI from './grants';
 import {
   EntitlementGrant,
   EntitlementGrantsDefaultPageNumberPagination,
+  GrantFulfillLicenseKeyParams,
   GrantListParams,
   GrantRevokeParams,
   Grants,
@@ -156,7 +158,7 @@ export interface Entitlement {
   /**
    * Arbitrary key-value metadata supplied at creation or via PATCH.
    */
-  metadata: { [key: string]: string };
+  metadata: MiscAPI.Metadata;
 
   /**
    * Display name supplied at creation.
@@ -531,7 +533,7 @@ export interface EntitlementCreateParams {
   /**
    * Additional metadata for the entitlement
    */
-  metadata?: { [key: string]: string };
+  metadata?: MiscAPI.Metadata;
 }
 
 export interface EntitlementUpdateParams {
@@ -543,7 +545,7 @@ export interface EntitlementUpdateParams {
    */
   integration_config?: IntegrationConfig | null;
 
-  metadata?: { [key: string]: string } | null;
+  metadata?: MiscAPI.Metadata | null;
 
   name?: string | null;
 }
@@ -577,5 +579,6 @@ export declare namespace Entitlements {
     type EntitlementGrantsDefaultPageNumberPagination as EntitlementGrantsDefaultPageNumberPagination,
     type GrantListParams as GrantListParams,
     type GrantRevokeParams as GrantRevokeParams,
+    type GrantFulfillLicenseKeyParams as GrantFulfillLicenseKeyParams,
   };
 }
