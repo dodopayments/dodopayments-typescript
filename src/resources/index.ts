@@ -135,6 +135,7 @@ export {
   Misc,
   type CountryCode,
   type Currency,
+  type Metadata,
   type TaxCategory,
   type MiscListSupportedCountriesResponse,
 } from './misc';

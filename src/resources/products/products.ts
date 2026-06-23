@@ -8,6 +8,17 @@ import * as CreditEntitlementsAPI from '../credit-entitlements/credit-entitlemen
 import * as EntitlementsAPI from '../entitlements/entitlements';
 import * as ImagesAPI from './images';
 import { ImageUpdateParams, ImageUpdateResponse, Images } from './images';
+import * as LocalizedPricesAPI from './localized-prices';
+import {
+  ListLocalizedPricesResponse,
+  LocalizedPrice,
+  LocalizedPriceArchiveParams,
+  LocalizedPriceCreateParams,
+  LocalizedPriceRetrieveParams,
+  LocalizedPriceUpdateParams,
+  LocalizedPrices,
+  PricingMode,
+} from './localized-prices';
 import * as ShortLinksAPI from './short-links';
 import {
   ShortLinkCreateParams,
@@ -30,6 +41,7 @@ import { path } from '../../internal/utils/path';
 export class Products extends APIResource {
   images: ImagesAPI.Images = new ImagesAPI.Images(this._client);
   shortLinks: ShortLinksAPI.ShortLinks = new ShortLinksAPI.ShortLinks(this._client);
+  localizedPrices: LocalizedPricesAPI.LocalizedPrices = new LocalizedPricesAPI.LocalizedPrices(this._client);
 
   /**
    * @example
@@ -670,7 +682,7 @@ export interface Product {
   /**
    * Additional custom data associated with the product
    */
-  metadata: { [key: string]: string };
+  metadata: MiscAPI.Metadata;
 
   /**
    * Pricing information for the product.
@@ -739,7 +751,7 @@ export interface Product {
    * Pricing mode for localized pricing. NULL means base-only (no localized rules
    * apply).
    */
-  pricing_mode?: 'by_currency' | 'by_country' | null;
+  pricing_mode?: LocalizedPricesAPI.PricingMode | null;
 
   /**
    * The product collection ID this product belongs to, if any
@@ -797,7 +809,7 @@ export interface ProductListResponse {
   /**
    * Additional custom data associated with the product
    */
-  metadata: { [key: string]: string };
+  metadata: MiscAPI.Metadata;
 
   /**
    * Unique identifier for the product.
@@ -857,7 +869,7 @@ export interface ProductListResponse {
    * Pricing mode for localized pricing. NULL means base-only (no localized rules
    * apply).
    */
-  pricing_mode?: 'by_currency' | 'by_country' | null;
+  pricing_mode?: LocalizedPricesAPI.PricingMode | null;
 
   /**
    * Indicates if the price is tax inclusive
@@ -971,14 +983,14 @@ export interface ProductCreateParams {
   /**
    * Additional metadata for the product
    */
-  metadata?: { [key: string]: string };
+  metadata?: MiscAPI.Metadata;
 
   /**
    * Pricing mode for localized pricing. When set, rules from
    * /products/{id}/localized-prices apply at checkout. NULL means base-only
    * (existing behavior).
    */
-  pricing_mode?: 'by_currency' | 'by_country' | null;
+  pricing_mode?: LocalizedPricesAPI.PricingMode | null;
 }
 
 export namespace ProductCreateParams {
@@ -1068,7 +1080,7 @@ export interface ProductUpdateParams {
   /**
    * Additional metadata for the product
    */
-  metadata?: { [key: string]: string } | null;
+  metadata?: MiscAPI.Metadata | null;
 
   /**
    * Name of the product, optional and must be at most 100 characters.
@@ -1085,7 +1097,7 @@ export interface ProductUpdateParams {
    * archives all active localized rules for this product). Changing to a different
    * non-null mode also archives any rules whose mode doesn't match the new mode.
    */
-  pricing_mode?: 'by_currency' | 'by_country' | null;
+  pricing_mode?: LocalizedPricesAPI.PricingMode | null;
 
   /**
    * Tax category of the product.
@@ -1123,6 +1135,7 @@ export interface ProductUpdateFilesParams {
 
 Products.Images = Images;
 Products.ShortLinks = ShortLinks;
+Products.LocalizedPrices = LocalizedPrices;
 
 export declare namespace Products {
   export {
@@ -1159,5 +1172,16 @@ export declare namespace Products {
     type ShortLinkListResponsesDefaultPageNumberPagination as ShortLinkListResponsesDefaultPageNumberPagination,
     type ShortLinkListParams as ShortLinkListParams,
     type ShortLinkCreateParams as ShortLinkCreateParams,
+  };
+
+  export {
+    LocalizedPrices as LocalizedPrices,
+    type ListLocalizedPricesResponse as ListLocalizedPricesResponse,
+    type LocalizedPrice as LocalizedPrice,
+    type PricingMode as PricingMode,
+    type LocalizedPriceCreateParams as LocalizedPriceCreateParams,
+    type LocalizedPriceRetrieveParams as LocalizedPriceRetrieveParams,
+    type LocalizedPriceUpdateParams as LocalizedPriceUpdateParams,
+    type LocalizedPriceArchiveParams as LocalizedPriceArchiveParams,
   };
 }

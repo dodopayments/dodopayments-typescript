@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as MiscAPI from '../misc';
 import { APIPromise } from '../../core/api-promise';
 import {
   DefaultPageNumberPagination,
@@ -285,6 +286,13 @@ export interface CreditLedgerEntry {
 
   is_credit: boolean;
 
+  /**
+   * Metadata associated with the credit grant's source (the subscription or payment
+   * created at checkout). Empty when the grant has no resolvable source (e.g.
+   * credits granted directly via the API).
+   */
+  metadata: MiscAPI.Metadata;
+
   overage_after: string;
 
   overage_before: string;
@@ -392,7 +400,7 @@ export interface BalanceListGrantsResponse {
 
   expires_at?: string | null;
 
-  metadata?: { [key: string]: string } | null;
+  metadata?: MiscAPI.Metadata | null;
 
   parent_grant_id?: string | null;
 
@@ -478,7 +486,7 @@ export interface BalanceCreateLedgerEntryParams {
    * Body param: Optional metadata (max 50 key-value pairs, key max 40 chars, value
    * max 500 chars)
    */
-  metadata?: { [key: string]: string } | null;
+  metadata?: MiscAPI.Metadata | null;
 
   /**
    * Body param: Human-readable reason for the entry
