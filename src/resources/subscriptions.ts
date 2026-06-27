@@ -279,6 +279,9 @@ export interface AddonCartResponseItem {
 export interface AttachAddon {
   addon_id: string;
 
+  /**
+   * Number of units of this addon.
+   */
   quantity: number;
 }
 
@@ -347,6 +350,9 @@ export interface CreditEntitlementCartResponse {
 
   rollover_timeframe_count?: number | null;
 
+  /**
+   * Unit of a duration count (e.g. license-key validity period).
+   */
   rollover_timeframe_interval?: TimeInterval | null;
 }
 
@@ -675,6 +681,9 @@ export interface Subscription {
 
 export type SubscriptionStatus = 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired';
 
+/**
+ * Unit of a duration count (e.g. license-key validity period).
+ */
 export type TimeInterval = 'Day' | 'Week' | 'Month' | 'Year';
 
 export interface UpdateSubscriptionPlanReq {
@@ -1505,6 +1514,9 @@ export namespace SubscriptionUpdateParams {
 
     rollover_timeframe_count?: number | null;
 
+    /**
+     * Unit of a duration count (e.g. license-key validity period).
+     */
     rollover_timeframe_interval?: SubscriptionsAPI.TimeInterval | null;
   }
 
