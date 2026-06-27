@@ -384,6 +384,9 @@ export interface CreditEntitlement {
 
   rollover_timeframe_count?: number | null;
 
+  /**
+   * Unit of a duration count (e.g. license-key validity period).
+   */
   rollover_timeframe_interval?: SubscriptionsAPI.TimeInterval | null;
 }
 

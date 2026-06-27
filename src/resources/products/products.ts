@@ -466,6 +466,9 @@ export interface DigitalProductDeliveryFile {
 export interface LicenseKeyDuration {
   count: number;
 
+  /**
+   * Unit of a duration count (e.g. license-key validity period).
+   */
   interval: SubscriptionsAPI.TimeInterval;
 }
 

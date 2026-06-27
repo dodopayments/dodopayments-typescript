@@ -238,7 +238,7 @@ export interface Payment {
   customer: CustomerLimitedDetails;
 
   /**
-   * brand id this payment belongs to
+   * Whether the digital products purchased in this payment have been delivered.
    */
   digital_products_delivered: boolean;
 
