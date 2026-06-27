@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.40.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.40.0...v2.40.1) (2026-06-27)
+
+
+### Bug Fixes
+
+* **api:** add allow_editing_addons checkout flag and refine schema descriptions ([013e201](https://github.com/dodopayments/dodopayments-typescript/commit/013e201f34b7d622d0a67133b1ffa8c0596f1c93))
+* **api:** add allow_editing_addons checkout flag and refine schema descriptions ([5b126bf](https://github.com/dodopayments/dodopayments-typescript/commit/5b126bf1a1087f17b33eb8a86fda2421f4501ce8))
+
 ## [2.40.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.39.1...v2.40.0) (2026-06-23)
 
 
