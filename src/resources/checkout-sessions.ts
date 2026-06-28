@@ -156,6 +156,14 @@ export interface CheckoutSessionFlags {
   allow_discount_code?: boolean;
 
   /**
+   * If true, the customer can add or remove addons on a subscription product during
+   * checkout.
+   *
+   * Default is false
+   */
+  allow_editing_addons?: boolean;
+
+  /**
    * If phone number is collected from customer, set it to rue
    *
    * Default is true
