@@ -400,6 +400,9 @@ export interface BalanceListGrantsResponse {
 
   expires_at?: string | null;
 
+  /**
+   * Arbitrary key-value metadata. Values can be string, integer, number, or boolean.
+   */
   metadata?: MiscAPI.Metadata | null;
 
   parent_grant_id?: string | null;

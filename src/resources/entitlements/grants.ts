@@ -160,6 +160,12 @@ export interface EntitlementGrant {
   error_message?: string | null;
 
   /**
+   * Typed feature payload, present only when the entitlement integration is
+   * `feature_flag`; `null` for every other integration type.
+   */
+  feature?: EntitlementGrant.Feature | null;
+
+  /**
    * License-key delivery payload, present when the entitlement integration is
    * `license_key`.
    */
@@ -196,6 +202,24 @@ export interface EntitlementGrant {
    * Identifier of the subscription that triggered this grant, when applicable.
    */
   subscription_id?: string | null;
+}
+
+export namespace EntitlementGrant {
+  /**
+   * Typed feature payload, present only when the entitlement integration is
+   * `feature_flag`; `null` for every other integration type.
+   */
+  export interface Feature {
+    /**
+     * Identifier of the capability this grant confers.
+     */
+    feature_id: string;
+
+    /**
+     * Type of capability conferred.
+     */
+    feature_type: 'boolean';
+  }
 }
 
 /**
