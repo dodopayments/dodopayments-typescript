@@ -58,8 +58,8 @@ export class Entitlements extends APIResource {
    * ```ts
    * const entitlement = await client.entitlements.create({
    *   integration_config: {
-   *     permission: 'pull',
-   *     target_id: 'target_id',
+   *     feature_id: 'feature_id',
+   *     feature_type: 'boolean',
    *   },
    *   integration_type: 'discord',
    *   name: 'name',
@@ -184,7 +184,8 @@ export type EntitlementIntegrationType =
   | 'framer'
   | 'notion'
   | 'digital_files'
-  | 'license_key';
+  | 'license_key'
+  | 'feature_flag';
 
 /**
  * Repository permission to grant on a `github` entitlement.
@@ -194,8 +195,13 @@ export type GitHubPermission = 'pull' | 'push' | 'admin' | 'maintain' | 'triage'
 /**
  * Integration-specific configuration supplied when creating or updating an
  * entitlement. The shape required matches the entitlement's `integration_type`.
+ *
+ * Untagged enum: variants are matched in order. `FeatureFlag` must precede
+ * `LicenseKey`, whose fields are all optional and would otherwise match a
+ * `feature_flag` config.
  */
 export type IntegrationConfig =
+  | IntegrationConfig.FeatureFlagConfig
   | IntegrationConfig.GitHubConfig
   | IntegrationConfig.DiscordConfig
   | IntegrationConfig.TelegramConfig
@@ -206,6 +212,19 @@ export type IntegrationConfig =
   | IntegrationConfig.LicenseKeyConfig;
 
 export namespace IntegrationConfig {
+  export interface FeatureFlagConfig {
+    /**
+     * Merchant-chosen identifier for the capability this entitlement unlocks. Not
+     * unique across entitlements.
+     */
+    feature_id: string;
+
+    /**
+     * Type of capability conferred.
+     */
+    feature_type: 'boolean';
+  }
+
   export interface GitHubConfig {
     /**
      * Permission to grant on the repository.
@@ -330,6 +349,7 @@ export namespace IntegrationConfig {
  * for each attached file; other integrations match the shape supplied at creation.
  */
 export type IntegrationConfigResponse =
+  | IntegrationConfigResponse.FeatureFlagConfig
   | IntegrationConfigResponse.GitHubConfig
   | IntegrationConfigResponse.DiscordConfig
   | IntegrationConfigResponse.TelegramConfig
@@ -340,6 +360,18 @@ export type IntegrationConfigResponse =
   | IntegrationConfigResponse.LicenseKeyConfig;
 
 export namespace IntegrationConfigResponse {
+  export interface FeatureFlagConfig {
+    /**
+     * Merchant-chosen identifier for the capability this entitlement unlocks.
+     */
+    feature_id: string;
+
+    /**
+     * Type of capability conferred. Only `boolean` is supported today.
+     */
+    feature_type: 'boolean';
+  }
+
   export interface GitHubConfig {
     /**
      * Permission to grant on the repository.
@@ -506,7 +538,8 @@ export interface EntitlementListParams extends DefaultPageNumberPaginationParams
     | 'framer'
     | 'notion'
     | 'digital_files'
-    | 'license_key';
+    | 'license_key'
+    | 'feature_flag';
 }
 
 export interface EntitlementCreateParams {
@@ -542,9 +575,16 @@ export interface EntitlementUpdateParams {
   /**
    * Integration-specific configuration supplied when creating or updating an
    * entitlement. The shape required matches the entitlement's `integration_type`.
+   *
+   * Untagged enum: variants are matched in order. `FeatureFlag` must precede
+   * `LicenseKey`, whose fields are all optional and would otherwise match a
+   * `feature_flag` config.
    */
   integration_config?: IntegrationConfig | null;
 
+  /**
+   * Arbitrary key-value metadata. Values can be string, integer, number, or boolean.
+   */
   metadata?: MiscAPI.Metadata | null;
 
   name?: string | null;

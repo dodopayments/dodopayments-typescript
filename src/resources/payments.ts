@@ -654,6 +654,9 @@ export interface PaymentListResponse {
 
   has_license_key: boolean;
 
+  /**
+   * Arbitrary key-value metadata. Values can be string, integer, number, or boolean.
+   */
   metadata: MiscAPI.Metadata;
 
   payment_id: string;
