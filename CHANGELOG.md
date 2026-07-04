@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.41.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.40.1...v2.41.0) (2026-07-04)
+
+
+### Features
+
+* **api:** register Feature/FeatureType models and expose customer entitlement-grants list endpoint ([9e7b275](https://github.com/dodopayments/dodopayments-typescript/commit/9e7b275942aab38421732da4fc65ff031631cd6b))
+* **api:** register Feature/FeatureType models and expose customer entitlement-grants list endpoint ([aaee6f0](https://github.com/dodopayments/dodopayments-typescript/commit/aaee6f084c6b4c1fe7dfeea537ff1354b3fce098))
+
 ## [2.40.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.40.0...v2.40.1) (2026-06-27)
 
 
