@@ -208,6 +208,7 @@ import {
   CustomerCreateParams,
   CustomerDeletePaymentMethodParams,
   CustomerListCreditEntitlementsResponse,
+  CustomerListEntitlementGrantsParams,
   CustomerListEntitlementsResponse,
   CustomerListParams,
   CustomerPortalSession,
@@ -224,6 +225,8 @@ import {
   EntitlementUpdateParams,
   Entitlements,
   EntitlementsDefaultPageNumberPagination,
+  Feature,
+  FeatureType,
   GitHubPermission,
   IntegrationConfig,
   IntegrationConfigResponse,
@@ -1270,6 +1273,7 @@ export declare namespace DodoPayments {
     type CustomerCreateParams as CustomerCreateParams,
     type CustomerUpdateParams as CustomerUpdateParams,
     type CustomerDeletePaymentMethodParams as CustomerDeletePaymentMethodParams,
+    type CustomerListEntitlementGrantsParams as CustomerListEntitlementGrantsParams,
   };
 
   export {
@@ -1460,6 +1464,8 @@ export declare namespace DodoPayments {
     Entitlements as Entitlements,
     type Entitlement as Entitlement,
     type EntitlementIntegrationType as EntitlementIntegrationType,
+    type Feature as Feature,
+    type FeatureType as FeatureType,
     type GitHubPermission as GitHubPermission,
     type IntegrationConfig as IntegrationConfig,
     type IntegrationConfigResponse as IntegrationConfigResponse,

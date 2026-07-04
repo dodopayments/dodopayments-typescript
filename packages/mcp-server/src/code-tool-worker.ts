@@ -143,6 +143,7 @@ const fuse = new Fuse(
     'client.customers.deletePaymentMethod',
     'client.customers.list',
     'client.customers.listCreditEntitlements',
+    'client.customers.listEntitlementGrants',
     'client.customers.listEntitlements',
     'client.customers.retrieve',
     'client.customers.retrievePaymentMethods',

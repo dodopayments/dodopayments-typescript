@@ -245,6 +245,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/customers/{customer_id}/entitlements',
   },
   {
+    clientCallName: 'client.customers.listEntitlementGrants',
+    fullyQualifiedName: 'customers.listEntitlementGrants',
+    httpMethod: 'get',
+    httpPath: '/customers/{customer_id}/entitlement-grants',
+  },
+  {
     clientCallName: 'client.customers.customerPortal.create',
     fullyQualifiedName: 'customers.customerPortal.create',
     httpMethod: 'post',
