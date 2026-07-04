@@ -6,6 +6,8 @@ import * as PaymentsAPI from '../payments';
 import * as CustomerPortalAPI from './customer-portal';
 import { CustomerPortal, CustomerPortalCreateParams } from './customer-portal';
 import * as EntitlementsAPI from '../entitlements/entitlements';
+import * as GrantsAPI from '../entitlements/grants';
+import { EntitlementGrantsDefaultPageNumberPagination } from '../entitlements/grants';
 import * as WalletsAPI from './wallets/wallets';
 import { CustomerWallet, WalletListResponse, Wallets } from './wallets/wallets';
 import { APIPromise } from '../../core/api-promise';
@@ -148,6 +150,32 @@ export class Customers extends APIResource {
     options?: RequestOptions,
   ): APIPromise<CustomerListEntitlementsResponse> {
     return this._client.get(path`/customers/${customerID}/entitlements`, options);
+  }
+
+  /**
+   * List all of a customer's entitlement grants across every entitlement. One row
+   * per grant.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const entitlementGrant of client.customers.listEntitlementGrants(
+   *   'cus_TV52uJWWXt2yIoBBxpjaa',
+   * )) {
+   *   // ...
+   * }
+   * ```
+   */
+  listEntitlementGrants(
+    customerID: string,
+    query: CustomerListEntitlementGrantsParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<EntitlementGrantsDefaultPageNumberPagination, GrantsAPI.EntitlementGrant> {
+    return this._client.getAPIList(
+      path`/customers/${customerID}/entitlement-grants`,
+      DefaultPageNumberPagination<GrantsAPI.EntitlementGrant>,
+      { query, ...options },
+    );
   }
 }
 
@@ -367,6 +395,27 @@ export interface CustomerDeletePaymentMethodParams {
   customer_id: string;
 }
 
+export interface CustomerListEntitlementGrantsParams extends DefaultPageNumberPaginationParams {
+  /**
+   * Filter by integration type (e.g. `feature_flag`)
+   */
+  integration_type?:
+    | 'discord'
+    | 'telegram'
+    | 'github'
+    | 'figma'
+    | 'framer'
+    | 'notion'
+    | 'digital_files'
+    | 'license_key'
+    | 'feature_flag';
+
+  /**
+   * Filter by grant status
+   */
+  status?: 'Pending' | 'Delivered' | 'Failed' | 'Revoked';
+}
+
 Customers.CustomerPortal = CustomerPortal;
 Customers.Wallets = Wallets;
 
@@ -382,6 +431,7 @@ export declare namespace Customers {
     type CustomerCreateParams as CustomerCreateParams,
     type CustomerUpdateParams as CustomerUpdateParams,
     type CustomerDeletePaymentMethodParams as CustomerDeletePaymentMethodParams,
+    type CustomerListEntitlementGrantsParams as CustomerListEntitlementGrantsParams,
   };
 
   export { CustomerPortal as CustomerPortal, type CustomerPortalCreateParams as CustomerPortalCreateParams };
@@ -392,3 +442,5 @@ export declare namespace Customers {
     type WalletListResponse as WalletListResponse,
   };
 }
+
+export { type EntitlementGrantsDefaultPageNumberPagination };

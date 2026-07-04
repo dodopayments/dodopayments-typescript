@@ -160,6 +160,12 @@ export interface EntitlementGrant {
   error_message?: string | null;
 
   /**
+   * Typed feature payload, present only when the entitlement integration is
+   * `feature_flag`; `null` for every other integration type.
+   */
+  feature?: EntitlementsAPI.Feature | null;
+
+  /**
    * License-key delivery payload, present when the entitlement integration is
    * `license_key`.
    */

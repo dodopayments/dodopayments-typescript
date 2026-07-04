@@ -126,6 +126,7 @@ client.example.list(undefined, { headers: { ... } });
 - `client.licenseKeys.list()`
 - `client.licenseKeyInstances.list()`
 - `client.customers.list()`
+- `client.customers.listEntitlementGrants()`
 - `client.customers.customerPortal.create()`
 - `client.customers.wallets.ledgerEntries.list()`
 - `client.refunds.list()`

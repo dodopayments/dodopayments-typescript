@@ -411,7 +411,10 @@ export type Currency =
   | 'ZAR'
   | 'ZMW';
 
-export type Metadata = { [key: string]: string };
+/**
+ * Arbitrary key-value metadata. Values can be string, integer, number, or boolean.
+ */
+export type Metadata = { [key: string]: string | number | boolean };
 
 /**
  * Represents the different categories of taxation applicable to various products
