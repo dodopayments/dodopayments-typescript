@@ -12,6 +12,7 @@ export {
   type CustomerCreateParams,
   type CustomerUpdateParams,
   type CustomerDeletePaymentMethodParams,
+  type CustomerListEntitlementGrantsParams,
   type CustomersDefaultPageNumberPagination,
 } from './customers';
 export { Wallets, type CustomerWallet, type WalletListResponse } from './wallets/index';

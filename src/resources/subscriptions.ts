@@ -1483,6 +1483,9 @@ export interface SubscriptionUpdateParams {
 
   disable_on_demand?: SubscriptionUpdateParams.DisableOnDemand | null;
 
+  /**
+   * Arbitrary key-value metadata. Values can be string, integer, number, or boolean.
+   */
   metadata?: MiscAPI.Metadata | null;
 
   next_billing_date?: string | null;

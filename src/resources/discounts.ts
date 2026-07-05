@@ -138,6 +138,9 @@ export interface Discount {
    */
   discount_id: string;
 
+  /**
+   * Arbitrary key-value metadata. Values can be string, integer, number, or boolean.
+   */
   metadata: MiscAPI.Metadata;
 
   /**

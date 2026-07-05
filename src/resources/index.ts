@@ -60,6 +60,7 @@ export {
   type CustomerCreateParams,
   type CustomerUpdateParams,
   type CustomerDeletePaymentMethodParams,
+  type CustomerListEntitlementGrantsParams,
   type CustomersDefaultPageNumberPagination,
 } from './customers/customers';
 export {
@@ -86,6 +87,8 @@ export {
   Entitlements,
   type Entitlement,
   type EntitlementIntegrationType,
+  type Feature,
+  type FeatureType,
   type GitHubPermission,
   type IntegrationConfig,
   type IntegrationConfigResponse,

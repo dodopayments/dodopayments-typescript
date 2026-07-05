@@ -156,6 +156,7 @@ Methods:
 - <code title="get /customers/{customer_id}/credit-entitlements">client.customers.<a href="./src/resources/customers/customers.ts">listCreditEntitlements</a>(customerID) -> CustomerListCreditEntitlementsResponse</code>
 - <code title="delete /customers/{customer_id}/payment-methods/{payment_method_id}">client.customers.<a href="./src/resources/customers/customers.ts">deletePaymentMethod</a>(paymentMethodID, { ...params }) -> void</code>
 - <code title="get /customers/{customer_id}/entitlements">client.customers.<a href="./src/resources/customers/customers.ts">listEntitlements</a>(customerID) -> CustomerListEntitlementsResponse</code>
+- <code title="get /customers/{customer_id}/entitlement-grants">client.customers.<a href="./src/resources/customers/customers.ts">listEntitlementGrants</a>(customerID, { ...params }) -> EntitlementGrantsDefaultPageNumberPagination</code>
 
 ## CustomerPortal
 
@@ -571,6 +572,8 @@ Types:
 
 - <code><a href="./src/resources/entitlements/entitlements.ts">Entitlement</a></code>
 - <code><a href="./src/resources/entitlements/entitlements.ts">EntitlementIntegrationType</a></code>
+- <code><a href="./src/resources/entitlements/entitlements.ts">Feature</a></code>
+- <code><a href="./src/resources/entitlements/entitlements.ts">FeatureType</a></code>
 - <code><a href="./src/resources/entitlements/entitlements.ts">GitHubPermission</a></code>
 - <code><a href="./src/resources/entitlements/entitlements.ts">IntegrationConfig</a></code>
 - <code><a href="./src/resources/entitlements/entitlements.ts">IntegrationConfigResponse</a></code>
