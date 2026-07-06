@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.42.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.41.0...v2.42.0) (2026-07-06)
+
+
+### Features
+
+* **api:** add subscription period override fields to subscription update ([7c58a0e](https://github.com/dodopayments/dodopayments-typescript/commit/7c58a0e55267c1c137f72880705d6d90ad99081f))
+* **api:** add subscription period override fields to subscription update ([e9c9889](https://github.com/dodopayments/dodopayments-typescript/commit/e9c9889efe9ef689d3cd2d6722da810de1913045))
+
 ## [2.41.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.40.1...v2.41.0) (2026-07-04)
 
 
