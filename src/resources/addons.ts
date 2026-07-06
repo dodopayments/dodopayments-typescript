@@ -184,7 +184,8 @@ export interface AddonUpdateParams {
   description?: string | null;
 
   /**
-   * Addon image id after its uploaded to S3
+   * Addon image id after its uploaded to S3. Pass `null` to remove the existing
+   * image, omit to keep it unchanged.
    */
   image_id?: string | null;
 
