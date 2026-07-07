@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.42.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.42.0...v2.42.1) (2026-07-07)
+
+
+### Bug Fixes
+
+* **mcp/cloudflare-worker:** raise access-token TTL to 24h to cut mcp-remote re-auth popups ([4f7f2da](https://github.com/dodopayments/dodopayments-typescript/commit/4f7f2da2b714c3484b7b13085974ae76c7d9ca09))
+
 ## [2.42.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.41.0...v2.42.0) (2026-07-06)
 
 
