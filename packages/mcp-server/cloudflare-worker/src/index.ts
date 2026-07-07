@@ -229,16 +229,22 @@ export default new OAuthProvider({
   authorizeEndpoint: '/authorize',
   tokenEndpoint: '/token',
   clientRegistrationEndpoint: '/register',
-  // This provider defaults refresh tokens to 30 days and dynamically-registered
-  // clients to 90 days; letting either expire forces every MCP client to re-run
-  // the full browser authorization once the window lapses. Pin both to `undefined`
-  // (never expire) so only the 1h access token rotates and refresh keeps sessions
-  // alive indefinitely. Do NOT "simplify" these away — omitting them re-enables the
-  // 30d/90d defaults and reintroduces periodic re-authorization. Verified against
-  // @cloudflare/workers-oauth-provider 0.8.0: the constructor spreads
-  // `{ ...defaults, ...options }` and every TTL usage site gates on `!== void 0`, so
-  // an explicit `undefined` overrides the default rather than falling back to it.
-  accessTokenTTL: 3600,
+  // Access tokens live 24h rather than the 1h default. Most clients reach this server via
+  // `mcp-remote`, which does not track token expiry locally and only refreshes AFTER the
+  // server 401s (geelen/mcp-remote#273); its refresh-on-401 path frequently loses a race
+  // with the host restarting the process, surfacing a fresh browser-auth popup. A 1h TTL
+  // triggers that ~24x/day; 24h cuts it to ~1x/day. The larger access-token leak window is
+  // acceptable here because refresh tokens are already non-expiring (standing exposure is
+  // unchanged) and grants stay individually revocable.
+  accessTokenTTL: 86400,
+  // This provider defaults refresh tokens to 30 days and dynamically-registered clients to
+  // 90 days; letting either expire forces every MCP client to re-run the full browser
+  // authorization once the window lapses. Pin both to `undefined` (never expire) so refresh
+  // keeps sessions alive indefinitely. Do NOT "simplify" these away — omitting them re-enables
+  // the 30d/90d defaults and reintroduces periodic re-authorization. Verified against
+  // @cloudflare/workers-oauth-provider 0.8.0: the constructor spreads `{ ...defaults, ...options }`
+  // and every TTL usage site gates on `!== void 0`, so an explicit `undefined` overrides the
+  // default rather than falling back to it.
   refreshTokenTTL: undefined,
   clientRegistrationTTL: undefined,
 });
