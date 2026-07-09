@@ -417,6 +417,7 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionOnHoldWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionPlanChangedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionRenewedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionUpdatePaymentMethodWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionUpdatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">AbandonedCheckoutDetectedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">AbandonedCheckoutRecoveredWebhookEvent</a></code>
@@ -456,6 +457,7 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionOnHoldWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionPlanChangedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionRenewedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionUpdatePaymentMethodWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionUpdatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">UnsafeUnwrapWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">UnwrapWebhookEvent</a></code>
