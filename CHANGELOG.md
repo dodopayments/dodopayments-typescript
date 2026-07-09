@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.42.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.42.1...v2.42.2) (2026-07-09)
+
+
+### Bug Fixes
+
+* **api:** add subscription.update_payment_method webhook and payment-method fields ([5d050d5](https://github.com/dodopayments/dodopayments-typescript/commit/5d050d553eac61a65f027636b0e1ab296b066cd3))
+* **api:** add subscription.update_payment_method webhook and payment-method fields ([ef930e2](https://github.com/dodopayments/dodopayments-typescript/commit/ef930e229c2893a7879d19e1e3931de845af9980))
+
 ## [2.42.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.42.0...v2.42.1) (2026-07-07)
 
 
