@@ -248,6 +248,12 @@ export interface Payment {
   disputes: Array<DisputesAPI.Dispute>;
 
   /**
+   * Whether this payment was created solely to update a subscription's payment
+   * method (a zero-/setup-amount charge). `false` for normal charges.
+   */
+  is_update_payment_method: boolean;
+
+  /**
    * Additional custom data associated with the payment
    */
   metadata: MiscAPI.Metadata;
@@ -371,6 +377,11 @@ export interface Payment {
    * Payment method used by customer (e.g. "card", "bank_transfer")
    */
   payment_method?: string | null;
+
+  /**
+   * Identifier of the saved payment method used for this payment, if any.
+   */
+  payment_method_id?: string | null;
 
   /**
    * Specific type of payment method (e.g. "visa", "mastercard")

@@ -680,6 +680,14 @@ export interface CheckoutSessionPreviewResponse {
   total_price: number;
 
   /**
+   * The upcoming billing date for subscriptions, computed relative to now: with a
+   * trial it is `now + trial_period_days`, otherwise `now + payment frequency`.
+   * `None` for one-time-only carts. This is a preview estimate; the authoritative
+   * value is set when the subscription activates.
+   */
+  next_billing_date?: string | null;
+
+  /**
    * Breakup of recurring payments (None for one-time only)
    */
   recurring_breakup?: CheckoutSessionPreviewResponse.RecurringBreakup | null;
