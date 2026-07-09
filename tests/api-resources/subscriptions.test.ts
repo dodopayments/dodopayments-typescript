@@ -25,6 +25,7 @@ describe('resource subscriptions', () => {
       client.subscriptions.list(
         {
           brand_id: 'brand_id',
+          cancel_at_next_billing_date: true,
           created_at_gte: '2019-12-27T18:11:19.117Z',
           created_at_lte: '2019-12-27T18:11:19.117Z',
           customer_id: 'customer_id',
