@@ -1273,6 +1273,11 @@ export interface SubscriptionListParams extends DefaultPageNumberPaginationParam
   brand_id?: string;
 
   /**
+   * Filter by cancel_at_next_billing_date (subscriptions scheduled for cancellation)
+   */
+  cancel_at_next_billing_date?: boolean;
+
+  /**
    * Get events after this created time
    */
   created_at_gte?: string;

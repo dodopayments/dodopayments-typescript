@@ -1111,6 +1111,28 @@ export interface SubscriptionRenewedWebhookEvent {
   type: 'subscription.renewed';
 }
 
+export interface SubscriptionUpdatePaymentMethodWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response struct representing subscription details
+   */
+  data: SubscriptionsAPI.Subscription;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.update_payment_method';
+}
+
 export interface SubscriptionUpdatedWebhookEvent {
   /**
    * The business identifier
@@ -2059,6 +2081,28 @@ export interface SubscriptionRenewedWebhookEvent {
   type: 'subscription.renewed';
 }
 
+export interface SubscriptionUpdatePaymentMethodWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response struct representing subscription details
+   */
+  data: SubscriptionsAPI.Subscription;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.update_payment_method';
+}
+
 export interface SubscriptionUpdatedWebhookEvent {
   /**
    * The business identifier
@@ -2120,6 +2164,7 @@ export type UnsafeUnwrapWebhookEvent =
   | SubscriptionOnHoldWebhookEvent
   | SubscriptionPlanChangedWebhookEvent
   | SubscriptionRenewedWebhookEvent
+  | SubscriptionUpdatePaymentMethodWebhookEvent
   | SubscriptionUpdatedWebhookEvent;
 
 export type UnwrapWebhookEvent =
@@ -2161,6 +2206,7 @@ export type UnwrapWebhookEvent =
   | SubscriptionOnHoldWebhookEvent
   | SubscriptionPlanChangedWebhookEvent
   | SubscriptionRenewedWebhookEvent
+  | SubscriptionUpdatePaymentMethodWebhookEvent
   | SubscriptionUpdatedWebhookEvent;
 
 export interface WebhookListParams extends CursorPagePaginationParams {}
@@ -2283,6 +2329,7 @@ export declare namespace Webhooks {
     type SubscriptionOnHoldWebhookEvent as SubscriptionOnHoldWebhookEvent,
     type SubscriptionPlanChangedWebhookEvent as SubscriptionPlanChangedWebhookEvent,
     type SubscriptionRenewedWebhookEvent as SubscriptionRenewedWebhookEvent,
+    type SubscriptionUpdatePaymentMethodWebhookEvent as SubscriptionUpdatePaymentMethodWebhookEvent,
     type SubscriptionUpdatedWebhookEvent as SubscriptionUpdatedWebhookEvent,
     type UnsafeUnwrapWebhookEvent as UnsafeUnwrapWebhookEvent,
     type UnwrapWebhookEvent as UnwrapWebhookEvent,
