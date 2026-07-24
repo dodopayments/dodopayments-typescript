@@ -359,6 +359,15 @@ export interface Payment {
   error_message?: string | null;
 
   /**
+   * Purpose-built failure messaging for the merchant and the customer, derived from
+   * `error_code`. Present whenever `error_code` is set, regardless of payment
+   * status; unrecognised codes still resolve via a generic fallback rather than
+   * being omitted. The customer copy is always generic for fraud-sensitive declines
+   * (lost/stolen/pickup/fraudulent) so the true reason is never leaked.
+   */
+  failure_details?: Payment.FailureDetails | null;
+
+  /**
    * Invoice ID for this payment. Uses India-specific invoice ID if available.
    */
   invoice_id?: string | null;
@@ -429,6 +438,78 @@ export interface Payment {
 }
 
 export namespace Payment {
+  /**
+   * Purpose-built failure messaging for the merchant and the customer, derived from
+   * `error_code`. Present whenever `error_code` is set, regardless of payment
+   * status; unrecognised codes still resolve via a generic fallback rather than
+   * being omitted. The customer copy is always generic for fraud-sensitive declines
+   * (lost/stolen/pickup/fraudulent) so the true reason is never leaked.
+   */
+  export interface FailureDetails {
+    /**
+     * The unified error code (echoes `error_code`).
+     */
+    code: string;
+
+    /**
+     * The primary CTA to show the customer.
+     */
+    customer_cta:
+      | 'edit_and_retry'
+      | 'use_another_method'
+      | 'try_again'
+      | 'try_later'
+      | 'retry_and_verify'
+      | 'restart'
+      | 'update_method';
+
+    /**
+     * Whether the customer can resolve this themselves (e.g. fix CVC).
+     */
+    customer_fixable: boolean;
+
+    /**
+     * The customer-facing string. Always generic (`C11`) for the fraud-4.
+     */
+    customer_message: string;
+
+    /**
+     * The customer message template identifier (C1..C20).
+     */
+    customer_template:
+      | 'C1'
+      | 'C2'
+      | 'C3'
+      | 'C4'
+      | 'C5'
+      | 'C6'
+      | 'C7'
+      | 'C8'
+      | 'C9'
+      | 'C10'
+      | 'C11'
+      | 'C12'
+      | 'C13'
+      | 'C14'
+      | 'C15'
+      | 'C16'
+      | 'C17'
+      | 'C18'
+      | 'C19'
+      | 'C20';
+
+    /**
+     * Soft or hard decline.
+     */
+    decline_type: 'soft' | 'hard';
+
+    /**
+     * Merchant-facing headline + recommended action (Payment Details). For the fraud-4
+     * this includes the operator "do not reveal" warning.
+     */
+    merchant_message: string;
+  }
+
   export interface ProductCart {
     product_id: string;
 
@@ -519,7 +600,6 @@ export type PaymentMethodTypes =
   | 'sepa'
   | 'sepa_bank_transfer'
   | 'sofort'
-  | 'sunbit'
   | 'swish'
   | 'touch_n_go'
   | 'trustly'
@@ -757,6 +837,156 @@ export interface PaymentListParams extends DefaultPageNumberPaginationParams {
    * Get events created before this time
    */
   created_at_lte?: string;
+
+  /**
+   * Filter by currency
+   */
+  currency?:
+    | 'AED'
+    | 'ALL'
+    | 'AMD'
+    | 'ANG'
+    | 'AOA'
+    | 'ARS'
+    | 'AUD'
+    | 'AWG'
+    | 'AZN'
+    | 'BAM'
+    | 'BBD'
+    | 'BDT'
+    | 'BGN'
+    | 'BHD'
+    | 'BIF'
+    | 'BMD'
+    | 'BND'
+    | 'BOB'
+    | 'BRL'
+    | 'BSD'
+    | 'BWP'
+    | 'BYN'
+    | 'BZD'
+    | 'CAD'
+    | 'CHF'
+    | 'CLP'
+    | 'CNY'
+    | 'COP'
+    | 'CRC'
+    | 'CUP'
+    | 'CVE'
+    | 'CZK'
+    | 'DJF'
+    | 'DKK'
+    | 'DOP'
+    | 'DZD'
+    | 'EGP'
+    | 'ETB'
+    | 'EUR'
+    | 'FJD'
+    | 'FKP'
+    | 'GBP'
+    | 'GEL'
+    | 'GHS'
+    | 'GIP'
+    | 'GMD'
+    | 'GNF'
+    | 'GTQ'
+    | 'GYD'
+    | 'HKD'
+    | 'HNL'
+    | 'HRK'
+    | 'HTG'
+    | 'HUF'
+    | 'IDR'
+    | 'ILS'
+    | 'INR'
+    | 'IQD'
+    | 'JMD'
+    | 'JOD'
+    | 'JPY'
+    | 'KES'
+    | 'KGS'
+    | 'KHR'
+    | 'KMF'
+    | 'KRW'
+    | 'KWD'
+    | 'KYD'
+    | 'KZT'
+    | 'LAK'
+    | 'LBP'
+    | 'LKR'
+    | 'LRD'
+    | 'LSL'
+    | 'LYD'
+    | 'MAD'
+    | 'MDL'
+    | 'MGA'
+    | 'MKD'
+    | 'MMK'
+    | 'MNT'
+    | 'MOP'
+    | 'MRU'
+    | 'MUR'
+    | 'MVR'
+    | 'MWK'
+    | 'MXN'
+    | 'MYR'
+    | 'MZN'
+    | 'NAD'
+    | 'NGN'
+    | 'NIO'
+    | 'NOK'
+    | 'NPR'
+    | 'NZD'
+    | 'OMR'
+    | 'PAB'
+    | 'PEN'
+    | 'PGK'
+    | 'PHP'
+    | 'PKR'
+    | 'PLN'
+    | 'PYG'
+    | 'QAR'
+    | 'RON'
+    | 'RSD'
+    | 'RUB'
+    | 'RWF'
+    | 'SAR'
+    | 'SBD'
+    | 'SCR'
+    | 'SEK'
+    | 'SGD'
+    | 'SHP'
+    | 'SLE'
+    | 'SLL'
+    | 'SOS'
+    | 'SRD'
+    | 'SSP'
+    | 'STN'
+    | 'SVC'
+    | 'SZL'
+    | 'THB'
+    | 'TND'
+    | 'TOP'
+    | 'TRY'
+    | 'TTD'
+    | 'TWD'
+    | 'TZS'
+    | 'UAH'
+    | 'UGX'
+    | 'USD'
+    | 'UYU'
+    | 'UZS'
+    | 'VES'
+    | 'VND'
+    | 'VUV'
+    | 'WST'
+    | 'XAF'
+    | 'XCD'
+    | 'XOF'
+    | 'XPF'
+    | 'YER'
+    | 'ZAR'
+    | 'ZMW';
 
   /**
    * Filter by customer id

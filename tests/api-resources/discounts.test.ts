@@ -26,7 +26,7 @@ describe('resource discounts', () => {
         {
           active: true,
           code: 'code',
-          discount_type: 'percentage',
+          discount_type: 'flat',
           page_number: 0,
           page_size: 0,
           product_id: 'product_id',
@@ -37,7 +37,7 @@ describe('resource discounts', () => {
   });
 
   test('create: only required params', async () => {
-    const responsePromise = client.discounts.create({ amount: 0, type: 'percentage' });
+    const responsePromise = client.discounts.create({ amount: 0, type: 'flat' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -50,13 +50,24 @@ describe('resource discounts', () => {
   test('create: required and optional params', async () => {
     const response = await client.discounts.create({
       amount: 0,
-      type: 'percentage',
+      type: 'flat',
       code: 'code',
+      currency_options: [
+        {
+          currency: 'AED',
+          is_default: true,
+          max_amount_possible: 0,
+          minimum_subtotal: 0,
+        },
+      ],
+      customer_eligibility: 'any',
       expires_at: '2019-12-27T18:11:19.117Z',
       metadata: { foo: 'string' },
       name: 'name',
+      per_customer_usage_limit: 0,
       preserve_on_plan_change: true,
       restricted_to: ['string'],
+      starts_at: '2019-12-27T18:11:19.117Z',
       subscription_cycles: 0,
       usage_limit: 0,
     });

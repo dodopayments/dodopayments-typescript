@@ -677,6 +677,13 @@ export interface Subscription {
    * Tax identifier provided for this subscription (if applicable)
    */
   tax_id?: string | null;
+
+  /**
+   * Per-unit trial amount after discounts, snapshotted at subscription creation
+   * (price currency minor units, pre-quantity, pre-tax). Null for a free trial or no
+   * trial.
+   */
+  trial_amount?: number | null;
 }
 
 export type SubscriptionStatus = 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired';
@@ -819,6 +826,12 @@ export interface SubscriptionCreateResponse {
    * URL to checkout page
    */
   payment_link?: string | null;
+
+  /**
+   * Per-unit trial amount after discounts, in the price currency's minor units
+   * (pre-quantity, pre-tax). Null for a free trial or no trial.
+   */
+  trial_amount?: number | null;
 }
 
 export namespace SubscriptionCreateResponse {
@@ -980,6 +993,13 @@ export interface SubscriptionListResponse {
    * Tax identifier provided for this subscription (if applicable)
    */
   tax_id?: string | null;
+
+  /**
+   * Per-unit trial amount after discounts, snapshotted at subscription creation
+   * (price currency minor units, pre-quantity, pre-tax). Null for a free trial or no
+   * trial.
+   */
+  trial_amount?: number | null;
 }
 
 export namespace SubscriptionListResponse {
