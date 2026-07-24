@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.43.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.42.2...v2.43.0) (2026-07-24)
+
+
+### Features
+
+* **api:** add discount customers endpoints, trial support, currency options, and failure details ([05a9527](https://github.com/dodopayments/dodopayments-typescript/commit/05a95279e3447dbffbfc0100c55516fd58054a30))
+* **api:** add discount customers endpoints, trial support, currency options, and failure details ([5844371](https://github.com/dodopayments/dodopayments-typescript/commit/5844371c07d3e69f276bde28806977c4883e9b79))
+
 ## [2.42.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.42.1...v2.42.2) (2026-07-09)
 
 
