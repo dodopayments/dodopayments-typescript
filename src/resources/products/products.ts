@@ -584,6 +584,18 @@ export namespace Price {
     tax_inclusive?: boolean | null;
 
     /**
+     * Amount charged today for a paid trial, in the price currency's minor units.
+     * Requires `trial_period_days > 0`. Omit or null for a free trial (the default).
+     */
+    trial_amount?: number | null;
+
+    /**
+     * Whether discount codes reduce the trial charge. Defaults to false. Only
+     * meaningful when a paid trial is configured.
+     */
+    trial_apply_discounts?: boolean | null;
+
+    /**
      * Number of days for the trial period. A value of `0` indicates no trial period.
      */
     trial_period_days?: number;
