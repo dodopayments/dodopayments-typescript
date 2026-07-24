@@ -42,7 +42,7 @@ export class Discounts extends APIResource {
    * ```ts
    * const discount = await client.discounts.create({
    *   amount: 0,
-   *   type: 'percentage',
+   *   type: 'flat',
    * });
    * ```
    */
@@ -134,6 +134,11 @@ export interface Discount {
   created_at: string;
 
   /**
+   * Who may redeem this discount code.
+   */
+  customer_eligibility: 'any' | 'first_time' | 'existing' | 'specific';
+
+  /**
    * The unique discount ID
    */
   discount_id: string;
@@ -160,9 +165,15 @@ export interface Discount {
   times_used: number;
 
   /**
-   * The type of discount. Currently only `percentage` is supported.
+   * The type of discount (`percentage` or `flat`).
    */
   type: DiscountType;
+
+  /**
+   * Per-currency options (flat deduction / percentage cap + minimum subtotal). Empty
+   * for discounts without any configured currency options.
+   */
+  currency_options?: Array<Discount.CurrencyOption>;
 
   /**
    * Optional date/time after which discount is expired.
@@ -175,6 +186,17 @@ export interface Discount {
   name?: string | null;
 
   /**
+   * Maximum number of times a single customer may redeem this discount, if any.
+   */
+  per_customer_usage_limit?: number | null;
+
+  /**
+   * Optional date/time before which the discount is not yet active. NULL = active
+   * immediately.
+   */
+  starts_at?: string | null;
+
+  /**
    * Number of subscription billing cycles this discount is valid for. If not
    * provided, the discount will be applied indefinitely to all recurring payments
    * related to the subscription.
@@ -185,6 +207,35 @@ export interface Discount {
    * Usage limit for this discount, if any.
    */
   usage_limit?: number | null;
+}
+
+export namespace Discount {
+  /**
+   * A per-currency discount option (response shape). `max_amount_possible` mirrors
+   * the DB column of the same name.
+   */
+  export interface CurrencyOption {
+    /**
+     * The currency this option applies to.
+     */
+    currency: MiscAPI.Currency;
+
+    /**
+     * Whether this is the default row FX conversions pivot from.
+     */
+    is_default: boolean;
+
+    /**
+     * Eligible-cart threshold in this currency's subunits (0 = no minimum).
+     */
+    minimum_subtotal: number;
+
+    /**
+     * The most this code discounts in this currency's subunits (flat deduction or
+     * percentage cap).
+     */
+    max_amount_possible?: number | null;
+  }
 }
 
 /**
@@ -274,11 +325,13 @@ export interface DiscountDetail {
   usage_limit?: number | null;
 }
 
-export type DiscountType = 'percentage';
+export type DiscountType = 'flat' | 'percentage';
 
 export interface DiscountListParams extends DefaultPageNumberPaginationParams {
   /**
-   * Filter by active status (true = not expired, false = expired)
+   * Filter by active status. `true` = currently redeemable (started, not expired,
+   * not usage-exhausted). `false` = not currently redeemable (expired,
+   * usage-exhausted, or pending a future `starts_at`).
    */
   active?: boolean;
 
@@ -308,7 +361,7 @@ export interface DiscountCreateParams {
   amount: number;
 
   /**
-   * The discount type. Currently only `percentage` is supported.
+   * The discount type: `percentage` or `flat` (`flat_per_unit` stays blocked).
    */
   type: DiscountType;
 
@@ -319,6 +372,21 @@ export interface DiscountCreateParams {
    * - If omitted, a random 16-character code is generated.
    */
   code?: string | null;
+
+  /**
+   * Per-currency options (flat deduction / percentage cap + minimum subtotal).
+   * Required for `flat` codes (must include a resolvable default); optional
+   * per-currency caps for `percentage` codes. Per-row invariants are checked in
+   * `normalize_currency_options`, not via `#[validate(nested)]`.
+   */
+  currency_options?: Array<DiscountCreateParams.CurrencyOption> | null;
+
+  /**
+   * Who may redeem this discount code. Defaults to `any` (unrestricted). `specific`
+   * starts with zero attached customers (fails closed) until customers are attached
+   * via `POST /discounts/{id}/customers`.
+   */
+  customer_eligibility?: 'any' | 'first_time' | 'existing' | 'specific' | null;
 
   /**
    * When the discount expires, if ever.
@@ -333,6 +401,12 @@ export interface DiscountCreateParams {
   name?: string | null;
 
   /**
+   * Maximum number of times a single customer may redeem this discount. Must be
+   * `<= usage_limit` when both are set.
+   */
+  per_customer_usage_limit?: number | null;
+
+  /**
    * Whether this discount should be preserved when a subscription changes plans.
    * Default: false (discount is removed on plan change)
    */
@@ -342,6 +416,12 @@ export interface DiscountCreateParams {
    * List of product IDs to restrict usage (if any).
    */
   restricted_to?: Array<string> | null;
+
+  /**
+   * When the discount becomes active, if scheduled for the future. NULL = active
+   * immediately. Must be strictly before `expires_at` when both are set.
+   */
+  starts_at?: string | null;
 
   /**
    * Number of subscription billing cycles this discount is valid for. If not
@@ -354,6 +434,40 @@ export interface DiscountCreateParams {
    * How many times this discount can be used (if any). Must be >= 1 if provided.
    */
   usage_limit?: number | null;
+}
+
+export namespace DiscountCreateParams {
+  /**
+   * A per-currency discount option (request shape).
+   *
+   * `max_amount_possible` is the most this code discounts in this currency — the
+   * flat deduction for `flat` codes, or the max-discount cap for `percentage` codes.
+   * Maps to the DB column of the same name.
+   */
+  export interface CurrencyOption {
+    /**
+     * The currency this option applies to.
+     */
+    currency: MiscAPI.Currency;
+
+    /**
+     * Whether this row is the default to convert from for unconfigured currencies. At
+     * most one row per discount may be default.
+     */
+    is_default?: boolean;
+
+    /**
+     * The most this code discounts in this currency's subunits. For `flat` codes this
+     * is the deduction; for `percentage` codes it is the max-discount cap. Must be > 0
+     * if provided.
+     */
+    max_amount_possible?: number | null;
+
+    /**
+     * Eligible-cart threshold in this currency's subunits (0 = no minimum).
+     */
+    minimum_subtotal?: number;
+  }
 }
 
 export interface DiscountUpdateParams {
@@ -370,6 +484,19 @@ export interface DiscountUpdateParams {
    */
   code?: string | null;
 
+  /**
+   * If present, fully replaces the discount's currency options (replace-set
+   * semantics, like `restricted_to`). Send an empty array to clear them.
+   */
+  currency_options?: Array<DiscountUpdateParams.CurrencyOption> | null;
+
+  /**
+   * If present, update who may redeem this discount. Plain field (not
+   * double-option): the DB column is `NOT NULL`, so it can never be cleared back to
+   * unset, only changed to another `CustomerEligibility` value.
+   */
+  customer_eligibility?: 'any' | 'first_time' | 'existing' | 'specific' | null;
+
   expires_at?: string | null;
 
   /**
@@ -378,6 +505,13 @@ export interface DiscountUpdateParams {
   metadata?: MiscAPI.Metadata | null;
 
   name?: string | null;
+
+  /**
+   * If present, update the per-customer usage limit (double-option: send `null` to
+   * clear it back to unlimited). Must be `<= usage_limit` (the value in effect after
+   * this patch) when both are set.
+   */
+  per_customer_usage_limit?: number | null;
 
   /**
    * Whether this discount should be preserved when a subscription changes plans. If
@@ -392,6 +526,11 @@ export interface DiscountUpdateParams {
   restricted_to?: Array<string> | null;
 
   /**
+   * If present, update `starts_at` (double-option: send `null` to clear it).
+   */
+  starts_at?: string | null;
+
+  /**
    * Number of subscription billing cycles this discount is valid for. If not
    * provided, the discount will be applied indefinitely to all recurring payments
    * related to the subscription.
@@ -399,11 +538,45 @@ export interface DiscountUpdateParams {
   subscription_cycles?: number | null;
 
   /**
-   * If present, update the discount type. Currently only `percentage` is supported.
+   * If present, update the discount type (`percentage` or `flat`).
    */
   type?: DiscountType | null;
 
   usage_limit?: number | null;
+}
+
+export namespace DiscountUpdateParams {
+  /**
+   * A per-currency discount option (request shape).
+   *
+   * `max_amount_possible` is the most this code discounts in this currency — the
+   * flat deduction for `flat` codes, or the max-discount cap for `percentage` codes.
+   * Maps to the DB column of the same name.
+   */
+  export interface CurrencyOption {
+    /**
+     * The currency this option applies to.
+     */
+    currency: MiscAPI.Currency;
+
+    /**
+     * Whether this row is the default to convert from for unconfigured currencies. At
+     * most one row per discount may be default.
+     */
+    is_default?: boolean;
+
+    /**
+     * The most this code discounts in this currency's subunits. For `flat` codes this
+     * is the deduction; for `percentage` codes it is the max-discount cap. Must be > 0
+     * if provided.
+     */
+    max_amount_possible?: number | null;
+
+    /**
+     * Eligible-cart threshold in this currency's subunits (0 = no minimum).
+     */
+    minimum_subtotal?: number;
+  }
 }
 
 export declare namespace Discounts {

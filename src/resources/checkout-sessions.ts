@@ -711,6 +711,19 @@ export interface CheckoutSessionPreviewResponse {
    * Total tax
    */
   total_tax?: number | null;
+
+  /**
+   * Per-unit trial amount after discounts, in the price currency's minor units
+   * (pre-quantity, pre-tax; see `current_breakup` for the taxed total due today).
+   * Only present for a paid trial; `None` for a free trial or no trial.
+   */
+  trial_amount?: number | null;
+
+  /**
+   * Effective trial duration in days for the subscription line, when there's a trial
+   * (free or paid). `None` if no subscription or no trial.
+   */
+  trial_period_days?: number | null;
 }
 
 export namespace CheckoutSessionPreviewResponse {
@@ -804,7 +817,8 @@ export namespace CheckoutSessionPreviewResponse {
     description?: string | null;
 
     /**
-     * discount percentage
+     * Percentage rate (basis points) of the applicable percentage code; null for flat
+     * codes (their deduction is `og_price - discounted_price`).
      */
     discount_amount?: number | null;
 
@@ -890,6 +904,10 @@ export namespace CheckoutSessionPreviewResponse {
 
       description?: string | null;
 
+      /**
+       * Percentage rate (basis points) of the applicable percentage code; null for flat
+       * codes (their deduction is `og_price - discounted_price`).
+       */
       discount_amount?: number | null;
 
       tax?: number | null;
