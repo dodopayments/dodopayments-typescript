@@ -408,6 +408,11 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentFailedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentProcessingWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentSucceededWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PayoutCreatedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PayoutFailedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PayoutInProgressWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PayoutOnHoldWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PayoutSuccessWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">RefundFailedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">RefundSucceededWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionActiveWebhookEvent</a></code>
@@ -448,6 +453,11 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentFailedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentProcessingWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentSucceededWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PayoutCreatedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PayoutFailedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PayoutInProgressWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PayoutOnHoldWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">PayoutSuccessWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">RefundFailedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">RefundSucceededWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionActiveWebhookEvent</a></code>

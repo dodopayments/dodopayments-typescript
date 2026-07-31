@@ -3,6 +3,7 @@
 import { APIResource } from '../core/resource';
 import * as DisputesAPI from './disputes';
 import * as LicenseKeysAPI from './license-keys';
+import * as MiscAPI from './misc';
 import * as PaymentsAPI from './payments';
 import * as RefundsAPI from './refunds';
 import * as SubscriptionsAPI from './subscriptions';
@@ -39,7 +40,7 @@ export type WebhookEventType =
   | 'subscription.updated'
   | 'subscription.update_payment_method'
   | 'license_key.created'
-  | 'payout.not_initiated'
+  | 'payout.created'
   | 'payout.on_hold'
   | 'payout.in_progress'
   | 'payout.failed'
@@ -74,6 +75,7 @@ export interface WebhookPayload {
     | WebhookPayload.Refund
     | WebhookPayload.Dispute
     | WebhookPayload.LicenseKey
+    | WebhookPayload.Payout
     | WebhookPayload.CreditLedgerEntry
     | WebhookPayload.CreditBalanceLow
     | WebhookPayload.AbandonedCheckout
@@ -114,6 +116,88 @@ export namespace WebhookPayload {
 
   export interface LicenseKey extends LicenseKeysAPI.LicenseKey {
     payload_type: 'LicenseKey';
+  }
+
+  export interface Payout {
+    /**
+     * The total amount of the payout.
+     */
+    amount: number;
+
+    /**
+     * The unique identifier of the business associated with the payout.
+     */
+    business_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    chargebacks: number;
+
+    /**
+     * The timestamp when the payout was created, in UTC.
+     */
+    created_at: string;
+
+    /**
+     * The currency of the payout, represented as an ISO 4217 currency code.
+     */
+    currency: MiscAPI.Currency;
+
+    /**
+     * The fee charged for processing the payout.
+     */
+    fee: number;
+
+    payload_type: 'Payout';
+
+    /**
+     * The payment method used for the payout (e.g., bank transfer, card, etc.).
+     */
+    payment_method: string;
+
+    /**
+     * The unique identifier of the payout.
+     */
+    payout_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    refunds: number;
+
+    /**
+     * The current status of the payout.
+     */
+    status: 'not_initiated' | 'in_progress' | 'on_hold' | 'failed' | 'success';
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    tax: number;
+
+    /**
+     * The timestamp when the payout was last updated, in UTC.
+     */
+    updated_at: string;
+
+    /**
+     * The name of the payout recipient or purpose.
+     */
+    name?: string | null;
+
+    /**
+     * The URL of the document associated with the payout.
+     */
+    payout_document_url?: string | null;
+
+    /**
+     * Any additional remarks or notes associated with the payout.
+     */
+    remarks?: string | null;
   }
 
   /**
