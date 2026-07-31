@@ -3,6 +3,7 @@
 import { APIResource } from '../../core/resource';
 import * as DisputesAPI from '../disputes';
 import * as LicenseKeysAPI from '../license-keys';
+import * as MiscAPI from '../misc';
 import * as PaymentsAPI from '../payments';
 import * as RefundsAPI from '../refunds';
 import * as SubscriptionsAPI from '../subscriptions';
@@ -919,6 +920,511 @@ export interface PaymentSucceededWebhookEvent {
   type: 'payment.succeeded';
 }
 
+export interface PayoutCreatedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: PayoutCreatedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payout.created';
+}
+
+export namespace PayoutCreatedWebhookEvent {
+  export interface Data {
+    /**
+     * The total amount of the payout.
+     */
+    amount: number;
+
+    /**
+     * The unique identifier of the business associated with the payout.
+     */
+    business_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    chargebacks: number;
+
+    /**
+     * The timestamp when the payout was created, in UTC.
+     */
+    created_at: string;
+
+    /**
+     * The currency of the payout, represented as an ISO 4217 currency code.
+     */
+    currency: MiscAPI.Currency;
+
+    /**
+     * The fee charged for processing the payout.
+     */
+    fee: number;
+
+    /**
+     * The payment method used for the payout (e.g., bank transfer, card, etc.).
+     */
+    payment_method: string;
+
+    /**
+     * The unique identifier of the payout.
+     */
+    payout_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    refunds: number;
+
+    /**
+     * The current status of the payout.
+     */
+    status: 'not_initiated' | 'in_progress' | 'on_hold' | 'failed' | 'success';
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    tax: number;
+
+    /**
+     * The timestamp when the payout was last updated, in UTC.
+     */
+    updated_at: string;
+
+    /**
+     * The name of the payout recipient or purpose.
+     */
+    name?: string | null;
+
+    /**
+     * The URL of the document associated with the payout.
+     */
+    payout_document_url?: string | null;
+
+    /**
+     * Any additional remarks or notes associated with the payout.
+     */
+    remarks?: string | null;
+  }
+}
+
+export interface PayoutFailedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: PayoutFailedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payout.failed';
+}
+
+export namespace PayoutFailedWebhookEvent {
+  export interface Data {
+    /**
+     * The total amount of the payout.
+     */
+    amount: number;
+
+    /**
+     * The unique identifier of the business associated with the payout.
+     */
+    business_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    chargebacks: number;
+
+    /**
+     * The timestamp when the payout was created, in UTC.
+     */
+    created_at: string;
+
+    /**
+     * The currency of the payout, represented as an ISO 4217 currency code.
+     */
+    currency: MiscAPI.Currency;
+
+    /**
+     * The fee charged for processing the payout.
+     */
+    fee: number;
+
+    /**
+     * The payment method used for the payout (e.g., bank transfer, card, etc.).
+     */
+    payment_method: string;
+
+    /**
+     * The unique identifier of the payout.
+     */
+    payout_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    refunds: number;
+
+    /**
+     * The current status of the payout.
+     */
+    status: 'not_initiated' | 'in_progress' | 'on_hold' | 'failed' | 'success';
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    tax: number;
+
+    /**
+     * The timestamp when the payout was last updated, in UTC.
+     */
+    updated_at: string;
+
+    /**
+     * The name of the payout recipient or purpose.
+     */
+    name?: string | null;
+
+    /**
+     * The URL of the document associated with the payout.
+     */
+    payout_document_url?: string | null;
+
+    /**
+     * Any additional remarks or notes associated with the payout.
+     */
+    remarks?: string | null;
+  }
+}
+
+export interface PayoutInProgressWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: PayoutInProgressWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payout.in_progress';
+}
+
+export namespace PayoutInProgressWebhookEvent {
+  export interface Data {
+    /**
+     * The total amount of the payout.
+     */
+    amount: number;
+
+    /**
+     * The unique identifier of the business associated with the payout.
+     */
+    business_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    chargebacks: number;
+
+    /**
+     * The timestamp when the payout was created, in UTC.
+     */
+    created_at: string;
+
+    /**
+     * The currency of the payout, represented as an ISO 4217 currency code.
+     */
+    currency: MiscAPI.Currency;
+
+    /**
+     * The fee charged for processing the payout.
+     */
+    fee: number;
+
+    /**
+     * The payment method used for the payout (e.g., bank transfer, card, etc.).
+     */
+    payment_method: string;
+
+    /**
+     * The unique identifier of the payout.
+     */
+    payout_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    refunds: number;
+
+    /**
+     * The current status of the payout.
+     */
+    status: 'not_initiated' | 'in_progress' | 'on_hold' | 'failed' | 'success';
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    tax: number;
+
+    /**
+     * The timestamp when the payout was last updated, in UTC.
+     */
+    updated_at: string;
+
+    /**
+     * The name of the payout recipient or purpose.
+     */
+    name?: string | null;
+
+    /**
+     * The URL of the document associated with the payout.
+     */
+    payout_document_url?: string | null;
+
+    /**
+     * Any additional remarks or notes associated with the payout.
+     */
+    remarks?: string | null;
+  }
+}
+
+export interface PayoutOnHoldWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: PayoutOnHoldWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payout.on_hold';
+}
+
+export namespace PayoutOnHoldWebhookEvent {
+  export interface Data {
+    /**
+     * The total amount of the payout.
+     */
+    amount: number;
+
+    /**
+     * The unique identifier of the business associated with the payout.
+     */
+    business_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    chargebacks: number;
+
+    /**
+     * The timestamp when the payout was created, in UTC.
+     */
+    created_at: string;
+
+    /**
+     * The currency of the payout, represented as an ISO 4217 currency code.
+     */
+    currency: MiscAPI.Currency;
+
+    /**
+     * The fee charged for processing the payout.
+     */
+    fee: number;
+
+    /**
+     * The payment method used for the payout (e.g., bank transfer, card, etc.).
+     */
+    payment_method: string;
+
+    /**
+     * The unique identifier of the payout.
+     */
+    payout_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    refunds: number;
+
+    /**
+     * The current status of the payout.
+     */
+    status: 'not_initiated' | 'in_progress' | 'on_hold' | 'failed' | 'success';
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    tax: number;
+
+    /**
+     * The timestamp when the payout was last updated, in UTC.
+     */
+    updated_at: string;
+
+    /**
+     * The name of the payout recipient or purpose.
+     */
+    name?: string | null;
+
+    /**
+     * The URL of the document associated with the payout.
+     */
+    payout_document_url?: string | null;
+
+    /**
+     * Any additional remarks or notes associated with the payout.
+     */
+    remarks?: string | null;
+  }
+}
+
+export interface PayoutSuccessWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: PayoutSuccessWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payout.success';
+}
+
+export namespace PayoutSuccessWebhookEvent {
+  export interface Data {
+    /**
+     * The total amount of the payout.
+     */
+    amount: number;
+
+    /**
+     * The unique identifier of the business associated with the payout.
+     */
+    business_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    chargebacks: number;
+
+    /**
+     * The timestamp when the payout was created, in UTC.
+     */
+    created_at: string;
+
+    /**
+     * The currency of the payout, represented as an ISO 4217 currency code.
+     */
+    currency: MiscAPI.Currency;
+
+    /**
+     * The fee charged for processing the payout.
+     */
+    fee: number;
+
+    /**
+     * The payment method used for the payout (e.g., bank transfer, card, etc.).
+     */
+    payment_method: string;
+
+    /**
+     * The unique identifier of the payout.
+     */
+    payout_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    refunds: number;
+
+    /**
+     * The current status of the payout.
+     */
+    status: 'not_initiated' | 'in_progress' | 'on_hold' | 'failed' | 'success';
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    tax: number;
+
+    /**
+     * The timestamp when the payout was last updated, in UTC.
+     */
+    updated_at: string;
+
+    /**
+     * The name of the payout recipient or purpose.
+     */
+    name?: string | null;
+
+    /**
+     * The URL of the document associated with the payout.
+     */
+    payout_document_url?: string | null;
+
+    /**
+     * Any additional remarks or notes associated with the payout.
+     */
+    remarks?: string | null;
+  }
+}
+
 export interface RefundFailedWebhookEvent {
   /**
    * The business identifier
@@ -1889,6 +2395,511 @@ export interface PaymentSucceededWebhookEvent {
   type: 'payment.succeeded';
 }
 
+export interface PayoutCreatedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: PayoutCreatedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payout.created';
+}
+
+export namespace PayoutCreatedWebhookEvent {
+  export interface Data {
+    /**
+     * The total amount of the payout.
+     */
+    amount: number;
+
+    /**
+     * The unique identifier of the business associated with the payout.
+     */
+    business_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    chargebacks: number;
+
+    /**
+     * The timestamp when the payout was created, in UTC.
+     */
+    created_at: string;
+
+    /**
+     * The currency of the payout, represented as an ISO 4217 currency code.
+     */
+    currency: MiscAPI.Currency;
+
+    /**
+     * The fee charged for processing the payout.
+     */
+    fee: number;
+
+    /**
+     * The payment method used for the payout (e.g., bank transfer, card, etc.).
+     */
+    payment_method: string;
+
+    /**
+     * The unique identifier of the payout.
+     */
+    payout_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    refunds: number;
+
+    /**
+     * The current status of the payout.
+     */
+    status: 'not_initiated' | 'in_progress' | 'on_hold' | 'failed' | 'success';
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    tax: number;
+
+    /**
+     * The timestamp when the payout was last updated, in UTC.
+     */
+    updated_at: string;
+
+    /**
+     * The name of the payout recipient or purpose.
+     */
+    name?: string | null;
+
+    /**
+     * The URL of the document associated with the payout.
+     */
+    payout_document_url?: string | null;
+
+    /**
+     * Any additional remarks or notes associated with the payout.
+     */
+    remarks?: string | null;
+  }
+}
+
+export interface PayoutFailedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: PayoutFailedWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payout.failed';
+}
+
+export namespace PayoutFailedWebhookEvent {
+  export interface Data {
+    /**
+     * The total amount of the payout.
+     */
+    amount: number;
+
+    /**
+     * The unique identifier of the business associated with the payout.
+     */
+    business_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    chargebacks: number;
+
+    /**
+     * The timestamp when the payout was created, in UTC.
+     */
+    created_at: string;
+
+    /**
+     * The currency of the payout, represented as an ISO 4217 currency code.
+     */
+    currency: MiscAPI.Currency;
+
+    /**
+     * The fee charged for processing the payout.
+     */
+    fee: number;
+
+    /**
+     * The payment method used for the payout (e.g., bank transfer, card, etc.).
+     */
+    payment_method: string;
+
+    /**
+     * The unique identifier of the payout.
+     */
+    payout_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    refunds: number;
+
+    /**
+     * The current status of the payout.
+     */
+    status: 'not_initiated' | 'in_progress' | 'on_hold' | 'failed' | 'success';
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    tax: number;
+
+    /**
+     * The timestamp when the payout was last updated, in UTC.
+     */
+    updated_at: string;
+
+    /**
+     * The name of the payout recipient or purpose.
+     */
+    name?: string | null;
+
+    /**
+     * The URL of the document associated with the payout.
+     */
+    payout_document_url?: string | null;
+
+    /**
+     * Any additional remarks or notes associated with the payout.
+     */
+    remarks?: string | null;
+  }
+}
+
+export interface PayoutInProgressWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: PayoutInProgressWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payout.in_progress';
+}
+
+export namespace PayoutInProgressWebhookEvent {
+  export interface Data {
+    /**
+     * The total amount of the payout.
+     */
+    amount: number;
+
+    /**
+     * The unique identifier of the business associated with the payout.
+     */
+    business_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    chargebacks: number;
+
+    /**
+     * The timestamp when the payout was created, in UTC.
+     */
+    created_at: string;
+
+    /**
+     * The currency of the payout, represented as an ISO 4217 currency code.
+     */
+    currency: MiscAPI.Currency;
+
+    /**
+     * The fee charged for processing the payout.
+     */
+    fee: number;
+
+    /**
+     * The payment method used for the payout (e.g., bank transfer, card, etc.).
+     */
+    payment_method: string;
+
+    /**
+     * The unique identifier of the payout.
+     */
+    payout_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    refunds: number;
+
+    /**
+     * The current status of the payout.
+     */
+    status: 'not_initiated' | 'in_progress' | 'on_hold' | 'failed' | 'success';
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    tax: number;
+
+    /**
+     * The timestamp when the payout was last updated, in UTC.
+     */
+    updated_at: string;
+
+    /**
+     * The name of the payout recipient or purpose.
+     */
+    name?: string | null;
+
+    /**
+     * The URL of the document associated with the payout.
+     */
+    payout_document_url?: string | null;
+
+    /**
+     * Any additional remarks or notes associated with the payout.
+     */
+    remarks?: string | null;
+  }
+}
+
+export interface PayoutOnHoldWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: PayoutOnHoldWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payout.on_hold';
+}
+
+export namespace PayoutOnHoldWebhookEvent {
+  export interface Data {
+    /**
+     * The total amount of the payout.
+     */
+    amount: number;
+
+    /**
+     * The unique identifier of the business associated with the payout.
+     */
+    business_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    chargebacks: number;
+
+    /**
+     * The timestamp when the payout was created, in UTC.
+     */
+    created_at: string;
+
+    /**
+     * The currency of the payout, represented as an ISO 4217 currency code.
+     */
+    currency: MiscAPI.Currency;
+
+    /**
+     * The fee charged for processing the payout.
+     */
+    fee: number;
+
+    /**
+     * The payment method used for the payout (e.g., bank transfer, card, etc.).
+     */
+    payment_method: string;
+
+    /**
+     * The unique identifier of the payout.
+     */
+    payout_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    refunds: number;
+
+    /**
+     * The current status of the payout.
+     */
+    status: 'not_initiated' | 'in_progress' | 'on_hold' | 'failed' | 'success';
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    tax: number;
+
+    /**
+     * The timestamp when the payout was last updated, in UTC.
+     */
+    updated_at: string;
+
+    /**
+     * The name of the payout recipient or purpose.
+     */
+    name?: string | null;
+
+    /**
+     * The URL of the document associated with the payout.
+     */
+    payout_document_url?: string | null;
+
+    /**
+     * Any additional remarks or notes associated with the payout.
+     */
+    remarks?: string | null;
+  }
+}
+
+export interface PayoutSuccessWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  data: PayoutSuccessWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'payout.success';
+}
+
+export namespace PayoutSuccessWebhookEvent {
+  export interface Data {
+    /**
+     * The total amount of the payout.
+     */
+    amount: number;
+
+    /**
+     * The unique identifier of the business associated with the payout.
+     */
+    business_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    chargebacks: number;
+
+    /**
+     * The timestamp when the payout was created, in UTC.
+     */
+    created_at: string;
+
+    /**
+     * The currency of the payout, represented as an ISO 4217 currency code.
+     */
+    currency: MiscAPI.Currency;
+
+    /**
+     * The fee charged for processing the payout.
+     */
+    fee: number;
+
+    /**
+     * The payment method used for the payout (e.g., bank transfer, card, etc.).
+     */
+    payment_method: string;
+
+    /**
+     * The unique identifier of the payout.
+     */
+    payout_id: string;
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    refunds: number;
+
+    /**
+     * The current status of the payout.
+     */
+    status: 'not_initiated' | 'in_progress' | 'on_hold' | 'failed' | 'success';
+
+    /**
+     * @deprecated Use the v3 payout breakup endpoints instead. Will be removed in a
+     * future release.
+     */
+    tax: number;
+
+    /**
+     * The timestamp when the payout was last updated, in UTC.
+     */
+    updated_at: string;
+
+    /**
+     * The name of the payout recipient or purpose.
+     */
+    name?: string | null;
+
+    /**
+     * The URL of the document associated with the payout.
+     */
+    payout_document_url?: string | null;
+
+    /**
+     * Any additional remarks or notes associated with the payout.
+     */
+    remarks?: string | null;
+  }
+}
+
 export interface RefundFailedWebhookEvent {
   /**
    * The business identifier
@@ -2155,6 +3166,11 @@ export type UnsafeUnwrapWebhookEvent =
   | PaymentFailedWebhookEvent
   | PaymentProcessingWebhookEvent
   | PaymentSucceededWebhookEvent
+  | PayoutCreatedWebhookEvent
+  | PayoutFailedWebhookEvent
+  | PayoutInProgressWebhookEvent
+  | PayoutOnHoldWebhookEvent
+  | PayoutSuccessWebhookEvent
   | RefundFailedWebhookEvent
   | RefundSucceededWebhookEvent
   | SubscriptionActiveWebhookEvent
@@ -2197,6 +3213,11 @@ export type UnwrapWebhookEvent =
   | PaymentFailedWebhookEvent
   | PaymentProcessingWebhookEvent
   | PaymentSucceededWebhookEvent
+  | PayoutCreatedWebhookEvent
+  | PayoutFailedWebhookEvent
+  | PayoutInProgressWebhookEvent
+  | PayoutOnHoldWebhookEvent
+  | PayoutSuccessWebhookEvent
   | RefundFailedWebhookEvent
   | RefundSucceededWebhookEvent
   | SubscriptionActiveWebhookEvent
@@ -2320,6 +3341,11 @@ export declare namespace Webhooks {
     type PaymentFailedWebhookEvent as PaymentFailedWebhookEvent,
     type PaymentProcessingWebhookEvent as PaymentProcessingWebhookEvent,
     type PaymentSucceededWebhookEvent as PaymentSucceededWebhookEvent,
+    type PayoutCreatedWebhookEvent as PayoutCreatedWebhookEvent,
+    type PayoutFailedWebhookEvent as PayoutFailedWebhookEvent,
+    type PayoutInProgressWebhookEvent as PayoutInProgressWebhookEvent,
+    type PayoutOnHoldWebhookEvent as PayoutOnHoldWebhookEvent,
+    type PayoutSuccessWebhookEvent as PayoutSuccessWebhookEvent,
     type RefundFailedWebhookEvent as RefundFailedWebhookEvent,
     type RefundSucceededWebhookEvent as RefundSucceededWebhookEvent,
     type SubscriptionActiveWebhookEvent as SubscriptionActiveWebhookEvent,
