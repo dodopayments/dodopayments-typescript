@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.44.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.43.0...v2.44.0) (2026-07-31)
+
+
+### Features
+
+* **api:** add payout webhook events and remove payment failure_details ([07d37e1](https://github.com/dodopayments/dodopayments-typescript/commit/07d37e170d7b8a5c6219e92f9fc063f800d2f4e6))
+* **api:** add payout webhook events and remove payment failure_details ([8c72075](https://github.com/dodopayments/dodopayments-typescript/commit/8c72075e6224e1ea13909b94e4d1303607c05ca0))
+
 ## [2.43.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.42.2...v2.43.0) (2026-07-24)
 
 
