@@ -354,18 +354,11 @@ export interface Payment {
   error_code?: string | null;
 
   /**
-   * An error message if the payment failed
+   * An error message if the payment failed. When `error_code` is a recognised
+   * unified code, this is the merchant-facing headline + recommended action (Payment
+   * Details copy) rather than the raw connector text.
    */
   error_message?: string | null;
-
-  /**
-   * Purpose-built failure messaging for the merchant and the customer, derived from
-   * `error_code`. Present whenever `error_code` is set, regardless of payment
-   * status; unrecognised codes still resolve via a generic fallback rather than
-   * being omitted. The customer copy is always generic for fraud-sensitive declines
-   * (lost/stolen/pickup/fraudulent) so the true reason is never leaked.
-   */
-  failure_details?: Payment.FailureDetails | null;
 
   /**
    * Invoice ID for this payment. Uses India-specific invoice ID if available.
@@ -438,78 +431,6 @@ export interface Payment {
 }
 
 export namespace Payment {
-  /**
-   * Purpose-built failure messaging for the merchant and the customer, derived from
-   * `error_code`. Present whenever `error_code` is set, regardless of payment
-   * status; unrecognised codes still resolve via a generic fallback rather than
-   * being omitted. The customer copy is always generic for fraud-sensitive declines
-   * (lost/stolen/pickup/fraudulent) so the true reason is never leaked.
-   */
-  export interface FailureDetails {
-    /**
-     * The unified error code (echoes `error_code`).
-     */
-    code: string;
-
-    /**
-     * The primary CTA to show the customer.
-     */
-    customer_cta:
-      | 'edit_and_retry'
-      | 'use_another_method'
-      | 'try_again'
-      | 'try_later'
-      | 'retry_and_verify'
-      | 'restart'
-      | 'update_method';
-
-    /**
-     * Whether the customer can resolve this themselves (e.g. fix CVC).
-     */
-    customer_fixable: boolean;
-
-    /**
-     * The customer-facing string. Always generic (`C11`) for the fraud-4.
-     */
-    customer_message: string;
-
-    /**
-     * The customer message template identifier (C1..C20).
-     */
-    customer_template:
-      | 'C1'
-      | 'C2'
-      | 'C3'
-      | 'C4'
-      | 'C5'
-      | 'C6'
-      | 'C7'
-      | 'C8'
-      | 'C9'
-      | 'C10'
-      | 'C11'
-      | 'C12'
-      | 'C13'
-      | 'C14'
-      | 'C15'
-      | 'C16'
-      | 'C17'
-      | 'C18'
-      | 'C19'
-      | 'C20';
-
-    /**
-     * Soft or hard decline.
-     */
-    decline_type: 'soft' | 'hard';
-
-    /**
-     * Merchant-facing headline + recommended action (Payment Details). For the fraud-4
-     * this includes the operator "do not reveal" warning.
-     */
-    merchant_message: string;
-  }
-
   export interface ProductCart {
     product_id: string;
 
