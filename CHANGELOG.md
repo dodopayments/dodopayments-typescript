@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.45.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.44.0...v2.45.0) (2026-08-05)
+
+
+### Features
+
+* **api:** add addon single_quantity_price and live_tutoring tax category ([c8cec33](https://github.com/dodopayments/dodopayments-typescript/commit/c8cec33f7eb475b3f57c63e2dd04dcadf5535c95))
+* **api:** add addon single_quantity_price and live_tutoring tax category ([60002db](https://github.com/dodopayments/dodopayments-typescript/commit/60002db65a50c27223ba05b00b68a145d52c7fda))
+
 ## [2.44.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.43.0...v2.44.0) (2026-07-31)
 
 
