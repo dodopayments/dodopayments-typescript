@@ -893,6 +893,14 @@ export namespace CheckoutSessionPreviewResponse {
       quantity: number;
 
       /**
+       * Per-unit price in `currency`, converted and adaptive-priced but pre-tax and
+       * pre-discount (both depend on quantity and the rest of the cart). Set even when
+       * `quantity` is 0, so the checkout page can price the addon before the buyer has
+       * selected any.
+       */
+      single_quantity_price: number;
+
+      /**
        * Represents the different categories of taxation applicable to various products
        * and services.
        */
