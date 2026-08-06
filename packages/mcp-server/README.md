@@ -82,11 +82,17 @@ The `execute` tool runs your code in a local [Deno](https://deno.land) sandbox, 
 available. The server looks for it in this order:
 
 1. A `deno` binary on your `PATH`.
-2. A `deno` binary provided by the [`deno` npm package](https://www.npmjs.com/package/deno),
-   if you have run `npm install deno`.
+2. A `deno` binary from the [`deno` npm package](https://www.npmjs.com/package/deno), when it is
+   installed into the same `node_modules` tree as this package.
 
 If neither is found, the `execute` tool returns an error while every other tool, including
 documentation search, keeps working.
+
+> [!NOTE]
+> Step 2 does not apply when you launch the server with `npx` or install it globally, because the
+> server then resolves from its own cache directory rather than from your project. Since
+> `npx -y dodopayments-mcp` is the most common way to run it, installing Deno on your `PATH` is the
+> recommended setup.
 
 > [!IMPORTANT]
 > Local code execution is supported on **macOS and Linux only**. It does not work on Windows,

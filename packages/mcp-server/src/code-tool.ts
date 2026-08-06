@@ -117,6 +117,8 @@ export function codeTool({
   return { metadata, tool, handler };
 }
 
+let denoFoundOnPath = false;
+
 const localDenoHandler = async ({
   reqContext,
   args,
@@ -163,17 +165,27 @@ const localDenoHandler = async ({
 
   // `code-tool-worker.mjs` is emitted at the package root, so this is the package directory.
   const packageDir = path.dirname(workerPath);
-  // Overshoots into the enclosing `node_modules` when installed. Must stay that way: the
-  // `--allow-read` grant below relies on this exact value to make the workspace-linked SDK
-  // readable to the sandbox in a monorepo checkout.
+  // Deliberately one level above the package. The `--allow-read` grant below depends on
+  // this exact value, and it means something different per layout: in a monorepo checkout
+  // it is what makes the workspace-linked SDK readable, while in the `.mcpb` bundle it
+  // resolves to the parent of the extracted bundle directory. Narrowing it would break the
+  // former, so weigh both before changing it.
   const workerParentDir = path.resolve(packageDir, '..');
 
   // Check if deno is in PATH. `command -v` is a POSIX shell builtin and `execSync` runs
   // under `cmd.exe` on Windows, so probe by spawning the binary directly instead: libuv
   // applies PATHEXT, and a successful run also proves the binary is actually usable.
-  const { spawnSync } = await import('node:child_process');
-  const denoProbe = spawnSync('deno', ['--version'], { stdio: 'ignore', windowsHide: true });
-  if (!denoProbe.error && denoProbe.status === 0) {
+  //
+  // The probe starts Deno and blocks the event loop while it runs, so only a positive
+  // result is cached. Caching a negative would force a restart on the most likely recovery
+  // path: hitting the error below, installing Deno, and retrying.
+  if (!denoFoundOnPath) {
+    const { spawnSync } = await import('node:child_process');
+    const denoProbe = spawnSync('deno', ['--version'], { stdio: 'ignore', windowsHide: true });
+    denoFoundOnPath = !denoProbe.error && denoProbe.status === 0;
+  }
+
+  if (denoFoundOnPath) {
     denoPath = 'deno';
   } else {
     // Use the deno binary from the `deno` npm package if it's installed.

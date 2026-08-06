@@ -13,12 +13,22 @@ export function getWorkerPath(): string {
  * `require.resolve`'s parent `node_modules` walk to find it. `deno` declares no `exports`
  * map, so resolving a deep path into it is legal.
  *
+ * Resolution is anchored at this file, so it only sees `deno` when installed into the same
+ * `node_modules` tree as this package. Under `npx` or a global install it will not find a
+ * `deno` living in the user's own project, which is intentional: resolving from the launch
+ * directory would let any directory the server happens to start in supply the executable
+ * that gets spawned.
+ *
+ * `resolveModule` exists so tests can anchor resolution at a fixture tree.
+ *
  * Returns `null` when no usable executable is available.
  */
-export function getBundledDenoPath(): string | null {
+export function getBundledDenoPath(
+  resolveModule: (specifier: string) => string = (specifier) => require.resolve(specifier),
+): string | null {
   let launcherPath: string;
   try {
-    launcherPath = require.resolve('deno/bin.cjs');
+    launcherPath = resolveModule('deno/bin.cjs');
   } catch {
     return null;
   }
@@ -34,7 +44,18 @@ export function getBundledDenoPath(): string | null {
     process.platform === 'win32' ? 'deno.exe' : 'deno',
   );
   if (fs.existsSync(executablePath)) {
-    return executablePath;
+    // The executable bit carries no meaning on Windows, so existence is the only signal
+    // there. On POSIX an interrupted install can leave the hard-link non-executable; fall
+    // through to the launcher rather than failing later with a spawn EACCES.
+    if (process.platform === 'win32') {
+      return executablePath;
+    }
+    try {
+      fs.accessSync(executablePath, fs.constants.X_OK);
+      return executablePath;
+    } catch {
+      // Present but not executable.
+    }
   }
 
   // Fall back to the launcher, which installs the binary on first run. It relies on its
