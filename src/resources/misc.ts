@@ -420,7 +420,7 @@ export type Metadata = { [key: string]: string | number | boolean };
  * Represents the different categories of taxation applicable to various products
  * and services.
  */
-export type TaxCategory = 'digital_products' | 'saas' | 'e_book' | 'edtech';
+export type TaxCategory = 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring';
 
 export type MiscListSupportedCountriesResponse = Array<CountryCode>;
 
