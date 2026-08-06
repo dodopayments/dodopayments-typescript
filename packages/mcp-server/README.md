@@ -76,6 +76,26 @@ isolated sandbox. To accomplish this, the server will expose two tools to your a
 Using this scheme, agents are capable of performing very complex tasks deterministically
 and repeatably.
 
+### Requirements for the code tool
+
+The `execute` tool runs your code in a local [Deno](https://deno.land) sandbox, so Deno must be
+available. The server looks for it in this order:
+
+1. A `deno` binary on your `PATH`.
+2. A `deno` binary provided by the [`deno` npm package](https://www.npmjs.com/package/deno),
+   if you have run `npm install deno`.
+
+If neither is found, the `execute` tool returns an error while every other tool, including
+documentation search, keeps working.
+
+> [!IMPORTANT]
+> Local code execution is supported on **macOS and Linux only**. It does not work on Windows,
+> because the sandbox communicates with the Deno subprocess over a Unix domain socket and Deno
+> cannot listen on one when running on Windows (see
+> [denoland/deno#18236](https://github.com/denoland/deno/issues/18236)). Installing Deno does not
+> change this. On Windows, run the server under WSL2, or call the REST API or the `dodopayments`
+> SDK directly.
+
 ## Running remotely
 
 Launching the client with `--transport=http` launches the server as a remote server using Streamable HTTP transport. The `--port` setting can choose the port it will run on, and the `--socket` setting allows it to run on a Unix socket.
