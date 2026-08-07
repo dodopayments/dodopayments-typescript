@@ -14,19 +14,19 @@ on:
       - '!codegen/**'
       - 'codegen/stl/**'
     paths:
-      - 'packages/mcp-server/cloudflare-worker/**'
+      - 'packages/mcp-server/**'
       - '.github/workflows/ci-cloudflare-worker.yml'
   pull_request:
     branches-ignore:
       - 'stl-preview-head/**'
       - 'stl-preview-base/**'
     paths:
-      - 'packages/mcp-server/cloudflare-worker/**'
+      - 'packages/mcp-server/**'
       - '.github/workflows/ci-cloudflare-worker.yml'
 
 jobs:
   worker:
-    timeout-minutes: 10
+    timeout-minutes: 20
     name: typecheck and build
     runs-on: ubuntu-latest
     defaults:
@@ -42,6 +42,26 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      # The Worker declares `dodopayments` and `dodopayments-mcp` as `latest`, so without
+      # this it would validate whatever is on npm rather than this commit, and a change to
+      # `packages/mcp-server/src` that breaks the Worker would only surface after release.
+      # `src/execute-tool.ts` imports `dodopayments-mcp/code-tool` directly, so that is a
+      # real exposure rather than a theoretical one.
+      - name: Build the packages from this commit
+        working-directory: ${{ github.workspace }}
+        run: |
+          yarn install
+          ./scripts/build
+
+      # `patch-deps.js` rewrites files inside the installed package, so it has to run again
+      # against the build that just replaced it.
+      - name: Validate against the local build instead of the published packages
+        run: |
+          rm -rf node_modules/dodopayments node_modules/dodopayments-mcp
+          cp -R "$GITHUB_WORKSPACE/dist" node_modules/dodopayments
+          cp -R "$GITHUB_WORKSPACE/packages/mcp-server/dist" node_modules/dodopayments-mcp
+          node scripts/patch-deps.js
 
       - name: Build isolate bundle
         run: npm run build:isolate
