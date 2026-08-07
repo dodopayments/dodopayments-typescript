@@ -94,6 +94,12 @@ documentation search, keeps working.
 > `npx -y dodopayments-mcp` is the most common way to run it, installing Deno on your `PATH` is the
 > recommended setup.
 
+> [!WARNING]
+> Use **Deno 2.8 or earlier** for now. On Deno 2.9+ the sandbox fails to start, because binding the
+> worker's Unix socket began requiring `--allow-net` permission for that socket, which the worker
+> does not grant. Note that `npm install deno` currently installs an affected version. Tracked in
+> [#330](https://github.com/dodopayments/dodopayments-typescript/issues/330).
+
 > [!IMPORTANT]
 > Local code execution is supported on **macOS and Linux only**. It does not work on Windows,
 > because the sandbox communicates with the Deno subprocess over a Unix domain socket and Deno

@@ -178,9 +178,11 @@ const localDenoHandler = async ({
   //
   // The probe starts Deno and blocks the event loop while it runs, so only a positive
   // result is cached. Caching a negative would force a restart on the most likely recovery
-  // path: hitting the error below, installing Deno, and retrying.
+  // path: hitting the error below, installing Deno, and retrying. The import stays above the
+  // check so that nothing awaits between reading and writing the cache, which would let
+  // concurrent calls each start their own probe.
+  const { spawnSync } = await import('node:child_process');
   if (!denoFoundOnPath) {
-    const { spawnSync } = await import('node:child_process');
     const denoProbe = spawnSync('deno', ['--version'], { stdio: 'ignore', windowsHide: true });
     denoFoundOnPath = !denoProbe.error && denoProbe.status === 0;
   }
