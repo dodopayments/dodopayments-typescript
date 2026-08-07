@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.45.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.45.0...v2.45.1) (2026-08-07)
+
+
+### Bug Fixes
+
+* **mcp:** address review feedback on code tool Deno resolution ([12c5429](https://github.com/dodopayments/dodopayments-typescript/commit/12c5429d124508de09f5d8d2b44ea026737276d2))
+* **mcp:** make code tool Deno resolution cross-platform and fail honestly on Windows ([c8675d4](https://github.com/dodopayments/dodopayments-typescript/commit/c8675d4afd8d1927bbd438caa232db2da576032b))
+* **mcp:** make code tool Deno resolution cross-platform and fail honestly on Windows ([60a087c](https://github.com/dodopayments/dodopayments-typescript/commit/60a087c0371a788cf6ed687e904ca1f80361f33e)), closes [#327](https://github.com/dodopayments/dodopayments-typescript/issues/327)
+* **mcp:** probe once under concurrency, and flag the Deno 2.9+ breakage ([d7b9439](https://github.com/dodopayments/dodopayments-typescript/commit/d7b9439f5ea95dbc7c95f67e1b7b653affde7f3a))
+* **mcp:** stop a real SDK directory shadowing a symlinked one ([4d3fac6](https://github.com/dodopayments/dodopayments-typescript/commit/4d3fac651804801607bc31dc008a53f449ab53e8))
+
 ## [2.45.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.44.0...v2.45.0) (2026-08-05)
 
 
