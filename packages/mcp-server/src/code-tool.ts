@@ -215,14 +215,18 @@ const localDenoHandler = async ({
     path.resolve(workerParentDir, sdkPkgName),
     path.resolve(workerParentDir, 'node_modules', sdkPkgName),
   ]) {
+    let realSdkDir: string;
     try {
-      const realSdkDir = fs.realpathSync(sdkDir);
-      if (realSdkDir !== sdkDir) {
-        allowReadPaths.push(realSdkDir);
-      }
-      break;
+      realSdkDir = fs.realpathSync(sdkDir);
     } catch {
-      // Not this layout; try the next candidate.
+      continue;
+    }
+    // A candidate that is a real directory already sits inside a granted path and needs no
+    // grant of its own, so keep looking: stopping at it would let it shadow a symlinked
+    // candidate further down the list, silently costing the sandbox its SDK access.
+    if (realSdkDir !== sdkDir) {
+      allowReadPaths.push(realSdkDir);
+      break;
     }
   }
 
