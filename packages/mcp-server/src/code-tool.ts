@@ -117,6 +117,8 @@ export function codeTool({
   return { metadata, tool, handler };
 }
 
+let denoFoundOnPath = false;
+
 const localDenoHandler = async ({
   reqContext,
   args,
@@ -124,11 +126,35 @@ const localDenoHandler = async ({
   reqContext: McpRequestContext;
   args: unknown;
 }): Promise<ToolCallResult> => {
+  // `@valtown/deno-http-worker` talks to the Deno subprocess exclusively over a Unix
+  // domain socket. Deno cannot listen on one when running on Windows: `op_net_listen_unix`
+  // is stubbed out as unsupported on non-unix targets, because the underlying
+  // `tokio::net::UnixListener` is `#[cfg(unix)]`-gated. Node's side is blocked too, since
+  // libuv maps `net.connect({ path })` to named pipes on Windows.
+  //
+  // So local execution is structurally impossible here, not merely unimplemented. Fail
+  // fast with an honest message rather than sending users to install a Deno that could
+  // never work. Remove this guard once https://github.com/denoland/deno/issues/18236 lands
+  // and the worker gains a Windows transport.
+  if (process.platform === 'win32') {
+    return asErrorResult(
+      'Local code execution is not available on Windows.\n\n' +
+        'The sandbox runs your code in a Deno subprocess and communicates with it over a ' +
+        'Unix domain socket, which Deno cannot listen on when running on Windows ' +
+        '(see https://github.com/denoland/deno/issues/18236). Installing Deno will not ' +
+        'resolve this.\n\n' +
+        'Workarounds:\n' +
+        '  - Run this MCP server inside WSL2, where local execution works normally.\n' +
+        '  - Call the Dodo Payments REST API or the `dodopayments` SDK directly.\n\n' +
+        'Other tools on this server, such as documentation search, are unaffected.',
+    );
+  }
+
   const fs = await import('node:fs');
   const path = await import('node:path');
   const url = await import('node:url');
   const { newDenoHTTPWorker } = await import('@valtown/deno-http-worker');
-  const { getWorkerPath } = await import('./code-tool-paths.cjs');
+  const { getWorkerPath, getBundledDenoPath } = await import('./code-tool-paths.cjs');
   const workerPath = getWorkerPath();
 
   const client = reqContext.client;
@@ -137,44 +163,73 @@ const localDenoHandler = async ({
 
   let denoPath: string;
 
-  const packageRoot = path.resolve(path.dirname(workerPath), '..');
-  const packageNodeModulesPath = path.resolve(packageRoot, 'node_modules');
+  // `code-tool-worker.mjs` is emitted at the package root, so this is the package directory.
+  const packageDir = path.dirname(workerPath);
+  // Deliberately one level above the package. The `--allow-read` grant below depends on
+  // this exact value, and it means something different per layout: in a monorepo checkout
+  // it is what makes the workspace-linked SDK readable, while in the `.mcpb` bundle it
+  // resolves to the parent of the extracted bundle directory. Narrowing it would break the
+  // former, so weigh both before changing it.
+  const workerParentDir = path.resolve(packageDir, '..');
 
-  // Check if deno is in PATH
-  const { execSync } = await import('node:child_process');
-  try {
-    execSync('command -v deno', { stdio: 'ignore' });
+  // Check if deno is in PATH. `command -v` is a POSIX shell builtin and `execSync` runs
+  // under `cmd.exe` on Windows, so probe by spawning the binary directly instead: libuv
+  // applies PATHEXT, and a successful run also proves the binary is actually usable.
+  //
+  // The probe starts Deno and blocks the event loop while it runs, so only a positive
+  // result is cached. Caching a negative would force a restart on the most likely recovery
+  // path: hitting the error below, installing Deno, and retrying. The import stays above the
+  // check so that nothing awaits between reading and writing the cache, which would let
+  // concurrent calls each start their own probe.
+  const { spawnSync } = await import('node:child_process');
+  if (!denoFoundOnPath) {
+    const denoProbe = spawnSync('deno', ['--version'], { stdio: 'ignore', windowsHide: true });
+    denoFoundOnPath = !denoProbe.error && denoProbe.status === 0;
+  }
+
+  if (denoFoundOnPath) {
     denoPath = 'deno';
-  } catch {
-    try {
-      // Use deno binary in node_modules if it's found
-      const denoNodeModulesPath = path.resolve(packageNodeModulesPath, 'deno', 'bin.cjs');
-      await fs.promises.access(denoNodeModulesPath, fs.constants.X_OK);
-      denoPath = denoNodeModulesPath;
-    } catch {
+  } else {
+    // Use the deno binary from the `deno` npm package if it's installed.
+    const bundledDenoPath = getBundledDenoPath();
+    if (bundledDenoPath === null) {
       return asErrorResult(
         'Deno is required for code execution but was not found. ' +
           'Install it from https://deno.land or run: npm install deno',
       );
     }
+    denoPath = bundledDenoPath;
   }
 
   const allowReadPaths = [
     'code-tool-worker.mjs',
     `${workerPath.replace(/([\/\\]node_modules)[\/\\].+$/, '$1')}/`,
-    packageRoot,
+    workerParentDir,
   ];
 
-  // Follow symlinks in node_modules to allow read access to workspace-linked packages
-  try {
-    const sdkPkgName = 'dodopayments';
-    const sdkDir = path.resolve(packageNodeModulesPath, sdkPkgName);
-    const realSdkDir = fs.realpathSync(sdkDir);
+  // Follow symlinks in node_modules to allow read access to workspace-linked packages.
+  // The SDK sits in a different place per layout: nested inside the package for the .mcpb
+  // bundle, hoisted alongside it for a normal install, and under the package's own
+  // node_modules in a monorepo checkout.
+  const sdkPkgName = 'dodopayments';
+  for (const sdkDir of [
+    path.resolve(packageDir, 'node_modules', sdkPkgName),
+    path.resolve(workerParentDir, sdkPkgName),
+    path.resolve(workerParentDir, 'node_modules', sdkPkgName),
+  ]) {
+    let realSdkDir: string;
+    try {
+      realSdkDir = fs.realpathSync(sdkDir);
+    } catch {
+      continue;
+    }
+    // A candidate that is a real directory already sits inside a granted path and needs no
+    // grant of its own, so keep looking: stopping at it would let it shadow a symlinked
+    // candidate further down the list, silently costing the sandbox its SDK access.
     if (realSdkDir !== sdkDir) {
       allowReadPaths.push(realSdkDir);
+      break;
     }
-  } catch {
-    // Ignore if symlink resolution fails
   }
 
   const allowRead = allowReadPaths.join(',');
