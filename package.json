@@ -7,6 +7,10 @@
   "main": "dist/index.js",
   "type": "commonjs",
   "repository": "github:dodopayments/dodopayments-typescript",
+  "bugs": {
+    "url": "https://github.com/dodopayments/dodopayments-typescript/issues"
+  },
+  "homepage": "https://github.com/dodopayments/dodopayments-typescript#readme",
   "license": "Apache-2.0",
   "packageManager": "yarn@1.22.22",
   "files": [
