@@ -1,5 +1,7 @@
 # Dodo Payments TypeScript API Library
 
+[![MCP Toplist](https://mcptoplist.com/badge/glama%2Fdodopayments%2Fdodopayments-typescript.svg)](https://mcptoplist.com/server/glama%2Fdodopayments%2Fdodopayments-typescript)
+
 [![NPM version](<https://img.shields.io/npm/v/dodopayments.svg?label=npm%20(stable)>)](https://npmjs.org/package/dodopayments) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/dodopayments)
 
 This library provides convenient access to the [Dodo Payments](https://dodopayments.com) REST API from server-side TypeScript or JavaScript.
