@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.46.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.45.1...v2.46.0) (2026-08-13)
+
+
+### Features
+
+* **api:** add subscription pause/unpause ([21a019d](https://github.com/dodopayments/dodopayments-typescript/commit/21a019d413d8b83557bcbfcad69e73e87c9c8e2b))
+* **api:** add subscription pause/unpause ([d64bb1f](https://github.com/dodopayments/dodopayments-typescript/commit/d64bb1f4fc38b64a7204b412acfde58f6451d895))
+
 ## [2.45.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.45.0...v2.45.1) (2026-08-07)
 
 
