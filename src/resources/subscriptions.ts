@@ -664,6 +664,12 @@ export interface Subscription {
   expires_at?: string | null;
 
   /**
+   * Timestamp when the subscription was paused, if it currently is (or is `OnHold`
+   * due to an unresolved pause settlement). `null` otherwise.
+   */
+  paused_at?: string | null;
+
+  /**
    * Saved payment method id used for recurring charges
    */
   payment_method_id?: string | null;
@@ -686,7 +692,14 @@ export interface Subscription {
   trial_amount?: number | null;
 }
 
-export type SubscriptionStatus = 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired';
+export type SubscriptionStatus =
+  | 'pending'
+  | 'active'
+  | 'on_hold'
+  | 'paused'
+  | 'cancelled'
+  | 'failed'
+  | 'expired';
 
 /**
  * Unit of a duration count (e.g. license-key validity period).
@@ -973,6 +986,12 @@ export interface SubscriptionListResponse {
    * DEPRECATED: Use discounts instead.
    */
   discount_id?: string | null;
+
+  /**
+   * Timestamp when the subscription was paused, if it currently is (or is `OnHold`
+   * due to an unresolved pause settlement). `null` otherwise.
+   */
+  paused_at?: string | null;
 
   /**
    * Saved payment method id used for recurring charges
@@ -1320,7 +1339,7 @@ export interface SubscriptionListParams extends DefaultPageNumberPaginationParam
   /**
    * Filter by status
    */
-  status?: 'pending' | 'active' | 'on_hold' | 'cancelled' | 'failed' | 'expired';
+  status?: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired';
 }
 
 export interface SubscriptionCreateParams {
@@ -1514,6 +1533,12 @@ export interface SubscriptionUpdateParams {
   metadata?: MiscAPI.Metadata | null;
 
   next_billing_date?: string | null;
+
+  /**
+   * `Some(true)` pauses an active subscription; `Some(false)` unpauses a `Paused`
+   * (or abandoned `OnHold`) subscription. Exclusive of every other field.
+   */
+  pause?: boolean | null;
 
   status?: SubscriptionStatus | null;
 

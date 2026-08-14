@@ -1573,6 +1573,28 @@ export interface SubscriptionOnHoldWebhookEvent {
   type: 'subscription.on_hold';
 }
 
+export interface SubscriptionPausedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response struct representing subscription details
+   */
+  data: SubscriptionsAPI.Subscription;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.paused';
+}
+
 export interface SubscriptionPlanChangedWebhookEvent {
   /**
    * The business identifier
@@ -1615,6 +1637,28 @@ export interface SubscriptionRenewedWebhookEvent {
    * The event type
    */
   type: 'subscription.renewed';
+}
+
+export interface SubscriptionUnpausedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response struct representing subscription details
+   */
+  data: SubscriptionsAPI.Subscription;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.unpaused';
 }
 
 export interface SubscriptionUpdatePaymentMethodWebhookEvent {
@@ -3048,6 +3092,28 @@ export interface SubscriptionOnHoldWebhookEvent {
   type: 'subscription.on_hold';
 }
 
+export interface SubscriptionPausedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response struct representing subscription details
+   */
+  data: SubscriptionsAPI.Subscription;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.paused';
+}
+
 export interface SubscriptionPlanChangedWebhookEvent {
   /**
    * The business identifier
@@ -3090,6 +3156,28 @@ export interface SubscriptionRenewedWebhookEvent {
    * The event type
    */
   type: 'subscription.renewed';
+}
+
+export interface SubscriptionUnpausedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Response struct representing subscription details
+   */
+  data: SubscriptionsAPI.Subscription;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.unpaused';
 }
 
 export interface SubscriptionUpdatePaymentMethodWebhookEvent {
@@ -3178,8 +3266,10 @@ export type UnsafeUnwrapWebhookEvent =
   | SubscriptionExpiredWebhookEvent
   | SubscriptionFailedWebhookEvent
   | SubscriptionOnHoldWebhookEvent
+  | SubscriptionPausedWebhookEvent
   | SubscriptionPlanChangedWebhookEvent
   | SubscriptionRenewedWebhookEvent
+  | SubscriptionUnpausedWebhookEvent
   | SubscriptionUpdatePaymentMethodWebhookEvent
   | SubscriptionUpdatedWebhookEvent;
 
@@ -3225,8 +3315,10 @@ export type UnwrapWebhookEvent =
   | SubscriptionExpiredWebhookEvent
   | SubscriptionFailedWebhookEvent
   | SubscriptionOnHoldWebhookEvent
+  | SubscriptionPausedWebhookEvent
   | SubscriptionPlanChangedWebhookEvent
   | SubscriptionRenewedWebhookEvent
+  | SubscriptionUnpausedWebhookEvent
   | SubscriptionUpdatePaymentMethodWebhookEvent
   | SubscriptionUpdatedWebhookEvent;
 
@@ -3353,8 +3445,10 @@ export declare namespace Webhooks {
     type SubscriptionExpiredWebhookEvent as SubscriptionExpiredWebhookEvent,
     type SubscriptionFailedWebhookEvent as SubscriptionFailedWebhookEvent,
     type SubscriptionOnHoldWebhookEvent as SubscriptionOnHoldWebhookEvent,
+    type SubscriptionPausedWebhookEvent as SubscriptionPausedWebhookEvent,
     type SubscriptionPlanChangedWebhookEvent as SubscriptionPlanChangedWebhookEvent,
     type SubscriptionRenewedWebhookEvent as SubscriptionRenewedWebhookEvent,
+    type SubscriptionUnpausedWebhookEvent as SubscriptionUnpausedWebhookEvent,
     type SubscriptionUpdatePaymentMethodWebhookEvent as SubscriptionUpdatePaymentMethodWebhookEvent,
     type SubscriptionUpdatedWebhookEvent as SubscriptionUpdatedWebhookEvent,
     type UnsafeUnwrapWebhookEvent as UnsafeUnwrapWebhookEvent,
