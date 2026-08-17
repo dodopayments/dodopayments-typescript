@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.47.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.46.0...v2.47.0) (2026-08-17)
+
+
+### Features
+
+* **api:** add brand archive endpoint ([586f486](https://github.com/dodopayments/dodopayments-typescript/commit/586f486f11098ecaabfd5ed8ab883458bf05e83f))
+* **api:** add brand archive endpoint ([45d47f4](https://github.com/dodopayments/dodopayments-typescript/commit/45d47f45c829652bdf48ce6151423ba0eabd8412))
+
 ## [2.46.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.45.1...v2.46.0) (2026-08-13)
 
 
