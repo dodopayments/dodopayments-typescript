@@ -188,6 +188,7 @@ const fuse = new Fuse(
     'client.addons.retrieve',
     'client.addons.update',
     'client.addons.updateImages',
+    'client.brands.archive',
     'client.brands.create',
     'client.brands.list',
     'client.brands.retrieve',

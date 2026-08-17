@@ -69,7 +69,7 @@ const INSTRUCTIONS_FETCH_TIMEOUT_MS = 5000;
 
 function fallbackMcpServer(): McpServer {
   return new McpServer(
-    { name: 'dodopayments_api', version: '2.45.1' },
+    { name: 'dodopayments_api', version: '2.46.0' },
     { capabilities: { tools: {}, logging: {} } },
   );
 }
