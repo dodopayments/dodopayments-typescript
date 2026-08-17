@@ -521,6 +521,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/brands/{id}/images',
   },
   {
+    clientCallName: 'client.brands.archive',
+    fullyQualifiedName: 'brands.archive',
+    httpMethod: 'post',
+    httpPath: '/brands/{id}/archive',
+  },
+  {
     clientCallName: 'client.webhooks.list',
     fullyQualifiedName: 'webhooks.list',
     httpMethod: 'get',
