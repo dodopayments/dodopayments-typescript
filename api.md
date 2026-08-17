@@ -363,15 +363,17 @@ Types:
 
 - <code><a href="./src/resources/brands.ts">Brand</a></code>
 - <code><a href="./src/resources/brands.ts">BrandListResponse</a></code>
+- <code><a href="./src/resources/brands.ts">BrandArchiveResponse</a></code>
 - <code><a href="./src/resources/brands.ts">BrandUpdateImagesResponse</a></code>
 
 Methods:
 
-- <code title="get /brands">client.brands.<a href="./src/resources/brands.ts">list</a>() -> BrandListResponse</code>
+- <code title="get /brands">client.brands.<a href="./src/resources/brands.ts">list</a>({ ...params }) -> BrandListResponse</code>
 - <code title="post /brands">client.brands.<a href="./src/resources/brands.ts">create</a>({ ...params }) -> Brand</code>
 - <code title="get /brands/{id}">client.brands.<a href="./src/resources/brands.ts">retrieve</a>(id) -> Brand</code>
 - <code title="patch /brands/{id}">client.brands.<a href="./src/resources/brands.ts">update</a>(id, { ...params }) -> Brand</code>
 - <code title="put /brands/{id}/images">client.brands.<a href="./src/resources/brands.ts">updateImages</a>(id) -> BrandUpdateImagesResponse</code>
+- <code title="post /brands/{id}/archive">client.brands.<a href="./src/resources/brands.ts">archive</a>(id, { ...params }) -> BrandArchiveResponse</code>
 
 # Webhooks
 

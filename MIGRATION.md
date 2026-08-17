@@ -138,6 +138,7 @@ client.example.list(undefined, { headers: { ... } });
 - `client.products.shortLinks.list()`
 - `client.discounts.list()`
 - `client.addons.list()`
+- `client.brands.list()`
 - `client.webhooks.list()`
 - `client.usageEvents.list()`
 - `client.meters.list()`

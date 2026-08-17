@@ -42,7 +42,10 @@ import {
 } from './resources/balances';
 import {
   Brand,
+  BrandArchiveParams,
+  BrandArchiveResponse,
   BrandCreateParams,
+  BrandListParams,
   BrandListResponse,
   BrandUpdateImagesResponse,
   BrandUpdateParams,
@@ -1366,9 +1369,12 @@ export declare namespace DodoPayments {
     Brands as Brands,
     type Brand as Brand,
     type BrandListResponse as BrandListResponse,
+    type BrandArchiveResponse as BrandArchiveResponse,
     type BrandUpdateImagesResponse as BrandUpdateImagesResponse,
+    type BrandListParams as BrandListParams,
     type BrandCreateParams as BrandCreateParams,
     type BrandUpdateParams as BrandUpdateParams,
+    type BrandArchiveParams as BrandArchiveParams,
   };
 
   export {
