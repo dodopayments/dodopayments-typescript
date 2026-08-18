@@ -199,6 +199,15 @@ export interface CheckoutSessionFlags {
    * Default is false
    */
   require_phone_number?: boolean;
+
+  /**
+   * If true, the session uses the single-page checkout flow: the page initializes
+   * the payment at load time and confirms it in place, with no separate payment
+   * page.
+   *
+   * Default is false
+   */
+  single_page?: boolean;
 }
 
 export interface CheckoutSessionRequest {

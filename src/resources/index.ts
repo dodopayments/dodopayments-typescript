@@ -19,9 +19,12 @@ export {
   Brands,
   type Brand,
   type BrandListResponse,
+  type BrandArchiveResponse,
   type BrandUpdateImagesResponse,
+  type BrandListParams,
   type BrandCreateParams,
   type BrandUpdateParams,
+  type BrandArchiveParams,
 } from './brands';
 export {
   CheckoutSessions,
