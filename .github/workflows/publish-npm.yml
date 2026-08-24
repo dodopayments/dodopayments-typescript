@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      # Required for npm Trusted Publishing (OIDC) — the token-exchange identity.
+      id-token: write
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -26,6 +28,13 @@ jobs:
         uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
         with:
           node-version: '20'
+
+      # npm Trusted Publishing (OIDC) requires npm >= 11.5.1, but Node 20 ships
+      # npm 10.x. Pin 11.6.2 for reproducible runs (11.5.2 fixed an OIDC/
+      # provenance ordering bug; 11.6.2 resolves trusted-publishing failures
+      # seen in the wild).
+      - name: Upgrade npm for trusted publishing
+        run: npm install -g npm@11.6.2
 
       - name: Install dependencies
         run: |
@@ -39,9 +48,14 @@ jobs:
             PATHS_RELEASED='[\".\", \"packages/mcp-server\"]'
           fi
           yarn tsn scripts/publish-packages.ts "{ \"paths_released\": \"$PATHS_RELEASED\" }"
+        # No NPM_TOKEN: npm Trusted Publishing (OIDC) authenticates the publish
+        # via the job's id-token: write. bin/publish-npm skips wiring a static
+        # _authToken when NPM_TOKEN is unset and calls `npm publish`, which
+        # performs the OIDC token exchange. Each package (dodopayments,
+        # dodopayments-mcp) has a trusted publisher on npmjs.com for repo
+        # dodopayments/dodopayments-typescript + workflow publish-npm.yml.
         env:
           INPUT_PATH: ${{ github.event.inputs.path }}
-          NPM_TOKEN: ${{ secrets.DODO_PAYMENTS_NPM_TOKEN || secrets.NPM_TOKEN }}
 
       - name: Upload MCP Server DXT GitHub release asset
         run: |
