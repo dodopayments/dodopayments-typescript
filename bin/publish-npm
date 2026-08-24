@@ -67,4 +67,10 @@ fi
 # Use `npm publish` (not `yarn publish`): only the npm CLI (>= 11.5.1) performs
 # the OIDC token exchange for npm Trusted Publishing. Yarn Classic has no OIDC
 # support, so it cannot publish tokenlessly. publishConfig.access is "public".
-npm publish --tag "$TAG" --access public
+#
+# Pin the registry explicitly: this script is spawned under `yarn`, which injects
+# npm_config_registry=https://registry.yarnpkg.com into the environment. npm would
+# otherwise inherit that and target the yarn mirror, where Trusted Publishing does
+# not exist (the publish then fails with ENEEDAUTH). OIDC only works against
+# registry.npmjs.org, so force it here.
+npm publish --tag "$TAG" --access public --registry https://registry.npmjs.org
