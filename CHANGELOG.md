@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.47.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.47.0...v2.47.1) (2026-08-24)
+
+
+### Bug Fixes
+
+* **docs:** add Dodo Payments security contact to SECURITY.md ([9394f70](https://github.com/dodopayments/dodopayments-typescript/commit/9394f702281b03479c8687352931340801606a54))
+
 ## [2.47.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.46.0...v2.47.0) (2026-08-17)
 
 
