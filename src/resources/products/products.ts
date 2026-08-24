@@ -71,7 +71,6 @@ export class Products extends APIResource {
    *     currency: 'AED',
    *     discount: 0,
    *     price: 0,
-   *     purchasing_power_parity: true,
    *     type: 'one_time_price',
    *   },
    *   tax_category: 'digital_products',
@@ -501,12 +500,6 @@ export namespace Price {
      */
     price: number;
 
-    /**
-     * Indicates if purchasing power parity adjustments are applied to the price.
-     * Purchasing power parity feature is not available as of now.
-     */
-    purchasing_power_parity: boolean;
-
     type: 'one_time_price';
 
     /**
@@ -514,6 +507,13 @@ export namespace Price {
      * the [`price`](Self::price) field is the minimum amount.
      */
     pay_what_you_want?: boolean;
+
+    /**
+     * Opts this price in to purchasing power parity. The business must also enable
+     * purchasing power parity. The discount percentage per country is always
+     * business-wide. Defaults to `false`.
+     */
+    purchasing_power_parity?: boolean;
 
     /**
      * A suggested price for the user to pay. This value is only considered if
@@ -560,12 +560,6 @@ export namespace Price {
     price: number;
 
     /**
-     * Indicates if purchasing power parity adjustments are applied to the price.
-     * Purchasing power parity feature is not available as of now
-     */
-    purchasing_power_parity: boolean;
-
-    /**
      * Number of units for the subscription period. For example, a value of `12` with a
      * `subscription_period_interval` of `month` represents a one-year subscription.
      */
@@ -577,6 +571,13 @@ export namespace Price {
     subscription_period_interval: SubscriptionsAPI.TimeInterval;
 
     type: 'recurring_price';
+
+    /**
+     * Opts this price in to purchasing power parity. The business must also enable
+     * purchasing power parity. The discount percentage per country is always
+     * business-wide. Defaults to `false`.
+     */
+    purchasing_power_parity?: boolean;
 
     /**
      * Indicates if the price is tax inclusive
@@ -633,12 +634,6 @@ export namespace Price {
     payment_frequency_interval: SubscriptionsAPI.TimeInterval;
 
     /**
-     * Indicates if purchasing power parity adjustments are applied to the price.
-     * Purchasing power parity feature is not available as of now
-     */
-    purchasing_power_parity: boolean;
-
-    /**
      * Number of units for the subscription period. For example, a value of `12` with a
      * `subscription_period_interval` of `month` represents a one-year subscription.
      */
@@ -652,6 +647,14 @@ export namespace Price {
     type: 'usage_based_price';
 
     meters?: Array<ProductsAPI.AddMeterToPrice> | null;
+
+    /**
+     * Opts this price in to purchasing power parity. The business must also enable
+     * purchasing power parity. The discount percentage per country is always
+     * business-wide. Applies to the fixed fee only, never to metered usage. Defaults
+     * to `false`.
+     */
+    purchasing_power_parity?: boolean;
 
     /**
      * Indicates if the price is tax inclusive
