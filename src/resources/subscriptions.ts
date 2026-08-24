@@ -91,7 +91,7 @@ export class Subscriptions extends APIResource {
   /**
    * @example
    * ```ts
-   * await client.subscriptions.changePlan(
+   * const response = await client.subscriptions.changePlan(
    *   'sub_Iuaq622bbmmfOGrVTqdXv',
    *   {
    *     product_id: 'product_id',
@@ -105,12 +105,8 @@ export class Subscriptions extends APIResource {
     subscriptionID: string,
     body: SubscriptionChangePlanParams,
     options?: RequestOptions,
-  ): APIPromise<void> {
-    return this._client.post(path`/subscriptions/${subscriptionID}/change-plan`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  ): APIPromise<SubscriptionChangePlanResponse> {
+    return this._client.post(path`/subscriptions/${subscriptionID}/change-plan`, { body, ...options });
   }
 
   /**
@@ -739,6 +735,34 @@ export interface UpdateSubscriptionPlanReq {
   addons?: Array<AttachAddon> | null;
 
   /**
+   * Replace a scheduled plan change with this one.
+   *
+   * The scheduled change is cancelled by the transaction that applies this change. A
+   * change that never applies leaves the schedule in place.
+   *
+   * `effective_at: next_billing_date` is allowed. The new schedule then replaces the
+   * old one in the request transaction.
+   *
+   * A pending plan change still gets a `409`. This field does not affect it.
+   *
+   * The preview route shares this request body, so a preview that sets this field
+   * also passes the scheduled-change `409`.
+   */
+  cancel_scheduled_change_plan?: boolean;
+
+  /**
+   * Collect the plan-change amount with a payment link. The customer then pays on a
+   * checkout page.
+   *
+   * The business needs the `allow_plan_change_via_payment_link` capability. The
+   * request needs `effective_at: immediately`. The request also needs
+   * `on_payment_failure: prevent_change`.
+   *
+   * The preview route shares this request body and ignores this field.
+   */
+  collect_via_payment_link?: boolean;
+
+  /**
    * @deprecated Use `discount_id` instead.
    */
   discount_code?: string | null;
@@ -1037,6 +1061,35 @@ export namespace SubscriptionListResponse {
      */
     discount_cycles_remaining?: number | null;
   }
+}
+
+/**
+ * Handles for a hosted checkout page that settles a plan change.
+ *
+ * The four fields repeat `UpdatePaymentMethodResponse` and a subset of
+ * `CreateSubscriptionResponse`. A shared type would rename the generated SDK types
+ * for all three routes, so each route keeps its own.
+ */
+export interface SubscriptionChangePlanResponse {
+  /**
+   * Client secret for an embedded checkout.
+   */
+  client_secret?: string | null;
+
+  /**
+   * When the link stops working.
+   */
+  expires_on?: string | null;
+
+  /**
+   * Id of the payment that settles the plan change.
+   */
+  payment_id?: string | null;
+
+  /**
+   * Checkout page URL. Give this to the customer.
+   */
+  payment_link?: string | null;
 }
 
 export interface SubscriptionChargeResponse {
@@ -1535,11 +1588,25 @@ export interface SubscriptionUpdateParams {
   next_billing_date?: string | null;
 
   /**
-   * `Some(true)` pauses an active subscription; `Some(false)` unpauses a `Paused`
-   * (or abandoned `OnHold`) subscription. Exclusive of every other field.
+   * Removed. Use `status: paused` to pause and `status: active` to resume. This
+   * field always fails with 422, so a caller still on it gets a loud error instead
+   * of a silent no-op.
    */
   pause?: boolean | null;
 
+  /**
+   * Set to `cancelled` to cancel the subscription. See `cancel_reason`,
+   * `cancellation_feedback`, `cancellation_comment`, and
+   * `cancel_at_next_billing_date` for cancellation options.
+   *
+   * Set to `paused` to pause an active subscription. Set to `active` to resume a
+   * `paused` subscription. `active` also resumes an `on_hold` subscription that has
+   * an unpaid pause invoice. This voids that invoice.
+   *
+   * Send `paused` or `active` alone. A request that combines either with any other
+   * field fails with 422. `cancelled` is not exclusive this way — see
+   * `cancel_reason` and friends below.
+   */
   status?: SubscriptionStatus | null;
 
   /**
@@ -1681,6 +1748,34 @@ export interface SubscriptionChangePlanParams {
   addons?: Array<AttachAddon> | null;
 
   /**
+   * Replace a scheduled plan change with this one.
+   *
+   * The scheduled change is cancelled by the transaction that applies this change. A
+   * change that never applies leaves the schedule in place.
+   *
+   * `effective_at: next_billing_date` is allowed. The new schedule then replaces the
+   * old one in the request transaction.
+   *
+   * A pending plan change still gets a `409`. This field does not affect it.
+   *
+   * The preview route shares this request body, so a preview that sets this field
+   * also passes the scheduled-change `409`.
+   */
+  cancel_scheduled_change_plan?: boolean;
+
+  /**
+   * Collect the plan-change amount with a payment link. The customer then pays on a
+   * checkout page.
+   *
+   * The business needs the `allow_plan_change_via_payment_link` capability. The
+   * request needs `effective_at: immediately`. The request also needs
+   * `on_payment_failure: prevent_change`.
+   *
+   * The preview route shares this request body and ignores this field.
+   */
+  collect_via_payment_link?: boolean;
+
+  /**
    * @deprecated Use `discount_id` instead.
    */
   discount_code?: string | null;
@@ -1797,6 +1892,34 @@ export interface SubscriptionPreviewChangePlanParams {
   addons?: Array<AttachAddon> | null;
 
   /**
+   * Replace a scheduled plan change with this one.
+   *
+   * The scheduled change is cancelled by the transaction that applies this change. A
+   * change that never applies leaves the schedule in place.
+   *
+   * `effective_at: next_billing_date` is allowed. The new schedule then replaces the
+   * old one in the request transaction.
+   *
+   * A pending plan change still gets a `409`. This field does not affect it.
+   *
+   * The preview route shares this request body, so a preview that sets this field
+   * also passes the scheduled-change `409`.
+   */
+  cancel_scheduled_change_plan?: boolean;
+
+  /**
+   * Collect the plan-change amount with a payment link. The customer then pays on a
+   * checkout page.
+   *
+   * The business needs the `allow_plan_change_via_payment_link` capability. The
+   * request needs `effective_at: immediately`. The request also needs
+   * `on_payment_failure: prevent_change`.
+   *
+   * The preview route shares this request body and ignores this field.
+   */
+  collect_via_payment_link?: boolean;
+
+  /**
    * @deprecated Use `discount_id` instead.
    */
   discount_code?: string | null;
@@ -1851,6 +1974,7 @@ export declare namespace Subscriptions {
     type UpdateSubscriptionPlanReq as UpdateSubscriptionPlanReq,
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
     type SubscriptionListResponse as SubscriptionListResponse,
+    type SubscriptionChangePlanResponse as SubscriptionChangePlanResponse,
     type SubscriptionChargeResponse as SubscriptionChargeResponse,
     type SubscriptionPreviewChangePlanResponse as SubscriptionPreviewChangePlanResponse,
     type SubscriptionRetrieveCreditUsageResponse as SubscriptionRetrieveCreditUsageResponse,

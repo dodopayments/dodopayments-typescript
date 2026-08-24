@@ -230,6 +230,7 @@ export {
   type UpdateSubscriptionPlanReq,
   type SubscriptionCreateResponse,
   type SubscriptionListResponse,
+  type SubscriptionChangePlanResponse,
   type SubscriptionChargeResponse,
   type SubscriptionPreviewChangePlanResponse,
   type SubscriptionRetrieveCreditUsageResponse,
