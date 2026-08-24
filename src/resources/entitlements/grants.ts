@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as LicenseKeysAPI from '../license-keys';
 import * as MiscAPI from '../misc';
 import * as EntitlementsAPI from './entitlements';
 import * as ProductsAPI from '../products/products';
@@ -210,7 +211,13 @@ export interface EntitlementGrant {
  */
 export interface LicenseKeyGrant {
   /**
-   * Number of activations consumed so far.
+   * Identifier of the issued license key.
+   */
+  id: string;
+
+  /**
+   * Number of instances currently active. Activation increments it and deactivation
+   * decrements it, so it is a live count and not a total.
    */
   activations_used: number;
 
@@ -218,6 +225,12 @@ export interface LicenseKeyGrant {
    * Issued license key.
    */
   key: string;
+
+  /**
+   * Current status of the license key. Activation fails unless it is `active`, so a
+   * client can warn before the customer tries.
+   */
+  status: LicenseKeysAPI.LicenseKeyStatus;
 
   /**
    * Maximum activations allowed by the entitlement, when set.
