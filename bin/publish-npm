@@ -2,7 +2,13 @@
 
 set -eux
 
-npm config set '//registry.npmjs.org/:_authToken' "$NPM_TOKEN"
+# Only wire a static _authToken when NPM_TOKEN is provided. Under npm Trusted
+# Publishing (OIDC) there is no token, and npm CLI performs its own OIDC token
+# exchange during `npm publish`. Setting an empty/placeholder _authToken would
+# make npm skip that exchange and fail auth, so leave it unset for the OIDC path.
+if [ -n "${NPM_TOKEN:-}" ]; then
+  npm config set '//registry.npmjs.org/:_authToken' "$NPM_TOKEN"
+fi
 
 yarn build
 cd dist
@@ -57,5 +63,8 @@ else
   TAG="latest"
 fi
 
-# Publish with the appropriate tag
-yarn publish --tag "$TAG"
+# Publish with the appropriate tag.
+# Use `npm publish` (not `yarn publish`): only the npm CLI (>= 11.5.1) performs
+# the OIDC token exchange for npm Trusted Publishing. Yarn Classic has no OIDC
+# support, so it cannot publish tokenlessly. publishConfig.access is "public".
+npm publish --tag "$TAG" --access public

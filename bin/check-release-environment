@@ -6,9 +6,7 @@ if [ -z "${APP_PRIVATE_KEY}" ]; then
   errors+=("The APP_PRIVATE_KEY secret has not been set. Add the dodo-squirrels GitHub App private key as a repository secret, and set the APP_CLIENT_ID repository variable.")
 fi
 
-if [ -z "${NPM_TOKEN}" ]; then
-  errors+=("The NPM_TOKEN secret has not been set. Please set it in either this repository's secrets or your organization secrets")
-fi
+# npm publishing uses Trusted Publishing (OIDC), so no NPM_TOKEN is required.
 
 if [ -z "${DOCKERHUB_TOKEN}" ]; then
   errors+=("The DOCKERHUB_TOKEN secret has not been set. Please set it in either this repository's secrets or your organization secrets")
