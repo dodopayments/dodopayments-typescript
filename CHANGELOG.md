@@ -1,13 +1,5 @@
 # Changelog
 
-## [2.48.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.47.1...v2.48.0) (2026-08-24)
-
-
-### Features
-
-* **api:** return checkout handles from subscription change-plan ([7cca346](https://github.com/dodopayments/dodopayments-typescript/commit/7cca346f9552778014e78e30358c850a6a961136))
-* **api:** return checkout handles from subscription change-plan ([4c5fe01](https://github.com/dodopayments/dodopayments-typescript/commit/4c5fe0120af9f2213143fd734457455d1e977997))
-
 ## [2.47.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.47.0...v2.47.1) (2026-08-24)
 
 
