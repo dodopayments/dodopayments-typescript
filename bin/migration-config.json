@@ -37,6 +37,43 @@
       ]
     },
     {
+      "base": "blocklist.customers.notes",
+      "name": "update",
+      "params": [
+        {
+          "type": "param",
+          "key": "note_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "entry_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "note_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
       "base": "products.localizedPrices",
       "name": "retrieve",
       "params": [

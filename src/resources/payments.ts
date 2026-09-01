@@ -67,6 +67,29 @@ export class Payments extends APIResource {
   ): APIPromise<PaymentRetrieveLineItemsResponse> {
     return this._client.get(path`/payments/${paymentID}/line-items`, options);
   }
+
+  /**
+   * @example
+   * ```ts
+   * const manualRetry = await client.payments.retry(
+   *   'payment_id',
+   * );
+   * ```
+   */
+  retry(paymentID: string, options?: RequestOptions): APIPromise<ManualRetry> {
+    return this._client.post(path`/payments/${paymentID}/retry`, options);
+  }
+
+  /**
+   * @example
+   * ```ts
+   * const manualRetryState =
+   *   await client.payments.retrieveRetryState('payment_id');
+   * ```
+   */
+  retrieveRetryState(paymentID: string, options?: RequestOptions): APIPromise<ManualRetryState> {
+    return this._client.get(path`/payments/${paymentID}/retry`, options);
+  }
 }
 
 export type PaymentListResponsesDefaultPageNumberPagination =
@@ -176,6 +199,65 @@ export type IntentStatus =
   | 'requires_capture'
   | 'partially_captured'
   | 'partially_captured_and_capturable';
+
+export interface ManualRetry {
+  /**
+   * The invoice the send charged.
+   */
+  invoice_id: string;
+
+  /**
+   * Always true on this route. Tells the row apart from an automatic attempt.
+   */
+  is_manual_retry: boolean;
+
+  /**
+   * The payment row this send created.
+   */
+  payment_id: string;
+
+  /**
+   * Which attempt this send is, counting manual sends on the invoice.
+   */
+  retry_attempt: number;
+
+  sends_allowed: number;
+
+  /**
+   * Manual sends spent on this invoice, including this one.
+   */
+  sends_used: number;
+
+  /**
+   * When the next send becomes available. Null when no send is left.
+   */
+  retry_available_at?: string | null;
+
+  /**
+   * Outcome of the charge. `processing` means the processor has not settled it yet,
+   * and the payment webhooks report the result.
+   */
+  status?: IntentStatus | null;
+}
+
+export interface ManualRetryState {
+  can_retry: boolean;
+
+  sends_allowed: number;
+
+  sends_used: number;
+
+  /**
+   * The code `POST` would fail with. Null when `can_retry` is true.
+   */
+  reason?: string | null;
+
+  /**
+   * When the next send becomes available. Null when no send is left, or when the
+   * block has nothing to do with the cooldown.
+   */
+  retry_available_at?: string | null;
+}
 
 export interface NewCustomer {
   /**
@@ -1065,6 +1147,8 @@ export declare namespace Payments {
     type CustomerLimitedDetails as CustomerLimitedDetails,
     type CustomerRequest as CustomerRequest,
     type IntentStatus as IntentStatus,
+    type ManualRetry as ManualRetry,
+    type ManualRetryState as ManualRetryState,
     type NewCustomer as NewCustomer,
     type OneTimeProductCartItem as OneTimeProductCartItem,
     type Payment as Payment,

@@ -32,6 +32,8 @@ Types:
 - <code><a href="./src/resources/payments.ts">CustomerLimitedDetails</a></code>
 - <code><a href="./src/resources/payments.ts">CustomerRequest</a></code>
 - <code><a href="./src/resources/payments.ts">IntentStatus</a></code>
+- <code><a href="./src/resources/payments.ts">ManualRetry</a></code>
+- <code><a href="./src/resources/payments.ts">ManualRetryState</a></code>
 - <code><a href="./src/resources/payments.ts">NewCustomer</a></code>
 - <code><a href="./src/resources/payments.ts">OneTimeProductCartItem</a></code>
 - <code><a href="./src/resources/payments.ts">Payment</a></code>
@@ -48,6 +50,8 @@ Methods:
 - <code title="post /payments">client.payments.<a href="./src/resources/payments.ts">create</a>({ ...params }) -> PaymentCreateResponse</code>
 - <code title="get /payments/{payment_id}">client.payments.<a href="./src/resources/payments.ts">retrieve</a>(paymentID) -> Payment</code>
 - <code title="get /payments/{payment_id}/line-items">client.payments.<a href="./src/resources/payments.ts">retrieveLineItems</a>(paymentID) -> PaymentRetrieveLineItemsResponse</code>
+- <code title="post /payments/{payment_id}/retry">client.payments.<a href="./src/resources/payments.ts">retry</a>(paymentID) -> ManualRetry</code>
+- <code title="get /payments/{payment_id}/retry">client.payments.<a href="./src/resources/payments.ts">retrieveRetryState</a>(paymentID) -> ManualRetryState</code>
 
 # Subscriptions
 
@@ -186,6 +190,38 @@ Methods:
 
 - <code title="get /customers/{customer_id}/wallets/ledger-entries">client.customers.wallets.ledgerEntries.<a href="./src/resources/customers/wallets/ledger-entries.ts">list</a>(customerID, { ...params }) -> CustomerWalletTransactionsDefaultPageNumberPagination</code>
 - <code title="post /customers/{customer_id}/wallets/ledger-entries">client.customers.wallets.ledgerEntries.<a href="./src/resources/customers/wallets/ledger-entries.ts">create</a>(customerID, { ...params }) -> CustomerWallet</code>
+
+# Blocklist
+
+## Customers
+
+Types:
+
+- <code><a href="./src/resources/blocklist/customers/customers.ts">BlockByCustomerID</a></code>
+- <code><a href="./src/resources/blocklist/customers/customers.ts">BlockByEmail</a></code>
+- <code><a href="./src/resources/blocklist/customers/customers.ts">BlockIdentifier</a></code>
+- <code><a href="./src/resources/blocklist/customers/customers.ts">BlockedCustomer</a></code>
+- <code><a href="./src/resources/blocklist/customers/customers.ts">BlockedCustomerSource</a></code>
+- <code><a href="./src/resources/blocklist/customers/customers.ts">CreateBlockedCustomerRequest</a></code>
+
+Methods:
+
+- <code title="get /blocklist/customers">client.blocklist.customers.<a href="./src/resources/blocklist/customers/customers.ts">list</a>({ ...params }) -> BlockedCustomersDefaultPageNumberPagination</code>
+- <code title="post /blocklist/customers">client.blocklist.customers.<a href="./src/resources/blocklist/customers/customers.ts">create</a>({ ...params }) -> BlockedCustomer</code>
+- <code title="get /blocklist/customers/{entry_id}">client.blocklist.customers.<a href="./src/resources/blocklist/customers/customers.ts">retrieve</a>(entryID) -> BlockedCustomer</code>
+- <code title="delete /blocklist/customers/{entry_id}">client.blocklist.customers.<a href="./src/resources/blocklist/customers/customers.ts">delete</a>(entryID) -> void</code>
+
+### Notes
+
+Types:
+
+- <code><a href="./src/resources/blocklist/customers/notes.ts">BlockedCustomerNote</a></code>
+- <code><a href="./src/resources/blocklist/customers/notes.ts">NoteRequest</a></code>
+
+Methods:
+
+- <code title="post /blocklist/customers/{entry_id}/notes">client.blocklist.customers.notes.<a href="./src/resources/blocklist/customers/notes.ts">create</a>(entryID, { ...params }) -> BlockedCustomerNote</code>
+- <code title="patch /blocklist/customers/{entry_id}/notes/{note_id}">client.blocklist.customers.notes.<a href="./src/resources/blocklist/customers/notes.ts">update</a>(noteID, { ...params }) -> BlockedCustomerNote</code>
 
 # Refunds
 
@@ -423,6 +459,7 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionExpiredWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionFailedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionOnHoldWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionPastDueWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionPausedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionPlanChangedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionRenewedWebhookEvent</a></code>
@@ -470,6 +507,7 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionExpiredWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionFailedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionOnHoldWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionPastDueWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionPausedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionPlanChangedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">SubscriptionRenewedWebhookEvent</a></code>
