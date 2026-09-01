@@ -695,7 +695,8 @@ export type SubscriptionStatus =
   | 'paused'
   | 'cancelled'
   | 'failed'
-  | 'expired';
+  | 'expired'
+  | 'past_due';
 
 /**
  * Unit of a duration count (e.g. license-key validity period).
@@ -1392,7 +1393,7 @@ export interface SubscriptionListParams extends DefaultPageNumberPaginationParam
   /**
    * Filter by status
    */
-  status?: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired';
+  status?: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due';
 }
 
 export interface SubscriptionCreateParams {
@@ -1548,6 +1549,7 @@ export interface SubscriptionUpdateParams {
     | 'cancelled_by_customer'
     | 'cancelled_by_merchant'
     | 'cancelled_by_merchant_send_dunning'
+    | 'cancelled_by_merchant_grace_period_expired'
     | 'dodo_team'
     | null;
 
