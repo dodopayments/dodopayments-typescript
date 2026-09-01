@@ -46,6 +46,7 @@ export {
   type SubscriptionExpiredWebhookEvent,
   type SubscriptionFailedWebhookEvent,
   type SubscriptionOnHoldWebhookEvent,
+  type SubscriptionPastDueWebhookEvent,
   type SubscriptionPausedWebhookEvent,
   type SubscriptionPlanChangedWebhookEvent,
   type SubscriptionRenewedWebhookEvent,

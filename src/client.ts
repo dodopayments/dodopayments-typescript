@@ -140,6 +140,8 @@ import {
   CustomerLimitedDetails,
   CustomerRequest,
   IntentStatus,
+  ManualRetry,
+  ManualRetryState,
   NewCustomer,
   OneTimeProductCartItem,
   Payment,
@@ -198,6 +200,7 @@ import {
   UsageEvents,
 } from './resources/usage-events';
 import { WebhookEventType, WebhookEvents, WebhookPayload } from './resources/webhook-events';
+import { Blocklist } from './resources/blocklist/blocklist';
 import {
   CbbOverageBehavior,
   CreditEntitlement,
@@ -317,6 +320,7 @@ import {
   SubscriptionExpiredWebhookEvent,
   SubscriptionFailedWebhookEvent,
   SubscriptionOnHoldWebhookEvent,
+  SubscriptionPastDueWebhookEvent,
   SubscriptionPausedWebhookEvent,
   SubscriptionPlanChangedWebhookEvent,
   SubscriptionRenewedWebhookEvent,
@@ -1112,6 +1116,7 @@ export class DodoPayments {
   licenseKeys: API.LicenseKeys = new API.LicenseKeys(this);
   licenseKeyInstances: API.LicenseKeyInstances = new API.LicenseKeyInstances(this);
   customers: API.Customers = new API.Customers(this);
+  blocklist: API.Blocklist = new API.Blocklist(this);
   refunds: API.Refunds = new API.Refunds(this);
   disputes: API.Disputes = new API.Disputes(this);
   payouts: API.Payouts = new API.Payouts(this);
@@ -1138,6 +1143,7 @@ DodoPayments.Licenses = Licenses;
 DodoPayments.LicenseKeys = LicenseKeys;
 DodoPayments.LicenseKeyInstances = LicenseKeyInstances;
 DodoPayments.Customers = Customers;
+DodoPayments.Blocklist = Blocklist;
 DodoPayments.Refunds = Refunds;
 DodoPayments.Disputes = Disputes;
 DodoPayments.Payouts = Payouts;
@@ -1197,6 +1203,8 @@ export declare namespace DodoPayments {
     type CustomerLimitedDetails as CustomerLimitedDetails,
     type CustomerRequest as CustomerRequest,
     type IntentStatus as IntentStatus,
+    type ManualRetry as ManualRetry,
+    type ManualRetryState as ManualRetryState,
     type NewCustomer as NewCustomer,
     type OneTimeProductCartItem as OneTimeProductCartItem,
     type Payment as Payment,
@@ -1288,6 +1296,8 @@ export declare namespace DodoPayments {
     type CustomerDeletePaymentMethodParams as CustomerDeletePaymentMethodParams,
     type CustomerListEntitlementGrantsParams as CustomerListEntitlementGrantsParams,
   };
+
+  export { Blocklist as Blocklist };
 
   export {
     Refunds as Refunds,
@@ -1424,6 +1434,7 @@ export declare namespace DodoPayments {
     type SubscriptionExpiredWebhookEvent as SubscriptionExpiredWebhookEvent,
     type SubscriptionFailedWebhookEvent as SubscriptionFailedWebhookEvent,
     type SubscriptionOnHoldWebhookEvent as SubscriptionOnHoldWebhookEvent,
+    type SubscriptionPastDueWebhookEvent as SubscriptionPastDueWebhookEvent,
     type SubscriptionPausedWebhookEvent as SubscriptionPausedWebhookEvent,
     type SubscriptionPlanChangedWebhookEvent as SubscriptionPlanChangedWebhookEvent,
     type SubscriptionRenewedWebhookEvent as SubscriptionRenewedWebhookEvent,

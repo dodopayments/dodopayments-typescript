@@ -68,6 +68,8 @@ export interface BalanceLedgerEntry {
 
   description?: string | null;
 
+  payout_id?: string | null;
+
   reference_object_id?: string | null;
 }
 

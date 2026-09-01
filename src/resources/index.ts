@@ -15,6 +15,7 @@ export {
   type BalanceRetrieveLedgerParams,
   type BalanceLedgerEntriesDefaultPageNumberPagination,
 } from './balances';
+export { Blocklist } from './blocklist/blocklist';
 export {
   Brands,
   type Brand,
@@ -154,6 +155,8 @@ export {
   type CustomerLimitedDetails,
   type CustomerRequest,
   type IntentStatus,
+  type ManualRetry,
+  type ManualRetryState,
   type NewCustomer,
   type OneTimeProductCartItem,
   type Payment,
@@ -302,6 +305,7 @@ export {
   type SubscriptionExpiredWebhookEvent,
   type SubscriptionFailedWebhookEvent,
   type SubscriptionOnHoldWebhookEvent,
+  type SubscriptionPastDueWebhookEvent,
   type SubscriptionPausedWebhookEvent,
   type SubscriptionPlanChangedWebhookEvent,
   type SubscriptionRenewedWebhookEvent,

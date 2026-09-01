@@ -681,7 +681,7 @@ export namespace DunningRecoveredWebhookEvent {
 
     subscription_id: string;
 
-    trigger_state: 'on_hold' | 'cancelled';
+    trigger_state: 'on_hold' | 'cancelled' | 'past_due';
 
     payment_id?: string | null;
   }
@@ -727,7 +727,7 @@ export namespace DunningStartedWebhookEvent {
 
     subscription_id: string;
 
-    trigger_state: 'on_hold' | 'cancelled';
+    trigger_state: 'on_hold' | 'cancelled' | 'past_due';
 
     payment_id?: string | null;
   }
@@ -1470,9 +1470,10 @@ export interface SubscriptionActiveWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionActiveWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -1485,6 +1486,25 @@ export interface SubscriptionActiveWebhookEvent {
   type: 'subscription.active';
 }
 
+export namespace SubscriptionActiveWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionCancelledWebhookEvent {
   /**
    * The business identifier
@@ -1492,9 +1512,10 @@ export interface SubscriptionCancelledWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionCancelledWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -1507,6 +1528,25 @@ export interface SubscriptionCancelledWebhookEvent {
   type: 'subscription.cancelled';
 }
 
+export namespace SubscriptionCancelledWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionExpiredWebhookEvent {
   /**
    * The business identifier
@@ -1514,9 +1554,10 @@ export interface SubscriptionExpiredWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionExpiredWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -1529,6 +1570,25 @@ export interface SubscriptionExpiredWebhookEvent {
   type: 'subscription.expired';
 }
 
+export namespace SubscriptionExpiredWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionFailedWebhookEvent {
   /**
    * The business identifier
@@ -1536,9 +1596,10 @@ export interface SubscriptionFailedWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionFailedWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -1551,6 +1612,25 @@ export interface SubscriptionFailedWebhookEvent {
   type: 'subscription.failed';
 }
 
+export namespace SubscriptionFailedWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionOnHoldWebhookEvent {
   /**
    * The business identifier
@@ -1558,9 +1638,10 @@ export interface SubscriptionOnHoldWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionOnHoldWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -1573,6 +1654,67 @@ export interface SubscriptionOnHoldWebhookEvent {
   type: 'subscription.on_hold';
 }
 
+export namespace SubscriptionOnHoldWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
+export interface SubscriptionPastDueWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  data: SubscriptionPastDueWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.past_due';
+}
+
+export namespace SubscriptionPastDueWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionPausedWebhookEvent {
   /**
    * The business identifier
@@ -1580,9 +1722,10 @@ export interface SubscriptionPausedWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionPausedWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -1595,6 +1738,25 @@ export interface SubscriptionPausedWebhookEvent {
   type: 'subscription.paused';
 }
 
+export namespace SubscriptionPausedWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionPlanChangedWebhookEvent {
   /**
    * The business identifier
@@ -1602,9 +1764,10 @@ export interface SubscriptionPlanChangedWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionPlanChangedWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -1617,6 +1780,25 @@ export interface SubscriptionPlanChangedWebhookEvent {
   type: 'subscription.plan_changed';
 }
 
+export namespace SubscriptionPlanChangedWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionRenewedWebhookEvent {
   /**
    * The business identifier
@@ -1624,9 +1806,10 @@ export interface SubscriptionRenewedWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionRenewedWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -1639,6 +1822,25 @@ export interface SubscriptionRenewedWebhookEvent {
   type: 'subscription.renewed';
 }
 
+export namespace SubscriptionRenewedWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionUnpausedWebhookEvent {
   /**
    * The business identifier
@@ -1646,9 +1848,10 @@ export interface SubscriptionUnpausedWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionUnpausedWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -1661,6 +1864,25 @@ export interface SubscriptionUnpausedWebhookEvent {
   type: 'subscription.unpaused';
 }
 
+export namespace SubscriptionUnpausedWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionUpdatePaymentMethodWebhookEvent {
   /**
    * The business identifier
@@ -1668,9 +1890,10 @@ export interface SubscriptionUpdatePaymentMethodWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionUpdatePaymentMethodWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -1683,6 +1906,25 @@ export interface SubscriptionUpdatePaymentMethodWebhookEvent {
   type: 'subscription.update_payment_method';
 }
 
+export namespace SubscriptionUpdatePaymentMethodWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionUpdatedWebhookEvent {
   /**
    * The business identifier
@@ -1690,9 +1932,10 @@ export interface SubscriptionUpdatedWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionUpdatedWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -1703,6 +1946,25 @@ export interface SubscriptionUpdatedWebhookEvent {
    * The event type
    */
   type: 'subscription.updated';
+}
+
+export namespace SubscriptionUpdatedWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
 }
 
 export interface AbandonedCheckoutDetectedWebhookEvent {
@@ -2200,7 +2462,7 @@ export namespace DunningRecoveredWebhookEvent {
 
     subscription_id: string;
 
-    trigger_state: 'on_hold' | 'cancelled';
+    trigger_state: 'on_hold' | 'cancelled' | 'past_due';
 
     payment_id?: string | null;
   }
@@ -2246,7 +2508,7 @@ export namespace DunningStartedWebhookEvent {
 
     subscription_id: string;
 
-    trigger_state: 'on_hold' | 'cancelled';
+    trigger_state: 'on_hold' | 'cancelled' | 'past_due';
 
     payment_id?: string | null;
   }
@@ -2989,9 +3251,10 @@ export interface SubscriptionActiveWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionActiveWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -3004,6 +3267,25 @@ export interface SubscriptionActiveWebhookEvent {
   type: 'subscription.active';
 }
 
+export namespace SubscriptionActiveWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionCancelledWebhookEvent {
   /**
    * The business identifier
@@ -3011,9 +3293,10 @@ export interface SubscriptionCancelledWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionCancelledWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -3026,6 +3309,25 @@ export interface SubscriptionCancelledWebhookEvent {
   type: 'subscription.cancelled';
 }
 
+export namespace SubscriptionCancelledWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionExpiredWebhookEvent {
   /**
    * The business identifier
@@ -3033,9 +3335,10 @@ export interface SubscriptionExpiredWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionExpiredWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -3048,6 +3351,25 @@ export interface SubscriptionExpiredWebhookEvent {
   type: 'subscription.expired';
 }
 
+export namespace SubscriptionExpiredWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionFailedWebhookEvent {
   /**
    * The business identifier
@@ -3055,9 +3377,10 @@ export interface SubscriptionFailedWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionFailedWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -3070,6 +3393,25 @@ export interface SubscriptionFailedWebhookEvent {
   type: 'subscription.failed';
 }
 
+export namespace SubscriptionFailedWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionOnHoldWebhookEvent {
   /**
    * The business identifier
@@ -3077,9 +3419,10 @@ export interface SubscriptionOnHoldWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionOnHoldWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -3092,6 +3435,67 @@ export interface SubscriptionOnHoldWebhookEvent {
   type: 'subscription.on_hold';
 }
 
+export namespace SubscriptionOnHoldWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
+export interface SubscriptionPastDueWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  data: SubscriptionPastDueWebhookEvent.Data;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'subscription.past_due';
+}
+
+export namespace SubscriptionPastDueWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionPausedWebhookEvent {
   /**
    * The business identifier
@@ -3099,9 +3503,10 @@ export interface SubscriptionPausedWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionPausedWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -3114,6 +3519,25 @@ export interface SubscriptionPausedWebhookEvent {
   type: 'subscription.paused';
 }
 
+export namespace SubscriptionPausedWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionPlanChangedWebhookEvent {
   /**
    * The business identifier
@@ -3121,9 +3545,10 @@ export interface SubscriptionPlanChangedWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionPlanChangedWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -3136,6 +3561,25 @@ export interface SubscriptionPlanChangedWebhookEvent {
   type: 'subscription.plan_changed';
 }
 
+export namespace SubscriptionPlanChangedWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionRenewedWebhookEvent {
   /**
    * The business identifier
@@ -3143,9 +3587,10 @@ export interface SubscriptionRenewedWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionRenewedWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -3158,6 +3603,25 @@ export interface SubscriptionRenewedWebhookEvent {
   type: 'subscription.renewed';
 }
 
+export namespace SubscriptionRenewedWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionUnpausedWebhookEvent {
   /**
    * The business identifier
@@ -3165,9 +3629,10 @@ export interface SubscriptionUnpausedWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionUnpausedWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -3180,6 +3645,25 @@ export interface SubscriptionUnpausedWebhookEvent {
   type: 'subscription.unpaused';
 }
 
+export namespace SubscriptionUnpausedWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionUpdatePaymentMethodWebhookEvent {
   /**
    * The business identifier
@@ -3187,9 +3671,10 @@ export interface SubscriptionUpdatePaymentMethodWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionUpdatePaymentMethodWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -3202,6 +3687,25 @@ export interface SubscriptionUpdatePaymentMethodWebhookEvent {
   type: 'subscription.update_payment_method';
 }
 
+export namespace SubscriptionUpdatePaymentMethodWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
+}
+
 export interface SubscriptionUpdatedWebhookEvent {
   /**
    * The business identifier
@@ -3209,9 +3713,10 @@ export interface SubscriptionUpdatedWebhookEvent {
   business_id: string;
 
   /**
-   * Response struct representing subscription details
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
    */
-  data: SubscriptionsAPI.Subscription;
+  data: SubscriptionUpdatedWebhookEvent.Data;
 
   /**
    * The timestamp of when the event occurred
@@ -3222,6 +3727,25 @@ export interface SubscriptionUpdatedWebhookEvent {
    * The event type
    */
   type: 'subscription.updated';
+}
+
+export namespace SubscriptionUpdatedWebhookEvent {
+  /**
+   * Subscription payload sent on a webhook. It carries every field of
+   * `SubscriptionResponse`, plus the grace-period deadline.
+   */
+  export interface Data extends SubscriptionsAPI.Subscription {
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
+  }
 }
 
 export type UnsafeUnwrapWebhookEvent =
@@ -3266,6 +3790,7 @@ export type UnsafeUnwrapWebhookEvent =
   | SubscriptionExpiredWebhookEvent
   | SubscriptionFailedWebhookEvent
   | SubscriptionOnHoldWebhookEvent
+  | SubscriptionPastDueWebhookEvent
   | SubscriptionPausedWebhookEvent
   | SubscriptionPlanChangedWebhookEvent
   | SubscriptionRenewedWebhookEvent
@@ -3315,6 +3840,7 @@ export type UnwrapWebhookEvent =
   | SubscriptionExpiredWebhookEvent
   | SubscriptionFailedWebhookEvent
   | SubscriptionOnHoldWebhookEvent
+  | SubscriptionPastDueWebhookEvent
   | SubscriptionPausedWebhookEvent
   | SubscriptionPlanChangedWebhookEvent
   | SubscriptionRenewedWebhookEvent
@@ -3445,6 +3971,7 @@ export declare namespace Webhooks {
     type SubscriptionExpiredWebhookEvent as SubscriptionExpiredWebhookEvent,
     type SubscriptionFailedWebhookEvent as SubscriptionFailedWebhookEvent,
     type SubscriptionOnHoldWebhookEvent as SubscriptionOnHoldWebhookEvent,
+    type SubscriptionPastDueWebhookEvent as SubscriptionPastDueWebhookEvent,
     type SubscriptionPausedWebhookEvent as SubscriptionPausedWebhookEvent,
     type SubscriptionPlanChangedWebhookEvent as SubscriptionPlanChangedWebhookEvent,
     type SubscriptionRenewedWebhookEvent as SubscriptionRenewedWebhookEvent,
