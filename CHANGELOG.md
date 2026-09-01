@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.49.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.48.0...v2.49.0) (2026-09-01)
+
+
+### Features
+
+* **api:** add customer blocklist and manual payment retry ([e8df789](https://github.com/dodopayments/dodopayments-typescript/commit/e8df7894e6896951abe055d3dd831f43311c1911))
+* **api:** add customer blocklist and manual payment retry ([440f04c](https://github.com/dodopayments/dodopayments-typescript/commit/440f04c32550ed8ad53d63cc6e1d7cb480c14e10))
+
 ## [2.48.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.47.1...v2.48.0) (2026-08-24)
 
 
