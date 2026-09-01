@@ -193,6 +193,18 @@ export interface Customer {
   name: string;
 
   /**
+   * When the merchant blocked this customer. The dashboard shows the "Blocked" badge
+   * and the unblock action from it. The list route leaves it empty; only the
+   * single-customer route resolves it.
+   */
+  blocked_at?: string | null;
+
+  /**
+   * Blocklist entry behind `blocked_at`, so the dashboard can link to it.
+   */
+  blocklist_entry_id?: string | null;
+
+  /**
    * Additional metadata for the customer
    */
   metadata?: MiscAPI.Metadata;

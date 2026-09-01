@@ -32,6 +32,7 @@ export type WebhookEventType =
   | 'subscription.active'
   | 'subscription.renewed'
   | 'subscription.on_hold'
+  | 'subscription.past_due'
   | 'subscription.paused'
   | 'subscription.unpaused'
   | 'subscription.cancelled'
@@ -105,6 +106,17 @@ export namespace WebhookPayload {
    */
   export interface Subscription extends SubscriptionsAPI.Subscription {
     payload_type: 'Subscription';
+
+    /**
+     * Time when the grace period ends. The subscription moves to `on_hold` or to
+     * `cancelled` at this time.
+     *
+     * Read in the same query as the rest of the payload, so it always comes from the
+     * row snapshot that produced `status`. It is set whenever the subscription sits in
+     * a window at that moment. A delayed event of another type therefore carries the
+     * deadline too, next to a `past_due` status.
+     */
+    past_due_ends_at?: string | null;
   }
 
   export interface Refund extends RefundsAPI.Refund {
@@ -270,7 +282,7 @@ export namespace WebhookPayload {
 
     subscription_id: string;
 
-    trigger_state: 'on_hold' | 'cancelled';
+    trigger_state: 'on_hold' | 'cancelled' | 'past_due';
 
     payment_id?: string | null;
   }

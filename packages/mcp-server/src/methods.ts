@@ -53,6 +53,18 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/payments/{payment_id}/line-items',
   },
   {
+    clientCallName: 'client.payments.retry',
+    fullyQualifiedName: 'payments.retry',
+    httpMethod: 'post',
+    httpPath: '/payments/{payment_id}/retry',
+  },
+  {
+    clientCallName: 'client.payments.retrieveRetryState',
+    fullyQualifiedName: 'payments.retrieveRetryState',
+    httpMethod: 'get',
+    httpPath: '/payments/{payment_id}/retry',
+  },
+  {
     clientCallName: 'client.subscriptions.list',
     fullyQualifiedName: 'subscriptions.list',
     httpMethod: 'get',
@@ -273,6 +285,42 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'customers.wallets.ledgerEntries.create',
     httpMethod: 'post',
     httpPath: '/customers/{customer_id}/wallets/ledger-entries',
+  },
+  {
+    clientCallName: 'client.blocklist.customers.list',
+    fullyQualifiedName: 'blocklist.customers.list',
+    httpMethod: 'get',
+    httpPath: '/blocklist/customers',
+  },
+  {
+    clientCallName: 'client.blocklist.customers.create',
+    fullyQualifiedName: 'blocklist.customers.create',
+    httpMethod: 'post',
+    httpPath: '/blocklist/customers',
+  },
+  {
+    clientCallName: 'client.blocklist.customers.retrieve',
+    fullyQualifiedName: 'blocklist.customers.retrieve',
+    httpMethod: 'get',
+    httpPath: '/blocklist/customers/{entry_id}',
+  },
+  {
+    clientCallName: 'client.blocklist.customers.delete',
+    fullyQualifiedName: 'blocklist.customers.delete',
+    httpMethod: 'delete',
+    httpPath: '/blocklist/customers/{entry_id}',
+  },
+  {
+    clientCallName: 'client.blocklist.customers.notes.create',
+    fullyQualifiedName: 'blocklist.customers.notes.create',
+    httpMethod: 'post',
+    httpPath: '/blocklist/customers/{entry_id}/notes',
+  },
+  {
+    clientCallName: 'client.blocklist.customers.notes.update',
+    fullyQualifiedName: 'blocklist.customers.notes.update',
+    httpMethod: 'patch',
+    httpPath: '/blocklist/customers/{entry_id}/notes/{note_id}',
   },
   {
     clientCallName: 'client.refunds.list',
