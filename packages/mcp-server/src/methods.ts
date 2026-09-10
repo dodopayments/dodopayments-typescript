@@ -287,6 +287,18 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/customers/{customer_id}/wallets/ledger-entries',
   },
   {
+    clientCallName: 'client.customers.emails.list',
+    fullyQualifiedName: 'customers.emails.list',
+    httpMethod: 'get',
+    httpPath: '/customers/{customer_id}/emails',
+  },
+  {
+    clientCallName: 'client.customers.emails.retrieveBody',
+    fullyQualifiedName: 'customers.emails.retrieveBody',
+    httpMethod: 'get',
+    httpPath: '/customers/{customer_id}/emails/{email_log_id}/body',
+  },
+  {
     clientCallName: 'client.blocklist.customers.list',
     fullyQualifiedName: 'blocklist.customers.list',
     httpMethod: 'get',

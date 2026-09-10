@@ -679,6 +679,12 @@ export interface CheckoutSessionPreviewResponse {
   is_byop: boolean;
 
   /**
+   * False when the customer can confirm this session with no card. True for every
+   * other cart, including a one-time cart.
+   */
+  payment_method_required: boolean;
+
+  /**
    * The total product cart
    */
   product_cart: Array<CheckoutSessionPreviewResponse.ProductCart>;

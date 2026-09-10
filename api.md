@@ -191,6 +191,21 @@ Methods:
 - <code title="get /customers/{customer_id}/wallets/ledger-entries">client.customers.wallets.ledgerEntries.<a href="./src/resources/customers/wallets/ledger-entries.ts">list</a>(customerID, { ...params }) -> CustomerWalletTransactionsDefaultPageNumberPagination</code>
 - <code title="post /customers/{customer_id}/wallets/ledger-entries">client.customers.wallets.ledgerEntries.<a href="./src/resources/customers/wallets/ledger-entries.ts">create</a>(customerID, { ...params }) -> CustomerWallet</code>
 
+## Emails
+
+Types:
+
+- <code><a href="./src/resources/customers/emails.ts">EmailBody</a></code>
+- <code><a href="./src/resources/customers/emails.ts">EmailFailureCode</a></code>
+- <code><a href="./src/resources/customers/emails.ts">EmailLogItem</a></code>
+- <code><a href="./src/resources/customers/emails.ts">EmailLogStatus</a></code>
+- <code><a href="./src/resources/customers/emails.ts">EmailPolicies</a></code>
+
+Methods:
+
+- <code title="get /customers/{customer_id}/emails">client.customers.emails.<a href="./src/resources/customers/emails.ts">list</a>(customerID, { ...params }) -> EmailLogItemsDefaultPageNumberPagination</code>
+- <code title="get /customers/{customer_id}/emails/{email_log_id}/body">client.customers.emails.<a href="./src/resources/customers/emails.ts">retrieveBody</a>(emailLogID, { ...params }) -> EmailBody</code>
+
 # Blocklist
 
 ## Customers
