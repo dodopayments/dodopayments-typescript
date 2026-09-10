@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.50.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.49.0...v2.50.0) (2026-09-10)
+
+
+### Features
+
+* **api:** add customer email logs ([47f487a](https://github.com/dodopayments/dodopayments-typescript/commit/47f487a7532135e05b22a60a71725215a975a4e4))
+* **api:** add customer email logs ([af6d3fd](https://github.com/dodopayments/dodopayments-typescript/commit/af6d3fdfe7c823d4f4d093c9aa99657b2ebd667b))
+
 ## [2.49.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.48.0...v2.49.0) (2026-09-01)
 
 
