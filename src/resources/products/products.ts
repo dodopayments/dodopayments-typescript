@@ -69,7 +69,6 @@ export class Products extends APIResource {
    *   name: 'name',
    *   price: {
    *     currency: 'AED',
-   *     discount: 0,
    *     price: 0,
    *     type: 'one_time_price',
    *   },
@@ -487,11 +486,6 @@ export namespace Price {
     currency: MiscAPI.Currency;
 
     /**
-     * Discount applied to the price, represented as a percentage (0 to 100).
-     */
-    discount: number;
-
-    /**
      * The payment amount, in the smallest denomination of the currency (e.g., cents
      * for USD). For example, to charge $1.00, pass `100`.
      *
@@ -501,6 +495,23 @@ export namespace Price {
     price: number;
 
     type: 'one_time_price';
+
+    /**
+     * @deprecated Deprecated: use `discount_bps` instead.
+     *
+     * Discount applied to the price, represented as a percentage (0 to 100). A
+     * response rounds this value to the nearest whole percent. Defaults to `0`.
+     */
+    discount?: number;
+
+    /**
+     * Discount applied to the price, in basis points. 100 basis points make one
+     * percent, so `1250` is a discount of 12.5%.
+     *
+     * Use this field for a discount with a fraction of a percent. A request that sends
+     * this field ignores `discount`. A value of `0` gives no discount.
+     */
+    discount_bps?: number | null;
 
     /**
      * Indicates whether the customer can pay any amount they choose. If set to `true`,
@@ -538,11 +549,6 @@ export namespace Price {
     currency: MiscAPI.Currency;
 
     /**
-     * Discount applied to the price, represented as a percentage (0 to 100).
-     */
-    discount: number;
-
-    /**
      * Number of units for the payment frequency. For example, a value of `1` with a
      * `payment_frequency_interval` of `month` represents monthly payments.
      */
@@ -573,6 +579,23 @@ export namespace Price {
     type: 'recurring_price';
 
     /**
+     * @deprecated Deprecated: use `discount_bps` instead.
+     *
+     * Discount applied to the price, represented as a percentage (0 to 100). A
+     * response rounds this value to the nearest whole percent. Defaults to `0`.
+     */
+    discount?: number;
+
+    /**
+     * Discount applied to the price, in basis points. 100 basis points make one
+     * percent, so `1250` is a discount of 12.5%.
+     *
+     * Use this field for a discount with a fraction of a percent. A request that sends
+     * this field ignores `discount`. A value of `0` gives no discount.
+     */
+    discount_bps?: number | null;
+
+    /**
      * Opts this price in to purchasing power parity. The business must also enable
      * purchasing power parity. The discount percentage per country is always
      * business-wide. Defaults to `false`.
@@ -597,9 +620,20 @@ export namespace Price {
     trial_apply_discounts?: boolean | null;
 
     /**
+     * Let a customer start a free trial with no card. Defaults to false.
+     */
+    trial_payment_method_optional?: boolean;
+
+    /**
      * Number of days for the trial period. A value of `0` indicates no trial period.
      */
     trial_period_days?: number;
+
+    /**
+     * Let a customer start a subscription with no card, when the amount due today is
+     * `0` (a native `0` price, or a 100% discount). Defaults to false.
+     */
+    zero_amount_payment_method_optional?: boolean;
   }
 
   /**
@@ -610,11 +644,6 @@ export namespace Price {
      * The currency in which the payment is made.
      */
     currency: MiscAPI.Currency;
-
-    /**
-     * Discount applied to the price, represented as a percentage (0 to 100).
-     */
-    discount: number;
 
     /**
      * The fixed payment amount. Represented in the lowest denomination of the currency
@@ -645,6 +674,23 @@ export namespace Price {
     subscription_period_interval: SubscriptionsAPI.TimeInterval;
 
     type: 'usage_based_price';
+
+    /**
+     * @deprecated Deprecated: use `discount_bps` instead.
+     *
+     * Discount applied to the price, represented as a percentage (0 to 100). A
+     * response rounds this value to the nearest whole percent. Defaults to `0`.
+     */
+    discount?: number;
+
+    /**
+     * Discount applied to the price, in basis points. 100 basis points make one
+     * percent, so `1250` is a discount of 12.5%.
+     *
+     * Use this field for a discount with a fraction of a percent. A request that sends
+     * this field ignores `discount`. A value of `0` gives no discount.
+     */
+    discount_bps?: number | null;
 
     meters?: Array<ProductsAPI.AddMeterToPrice> | null;
 
