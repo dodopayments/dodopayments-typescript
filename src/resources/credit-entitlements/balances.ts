@@ -216,6 +216,7 @@ export class Balances extends APIResource {
    * - `reason` - Optional human-readable reason
    * - `expires_at` - Optional expiration for credited amount (only for credit type)
    * - `idempotency_key` - Optional key to prevent duplicate entries
+   * - `metadata` - Optional key-value pairs
    *
    * # Responses
    *
@@ -287,9 +288,7 @@ export interface CreditLedgerEntry {
   is_credit: boolean;
 
   /**
-   * Metadata associated with the credit grant's source (the subscription or payment
-   * created at checkout). Empty when the grant has no resolvable source (e.g.
-   * credits granted directly via the API).
+   * Metadata associated with this entry.
    */
   metadata: MiscAPI.Metadata;
 
@@ -362,6 +361,11 @@ export interface BalanceCreateLedgerEntryResponse {
   entry_type: LedgerEntryType;
 
   is_credit: boolean;
+
+  /**
+   * Metadata stored on this entry.
+   */
+  metadata: MiscAPI.Metadata;
 
   overage_after: string;
 
@@ -489,7 +493,7 @@ export interface BalanceCreateLedgerEntryParams {
 
   /**
    * Body param: Optional metadata (max 50 key-value pairs, key max 40 chars, value
-   * max 500 chars)
+   * max 500 chars).
    */
   metadata?: MiscAPI.Metadata | null;
 

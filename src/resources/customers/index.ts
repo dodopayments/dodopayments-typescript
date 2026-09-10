@@ -15,4 +15,15 @@ export {
   type CustomerListEntitlementGrantsParams,
   type CustomersDefaultPageNumberPagination,
 } from './customers';
+export {
+  Emails,
+  type EmailBody,
+  type EmailFailureCode,
+  type EmailLogItem,
+  type EmailLogStatus,
+  type EmailPolicies,
+  type EmailListParams,
+  type EmailRetrieveBodyParams,
+  type EmailLogItemsDefaultPageNumberPagination,
+} from './emails';
 export { Wallets, type CustomerWallet, type WalletListResponse } from './wallets/index';

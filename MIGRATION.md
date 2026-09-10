@@ -55,6 +55,7 @@ client.parents.children.retrieve('c_456', { parent_id: 'p_123' });
 This affects the following methods:
 
 - `client.customers.deletePaymentMethod()`
+- `client.customers.emails.retrieveBody()`
 - `client.blocklist.customers.notes.update()`
 - `client.products.localizedPrices.retrieve()`
 - `client.products.localizedPrices.update()`
@@ -130,6 +131,7 @@ client.example.list(undefined, { headers: { ... } });
 - `client.customers.listEntitlementGrants()`
 - `client.customers.customerPortal.create()`
 - `client.customers.wallets.ledgerEntries.list()`
+- `client.customers.emails.list()`
 - `client.blocklist.customers.list()`
 - `client.refunds.list()`
 - `client.disputes.list()`

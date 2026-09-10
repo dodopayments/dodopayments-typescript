@@ -56,7 +56,9 @@ export interface BalanceLedgerEntry {
     | 'abandoned_cart_recovery_fee'
     | 'dunning_fees'
     | 'payment_retry_fee'
-    | 'byop_fee';
+    | 'byop_fee'
+    | 'ethoca_fees'
+    | 'ethoca_fees_reversal';
 
   is_credit: boolean;
 
@@ -259,7 +261,9 @@ export interface BalanceRetrieveLedgerParams extends DefaultPageNumberPagination
     | 'abandoned_cart_recovery_fee'
     | 'dunning_fees'
     | 'payment_retry_fee'
-    | 'byop_fee';
+    | 'byop_fee'
+    | 'ethoca_fees'
+    | 'ethoca_fees_reversal';
 
   /**
    * Min : 1, Max : 100, default 10

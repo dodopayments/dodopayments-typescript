@@ -527,6 +527,12 @@ export interface Subscription {
   customer: PaymentsAPI.CustomerLimitedDetails;
 
   /**
+   * Whether a payment method is on file. False while a card-optional subscription
+   * waits for the customer to add one.
+   */
+  has_payment_method: boolean;
+
+  /**
    * Additional custom data associated with the subscription
    */
   metadata: MiscAPI.Metadata;
@@ -824,6 +830,12 @@ export interface SubscriptionCreateResponse {
   payment_id: string;
 
   /**
+   * False when the customer can start this subscription with no card. True for every
+   * other subscription.
+   */
+  payment_method_required: boolean;
+
+  /**
    * Tax will be added to the amount and charged to the customer on each billing
    * cycle
    */
@@ -913,6 +925,12 @@ export interface SubscriptionListResponse {
    * All stacked discounts applied, in order of application
    */
   discounts: Array<SubscriptionListResponse.Discount>;
+
+  /**
+   * Whether a payment method is on file. False while a card-optional subscription
+   * waits for the customer to add one.
+   */
+  has_payment_method: boolean;
 
   /**
    * Additional custom data associated with the subscription
