@@ -5,6 +5,18 @@ import * as MiscAPI from '../misc';
 import * as PaymentsAPI from '../payments';
 import * as CustomerPortalAPI from './customer-portal';
 import { CustomerPortal, CustomerPortalCreateParams } from './customer-portal';
+import * as EmailsAPI from './emails';
+import {
+  EmailBody,
+  EmailFailureCode,
+  EmailListParams,
+  EmailLogItem,
+  EmailLogItemsDefaultPageNumberPagination,
+  EmailLogStatus,
+  EmailPolicies,
+  EmailRetrieveBodyParams,
+  Emails,
+} from './emails';
 import * as EntitlementsAPI from '../entitlements/entitlements';
 import * as GrantsAPI from '../entitlements/grants';
 import { EntitlementGrantsDefaultPageNumberPagination } from '../entitlements/grants';
@@ -23,6 +35,7 @@ import { path } from '../../internal/utils/path';
 export class Customers extends APIResource {
   customerPortal: CustomerPortalAPI.CustomerPortal = new CustomerPortalAPI.CustomerPortal(this._client);
   wallets: WalletsAPI.Wallets = new WalletsAPI.Wallets(this._client);
+  emails: EmailsAPI.Emails = new EmailsAPI.Emails(this._client);
 
   /**
    * @example
@@ -430,6 +443,7 @@ export interface CustomerListEntitlementGrantsParams extends DefaultPageNumberPa
 
 Customers.CustomerPortal = CustomerPortal;
 Customers.Wallets = Wallets;
+Customers.Emails = Emails;
 
 export declare namespace Customers {
   export {
@@ -452,6 +466,18 @@ export declare namespace Customers {
     Wallets as Wallets,
     type CustomerWallet as CustomerWallet,
     type WalletListResponse as WalletListResponse,
+  };
+
+  export {
+    Emails as Emails,
+    type EmailBody as EmailBody,
+    type EmailFailureCode as EmailFailureCode,
+    type EmailLogItem as EmailLogItem,
+    type EmailLogStatus as EmailLogStatus,
+    type EmailPolicies as EmailPolicies,
+    type EmailLogItemsDefaultPageNumberPagination as EmailLogItemsDefaultPageNumberPagination,
+    type EmailListParams as EmailListParams,
+    type EmailRetrieveBodyParams as EmailRetrieveBodyParams,
   };
 }
 

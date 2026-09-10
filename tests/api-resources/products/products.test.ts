@@ -40,7 +40,6 @@ describe('resource products', () => {
       name: 'name',
       price: {
         currency: 'AED',
-        discount: 0,
         price: 0,
         type: 'one_time_price',
       },
@@ -60,9 +59,10 @@ describe('resource products', () => {
       name: 'name',
       price: {
         currency: 'AED',
-        discount: 0,
         price: 0,
         type: 'one_time_price',
+        discount: 0,
+        discount_bps: 0,
         pay_what_you_want: true,
         purchasing_power_parity: true,
         suggested_price: 0,

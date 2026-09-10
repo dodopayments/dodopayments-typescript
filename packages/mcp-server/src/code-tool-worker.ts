@@ -154,6 +154,8 @@ const fuse = new Fuse(
     'client.customers.wallets.list',
     'client.customers.wallets.ledgerEntries.create',
     'client.customers.wallets.ledgerEntries.list',
+    'client.customers.emails.list',
+    'client.customers.emails.retrieveBody',
     'client.blocklist.customers.create',
     'client.blocklist.customers.delete',
     'client.blocklist.customers.list',
