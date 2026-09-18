@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.51.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.50.0...v2.51.0) (2026-09-18)
+
+
+### Features
+
+* **api:** tax id checkout flag, ledger event types, email policy fields ([0c8ea44](https://github.com/dodopayments/dodopayments-typescript/commit/0c8ea4402ee53bad82295b61fb6d2268c6a018db))
+* **api:** tax id checkout flag, ledger event types, email policy fields ([d2579a7](https://github.com/dodopayments/dodopayments-typescript/commit/d2579a781b0f83e3afc670d0a08ea48e36cc4814))
+
+
+### Chores
+
+* add Dependabot config for GitHub Actions ([8fa5e00](https://github.com/dodopayments/dodopayments-typescript/commit/8fa5e00d2421806939a299507851749ccf4af148))
+* format dependabot.yml with prettier ([6357448](https://github.com/dodopayments/dodopayments-typescript/commit/63574481079e73e5fc35b09a8992e4871f3a4e78))
+
 ## [2.50.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.49.0...v2.50.0) (2026-09-10)
 
 
