@@ -109,7 +109,8 @@ export type EmailFailureCode =
   | 'temporary_failure'
   | 'message_too_large'
   | 'marked_as_spam'
-  | 'send_failed';
+  | 'send_failed'
+  | 'test_mode_quota_spent';
 
 export interface EmailLogItem {
   /**
@@ -165,12 +166,6 @@ export interface EmailLogItem {
   from?: string | null;
 
   /**
-   * What the merchant typed, when test mode redirected the send to the business
-   * owner.
-   */
-  intended_recipient?: string | null;
-
-  /**
    * The address the email reached.
    */
   recipient?: string | null;
@@ -213,6 +208,12 @@ export interface EmailPolicies {
    * The row failed and may be sent again.
    */
   retry_allowed: boolean;
+
+  /**
+   * A later send of this email reached the provider, so this row is history. To send
+   * it again would deliver a second copy.
+   */
+  superseded: boolean;
 }
 
 export interface EmailListParams extends DefaultPageNumberPaginationParams {}
