@@ -58,7 +58,11 @@ export interface BalanceLedgerEntry {
     | 'payment_retry_fee'
     | 'byop_fee'
     | 'ethoca_fees'
-    | 'ethoca_fees_reversal';
+    | 'ethoca_fees_reversal'
+    | 'visa_rdr_fee'
+    | 'dispute_fees_reversal'
+    | 'deflection_fees'
+    | 'deflection_fees_reversal';
 
   is_credit: boolean;
 
@@ -263,7 +267,11 @@ export interface BalanceRetrieveLedgerParams extends DefaultPageNumberPagination
     | 'payment_retry_fee'
     | 'byop_fee'
     | 'ethoca_fees'
-    | 'ethoca_fees_reversal';
+    | 'ethoca_fees_reversal'
+    | 'visa_rdr_fee'
+    | 'dispute_fees_reversal'
+    | 'deflection_fees'
+    | 'deflection_fees_reversal';
 
   /**
    * Min : 1, Max : 100, default 10
