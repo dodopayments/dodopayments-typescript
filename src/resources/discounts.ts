@@ -375,9 +375,11 @@ export interface DiscountCreateParams {
 
   /**
    * Per-currency options (flat deduction / percentage cap + minimum subtotal).
-   * Required for `flat` codes (must include a resolvable default); optional
-   * per-currency caps for `percentage` codes. Per-row invariants are checked in
-   * `normalize_currency_options`, not via `#[validate(nested)]`.
+   * Checkout uses the row for the currency the buyer pays in. For any other currency
+   * it converts the default row. Required for `flat` codes (must include a
+   * resolvable default); optional per-currency caps for `percentage` codes. Per-row
+   * invariants are checked in `normalize_currency_options`, not via
+   * `#[validate(nested)]`.
    */
   currency_options?: Array<DiscountCreateParams.CurrencyOption> | null;
 
@@ -446,13 +448,14 @@ export namespace DiscountCreateParams {
    */
   export interface CurrencyOption {
     /**
-     * The currency this option applies to.
+     * The currency this option applies to. The row applies when the buyer pays in this
+     * currency.
      */
     currency: MiscAPI.Currency;
 
     /**
-     * Whether this row is the default to convert from for unconfigured currencies. At
-     * most one row per discount may be default.
+     * Whether this row is the default to convert from when the buyer pays in a
+     * currency that has no row. At most one row per discount may be default.
      */
     is_default?: boolean;
 
@@ -555,13 +558,14 @@ export namespace DiscountUpdateParams {
    */
   export interface CurrencyOption {
     /**
-     * The currency this option applies to.
+     * The currency this option applies to. The row applies when the buyer pays in this
+     * currency.
      */
     currency: MiscAPI.Currency;
 
     /**
-     * Whether this row is the default to convert from for unconfigured currencies. At
-     * most one row per discount may be default.
+     * Whether this row is the default to convert from when the buyer pays in a
+     * currency that has no row. At most one row per discount may be default.
      */
     is_default?: boolean;
 
