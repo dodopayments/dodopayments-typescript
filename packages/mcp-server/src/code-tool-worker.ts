@@ -257,6 +257,8 @@ const fuse = new Fuse(
     'client.productCollections.groups.items.create',
     'client.productCollections.groups.items.delete',
     'client.productCollections.groups.items.update',
+    'client.moderation.retrieveUsage',
+    'client.moderation.screen',
   ],
   { threshold: 1, shouldSort: true },
 );

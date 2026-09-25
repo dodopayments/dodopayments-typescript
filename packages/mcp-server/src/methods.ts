@@ -894,6 +894,18 @@ export const sdkMethods: SdkMethod[] = [
     httpMethod: 'patch',
     httpPath: '/product-collections/{id}/groups/{group_id}/items/{item_id}',
   },
+  {
+    clientCallName: 'client.moderation.screen',
+    fullyQualifiedName: 'moderation.screen',
+    httpMethod: 'post',
+    httpPath: '/moderation/screen',
+  },
+  {
+    clientCallName: 'client.moderation.retrieveUsage',
+    fullyQualifiedName: 'moderation.retrieveUsage',
+    httpMethod: 'get',
+    httpPath: '/moderation/usage',
+  },
 ];
 
 function allowedMethodsForCodeTool(options: McpOptions | undefined): SdkMethod[] | undefined {

@@ -193,6 +193,14 @@ export interface CheckoutSessionFlags {
   redirect_immediately?: boolean;
 
   /**
+   * If true, the customer must give the name on the card to pay by card. The
+   * checkout page enforces this. Other payment methods ignore it.
+   *
+   * Default is false
+   */
+  require_cardholder_name?: boolean;
+
+  /**
    * If true, the customer must provide a phone number to complete checkout. Requires
    * `allow_phone_number_collection` to also be true.
    *
@@ -226,6 +234,11 @@ export interface CheckoutSessionFlags {
 }
 
 export interface CheckoutSessionRequest {
+  /**
+   * The products of the checkout. A cart holds at most 20 of them, one-time and
+   * subscription products together. An empty cart is valid for the
+   * product-collection flow, where the customer chooses the product later.
+   */
   product_cart: Array<ProductItemReq>;
 
   /**
@@ -713,7 +726,9 @@ export interface CheckoutSessionPreviewResponse {
    * The upcoming billing date for subscriptions, computed relative to now: with a
    * trial it is `now + trial_period_days`, otherwise `now + payment frequency`.
    * `None` for one-time-only carts. This is a preview estimate; the authoritative
-   * value is set when the subscription activates.
+   * value is set when the subscription activates. For a cart of more than one
+   * subscription, this is the earliest date of the cart. `subscriptions` gives the
+   * date of each subscription.
    */
   next_billing_date?: string | null;
 
@@ -721,6 +736,12 @@ export interface CheckoutSessionPreviewResponse {
    * Breakup of recurring payments (None for one-time only)
    */
   recurring_breakup?: CheckoutSessionPreviewResponse.RecurringBreakup | null;
+
+  /**
+   * One entry for each subscription of a cart that holds more than one. Each
+   * subscription renews on its own schedule, so the checkout shows each one here.
+   */
+  subscriptions?: Array<CheckoutSessionPreviewResponse.Subscription> | null;
 
   /**
    * Registered business name from the official registry (EU/GB/AU) when found
@@ -745,13 +766,16 @@ export interface CheckoutSessionPreviewResponse {
   /**
    * Per-unit trial amount after discounts, in the price currency's minor units
    * (pre-quantity, pre-tax; see `current_breakup` for the taxed total due today).
-   * Only present for a paid trial; `None` for a free trial or no trial.
+   * Only present for a paid trial; `None` for a free trial or no trial. Always
+   * `None` for a cart of more than one subscription.
    */
   trial_amount?: number | null;
 
   /**
    * Effective trial duration in days for the subscription line, when there's a trial
-   * (free or paid). `None` if no subscription or no trial.
+   * (free or paid). `None` if no subscription or no trial. Always `None` for a cart
+   * of more than one subscription. Read the trial of each subscription from
+   * `subscriptions`.
    */
   trial_period_days?: number | null;
 }
@@ -976,9 +1000,55 @@ export namespace CheckoutSessionPreviewResponse {
      */
     tax?: number | null;
   }
+
+  /**
+   * The quote of one subscription in a cart of several.
+   */
+  export interface Subscription {
+    /**
+     * The amount this subscription charges today, including tax.
+     */
+    amount_due_now: number;
+
+    /**
+     * The subscription product.
+     */
+    product_id: string;
+
+    /**
+     * The amount of each renewal, including tax.
+     */
+    recurring_amount: number;
+
+    /**
+     * A preview of the first renewal date. The date is set when the subscription
+     * activates.
+     */
+    next_billing_date?: string | null;
+
+    /**
+     * The tax in `recurring_amount`.
+     */
+    recurring_tax?: number | null;
+
+    /**
+     * The tax in `amount_due_now`.
+     */
+    tax_due_now?: number | null;
+
+    /**
+     * The trial duration in days. `None` when the subscription has no trial.
+     */
+    trial_period_days?: number | null;
+  }
 }
 
 export interface CheckoutSessionCreateParams {
+  /**
+   * The products of the checkout. A cart holds at most 20 of them, one-time and
+   * subscription products together. An empty cart is valid for the
+   * product-collection flow, where the customer chooses the product later.
+   */
   product_cart: Array<ProductItemReq>;
 
   /**
@@ -1111,6 +1181,11 @@ export interface CheckoutSessionCreateParams {
 }
 
 export interface CheckoutSessionPreviewParams {
+  /**
+   * The products of the checkout. A cart holds at most 20 of them, one-time and
+   * subscription products together. An empty cart is valid for the
+   * product-collection flow, where the customer chooses the product later.
+   */
   product_cart: Array<ProductItemReq>;
 
   /**
