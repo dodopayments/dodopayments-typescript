@@ -330,6 +330,13 @@ export interface Payment {
   disputes: Array<DisputesAPI.Dispute>;
 
   /**
+   * True when one payment starts more than one subscription. Read this field to find
+   * the payment type. Do not read the length of `subscription_ids`. Do not read
+   * `subscription_id` for null.
+   */
+  is_multi_subscription: boolean;
+
+  /**
    * Whether this payment was created solely to update a subscription's payment
    * method (a zero-/setup-amount charge). `false` for normal charges.
    */
@@ -376,6 +383,13 @@ export interface Payment {
    * pricing scenarios.
    */
   settlement_currency: MiscAPI.Currency;
+
+  /**
+   * Every subscription that this payment starts or charges, in a stable order. It is
+   * empty for a one-time payment. It holds the value of `subscription_id` when the
+   * payment names one subscription.
+   */
+  subscription_ids: Array<string>;
 
   /**
    * Total amount charged to the customer including tax, in the currency's smallest
@@ -496,7 +510,9 @@ export interface Payment {
   status?: IntentStatus | null;
 
   /**
-   * Identifier of the subscription if payment is part of a subscription
+   * Identifier of the subscription if payment is part of a subscription. A
+   * multi-subscription payment leaves this null, because no single subscription owns
+   * the payment. Read `subscription_ids` for those.
    */
   subscription_id?: string | null;
 
@@ -749,6 +765,13 @@ export interface PaymentListResponse {
   has_license_key: boolean;
 
   /**
+   * True when one payment starts more than one subscription. Read this field to find
+   * the payment type. Do not read the length of `subscription_ids`. Do not read
+   * `subscription_id` for null.
+   */
+  is_multi_subscription: boolean;
+
+  /**
    * Arbitrary key-value metadata. Values can be string, integer, number, or boolean.
    */
   metadata: MiscAPI.Metadata;
@@ -760,6 +783,13 @@ export interface PaymentListResponse {
    * merchant's own payment connector); `dodo` for everything Dodo processed itself.
    */
   payment_provider: 'stripe' | 'adyen' | 'dodo';
+
+  /**
+   * Every subscription that this payment starts or charges, in a stable order. It is
+   * empty for a one-time payment. It holds the value of `subscription_id` when the
+   * payment names one subscription.
+   */
+  subscription_ids: Array<string>;
 
   total_amount: number;
 

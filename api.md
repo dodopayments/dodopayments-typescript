@@ -727,3 +727,20 @@ Methods:
 - <code title="post /product-collections/{id}/groups/{group_id}/items">client.productCollections.groups.items.<a href="./src/resources/product-collections/groups/items.ts">create</a>(groupID, { ...params }) -> ItemCreateResponse</code>
 - <code title="delete /product-collections/{id}/groups/{group_id}/items/{item_id}">client.productCollections.groups.items.<a href="./src/resources/product-collections/groups/items.ts">delete</a>(itemID, { ...params }) -> void</code>
 - <code title="patch /product-collections/{id}/groups/{group_id}/items/{item_id}">client.productCollections.groups.items.<a href="./src/resources/product-collections/groups/items.ts">update</a>(itemID, { ...params }) -> void</code>
+
+# Moderation
+
+Types:
+
+- <code><a href="./src/resources/moderation.ts">ModerationCategory</a></code>
+- <code><a href="./src/resources/moderation.ts">ModerationCategoryProvenance</a></code>
+- <code><a href="./src/resources/moderation.ts">ModerationCategoryScores</a></code>
+- <code><a href="./src/resources/moderation.ts">ModerationDecision</a></code>
+- <code><a href="./src/resources/moderation.ts">ModerationProvenance</a></code>
+- <code><a href="./src/resources/moderation.ts">ModerationRetrieveUsageResponse</a></code>
+- <code><a href="./src/resources/moderation.ts">ModerationScreenResponse</a></code>
+
+Methods:
+
+- <code title="post /moderation/screen">client.moderation.<a href="./src/resources/moderation.ts">screen</a>({ ...params }) -> ModerationScreenResponse</code>
+- <code title="get /moderation/usage">client.moderation.<a href="./src/resources/moderation.ts">retrieveUsage</a>() -> ModerationRetrieveUsageResponse</code>

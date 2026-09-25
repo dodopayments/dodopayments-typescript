@@ -71,7 +71,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       "customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: { dark?: theme_mode_config; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: theme_mode_config; pay_button_text?: string; radius?: string; }; };",
       'discount_code?: string;',
       'discount_codes?: string[];',
-      'feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; };',
+      'feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_cardholder_name?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; };',
       'force_3ds?: boolean;',
       'mandate_min_amount_inr_paise?: number;',
       'metadata?: object;',
@@ -87,7 +87,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     response:
       '{ session_id: string; checkout_url?: string; client_secret?: string; payment_id?: string; publishable_key?: string; }',
     markdown:
-      "## create\n\n`client.checkoutSessions.create(product_cart: { product_id: string; quantity: number; addons?: attach_addon[]; amount?: number; credit_entitlements?: object[]; }[], allowed_payment_method_types?: string[], billing_address?: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }, billing_currency?: string, cancel_url?: string, confirm?: boolean, custom_fields?: { field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean'; key: string; label: string; options?: string[]; placeholder?: string; required?: boolean; }[], customer?: object | object, customer_business_name?: string, customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: theme_config; }, discount_code?: string, discount_codes?: string[], feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; }, force_3ds?: boolean, mandate_min_amount_inr_paise?: number, metadata?: object, minimal_address?: boolean, payment_method_id?: string, product_collection_id?: string, return_url?: string, short_link?: boolean, show_saved_payment_methods?: boolean, subscription_data?: { on_demand?: on_demand_subscription; trial_period_days?: number; }, tax_id?: string): { session_id: string; checkout_url?: string; client_secret?: string; payment_id?: string; publishable_key?: string; }`\n\n**post** `/checkouts`\n\n### Parameters\n\n- `product_cart: { product_id: string; quantity: number; addons?: { addon_id: string; quantity: number; }[]; amount?: number; credit_entitlements?: { credit_entitlement_id: string; credits_amount: string; }[]; }[]`\n\n- `allowed_payment_method_types?: string[]`\n  Customers will never see payment methods that are not in this list.\nHowever, adding a method here does not guarantee customers will see it.\nAvailability still depends on other factors (e.g., customer location, merchant settings).\n\nDisclaimar: Always provide 'credit' and 'debit' as a fallback.\nIf all payment methods are unavailable, checkout session will fail.\n\n- `billing_address?: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  Billing address information for the session\n  - `country: string`\n    Two-letter ISO country code (ISO 3166-1 alpha-2)\n  - `city?: string`\n    City name\n  - `state?: string`\n    State or province name\n  - `street?: string`\n    Street address including house number and unit/apartment if applicable\n  - `zipcode?: string`\n    Postal code or ZIP code\n\n- `billing_currency?: string`\n  This field is ingored if adaptive pricing is disabled\n\n- `cancel_url?: string`\n  The URL to redirect the customer if they cancel or go back from the checkout.\nIf not provided, the back button will not be displayed.\n\n- `confirm?: boolean`\n  If confirm is true, all the details will be finalized. If required data is missing, an API error is thrown.\n\n- `custom_fields?: { field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean'; key: string; label: string; options?: string[]; placeholder?: string; required?: boolean; }[]`\n  Custom fields to collect from customer during checkout (max 5 fields)\n\n- `customer?: { customer_id: string; } | { email: string; name?: string; phone_number?: string; }`\n  Customer details for the session\n\n- `customer_business_name?: string`\n  Optional business / legal name associated with the tax id. When provided\ntogether with a valid tax id for a B2B purchase, this name is rendered\non the invoice instead of the customer's personal name.\n\n- `customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: { dark?: theme_mode_config; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: theme_mode_config; pay_button_text?: string; radius?: string; }; }`\n  Customization for the checkout session page\n  - `force_language?: string`\n    Force the checkout interface to render in a specific language (e.g. `en`, `es`)\n  - `show_on_demand_tag?: boolean`\n    Show on demand tag\n\nDefault is true\n  - `show_order_details?: boolean`\n    Show order details by default\n\nDefault is true\n  - `theme?: 'dark' | 'light' | 'system'`\n    Theme of the page (determines which mode - light/dark/system - to use)\n\nIf not provided, uses the business-configured theme from business_themes table.\n  - `theme_config?: { dark?: { bg_primary?: string; bg_secondary?: string; border_primary?: string; border_secondary?: string; button_primary?: string; button_primary_hover?: string; button_secondary?: string; button_secondary_hover?: string; button_text_primary?: string; button_text_secondary?: string; input_focus_border?: string; text_error?: string; text_placeholder?: string; text_primary?: string; text_secondary?: string; text_success?: string; }; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: { bg_primary?: string; bg_secondary?: string; border_primary?: string; border_secondary?: string; button_primary?: string; button_primary_hover?: string; button_secondary?: string; button_secondary_hover?: string; button_text_primary?: string; button_text_secondary?: string; input_focus_border?: string; text_error?: string; text_placeholder?: string; text_primary?: string; text_secondary?: string; text_success?: string; }; pay_button_text?: string; radius?: string; }`\n    Optional custom theme configuration with colors for light and dark modes\n\n- `discount_code?: string`\n  DEPRECATED: Use discount_codes instead. Cannot be used together with discount_codes.\n\n- `discount_codes?: string[]`\n  Stacked discount codes to apply, in order. Max 20.\nCannot be used together with discount_code.\n\n- `feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; }`\n  - `allow_currency_selection?: boolean`\n    if customer is allowed to change currency, set it to true\n\nDefault is true\n  - `allow_customer_editing_business_name?: boolean`\n    If true, the customer can supply or edit the business name associated\nwith the tax id during checkout. Works independently of\n`allow_customer_editing_tax_id` — either flag (or `allow_tax_id`) is\nsufficient to let the customer override the session's business name.\nTypically set together with `allow_customer_editing_tax_id`.\n\nDefault is false\n  - `allow_customer_editing_city?: boolean`\n  - `allow_customer_editing_country?: boolean`\n  - `allow_customer_editing_email?: boolean`\n  - `allow_customer_editing_name?: boolean`\n  - `allow_customer_editing_state?: boolean`\n  - `allow_customer_editing_street?: boolean`\n  - `allow_customer_editing_tax_id?: boolean`\n  - `allow_customer_editing_zipcode?: boolean`\n  - `allow_discount_code?: boolean`\n    If the customer is allowed to apply discount code, set it to true.\n\nDefault is true\n  - `allow_editing_addons?: boolean`\n    If true, the customer can add or remove addons on a subscription product\nduring checkout.\n\nDefault is false\n  - `allow_phone_number_collection?: boolean`\n    If phone number is collected from customer, set it to rue\n\nDefault is true\n  - `allow_tax_id?: boolean`\n    If the customer is allowed to add tax id, set it to true\n\nDefault is true\n  - `always_create_new_customer?: boolean`\n    Set to true if a new customer object should be created.\nBy default email is used to find an existing customer to attach the session to\n\nDefault is false\n  - `redirect_immediately?: boolean`\n    If true, redirects the customer immediately after payment completion\n\nDefault is false\n  - `require_phone_number?: boolean`\n    If true, the customer must provide a phone number to complete checkout.\nRequires `allow_phone_number_collection` to also be true.\n\nDefault is false\n  - `require_tax_id?: boolean`\n    If true, the customer must give a tax id to check out as a business.\nA tax id is the GST number in India, or the VAT number in the EU.\nYou must also set `allow_tax_id` to true.\n\nOn the checkout page, this field does not change checkout for a customer\nwho buys as an individual.\n\nA `confirm: true` request skips the checkout page. The request must\ncontain `tax_id`.\n\nDefault is false\n  - `single_page?: boolean`\n    If true, the session uses the single-page checkout flow: the page\ninitializes the payment at load time and confirms it in\nplace, with no separate payment page.\n\nDefault is false\n\n- `force_3ds?: boolean`\n  Override merchant default 3DS behaviour for this session\n\n- `mandate_min_amount_inr_paise?: number`\n  Override the merchant-level mandate floor (in INR paise) for INR\ne-mandates on Indian-card recurring payments. The mandate amount sent to\nthe processor is `max(this_floor, actual_billing_amount)`, so this is\neffectively the customer-facing authorization ceiling whenever billing is\nlower. When unset, the merchant setting applies; when that's also unset,\nthe system default of ₹15,000 applies.\n\n- `metadata?: object`\n  Additional metadata associated with the payment. Defaults to empty if not provided.\n\n- `minimal_address?: boolean`\n  If true, only zipcode is required when confirm is true; other address fields remain optional\n\n- `payment_method_id?: string`\n  Optional payment method ID to use for this checkout session.\nOnly allowed when `confirm` is true.\nIf provided, existing customer id must also be provided.\n\n- `product_collection_id?: string`\n  Product collection ID for collection-based checkout flow\n\n- `return_url?: string`\n  The url to redirect after payment failure or success.\n\n- `short_link?: boolean`\n  If true, returns a shortened checkout URL.\nDefaults to false if not specified.\n\n- `show_saved_payment_methods?: boolean`\n  Display saved payment methods of a returning customer False by default\n\n- `subscription_data?: { on_demand?: { mandate_only: boolean; adaptive_currency_fees_inclusive?: boolean; product_currency?: currency; product_description?: string; product_price?: number; }; trial_period_days?: number; }`\n  - `on_demand?: { mandate_only: boolean; adaptive_currency_fees_inclusive?: boolean; product_currency?: string; product_description?: string; product_price?: number; }`\n  - `trial_period_days?: number`\n    Optional trial period in days If specified, this value overrides the trial period set in the product's price Must be between 0 and 10000 days\n\n- `tax_id?: string`\n  Tax ID for the customer (e.g. VAT number). Requires billing_address with country.\n\n### Returns\n\n- `{ session_id: string; checkout_url?: string; client_secret?: string; payment_id?: string; publishable_key?: string; }`\n\n  - `session_id: string`\n  - `checkout_url?: string`\n  - `client_secret?: string`\n  - `payment_id?: string`\n  - `publishable_key?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst checkoutSessionResponse = await client.checkoutSessions.create({ product_cart: [{ product_id: 'product_id', quantity: 0 }] });\n\nconsole.log(checkoutSessionResponse);\n```",
+      "## create\n\n`client.checkoutSessions.create(product_cart: { product_id: string; quantity: number; addons?: attach_addon[]; amount?: number; credit_entitlements?: object[]; }[], allowed_payment_method_types?: string[], billing_address?: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }, billing_currency?: string, cancel_url?: string, confirm?: boolean, custom_fields?: { field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean'; key: string; label: string; options?: string[]; placeholder?: string; required?: boolean; }[], customer?: object | object, customer_business_name?: string, customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: theme_config; }, discount_code?: string, discount_codes?: string[], feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_cardholder_name?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; }, force_3ds?: boolean, mandate_min_amount_inr_paise?: number, metadata?: object, minimal_address?: boolean, payment_method_id?: string, product_collection_id?: string, return_url?: string, short_link?: boolean, show_saved_payment_methods?: boolean, subscription_data?: { on_demand?: on_demand_subscription; trial_period_days?: number; }, tax_id?: string): { session_id: string; checkout_url?: string; client_secret?: string; payment_id?: string; publishable_key?: string; }`\n\n**post** `/checkouts`\n\n### Parameters\n\n- `product_cart: { product_id: string; quantity: number; addons?: { addon_id: string; quantity: number; }[]; amount?: number; credit_entitlements?: { credit_entitlement_id: string; credits_amount: string; }[]; }[]`\n  The products of the checkout. A cart holds at most 20 of them, one-time and\nsubscription products together. An empty cart is valid for the product-collection\nflow, where the customer chooses the product later.\n\n- `allowed_payment_method_types?: string[]`\n  Customers will never see payment methods that are not in this list.\nHowever, adding a method here does not guarantee customers will see it.\nAvailability still depends on other factors (e.g., customer location, merchant settings).\n\nDisclaimar: Always provide 'credit' and 'debit' as a fallback.\nIf all payment methods are unavailable, checkout session will fail.\n\n- `billing_address?: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  Billing address information for the session\n  - `country: string`\n    Two-letter ISO country code (ISO 3166-1 alpha-2)\n  - `city?: string`\n    City name\n  - `state?: string`\n    State or province name\n  - `street?: string`\n    Street address including house number and unit/apartment if applicable\n  - `zipcode?: string`\n    Postal code or ZIP code\n\n- `billing_currency?: string`\n  This field is ingored if adaptive pricing is disabled\n\n- `cancel_url?: string`\n  The URL to redirect the customer if they cancel or go back from the checkout.\nIf not provided, the back button will not be displayed.\n\n- `confirm?: boolean`\n  If confirm is true, all the details will be finalized. If required data is missing, an API error is thrown.\n\n- `custom_fields?: { field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean'; key: string; label: string; options?: string[]; placeholder?: string; required?: boolean; }[]`\n  Custom fields to collect from customer during checkout (max 5 fields)\n\n- `customer?: { customer_id: string; } | { email: string; name?: string; phone_number?: string; }`\n  Customer details for the session\n\n- `customer_business_name?: string`\n  Optional business / legal name associated with the tax id. When provided\ntogether with a valid tax id for a B2B purchase, this name is rendered\non the invoice instead of the customer's personal name.\n\n- `customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: { dark?: theme_mode_config; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: theme_mode_config; pay_button_text?: string; radius?: string; }; }`\n  Customization for the checkout session page\n  - `force_language?: string`\n    Force the checkout interface to render in a specific language (e.g. `en`, `es`)\n  - `show_on_demand_tag?: boolean`\n    Show on demand tag\n\nDefault is true\n  - `show_order_details?: boolean`\n    Show order details by default\n\nDefault is true\n  - `theme?: 'dark' | 'light' | 'system'`\n    Theme of the page (determines which mode - light/dark/system - to use)\n\nIf not provided, uses the business-configured theme from business_themes table.\n  - `theme_config?: { dark?: { bg_primary?: string; bg_secondary?: string; border_primary?: string; border_secondary?: string; button_primary?: string; button_primary_hover?: string; button_secondary?: string; button_secondary_hover?: string; button_text_primary?: string; button_text_secondary?: string; input_focus_border?: string; text_error?: string; text_placeholder?: string; text_primary?: string; text_secondary?: string; text_success?: string; }; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: { bg_primary?: string; bg_secondary?: string; border_primary?: string; border_secondary?: string; button_primary?: string; button_primary_hover?: string; button_secondary?: string; button_secondary_hover?: string; button_text_primary?: string; button_text_secondary?: string; input_focus_border?: string; text_error?: string; text_placeholder?: string; text_primary?: string; text_secondary?: string; text_success?: string; }; pay_button_text?: string; radius?: string; }`\n    Optional custom theme configuration with colors for light and dark modes\n\n- `discount_code?: string`\n  DEPRECATED: Use discount_codes instead. Cannot be used together with discount_codes.\n\n- `discount_codes?: string[]`\n  Stacked discount codes to apply, in order. Max 20.\nCannot be used together with discount_code.\n\n- `feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_cardholder_name?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; }`\n  - `allow_currency_selection?: boolean`\n    if customer is allowed to change currency, set it to true\n\nDefault is true\n  - `allow_customer_editing_business_name?: boolean`\n    If true, the customer can supply or edit the business name associated\nwith the tax id during checkout. Works independently of\n`allow_customer_editing_tax_id` — either flag (or `allow_tax_id`) is\nsufficient to let the customer override the session's business name.\nTypically set together with `allow_customer_editing_tax_id`.\n\nDefault is false\n  - `allow_customer_editing_city?: boolean`\n  - `allow_customer_editing_country?: boolean`\n  - `allow_customer_editing_email?: boolean`\n  - `allow_customer_editing_name?: boolean`\n  - `allow_customer_editing_state?: boolean`\n  - `allow_customer_editing_street?: boolean`\n  - `allow_customer_editing_tax_id?: boolean`\n  - `allow_customer_editing_zipcode?: boolean`\n  - `allow_discount_code?: boolean`\n    If the customer is allowed to apply discount code, set it to true.\n\nDefault is true\n  - `allow_editing_addons?: boolean`\n    If true, the customer can add or remove addons on a subscription product\nduring checkout.\n\nDefault is false\n  - `allow_phone_number_collection?: boolean`\n    If phone number is collected from customer, set it to rue\n\nDefault is true\n  - `allow_tax_id?: boolean`\n    If the customer is allowed to add tax id, set it to true\n\nDefault is true\n  - `always_create_new_customer?: boolean`\n    Set to true if a new customer object should be created.\nBy default email is used to find an existing customer to attach the session to\n\nDefault is false\n  - `redirect_immediately?: boolean`\n    If true, redirects the customer immediately after payment completion\n\nDefault is false\n  - `require_cardholder_name?: boolean`\n    If true, the customer must give the name on the card to pay by card.\nThe checkout page enforces this. Other payment methods ignore it.\n\nDefault is false\n  - `require_phone_number?: boolean`\n    If true, the customer must provide a phone number to complete checkout.\nRequires `allow_phone_number_collection` to also be true.\n\nDefault is false\n  - `require_tax_id?: boolean`\n    If true, the customer must give a tax id to check out as a business.\nA tax id is the GST number in India, or the VAT number in the EU.\nYou must also set `allow_tax_id` to true.\n\nOn the checkout page, this field does not change checkout for a customer\nwho buys as an individual.\n\nA `confirm: true` request skips the checkout page. The request must\ncontain `tax_id`.\n\nDefault is false\n  - `single_page?: boolean`\n    If true, the session uses the single-page checkout flow: the page\ninitializes the payment at load time and confirms it in\nplace, with no separate payment page.\n\nDefault is false\n\n- `force_3ds?: boolean`\n  Override merchant default 3DS behaviour for this session\n\n- `mandate_min_amount_inr_paise?: number`\n  Override the merchant-level mandate floor (in INR paise) for INR\ne-mandates on Indian-card recurring payments. The mandate amount sent to\nthe processor is `max(this_floor, actual_billing_amount)`, so this is\neffectively the customer-facing authorization ceiling whenever billing is\nlower. When unset, the merchant setting applies; when that's also unset,\nthe system default of ₹15,000 applies.\n\n- `metadata?: object`\n  Additional metadata associated with the payment. Defaults to empty if not provided.\n\n- `minimal_address?: boolean`\n  If true, only zipcode is required when confirm is true; other address fields remain optional\n\n- `payment_method_id?: string`\n  Optional payment method ID to use for this checkout session.\nOnly allowed when `confirm` is true.\nIf provided, existing customer id must also be provided.\n\n- `product_collection_id?: string`\n  Product collection ID for collection-based checkout flow\n\n- `return_url?: string`\n  The url to redirect after payment failure or success.\n\n- `short_link?: boolean`\n  If true, returns a shortened checkout URL.\nDefaults to false if not specified.\n\n- `show_saved_payment_methods?: boolean`\n  Display saved payment methods of a returning customer False by default\n\n- `subscription_data?: { on_demand?: { mandate_only: boolean; adaptive_currency_fees_inclusive?: boolean; product_currency?: currency; product_description?: string; product_price?: number; }; trial_period_days?: number; }`\n  - `on_demand?: { mandate_only: boolean; adaptive_currency_fees_inclusive?: boolean; product_currency?: string; product_description?: string; product_price?: number; }`\n  - `trial_period_days?: number`\n    Optional trial period in days If specified, this value overrides the trial period set in the product's price Must be between 0 and 10000 days\n\n- `tax_id?: string`\n  Tax ID for the customer (e.g. VAT number). Requires billing_address with country.\n\n### Returns\n\n- `{ session_id: string; checkout_url?: string; client_secret?: string; payment_id?: string; publishable_key?: string; }`\n\n  - `session_id: string`\n  - `checkout_url?: string`\n  - `client_secret?: string`\n  - `payment_id?: string`\n  - `publishable_key?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst checkoutSessionResponse = await client.checkoutSessions.create({ product_cart: [{ product_id: 'product_id', quantity: 0 }] });\n\nconsole.log(checkoutSessionResponse);\n```",
     perLanguage: {
       typescript: {
         method: 'client.checkoutSessions.create',
@@ -98,15 +98,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/checkouts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "product_cart": [\n            {\n              "product_id": "product_id",\n              "quantity": 0\n            }\n          ]\n        }\'',
       },
-      python: {
-        method: 'checkout_sessions.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncheckout_session_response = client.checkout_sessions.create(\n    product_cart=[{\n        "product_id": "product_id",\n        "quantity": 0,\n    }],\n)\nprint(checkout_session_response.session_id)',
-      },
       java: {
         method: 'checkoutSessions().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CheckoutSessionRequest params = CheckoutSessionRequest.builder()\n            .addProductCart(ProductItemReq.builder()\n                .productId("product_id")\n                .quantity(0)\n                .build())\n            .build();\n        CheckoutSessionResponse checkoutSessionResponse = client.checkoutSessions().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'checkout_sessions.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncheckout_session_response = client.checkout_sessions.create(\n    product_cart=[{\n        "product_id": "product_id",\n        "quantity": 0,\n    }],\n)\nprint(checkout_session_response.session_id)',
       },
       kotlin: {
         method: 'checkoutSessions().create',
@@ -126,7 +126,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'checkoutSessions->create',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$checkoutSessionResponse = $client->checkoutSessions->create(\n  productCart: [\n    [\n      'productID' => 'product_id',\n      'quantity' => 0,\n      'addons' => [['addonID' => 'addon_id', 'quantity' => 0]],\n      'amount' => 0,\n      'creditEntitlements' => [\n        [\n          'creditEntitlementID' => 'credit_entitlement_id',\n          'creditsAmount' => 'credits_amount',\n        ],\n      ],\n    ],\n  ],\n  allowedPaymentMethodTypes: [PaymentMethodTypes::ACH],\n  billingAddress: [\n    'country' => CountryCode::AF,\n    'city' => 'city',\n    'state' => 'state',\n    'street' => 'street',\n    'zipcode' => 'zipcode',\n  ],\n  billingCurrency: Currency::AED,\n  cancelURL: 'cancel_url',\n  confirm: true,\n  customFields: [\n    [\n      'fieldType' => 'text',\n      'key' => 'key',\n      'label' => 'label',\n      'options' => ['string'],\n      'placeholder' => 'placeholder',\n      'required' => true,\n    ],\n  ],\n  customer: ['customerID' => 'customer_id'],\n  customerBusinessName: 'customer_business_name',\n  customization: [\n    'forceLanguage' => 'force_language',\n    'showOnDemandTag' => true,\n    'showOrderDetails' => true,\n    'theme' => 'dark',\n    'themeConfig' => [\n      'dark' => [\n        'bgPrimary' => 'bg_primary',\n        'bgSecondary' => 'bg_secondary',\n        'borderPrimary' => 'border_primary',\n        'borderSecondary' => 'border_secondary',\n        'buttonPrimary' => 'button_primary',\n        'buttonPrimaryHover' => 'button_primary_hover',\n        'buttonSecondary' => 'button_secondary',\n        'buttonSecondaryHover' => 'button_secondary_hover',\n        'buttonTextPrimary' => 'button_text_primary',\n        'buttonTextSecondary' => 'button_text_secondary',\n        'inputFocusBorder' => 'input_focus_border',\n        'textError' => 'text_error',\n        'textPlaceholder' => 'text_placeholder',\n        'textPrimary' => 'text_primary',\n        'textSecondary' => 'text_secondary',\n        'textSuccess' => 'text_success',\n      ],\n      'fontPrimaryURL' => 'font_primary_url',\n      'fontSecondaryURL' => 'font_secondary_url',\n      'fontSize' => 'xs',\n      'fontWeight' => 'normal',\n      'light' => [\n        'bgPrimary' => 'bg_primary',\n        'bgSecondary' => 'bg_secondary',\n        'borderPrimary' => 'border_primary',\n        'borderSecondary' => 'border_secondary',\n        'buttonPrimary' => 'button_primary',\n        'buttonPrimaryHover' => 'button_primary_hover',\n        'buttonSecondary' => 'button_secondary',\n        'buttonSecondaryHover' => 'button_secondary_hover',\n        'buttonTextPrimary' => 'button_text_primary',\n        'buttonTextSecondary' => 'button_text_secondary',\n        'inputFocusBorder' => 'input_focus_border',\n        'textError' => 'text_error',\n        'textPlaceholder' => 'text_placeholder',\n        'textPrimary' => 'text_primary',\n        'textSecondary' => 'text_secondary',\n        'textSuccess' => 'text_success',\n      ],\n      'payButtonText' => 'pay_button_text',\n      'radius' => 'radius',\n    ],\n  ],\n  discountCode: 'discount_code',\n  discountCodes: ['string'],\n  featureFlags: [\n    'allowCurrencySelection' => true,\n    'allowCustomerEditingBusinessName' => true,\n    'allowCustomerEditingCity' => true,\n    'allowCustomerEditingCountry' => true,\n    'allowCustomerEditingEmail' => true,\n    'allowCustomerEditingName' => true,\n    'allowCustomerEditingState' => true,\n    'allowCustomerEditingStreet' => true,\n    'allowCustomerEditingTaxID' => true,\n    'allowCustomerEditingZipcode' => true,\n    'allowDiscountCode' => true,\n    'allowEditingAddons' => true,\n    'allowPhoneNumberCollection' => true,\n    'allowTaxID' => true,\n    'alwaysCreateNewCustomer' => true,\n    'redirectImmediately' => true,\n    'requirePhoneNumber' => true,\n    'requireTaxID' => true,\n    'singlePage' => true,\n  ],\n  force3DS: true,\n  mandateMinAmountInrPaise: 0,\n  metadata: ['foo' => 'string'],\n  minimalAddress: true,\n  paymentMethodID: 'payment_method_id',\n  productCollectionID: 'product_collection_id',\n  returnURL: 'return_url',\n  shortLink: true,\n  showSavedPaymentMethods: true,\n  subscriptionData: [\n    'onDemand' => [\n      'mandateOnly' => true,\n      'adaptiveCurrencyFeesInclusive' => true,\n      'productCurrency' => Currency::AED,\n      'productDescription' => 'product_description',\n      'productPrice' => 0,\n    ],\n    'trialPeriodDays' => 0,\n  ],\n  taxID: 'tax_id',\n);\n\nvar_dump($checkoutSessionResponse);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$checkoutSessionResponse = $client->checkoutSessions->create(\n  productCart: [\n    [\n      'productID' => 'product_id',\n      'quantity' => 0,\n      'addons' => [['addonID' => 'addon_id', 'quantity' => 0]],\n      'amount' => 0,\n      'creditEntitlements' => [\n        [\n          'creditEntitlementID' => 'credit_entitlement_id',\n          'creditsAmount' => 'credits_amount',\n        ],\n      ],\n    ],\n  ],\n  allowedPaymentMethodTypes: [PaymentMethodTypes::ACH],\n  billingAddress: [\n    'country' => CountryCode::AF,\n    'city' => 'city',\n    'state' => 'state',\n    'street' => 'street',\n    'zipcode' => 'zipcode',\n  ],\n  billingCurrency: Currency::AED,\n  cancelURL: 'cancel_url',\n  confirm: true,\n  customFields: [\n    [\n      'fieldType' => 'text',\n      'key' => 'key',\n      'label' => 'label',\n      'options' => ['string'],\n      'placeholder' => 'placeholder',\n      'required' => true,\n    ],\n  ],\n  customer: ['customerID' => 'customer_id'],\n  customerBusinessName: 'customer_business_name',\n  customization: [\n    'forceLanguage' => 'force_language',\n    'showOnDemandTag' => true,\n    'showOrderDetails' => true,\n    'theme' => 'dark',\n    'themeConfig' => [\n      'dark' => [\n        'bgPrimary' => 'bg_primary',\n        'bgSecondary' => 'bg_secondary',\n        'borderPrimary' => 'border_primary',\n        'borderSecondary' => 'border_secondary',\n        'buttonPrimary' => 'button_primary',\n        'buttonPrimaryHover' => 'button_primary_hover',\n        'buttonSecondary' => 'button_secondary',\n        'buttonSecondaryHover' => 'button_secondary_hover',\n        'buttonTextPrimary' => 'button_text_primary',\n        'buttonTextSecondary' => 'button_text_secondary',\n        'inputFocusBorder' => 'input_focus_border',\n        'textError' => 'text_error',\n        'textPlaceholder' => 'text_placeholder',\n        'textPrimary' => 'text_primary',\n        'textSecondary' => 'text_secondary',\n        'textSuccess' => 'text_success',\n      ],\n      'fontPrimaryURL' => 'font_primary_url',\n      'fontSecondaryURL' => 'font_secondary_url',\n      'fontSize' => 'xs',\n      'fontWeight' => 'normal',\n      'light' => [\n        'bgPrimary' => 'bg_primary',\n        'bgSecondary' => 'bg_secondary',\n        'borderPrimary' => 'border_primary',\n        'borderSecondary' => 'border_secondary',\n        'buttonPrimary' => 'button_primary',\n        'buttonPrimaryHover' => 'button_primary_hover',\n        'buttonSecondary' => 'button_secondary',\n        'buttonSecondaryHover' => 'button_secondary_hover',\n        'buttonTextPrimary' => 'button_text_primary',\n        'buttonTextSecondary' => 'button_text_secondary',\n        'inputFocusBorder' => 'input_focus_border',\n        'textError' => 'text_error',\n        'textPlaceholder' => 'text_placeholder',\n        'textPrimary' => 'text_primary',\n        'textSecondary' => 'text_secondary',\n        'textSuccess' => 'text_success',\n      ],\n      'payButtonText' => 'pay_button_text',\n      'radius' => 'radius',\n    ],\n  ],\n  discountCode: 'discount_code',\n  discountCodes: ['string'],\n  featureFlags: [\n    'allowCurrencySelection' => true,\n    'allowCustomerEditingBusinessName' => true,\n    'allowCustomerEditingCity' => true,\n    'allowCustomerEditingCountry' => true,\n    'allowCustomerEditingEmail' => true,\n    'allowCustomerEditingName' => true,\n    'allowCustomerEditingState' => true,\n    'allowCustomerEditingStreet' => true,\n    'allowCustomerEditingTaxID' => true,\n    'allowCustomerEditingZipcode' => true,\n    'allowDiscountCode' => true,\n    'allowEditingAddons' => true,\n    'allowPhoneNumberCollection' => true,\n    'allowTaxID' => true,\n    'alwaysCreateNewCustomer' => true,\n    'redirectImmediately' => true,\n    'requireCardholderName' => true,\n    'requirePhoneNumber' => true,\n    'requireTaxID' => true,\n    'singlePage' => true,\n  ],\n  force3DS: true,\n  mandateMinAmountInrPaise: 0,\n  metadata: ['foo' => 'string'],\n  minimalAddress: true,\n  paymentMethodID: 'payment_method_id',\n  productCollectionID: 'product_collection_id',\n  returnURL: 'return_url',\n  shortLink: true,\n  showSavedPaymentMethods: true,\n  subscriptionData: [\n    'onDemand' => [\n      'mandateOnly' => true,\n      'adaptiveCurrencyFeesInclusive' => true,\n      'productCurrency' => Currency::AED,\n      'productDescription' => 'product_description',\n      'productPrice' => 0,\n    ],\n    'trialPeriodDays' => 0,\n  ],\n  taxID: 'tax_id',\n);\n\nvar_dump($checkoutSessionResponse);",
       },
       csharp: {
         method: 'CheckoutSessions.Create',
@@ -158,15 +158,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/checkouts/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'checkout_sessions.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncheckout_session_status = client.checkout_sessions.retrieve(\n    "cks_n010SZaY4NXc7F1ck3Tq1",\n)\nprint(checkout_session_status.id)',
-      },
       java: {
         method: 'checkoutSessions().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRetrieveParams;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionStatus;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CheckoutSessionStatus checkoutSessionStatus = client.checkoutSessions().retrieve("cks_n010SZaY4NXc7F1ck3Tq1");\n    }\n}',
+      },
+      python: {
+        method: 'checkout_sessions.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncheckout_session_status = client.checkout_sessions.retrieve(\n    "cks_n010SZaY4NXc7F1ck3Tq1",\n)\nprint(checkout_session_status.id)',
       },
       kotlin: {
         method: 'checkoutSessions().retrieve',
@@ -216,7 +216,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       "customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: { dark?: theme_mode_config; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: theme_mode_config; pay_button_text?: string; radius?: string; }; };",
       'discount_code?: string;',
       'discount_codes?: string[];',
-      'feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; };',
+      'feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_cardholder_name?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; };',
       'force_3ds?: boolean;',
       'mandate_min_amount_inr_paise?: number;',
       'metadata?: object;',
@@ -230,9 +230,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'tax_id?: string;',
     ],
     response:
-      '{ billing_country: string; currency: string; current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }; is_byop: boolean; payment_method_required: boolean; product_cart: { credit_entitlements: object[]; currency: currency; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: object[]; og_currency: currency; og_price: number; product_id: string; quantity: number; tax_category: tax_category; tax_inclusive: boolean; tax_rate: number; addons?: object[]; description?: string; discount_amount?: number; discount_cycle?: number; name?: string; tax?: number; }[]; total_price: number; next_billing_date?: string; recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }',
+      '{ billing_country: string; currency: string; current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }; is_byop: boolean; payment_method_required: boolean; product_cart: { credit_entitlements: object[]; currency: currency; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: object[]; og_currency: currency; og_price: number; product_id: string; quantity: number; tax_category: tax_category; tax_inclusive: boolean; tax_rate: number; addons?: object[]; description?: string; discount_amount?: number; discount_cycle?: number; name?: string; tax?: number; }[]; total_price: number; next_billing_date?: string; recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }; subscriptions?: { amount_due_now: number; product_id: string; recurring_amount: number; next_billing_date?: string; recurring_tax?: number; tax_due_now?: number; trial_period_days?: number; }[]; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }',
     markdown:
-      "## preview\n\n`client.checkoutSessions.preview(product_cart: { product_id: string; quantity: number; addons?: attach_addon[]; amount?: number; credit_entitlements?: object[]; }[], allowed_payment_method_types?: string[], billing_address?: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }, billing_currency?: string, cancel_url?: string, confirm?: boolean, custom_fields?: { field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean'; key: string; label: string; options?: string[]; placeholder?: string; required?: boolean; }[], customer?: object | object, customer_business_name?: string, customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: theme_config; }, discount_code?: string, discount_codes?: string[], feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; }, force_3ds?: boolean, mandate_min_amount_inr_paise?: number, metadata?: object, minimal_address?: boolean, payment_method_id?: string, product_collection_id?: string, return_url?: string, short_link?: boolean, show_saved_payment_methods?: boolean, subscription_data?: { on_demand?: on_demand_subscription; trial_period_days?: number; }, tax_id?: string): { billing_country: country_code; currency: currency; current_breakup: object; is_byop: boolean; payment_method_required: boolean; product_cart: object[]; total_price: number; next_billing_date?: string; recurring_breakup?: object; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }`\n\n**post** `/checkouts/preview`\n\n### Parameters\n\n- `product_cart: { product_id: string; quantity: number; addons?: { addon_id: string; quantity: number; }[]; amount?: number; credit_entitlements?: { credit_entitlement_id: string; credits_amount: string; }[]; }[]`\n\n- `allowed_payment_method_types?: string[]`\n  Customers will never see payment methods that are not in this list.\nHowever, adding a method here does not guarantee customers will see it.\nAvailability still depends on other factors (e.g., customer location, merchant settings).\n\nDisclaimar: Always provide 'credit' and 'debit' as a fallback.\nIf all payment methods are unavailable, checkout session will fail.\n\n- `billing_address?: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  Billing address information for the session\n  - `country: string`\n    Two-letter ISO country code (ISO 3166-1 alpha-2)\n  - `city?: string`\n    City name\n  - `state?: string`\n    State or province name\n  - `street?: string`\n    Street address including house number and unit/apartment if applicable\n  - `zipcode?: string`\n    Postal code or ZIP code\n\n- `billing_currency?: string`\n  This field is ingored if adaptive pricing is disabled\n\n- `cancel_url?: string`\n  The URL to redirect the customer if they cancel or go back from the checkout.\nIf not provided, the back button will not be displayed.\n\n- `confirm?: boolean`\n  If confirm is true, all the details will be finalized. If required data is missing, an API error is thrown.\n\n- `custom_fields?: { field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean'; key: string; label: string; options?: string[]; placeholder?: string; required?: boolean; }[]`\n  Custom fields to collect from customer during checkout (max 5 fields)\n\n- `customer?: { customer_id: string; } | { email: string; name?: string; phone_number?: string; }`\n  Customer details for the session\n\n- `customer_business_name?: string`\n  Optional business / legal name associated with the tax id. When provided\ntogether with a valid tax id for a B2B purchase, this name is rendered\non the invoice instead of the customer's personal name.\n\n- `customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: { dark?: theme_mode_config; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: theme_mode_config; pay_button_text?: string; radius?: string; }; }`\n  Customization for the checkout session page\n  - `force_language?: string`\n    Force the checkout interface to render in a specific language (e.g. `en`, `es`)\n  - `show_on_demand_tag?: boolean`\n    Show on demand tag\n\nDefault is true\n  - `show_order_details?: boolean`\n    Show order details by default\n\nDefault is true\n  - `theme?: 'dark' | 'light' | 'system'`\n    Theme of the page (determines which mode - light/dark/system - to use)\n\nIf not provided, uses the business-configured theme from business_themes table.\n  - `theme_config?: { dark?: { bg_primary?: string; bg_secondary?: string; border_primary?: string; border_secondary?: string; button_primary?: string; button_primary_hover?: string; button_secondary?: string; button_secondary_hover?: string; button_text_primary?: string; button_text_secondary?: string; input_focus_border?: string; text_error?: string; text_placeholder?: string; text_primary?: string; text_secondary?: string; text_success?: string; }; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: { bg_primary?: string; bg_secondary?: string; border_primary?: string; border_secondary?: string; button_primary?: string; button_primary_hover?: string; button_secondary?: string; button_secondary_hover?: string; button_text_primary?: string; button_text_secondary?: string; input_focus_border?: string; text_error?: string; text_placeholder?: string; text_primary?: string; text_secondary?: string; text_success?: string; }; pay_button_text?: string; radius?: string; }`\n    Optional custom theme configuration with colors for light and dark modes\n\n- `discount_code?: string`\n  DEPRECATED: Use discount_codes instead. Cannot be used together with discount_codes.\n\n- `discount_codes?: string[]`\n  Stacked discount codes to apply, in order. Max 20.\nCannot be used together with discount_code.\n\n- `feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; }`\n  - `allow_currency_selection?: boolean`\n    if customer is allowed to change currency, set it to true\n\nDefault is true\n  - `allow_customer_editing_business_name?: boolean`\n    If true, the customer can supply or edit the business name associated\nwith the tax id during checkout. Works independently of\n`allow_customer_editing_tax_id` — either flag (or `allow_tax_id`) is\nsufficient to let the customer override the session's business name.\nTypically set together with `allow_customer_editing_tax_id`.\n\nDefault is false\n  - `allow_customer_editing_city?: boolean`\n  - `allow_customer_editing_country?: boolean`\n  - `allow_customer_editing_email?: boolean`\n  - `allow_customer_editing_name?: boolean`\n  - `allow_customer_editing_state?: boolean`\n  - `allow_customer_editing_street?: boolean`\n  - `allow_customer_editing_tax_id?: boolean`\n  - `allow_customer_editing_zipcode?: boolean`\n  - `allow_discount_code?: boolean`\n    If the customer is allowed to apply discount code, set it to true.\n\nDefault is true\n  - `allow_editing_addons?: boolean`\n    If true, the customer can add or remove addons on a subscription product\nduring checkout.\n\nDefault is false\n  - `allow_phone_number_collection?: boolean`\n    If phone number is collected from customer, set it to rue\n\nDefault is true\n  - `allow_tax_id?: boolean`\n    If the customer is allowed to add tax id, set it to true\n\nDefault is true\n  - `always_create_new_customer?: boolean`\n    Set to true if a new customer object should be created.\nBy default email is used to find an existing customer to attach the session to\n\nDefault is false\n  - `redirect_immediately?: boolean`\n    If true, redirects the customer immediately after payment completion\n\nDefault is false\n  - `require_phone_number?: boolean`\n    If true, the customer must provide a phone number to complete checkout.\nRequires `allow_phone_number_collection` to also be true.\n\nDefault is false\n  - `require_tax_id?: boolean`\n    If true, the customer must give a tax id to check out as a business.\nA tax id is the GST number in India, or the VAT number in the EU.\nYou must also set `allow_tax_id` to true.\n\nOn the checkout page, this field does not change checkout for a customer\nwho buys as an individual.\n\nA `confirm: true` request skips the checkout page. The request must\ncontain `tax_id`.\n\nDefault is false\n  - `single_page?: boolean`\n    If true, the session uses the single-page checkout flow: the page\ninitializes the payment at load time and confirms it in\nplace, with no separate payment page.\n\nDefault is false\n\n- `force_3ds?: boolean`\n  Override merchant default 3DS behaviour for this session\n\n- `mandate_min_amount_inr_paise?: number`\n  Override the merchant-level mandate floor (in INR paise) for INR\ne-mandates on Indian-card recurring payments. The mandate amount sent to\nthe processor is `max(this_floor, actual_billing_amount)`, so this is\neffectively the customer-facing authorization ceiling whenever billing is\nlower. When unset, the merchant setting applies; when that's also unset,\nthe system default of ₹15,000 applies.\n\n- `metadata?: object`\n  Additional metadata associated with the payment. Defaults to empty if not provided.\n\n- `minimal_address?: boolean`\n  If true, only zipcode is required when confirm is true; other address fields remain optional\n\n- `payment_method_id?: string`\n  Optional payment method ID to use for this checkout session.\nOnly allowed when `confirm` is true.\nIf provided, existing customer id must also be provided.\n\n- `product_collection_id?: string`\n  Product collection ID for collection-based checkout flow\n\n- `return_url?: string`\n  The url to redirect after payment failure or success.\n\n- `short_link?: boolean`\n  If true, returns a shortened checkout URL.\nDefaults to false if not specified.\n\n- `show_saved_payment_methods?: boolean`\n  Display saved payment methods of a returning customer False by default\n\n- `subscription_data?: { on_demand?: { mandate_only: boolean; adaptive_currency_fees_inclusive?: boolean; product_currency?: currency; product_description?: string; product_price?: number; }; trial_period_days?: number; }`\n  - `on_demand?: { mandate_only: boolean; adaptive_currency_fees_inclusive?: boolean; product_currency?: string; product_description?: string; product_price?: number; }`\n  - `trial_period_days?: number`\n    Optional trial period in days If specified, this value overrides the trial period set in the product's price Must be between 0 and 10000 days\n\n- `tax_id?: string`\n  Tax ID for the customer (e.g. VAT number). Requires billing_address with country.\n\n### Returns\n\n- `{ billing_country: string; currency: string; current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }; is_byop: boolean; payment_method_required: boolean; product_cart: { credit_entitlements: { credit_entitlement_id: string; credit_entitlement_name: string; credit_entitlement_unit: string; credits_amount: string; }[]; currency: string; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: { measurement_unit: string; name: string; price_per_unit: string; description?: string; free_threshold?: number; }[]; og_currency: string; og_price: number; product_id: string; quantity: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; addons?: { addon_id: string; currency: currency; discounted_price: number; name: string; og_currency: currency; og_price: number; quantity: number; single_quantity_price: number; tax_category: tax_category; tax_inclusive: boolean; tax_rate: number; description?: string; discount_amount?: number; tax?: number; }[]; description?: string; discount_amount?: number; discount_cycle?: number; name?: string; tax?: number; }[]; total_price: number; next_billing_date?: string; recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }`\n  Data returned by the calculate checkout session API\n\n  - `billing_country: string`\n  - `currency: string`\n  - `current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }`\n  - `is_byop: boolean`\n  - `payment_method_required: boolean`\n  - `product_cart: { credit_entitlements: { credit_entitlement_id: string; credit_entitlement_name: string; credit_entitlement_unit: string; credits_amount: string; }[]; currency: string; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: { measurement_unit: string; name: string; price_per_unit: string; description?: string; free_threshold?: number; }[]; og_currency: string; og_price: number; product_id: string; quantity: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; addons?: { addon_id: string; currency: string; discounted_price: number; name: string; og_currency: string; og_price: number; quantity: number; single_quantity_price: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; description?: string; discount_amount?: number; tax?: number; }[]; description?: string; discount_amount?: number; discount_cycle?: number; name?: string; tax?: number; }[]`\n  - `total_price: number`\n  - `next_billing_date?: string`\n  - `recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }`\n  - `tax_id_business_name?: string`\n  - `tax_id_err_msg?: string`\n  - `tax_id_format_name?: string`\n  - `total_tax?: number`\n  - `trial_amount?: number`\n  - `trial_period_days?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.checkoutSessions.preview({ product_cart: [{ product_id: 'product_id', quantity: 0 }] });\n\nconsole.log(response);\n```",
+      "## preview\n\n`client.checkoutSessions.preview(product_cart: { product_id: string; quantity: number; addons?: attach_addon[]; amount?: number; credit_entitlements?: object[]; }[], allowed_payment_method_types?: string[], billing_address?: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }, billing_currency?: string, cancel_url?: string, confirm?: boolean, custom_fields?: { field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean'; key: string; label: string; options?: string[]; placeholder?: string; required?: boolean; }[], customer?: object | object, customer_business_name?: string, customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: theme_config; }, discount_code?: string, discount_codes?: string[], feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_cardholder_name?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; }, force_3ds?: boolean, mandate_min_amount_inr_paise?: number, metadata?: object, minimal_address?: boolean, payment_method_id?: string, product_collection_id?: string, return_url?: string, short_link?: boolean, show_saved_payment_methods?: boolean, subscription_data?: { on_demand?: on_demand_subscription; trial_period_days?: number; }, tax_id?: string): { billing_country: country_code; currency: currency; current_breakup: object; is_byop: boolean; payment_method_required: boolean; product_cart: object[]; total_price: number; next_billing_date?: string; recurring_breakup?: object; subscriptions?: object[]; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }`\n\n**post** `/checkouts/preview`\n\n### Parameters\n\n- `product_cart: { product_id: string; quantity: number; addons?: { addon_id: string; quantity: number; }[]; amount?: number; credit_entitlements?: { credit_entitlement_id: string; credits_amount: string; }[]; }[]`\n  The products of the checkout. A cart holds at most 20 of them, one-time and\nsubscription products together. An empty cart is valid for the product-collection\nflow, where the customer chooses the product later.\n\n- `allowed_payment_method_types?: string[]`\n  Customers will never see payment methods that are not in this list.\nHowever, adding a method here does not guarantee customers will see it.\nAvailability still depends on other factors (e.g., customer location, merchant settings).\n\nDisclaimar: Always provide 'credit' and 'debit' as a fallback.\nIf all payment methods are unavailable, checkout session will fail.\n\n- `billing_address?: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  Billing address information for the session\n  - `country: string`\n    Two-letter ISO country code (ISO 3166-1 alpha-2)\n  - `city?: string`\n    City name\n  - `state?: string`\n    State or province name\n  - `street?: string`\n    Street address including house number and unit/apartment if applicable\n  - `zipcode?: string`\n    Postal code or ZIP code\n\n- `billing_currency?: string`\n  This field is ingored if adaptive pricing is disabled\n\n- `cancel_url?: string`\n  The URL to redirect the customer if they cancel or go back from the checkout.\nIf not provided, the back button will not be displayed.\n\n- `confirm?: boolean`\n  If confirm is true, all the details will be finalized. If required data is missing, an API error is thrown.\n\n- `custom_fields?: { field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean'; key: string; label: string; options?: string[]; placeholder?: string; required?: boolean; }[]`\n  Custom fields to collect from customer during checkout (max 5 fields)\n\n- `customer?: { customer_id: string; } | { email: string; name?: string; phone_number?: string; }`\n  Customer details for the session\n\n- `customer_business_name?: string`\n  Optional business / legal name associated with the tax id. When provided\ntogether with a valid tax id for a B2B purchase, this name is rendered\non the invoice instead of the customer's personal name.\n\n- `customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: { dark?: theme_mode_config; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: theme_mode_config; pay_button_text?: string; radius?: string; }; }`\n  Customization for the checkout session page\n  - `force_language?: string`\n    Force the checkout interface to render in a specific language (e.g. `en`, `es`)\n  - `show_on_demand_tag?: boolean`\n    Show on demand tag\n\nDefault is true\n  - `show_order_details?: boolean`\n    Show order details by default\n\nDefault is true\n  - `theme?: 'dark' | 'light' | 'system'`\n    Theme of the page (determines which mode - light/dark/system - to use)\n\nIf not provided, uses the business-configured theme from business_themes table.\n  - `theme_config?: { dark?: { bg_primary?: string; bg_secondary?: string; border_primary?: string; border_secondary?: string; button_primary?: string; button_primary_hover?: string; button_secondary?: string; button_secondary_hover?: string; button_text_primary?: string; button_text_secondary?: string; input_focus_border?: string; text_error?: string; text_placeholder?: string; text_primary?: string; text_secondary?: string; text_success?: string; }; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: { bg_primary?: string; bg_secondary?: string; border_primary?: string; border_secondary?: string; button_primary?: string; button_primary_hover?: string; button_secondary?: string; button_secondary_hover?: string; button_text_primary?: string; button_text_secondary?: string; input_focus_border?: string; text_error?: string; text_placeholder?: string; text_primary?: string; text_secondary?: string; text_success?: string; }; pay_button_text?: string; radius?: string; }`\n    Optional custom theme configuration with colors for light and dark modes\n\n- `discount_code?: string`\n  DEPRECATED: Use discount_codes instead. Cannot be used together with discount_codes.\n\n- `discount_codes?: string[]`\n  Stacked discount codes to apply, in order. Max 20.\nCannot be used together with discount_code.\n\n- `feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_cardholder_name?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; }`\n  - `allow_currency_selection?: boolean`\n    if customer is allowed to change currency, set it to true\n\nDefault is true\n  - `allow_customer_editing_business_name?: boolean`\n    If true, the customer can supply or edit the business name associated\nwith the tax id during checkout. Works independently of\n`allow_customer_editing_tax_id` — either flag (or `allow_tax_id`) is\nsufficient to let the customer override the session's business name.\nTypically set together with `allow_customer_editing_tax_id`.\n\nDefault is false\n  - `allow_customer_editing_city?: boolean`\n  - `allow_customer_editing_country?: boolean`\n  - `allow_customer_editing_email?: boolean`\n  - `allow_customer_editing_name?: boolean`\n  - `allow_customer_editing_state?: boolean`\n  - `allow_customer_editing_street?: boolean`\n  - `allow_customer_editing_tax_id?: boolean`\n  - `allow_customer_editing_zipcode?: boolean`\n  - `allow_discount_code?: boolean`\n    If the customer is allowed to apply discount code, set it to true.\n\nDefault is true\n  - `allow_editing_addons?: boolean`\n    If true, the customer can add or remove addons on a subscription product\nduring checkout.\n\nDefault is false\n  - `allow_phone_number_collection?: boolean`\n    If phone number is collected from customer, set it to rue\n\nDefault is true\n  - `allow_tax_id?: boolean`\n    If the customer is allowed to add tax id, set it to true\n\nDefault is true\n  - `always_create_new_customer?: boolean`\n    Set to true if a new customer object should be created.\nBy default email is used to find an existing customer to attach the session to\n\nDefault is false\n  - `redirect_immediately?: boolean`\n    If true, redirects the customer immediately after payment completion\n\nDefault is false\n  - `require_cardholder_name?: boolean`\n    If true, the customer must give the name on the card to pay by card.\nThe checkout page enforces this. Other payment methods ignore it.\n\nDefault is false\n  - `require_phone_number?: boolean`\n    If true, the customer must provide a phone number to complete checkout.\nRequires `allow_phone_number_collection` to also be true.\n\nDefault is false\n  - `require_tax_id?: boolean`\n    If true, the customer must give a tax id to check out as a business.\nA tax id is the GST number in India, or the VAT number in the EU.\nYou must also set `allow_tax_id` to true.\n\nOn the checkout page, this field does not change checkout for a customer\nwho buys as an individual.\n\nA `confirm: true` request skips the checkout page. The request must\ncontain `tax_id`.\n\nDefault is false\n  - `single_page?: boolean`\n    If true, the session uses the single-page checkout flow: the page\ninitializes the payment at load time and confirms it in\nplace, with no separate payment page.\n\nDefault is false\n\n- `force_3ds?: boolean`\n  Override merchant default 3DS behaviour for this session\n\n- `mandate_min_amount_inr_paise?: number`\n  Override the merchant-level mandate floor (in INR paise) for INR\ne-mandates on Indian-card recurring payments. The mandate amount sent to\nthe processor is `max(this_floor, actual_billing_amount)`, so this is\neffectively the customer-facing authorization ceiling whenever billing is\nlower. When unset, the merchant setting applies; when that's also unset,\nthe system default of ₹15,000 applies.\n\n- `metadata?: object`\n  Additional metadata associated with the payment. Defaults to empty if not provided.\n\n- `minimal_address?: boolean`\n  If true, only zipcode is required when confirm is true; other address fields remain optional\n\n- `payment_method_id?: string`\n  Optional payment method ID to use for this checkout session.\nOnly allowed when `confirm` is true.\nIf provided, existing customer id must also be provided.\n\n- `product_collection_id?: string`\n  Product collection ID for collection-based checkout flow\n\n- `return_url?: string`\n  The url to redirect after payment failure or success.\n\n- `short_link?: boolean`\n  If true, returns a shortened checkout URL.\nDefaults to false if not specified.\n\n- `show_saved_payment_methods?: boolean`\n  Display saved payment methods of a returning customer False by default\n\n- `subscription_data?: { on_demand?: { mandate_only: boolean; adaptive_currency_fees_inclusive?: boolean; product_currency?: currency; product_description?: string; product_price?: number; }; trial_period_days?: number; }`\n  - `on_demand?: { mandate_only: boolean; adaptive_currency_fees_inclusive?: boolean; product_currency?: string; product_description?: string; product_price?: number; }`\n  - `trial_period_days?: number`\n    Optional trial period in days If specified, this value overrides the trial period set in the product's price Must be between 0 and 10000 days\n\n- `tax_id?: string`\n  Tax ID for the customer (e.g. VAT number). Requires billing_address with country.\n\n### Returns\n\n- `{ billing_country: string; currency: string; current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }; is_byop: boolean; payment_method_required: boolean; product_cart: { credit_entitlements: { credit_entitlement_id: string; credit_entitlement_name: string; credit_entitlement_unit: string; credits_amount: string; }[]; currency: string; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: { measurement_unit: string; name: string; price_per_unit: string; description?: string; free_threshold?: number; }[]; og_currency: string; og_price: number; product_id: string; quantity: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; addons?: { addon_id: string; currency: currency; discounted_price: number; name: string; og_currency: currency; og_price: number; quantity: number; single_quantity_price: number; tax_category: tax_category; tax_inclusive: boolean; tax_rate: number; description?: string; discount_amount?: number; tax?: number; }[]; description?: string; discount_amount?: number; discount_cycle?: number; name?: string; tax?: number; }[]; total_price: number; next_billing_date?: string; recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }; subscriptions?: { amount_due_now: number; product_id: string; recurring_amount: number; next_billing_date?: string; recurring_tax?: number; tax_due_now?: number; trial_period_days?: number; }[]; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }`\n  Data returned by the calculate checkout session API\n\n  - `billing_country: string`\n  - `currency: string`\n  - `current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }`\n  - `is_byop: boolean`\n  - `payment_method_required: boolean`\n  - `product_cart: { credit_entitlements: { credit_entitlement_id: string; credit_entitlement_name: string; credit_entitlement_unit: string; credits_amount: string; }[]; currency: string; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: { measurement_unit: string; name: string; price_per_unit: string; description?: string; free_threshold?: number; }[]; og_currency: string; og_price: number; product_id: string; quantity: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; addons?: { addon_id: string; currency: string; discounted_price: number; name: string; og_currency: string; og_price: number; quantity: number; single_quantity_price: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; description?: string; discount_amount?: number; tax?: number; }[]; description?: string; discount_amount?: number; discount_cycle?: number; name?: string; tax?: number; }[]`\n  - `total_price: number`\n  - `next_billing_date?: string`\n  - `recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }`\n  - `subscriptions?: { amount_due_now: number; product_id: string; recurring_amount: number; next_billing_date?: string; recurring_tax?: number; tax_due_now?: number; trial_period_days?: number; }[]`\n  - `tax_id_business_name?: string`\n  - `tax_id_err_msg?: string`\n  - `tax_id_format_name?: string`\n  - `total_tax?: number`\n  - `trial_amount?: number`\n  - `trial_period_days?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.checkoutSessions.preview({ product_cart: [{ product_id: 'product_id', quantity: 0 }] });\n\nconsole.log(response);\n```",
     perLanguage: {
       typescript: {
         method: 'client.checkoutSessions.preview',
@@ -243,15 +243,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/checkouts/preview \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "product_cart": [\n            {\n              "product_id": "product_id",\n              "quantity": 0\n            }\n          ]\n        }\'',
       },
-      python: {
-        method: 'checkout_sessions.preview',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.checkout_sessions.preview(\n    product_cart=[{\n        "product_id": "product_id",\n        "quantity": 0,\n    }],\n)\nprint(response.tax_id_business_name)',
-      },
       java: {
         method: 'checkoutSessions().preview',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionPreviewResponse;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest;\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CheckoutSessionRequest params = CheckoutSessionRequest.builder()\n            .addProductCart(ProductItemReq.builder()\n                .productId("product_id")\n                .quantity(0)\n                .build())\n            .build();\n        CheckoutSessionPreviewResponse response = client.checkoutSessions().preview(params);\n    }\n}',
+      },
+      python: {
+        method: 'checkout_sessions.preview',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.checkout_sessions.preview(\n    product_cart=[{\n        "product_id": "product_id",\n        "quantity": 0,\n    }],\n)\nprint(response.tax_id_business_name)',
       },
       kotlin: {
         method: 'checkoutSessions().preview',
@@ -271,7 +271,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'checkoutSessions->preview',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->checkoutSessions->preview(\n  productCart: [\n    [\n      'productID' => 'product_id',\n      'quantity' => 0,\n      'addons' => [['addonID' => 'addon_id', 'quantity' => 0]],\n      'amount' => 0,\n      'creditEntitlements' => [\n        [\n          'creditEntitlementID' => 'credit_entitlement_id',\n          'creditsAmount' => 'credits_amount',\n        ],\n      ],\n    ],\n  ],\n  allowedPaymentMethodTypes: [PaymentMethodTypes::ACH],\n  billingAddress: [\n    'country' => CountryCode::AF,\n    'city' => 'city',\n    'state' => 'state',\n    'street' => 'street',\n    'zipcode' => 'zipcode',\n  ],\n  billingCurrency: Currency::AED,\n  cancelURL: 'cancel_url',\n  confirm: true,\n  customFields: [\n    [\n      'fieldType' => 'text',\n      'key' => 'key',\n      'label' => 'label',\n      'options' => ['string'],\n      'placeholder' => 'placeholder',\n      'required' => true,\n    ],\n  ],\n  customer: ['customerID' => 'customer_id'],\n  customerBusinessName: 'customer_business_name',\n  customization: [\n    'forceLanguage' => 'force_language',\n    'showOnDemandTag' => true,\n    'showOrderDetails' => true,\n    'theme' => 'dark',\n    'themeConfig' => [\n      'dark' => [\n        'bgPrimary' => 'bg_primary',\n        'bgSecondary' => 'bg_secondary',\n        'borderPrimary' => 'border_primary',\n        'borderSecondary' => 'border_secondary',\n        'buttonPrimary' => 'button_primary',\n        'buttonPrimaryHover' => 'button_primary_hover',\n        'buttonSecondary' => 'button_secondary',\n        'buttonSecondaryHover' => 'button_secondary_hover',\n        'buttonTextPrimary' => 'button_text_primary',\n        'buttonTextSecondary' => 'button_text_secondary',\n        'inputFocusBorder' => 'input_focus_border',\n        'textError' => 'text_error',\n        'textPlaceholder' => 'text_placeholder',\n        'textPrimary' => 'text_primary',\n        'textSecondary' => 'text_secondary',\n        'textSuccess' => 'text_success',\n      ],\n      'fontPrimaryURL' => 'font_primary_url',\n      'fontSecondaryURL' => 'font_secondary_url',\n      'fontSize' => 'xs',\n      'fontWeight' => 'normal',\n      'light' => [\n        'bgPrimary' => 'bg_primary',\n        'bgSecondary' => 'bg_secondary',\n        'borderPrimary' => 'border_primary',\n        'borderSecondary' => 'border_secondary',\n        'buttonPrimary' => 'button_primary',\n        'buttonPrimaryHover' => 'button_primary_hover',\n        'buttonSecondary' => 'button_secondary',\n        'buttonSecondaryHover' => 'button_secondary_hover',\n        'buttonTextPrimary' => 'button_text_primary',\n        'buttonTextSecondary' => 'button_text_secondary',\n        'inputFocusBorder' => 'input_focus_border',\n        'textError' => 'text_error',\n        'textPlaceholder' => 'text_placeholder',\n        'textPrimary' => 'text_primary',\n        'textSecondary' => 'text_secondary',\n        'textSuccess' => 'text_success',\n      ],\n      'payButtonText' => 'pay_button_text',\n      'radius' => 'radius',\n    ],\n  ],\n  discountCode: 'discount_code',\n  discountCodes: ['string'],\n  featureFlags: [\n    'allowCurrencySelection' => true,\n    'allowCustomerEditingBusinessName' => true,\n    'allowCustomerEditingCity' => true,\n    'allowCustomerEditingCountry' => true,\n    'allowCustomerEditingEmail' => true,\n    'allowCustomerEditingName' => true,\n    'allowCustomerEditingState' => true,\n    'allowCustomerEditingStreet' => true,\n    'allowCustomerEditingTaxID' => true,\n    'allowCustomerEditingZipcode' => true,\n    'allowDiscountCode' => true,\n    'allowEditingAddons' => true,\n    'allowPhoneNumberCollection' => true,\n    'allowTaxID' => true,\n    'alwaysCreateNewCustomer' => true,\n    'redirectImmediately' => true,\n    'requirePhoneNumber' => true,\n    'requireTaxID' => true,\n    'singlePage' => true,\n  ],\n  force3DS: true,\n  mandateMinAmountInrPaise: 0,\n  metadata: ['foo' => 'string'],\n  minimalAddress: true,\n  paymentMethodID: 'payment_method_id',\n  productCollectionID: 'product_collection_id',\n  returnURL: 'return_url',\n  shortLink: true,\n  showSavedPaymentMethods: true,\n  subscriptionData: [\n    'onDemand' => [\n      'mandateOnly' => true,\n      'adaptiveCurrencyFeesInclusive' => true,\n      'productCurrency' => Currency::AED,\n      'productDescription' => 'product_description',\n      'productPrice' => 0,\n    ],\n    'trialPeriodDays' => 0,\n  ],\n  taxID: 'tax_id',\n);\n\nvar_dump($response);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->checkoutSessions->preview(\n  productCart: [\n    [\n      'productID' => 'product_id',\n      'quantity' => 0,\n      'addons' => [['addonID' => 'addon_id', 'quantity' => 0]],\n      'amount' => 0,\n      'creditEntitlements' => [\n        [\n          'creditEntitlementID' => 'credit_entitlement_id',\n          'creditsAmount' => 'credits_amount',\n        ],\n      ],\n    ],\n  ],\n  allowedPaymentMethodTypes: [PaymentMethodTypes::ACH],\n  billingAddress: [\n    'country' => CountryCode::AF,\n    'city' => 'city',\n    'state' => 'state',\n    'street' => 'street',\n    'zipcode' => 'zipcode',\n  ],\n  billingCurrency: Currency::AED,\n  cancelURL: 'cancel_url',\n  confirm: true,\n  customFields: [\n    [\n      'fieldType' => 'text',\n      'key' => 'key',\n      'label' => 'label',\n      'options' => ['string'],\n      'placeholder' => 'placeholder',\n      'required' => true,\n    ],\n  ],\n  customer: ['customerID' => 'customer_id'],\n  customerBusinessName: 'customer_business_name',\n  customization: [\n    'forceLanguage' => 'force_language',\n    'showOnDemandTag' => true,\n    'showOrderDetails' => true,\n    'theme' => 'dark',\n    'themeConfig' => [\n      'dark' => [\n        'bgPrimary' => 'bg_primary',\n        'bgSecondary' => 'bg_secondary',\n        'borderPrimary' => 'border_primary',\n        'borderSecondary' => 'border_secondary',\n        'buttonPrimary' => 'button_primary',\n        'buttonPrimaryHover' => 'button_primary_hover',\n        'buttonSecondary' => 'button_secondary',\n        'buttonSecondaryHover' => 'button_secondary_hover',\n        'buttonTextPrimary' => 'button_text_primary',\n        'buttonTextSecondary' => 'button_text_secondary',\n        'inputFocusBorder' => 'input_focus_border',\n        'textError' => 'text_error',\n        'textPlaceholder' => 'text_placeholder',\n        'textPrimary' => 'text_primary',\n        'textSecondary' => 'text_secondary',\n        'textSuccess' => 'text_success',\n      ],\n      'fontPrimaryURL' => 'font_primary_url',\n      'fontSecondaryURL' => 'font_secondary_url',\n      'fontSize' => 'xs',\n      'fontWeight' => 'normal',\n      'light' => [\n        'bgPrimary' => 'bg_primary',\n        'bgSecondary' => 'bg_secondary',\n        'borderPrimary' => 'border_primary',\n        'borderSecondary' => 'border_secondary',\n        'buttonPrimary' => 'button_primary',\n        'buttonPrimaryHover' => 'button_primary_hover',\n        'buttonSecondary' => 'button_secondary',\n        'buttonSecondaryHover' => 'button_secondary_hover',\n        'buttonTextPrimary' => 'button_text_primary',\n        'buttonTextSecondary' => 'button_text_secondary',\n        'inputFocusBorder' => 'input_focus_border',\n        'textError' => 'text_error',\n        'textPlaceholder' => 'text_placeholder',\n        'textPrimary' => 'text_primary',\n        'textSecondary' => 'text_secondary',\n        'textSuccess' => 'text_success',\n      ],\n      'payButtonText' => 'pay_button_text',\n      'radius' => 'radius',\n    ],\n  ],\n  discountCode: 'discount_code',\n  discountCodes: ['string'],\n  featureFlags: [\n    'allowCurrencySelection' => true,\n    'allowCustomerEditingBusinessName' => true,\n    'allowCustomerEditingCity' => true,\n    'allowCustomerEditingCountry' => true,\n    'allowCustomerEditingEmail' => true,\n    'allowCustomerEditingName' => true,\n    'allowCustomerEditingState' => true,\n    'allowCustomerEditingStreet' => true,\n    'allowCustomerEditingTaxID' => true,\n    'allowCustomerEditingZipcode' => true,\n    'allowDiscountCode' => true,\n    'allowEditingAddons' => true,\n    'allowPhoneNumberCollection' => true,\n    'allowTaxID' => true,\n    'alwaysCreateNewCustomer' => true,\n    'redirectImmediately' => true,\n    'requireCardholderName' => true,\n    'requirePhoneNumber' => true,\n    'requireTaxID' => true,\n    'singlePage' => true,\n  ],\n  force3DS: true,\n  mandateMinAmountInrPaise: 0,\n  metadata: ['foo' => 'string'],\n  minimalAddress: true,\n  paymentMethodID: 'payment_method_id',\n  productCollectionID: 'product_collection_id',\n  returnURL: 'return_url',\n  shortLink: true,\n  showSavedPaymentMethods: true,\n  subscriptionData: [\n    'onDemand' => [\n      'mandateOnly' => true,\n      'adaptiveCurrencyFeesInclusive' => true,\n      'productCurrency' => Currency::AED,\n      'productDescription' => 'product_description',\n      'productPrice' => 0,\n    ],\n    'trialPeriodDays' => 0,\n  ],\n  taxID: 'tax_id',\n);\n\nvar_dump($response);",
       },
       csharp: {
         method: 'CheckoutSessions.Preview',
@@ -301,9 +301,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'subscription_id?: string;',
     ],
     response:
-      "{ brand_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; has_license_key: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; total_amount: number; card_last_four?: string; card_network?: string; dispute_status?: string; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: 'partial' | 'full'; status?: string; subscription_id?: string; }",
+      "{ brand_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; has_license_key: boolean; is_multi_subscription: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; subscription_ids: string[]; total_amount: number; card_last_four?: string; card_network?: string; dispute_status?: string; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: 'partial' | 'full'; status?: string; subscription_id?: string; }",
     markdown:
-      "## list\n\n`client.payments.list(brand_id?: string, created_at_gte?: string, created_at_lte?: string, currency?: string, customer_id?: string, page_number?: number, page_size?: number, product_id?: string, status?: string, subscription_id?: string): { brand_id: string; created_at: string; currency: currency; customer: customer_limited_details; digital_products_delivered: boolean; has_license_key: boolean; metadata: metadata; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; total_amount: number; card_last_four?: string; card_network?: string; dispute_status?: dispute_status; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: payment_refund_status; status?: intent_status; subscription_id?: string; }`\n\n**get** `/payments`\n\n### Parameters\n\n- `brand_id?: string`\n  filter by Brand id\n\n- `created_at_gte?: string`\n  Get events after this created time\n\n- `created_at_lte?: string`\n  Get events created before this time\n\n- `currency?: string`\n  Filter by currency\n\n- `customer_id?: string`\n  Filter by customer id\n\n- `page_number?: number`\n  Page number default is 0. Capped to bound OFFSET-based deep pagination,\nwhich forces Postgres to scan and discard every preceding row.\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n- `product_id?: string`\n  Filter by product id\n\n- `status?: string`\n  Filter by status\n\n- `subscription_id?: string`\n  Filter by subscription id\n\n### Returns\n\n- `{ brand_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; has_license_key: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; total_amount: number; card_last_four?: string; card_network?: string; dispute_status?: string; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: 'partial' | 'full'; status?: string; subscription_id?: string; }`\n\n  - `brand_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `digital_products_delivered: boolean`\n  - `has_license_key: boolean`\n  - `metadata: object`\n  - `payment_id: string`\n  - `payment_provider: 'stripe' | 'adyen' | 'dodo'`\n  - `total_amount: number`\n  - `card_last_four?: string`\n  - `card_network?: string`\n  - `dispute_status?: string`\n  - `invoice_id?: string`\n  - `invoice_url?: string`\n  - `payment_method?: string`\n  - `payment_method_type?: string`\n  - `refund_status?: 'partial' | 'full'`\n  - `status?: string`\n  - `subscription_id?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const paymentListResponse of client.payments.list()) {\n  console.log(paymentListResponse);\n}\n```",
+      "## list\n\n`client.payments.list(brand_id?: string, created_at_gte?: string, created_at_lte?: string, currency?: string, customer_id?: string, page_number?: number, page_size?: number, product_id?: string, status?: string, subscription_id?: string): { brand_id: string; created_at: string; currency: currency; customer: customer_limited_details; digital_products_delivered: boolean; has_license_key: boolean; is_multi_subscription: boolean; metadata: metadata; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; subscription_ids: string[]; total_amount: number; card_last_four?: string; card_network?: string; dispute_status?: dispute_status; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: payment_refund_status; status?: intent_status; subscription_id?: string; }`\n\n**get** `/payments`\n\n### Parameters\n\n- `brand_id?: string`\n  filter by Brand id\n\n- `created_at_gte?: string`\n  Get events after this created time\n\n- `created_at_lte?: string`\n  Get events created before this time\n\n- `currency?: string`\n  Filter by currency\n\n- `customer_id?: string`\n  Filter by customer id\n\n- `page_number?: number`\n  Page number default is 0. Capped to bound OFFSET-based deep pagination,\nwhich forces Postgres to scan and discard every preceding row.\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n- `product_id?: string`\n  Filter by product id\n\n- `status?: string`\n  Filter by status\n\n- `subscription_id?: string`\n  Filter by subscription id\n\n### Returns\n\n- `{ brand_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; has_license_key: boolean; is_multi_subscription: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; subscription_ids: string[]; total_amount: number; card_last_four?: string; card_network?: string; dispute_status?: string; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: 'partial' | 'full'; status?: string; subscription_id?: string; }`\n\n  - `brand_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `digital_products_delivered: boolean`\n  - `has_license_key: boolean`\n  - `is_multi_subscription: boolean`\n  - `metadata: object`\n  - `payment_id: string`\n  - `payment_provider: 'stripe' | 'adyen' | 'dodo'`\n  - `subscription_ids: string[]`\n  - `total_amount: number`\n  - `card_last_four?: string`\n  - `card_network?: string`\n  - `dispute_status?: string`\n  - `invoice_id?: string`\n  - `invoice_url?: string`\n  - `payment_method?: string`\n  - `payment_method_type?: string`\n  - `refund_status?: 'partial' | 'full'`\n  - `status?: string`\n  - `subscription_id?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const paymentListResponse of client.payments.list()) {\n  console.log(paymentListResponse);\n}\n```",
     perLanguage: {
       typescript: {
         method: 'client.payments.list',
@@ -314,15 +314,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/payments \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'payments.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.payments.list()\npage = page.items[0]\nprint(page.brand_id)',
-      },
       java: {
         method: 'payments().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.payments.PaymentListPage;\nimport com.dodopayments.api.models.payments.PaymentListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        PaymentListPage page = client.payments().list();\n    }\n}',
+      },
+      python: {
+        method: 'payments.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.payments.list()\npage = page.items[0]\nprint(page.brand_id)',
       },
       kotlin: {
         method: 'payments().list',
@@ -394,15 +394,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/payments \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "billing": {\n            "country": "AF"\n          },\n          "customer": {\n            "customer_id": "customer_id"\n          },\n          "product_cart": [\n            {\n              "product_id": "product_id",\n              "quantity": 0\n            }\n          ]\n        }\'',
       },
-      python: {
-        method: 'payments.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npayment = client.payments.create(\n    billing={\n        "country": "AF"\n    },\n    customer={\n        "customer_id": "customer_id"\n    },\n    product_cart=[{\n        "product_id": "product_id",\n        "quantity": 0,\n    }],\n)\nprint(payment.payment_id)',
-      },
       java: {
         method: 'payments().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.misc.CountryCode;\nimport com.dodopayments.api.models.payments.AttachExistingCustomer;\nimport com.dodopayments.api.models.payments.BillingAddress;\nimport com.dodopayments.api.models.payments.OneTimeProductCartItem;\nimport com.dodopayments.api.models.payments.PaymentCreateParams;\nimport com.dodopayments.api.models.payments.PaymentCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        PaymentCreateParams params = PaymentCreateParams.builder()\n            .billing(BillingAddress.builder()\n                .country(CountryCode.AF)\n                .build())\n            .customer(AttachExistingCustomer.builder()\n                .customerId("customer_id")\n                .build())\n            .addProductCart(OneTimeProductCartItem.builder()\n                .productId("product_id")\n                .quantity(0)\n                .build())\n            .build();\n        PaymentCreateResponse payment = client.payments().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'payments.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npayment = client.payments.create(\n    billing={\n        "country": "AF"\n    },\n    customer={\n        "customer_id": "customer_id"\n    },\n    product_cart=[{\n        "product_id": "product_id",\n        "quantity": 0,\n    }],\n)\nprint(payment.payment_id)',
       },
       kotlin: {
         method: 'payments().create',
@@ -441,9 +441,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     qualified: 'client.payments.retrieve',
     params: ['payment_id: string;'],
     response:
-      "{ billing: object; brand_id: string; business_id: string; created_at: string; currency: string; customer: object; digital_products_delivered: boolean; disputes: object[]; is_update_payment_method: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; refunds: object[]; retry_attempt: number; settlement_amount: number; settlement_currency: string; total_amount: number; card_holder_name?: string; card_issuing_country?: string; card_last_four?: string; card_network?: string; card_type?: string; checkout_session_id?: string; custom_field_responses?: object[]; discount_id?: string; discounts?: object[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_id?: string; payment_method_type?: string; product_cart?: { product_id: string; quantity: number; }[]; refund_status?: 'partial' | 'full'; settlement_tax?: number; status?: string; subscription_id?: string; tax?: number; updated_at?: string; }",
+      "{ billing: object; brand_id: string; business_id: string; created_at: string; currency: string; customer: object; digital_products_delivered: boolean; disputes: object[]; is_multi_subscription: boolean; is_update_payment_method: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; refunds: object[]; retry_attempt: number; settlement_amount: number; settlement_currency: string; subscription_ids: string[]; total_amount: number; card_holder_name?: string; card_issuing_country?: string; card_last_four?: string; card_network?: string; card_type?: string; checkout_session_id?: string; custom_field_responses?: object[]; discount_id?: string; discounts?: object[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_id?: string; payment_method_type?: string; product_cart?: { product_id: string; quantity: number; }[]; refund_status?: 'partial' | 'full'; settlement_tax?: number; status?: string; subscription_id?: string; tax?: number; updated_at?: string; }",
     markdown:
-      "## retrieve\n\n`client.payments.retrieve(payment_id: string): { billing: billing_address; brand_id: string; business_id: string; created_at: string; currency: currency; customer: customer_limited_details; digital_products_delivered: boolean; disputes: dispute[]; is_update_payment_method: boolean; metadata: metadata; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; refunds: refund_list_item[]; retry_attempt: number; settlement_amount: number; settlement_currency: currency; total_amount: number; card_holder_name?: string; card_issuing_country?: country_code; card_last_four?: string; card_network?: string; card_type?: string; checkout_session_id?: string; custom_field_responses?: custom_field_response[]; discount_id?: string; discounts?: discount_detail[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_id?: string; payment_method_type?: string; product_cart?: object[]; refund_status?: payment_refund_status; settlement_tax?: number; status?: intent_status; subscription_id?: string; tax?: number; updated_at?: string; }`\n\n**get** `/payments/{payment_id}`\n\n### Parameters\n\n- `payment_id: string`\n\n### Returns\n\n- `{ billing: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }; brand_id: string; business_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; disputes: { amount: string; business_id: string; created_at: string; currency: string; dispute_id: string; dispute_stage: dispute_stage; dispute_status: dispute_status; payment_id: string; is_resolved_by_rdr?: boolean; remarks?: string; }[]; is_update_payment_method: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; refunds: { business_id: string; created_at: string; is_partial: boolean; payment_id: string; refund_id: string; status: refund_status; amount?: number; currency?: currency; reason?: string; }[]; retry_attempt: number; settlement_amount: number; settlement_currency: string; total_amount: number; card_holder_name?: string; card_issuing_country?: string; card_last_four?: string; card_network?: string; card_type?: string; checkout_session_id?: string; custom_field_responses?: { key: string; value: string; }[]; discount_id?: string; discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: metadata; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_id?: string; payment_method_type?: string; product_cart?: { product_id: string; quantity: number; }[]; refund_status?: 'partial' | 'full'; settlement_tax?: number; status?: string; subscription_id?: string; tax?: number; updated_at?: string; }`\n\n  - `billing: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  - `brand_id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `digital_products_delivered: boolean`\n  - `disputes: { amount: string; business_id: string; created_at: string; currency: string; dispute_id: string; dispute_stage: 'pre_dispute' | 'dispute' | 'pre_arbitration'; dispute_status: string; payment_id: string; is_resolved_by_rdr?: boolean; remarks?: string; }[]`\n  - `is_update_payment_method: boolean`\n  - `metadata: object`\n  - `payment_id: string`\n  - `payment_provider: 'stripe' | 'adyen' | 'dodo'`\n  - `refunds: { business_id: string; created_at: string; is_partial: boolean; payment_id: string; refund_id: string; status: 'succeeded' | 'failed' | 'pending' | 'review'; amount?: number; currency?: string; reason?: string; }[]`\n  - `retry_attempt: number`\n  - `settlement_amount: number`\n  - `settlement_currency: string`\n  - `total_amount: number`\n  - `card_holder_name?: string`\n  - `card_issuing_country?: string`\n  - `card_last_four?: string`\n  - `card_network?: string`\n  - `card_type?: string`\n  - `checkout_session_id?: string`\n  - `custom_field_responses?: { key: string; value: string; }[]`\n  - `discount_id?: string`\n  - `discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'flat' | 'percentage'; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]`\n  - `error_code?: string`\n  - `error_message?: string`\n  - `invoice_id?: string`\n  - `invoice_url?: string`\n  - `payment_link?: string`\n  - `payment_method?: string`\n  - `payment_method_id?: string`\n  - `payment_method_type?: string`\n  - `product_cart?: { product_id: string; quantity: number; }[]`\n  - `refund_status?: 'partial' | 'full'`\n  - `settlement_tax?: number`\n  - `status?: string`\n  - `subscription_id?: string`\n  - `tax?: number`\n  - `updated_at?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst payment = await client.payments.retrieve('pay_gr4RizvMOXFJ6xca3y2tU');\n\nconsole.log(payment);\n```",
+      "## retrieve\n\n`client.payments.retrieve(payment_id: string): { billing: billing_address; brand_id: string; business_id: string; created_at: string; currency: currency; customer: customer_limited_details; digital_products_delivered: boolean; disputes: dispute[]; is_multi_subscription: boolean; is_update_payment_method: boolean; metadata: metadata; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; refunds: refund_list_item[]; retry_attempt: number; settlement_amount: number; settlement_currency: currency; subscription_ids: string[]; total_amount: number; card_holder_name?: string; card_issuing_country?: country_code; card_last_four?: string; card_network?: string; card_type?: string; checkout_session_id?: string; custom_field_responses?: custom_field_response[]; discount_id?: string; discounts?: discount_detail[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_id?: string; payment_method_type?: string; product_cart?: object[]; refund_status?: payment_refund_status; settlement_tax?: number; status?: intent_status; subscription_id?: string; tax?: number; updated_at?: string; }`\n\n**get** `/payments/{payment_id}`\n\n### Parameters\n\n- `payment_id: string`\n\n### Returns\n\n- `{ billing: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }; brand_id: string; business_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; disputes: { amount: string; business_id: string; created_at: string; currency: string; dispute_id: string; dispute_stage: dispute_stage; dispute_status: dispute_status; payment_id: string; is_resolved_by_rdr?: boolean; remarks?: string; }[]; is_multi_subscription: boolean; is_update_payment_method: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; refunds: { business_id: string; created_at: string; is_partial: boolean; payment_id: string; refund_id: string; status: refund_status; amount?: number; currency?: currency; reason?: string; }[]; retry_attempt: number; settlement_amount: number; settlement_currency: string; subscription_ids: string[]; total_amount: number; card_holder_name?: string; card_issuing_country?: string; card_last_four?: string; card_network?: string; card_type?: string; checkout_session_id?: string; custom_field_responses?: { key: string; value: string; }[]; discount_id?: string; discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: metadata; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_id?: string; payment_method_type?: string; product_cart?: { product_id: string; quantity: number; }[]; refund_status?: 'partial' | 'full'; settlement_tax?: number; status?: string; subscription_id?: string; tax?: number; updated_at?: string; }`\n\n  - `billing: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  - `brand_id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `digital_products_delivered: boolean`\n  - `disputes: { amount: string; business_id: string; created_at: string; currency: string; dispute_id: string; dispute_stage: 'pre_dispute' | 'dispute' | 'pre_arbitration'; dispute_status: string; payment_id: string; is_resolved_by_rdr?: boolean; remarks?: string; }[]`\n  - `is_multi_subscription: boolean`\n  - `is_update_payment_method: boolean`\n  - `metadata: object`\n  - `payment_id: string`\n  - `payment_provider: 'stripe' | 'adyen' | 'dodo'`\n  - `refunds: { business_id: string; created_at: string; is_partial: boolean; payment_id: string; refund_id: string; status: 'succeeded' | 'failed' | 'pending' | 'review'; amount?: number; currency?: string; reason?: string; }[]`\n  - `retry_attempt: number`\n  - `settlement_amount: number`\n  - `settlement_currency: string`\n  - `subscription_ids: string[]`\n  - `total_amount: number`\n  - `card_holder_name?: string`\n  - `card_issuing_country?: string`\n  - `card_last_four?: string`\n  - `card_network?: string`\n  - `card_type?: string`\n  - `checkout_session_id?: string`\n  - `custom_field_responses?: { key: string; value: string; }[]`\n  - `discount_id?: string`\n  - `discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'flat' | 'percentage'; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]`\n  - `error_code?: string`\n  - `error_message?: string`\n  - `invoice_id?: string`\n  - `invoice_url?: string`\n  - `payment_link?: string`\n  - `payment_method?: string`\n  - `payment_method_id?: string`\n  - `payment_method_type?: string`\n  - `product_cart?: { product_id: string; quantity: number; }[]`\n  - `refund_status?: 'partial' | 'full'`\n  - `settlement_tax?: number`\n  - `status?: string`\n  - `subscription_id?: string`\n  - `tax?: number`\n  - `updated_at?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst payment = await client.payments.retrieve('pay_gr4RizvMOXFJ6xca3y2tU');\n\nconsole.log(payment);\n```",
     perLanguage: {
       typescript: {
         method: 'client.payments.retrieve',
@@ -454,15 +454,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/payments/$PAYMENT_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'payments.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npayment = client.payments.retrieve(\n    "pay_gr4RizvMOXFJ6xca3y2tU",\n)\nprint(payment.brand_id)',
-      },
       java: {
         method: 'payments().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.payments.Payment;\nimport com.dodopayments.api.models.payments.PaymentRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Payment payment = client.payments().retrieve("pay_gr4RizvMOXFJ6xca3y2tU");\n    }\n}',
+      },
+      python: {
+        method: 'payments.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npayment = client.payments.retrieve(\n    "pay_gr4RizvMOXFJ6xca3y2tU",\n)\nprint(payment.brand_id)',
       },
       kotlin: {
         method: 'payments().retrieve',
@@ -514,15 +514,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/payments/$PAYMENT_ID/line-items \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'payments.retrieve_line_items',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.payments.retrieve_line_items(\n    "pay_gr4RizvMOXFJ6xca3y2tU",\n)\nprint(response.currency)',
-      },
       java: {
         method: 'payments().retrieveLineItems',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.payments.PaymentRetrieveLineItemsParams;\nimport com.dodopayments.api.models.payments.PaymentRetrieveLineItemsResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        PaymentRetrieveLineItemsResponse response = client.payments().retrieveLineItems("pay_gr4RizvMOXFJ6xca3y2tU");\n    }\n}',
+      },
+      python: {
+        method: 'payments.retrieve_line_items',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.payments.retrieve_line_items(\n    "pay_gr4RizvMOXFJ6xca3y2tU",\n)\nprint(response.currency)',
       },
       kotlin: {
         method: 'payments().retrieveLineItems',
@@ -574,15 +574,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/payments/$PAYMENT_ID/retry \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'payments.retry',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nmanual_retry = client.payments.retry(\n    "payment_id",\n)\nprint(manual_retry.invoice_id)',
-      },
       java: {
         method: 'payments().retry',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.payments.ManualRetry;\nimport com.dodopayments.api.models.payments.PaymentRetryParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ManualRetry manualRetry = client.payments().retry("payment_id");\n    }\n}',
+      },
+      python: {
+        method: 'payments.retry',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nmanual_retry = client.payments.retry(\n    "payment_id",\n)\nprint(manual_retry.invoice_id)',
       },
       kotlin: {
         method: 'payments().retry',
@@ -634,15 +634,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/payments/$PAYMENT_ID/retry \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'payments.retrieve_retry_state',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nmanual_retry_state = client.payments.retrieve_retry_state(\n    "payment_id",\n)\nprint(manual_retry_state.can_retry)',
-      },
       java: {
         method: 'payments().retrieveRetryState',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.payments.ManualRetryState;\nimport com.dodopayments.api.models.payments.PaymentRetrieveRetryStateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ManualRetryState manualRetryState = client.payments().retrieveRetryState("payment_id");\n    }\n}',
+      },
+      python: {
+        method: 'payments.retrieve_retry_state',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nmanual_retry_state = client.payments.retrieve_retry_state(\n    "payment_id",\n)\nprint(manual_retry_state.can_retry)',
       },
       kotlin: {
         method: 'payments().retrieveRetryState',
@@ -704,15 +704,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/subscriptions \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'subscriptions.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.subscriptions.list()\npage = page.items[0]\nprint(page.product_id)',
-      },
       java: {
         method: 'subscriptions().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.subscriptions.SubscriptionListPage;\nimport com.dodopayments.api.models.subscriptions.SubscriptionListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        SubscriptionListPage page = client.subscriptions().list();\n    }\n}',
+      },
+      python: {
+        method: 'subscriptions.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.subscriptions.list()\npage = page.items[0]\nprint(page.product_id)',
       },
       kotlin: {
         method: 'subscriptions().list',
@@ -789,15 +789,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/subscriptions \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "billing": {\n            "country": "AF"\n          },\n          "customer": {\n            "customer_id": "customer_id"\n          },\n          "product_id": "product_id",\n          "quantity": 0\n        }\'',
       },
-      python: {
-        method: 'subscriptions.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nsubscription = client.subscriptions.create(\n    billing={\n        "country": "AF"\n    },\n    customer={\n        "customer_id": "customer_id"\n    },\n    product_id="product_id",\n    quantity=0,\n)\nprint(subscription.payment_id)',
-      },
       java: {
         method: 'subscriptions().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.misc.CountryCode;\nimport com.dodopayments.api.models.payments.AttachExistingCustomer;\nimport com.dodopayments.api.models.payments.BillingAddress;\nimport com.dodopayments.api.models.subscriptions.SubscriptionCreateParams;\nimport com.dodopayments.api.models.subscriptions.SubscriptionCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        SubscriptionCreateParams params = SubscriptionCreateParams.builder()\n            .billing(BillingAddress.builder()\n                .country(CountryCode.AF)\n                .build())\n            .customer(AttachExistingCustomer.builder()\n                .customerId("customer_id")\n                .build())\n            .productId("product_id")\n            .quantity(0)\n            .build();\n        SubscriptionCreateResponse subscription = client.subscriptions().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'subscriptions.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nsubscription = client.subscriptions.create(\n    billing={\n        "country": "AF"\n    },\n    customer={\n        "customer_id": "customer_id"\n    },\n    product_id="product_id",\n    quantity=0,\n)\nprint(subscription.payment_id)',
       },
       kotlin: {
         method: 'subscriptions().create',
@@ -849,15 +849,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'subscriptions.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nsubscription = client.subscriptions.retrieve(\n    "sub_Iuaq622bbmmfOGrVTqdXv",\n)\nprint(subscription.brand_id)',
-      },
       java: {
         method: 'subscriptions().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.subscriptions.Subscription;\nimport com.dodopayments.api.models.subscriptions.SubscriptionRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Subscription subscription = client.subscriptions().retrieve("sub_Iuaq622bbmmfOGrVTqdXv");\n    }\n}',
+      },
+      python: {
+        method: 'subscriptions.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nsubscription = client.subscriptions.retrieve(\n    "sub_Iuaq622bbmmfOGrVTqdXv",\n)\nprint(subscription.brand_id)',
       },
       kotlin: {
         method: 'subscriptions().retrieve',
@@ -927,15 +927,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
-      python: {
-        method: 'subscriptions.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nsubscription = client.subscriptions.update(\n    subscription_id="sub_Iuaq622bbmmfOGrVTqdXv",\n)\nprint(subscription.brand_id)',
-      },
       java: {
         method: 'subscriptions().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.subscriptions.Subscription;\nimport com.dodopayments.api.models.subscriptions.SubscriptionUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Subscription subscription = client.subscriptions().update("sub_Iuaq622bbmmfOGrVTqdXv");\n    }\n}',
+      },
+      python: {
+        method: 'subscriptions.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nsubscription = client.subscriptions.update(\n    subscription_id="sub_Iuaq622bbmmfOGrVTqdXv",\n)\nprint(subscription.brand_id)',
       },
       kotlin: {
         method: 'subscriptions().update',
@@ -994,15 +994,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/charge \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "product_price": 0\n        }\'',
       },
-      python: {
-        method: 'subscriptions.charge',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.subscriptions.charge(\n    subscription_id="sub_Iuaq622bbmmfOGrVTqdXv",\n    product_price=0,\n)\nprint(response.payment_id)',
-      },
       java: {
         method: 'subscriptions().charge',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.subscriptions.SubscriptionChargeParams;\nimport com.dodopayments.api.models.subscriptions.SubscriptionChargeResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        SubscriptionChargeParams params = SubscriptionChargeParams.builder()\n            .subscriptionId("sub_Iuaq622bbmmfOGrVTqdXv")\n            .productPrice(0)\n            .build();\n        SubscriptionChargeResponse response = client.subscriptions().charge(params);\n    }\n}',
+      },
+      python: {
+        method: 'subscriptions.charge',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.subscriptions.charge(\n    subscription_id="sub_Iuaq622bbmmfOGrVTqdXv",\n    product_price=0,\n)\nprint(response.payment_id)',
       },
       kotlin: {
         method: 'subscriptions().charge',
@@ -1067,15 +1067,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/change-plan \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "product_id": "product_id",\n          "proration_billing_mode": "prorated_immediately",\n          "quantity": 0\n        }\'',
       },
-      python: {
-        method: 'subscriptions.change_plan',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.subscriptions.change_plan(\n    subscription_id="sub_Iuaq622bbmmfOGrVTqdXv",\n    product_id="product_id",\n    proration_billing_mode="prorated_immediately",\n    quantity=0,\n)\nprint(response.payment_id)',
-      },
       java: {
         method: 'subscriptions().changePlan',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.subscriptions.SubscriptionChangePlanParams;\nimport com.dodopayments.api.models.subscriptions.SubscriptionChangePlanResponse;\nimport com.dodopayments.api.models.subscriptions.UpdateSubscriptionPlanReq;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        SubscriptionChangePlanParams params = SubscriptionChangePlanParams.builder()\n            .subscriptionId("sub_Iuaq622bbmmfOGrVTqdXv")\n            .updateSubscriptionPlanReq(UpdateSubscriptionPlanReq.builder()\n                .productId("product_id")\n                .prorationBillingMode(UpdateSubscriptionPlanReq.ProrationBillingMode.PRORATED_IMMEDIATELY)\n                .quantity(0)\n                .build())\n            .build();\n        SubscriptionChangePlanResponse response = client.subscriptions().changePlan(params);\n    }\n}',
+      },
+      python: {
+        method: 'subscriptions.change_plan',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.subscriptions.change_plan(\n    subscription_id="sub_Iuaq622bbmmfOGrVTqdXv",\n    product_id="product_id",\n    proration_billing_mode="prorated_immediately",\n    quantity=0,\n)\nprint(response.payment_id)',
       },
       kotlin: {
         method: 'subscriptions().changePlan',
@@ -1135,15 +1135,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/usage-history \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'subscriptions.retrieve_usage_history',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.subscriptions.retrieve_usage_history(\n    subscription_id="sub_Iuaq622bbmmfOGrVTqdXv",\n)\npage = page.items[0]\nprint(page.end_date)',
-      },
       java: {
         method: 'subscriptions().retrieveUsageHistory',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.subscriptions.SubscriptionRetrieveUsageHistoryPage;\nimport com.dodopayments.api.models.subscriptions.SubscriptionRetrieveUsageHistoryParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        SubscriptionRetrieveUsageHistoryPage page = client.subscriptions().retrieveUsageHistory("sub_Iuaq622bbmmfOGrVTqdXv");\n    }\n}',
+      },
+      python: {
+        method: 'subscriptions.retrieve_usage_history',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.subscriptions.retrieve_usage_history(\n    subscription_id="sub_Iuaq622bbmmfOGrVTqdXv",\n)\npage = page.items[0]\nprint(page.end_date)',
       },
       kotlin: {
         method: 'subscriptions().retrieveUsageHistory',
@@ -1197,15 +1197,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/update-payment-method \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "type": "new",\n          "allowed_payment_method_types": [\n            "ach"\n          ],\n          "return_url": "return_url"\n        }\'',
       },
-      python: {
-        method: 'subscriptions.update_payment_method',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.subscriptions.update_payment_method(\n    subscription_id="sub_Iuaq622bbmmfOGrVTqdXv",\n    payment_method={\n        "type": "new"\n    },\n)\nprint(response.payment_id)',
-      },
       java: {
         method: 'subscriptions().updatePaymentMethod',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.subscriptions.SubscriptionUpdatePaymentMethodParams;\nimport com.dodopayments.api.models.subscriptions.SubscriptionUpdatePaymentMethodResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        SubscriptionUpdatePaymentMethodParams params = SubscriptionUpdatePaymentMethodParams.builder()\n            .subscriptionId("sub_Iuaq622bbmmfOGrVTqdXv")\n            .paymentMethod(SubscriptionUpdatePaymentMethodParams.PaymentMethod.New.builder().build())\n            .build();\n        SubscriptionUpdatePaymentMethodResponse response = client.subscriptions().updatePaymentMethod(params);\n    }\n}',
+      },
+      python: {
+        method: 'subscriptions.update_payment_method',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.subscriptions.update_payment_method(\n    subscription_id="sub_Iuaq622bbmmfOGrVTqdXv",\n    payment_method={\n        "type": "new"\n    },\n)\nprint(response.payment_id)',
       },
       kotlin: {
         method: 'subscriptions().updatePaymentMethod',
@@ -1271,15 +1271,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/change-plan/preview \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "product_id": "product_id",\n          "proration_billing_mode": "prorated_immediately",\n          "quantity": 0\n        }\'',
       },
-      python: {
-        method: 'subscriptions.preview_change_plan',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.subscriptions.preview_change_plan(\n    subscription_id="sub_Iuaq622bbmmfOGrVTqdXv",\n    product_id="product_id",\n    proration_billing_mode="prorated_immediately",\n    quantity=0,\n)\nprint(response.immediate_charge)',
-      },
       java: {
         method: 'subscriptions().previewChangePlan',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.subscriptions.SubscriptionPreviewChangePlanParams;\nimport com.dodopayments.api.models.subscriptions.SubscriptionPreviewChangePlanResponse;\nimport com.dodopayments.api.models.subscriptions.UpdateSubscriptionPlanReq;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        SubscriptionPreviewChangePlanParams params = SubscriptionPreviewChangePlanParams.builder()\n            .subscriptionId("sub_Iuaq622bbmmfOGrVTqdXv")\n            .updateSubscriptionPlanReq(UpdateSubscriptionPlanReq.builder()\n                .productId("product_id")\n                .prorationBillingMode(UpdateSubscriptionPlanReq.ProrationBillingMode.PRORATED_IMMEDIATELY)\n                .quantity(0)\n                .build())\n            .build();\n        SubscriptionPreviewChangePlanResponse response = client.subscriptions().previewChangePlan(params);\n    }\n}',
+      },
+      python: {
+        method: 'subscriptions.preview_change_plan',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.subscriptions.preview_change_plan(\n    subscription_id="sub_Iuaq622bbmmfOGrVTqdXv",\n    product_id="product_id",\n    proration_billing_mode="prorated_immediately",\n    quantity=0,\n)\nprint(response.immediate_charge)',
       },
       kotlin: {
         method: 'subscriptions().previewChangePlan',
@@ -1331,15 +1331,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/credit-usage \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'subscriptions.retrieve_credit_usage',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.subscriptions.retrieve_credit_usage(\n    "sub_Iuaq622bbmmfOGrVTqdXv",\n)\nprint(response.subscription_id)',
-      },
       java: {
         method: 'subscriptions().retrieveCreditUsage',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.subscriptions.SubscriptionRetrieveCreditUsageParams;\nimport com.dodopayments.api.models.subscriptions.SubscriptionRetrieveCreditUsageResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        SubscriptionRetrieveCreditUsageResponse response = client.subscriptions().retrieveCreditUsage("sub_Iuaq622bbmmfOGrVTqdXv");\n    }\n}',
+      },
+      python: {
+        method: 'subscriptions.retrieve_credit_usage',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.subscriptions.retrieve_credit_usage(\n    "sub_Iuaq622bbmmfOGrVTqdXv",\n)\nprint(response.subscription_id)',
       },
       kotlin: {
         method: 'subscriptions().retrieveCreditUsage',
@@ -1389,15 +1389,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/subscriptions/$SUBSCRIPTION_ID/change-plan/scheduled \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'subscriptions.cancel_change_plan',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.subscriptions.cancel_change_plan(\n    "sub_Iuaq622bbmmfOGrVTqdXv",\n)',
-      },
       java: {
         method: 'subscriptions().cancelChangePlan',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.subscriptions.SubscriptionCancelChangePlanParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.subscriptions().cancelChangePlan("sub_Iuaq622bbmmfOGrVTqdXv");\n    }\n}',
+      },
+      python: {
+        method: 'subscriptions.cancel_change_plan',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.subscriptions.cancel_change_plan(\n    "sub_Iuaq622bbmmfOGrVTqdXv",\n)',
       },
       kotlin: {
         method: 'subscriptions().cancelChangePlan',
@@ -1448,15 +1448,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/invoices/payments/$PAYMENT_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'invoices.payments.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npayment = client.invoices.payments.retrieve(\n    "pay_gr4RizvMOXFJ6xca3y2tU",\n)\nprint(payment)\ncontent = payment.read()\nprint(content)',
-      },
       java: {
         method: 'invoices().payments().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.core.http.HttpResponse;\nimport com.dodopayments.api.models.invoices.payments.PaymentRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        HttpResponse payment = client.invoices().payments().retrieve("pay_gr4RizvMOXFJ6xca3y2tU");\n    }\n}',
+      },
+      python: {
+        method: 'invoices.payments.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npayment = client.invoices.payments.retrieve(\n    "pay_gr4RizvMOXFJ6xca3y2tU",\n)\nprint(payment)\ncontent = payment.read()\nprint(content)',
       },
       kotlin: {
         method: 'invoices().payments().retrieve',
@@ -1507,15 +1507,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/invoices/refunds/$REFUND_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'invoices.payments.retrieve_refund',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.invoices.payments.retrieve_refund(\n    "ref_F0gZetLvTxxBrMU2CZcmy",\n)\nprint(response)\ncontent = response.read()\nprint(content)',
-      },
       java: {
         method: 'invoices().payments().retrieveRefund',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.core.http.HttpResponse;\nimport com.dodopayments.api.models.invoices.payments.PaymentRetrieveRefundParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        HttpResponse response = client.invoices().payments().retrieveRefund("ref_F0gZetLvTxxBrMU2CZcmy");\n    }\n}',
+      },
+      python: {
+        method: 'invoices.payments.retrieve_refund',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.invoices.payments.retrieve_refund(\n    "ref_F0gZetLvTxxBrMU2CZcmy",\n)\nprint(response)\ncontent = response.read()\nprint(content)',
       },
       kotlin: {
         method: 'invoices().payments().retrieveRefund',
@@ -1566,15 +1566,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/invoices/payouts/$PAYOUT_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'invoices.payments.retrieve_payout',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.invoices.payments.retrieve_payout(\n    "pyt_zFTrrn4sk3x3y2vjDBW3T",\n)\nprint(response)\ncontent = response.read()\nprint(content)',
-      },
       java: {
         method: 'invoices().payments().retrievePayout',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.core.http.HttpResponse;\nimport com.dodopayments.api.models.invoices.payments.PaymentRetrievePayoutParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        HttpResponse response = client.invoices().payments().retrievePayout("pyt_zFTrrn4sk3x3y2vjDBW3T");\n    }\n}',
+      },
+      python: {
+        method: 'invoices.payments.retrieve_payout',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.invoices.payments.retrieve_payout(\n    "pyt_zFTrrn4sk3x3y2vjDBW3T",\n)\nprint(response)\ncontent = response.read()\nprint(content)',
       },
       kotlin: {
         method: 'invoices().payments().retrievePayout',
@@ -1626,15 +1626,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/licenses/activate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "license_key": "license_key",\n          "name": "name"\n        }\'',
       },
-      python: {
-        method: 'licenses.activate',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.licenses.activate(\n    license_key="license_key",\n    name="name",\n)\nprint(response.id)',
-      },
       java: {
         method: 'licenses().activate',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.licenses.LicenseActivateParams;\nimport com.dodopayments.api.models.licenses.LicenseActivateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        LicenseActivateParams params = LicenseActivateParams.builder()\n            .licenseKey("license_key")\n            .name("name")\n            .build();\n        LicenseActivateResponse response = client.licenses().activate(params);\n    }\n}',
+      },
+      python: {
+        method: 'licenses.activate',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.licenses.activate(\n    license_key="license_key",\n    name="name",\n)\nprint(response.id)',
       },
       kotlin: {
         method: 'licenses().activate',
@@ -1684,15 +1684,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/licenses/deactivate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "license_key": "license_key",\n          "license_key_instance_id": "license_key_instance_id"\n        }\'',
       },
-      python: {
-        method: 'licenses.deactivate',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.licenses.deactivate(\n    license_key="license_key",\n    license_key_instance_id="license_key_instance_id",\n)',
-      },
       java: {
         method: 'licenses().deactivate',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.licenses.LicenseDeactivateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        LicenseDeactivateParams params = LicenseDeactivateParams.builder()\n            .licenseKey("license_key")\n            .licenseKeyInstanceId("license_key_instance_id")\n            .build();\n        client.licenses().deactivate(params);\n    }\n}',
+      },
+      python: {
+        method: 'licenses.deactivate',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.licenses.deactivate(\n    license_key="license_key",\n    license_key_instance_id="license_key_instance_id",\n)',
       },
       kotlin: {
         method: 'licenses().deactivate',
@@ -1743,15 +1743,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/licenses/validate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "license_key": "2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43",\n          "license_key_instance_id": "lki_123"\n        }\'',
       },
-      python: {
-        method: 'licenses.validate',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.licenses.validate(\n    license_key="2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43",\n)\nprint(response.valid)',
-      },
       java: {
         method: 'licenses().validate',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.licenses.LicenseValidateParams;\nimport com.dodopayments.api.models.licenses.LicenseValidateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        LicenseValidateParams params = LicenseValidateParams.builder()\n            .licenseKey("2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43")\n            .build();\n        LicenseValidateResponse response = client.licenses().validate(params);\n    }\n}',
+      },
+      python: {
+        method: 'licenses.validate',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.licenses.validate(\n    license_key="2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43",\n)\nprint(response.valid)',
       },
       kotlin: {
         method: 'licenses().validate',
@@ -1812,15 +1812,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/license_keys \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'license_keys.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.license_keys.list()\npage = page.items[0]\nprint(page.id)',
-      },
       java: {
         method: 'licenseKeys().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.licensekeys.LicenseKeyListPage;\nimport com.dodopayments.api.models.licensekeys.LicenseKeyListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        LicenseKeyListPage page = client.licenseKeys().list();\n    }\n}',
+      },
+      python: {
+        method: 'license_keys.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.license_keys.list()\npage = page.items[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'licenseKeys().list',
@@ -1872,15 +1872,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/license_keys/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'license_keys.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlicense_key = client.license_keys.retrieve(\n    "lic_7namTC0VcgrnzrF3GTSwB",\n)\nprint(license_key.id)',
-      },
       java: {
         method: 'licenseKeys().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.licensekeys.LicenseKey;\nimport com.dodopayments.api.models.licensekeys.LicenseKeyRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        LicenseKey licenseKey = client.licenseKeys().retrieve("lic_7namTC0VcgrnzrF3GTSwB");\n    }\n}',
+      },
+      python: {
+        method: 'license_keys.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlicense_key = client.license_keys.retrieve(\n    "lic_7namTC0VcgrnzrF3GTSwB",\n)\nprint(license_key.id)',
       },
       kotlin: {
         method: 'licenseKeys().retrieve',
@@ -1932,15 +1932,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://live.dodopayments.com/license_keys/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
-      python: {
-        method: 'license_keys.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlicense_key = client.license_keys.update(\n    id="lic_7namTC0VcgrnzrF3GTSwB",\n)\nprint(license_key.id)',
-      },
       java: {
         method: 'licenseKeys().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.licensekeys.LicenseKey;\nimport com.dodopayments.api.models.licensekeys.LicenseKeyUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        LicenseKey licenseKey = client.licenseKeys().update("lic_7namTC0VcgrnzrF3GTSwB");\n    }\n}',
+      },
+      python: {
+        method: 'license_keys.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlicense_key = client.license_keys.update(\n    id="lic_7namTC0VcgrnzrF3GTSwB",\n)\nprint(license_key.id)',
       },
       kotlin: {
         method: 'licenseKeys().update',
@@ -1998,15 +1998,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/license_keys \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "customer_id": "customer_id",\n          "key": "key",\n          "product_id": "product_id"\n        }\'',
       },
-      python: {
-        method: 'license_keys.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlicense_key = client.license_keys.create(\n    customer_id="customer_id",\n    key="key",\n    product_id="product_id",\n)\nprint(license_key.id)',
-      },
       java: {
         method: 'licenseKeys().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.licensekeys.LicenseKey;\nimport com.dodopayments.api.models.licensekeys.LicenseKeyCreateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        LicenseKeyCreateParams params = LicenseKeyCreateParams.builder()\n            .customerId("customer_id")\n            .key("key")\n            .productId("product_id")\n            .build();\n        LicenseKey licenseKey = client.licenseKeys().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'license_keys.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlicense_key = client.license_keys.create(\n    customer_id="customer_id",\n    key="key",\n    product_id="product_id",\n)\nprint(license_key.id)',
       },
       kotlin: {
         method: 'licenseKeys().create',
@@ -2063,15 +2063,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/license_key_instances \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'license_key_instances.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.license_key_instances.list()\npage = page.items[0]\nprint(page.id)',
-      },
       java: {
         method: 'licenseKeyInstances().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.licensekeyinstances.LicenseKeyInstanceListPage;\nimport com.dodopayments.api.models.licensekeyinstances.LicenseKeyInstanceListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        LicenseKeyInstanceListPage page = client.licenseKeyInstances().list();\n    }\n}',
+      },
+      python: {
+        method: 'license_key_instances.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.license_key_instances.list()\npage = page.items[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'licenseKeyInstances().list',
@@ -2123,15 +2123,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/license_key_instances/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'license_key_instances.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlicense_key_instance = client.license_key_instances.retrieve(\n    "lki_EeWORStkMc7z0KycI31VS",\n)\nprint(license_key_instance.id)',
-      },
       java: {
         method: 'licenseKeyInstances().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.licensekeyinstances.LicenseKeyInstance;\nimport com.dodopayments.api.models.licensekeyinstances.LicenseKeyInstanceRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        LicenseKeyInstance licenseKeyInstance = client.licenseKeyInstances().retrieve("lki_EeWORStkMc7z0KycI31VS");\n    }\n}',
+      },
+      python: {
+        method: 'license_key_instances.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlicense_key_instance = client.license_key_instances.retrieve(\n    "lki_EeWORStkMc7z0KycI31VS",\n)\nprint(license_key_instance.id)',
       },
       kotlin: {
         method: 'licenseKeyInstances().retrieve',
@@ -2183,15 +2183,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/license_key_instances/$ID \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "name": "name"\n        }\'',
       },
-      python: {
-        method: 'license_key_instances.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlicense_key_instance = client.license_key_instances.update(\n    id="lki_EeWORStkMc7z0KycI31VS",\n    name="name",\n)\nprint(license_key_instance.id)',
-      },
       java: {
         method: 'licenseKeyInstances().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.licensekeyinstances.LicenseKeyInstance;\nimport com.dodopayments.api.models.licensekeyinstances.LicenseKeyInstanceUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        LicenseKeyInstanceUpdateParams params = LicenseKeyInstanceUpdateParams.builder()\n            .id("lki_EeWORStkMc7z0KycI31VS")\n            .name("name")\n            .build();\n        LicenseKeyInstance licenseKeyInstance = client.licenseKeyInstances().update(params);\n    }\n}',
+      },
+      python: {
+        method: 'license_key_instances.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlicense_key_instance = client.license_key_instances.update(\n    id="lki_EeWORStkMc7z0KycI31VS",\n    name="name",\n)\nprint(license_key_instance.id)',
       },
       kotlin: {
         method: 'licenseKeyInstances().update',
@@ -2250,15 +2250,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/customers \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'customers.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.customers.list()\npage = page.items[0]\nprint(page.business_id)',
-      },
       java: {
         method: 'customers().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.customers.CustomerListPage;\nimport com.dodopayments.api.models.customers.CustomerListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CustomerListPage page = client.customers().list();\n    }\n}',
+      },
+      python: {
+        method: 'customers.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.customers.list()\npage = page.items[0]\nprint(page.business_id)',
       },
       kotlin: {
         method: 'customers().list',
@@ -2310,15 +2310,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/customers/$CUSTOMER_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'customers.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncustomer = client.customers.retrieve(\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n)\nprint(customer.business_id)',
-      },
       java: {
         method: 'customers().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.customers.Customer;\nimport com.dodopayments.api.models.customers.CustomerRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Customer customer = client.customers().retrieve("cus_TV52uJWWXt2yIoBBxpjaa");\n    }\n}',
+      },
+      python: {
+        method: 'customers.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncustomer = client.customers.retrieve(\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n)\nprint(customer.business_id)',
       },
       kotlin: {
         method: 'customers().retrieve',
@@ -2370,15 +2370,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/customers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "email": "email",\n          "name": "name"\n        }\'',
       },
-      python: {
-        method: 'customers.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncustomer = client.customers.create(\n    email="email",\n    name="name",\n)\nprint(customer.business_id)',
-      },
       java: {
         method: 'customers().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.customers.Customer;\nimport com.dodopayments.api.models.customers.CustomerCreateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CustomerCreateParams params = CustomerCreateParams.builder()\n            .email("email")\n            .name("name")\n            .build();\n        Customer customer = client.customers().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'customers.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncustomer = client.customers.create(\n    email="email",\n    name="name",\n)\nprint(customer.business_id)',
       },
       kotlin: {
         method: 'customers().create',
@@ -2436,15 +2436,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://live.dodopayments.com/customers/$CUSTOMER_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
-      python: {
-        method: 'customers.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncustomer = client.customers.update(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n)\nprint(customer.business_id)',
-      },
       java: {
         method: 'customers().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.customers.Customer;\nimport com.dodopayments.api.models.customers.CustomerUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Customer customer = client.customers().update("cus_TV52uJWWXt2yIoBBxpjaa");\n    }\n}',
+      },
+      python: {
+        method: 'customers.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncustomer = client.customers.update(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n)\nprint(customer.business_id)',
       },
       kotlin: {
         method: 'customers().update',
@@ -2496,15 +2496,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/payment-methods \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'customers.retrieve_payment_methods',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.customers.retrieve_payment_methods(\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n)\nprint(response.items)',
-      },
       java: {
         method: 'customers().retrievePaymentMethods',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.customers.CustomerRetrievePaymentMethodsParams;\nimport com.dodopayments.api.models.customers.CustomerRetrievePaymentMethodsResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CustomerRetrievePaymentMethodsResponse response = client.customers().retrievePaymentMethods("cus_TV52uJWWXt2yIoBBxpjaa");\n    }\n}',
+      },
+      python: {
+        method: 'customers.retrieve_payment_methods',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.customers.retrieve_payment_methods(\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n)\nprint(response.items)',
       },
       kotlin: {
         method: 'customers().retrievePaymentMethods',
@@ -2556,15 +2556,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/credit-entitlements \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'customers.list_credit_entitlements',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.customers.list_credit_entitlements(\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n)\nprint(response.items)',
-      },
       java: {
         method: 'customers().listCreditEntitlements',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.customers.CustomerListCreditEntitlementsParams;\nimport com.dodopayments.api.models.customers.CustomerListCreditEntitlementsResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CustomerListCreditEntitlementsResponse response = client.customers().listCreditEntitlements("cus_TV52uJWWXt2yIoBBxpjaa");\n    }\n}',
+      },
+      python: {
+        method: 'customers.list_credit_entitlements',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.customers.list_credit_entitlements(\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n)\nprint(response.items)',
       },
       kotlin: {
         method: 'customers().listCreditEntitlements',
@@ -2614,15 +2614,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/payment-methods/$PAYMENT_METHOD_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'customers.delete_payment_method',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.customers.delete_payment_method(\n    payment_method_id="payment_method_id",\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n)',
-      },
       java: {
         method: 'customers().deletePaymentMethod',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.customers.CustomerDeletePaymentMethodParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CustomerDeletePaymentMethodParams params = CustomerDeletePaymentMethodParams.builder()\n            .customerId("cus_TV52uJWWXt2yIoBBxpjaa")\n            .paymentMethodId("payment_method_id")\n            .build();\n        client.customers().deletePaymentMethod(params);\n    }\n}',
+      },
+      python: {
+        method: 'customers.delete_payment_method',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.customers.delete_payment_method(\n    payment_method_id="payment_method_id",\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n)',
       },
       kotlin: {
         method: 'customers().deletePaymentMethod',
@@ -2674,15 +2674,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/entitlements \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'customers.list_entitlements',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.customers.list_entitlements(\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n)\nprint(response.items)',
-      },
       java: {
         method: 'customers().listEntitlements',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.customers.CustomerListEntitlementsParams;\nimport com.dodopayments.api.models.customers.CustomerListEntitlementsResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CustomerListEntitlementsResponse response = client.customers().listEntitlements("cus_TV52uJWWXt2yIoBBxpjaa");\n    }\n}',
+      },
+      python: {
+        method: 'customers.list_entitlements',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.customers.list_entitlements(\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n)\nprint(response.items)',
       },
       kotlin: {
         method: 'customers().listEntitlements',
@@ -2740,15 +2740,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/entitlement-grants \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'customers.list_entitlement_grants',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.customers.list_entitlement_grants(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n)\npage = page.items[0]\nprint(page.id)',
-      },
       java: {
         method: 'customers().listEntitlementGrants',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.customers.CustomerListEntitlementGrantsPage;\nimport com.dodopayments.api.models.customers.CustomerListEntitlementGrantsParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CustomerListEntitlementGrantsPage page = client.customers().listEntitlementGrants("cus_TV52uJWWXt2yIoBBxpjaa");\n    }\n}',
+      },
+      python: {
+        method: 'customers.list_entitlement_grants',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.customers.list_entitlement_grants(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n)\npage = page.items[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'customers().listEntitlementGrants',
@@ -2799,15 +2799,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/customer-portal/session \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'customers.customer_portal.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncustomer_portal_session = client.customers.customer_portal.create(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n)\nprint(customer_portal_session.link)',
-      },
       java: {
         method: 'customers().customerPortal().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.customers.CustomerPortalSession;\nimport com.dodopayments.api.models.customers.customerportal.CustomerPortalCreateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CustomerPortalSession customerPortalSession = client.customers().customerPortal().create("cus_TV52uJWWXt2yIoBBxpjaa");\n    }\n}',
+      },
+      python: {
+        method: 'customers.customer_portal.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncustomer_portal_session = client.customers.customer_portal.create(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n)\nprint(customer_portal_session.link)',
       },
       kotlin: {
         method: 'customers().customerPortal().create',
@@ -2859,15 +2859,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/wallets \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'customers.wallets.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nwallets = client.customers.wallets.list(\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n)\nprint(wallets.items)',
-      },
       java: {
         method: 'customers().wallets().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.customers.wallets.WalletListParams;\nimport com.dodopayments.api.models.customers.wallets.WalletListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        WalletListResponse wallets = client.customers().wallets().list("cus_TV52uJWWXt2yIoBBxpjaa");\n    }\n}',
+      },
+      python: {
+        method: 'customers.wallets.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nwallets = client.customers.wallets.list(\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n)\nprint(wallets.items)',
       },
       kotlin: {
         method: 'customers().wallets().list',
@@ -2919,15 +2919,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/wallets/ledger-entries \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'customers.wallets.ledger_entries.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.customers.wallets.ledger_entries.list(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n)\npage = page.items[0]\nprint(page.id)',
-      },
       java: {
         method: 'customers().wallets().ledgerEntries().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.customers.wallets.ledgerentries.LedgerEntryListPage;\nimport com.dodopayments.api.models.customers.wallets.ledgerentries.LedgerEntryListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        LedgerEntryListPage page = client.customers().wallets().ledgerEntries().list("cus_TV52uJWWXt2yIoBBxpjaa");\n    }\n}',
+      },
+      python: {
+        method: 'customers.wallets.ledger_entries.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.customers.wallets.ledger_entries.list(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n)\npage = page.items[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'customers().wallets().ledgerEntries().list',
@@ -2986,15 +2986,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/wallets/ledger-entries \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "amount": 0,\n          "currency": "AED",\n          "entry_type": "credit"\n        }\'',
       },
-      python: {
-        method: 'customers.wallets.ledger_entries.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncustomer_wallet = client.customers.wallets.ledger_entries.create(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n    amount=0,\n    currency="AED",\n    entry_type="credit",\n)\nprint(customer_wallet.customer_id)',
-      },
       java: {
         method: 'customers().wallets().ledgerEntries().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.customers.wallets.CustomerWallet;\nimport com.dodopayments.api.models.customers.wallets.ledgerentries.LedgerEntryCreateParams;\nimport com.dodopayments.api.models.misc.Currency;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        LedgerEntryCreateParams params = LedgerEntryCreateParams.builder()\n            .customerId("cus_TV52uJWWXt2yIoBBxpjaa")\n            .amount(0L)\n            .currency(Currency.AED)\n            .entryType(LedgerEntryCreateParams.EntryType.CREDIT)\n            .build();\n        CustomerWallet customerWallet = client.customers().wallets().ledgerEntries().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'customers.wallets.ledger_entries.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncustomer_wallet = client.customers.wallets.ledger_entries.create(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n    amount=0,\n    currency="AED",\n    entry_type="credit",\n)\nprint(customer_wallet.customer_id)',
       },
       kotlin: {
         method: 'customers().wallets().ledgerEntries().create',
@@ -3047,15 +3047,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/emails \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'customers.emails.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.customers.emails.list(\n    customer_id="customer_id",\n)\npage = page.items[0]\nprint(page.email_log_id)',
-      },
       java: {
         method: 'customers().emails().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.customers.emails.EmailListPage;\nimport com.dodopayments.api.models.customers.emails.EmailListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        EmailListPage page = client.customers().emails().list("customer_id");\n    }\n}',
+      },
+      python: {
+        method: 'customers.emails.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.customers.emails.list(\n    customer_id="customer_id",\n)\npage = page.items[0]\nprint(page.email_log_id)',
       },
       kotlin: {
         method: 'customers().emails().list',
@@ -3108,15 +3108,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/customers/$CUSTOMER_ID/emails/$EMAIL_LOG_ID/body \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'customers.emails.retrieve_body',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nemail_body = client.customers.emails.retrieve_body(\n    email_log_id="email_log_id",\n    customer_id="customer_id",\n)\nprint(email_body.merchant_authored)',
-      },
       java: {
         method: 'customers().emails().retrieveBody',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.customers.emails.EmailBody;\nimport com.dodopayments.api.models.customers.emails.EmailRetrieveBodyParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        EmailRetrieveBodyParams params = EmailRetrieveBodyParams.builder()\n            .customerId("customer_id")\n            .emailLogId("email_log_id")\n            .build();\n        EmailBody emailBody = client.customers().emails().retrieveBody(params);\n    }\n}',
+      },
+      python: {
+        method: 'customers.emails.retrieve_body',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nemail_body = client.customers.emails.retrieve_body(\n    email_log_id="email_log_id",\n    customer_id="customer_id",\n)\nprint(email_body.merchant_authored)',
       },
       kotlin: {
         method: 'customers().emails().retrieveBody',
@@ -3175,15 +3175,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/blocklist/customers \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'blocklist.customers.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.blocklist.customers.list()\npage = page.items[0]\nprint(page.id)',
-      },
       java: {
         method: 'blocklist().customers().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.blocklist.customers.CustomerListPage;\nimport com.dodopayments.api.models.blocklist.customers.CustomerListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CustomerListPage page = client.blocklist().customers().list();\n    }\n}',
+      },
+      python: {
+        method: 'blocklist.customers.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.blocklist.customers.list()\npage = page.items[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'blocklist().customers().list',
@@ -3233,15 +3233,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/blocklist/customers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "customer_id": "customer_id"\n        }\'',
       },
-      python: {
-        method: 'blocklist.customers.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nblocked_customer = client.blocklist.customers.create(\n    customer_id="customer_id",\n)\nprint(blocked_customer.id)',
-      },
       java: {
         method: 'blocklist().customers().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.blocklist.customers.BlockedCustomer;\nimport com.dodopayments.api.models.blocklist.customers.CreateBlockedCustomerRequest;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CreateBlockedCustomerRequest.BlocklistCustomersBlockByCustomerId params = CreateBlockedCustomerRequest.BlocklistCustomersBlockByCustomerId.builder()\n            .customerId("customer_id")\n            .build();\n        BlockedCustomer blockedCustomer = client.blocklist().customers().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'blocklist.customers.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nblocked_customer = client.blocklist.customers.create(\n    customer_id="customer_id",\n)\nprint(blocked_customer.id)',
       },
       kotlin: {
         method: 'blocklist().customers().create',
@@ -3293,15 +3293,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/blocklist/customers/$ENTRY_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'blocklist.customers.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nblocked_customer = client.blocklist.customers.retrieve(\n    "entry_id",\n)\nprint(blocked_customer.id)',
-      },
       java: {
         method: 'blocklist().customers().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.blocklist.customers.BlockedCustomer;\nimport com.dodopayments.api.models.blocklist.customers.CustomerRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        BlockedCustomer blockedCustomer = client.blocklist().customers().retrieve("entry_id");\n    }\n}',
+      },
+      python: {
+        method: 'blocklist.customers.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nblocked_customer = client.blocklist.customers.retrieve(\n    "entry_id",\n)\nprint(blocked_customer.id)',
       },
       kotlin: {
         method: 'blocklist().customers().retrieve',
@@ -3351,15 +3351,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/blocklist/customers/$ENTRY_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'blocklist.customers.delete',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.blocklist.customers.delete(\n    "entry_id",\n)',
-      },
       java: {
         method: 'blocklist().customers().delete',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.blocklist.customers.CustomerDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.blocklist().customers().delete("entry_id");\n    }\n}',
+      },
+      python: {
+        method: 'blocklist.customers.delete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.blocklist.customers.delete(\n    "entry_id",\n)',
       },
       kotlin: {
         method: 'blocklist().customers().delete',
@@ -3410,15 +3410,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/blocklist/customers/$ENTRY_ID/notes \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "note": "note"\n        }\'',
       },
-      python: {
-        method: 'blocklist.customers.notes.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nblocked_customer_note = client.blocklist.customers.notes.create(\n    entry_id="entry_id",\n    note="note",\n)\nprint(blocked_customer_note.id)',
-      },
       java: {
         method: 'blocklist().customers().notes().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.blocklist.customers.notes.BlockedCustomerNote;\nimport com.dodopayments.api.models.blocklist.customers.notes.NoteCreateParams;\nimport com.dodopayments.api.models.blocklist.customers.notes.NoteRequest;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        NoteCreateParams params = NoteCreateParams.builder()\n            .entryId("entry_id")\n            .noteRequest(NoteRequest.builder()\n                .note("note")\n                .build())\n            .build();\n        BlockedCustomerNote blockedCustomerNote = client.blocklist().customers().notes().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'blocklist.customers.notes.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nblocked_customer_note = client.blocklist.customers.notes.create(\n    entry_id="entry_id",\n    note="note",\n)\nprint(blocked_customer_note.id)',
       },
       kotlin: {
         method: 'blocklist().customers().notes().create',
@@ -3469,15 +3469,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/blocklist/customers/$ENTRY_ID/notes/$NOTE_ID \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "note": "note"\n        }\'',
       },
-      python: {
-        method: 'blocklist.customers.notes.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nblocked_customer_note = client.blocklist.customers.notes.update(\n    note_id="note_id",\n    entry_id="entry_id",\n    note="note",\n)\nprint(blocked_customer_note.id)',
-      },
       java: {
         method: 'blocklist().customers().notes().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.blocklist.customers.notes.BlockedCustomerNote;\nimport com.dodopayments.api.models.blocklist.customers.notes.NoteRequest;\nimport com.dodopayments.api.models.blocklist.customers.notes.NoteUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        NoteUpdateParams params = NoteUpdateParams.builder()\n            .entryId("entry_id")\n            .noteId("note_id")\n            .noteRequest(NoteRequest.builder()\n                .note("note")\n                .build())\n            .build();\n        BlockedCustomerNote blockedCustomerNote = client.blocklist().customers().notes().update(params);\n    }\n}',
+      },
+      python: {
+        method: 'blocklist.customers.notes.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nblocked_customer_note = client.blocklist.customers.notes.update(\n    note_id="note_id",\n    entry_id="entry_id",\n    note="note",\n)\nprint(blocked_customer_note.id)',
       },
       kotlin: {
         method: 'blocklist().customers().notes().update',
@@ -3537,15 +3537,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/refunds \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'refunds.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.refunds.list()\npage = page.items[0]\nprint(page.business_id)',
-      },
       java: {
         method: 'refunds().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.refunds.RefundListPage;\nimport com.dodopayments.api.models.refunds.RefundListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        RefundListPage page = client.refunds().list();\n    }\n}',
+      },
+      python: {
+        method: 'refunds.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.refunds.list()\npage = page.items[0]\nprint(page.business_id)',
       },
       kotlin: {
         method: 'refunds().list',
@@ -3602,15 +3602,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/refunds \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "payment_id": "payment_id"\n        }\'',
       },
-      python: {
-        method: 'refunds.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nrefund = client.refunds.create(\n    payment_id="payment_id",\n)\nprint(refund.brand_id)',
-      },
       java: {
         method: 'refunds().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.refunds.Refund;\nimport com.dodopayments.api.models.refunds.RefundCreateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        RefundCreateParams params = RefundCreateParams.builder()\n            .paymentId("payment_id")\n            .build();\n        Refund refund = client.refunds().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'refunds.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nrefund = client.refunds.create(\n    payment_id="payment_id",\n)\nprint(refund.brand_id)',
       },
       kotlin: {
         method: 'refunds().create',
@@ -3662,15 +3662,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/refunds/$REFUND_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'refunds.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nrefund = client.refunds.retrieve(\n    "ref_F0gZetLvTxxBrMU2CZcmy",\n)\nprint(refund.brand_id)',
-      },
       java: {
         method: 'refunds().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.refunds.Refund;\nimport com.dodopayments.api.models.refunds.RefundRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Refund refund = client.refunds().retrieve("ref_F0gZetLvTxxBrMU2CZcmy");\n    }\n}',
+      },
+      python: {
+        method: 'refunds.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nrefund = client.refunds.retrieve(\n    "ref_F0gZetLvTxxBrMU2CZcmy",\n)\nprint(refund.brand_id)',
       },
       kotlin: {
         method: 'refunds().retrieve',
@@ -3730,15 +3730,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/disputes \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'disputes.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.disputes.list()\npage = page.items[0]\nprint(page.business_id)',
-      },
       java: {
         method: 'disputes().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.disputes.DisputeListPage;\nimport com.dodopayments.api.models.disputes.DisputeListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        DisputeListPage page = client.disputes().list();\n    }\n}',
+      },
+      python: {
+        method: 'disputes.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.disputes.list()\npage = page.items[0]\nprint(page.business_id)',
       },
       kotlin: {
         method: 'disputes().list',
@@ -3790,15 +3790,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/disputes/$DISPUTE_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'disputes.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nget_dispute = client.disputes.retrieve(\n    "dispute_id",\n)\nprint(get_dispute.brand_id)',
-      },
       java: {
         method: 'disputes().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.disputes.DisputeRetrieveParams;\nimport com.dodopayments.api.models.disputes.GetDispute;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        GetDispute getDispute = client.disputes().retrieve("dispute_id");\n    }\n}',
+      },
+      python: {
+        method: 'disputes.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nget_dispute = client.disputes.retrieve(\n    "dispute_id",\n)\nprint(get_dispute.brand_id)',
       },
       kotlin: {
         method: 'disputes().retrieve',
@@ -3855,15 +3855,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/payouts \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'payouts.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.payouts.list()\npage = page.items[0]\nprint(page.business_id)',
-      },
       java: {
         method: 'payouts().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.payouts.PayoutListPage;\nimport com.dodopayments.api.models.payouts.PayoutListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        PayoutListPage page = client.payouts().list();\n    }\n}',
+      },
+      python: {
+        method: 'payouts.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.payouts.list()\npage = page.items[0]\nprint(page.business_id)',
       },
       kotlin: {
         method: 'payouts().list',
@@ -3915,15 +3915,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/payouts/$PAYOUT_ID/breakup \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'payouts.breakup.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nbreakups = client.payouts.breakup.retrieve(\n    "pyt_zFTrrn4sk3x3y2vjDBW3T",\n)\nprint(breakups)',
-      },
       java: {
         method: 'payouts().breakup().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.payouts.breakup.BreakupRetrieveParams;\nimport com.dodopayments.api.models.payouts.breakup.BreakupRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        List<BreakupRetrieveResponse> breakups = client.payouts().breakup().retrieve("pyt_zFTrrn4sk3x3y2vjDBW3T");\n    }\n}',
+      },
+      python: {
+        method: 'payouts.breakup.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nbreakups = client.payouts.breakup.retrieve(\n    "pyt_zFTrrn4sk3x3y2vjDBW3T",\n)\nprint(breakups)',
       },
       kotlin: {
         method: 'payouts().breakup().retrieve',
@@ -3958,14 +3958,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'get',
     summary: '',
     description:
-      "Returns paginated individual balance ledger entries for a payout, with each entry's amount pro-rated into the payout's currency. Supports pagination via `page_size` (default 10, max 100) and `page_number` (default 0) query parameters.",
+      "Returns paginated individual balance ledger entries for a payout. Each entry is converted into the payout's currency at the rate the payout settled at. Supports pagination via `page_size` (default 10, max 100) and `page_number` (default 0) query parameters.",
     stainlessPath: '(resource) payouts.breakup.details > (method) list',
     qualified: 'client.payouts.breakup.details.list',
     params: ['payout_id: string;', 'page_number?: number;', 'page_size?: number;'],
     response:
       '{ id: string; created_at: string; event_type: string; original_amount: number; original_currency: string; payout_currency_amount: number; usd_equivalent_amount: number; description?: string; reference_object_id?: string; }',
     markdown:
-      "## list\n\n`client.payouts.breakup.details.list(payout_id: string, page_number?: number, page_size?: number): { id: string; created_at: string; event_type: string; original_amount: number; original_currency: string; payout_currency_amount: number; usd_equivalent_amount: number; description?: string; reference_object_id?: string; }`\n\n**get** `/payouts/{payout_id}/breakup/details`\n\nReturns paginated individual balance ledger entries for a payout, with each entry's amount pro-rated into the payout's currency. Supports pagination via `page_size` (default 10, max 100) and `page_number` (default 0) query parameters.\n\n### Parameters\n\n- `payout_id: string`\n\n- `page_number?: number`\n  Page number (0-indexed). Default: 0.\n\n- `page_size?: number`\n  Number of items per page. Default: 10, Max: 100.\n\n### Returns\n\n- `{ id: string; created_at: string; event_type: string; original_amount: number; original_currency: string; payout_currency_amount: number; usd_equivalent_amount: number; description?: string; reference_object_id?: string; }`\n  Individual balance ledger entry for a payout, with amounts pro-rated into the payout's currency.\n\n  - `id: string`\n  - `created_at: string`\n  - `event_type: string`\n  - `original_amount: number`\n  - `original_currency: string`\n  - `payout_currency_amount: number`\n  - `usd_equivalent_amount: number`\n  - `description?: string`\n  - `reference_object_id?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const detailListResponse of client.payouts.breakup.details.list('pyt_zFTrrn4sk3x3y2vjDBW3T')) {\n  console.log(detailListResponse);\n}\n```",
+      "## list\n\n`client.payouts.breakup.details.list(payout_id: string, page_number?: number, page_size?: number): { id: string; created_at: string; event_type: string; original_amount: number; original_currency: string; payout_currency_amount: number; usd_equivalent_amount: number; description?: string; reference_object_id?: string; }`\n\n**get** `/payouts/{payout_id}/breakup/details`\n\nReturns paginated individual balance ledger entries for a payout. Each entry is converted into the payout's currency at the rate the payout settled at. Supports pagination via `page_size` (default 10, max 100) and `page_number` (default 0) query parameters.\n\n### Parameters\n\n- `payout_id: string`\n\n- `page_number?: number`\n  Page number (0-indexed). Default: 0.\n\n- `page_size?: number`\n  Number of items per page. Default: 10, Max: 100.\n\n### Returns\n\n- `{ id: string; created_at: string; event_type: string; original_amount: number; original_currency: string; payout_currency_amount: number; usd_equivalent_amount: number; description?: string; reference_object_id?: string; }`\n  Individual balance ledger entry for a payout, converted into the payout's currency.\n\n  - `id: string`\n  - `created_at: string`\n  - `event_type: string`\n  - `original_amount: number`\n  - `original_currency: string`\n  - `payout_currency_amount: number`\n  - `usd_equivalent_amount: number`\n  - `description?: string`\n  - `reference_object_id?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const detailListResponse of client.payouts.breakup.details.list('pyt_zFTrrn4sk3x3y2vjDBW3T')) {\n  console.log(detailListResponse);\n}\n```",
     perLanguage: {
       typescript: {
         method: 'client.payouts.breakup.details.list',
@@ -3976,15 +3976,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/payouts/$PAYOUT_ID/breakup/details \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'payouts.breakup.details.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.payouts.breakup.details.list(\n    payout_id="pyt_zFTrrn4sk3x3y2vjDBW3T",\n)\npage = page.items[0]\nprint(page.id)',
-      },
       java: {
         method: 'payouts().breakup().details().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.payouts.breakup.details.DetailListPage;\nimport com.dodopayments.api.models.payouts.breakup.details.DetailListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        DetailListPage page = client.payouts().breakup().details().list("pyt_zFTrrn4sk3x3y2vjDBW3T");\n    }\n}',
+      },
+      python: {
+        method: 'payouts.breakup.details.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.payouts.breakup.details.list(\n    payout_id="pyt_zFTrrn4sk3x3y2vjDBW3T",\n)\npage = page.items[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'payouts().breakup().details().list',
@@ -4035,15 +4035,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/payouts/$PAYOUT_ID/breakup/details/csv \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'payouts.breakup.details.download_csv',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.payouts.breakup.details.download_csv(\n    "pyt_zFTrrn4sk3x3y2vjDBW3T",\n)',
-      },
       java: {
         method: 'payouts().breakup().details().downloadCsv',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.payouts.breakup.details.DetailDownloadCsvParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.payouts().breakup().details().downloadCsv("pyt_zFTrrn4sk3x3y2vjDBW3T");\n    }\n}',
+      },
+      python: {
+        method: 'payouts.breakup.details.download_csv',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.payouts.breakup.details.download_csv(\n    "pyt_zFTrrn4sk3x3y2vjDBW3T",\n)',
       },
       kotlin: {
         method: 'payouts().breakup().details().downloadCsv',
@@ -4101,15 +4101,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/products \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'products.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.products.list()\npage = page.items[0]\nprint(page.business_id)',
-      },
       java: {
         method: 'products().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.products.ProductListPage;\nimport com.dodopayments.api.models.products.ProductListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ProductListPage page = client.products().list();\n    }\n}',
+      },
+      python: {
+        method: 'products.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.products.list()\npage = page.items[0]\nprint(page.business_id)',
       },
       kotlin: {
         method: 'products().list',
@@ -4177,15 +4177,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/products \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "name": "name",\n          "price": {\n            "currency": "AED",\n            "price": 0,\n            "type": "one_time_price"\n          },\n          "tax_category": "digital_products"\n        }\'',
       },
-      python: {
-        method: 'products.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nproduct = client.products.create(\n    name="name",\n    price={\n        "currency": "AED",\n        "price": 0,\n        "type": "one_time_price",\n    },\n    tax_category="digital_products",\n)\nprint(product.brand_id)',
-      },
       java: {
         method: 'products().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.misc.Currency;\nimport com.dodopayments.api.models.misc.TaxCategory;\nimport com.dodopayments.api.models.products.Price;\nimport com.dodopayments.api.models.products.Product;\nimport com.dodopayments.api.models.products.ProductCreateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ProductCreateParams params = ProductCreateParams.builder()\n            .name("name")\n            .price(Price.OneTimePrice.builder()\n                .currency(Currency.AED)\n                .price(0)\n                .build())\n            .taxCategory(TaxCategory.DIGITAL_PRODUCTS)\n            .build();\n        Product product = client.products().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'products.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nproduct = client.products.create(\n    name="name",\n    price={\n        "currency": "AED",\n        "price": 0,\n        "type": "one_time_price",\n    },\n    tax_category="digital_products",\n)\nprint(product.brand_id)',
       },
       kotlin: {
         method: 'products().create',
@@ -4237,15 +4237,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/products/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'products.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nproduct = client.products.retrieve(\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n)\nprint(product.brand_id)',
-      },
       java: {
         method: 'products().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.products.Product;\nimport com.dodopayments.api.models.products.ProductRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Product product = client.products().retrieve("pdt_R8AWMPiV8RyJElcCKvAID");\n    }\n}',
+      },
+      python: {
+        method: 'products.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nproduct = client.products.retrieve(\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n)\nprint(product.brand_id)',
       },
       kotlin: {
         method: 'products().retrieve',
@@ -4313,15 +4313,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://live.dodopayments.com/products/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
-      python: {
-        method: 'products.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.products.update(\n    id="pdt_R8AWMPiV8RyJElcCKvAID",\n)',
-      },
       java: {
         method: 'products().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.products.ProductUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.products().update("pdt_R8AWMPiV8RyJElcCKvAID");\n    }\n}',
+      },
+      python: {
+        method: 'products.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.products.update(\n    id="pdt_R8AWMPiV8RyJElcCKvAID",\n)',
       },
       kotlin: {
         method: 'products().update',
@@ -4371,15 +4371,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/products/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'products.archive',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.products.archive(\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n)',
-      },
       java: {
         method: 'products().archive',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.products.ProductArchiveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.products().archive("pdt_R8AWMPiV8RyJElcCKvAID");\n    }\n}',
+      },
+      python: {
+        method: 'products.archive',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.products.archive(\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n)',
       },
       kotlin: {
         method: 'products().archive',
@@ -4429,15 +4429,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/products/$ID/unarchive \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'products.unarchive',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.products.unarchive(\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n)',
-      },
       java: {
         method: 'products().unarchive',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.products.ProductUnarchiveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.products().unarchive("pdt_R8AWMPiV8RyJElcCKvAID");\n    }\n}',
+      },
+      python: {
+        method: 'products.unarchive',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.products.unarchive(\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n)',
       },
       kotlin: {
         method: 'products().unarchive',
@@ -4488,15 +4488,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/products/$ID/files \\\n    -X PUT \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "file_name": "file_name"\n        }\'',
       },
-      python: {
-        method: 'products.update_files',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.products.update_files(\n    id="pdt_R8AWMPiV8RyJElcCKvAID",\n    file_name="file_name",\n)\nprint(response.file_id)',
-      },
       java: {
         method: 'products().updateFiles',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.products.ProductUpdateFilesParams;\nimport com.dodopayments.api.models.products.ProductUpdateFilesResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ProductUpdateFilesParams params = ProductUpdateFilesParams.builder()\n            .id("pdt_R8AWMPiV8RyJElcCKvAID")\n            .fileName("file_name")\n            .build();\n        ProductUpdateFilesResponse response = client.products().updateFiles(params);\n    }\n}',
+      },
+      python: {
+        method: 'products.update_files',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.products.update_files(\n    id="pdt_R8AWMPiV8RyJElcCKvAID",\n    file_name="file_name",\n)\nprint(response.file_id)',
       },
       kotlin: {
         method: 'products().updateFiles',
@@ -4547,15 +4547,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/products/$ID/images \\\n    -X PUT \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'products.images.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nimage = client.products.images.update(\n    id="pdt_R8AWMPiV8RyJElcCKvAID",\n)\nprint(image.image_id)',
-      },
       java: {
         method: 'products().images().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.products.images.ImageUpdateParams;\nimport com.dodopayments.api.models.products.images.ImageUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ImageUpdateResponse image = client.products().images().update("pdt_R8AWMPiV8RyJElcCKvAID");\n    }\n}',
+      },
+      python: {
+        method: 'products.images.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nimage = client.products.images.update(\n    id="pdt_R8AWMPiV8RyJElcCKvAID",\n)\nprint(image.image_id)',
       },
       kotlin: {
         method: 'products().images().update',
@@ -4606,15 +4606,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/products/short_links \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'products.short_links.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.products.short_links.list()\npage = page.items[0]\nprint(page.product_id)',
-      },
       java: {
         method: 'products().shortLinks().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.products.shortlinks.ShortLinkListPage;\nimport com.dodopayments.api.models.products.shortlinks.ShortLinkListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ShortLinkListPage page = client.products().shortLinks().list();\n    }\n}',
+      },
+      python: {
+        method: 'products.short_links.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.products.short_links.list()\npage = page.items[0]\nprint(page.product_id)',
       },
       kotlin: {
         method: 'products().shortLinks().list',
@@ -4667,15 +4667,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/products/$ID/short_links \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "slug": "slug"\n        }\'',
       },
-      python: {
-        method: 'products.short_links.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nshort_link = client.products.short_links.create(\n    id="pdt_R8AWMPiV8RyJElcCKvAID",\n    slug="slug",\n)\nprint(short_link.full_url)',
-      },
       java: {
         method: 'products().shortLinks().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.products.shortlinks.ShortLinkCreateParams;\nimport com.dodopayments.api.models.products.shortlinks.ShortLinkCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ShortLinkCreateParams params = ShortLinkCreateParams.builder()\n            .id("pdt_R8AWMPiV8RyJElcCKvAID")\n            .slug("slug")\n            .build();\n        ShortLinkCreateResponse shortLink = client.products().shortLinks().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'products.short_links.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nshort_link = client.products.short_links.create(\n    id="pdt_R8AWMPiV8RyJElcCKvAID",\n    slug="slug",\n)\nprint(short_link.full_url)',
       },
       kotlin: {
         method: 'products().shortLinks().create',
@@ -4727,15 +4727,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/products/$PRODUCT_ID/localized-prices \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'products.localized_prices.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlist_localized_prices_response = client.products.localized_prices.list(\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n)\nprint(list_localized_prices_response.items)',
-      },
       java: {
         method: 'products().localizedPrices().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.products.localizedprices.ListLocalizedPricesResponse;\nimport com.dodopayments.api.models.products.localizedprices.LocalizedPriceListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ListLocalizedPricesResponse listLocalizedPricesResponse = client.products().localizedPrices().list("pdt_R8AWMPiV8RyJElcCKvAID");\n    }\n}',
+      },
+      python: {
+        method: 'products.localized_prices.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlist_localized_prices_response = client.products.localized_prices.list(\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n)\nprint(list_localized_prices_response.items)',
       },
       kotlin: {
         method: 'products().localizedPrices().list',
@@ -4787,15 +4787,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/products/$PRODUCT_ID/localized-prices \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "amount": 0,\n          "currency": "AED"\n        }\'',
       },
-      python: {
-        method: 'products.localized_prices.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlocalized_price = client.products.localized_prices.create(\n    product_id="pdt_R8AWMPiV8RyJElcCKvAID",\n    amount=0,\n    currency="AED",\n)\nprint(localized_price.id)',
-      },
       java: {
         method: 'products().localizedPrices().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.misc.Currency;\nimport com.dodopayments.api.models.products.localizedprices.LocalizedPrice;\nimport com.dodopayments.api.models.products.localizedprices.LocalizedPriceCreateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        LocalizedPriceCreateParams params = LocalizedPriceCreateParams.builder()\n            .productId("pdt_R8AWMPiV8RyJElcCKvAID")\n            .amount(0)\n            .currency(Currency.AED)\n            .build();\n        LocalizedPrice localizedPrice = client.products().localizedPrices().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'products.localized_prices.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlocalized_price = client.products.localized_prices.create(\n    product_id="pdt_R8AWMPiV8RyJElcCKvAID",\n    amount=0,\n    currency="AED",\n)\nprint(localized_price.id)',
       },
       kotlin: {
         method: 'products().localizedPrices().create',
@@ -4847,15 +4847,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/products/$PRODUCT_ID/localized-prices/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'products.localized_prices.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlocalized_price = client.products.localized_prices.retrieve(\n    id="lcp_3aOOT7ebrzBOV41yL2V6s",\n    product_id="pdt_R8AWMPiV8RyJElcCKvAID",\n)\nprint(localized_price.id)',
-      },
       java: {
         method: 'products().localizedPrices().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.products.localizedprices.LocalizedPrice;\nimport com.dodopayments.api.models.products.localizedprices.LocalizedPriceRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        LocalizedPriceRetrieveParams params = LocalizedPriceRetrieveParams.builder()\n            .productId("pdt_R8AWMPiV8RyJElcCKvAID")\n            .id("lcp_3aOOT7ebrzBOV41yL2V6s")\n            .build();\n        LocalizedPrice localizedPrice = client.products().localizedPrices().retrieve(params);\n    }\n}',
+      },
+      python: {
+        method: 'products.localized_prices.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlocalized_price = client.products.localized_prices.retrieve(\n    id="lcp_3aOOT7ebrzBOV41yL2V6s",\n    product_id="pdt_R8AWMPiV8RyJElcCKvAID",\n)\nprint(localized_price.id)',
       },
       kotlin: {
         method: 'products().localizedPrices().retrieve',
@@ -4907,15 +4907,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://live.dodopayments.com/products/$PRODUCT_ID/localized-prices/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
-      python: {
-        method: 'products.localized_prices.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlocalized_price = client.products.localized_prices.update(\n    id="lcp_3aOOT7ebrzBOV41yL2V6s",\n    product_id="pdt_R8AWMPiV8RyJElcCKvAID",\n)\nprint(localized_price.id)',
-      },
       java: {
         method: 'products().localizedPrices().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.products.localizedprices.LocalizedPrice;\nimport com.dodopayments.api.models.products.localizedprices.LocalizedPriceUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        LocalizedPriceUpdateParams params = LocalizedPriceUpdateParams.builder()\n            .productId("pdt_R8AWMPiV8RyJElcCKvAID")\n            .id("lcp_3aOOT7ebrzBOV41yL2V6s")\n            .build();\n        LocalizedPrice localizedPrice = client.products().localizedPrices().update(params);\n    }\n}',
+      },
+      python: {
+        method: 'products.localized_prices.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlocalized_price = client.products.localized_prices.update(\n    id="lcp_3aOOT7ebrzBOV41yL2V6s",\n    product_id="pdt_R8AWMPiV8RyJElcCKvAID",\n)\nprint(localized_price.id)',
       },
       kotlin: {
         method: 'products().localizedPrices().update',
@@ -4965,15 +4965,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/products/$PRODUCT_ID/localized-prices/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'products.localized_prices.archive',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.products.localized_prices.archive(\n    id="lcp_3aOOT7ebrzBOV41yL2V6s",\n    product_id="pdt_R8AWMPiV8RyJElcCKvAID",\n)',
-      },
       java: {
         method: 'products().localizedPrices().archive',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.products.localizedprices.LocalizedPriceArchiveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        LocalizedPriceArchiveParams params = LocalizedPriceArchiveParams.builder()\n            .productId("pdt_R8AWMPiV8RyJElcCKvAID")\n            .id("lcp_3aOOT7ebrzBOV41yL2V6s")\n            .build();\n        client.products().localizedPrices().archive(params);\n    }\n}',
+      },
+      python: {
+        method: 'products.localized_prices.archive',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.products.localized_prices.archive(\n    id="lcp_3aOOT7ebrzBOV41yL2V6s",\n    product_id="pdt_R8AWMPiV8RyJElcCKvAID",\n)',
       },
       kotlin: {
         method: 'products().localizedPrices().archive',
@@ -5023,15 +5023,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/checkout/supported_countries \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'misc.list_supported_countries',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncountry_codes = client.misc.list_supported_countries()\nprint(country_codes)',
-      },
       java: {
         method: 'misc().listSupportedCountries',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.misc.CountryCode;\nimport com.dodopayments.api.models.misc.MiscListSupportedCountriesParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        List<CountryCode> countryCodes = client.misc().listSupportedCountries();\n    }\n}',
+      },
+      python: {
+        method: 'misc.list_supported_countries',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncountry_codes = client.misc.list_supported_countries()\nprint(country_codes)',
       },
       kotlin: {
         method: 'misc().listSupportedCountries',
@@ -5090,15 +5090,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/discounts \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'discounts.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.discounts.list()\npage = page.items[0]\nprint(page.business_id)',
-      },
       java: {
         method: 'discounts().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.discounts.DiscountListPage;\nimport com.dodopayments.api.models.discounts.DiscountListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        DiscountListPage page = client.discounts().list();\n    }\n}',
+      },
+      python: {
+        method: 'discounts.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.discounts.list()\npage = page.items[0]\nprint(page.business_id)',
       },
       kotlin: {
         method: 'discounts().list',
@@ -5155,7 +5155,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     response:
       "{ amount: number; business_id: string; code: string; created_at: string; customer_eligibility: 'any' | 'first_time' | 'existing' | 'specific'; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'flat' | 'percentage'; currency_options?: { currency: string; is_default: boolean; minimum_subtotal: number; max_amount_possible?: number; }[]; expires_at?: string; name?: string; per_customer_usage_limit?: number; starts_at?: string; subscription_cycles?: number; usage_limit?: number; }",
     markdown:
-      "## create\n\n`client.discounts.create(amount: number, type: 'flat' | 'percentage', code?: string, currency_options?: { currency: string; is_default?: boolean; max_amount_possible?: number; minimum_subtotal?: number; }[], customer_eligibility?: 'any' | 'first_time' | 'existing' | 'specific', expires_at?: string, metadata?: object, name?: string, per_customer_usage_limit?: number, preserve_on_plan_change?: boolean, restricted_to?: string[], starts_at?: string, subscription_cycles?: number, usage_limit?: number): { amount: number; business_id: string; code: string; created_at: string; customer_eligibility: 'any' | 'first_time' | 'existing' | 'specific'; discount_id: string; metadata: metadata; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; currency_options?: object[]; expires_at?: string; name?: string; per_customer_usage_limit?: number; starts_at?: string; subscription_cycles?: number; usage_limit?: number; }`\n\n**post** `/discounts`\n\nPOST /discounts\nIf `code` is omitted or empty, a random 16-char uppercase code is generated.\n\n### Parameters\n\n- `amount: number`\n  The discount amount in **basis points** (e.g. `540` means `5.4%`, `10000` means `100%`).\n\nMust be at least 1.\n\n- `type: 'flat' | 'percentage'`\n  The discount type: `percentage` or `flat` (`flat_per_unit` stays blocked).\n\n- `code?: string`\n  Optionally supply a code (will be uppercased).\n- Must be at least 3 characters if provided.\n- If omitted, a random 16-character code is generated.\n\n- `currency_options?: { currency: string; is_default?: boolean; max_amount_possible?: number; minimum_subtotal?: number; }[]`\n  Per-currency options (flat deduction / percentage cap + minimum subtotal).\nRequired for `flat` codes (must include a resolvable default); optional\nper-currency caps for `percentage` codes. Per-row invariants are checked\nin `normalize_currency_options`, not via `#[validate(nested)]`.\n\n- `customer_eligibility?: 'any' | 'first_time' | 'existing' | 'specific'`\n  Who may redeem this discount code. Defaults to `any` (unrestricted).\n`specific` starts with zero attached customers (fails closed) until\ncustomers are attached via `POST /discounts/{id}/customers`.\n\n- `expires_at?: string`\n  When the discount expires, if ever.\n\n- `metadata?: object`\n  Additional metadata for the discount\n\n- `name?: string`\n\n- `per_customer_usage_limit?: number`\n  Maximum number of times a single customer may redeem this discount.\nMust be `<= usage_limit` when both are set.\n\n- `preserve_on_plan_change?: boolean`\n  Whether this discount should be preserved when a subscription changes plans.\nDefault: false (discount is removed on plan change)\n\n- `restricted_to?: string[]`\n  List of product IDs to restrict usage (if any).\n\n- `starts_at?: string`\n  When the discount becomes active, if scheduled for the future.\nNULL = active immediately. Must be strictly before `expires_at` when both are set.\n\n- `subscription_cycles?: number`\n  Number of subscription billing cycles this discount is valid for.\nIf not provided, the discount will be applied indefinitely to\nall recurring payments related to the subscription.\n\n- `usage_limit?: number`\n  How many times this discount can be used (if any).\nMust be >= 1 if provided.\n\n### Returns\n\n- `{ amount: number; business_id: string; code: string; created_at: string; customer_eligibility: 'any' | 'first_time' | 'existing' | 'specific'; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'flat' | 'percentage'; currency_options?: { currency: string; is_default: boolean; minimum_subtotal: number; max_amount_possible?: number; }[]; expires_at?: string; name?: string; per_customer_usage_limit?: number; starts_at?: string; subscription_cycles?: number; usage_limit?: number; }`\n\n  - `amount: number`\n  - `business_id: string`\n  - `code: string`\n  - `created_at: string`\n  - `customer_eligibility: 'any' | 'first_time' | 'existing' | 'specific'`\n  - `discount_id: string`\n  - `metadata: object`\n  - `preserve_on_plan_change: boolean`\n  - `restricted_to: string[]`\n  - `times_used: number`\n  - `type: 'flat' | 'percentage'`\n  - `currency_options?: { currency: string; is_default: boolean; minimum_subtotal: number; max_amount_possible?: number; }[]`\n  - `expires_at?: string`\n  - `name?: string`\n  - `per_customer_usage_limit?: number`\n  - `starts_at?: string`\n  - `subscription_cycles?: number`\n  - `usage_limit?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst discount = await client.discounts.create({ amount: 0, type: 'flat' });\n\nconsole.log(discount);\n```",
+      "## create\n\n`client.discounts.create(amount: number, type: 'flat' | 'percentage', code?: string, currency_options?: { currency: string; is_default?: boolean; max_amount_possible?: number; minimum_subtotal?: number; }[], customer_eligibility?: 'any' | 'first_time' | 'existing' | 'specific', expires_at?: string, metadata?: object, name?: string, per_customer_usage_limit?: number, preserve_on_plan_change?: boolean, restricted_to?: string[], starts_at?: string, subscription_cycles?: number, usage_limit?: number): { amount: number; business_id: string; code: string; created_at: string; customer_eligibility: 'any' | 'first_time' | 'existing' | 'specific'; discount_id: string; metadata: metadata; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; currency_options?: object[]; expires_at?: string; name?: string; per_customer_usage_limit?: number; starts_at?: string; subscription_cycles?: number; usage_limit?: number; }`\n\n**post** `/discounts`\n\nPOST /discounts\nIf `code` is omitted or empty, a random 16-char uppercase code is generated.\n\n### Parameters\n\n- `amount: number`\n  The discount amount in **basis points** (e.g. `540` means `5.4%`, `10000` means `100%`).\n\nMust be at least 1.\n\n- `type: 'flat' | 'percentage'`\n  The discount type: `percentage` or `flat` (`flat_per_unit` stays blocked).\n\n- `code?: string`\n  Optionally supply a code (will be uppercased).\n- Must be at least 3 characters if provided.\n- If omitted, a random 16-character code is generated.\n\n- `currency_options?: { currency: string; is_default?: boolean; max_amount_possible?: number; minimum_subtotal?: number; }[]`\n  Per-currency options (flat deduction / percentage cap + minimum subtotal).\nCheckout uses the row for the currency the buyer pays in. For any other\ncurrency it converts the default row. Required for `flat` codes (must\ninclude a resolvable default); optional per-currency caps for\n`percentage` codes. Per-row invariants are checked in\n`normalize_currency_options`, not via `#[validate(nested)]`.\n\n- `customer_eligibility?: 'any' | 'first_time' | 'existing' | 'specific'`\n  Who may redeem this discount code. Defaults to `any` (unrestricted).\n`specific` starts with zero attached customers (fails closed) until\ncustomers are attached via `POST /discounts/{id}/customers`.\n\n- `expires_at?: string`\n  When the discount expires, if ever.\n\n- `metadata?: object`\n  Additional metadata for the discount\n\n- `name?: string`\n\n- `per_customer_usage_limit?: number`\n  Maximum number of times a single customer may redeem this discount.\nMust be `<= usage_limit` when both are set.\n\n- `preserve_on_plan_change?: boolean`\n  Whether this discount should be preserved when a subscription changes plans.\nDefault: false (discount is removed on plan change)\n\n- `restricted_to?: string[]`\n  List of product IDs to restrict usage (if any).\n\n- `starts_at?: string`\n  When the discount becomes active, if scheduled for the future.\nNULL = active immediately. Must be strictly before `expires_at` when both are set.\n\n- `subscription_cycles?: number`\n  Number of subscription billing cycles this discount is valid for.\nIf not provided, the discount will be applied indefinitely to\nall recurring payments related to the subscription.\n\n- `usage_limit?: number`\n  How many times this discount can be used (if any).\nMust be >= 1 if provided.\n\n### Returns\n\n- `{ amount: number; business_id: string; code: string; created_at: string; customer_eligibility: 'any' | 'first_time' | 'existing' | 'specific'; discount_id: string; metadata: object; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'flat' | 'percentage'; currency_options?: { currency: string; is_default: boolean; minimum_subtotal: number; max_amount_possible?: number; }[]; expires_at?: string; name?: string; per_customer_usage_limit?: number; starts_at?: string; subscription_cycles?: number; usage_limit?: number; }`\n\n  - `amount: number`\n  - `business_id: string`\n  - `code: string`\n  - `created_at: string`\n  - `customer_eligibility: 'any' | 'first_time' | 'existing' | 'specific'`\n  - `discount_id: string`\n  - `metadata: object`\n  - `preserve_on_plan_change: boolean`\n  - `restricted_to: string[]`\n  - `times_used: number`\n  - `type: 'flat' | 'percentage'`\n  - `currency_options?: { currency: string; is_default: boolean; minimum_subtotal: number; max_amount_possible?: number; }[]`\n  - `expires_at?: string`\n  - `name?: string`\n  - `per_customer_usage_limit?: number`\n  - `starts_at?: string`\n  - `subscription_cycles?: number`\n  - `usage_limit?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst discount = await client.discounts.create({ amount: 0, type: 'flat' });\n\nconsole.log(discount);\n```",
     perLanguage: {
       typescript: {
         method: 'client.discounts.create',
@@ -5166,15 +5166,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/discounts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "amount": 0,\n          "type": "flat"\n        }\'',
       },
-      python: {
-        method: 'discounts.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ndiscount = client.discounts.create(\n    amount=0,\n    type="flat",\n)\nprint(discount.business_id)',
-      },
       java: {
         method: 'discounts().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.discounts.Discount;\nimport com.dodopayments.api.models.discounts.DiscountCreateParams;\nimport com.dodopayments.api.models.discounts.DiscountType;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        DiscountCreateParams params = DiscountCreateParams.builder()\n            .amount(0)\n            .type(DiscountType.FLAT)\n            .build();\n        Discount discount = client.discounts().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'discounts.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ndiscount = client.discounts.create(\n    amount=0,\n    type="flat",\n)\nprint(discount.business_id)',
       },
       kotlin: {
         method: 'discounts().create',
@@ -5226,15 +5226,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/discounts/$DISCOUNT_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'discounts.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ndiscount = client.discounts.retrieve(\n    "dsc_qxxEmg5PuM1uNTE0LgkP9",\n)\nprint(discount.business_id)',
-      },
       java: {
         method: 'discounts().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.discounts.Discount;\nimport com.dodopayments.api.models.discounts.DiscountRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Discount discount = client.discounts().retrieve("dsc_qxxEmg5PuM1uNTE0LgkP9");\n    }\n}',
+      },
+      python: {
+        method: 'discounts.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ndiscount = client.discounts.retrieve(\n    "dsc_qxxEmg5PuM1uNTE0LgkP9",\n)\nprint(discount.business_id)',
       },
       kotlin: {
         method: 'discounts().retrieve',
@@ -5284,15 +5284,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/discounts/$DISCOUNT_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'discounts.delete',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.discounts.delete(\n    "dsc_qxxEmg5PuM1uNTE0LgkP9",\n)',
-      },
       java: {
         method: 'discounts().delete',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.discounts.DiscountDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.discounts().delete("dsc_qxxEmg5PuM1uNTE0LgkP9");\n    }\n}',
+      },
+      python: {
+        method: 'discounts.delete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.discounts.delete(\n    "dsc_qxxEmg5PuM1uNTE0LgkP9",\n)',
       },
       kotlin: {
         method: 'discounts().delete',
@@ -5360,15 +5360,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://live.dodopayments.com/discounts/$DISCOUNT_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
-      python: {
-        method: 'discounts.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ndiscount = client.discounts.update(\n    discount_id="dsc_qxxEmg5PuM1uNTE0LgkP9",\n)\nprint(discount.business_id)',
-      },
       java: {
         method: 'discounts().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.discounts.Discount;\nimport com.dodopayments.api.models.discounts.DiscountUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Discount discount = client.discounts().update("dsc_qxxEmg5PuM1uNTE0LgkP9");\n    }\n}',
+      },
+      python: {
+        method: 'discounts.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ndiscount = client.discounts.update(\n    discount_id="dsc_qxxEmg5PuM1uNTE0LgkP9",\n)\nprint(discount.business_id)',
       },
       kotlin: {
         method: 'discounts().update',
@@ -5421,15 +5421,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/discounts/code/$CODE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'discounts.retrieve_by_code',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ndiscount = client.discounts.retrieve_by_code(\n    "code",\n)\nprint(discount.business_id)',
-      },
       java: {
         method: 'discounts().retrieveByCode',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.discounts.Discount;\nimport com.dodopayments.api.models.discounts.DiscountRetrieveByCodeParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Discount discount = client.discounts().retrieveByCode("code");\n    }\n}',
+      },
+      python: {
+        method: 'discounts.retrieve_by_code',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ndiscount = client.discounts.retrieve_by_code(\n    "code",\n)\nprint(discount.business_id)',
       },
       kotlin: {
         method: 'discounts().retrieveByCode',
@@ -5481,15 +5481,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/addons \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'addons.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.addons.list()\npage = page.items[0]\nprint(page.id)',
-      },
       java: {
         method: 'addons().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.addons.AddonListPage;\nimport com.dodopayments.api.models.addons.AddonListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        AddonListPage page = client.addons().list();\n    }\n}',
+      },
+      python: {
+        method: 'addons.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.addons.list()\npage = page.items[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'addons().list',
@@ -5547,15 +5547,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/addons \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "currency": "AED",\n          "name": "name",\n          "price": 0,\n          "tax_category": "digital_products"\n        }\'',
       },
-      python: {
-        method: 'addons.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\naddon_response = client.addons.create(\n    currency="AED",\n    name="name",\n    price=0,\n    tax_category="digital_products",\n)\nprint(addon_response.id)',
-      },
       java: {
         method: 'addons().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.addons.AddonCreateParams;\nimport com.dodopayments.api.models.addons.AddonResponse;\nimport com.dodopayments.api.models.misc.Currency;\nimport com.dodopayments.api.models.misc.TaxCategory;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        AddonCreateParams params = AddonCreateParams.builder()\n            .currency(Currency.AED)\n            .name("name")\n            .price(0)\n            .taxCategory(TaxCategory.DIGITAL_PRODUCTS)\n            .build();\n        AddonResponse addonResponse = client.addons().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'addons.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\naddon_response = client.addons.create(\n    currency="AED",\n    name="name",\n    price=0,\n    tax_category="digital_products",\n)\nprint(addon_response.id)',
       },
       kotlin: {
         method: 'addons().create',
@@ -5607,15 +5607,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/addons/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'addons.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\naddon_response = client.addons.retrieve(\n    "adn_NX1zdqW4Hbivsqz8vI9dc",\n)\nprint(addon_response.id)',
-      },
       java: {
         method: 'addons().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.addons.AddonResponse;\nimport com.dodopayments.api.models.addons.AddonRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        AddonResponse addonResponse = client.addons().retrieve("adn_NX1zdqW4Hbivsqz8vI9dc");\n    }\n}',
+      },
+      python: {
+        method: 'addons.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\naddon_response = client.addons.retrieve(\n    "adn_NX1zdqW4Hbivsqz8vI9dc",\n)\nprint(addon_response.id)',
       },
       kotlin: {
         method: 'addons().retrieve',
@@ -5675,15 +5675,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://live.dodopayments.com/addons/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
-      python: {
-        method: 'addons.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\naddon_response = client.addons.update(\n    id="adn_NX1zdqW4Hbivsqz8vI9dc",\n)\nprint(addon_response.id)',
-      },
       java: {
         method: 'addons().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.addons.AddonResponse;\nimport com.dodopayments.api.models.addons.AddonUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        AddonResponse addonResponse = client.addons().update("adn_NX1zdqW4Hbivsqz8vI9dc");\n    }\n}',
+      },
+      python: {
+        method: 'addons.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\naddon_response = client.addons.update(\n    id="adn_NX1zdqW4Hbivsqz8vI9dc",\n)\nprint(addon_response.id)',
       },
       kotlin: {
         method: 'addons().update',
@@ -5734,15 +5734,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/addons/$ID/images \\\n    -X PUT \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'addons.update_images',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.addons.update_images(\n    "adn_NX1zdqW4Hbivsqz8vI9dc",\n)\nprint(response.image_id)',
-      },
       java: {
         method: 'addons().updateImages',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.addons.AddonUpdateImagesParams;\nimport com.dodopayments.api.models.addons.AddonUpdateImagesResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        AddonUpdateImagesResponse response = client.addons().updateImages("adn_NX1zdqW4Hbivsqz8vI9dc");\n    }\n}',
+      },
+      python: {
+        method: 'addons.update_images',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.addons.update_images(\n    "adn_NX1zdqW4Hbivsqz8vI9dc",\n)\nprint(response.image_id)',
       },
       kotlin: {
         method: 'addons().updateImages',
@@ -5794,15 +5794,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/brands \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'brands.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nbrands = client.brands.list()\nprint(brands.items)',
-      },
       java: {
         method: 'brands().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.brands.BrandListParams;\nimport com.dodopayments.api.models.brands.BrandListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        BrandListResponse brands = client.brands().list();\n    }\n}',
+      },
+      python: {
+        method: 'brands.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nbrands = client.brands.list()\nprint(brands.items)',
       },
       kotlin: {
         method: 'brands().list',
@@ -5860,15 +5860,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://live.dodopayments.com/brands \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
-      python: {
-        method: 'brands.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nbrand = client.brands.create()\nprint(brand.brand_id)',
-      },
       java: {
         method: 'brands().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.brands.Brand;\nimport com.dodopayments.api.models.brands.BrandCreateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Brand brand = client.brands().create();\n    }\n}',
+      },
+      python: {
+        method: 'brands.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nbrand = client.brands.create()\nprint(brand.brand_id)',
       },
       kotlin: {
         method: 'brands().create',
@@ -5920,15 +5920,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/brands/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'brands.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nbrand = client.brands.retrieve(\n    "brnd_8dFiAW42v28JzhlVSocjq",\n)\nprint(brand.brand_id)',
-      },
       java: {
         method: 'brands().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.brands.Brand;\nimport com.dodopayments.api.models.brands.BrandRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Brand brand = client.brands().retrieve("brnd_8dFiAW42v28JzhlVSocjq");\n    }\n}',
+      },
+      python: {
+        method: 'brands.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nbrand = client.brands.retrieve(\n    "brnd_8dFiAW42v28JzhlVSocjq",\n)\nprint(brand.brand_id)',
       },
       kotlin: {
         method: 'brands().retrieve',
@@ -5988,15 +5988,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://live.dodopayments.com/brands/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
-      python: {
-        method: 'brands.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nbrand = client.brands.update(\n    id="brnd_8dFiAW42v28JzhlVSocjq",\n)\nprint(brand.brand_id)',
-      },
       java: {
         method: 'brands().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.brands.Brand;\nimport com.dodopayments.api.models.brands.BrandUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Brand brand = client.brands().update("brnd_8dFiAW42v28JzhlVSocjq");\n    }\n}',
+      },
+      python: {
+        method: 'brands.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nbrand = client.brands.update(\n    id="brnd_8dFiAW42v28JzhlVSocjq",\n)\nprint(brand.brand_id)',
       },
       kotlin: {
         method: 'brands().update',
@@ -6047,15 +6047,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/brands/$ID/images \\\n    -X PUT \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'brands.update_images',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.brands.update_images(\n    "brnd_8dFiAW42v28JzhlVSocjq",\n)\nprint(response.image_id)',
-      },
       java: {
         method: 'brands().updateImages',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.brands.BrandUpdateImagesParams;\nimport com.dodopayments.api.models.brands.BrandUpdateImagesResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        BrandUpdateImagesResponse response = client.brands().updateImages("brnd_8dFiAW42v28JzhlVSocjq");\n    }\n}',
+      },
+      python: {
+        method: 'brands.update_images',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.brands.update_images(\n    "brnd_8dFiAW42v28JzhlVSocjq",\n)\nprint(response.image_id)',
       },
       kotlin: {
         method: 'brands().updateImages',
@@ -6109,15 +6109,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://live.dodopayments.com/brands/$ID/archive \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
-      python: {
-        method: 'brands.archive',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.brands.archive(\n    id="brnd_8dFiAW42v28JzhlVSocjq",\n)\nprint(response.brand_id)',
-      },
       java: {
         method: 'brands().archive',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.brands.BrandArchiveParams;\nimport com.dodopayments.api.models.brands.BrandArchiveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        BrandArchiveResponse response = client.brands().archive("brnd_8dFiAW42v28JzhlVSocjq");\n    }\n}',
+      },
+      python: {
+        method: 'brands.archive',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.brands.archive(\n    id="brnd_8dFiAW42v28JzhlVSocjq",\n)\nprint(response.brand_id)',
       },
       kotlin: {
         method: 'brands().archive',
@@ -6169,15 +6169,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/webhooks \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'webhooks.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.webhooks.list()\npage = page.data[0]\nprint(page.id)',
-      },
       java: {
         method: 'webhooks().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.webhooks.WebhookListPage;\nimport com.dodopayments.api.models.webhooks.WebhookListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        WebhookListPage page = client.webhooks().list();\n    }\n}',
+      },
+      python: {
+        method: 'webhooks.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.webhooks.list()\npage = page.data[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'webhooks().list',
@@ -6238,15 +6238,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/webhooks \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "url": "url"\n        }\'',
       },
-      python: {
-        method: 'webhooks.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nwebhook_details = client.webhooks.create(\n    url="url",\n)\nprint(webhook_details.id)',
-      },
       java: {
         method: 'webhooks().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.webhooks.WebhookCreateParams;\nimport com.dodopayments.api.models.webhooks.WebhookDetails;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        WebhookCreateParams params = WebhookCreateParams.builder()\n            .url("url")\n            .build();\n        WebhookDetails webhookDetails = client.webhooks().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'webhooks.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nwebhook_details = client.webhooks.create(\n    url="url",\n)\nprint(webhook_details.id)',
       },
       kotlin: {
         method: 'webhooks().create',
@@ -6298,15 +6298,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'webhooks.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nwebhook_details = client.webhooks.retrieve(\n    "whk_YdWqVEGKmSYKbsIyDxEab",\n)\nprint(webhook_details.id)',
-      },
       java: {
         method: 'webhooks().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.webhooks.WebhookDetails;\nimport com.dodopayments.api.models.webhooks.WebhookRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        WebhookDetails webhookDetails = client.webhooks().retrieve("whk_YdWqVEGKmSYKbsIyDxEab");\n    }\n}',
+      },
+      python: {
+        method: 'webhooks.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nwebhook_details = client.webhooks.retrieve(\n    "whk_YdWqVEGKmSYKbsIyDxEab",\n)\nprint(webhook_details.id)',
       },
       kotlin: {
         method: 'webhooks().retrieve',
@@ -6356,15 +6356,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'webhooks.delete',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.webhooks.delete(\n    "whk_YdWqVEGKmSYKbsIyDxEab",\n)',
-      },
       java: {
         method: 'webhooks().delete',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.webhooks.WebhookDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.webhooks().delete("whk_YdWqVEGKmSYKbsIyDxEab");\n    }\n}',
+      },
+      python: {
+        method: 'webhooks.delete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.webhooks.delete(\n    "whk_YdWqVEGKmSYKbsIyDxEab",\n)',
       },
       kotlin: {
         method: 'webhooks().delete',
@@ -6424,15 +6424,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
-      python: {
-        method: 'webhooks.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nwebhook_details = client.webhooks.update(\n    webhook_id="whk_YdWqVEGKmSYKbsIyDxEab",\n)\nprint(webhook_details.id)',
-      },
       java: {
         method: 'webhooks().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.webhooks.WebhookDetails;\nimport com.dodopayments.api.models.webhooks.WebhookUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        WebhookDetails webhookDetails = client.webhooks().update("whk_YdWqVEGKmSYKbsIyDxEab");\n    }\n}',
+      },
+      python: {
+        method: 'webhooks.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nwebhook_details = client.webhooks.update(\n    webhook_id="whk_YdWqVEGKmSYKbsIyDxEab",\n)\nprint(webhook_details.id)',
       },
       kotlin: {
         method: 'webhooks().update',
@@ -6483,15 +6483,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID/secret \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'webhooks.retrieve_secret',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.webhooks.retrieve_secret(\n    "whk_YdWqVEGKmSYKbsIyDxEab",\n)\nprint(response.secret)',
-      },
       java: {
         method: 'webhooks().retrieveSecret',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.webhooks.WebhookRetrieveSecretParams;\nimport com.dodopayments.api.models.webhooks.WebhookRetrieveSecretResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        WebhookRetrieveSecretResponse response = client.webhooks().retrieveSecret("whk_YdWqVEGKmSYKbsIyDxEab");\n    }\n}',
+      },
+      python: {
+        method: 'webhooks.retrieve_secret',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.webhooks.retrieve_secret(\n    "whk_YdWqVEGKmSYKbsIyDxEab",\n)\nprint(response.secret)',
       },
       kotlin: {
         method: 'webhooks().retrieveSecret',
@@ -6534,14 +6534,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.webhooks.unwrap();",
       },
+      java: {
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.webhooks.WebhookUnwrapParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.webhooks().unwrap();\n    }\n}',
+      },
       python: {
         method: 'webhooks.unwrap',
         example:
           'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.webhooks.unwrap()',
-      },
-      java: {
-        example:
-          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.webhooks.WebhookUnwrapParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.webhooks().unwrap();\n    }\n}',
       },
       kotlin: {
         example:
@@ -6578,14 +6578,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.webhooks.unsafeUnwrap();",
       },
+      java: {
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.webhooks.WebhookUnsafeUnwrapParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.webhooks().unsafeUnwrap();\n    }\n}',
+      },
       python: {
         method: 'webhooks.unsafe_unwrap',
         example:
           'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.webhooks.unsafe_unwrap()',
-      },
-      java: {
-        example:
-          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.webhooks.WebhookUnsafeUnwrapParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.webhooks().unsafeUnwrap();\n    }\n}',
       },
       kotlin: {
         example:
@@ -6630,15 +6630,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID/headers \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'webhooks.headers.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nheader = client.webhooks.headers.retrieve(\n    "whk_YdWqVEGKmSYKbsIyDxEab",\n)\nprint(header.headers)',
-      },
       java: {
         method: 'webhooks().headers().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.webhooks.headers.HeaderRetrieveParams;\nimport com.dodopayments.api.models.webhooks.headers.HeaderRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        HeaderRetrieveResponse header = client.webhooks().headers().retrieve("whk_YdWqVEGKmSYKbsIyDxEab");\n    }\n}',
+      },
+      python: {
+        method: 'webhooks.headers.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nheader = client.webhooks.headers.retrieve(\n    "whk_YdWqVEGKmSYKbsIyDxEab",\n)\nprint(header.headers)',
       },
       kotlin: {
         method: 'webhooks().headers().retrieve',
@@ -6688,15 +6688,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/webhooks/$WEBHOOK_ID/headers \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "headers": {\n            "foo": "string"\n          }\n        }\'',
       },
-      python: {
-        method: 'webhooks.headers.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.webhooks.headers.update(\n    webhook_id="whk_YdWqVEGKmSYKbsIyDxEab",\n    headers={\n        "foo": "string"\n    },\n)',
-      },
       java: {
         method: 'webhooks().headers().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.core.JsonValue;\nimport com.dodopayments.api.models.webhooks.headers.HeaderUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        HeaderUpdateParams params = HeaderUpdateParams.builder()\n            .webhookId("whk_YdWqVEGKmSYKbsIyDxEab")\n            .headers(HeaderUpdateParams.Headers.builder()\n                .putAdditionalProperty("foo", JsonValue.from("string"))\n                .build())\n            .build();\n        client.webhooks().headers().update(params);\n    }\n}',
+      },
+      python: {
+        method: 'webhooks.headers.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.webhooks.headers.update(\n    webhook_id="whk_YdWqVEGKmSYKbsIyDxEab",\n    headers={\n        "foo": "string"\n    },\n)',
       },
       kotlin: {
         method: 'webhooks().headers().update',
@@ -6750,15 +6750,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/events/ingest \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "events": [\n            {\n              "customer_id": "customer_id",\n              "event_id": "event_id",\n              "event_name": "event_name"\n            }\n          ]\n        }\'',
       },
-      python: {
-        method: 'usage_events.ingest',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.usage_events.ingest(\n    events=[{\n        "customer_id": "customer_id",\n        "event_id": "event_id",\n        "event_name": "event_name",\n    }],\n)\nprint(response.ingested_count)',
-      },
       java: {
         method: 'usageEvents().ingest',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.usageevents.EventInput;\nimport com.dodopayments.api.models.usageevents.UsageEventIngestParams;\nimport com.dodopayments.api.models.usageevents.UsageEventIngestResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        UsageEventIngestParams params = UsageEventIngestParams.builder()\n            .addEvent(EventInput.builder()\n                .customerId("customer_id")\n                .eventId("event_id")\n                .eventName("event_name")\n                .build())\n            .build();\n        UsageEventIngestResponse response = client.usageEvents().ingest(params);\n    }\n}',
+      },
+      python: {
+        method: 'usage_events.ingest',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.usage_events.ingest(\n    events=[{\n        "customer_id": "customer_id",\n        "event_id": "event_id",\n        "event_name": "event_name",\n    }],\n)\nprint(response.ingested_count)',
       },
       kotlin: {
         method: 'usageEvents().ingest',
@@ -6819,15 +6819,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/events \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'usage_events.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.usage_events.list()\npage = page.items[0]\nprint(page.business_id)',
-      },
       java: {
         method: 'usageEvents().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.usageevents.UsageEventListPage;\nimport com.dodopayments.api.models.usageevents.UsageEventListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        UsageEventListPage page = client.usageEvents().list();\n    }\n}',
+      },
+      python: {
+        method: 'usage_events.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.usage_events.list()\npage = page.items[0]\nprint(page.business_id)',
       },
       kotlin: {
         method: 'usageEvents().list',
@@ -6880,15 +6880,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/events/$EVENT_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'usage_events.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nevent = client.usage_events.retrieve(\n    "event_id",\n)\nprint(event.business_id)',
-      },
       java: {
         method: 'usageEvents().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.usageevents.Event;\nimport com.dodopayments.api.models.usageevents.UsageEventRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Event event = client.usageEvents().retrieve("event_id");\n    }\n}',
+      },
+      python: {
+        method: 'usage_events.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nevent = client.usage_events.retrieve(\n    "event_id",\n)\nprint(event.business_id)',
       },
       kotlin: {
         method: 'usageEvents().retrieve',
@@ -6940,15 +6940,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/meters \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'meters.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.meters.list()\npage = page.items[0]\nprint(page.id)',
-      },
       java: {
         method: 'meters().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.meters.MeterListPage;\nimport com.dodopayments.api.models.meters.MeterListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        MeterListPage page = client.meters().list();\n    }\n}',
+      },
+      python: {
+        method: 'meters.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.meters.list()\npage = page.items[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'meters().list',
@@ -7007,15 +7007,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/meters \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "aggregation": {\n            "type": "count"\n          },\n          "event_name": "event_name",\n          "measurement_unit": "measurement_unit",\n          "name": "name"\n        }\'',
       },
-      python: {
-        method: 'meters.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nmeter = client.meters.create(\n    aggregation={\n        "type": "count"\n    },\n    event_name="event_name",\n    measurement_unit="measurement_unit",\n    name="name",\n)\nprint(meter.id)',
-      },
       java: {
         method: 'meters().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.meters.Meter;\nimport com.dodopayments.api.models.meters.MeterAggregation;\nimport com.dodopayments.api.models.meters.MeterCreateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        MeterCreateParams params = MeterCreateParams.builder()\n            .aggregation(MeterAggregation.builder()\n                .type(MeterAggregation.Type.COUNT)\n                .build())\n            .eventName("event_name")\n            .measurementUnit("measurement_unit")\n            .name("name")\n            .build();\n        Meter meter = client.meters().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'meters.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nmeter = client.meters.create(\n    aggregation={\n        "type": "count"\n    },\n    event_name="event_name",\n    measurement_unit="measurement_unit",\n    name="name",\n)\nprint(meter.id)',
       },
       kotlin: {
         method: 'meters().create',
@@ -7067,15 +7067,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/meters/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'meters.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nmeter = client.meters.retrieve(\n    "mtr_h5tgTWL55OyMO0L2Q9w9v",\n)\nprint(meter.id)',
-      },
       java: {
         method: 'meters().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.meters.Meter;\nimport com.dodopayments.api.models.meters.MeterRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Meter meter = client.meters().retrieve("mtr_h5tgTWL55OyMO0L2Q9w9v");\n    }\n}',
+      },
+      python: {
+        method: 'meters.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nmeter = client.meters.retrieve(\n    "mtr_h5tgTWL55OyMO0L2Q9w9v",\n)\nprint(meter.id)',
       },
       kotlin: {
         method: 'meters().retrieve',
@@ -7125,15 +7125,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/meters/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'meters.archive',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.meters.archive(\n    "mtr_h5tgTWL55OyMO0L2Q9w9v",\n)',
-      },
       java: {
         method: 'meters().archive',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.meters.MeterArchiveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.meters().archive("mtr_h5tgTWL55OyMO0L2Q9w9v");\n    }\n}',
+      },
+      python: {
+        method: 'meters.archive',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.meters.archive(\n    "mtr_h5tgTWL55OyMO0L2Q9w9v",\n)',
       },
       kotlin: {
         method: 'meters().archive',
@@ -7183,15 +7183,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/meters/$ID/unarchive \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'meters.unarchive',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.meters.unarchive(\n    "mtr_h5tgTWL55OyMO0L2Q9w9v",\n)',
-      },
       java: {
         method: 'meters().unarchive',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.meters.MeterUnarchiveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.meters().unarchive("mtr_h5tgTWL55OyMO0L2Q9w9v");\n    }\n}',
+      },
+      python: {
+        method: 'meters.unarchive',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.meters.unarchive(\n    "mtr_h5tgTWL55OyMO0L2Q9w9v",\n)',
       },
       kotlin: {
         method: 'meters().unarchive',
@@ -7252,15 +7252,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/balances/ledger \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'balances.retrieve_ledger',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.balances.retrieve_ledger()\npage = page.items[0]\nprint(page.id)',
-      },
       java: {
         method: 'balances().retrieveLedger',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.balances.BalanceRetrieveLedgerPage;\nimport com.dodopayments.api.models.balances.BalanceRetrieveLedgerParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        BalanceRetrieveLedgerPage page = client.balances().retrieveLedger();\n    }\n}',
+      },
+      python: {
+        method: 'balances.retrieve_ledger',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.balances.retrieve_ledger()\npage = page.items[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'balances().retrieveLedger',
@@ -7313,15 +7313,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/credit-entitlements \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'credit_entitlements.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.credit_entitlements.list()\npage = page.items[0]\nprint(page.id)',
-      },
       java: {
         method: 'creditEntitlements().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlementListPage;\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlementListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CreditEntitlementListPage page = client.creditEntitlements().list();\n    }\n}',
+      },
+      python: {
+        method: 'credit_entitlements.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.credit_entitlements.list()\npage = page.items[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'creditEntitlements().list',
@@ -7390,15 +7390,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/credit-entitlements \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "name": "name",\n          "overage_enabled": true,\n          "precision": 0,\n          "rollover_enabled": true,\n          "unit": "unit"\n        }\'',
       },
-      python: {
-        method: 'credit_entitlements.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncredit_entitlement = client.credit_entitlements.create(\n    name="name",\n    overage_enabled=True,\n    precision=0,\n    rollover_enabled=True,\n    unit="unit",\n)\nprint(credit_entitlement.id)',
-      },
       java: {
         method: 'creditEntitlements().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlement;\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlementCreateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CreditEntitlementCreateParams params = CreditEntitlementCreateParams.builder()\n            .name("name")\n            .overageEnabled(true)\n            .precision(0)\n            .rolloverEnabled(true)\n            .unit("unit")\n            .build();\n        CreditEntitlement creditEntitlement = client.creditEntitlements().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'credit_entitlements.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncredit_entitlement = client.credit_entitlements.create(\n    name="name",\n    overage_enabled=True,\n    precision=0,\n    rollover_enabled=True,\n    unit="unit",\n)\nprint(credit_entitlement.id)',
       },
       kotlin: {
         method: 'creditEntitlements().create',
@@ -7451,15 +7451,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/credit-entitlements/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'credit_entitlements.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncredit_entitlement = client.credit_entitlements.retrieve(\n    "cde_ztxm5XJsKxWucRWA3rjdM",\n)\nprint(credit_entitlement.id)',
-      },
       java: {
         method: 'creditEntitlements().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlement;\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlementRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CreditEntitlement creditEntitlement = client.creditEntitlements().retrieve("cde_ztxm5XJsKxWucRWA3rjdM");\n    }\n}',
+      },
+      python: {
+        method: 'credit_entitlements.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncredit_entitlement = client.credit_entitlements.retrieve(\n    "cde_ztxm5XJsKxWucRWA3rjdM",\n)\nprint(credit_entitlement.id)',
       },
       kotlin: {
         method: 'creditEntitlements().retrieve',
@@ -7509,15 +7509,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/credit-entitlements/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'credit_entitlements.delete',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.credit_entitlements.delete(\n    "cde_ztxm5XJsKxWucRWA3rjdM",\n)',
-      },
       java: {
         method: 'creditEntitlements().delete',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlementDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.creditEntitlements().delete("cde_ztxm5XJsKxWucRWA3rjdM");\n    }\n}',
+      },
+      python: {
+        method: 'credit_entitlements.delete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.credit_entitlements.delete(\n    "cde_ztxm5XJsKxWucRWA3rjdM",\n)',
       },
       kotlin: {
         method: 'creditEntitlements().delete',
@@ -7584,15 +7584,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://live.dodopayments.com/credit-entitlements/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
-      python: {
-        method: 'credit_entitlements.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.credit_entitlements.update(\n    id="cde_ztxm5XJsKxWucRWA3rjdM",\n)',
-      },
       java: {
         method: 'creditEntitlements().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlementUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.creditEntitlements().update("cde_ztxm5XJsKxWucRWA3rjdM");\n    }\n}',
+      },
+      python: {
+        method: 'credit_entitlements.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.credit_entitlements.update(\n    id="cde_ztxm5XJsKxWucRWA3rjdM",\n)',
       },
       kotlin: {
         method: 'creditEntitlements().update',
@@ -7643,15 +7643,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/credit-entitlements/$ID/undelete \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'credit_entitlements.undelete',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.credit_entitlements.undelete(\n    "cde_ztxm5XJsKxWucRWA3rjdM",\n)',
-      },
       java: {
         method: 'creditEntitlements().undelete',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.creditentitlements.CreditEntitlementUndeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.creditEntitlements().undelete("cde_ztxm5XJsKxWucRWA3rjdM");\n    }\n}',
+      },
+      python: {
+        method: 'credit_entitlements.undelete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.credit_entitlements.undelete(\n    "cde_ztxm5XJsKxWucRWA3rjdM",\n)',
       },
       kotlin: {
         method: 'creditEntitlements().undelete',
@@ -7709,15 +7709,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/credit-entitlements/$CREDIT_ENTITLEMENT_ID/balances \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'credit_entitlements.balances.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.credit_entitlements.balances.list(\n    credit_entitlement_id="cde_ztxm5XJsKxWucRWA3rjdM",\n)\npage = page.items[0]\nprint(page.id)',
-      },
       java: {
         method: 'creditEntitlements().balances().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceListPage;\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        BalanceListPage page = client.creditEntitlements().balances().list("cde_ztxm5XJsKxWucRWA3rjdM");\n    }\n}',
+      },
+      python: {
+        method: 'credit_entitlements.balances.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.credit_entitlements.balances.list(\n    credit_entitlement_id="cde_ztxm5XJsKxWucRWA3rjdM",\n)\npage = page.items[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'creditEntitlements().balances().list',
@@ -7770,15 +7770,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/credit-entitlements/$CREDIT_ENTITLEMENT_ID/balances/$CUSTOMER_ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'credit_entitlements.balances.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncustomer_credit_balance = client.credit_entitlements.balances.retrieve(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n    credit_entitlement_id="cde_ztxm5XJsKxWucRWA3rjdM",\n)\nprint(customer_credit_balance.id)',
-      },
       java: {
         method: 'creditEntitlements().balances().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceRetrieveParams;\nimport com.dodopayments.api.models.creditentitlements.balances.CustomerCreditBalance;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        BalanceRetrieveParams params = BalanceRetrieveParams.builder()\n            .creditEntitlementId("cde_ztxm5XJsKxWucRWA3rjdM")\n            .customerId("cus_TV52uJWWXt2yIoBBxpjaa")\n            .build();\n        CustomerCreditBalance customerCreditBalance = client.creditEntitlements().balances().retrieve(params);\n    }\n}',
+      },
+      python: {
+        method: 'credit_entitlements.balances.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncustomer_credit_balance = client.credit_entitlements.balances.retrieve(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n    credit_entitlement_id="cde_ztxm5XJsKxWucRWA3rjdM",\n)\nprint(customer_credit_balance.id)',
       },
       kotlin: {
         method: 'creditEntitlements().balances().retrieve',
@@ -7837,15 +7837,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/credit-entitlements/$CREDIT_ENTITLEMENT_ID/balances/$CUSTOMER_ID/grants \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'credit_entitlements.balances.list_grants',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.credit_entitlements.balances.list_grants(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n    credit_entitlement_id="cde_ztxm5XJsKxWucRWA3rjdM",\n)\npage = page.items[0]\nprint(page.id)',
-      },
       java: {
         method: 'creditEntitlements().balances().listGrants',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceListGrantsPage;\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceListGrantsParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        BalanceListGrantsParams params = BalanceListGrantsParams.builder()\n            .creditEntitlementId("cde_ztxm5XJsKxWucRWA3rjdM")\n            .customerId("cus_TV52uJWWXt2yIoBBxpjaa")\n            .build();\n        BalanceListGrantsPage page = client.creditEntitlements().balances().listGrants(params);\n    }\n}',
+      },
+      python: {
+        method: 'credit_entitlements.balances.list_grants',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.credit_entitlements.balances.list_grants(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n    credit_entitlement_id="cde_ztxm5XJsKxWucRWA3rjdM",\n)\npage = page.items[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'creditEntitlements().balances().listGrants',
@@ -7906,15 +7906,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/credit-entitlements/$CREDIT_ENTITLEMENT_ID/balances/$CUSTOMER_ID/ledger \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'credit_entitlements.balances.list_ledger',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.credit_entitlements.balances.list_ledger(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n    credit_entitlement_id="cde_ztxm5XJsKxWucRWA3rjdM",\n)\npage = page.items[0]\nprint(page.id)',
-      },
       java: {
         method: 'creditEntitlements().balances().listLedger',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceListLedgerPage;\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceListLedgerParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        BalanceListLedgerParams params = BalanceListLedgerParams.builder()\n            .creditEntitlementId("cde_ztxm5XJsKxWucRWA3rjdM")\n            .customerId("cus_TV52uJWWXt2yIoBBxpjaa")\n            .build();\n        BalanceListLedgerPage page = client.creditEntitlements().balances().listLedger(params);\n    }\n}',
+      },
+      python: {
+        method: 'credit_entitlements.balances.list_ledger',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.credit_entitlements.balances.list_ledger(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n    credit_entitlement_id="cde_ztxm5XJsKxWucRWA3rjdM",\n)\npage = page.items[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'creditEntitlements().balances().listLedger',
@@ -7976,15 +7976,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/credit-entitlements/$CREDIT_ENTITLEMENT_ID/balances/$CUSTOMER_ID/ledger-entries \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "amount": "amount",\n          "entry_type": "credit"\n        }\'',
       },
-      python: {
-        method: 'credit_entitlements.balances.create_ledger_entry',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.credit_entitlements.balances.create_ledger_entry(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n    credit_entitlement_id="cde_ztxm5XJsKxWucRWA3rjdM",\n    amount="amount",\n    entry_type="credit",\n)\nprint(response.id)',
-      },
       java: {
         method: 'creditEntitlements().balances().createLedgerEntry',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceCreateLedgerEntryParams;\nimport com.dodopayments.api.models.creditentitlements.balances.BalanceCreateLedgerEntryResponse;\nimport com.dodopayments.api.models.creditentitlements.balances.LedgerEntryType;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        BalanceCreateLedgerEntryParams params = BalanceCreateLedgerEntryParams.builder()\n            .creditEntitlementId("cde_ztxm5XJsKxWucRWA3rjdM")\n            .customerId("cus_TV52uJWWXt2yIoBBxpjaa")\n            .amount("amount")\n            .entryType(LedgerEntryType.CREDIT)\n            .build();\n        BalanceCreateLedgerEntryResponse response = client.creditEntitlements().balances().createLedgerEntry(params);\n    }\n}',
+      },
+      python: {
+        method: 'credit_entitlements.balances.create_ledger_entry',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.credit_entitlements.balances.create_ledger_entry(\n    customer_id="cus_TV52uJWWXt2yIoBBxpjaa",\n    credit_entitlement_id="cde_ztxm5XJsKxWucRWA3rjdM",\n    amount="amount",\n    entry_type="credit",\n)\nprint(response.id)',
       },
       kotlin: {
         method: 'creditEntitlements().balances().createLedgerEntry',
@@ -8036,15 +8036,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/entitlements \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'entitlements.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.entitlements.list()\npage = page.items[0]\nprint(page.id)',
-      },
       java: {
         method: 'entitlements().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.entitlements.EntitlementListPage;\nimport com.dodopayments.api.models.entitlements.EntitlementListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        EntitlementListPage page = client.entitlements().list();\n    }\n}',
+      },
+      python: {
+        method: 'entitlements.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.entitlements.list()\npage = page.items[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'entitlements().list',
@@ -8102,15 +8102,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/entitlements \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "integration_config": {\n            "feature_id": "feature_id",\n            "feature_type": "boolean"\n          },\n          "integration_type": "discord",\n          "name": "name"\n        }\'',
       },
-      python: {
-        method: 'entitlements.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nentitlement = client.entitlements.create(\n    integration_config={\n        "feature_id": "feature_id",\n        "feature_type": "boolean",\n    },\n    integration_type="discord",\n    name="name",\n)\nprint(entitlement.id)',
-      },
       java: {
         method: 'entitlements().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.entitlements.Entitlement;\nimport com.dodopayments.api.models.entitlements.EntitlementCreateParams;\nimport com.dodopayments.api.models.entitlements.EntitlementIntegrationType;\nimport com.dodopayments.api.models.entitlements.FeatureType;\nimport com.dodopayments.api.models.entitlements.IntegrationConfig;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        EntitlementCreateParams params = EntitlementCreateParams.builder()\n            .integrationConfig(IntegrationConfig.FeatureFlagConfig.builder()\n                .featureId("feature_id")\n                .featureType(FeatureType.BOOLEAN)\n                .build())\n            .integrationType(EntitlementIntegrationType.DISCORD)\n            .name("name")\n            .build();\n        Entitlement entitlement = client.entitlements().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'entitlements.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nentitlement = client.entitlements.create(\n    integration_config={\n        "feature_id": "feature_id",\n        "feature_type": "boolean",\n    },\n    integration_type="discord",\n    name="name",\n)\nprint(entitlement.id)',
       },
       kotlin: {
         method: 'entitlements().create',
@@ -8162,15 +8162,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/entitlements/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'entitlements.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nentitlement = client.entitlements.retrieve(\n    "ent_jt7jcvI79Xh8eehqgWdcm",\n)\nprint(entitlement.id)',
-      },
       java: {
         method: 'entitlements().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.entitlements.Entitlement;\nimport com.dodopayments.api.models.entitlements.EntitlementRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Entitlement entitlement = client.entitlements().retrieve("ent_jt7jcvI79Xh8eehqgWdcm");\n    }\n}',
+      },
+      python: {
+        method: 'entitlements.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nentitlement = client.entitlements.retrieve(\n    "ent_jt7jcvI79Xh8eehqgWdcm",\n)\nprint(entitlement.id)',
       },
       kotlin: {
         method: 'entitlements().retrieve',
@@ -8220,15 +8220,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/entitlements/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'entitlements.delete',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.entitlements.delete(\n    "ent_jt7jcvI79Xh8eehqgWdcm",\n)',
-      },
       java: {
         method: 'entitlements().delete',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.entitlements.EntitlementDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.entitlements().delete("ent_jt7jcvI79Xh8eehqgWdcm");\n    }\n}',
+      },
+      python: {
+        method: 'entitlements.delete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.entitlements.delete(\n    "ent_jt7jcvI79Xh8eehqgWdcm",\n)',
       },
       kotlin: {
         method: 'entitlements().delete',
@@ -8286,15 +8286,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://live.dodopayments.com/entitlements/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
-      python: {
-        method: 'entitlements.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nentitlement = client.entitlements.update(\n    id="ent_jt7jcvI79Xh8eehqgWdcm",\n)\nprint(entitlement.id)',
-      },
       java: {
         method: 'entitlements().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.entitlements.Entitlement;\nimport com.dodopayments.api.models.entitlements.EntitlementUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Entitlement entitlement = client.entitlements().update("ent_jt7jcvI79Xh8eehqgWdcm");\n    }\n}',
+      },
+      python: {
+        method: 'entitlements.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nentitlement = client.entitlements.update(\n    id="ent_jt7jcvI79Xh8eehqgWdcm",\n)\nprint(entitlement.id)',
       },
       kotlin: {
         method: 'entitlements().update',
@@ -8345,15 +8345,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/entitlements/$ID/files \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'entitlements.files.upload',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.entitlements.files.upload(\n    "ent_jt7jcvI79Xh8eehqgWdcm",\n)\nprint(response.file_id)',
-      },
       java: {
         method: 'entitlements().files().upload',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.entitlements.files.FileUploadParams;\nimport com.dodopayments.api.models.entitlements.files.FileUploadResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        FileUploadResponse response = client.entitlements().files().upload("ent_jt7jcvI79Xh8eehqgWdcm");\n    }\n}',
+      },
+      python: {
+        method: 'entitlements.files.upload',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.entitlements.files.upload(\n    "ent_jt7jcvI79Xh8eehqgWdcm",\n)\nprint(response.file_id)',
       },
       kotlin: {
         method: 'entitlements().files().upload',
@@ -8403,15 +8403,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/entitlements/$ID/files/$FILE_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'entitlements.files.delete',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.entitlements.files.delete(\n    file_id="file_id",\n    id="ent_jt7jcvI79Xh8eehqgWdcm",\n)',
-      },
       java: {
         method: 'entitlements().files().delete',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.entitlements.files.FileDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        FileDeleteParams params = FileDeleteParams.builder()\n            .id("ent_jt7jcvI79Xh8eehqgWdcm")\n            .fileId("file_id")\n            .build();\n        client.entitlements().files().delete(params);\n    }\n}',
+      },
+      python: {
+        method: 'entitlements.files.delete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.entitlements.files.delete(\n    file_id="file_id",\n    id="ent_jt7jcvI79Xh8eehqgWdcm",\n)',
       },
       kotlin: {
         method: 'entitlements().files().delete',
@@ -8469,15 +8469,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/entitlements/$ID/grants \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'entitlements.grants.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.entitlements.grants.list(\n    id="ent_jt7jcvI79Xh8eehqgWdcm",\n)\npage = page.items[0]\nprint(page.id)',
-      },
       java: {
         method: 'entitlements().grants().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.entitlements.grants.GrantListPage;\nimport com.dodopayments.api.models.entitlements.grants.GrantListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        GrantListPage page = client.entitlements().grants().list("ent_jt7jcvI79Xh8eehqgWdcm");\n    }\n}',
+      },
+      python: {
+        method: 'entitlements.grants.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.entitlements.grants.list(\n    id="ent_jt7jcvI79Xh8eehqgWdcm",\n)\npage = page.items[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'entitlements().grants().list',
@@ -8531,15 +8531,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/entitlements/$ID/grants/$GRANT_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'entitlements.grants.revoke',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nentitlement_grant = client.entitlements.grants.revoke(\n    grant_id="entg_w0ZCJZgNXuNDdMVzvja6p",\n    id="ent_jt7jcvI79Xh8eehqgWdcm",\n)\nprint(entitlement_grant.id)',
-      },
       java: {
         method: 'entitlements().grants().revoke',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.entitlements.grants.EntitlementGrant;\nimport com.dodopayments.api.models.entitlements.grants.GrantRevokeParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        GrantRevokeParams params = GrantRevokeParams.builder()\n            .id("ent_jt7jcvI79Xh8eehqgWdcm")\n            .grantId("entg_w0ZCJZgNXuNDdMVzvja6p")\n            .build();\n        EntitlementGrant entitlementGrant = client.entitlements().grants().revoke(params);\n    }\n}',
+      },
+      python: {
+        method: 'entitlements.grants.revoke',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nentitlement_grant = client.entitlements.grants.revoke(\n    grant_id="entg_w0ZCJZgNXuNDdMVzvja6p",\n    id="ent_jt7jcvI79Xh8eehqgWdcm",\n)\nprint(entitlement_grant.id)',
       },
       kotlin: {
         method: 'entitlements().grants().revoke',
@@ -8592,15 +8592,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/grants/$GRANT_ID/license-key \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "key": "key"\n        }\'',
       },
-      python: {
-        method: 'entitlements.grants.fulfill_license_key',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nentitlement_grant = client.entitlements.grants.fulfill_license_key(\n    grant_id="entg_w0ZCJZgNXuNDdMVzvja6p",\n    key="key",\n)\nprint(entitlement_grant.id)',
-      },
       java: {
         method: 'entitlements().grants().fulfillLicenseKey',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.entitlements.grants.EntitlementGrant;\nimport com.dodopayments.api.models.entitlements.grants.GrantFulfillLicenseKeyParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        GrantFulfillLicenseKeyParams params = GrantFulfillLicenseKeyParams.builder()\n            .grantId("entg_w0ZCJZgNXuNDdMVzvja6p")\n            .key("key")\n            .build();\n        EntitlementGrant entitlementGrant = client.entitlements().grants().fulfillLicenseKey(params);\n    }\n}',
+      },
+      python: {
+        method: 'entitlements.grants.fulfill_license_key',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nentitlement_grant = client.entitlements.grants.fulfill_license_key(\n    grant_id="entg_w0ZCJZgNXuNDdMVzvja6p",\n    key="key",\n)\nprint(entitlement_grant.id)',
       },
       kotlin: {
         method: 'entitlements().grants().fulfillLicenseKey',
@@ -8652,15 +8652,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/product-collections \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'product_collections.list',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.product_collections.list()\npage = page.items[0]\nprint(page.id)',
-      },
       java: {
         method: 'productCollections().list',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.productcollections.ProductCollectionListPage;\nimport com.dodopayments.api.models.productcollections.ProductCollectionListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ProductCollectionListPage page = client.productCollections().list();\n    }\n}',
+      },
+      python: {
+        method: 'product_collections.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npage = client.product_collections.list()\npage = page.items[0]\nprint(page.id)',
       },
       kotlin: {
         method: 'productCollections().list',
@@ -8722,15 +8722,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/product-collections \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "groups": [\n            {\n              "products": [\n                {\n                  "product_id": "product_id"\n                }\n              ]\n            }\n          ],\n          "name": "name"\n        }\'',
       },
-      python: {
-        method: 'product_collections.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nproduct_collection = client.product_collections.create(\n    groups=[{\n        "products": [{\n            "product_id": "product_id"\n        }]\n    }],\n    name="name",\n)\nprint(product_collection.id)',
-      },
       java: {
         method: 'productCollections().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.productcollections.ProductCollection;\nimport com.dodopayments.api.models.productcollections.ProductCollectionCreateParams;\nimport com.dodopayments.api.models.productcollections.groups.GroupProduct;\nimport com.dodopayments.api.models.productcollections.groups.ProductCollectionGroupDetails;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ProductCollectionCreateParams params = ProductCollectionCreateParams.builder()\n            .addGroup(ProductCollectionGroupDetails.builder()\n                .addProduct(GroupProduct.builder()\n                    .productId("product_id")\n                    .build())\n                .build())\n            .name("name")\n            .build();\n        ProductCollection productCollection = client.productCollections().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'product_collections.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nproduct_collection = client.product_collections.create(\n    groups=[{\n        "products": [{\n            "product_id": "product_id"\n        }]\n    }],\n    name="name",\n)\nprint(product_collection.id)',
       },
       kotlin: {
         method: 'productCollections().create',
@@ -8782,15 +8782,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/product-collections/$ID \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'product_collections.retrieve',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nproduct_collection = client.product_collections.retrieve(\n    "pdc_8BWv0hojwUH7iCDabr0NI",\n)\nprint(product_collection.id)',
-      },
       java: {
         method: 'productCollections().retrieve',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.productcollections.ProductCollection;\nimport com.dodopayments.api.models.productcollections.ProductCollectionRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ProductCollection productCollection = client.productCollections().retrieve("pdc_8BWv0hojwUH7iCDabr0NI");\n    }\n}',
+      },
+      python: {
+        method: 'product_collections.retrieve',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nproduct_collection = client.product_collections.retrieve(\n    "pdc_8BWv0hojwUH7iCDabr0NI",\n)\nprint(product_collection.id)',
       },
       kotlin: {
         method: 'productCollections().retrieve',
@@ -8840,15 +8840,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/product-collections/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'product_collections.delete',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.product_collections.delete(\n    "pdc_8BWv0hojwUH7iCDabr0NI",\n)',
-      },
       java: {
         method: 'productCollections().delete',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.productcollections.ProductCollectionDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.productCollections().delete("pdc_8BWv0hojwUH7iCDabr0NI");\n    }\n}',
+      },
+      python: {
+        method: 'product_collections.delete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.product_collections.delete(\n    "pdc_8BWv0hojwUH7iCDabr0NI",\n)',
       },
       kotlin: {
         method: 'productCollections().delete',
@@ -8910,15 +8910,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://live.dodopayments.com/product-collections/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
-      python: {
-        method: 'product_collections.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.product_collections.update(\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n)',
-      },
       java: {
         method: 'productCollections().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.productcollections.ProductCollectionUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.productCollections().update("pdc_8BWv0hojwUH7iCDabr0NI");\n    }\n}',
+      },
+      python: {
+        method: 'product_collections.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.product_collections.update(\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n)',
       },
       kotlin: {
         method: 'productCollections().update',
@@ -8969,15 +8969,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/product-collections/$ID/images \\\n    -X PUT \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'product_collections.update_images',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.product_collections.update_images(\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n)\nprint(response.image_id)',
-      },
       java: {
         method: 'productCollections().updateImages',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.productcollections.ProductCollectionUpdateImagesParams;\nimport com.dodopayments.api.models.productcollections.ProductCollectionUpdateImagesResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ProductCollectionUpdateImagesResponse response = client.productCollections().updateImages("pdc_8BWv0hojwUH7iCDabr0NI");\n    }\n}',
+      },
+      python: {
+        method: 'product_collections.update_images',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.product_collections.update_images(\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n)\nprint(response.image_id)',
       },
       kotlin: {
         method: 'productCollections().updateImages',
@@ -9028,15 +9028,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/product-collections/$ID/unarchive \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'product_collections.unarchive',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.product_collections.unarchive(\n    "pdc_8BWv0hojwUH7iCDabr0NI",\n)\nprint(response.collection_id)',
-      },
       java: {
         method: 'productCollections().unarchive',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.productcollections.ProductCollectionUnarchiveParams;\nimport com.dodopayments.api.models.productcollections.ProductCollectionUnarchiveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ProductCollectionUnarchiveResponse response = client.productCollections().unarchive("pdc_8BWv0hojwUH7iCDabr0NI");\n    }\n}',
+      },
+      python: {
+        method: 'product_collections.unarchive',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.product_collections.unarchive(\n    "pdc_8BWv0hojwUH7iCDabr0NI",\n)\nprint(response.collection_id)',
       },
       kotlin: {
         method: 'productCollections().unarchive',
@@ -9093,15 +9093,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/product-collections/$ID/groups \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "products": [\n            {\n              "product_id": "product_id"\n            }\n          ]\n        }\'',
       },
-      python: {
-        method: 'product_collections.groups.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nproduct_collection_group_response = client.product_collections.groups.create(\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n    products=[{\n        "product_id": "product_id"\n    }],\n)\nprint(product_collection_group_response.group_id)',
-      },
       java: {
         method: 'productCollections().groups().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.productcollections.groups.GroupCreateParams;\nimport com.dodopayments.api.models.productcollections.groups.GroupProduct;\nimport com.dodopayments.api.models.productcollections.groups.ProductCollectionGroupDetails;\nimport com.dodopayments.api.models.productcollections.groups.ProductCollectionGroupResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        GroupCreateParams params = GroupCreateParams.builder()\n            .id("pdc_8BWv0hojwUH7iCDabr0NI")\n            .productCollectionGroupDetails(ProductCollectionGroupDetails.builder()\n                .addProduct(GroupProduct.builder()\n                    .productId("product_id")\n                    .build())\n                .build())\n            .build();\n        ProductCollectionGroupResponse productCollectionGroupResponse = client.productCollections().groups().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'product_collections.groups.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nproduct_collection_group_response = client.product_collections.groups.create(\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n    products=[{\n        "product_id": "product_id"\n    }],\n)\nprint(product_collection_group_response.group_id)',
       },
       kotlin: {
         method: 'productCollections().groups().create',
@@ -9151,15 +9151,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/product-collections/$ID/groups/$GROUP_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'product_collections.groups.delete',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.product_collections.groups.delete(\n    group_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n)',
-      },
       java: {
         method: 'productCollections().groups().delete',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.productcollections.groups.GroupDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        GroupDeleteParams params = GroupDeleteParams.builder()\n            .id("pdc_8BWv0hojwUH7iCDabr0NI")\n            .groupId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")\n            .build();\n        client.productCollections().groups().delete(params);\n    }\n}',
+      },
+      python: {
+        method: 'product_collections.groups.delete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.product_collections.groups.delete(\n    group_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n)',
       },
       kotlin: {
         method: 'productCollections().groups().delete',
@@ -9215,15 +9215,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://live.dodopayments.com/product-collections/$ID/groups/$GROUP_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
       },
-      python: {
-        method: 'product_collections.groups.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.product_collections.groups.update(\n    group_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n)',
-      },
       java: {
         method: 'productCollections().groups().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.productcollections.groups.GroupUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        GroupUpdateParams params = GroupUpdateParams.builder()\n            .id("pdc_8BWv0hojwUH7iCDabr0NI")\n            .groupId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")\n            .build();\n        client.productCollections().groups().update(params);\n    }\n}',
+      },
+      python: {
+        method: 'product_collections.groups.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.product_collections.groups.update(\n    group_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n)',
       },
       kotlin: {
         method: 'productCollections().groups().update',
@@ -9275,15 +9275,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/product-collections/$ID/groups/$GROUP_ID/items \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "products": [\n            {\n              "product_id": "product_id"\n            }\n          ]\n        }\'',
       },
-      python: {
-        method: 'product_collections.groups.items.create',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nproduct_collection_products = client.product_collections.groups.items.create(\n    group_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n    products=[{\n        "product_id": "product_id"\n    }],\n)\nprint(product_collection_products)',
-      },
       java: {
         method: 'productCollections().groups().items().create',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.productcollections.groups.GroupProduct;\nimport com.dodopayments.api.models.productcollections.groups.items.ItemCreateParams;\nimport com.dodopayments.api.models.productcollections.groups.items.ProductCollectionProduct;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ItemCreateParams params = ItemCreateParams.builder()\n            .id("pdc_8BWv0hojwUH7iCDabr0NI")\n            .groupId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")\n            .addProduct(GroupProduct.builder()\n                .productId("product_id")\n                .build())\n            .build();\n        List<ProductCollectionProduct> productCollectionProducts = client.productCollections().groups().items().create(params);\n    }\n}',
+      },
+      python: {
+        method: 'product_collections.groups.items.create',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nproduct_collection_products = client.product_collections.groups.items.create(\n    group_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n    products=[{\n        "product_id": "product_id"\n    }],\n)\nprint(product_collection_products)',
       },
       kotlin: {
         method: 'productCollections().groups().items().create',
@@ -9333,15 +9333,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/product-collections/$ID/groups/$GROUP_ID/items/$ITEM_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
       },
-      python: {
-        method: 'product_collections.groups.items.delete',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.product_collections.groups.items.delete(\n    item_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n    group_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n)',
-      },
       java: {
         method: 'productCollections().groups().items().delete',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.productcollections.groups.items.ItemDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ItemDeleteParams params = ItemDeleteParams.builder()\n            .id("pdc_8BWv0hojwUH7iCDabr0NI")\n            .groupId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")\n            .itemId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")\n            .build();\n        client.productCollections().groups().items().delete(params);\n    }\n}',
+      },
+      python: {
+        method: 'product_collections.groups.items.delete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.product_collections.groups.items.delete(\n    item_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n    group_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n)',
       },
       kotlin: {
         method: 'productCollections().groups().items().delete',
@@ -9391,15 +9391,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://live.dodopayments.com/product-collections/$ID/groups/$GROUP_ID/items/$ITEM_ID \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY" \\\n    -d \'{\n          "status": true\n        }\'',
       },
-      python: {
-        method: 'product_collections.groups.items.update',
-        example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.product_collections.groups.items.update(\n    item_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n    group_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    status=True,\n)',
-      },
       java: {
         method: 'productCollections().groups().items().update',
         example:
           'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.productcollections.groups.items.ItemUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ItemUpdateParams params = ItemUpdateParams.builder()\n            .id("pdc_8BWv0hojwUH7iCDabr0NI")\n            .groupId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")\n            .itemId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")\n            .status(true)\n            .build();\n        client.productCollections().groups().items().update(params);\n    }\n}',
+      },
+      python: {
+        method: 'product_collections.groups.items.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.product_collections.groups.items.update(\n    item_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n    group_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    status=True,\n)',
       },
       kotlin: {
         method: 'productCollections().groups().items().update',
@@ -9428,6 +9428,127 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
     },
   },
+  {
+    name: 'screen',
+    endpoint: '/moderation/screen',
+    httpMethod: 'post',
+    summary: 'Screen a prompt',
+    description:
+      'Screens text, an image, or both, and returns a verdict: `allow`, `flag` or `deny`. The API is\nfail-closed: do not generate when you get no verdict.\n\n**Pricing.** Dodo Payments charges $0.30 per 1000 billable screens and debits the fee from your\nbalance. A billable screen is a live-mode screen that returns a verdict. Errors and test-mode\nscreens are free.\n\n**429.** Honour `Retry-After` and retry. A 429 is a throughput limit, not a verdict.\n\n**Test mode** returns mock verdicts and never calls the model. The default verdict is\n`allow`. Put one of these strings in `text` to select another outcome: `dodo_mock_flag`\n(`flag`), `dodo_mock_deny` (`deny`), `dodo_mock_overloaded` (429) or `dodo_mock_not_ready`\n(503).',
+    stainlessPath: '(resource) moderation > (method) screen',
+    qualified: 'client.moderation.screen',
+    params: ['image?: string;', 'request_id?: string;', 'text?: string;'],
+    response:
+      "{ categories: object; compound_triggered: boolean; decision: 'allow' | 'flag' | 'deny'; latency_ms: number; normalized_applied: boolean; notes: string[]; passes: number; provenance: object; request_id: string; triggered: string[]; }",
+    markdown:
+      "## screen\n\n`client.moderation.screen(image?: string, request_id?: string, text?: string): { categories: moderation_category_scores; compound_triggered: boolean; decision: moderation_decision; latency_ms: number; normalized_applied: boolean; notes: string[]; passes: number; provenance: moderation_category_provenance; request_id: string; triggered: moderation_category[]; }`\n\n**post** `/moderation/screen`\n\nScreens text, an image, or both, and returns a verdict: `allow`, `flag` or `deny`. The API is\nfail-closed: do not generate when you get no verdict.\n\n**Pricing.** Dodo Payments charges $0.30 per 1000 billable screens and debits the fee from your\nbalance. A billable screen is a live-mode screen that returns a verdict. Errors and test-mode\nscreens are free.\n\n**429.** Honour `Retry-After` and retry. A 429 is a throughput limit, not a verdict.\n\n**Test mode** returns mock verdicts and never calls the model. The default verdict is\n`allow`. Put one of these strings in `text` to select another outcome: `dodo_mock_flag`\n(`flag`), `dodo_mock_deny` (`deny`), `dodo_mock_overloaded` (429) or `dodo_mock_not_ready`\n(503).\n\n### Parameters\n\n- `image?: string`\n  The image to screen, as base64, with or without a `data:image/...;base64,` prefix. The\nformats are JPEG, PNG, WebP, GIF and BMP. The limit is 6991530 base64 characters, and the\ndecoded image must be at most 5 MiB.\n\n- `request_id?: string`\n  Your identifier for this screen, up to 128 characters, with no control characters. The\nresponse returns it in `request_id`.\n\n- `text?: string`\n  The text to screen, up to 8000 characters.\n\n### Returns\n\n- `{ categories: { child_sexual_exploitation: number; defamation: number; hate: number; indiscriminate_weapons: number; intellectual_property: number; living_artist_style: number; minor_coded_language: number; non_consensual_intimate_imagery: number; non_violent_crimes: number; privacy: number; prompt_injection: number; real_person_likeness: number; sex_related_crimes: number; sexual_content: number; specialized_advice: number; suicide_and_self_harm: number; violent_crimes: number; }; compound_triggered: boolean; decision: 'allow' | 'flag' | 'deny'; latency_ms: number; normalized_applied: boolean; notes: string[]; passes: number; provenance: { child_sexual_exploitation: moderation_provenance; defamation: moderation_provenance; hate: moderation_provenance; indiscriminate_weapons: moderation_provenance; intellectual_property: moderation_provenance; living_artist_style: moderation_provenance; minor_coded_language: moderation_provenance; non_consensual_intimate_imagery: moderation_provenance; non_violent_crimes: moderation_provenance; privacy: moderation_provenance; prompt_injection: moderation_provenance; real_person_likeness: moderation_provenance; sex_related_crimes: moderation_provenance; sexual_content: moderation_provenance; specialized_advice: moderation_provenance; suicide_and_self_harm: moderation_provenance; violent_crimes: moderation_provenance; }; request_id: string; triggered: string[]; }`\n  The verdict of one screen.\n\n  - `categories: { child_sexual_exploitation: number; defamation: number; hate: number; indiscriminate_weapons: number; intellectual_property: number; living_artist_style: number; minor_coded_language: number; non_consensual_intimate_imagery: number; non_violent_crimes: number; privacy: number; prompt_injection: number; real_person_likeness: number; sex_related_crimes: number; sexual_content: number; specialized_advice: number; suicide_and_self_harm: number; violent_crimes: number; }`\n  - `compound_triggered: boolean`\n  - `decision: 'allow' | 'flag' | 'deny'`\n  - `latency_ms: number`\n  - `normalized_applied: boolean`\n  - `notes: string[]`\n  - `passes: number`\n  - `provenance: { child_sexual_exploitation: 'targeted' | 'broad'; defamation: 'targeted' | 'broad'; hate: 'targeted' | 'broad'; indiscriminate_weapons: 'targeted' | 'broad'; intellectual_property: 'targeted' | 'broad'; living_artist_style: 'targeted' | 'broad'; minor_coded_language: 'targeted' | 'broad'; non_consensual_intimate_imagery: 'targeted' | 'broad'; non_violent_crimes: 'targeted' | 'broad'; privacy: 'targeted' | 'broad'; prompt_injection: 'targeted' | 'broad'; real_person_likeness: 'targeted' | 'broad'; sex_related_crimes: 'targeted' | 'broad'; sexual_content: 'targeted' | 'broad'; specialized_advice: 'targeted' | 'broad'; suicide_and_self_harm: 'targeted' | 'broad'; violent_crimes: 'targeted' | 'broad'; }`\n  - `request_id: string`\n  - `triggered: string[]`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.moderation.screen();\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.moderation.screen',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.moderation.screen();\n\nconsole.log(response.request_id);",
+      },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/moderation/screen \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
+      java: {
+        method: 'moderation().screen',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.moderation.ModerationScreenParams;\nimport com.dodopayments.api.models.moderation.ModerationScreenResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ModerationScreenResponse response = client.moderation().screen();\n    }\n}',
+      },
+      python: {
+        method: 'moderation.screen',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.moderation.screen()\nprint(response.request_id)',
+      },
+      kotlin: {
+        method: 'moderation().screen',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.moderation.ModerationScreenParams\nimport com.dodopayments.api.models.moderation.ModerationScreenResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val response: ModerationScreenResponse = client.moderation().screen()\n}',
+      },
+      go: {
+        method: 'client.Moderation.Screen',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Moderation.Screen(context.TODO(), dodopayments.ModerationScreenParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.RequestID)\n}\n',
+      },
+      ruby: {
+        method: 'moderation.screen',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.moderation.screen\n\nputs(response)',
+      },
+      php: {
+        method: 'moderation->screen',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->moderation->screen(\n  image: 'image', requestID: 'request_id', text: 'text'\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Moderation.Screen',
+        example:
+          'ModerationScreenParams parameters = new();\n\nvar response = await client.Moderation.Screen(parameters);\n\nConsole.WriteLine(response);',
+      },
+    },
+  },
+  {
+    name: 'retrieve_usage',
+    endpoint: '/moderation/usage',
+    httpMethod: 'get',
+    summary: 'Get moderation usage',
+    description:
+      'Shows how many billable screens you made and how close you are to your next charge.\n\n**Billing.** A billable screen is a live-mode screen that returns a verdict. Dodo Payments charges\n$0.30 for each full block of 1000 billable screens and debits the fee from your balance.\nEach full block is charged within one hour. Screens that do not fill a block stay unbilled\nuntil they do. Errors and test-mode screens are free and are not counted.',
+    stainlessPath: '(resource) moderation > (method) retrieve_usage',
+    qualified: 'client.moderation.retrieveUsage',
+    response:
+      '{ daily: { date: string; screens: number; }[]; screens_to_next_block: number; unbilled_screens: number; }',
+    markdown:
+      "## retrieve_usage\n\n`client.moderation.retrieveUsage(): { daily: object[]; screens_to_next_block: number; unbilled_screens: number; }`\n\n**get** `/moderation/usage`\n\nShows how many billable screens you made and how close you are to your next charge.\n\n**Billing.** A billable screen is a live-mode screen that returns a verdict. Dodo Payments charges\n$0.30 for each full block of 1000 billable screens and debits the fee from your balance.\nEach full block is charged within one hour. Screens that do not fill a block stay unbilled\nuntil they do. Errors and test-mode screens are free and are not counted.\n\n### Returns\n\n- `{ daily: { date: string; screens: number; }[]; screens_to_next_block: number; unbilled_screens: number; }`\n  Your moderation usage.\n\n  - `daily: { date: string; screens: number; }[]`\n  - `screens_to_next_block: number`\n  - `unbilled_screens: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.moderation.retrieveUsage();\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.moderation.retrieveUsage',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.moderation.retrieveUsage();\n\nconsole.log(response.daily);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/moderation/usage \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      java: {
+        method: 'moderation().retrieveUsage',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.moderation.ModerationRetrieveUsageParams;\nimport com.dodopayments.api.models.moderation.ModerationRetrieveUsageResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        ModerationRetrieveUsageResponse response = client.moderation().retrieveUsage();\n    }\n}',
+      },
+      python: {
+        method: 'moderation.retrieve_usage',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.moderation.retrieve_usage()\nprint(response.daily)',
+      },
+      kotlin: {
+        method: 'moderation().retrieveUsage',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.moderation.ModerationRetrieveUsageParams\nimport com.dodopayments.api.models.moderation.ModerationRetrieveUsageResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val response: ModerationRetrieveUsageResponse = client.moderation().retrieveUsage()\n}',
+      },
+      go: {
+        method: 'client.Moderation.GetUsage',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Moderation.GetUsage(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Daily)\n}\n',
+      },
+      ruby: {
+        method: 'moderation.retrieve_usage',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresponse = dodo_payments.moderation.retrieve_usage\n\nputs(response)',
+      },
+      php: {
+        method: 'moderation->retrieveUsage',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->moderation->retrieveUsage();\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Moderation.RetrieveUsage',
+        example:
+          'ModerationRetrieveUsageParams parameters = new();\n\nvar response = await client.Moderation.RetrieveUsage(parameters);\n\nConsole.WriteLine(response);',
+      },
+    },
+  },
 ];
 
 const EMBEDDED_READMES: { language: string; content: string }[] = [
@@ -9437,14 +9558,14 @@ const EMBEDDED_READMES: { language: string; content: string }[] = [
       "# Dodo Payments TypeScript API Library\n\n[![NPM version](https://img.shields.io/npm/v/dodopayments.svg?label=npm%20(stable))](https://npmjs.org/package/dodopayments) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/dodopayments)\n\nThis library provides convenient access to the Dodo Payments REST API from server-side TypeScript or JavaScript.\n\n\n\nThe REST API documentation can be found on [docs.dodopayments.com](https://docs.dodopayments.com/api-reference/introduction). The full API of this library can be found in [api.md](api.md).\n\n\n\n## MCP Server\n\nUse the Dodo Payments MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6Ik15IEJlYXJlciBUb2tlbiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJNeSBXZWJob29rIEtleSJ9fQ)\n\n> Note: You may need to set environment variables in your MCP client.\n\n## Installation\n\n```sh\nnpm install dodopayments\n```\n\n\n\n## Usage\n\nThe full API of this library can be found in [api.md](api.md).\n\n<!-- prettier-ignore -->\n```js\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n  environment: 'test_mode', // defaults to 'live_mode'\n});\n\nconst checkoutSessionResponse = await client.checkoutSessions.create({\n  product_cart: [{ product_id: 'pdt_example', quantity: 1 }],\n});\n\nconsole.log(checkoutSessionResponse.session_id);\n```\n\n\n\n### Request & Response types\n\nThis library includes TypeScript definitions for all request params and response fields. You may import and use them like so:\n\n<!-- prettier-ignore -->\n```ts\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n  environment: 'test_mode', // defaults to 'live_mode'\n});\n\nconst params: DodoPayments.CheckoutSessionCreateParams = {\n  product_cart: [{ product_id: 'pdt_example', quantity: 1 }],\n};\nconst checkoutSessionResponse: DodoPayments.CheckoutSessionResponse =\n  await client.checkoutSessions.create(params);\n```\n\nDocumentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.\n\n\n\n\n\n## Handling errors\n\nWhen the library is unable to connect to the API,\nor if the API returns a non-success status code (i.e., 4xx or 5xx response),\na subclass of `APIError` will be thrown:\n\n<!-- prettier-ignore -->\n```ts\nconst checkoutSessionResponse = await client.checkoutSessions\n  .create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] })\n  .catch(async (err) => {\n    if (err instanceof DodoPayments.APIError) {\n      console.log(err.status); // 400\n      console.log(err.name); // BadRequestError\n      console.log(err.headers); // {server: 'nginx', ...}\n    } else {\n      throw err;\n    }\n  });\n```\n\nError codes are as follows:\n\n| Status Code | Error Type                 |\n| ----------- | -------------------------- |\n| 400         | `BadRequestError`          |\n| 401         | `AuthenticationError`      |\n| 403         | `PermissionDeniedError`    |\n| 404         | `NotFoundError`            |\n| 422         | `UnprocessableEntityError` |\n| 429         | `RateLimitError`           |\n| >=500       | `InternalServerError`      |\n| N/A         | `APIConnectionError`       |\n\n### Retries\n\nCertain errors will be automatically retried 2 times by default, with a short exponential backoff.\nConnection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,\n429 Rate Limit, and >=500 Internal errors will all be retried by default.\n\nYou can use the `maxRetries` option to configure or disable this:\n\n<!-- prettier-ignore -->\n```js\n// Configure the default for all requests:\nconst client = new DodoPayments({\n  maxRetries: 0, // default is 2\n});\n\n// Or, configure per-request:\nawait client.checkoutSessions.create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] }, {\n  maxRetries: 5,\n});\n```\n\n### Timeouts\n\nRequests time out after 1 minute by default. You can configure this with a `timeout` option:\n\n<!-- prettier-ignore -->\n```ts\n// Configure the default for all requests:\nconst client = new DodoPayments({\n  timeout: 20 * 1000, // 20 seconds (default is 1 minute)\n});\n\n// Override per-request:\nawait client.checkoutSessions.create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] }, {\n  timeout: 5 * 1000,\n});\n```\n\nOn timeout, an `APIConnectionTimeoutError` is thrown.\n\nNote that requests which time out will be [retried twice by default](#retries).\n\n## Auto-pagination\n\nList methods in the DodoPayments API are paginated.\nYou can use the `for await … of` syntax to iterate through items across all pages:\n\n```ts\nasync function fetchAllPaymentListResponses(params) {\n  const allPaymentListResponses = [];\n  // Automatically fetches more pages as needed.\n  for await (const paymentListResponse of client.payments.list()) {\n    allPaymentListResponses.push(paymentListResponse);\n  }\n  return allPaymentListResponses;\n}\n```\n\nAlternatively, you can request a single page at a time:\n\n```ts\nlet page = await client.payments.list();\nfor (const paymentListResponse of page.items) {\n  console.log(paymentListResponse);\n}\n\n// Convenience methods are provided for manually paginating:\nwhile (page.hasNextPage()) {\n  page = await page.getNextPage();\n  // ...\n}\n```\n\n\n\n## Advanced Usage\n\n### Accessing raw Response data (e.g., headers)\n\nThe \"raw\" `Response` returned by `fetch()` can be accessed through the `.asResponse()` method on the `APIPromise` type that all methods return.\nThis method returns as soon as the headers for a successful response are received and does not consume the response body, so you are free to write custom parsing or streaming logic.\n\nYou can also use the `.withResponse()` method to get the raw `Response` along with the parsed data.\nUnlike `.asResponse()` this method consumes the body, returning once it is parsed.\n\n<!-- prettier-ignore -->\n```ts\nconst client = new DodoPayments();\n\nconst response = await client.checkoutSessions\n  .create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] })\n  .asResponse();\nconsole.log(response.headers.get('X-My-Header'));\nconsole.log(response.statusText); // access the underlying Response object\n\nconst { data: checkoutSessionResponse, response: raw } = await client.checkoutSessions\n  .create({ product_cart: [{ product_id: 'pdt_example', quantity: 1 }] })\n  .withResponse();\nconsole.log(raw.headers.get('X-My-Header'));\nconsole.log(checkoutSessionResponse.session_id);\n```\n\n### Logging\n\n> [!IMPORTANT]\n> All log messages are intended for debugging only. The format and content of log messages\n> may change between releases.\n\n#### Log levels\n\nThe log level can be configured in two ways:\n\n1. Via the `DODO_PAYMENTS_LOG` environment variable\n2. Using the `logLevel` client option (overrides the environment variable if set)\n\n```ts\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  logLevel: 'debug', // Show all log messages\n});\n```\n\nAvailable log levels, from most to least verbose:\n\n- `'debug'` - Show debug messages, info, warnings, and errors\n- `'info'` - Show info messages, warnings, and errors\n- `'warn'` - Show warnings and errors (default)\n- `'error'` - Show only errors\n- `'off'` - Disable all logging\n\nAt the `'debug'` level, all HTTP requests and responses are logged, including headers and bodies.\nSome authentication-related headers are redacted, but sensitive data in request and response bodies\nmay still be visible.\n\n#### Custom logger\n\nBy default, this library logs to `globalThis.console`. You can also provide a custom logger.\nMost logging libraries are supported, including [pino](https://www.npmjs.com/package/pino), [winston](https://www.npmjs.com/package/winston), [bunyan](https://www.npmjs.com/package/bunyan), [consola](https://www.npmjs.com/package/consola), [signale](https://www.npmjs.com/package/signale), and [@std/log](https://jsr.io/@std/log). If your logger doesn't work, please open an issue.\n\nWhen providing a custom logger, the `logLevel` option still controls which messages are emitted, messages\nbelow the configured level will not be sent to your logger.\n\n```ts\nimport DodoPayments from 'dodopayments';\nimport pino from 'pino';\n\nconst logger = pino();\n\nconst client = new DodoPayments({\n  logger: logger.child({ name: 'DodoPayments' }),\n  logLevel: 'debug', // Send all messages to pino, allowing it to filter\n});\n```\n\n### Making custom/undocumented requests\n\nThis library is typed for convenient access to the documented API. If you need to access undocumented\nendpoints, params, or response properties, the library can still be used.\n\n#### Undocumented endpoints\n\nTo make requests to undocumented endpoints, you can use `client.get`, `client.post`, and other HTTP verbs.\nOptions on the client, such as retries, will be respected when making these requests.\n\n```ts\nawait client.post('/some/path', {\n  body: { some_prop: 'foo' },\n  query: { some_query_arg: 'bar' },\n});\n```\n\n#### Undocumented request params\n\nTo make requests using undocumented parameters, you may use `// @ts-expect-error` on the undocumented\nparameter. This library doesn't validate at runtime that the request matches the type, so any extra values you\nsend will be sent as-is.\n\n```ts\nclient.checkoutSessions.create({\n  // ...\n  // @ts-expect-error baz is not yet public\n  baz: 'undocumented option',\n});\n```\n\nFor requests with the `GET` verb, any extra params will be in the query, all other requests will send the\nextra param in the body.\n\nIf you want to explicitly send an extra argument, you can do so with the `query`, `body`, and `headers` request\noptions.\n\n#### Undocumented response properties\n\nTo access undocumented response properties, you may access the response object with `// @ts-expect-error` on\nthe response object, or cast the response object to the requisite type. Like the request params, we do not\nvalidate or strip extra properties from the response from the API.\n\n### Customizing the fetch client\n\nBy default, this library expects a global `fetch` function is defined.\n\nIf you want to use a different `fetch` function, you can either polyfill the global:\n\n```ts\nimport fetch from 'my-fetch';\n\nglobalThis.fetch = fetch;\n```\n\nOr pass it to the client:\n\n```ts\nimport DodoPayments from 'dodopayments';\nimport fetch from 'my-fetch';\n\nconst client = new DodoPayments({ fetch });\n```\n\n### Fetch options\n\nIf you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)\n\n```ts\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  fetchOptions: {\n    // `RequestInit` options\n  },\n});\n```\n\n#### Configuring proxies\n\nTo modify proxy behavior, you can provide custom `fetchOptions` that add runtime-specific proxy\noptions to requests:\n\n**Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>\n\n```ts\nimport DodoPayments from 'dodopayments';\nimport * as undici from 'undici';\n\nconst proxyAgent = new undici.ProxyAgent('http://localhost:8888');\nconst client = new DodoPayments({\n  fetchOptions: {\n    dispatcher: proxyAgent,\n  },\n});\n```\n\n**Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>\n\n```ts\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  fetchOptions: {\n    proxy: 'http://localhost:8888',\n  },\n});\n```\n\n**Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>\n\n```ts\nimport DodoPayments from 'npm:dodopayments';\n\nconst httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });\nconst client = new DodoPayments({\n  fetchOptions: {\n    client: httpClient,\n  },\n});\n```\n\n## Frequently Asked Questions\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes that only affect static types, without breaking runtime behavior.\n2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n3. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/dodopayments/dodopayments-typescript/issues) with questions, bugs, or suggestions.\n\n## Requirements\n\nTypeScript >= 4.9 is supported.\n\nThe following runtimes are supported:\n\n- Web browsers (Up-to-date Chrome, Firefox, Safari, Edge, and more)\n- Node.js 20 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.\n- Deno v1.28.0 or higher.\n- Bun 1.0 or later.\n- Cloudflare Workers.\n- Vercel Edge Runtime.\n- Jest 28 or greater with the `\"node\"` environment (`\"jsdom\"` is not supported at this time).\n- Nitro v2.6 or greater.\n\nNote that React Native is not supported at this time.\n\nIf you are interested in other runtime environments, please open or upvote an issue on GitHub.\n\n## Contributing\n\nSee [the contributing documentation](./CONTRIBUTING.md).\n",
   },
   {
+    language: 'java',
+    content:
+      '# Dodo Payments Java API Library\n\n<!-- x-release-please-start-version -->\n[![Maven Central](https://img.shields.io/maven-central/v/com.dodopayments.api/dodo-payments-java)](https://central.sonatype.com/artifact/com.dodopayments.api/dodo-payments-java/1.117.0)\n[![javadoc](https://javadoc.io/badge2/com.dodopayments.api/dodo-payments-java/1.117.0/javadoc.svg)](https://javadoc.io/doc/com.dodopayments.api/dodo-payments-java/1.117.0)\n<!-- x-release-please-end -->\n\nThe Dodo Payments Java SDK provides convenient access to the [Dodo Payments REST API](https://docs.dodopayments.com/api-reference/introduction)   from applications written in Java.\n\nThe Dodo Payments Java SDK is similar to the Dodo Payments Kotlin SDK but with minor differences that       make it more ergonomic for use in Java, such as `Optional` instead of nullable values, `Stream`       instead of `Sequence`, and `CompletableFuture` instead of suspend functions.\n\n\n\n## MCP Server\n\nUse the Dodo Payments MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6Ik15IEJlYXJlciBUb2tlbiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJNeSBXZWJob29rIEtleSJ9fQ)\n\n> Note: You may need to set environment variables in your MCP client.\n\n<!-- x-release-please-start-version -->\n\nThe REST API documentation can be found on [docs.dodopayments.com](https://docs.dodopayments.com/api-reference/introduction). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dodopayments.api/dodo-payments-java/1.117.0).\n\n<!-- x-release-please-end -->\n\n## Installation\n\n<!-- x-release-please-start-version -->\n\n### Gradle\n\n~~~kotlin\nimplementation("com.dodopayments.api:dodo-payments-java:1.117.0")\n~~~\n\n### Maven\n\n~~~xml\n<dependency>\n  <groupId>com.dodopayments.api</groupId>\n  <artifactId>dodo-payments-java</artifactId>\n  <version>1.117.0</version>\n</dependency>\n~~~\n\n<!-- x-release-please-end -->\n\n## Requirements\n\nThis library requires Java 8 or later.\n\n## Usage\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq;\n\n// Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n// Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\nCheckoutSessionRequest params = CheckoutSessionRequest.builder()\n    .addProductCart(ProductItemReq.builder()\n        .productId("product_id")\n        .quantity(0)\n        .build())\n    .build();\nCheckoutSessionResponse checkoutSessionResponse = client.checkoutSessions().create(params);\n```\n\n## Client configuration\n\nConfigure the client using system properties or environment variables:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\n\n// Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n// Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n```\n\nOr manually:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .bearerToken("My Bearer Token")\n    .build();\n```\n\nOr using a combination of the two approaches:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    // Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n    // Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\n    .fromEnv()\n    .bearerToken("My Bearer Token")\n    .build();\n```\n\nSee this table for the available options:\n\n| Setter        | System property           | Environment variable        | Required | Default value                     |\n| ------------- | ------------------------- | --------------------------- | -------- | --------------------------------- |\n| `bearerToken` | `dodopayments.apiKey`     | `DODO_PAYMENTS_API_KEY`     | true     | -                                 |\n| `webhookKey`  | `dodopayments.webhookKey` | `DODO_PAYMENTS_WEBHOOK_KEY` | false    | -                                 |\n| `baseUrl`     | `dodopayments.baseUrl`    | `DODO_PAYMENTS_BASE_URL`    | true     | `"https://live.dodopayments.com"` |\n\nSystem properties take precedence over environment variables.\n\n> [!TIP]\n> Don\'t create more than one client in the same application. Each client has a connection pool and\n> thread pools, which are more efficient to share between requests.\n\n### Modifying configuration\n\nTo temporarily use a modified client configuration, while reusing the same connection and thread       pools, call `withOptions()` on any client or service:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\n\nDodoPaymentsClient clientWithOptions = client.withOptions(optionsBuilder -> {\n    optionsBuilder.baseUrl("https://example.com");\n    optionsBuilder.maxRetries(42);\n});\n```\n\nThe `withOptions()` method does not affect the original client or service.\n\n## Requests and responses\n\nTo send a request to the Dodo Payments API, build an instance of some `Params` class and pass it to the     corresponding client method. When the response is received, it will be deserialized into an instance of     a Java class.\n\nFor example, `client.checkoutSessions().create(...)` should be called with an instance of `CheckoutSessionCreateParams`, and it     will return an instance of `CheckoutSessionResponse`.\n\n## Immutability\n\nEach class in the SDK has an associated   [builder](https://blogs.oracle.com/javamagazine/post/exploring-joshua-blochs-builder-design-pattern-in-java)   or factory method for constructing it.\n\nEach class is [immutable](https://docs.oracle.com/javase/tutorial/essential/concurrency/immutable.html)   once constructed. If the class has an associated builder, then it has a `toBuilder()` method, which can   be used to convert it back to a builder for making a modified copy.\n\nBecause each class is immutable, builder modification will _never_ affect already built class instances.\n\n## Asynchronous execution\n\nThe default client is synchronous. To switch to asynchronous execution, call the `async()` method:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq;\nimport java.util.concurrent.CompletableFuture;\n\n// Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n// Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\nCheckoutSessionRequest params = CheckoutSessionRequest.builder()\n    .addProductCart(ProductItemReq.builder()\n        .productId("product_id")\n        .quantity(0)\n        .build())\n    .build();\nCompletableFuture<CheckoutSessionResponse> checkoutSessionResponse = client.async().checkoutSessions().create(params);\n```\n\nOr create an asynchronous client from the beginning:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClientAsync;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClientAsync;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq;\nimport java.util.concurrent.CompletableFuture;\n\n// Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n// Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\nDodoPaymentsClientAsync client = DodoPaymentsOkHttpClientAsync.fromEnv();\n\nCheckoutSessionRequest params = CheckoutSessionRequest.builder()\n    .addProductCart(ProductItemReq.builder()\n        .productId("product_id")\n        .quantity(0)\n        .build())\n    .build();\nCompletableFuture<CheckoutSessionResponse> checkoutSessionResponse = client.checkoutSessions().create(params);\n```\n\nThe asynchronous client supports the same options as the synchronous one, except most methods return `CompletableFuture`s.\n\n\n\n\n\n## Binary responses\n\nThe SDK defines methods that return binary responses, which are used for API responses that shouldn\'t     necessarily be parsed, like non-JSON data.\n\nThese methods return [`HttpResponse`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/core/http/HttpResponse.kt):\n\n```java\nimport com.dodopayments.api.core.http.HttpResponse;\nimport com.dodopayments.api.models.invoices.payments.PaymentRetrieveParams;\n\nHttpResponse payment = client.invoices().payments().retrieve("pay_gr4RizvMOXFJ6xca3y2tU");\n```\n\nTo save the response content to a file, use the     [`Files.copy(...)`](https://docs.oracle.com/javase/8/docs/api/java/nio/file/Files.html#copy-java.io.InputStream-java.nio.file.Path-java.nio.file.CopyOption...-)     method:\n\n```java\nimport com.dodopayments.api.core.http.HttpResponse;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\nimport java.nio.file.StandardCopyOption;\n\ntry (HttpResponse response = client.invoices().payments().retrieve(params)) {\n    Files.copy(\n        response.body(),\n        Paths.get(path),\n        StandardCopyOption.REPLACE_EXISTING\n    );\n} catch (Exception e) {\n    System.out.println("Something went wrong!");\n    throw new RuntimeException(e);\n}\n```\n\nOr transfer the response content to any     [`OutputStream`](https://docs.oracle.com/javase/8/docs/api/java/io/OutputStream.html):\n\n```java\nimport com.dodopayments.api.core.http.HttpResponse;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\ntry (HttpResponse response = client.invoices().payments().retrieve(params)) {\n    response.body().transferTo(Files.newOutputStream(Paths.get(path)));\n} catch (Exception e) {\n    System.out.println("Something went wrong!");\n    throw new RuntimeException(e);\n}\n```\n\n## Raw responses\n\nThe SDK defines methods that deserialize responses into instances of Java classes.       However, these methods don\'t provide access to the response headers, status code, or the raw response       body.\n\nTo access this data, prefix any HTTP method call on a client or service with `withRawResponse()`:\n\n```java\nimport com.dodopayments.api.core.http.Headers;\nimport com.dodopayments.api.core.http.HttpResponseFor;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq;\n\nCheckoutSessionRequest params = CheckoutSessionRequest.builder()\n    .addProductCart(ProductItemReq.builder()\n        .productId("product_id")\n        .quantity(0)\n        .build())\n    .build();\nHttpResponseFor<CheckoutSessionResponse> checkoutSessionResponse = client.checkoutSessions().withRawResponse().create(params);\n\nint statusCode = checkoutSessionResponse.statusCode();\nHeaders headers = checkoutSessionResponse.headers();\n```\n\nYou can still deserialize the response into an instance of a Java class if needed:\n\n```java\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\n\nCheckoutSessionResponse parsedCheckoutSessionResponse = checkoutSessionResponse.parse();\n```\n\n## Error handling\n\nThe SDK throws custom unchecked exception types:\n\n- [`DodoPaymentsServiceException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsServiceException.kt): Base class for HTTP errors. See this table for which exception       subclass is thrown for each HTTP status code:\n\n  | Status | Exception                                          |\n  | ------ | -------------------------------------------------- |\n  | 400    | [`BadRequestException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/BadRequestException.kt)           |\n  | 401    | [`UnauthorizedException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/UnauthorizedException.kt)         |\n  | 403    | [`PermissionDeniedException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/PermissionDeniedException.kt)     |\n  | 404    | [`NotFoundException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/NotFoundException.kt)             |\n  | 422    | [`UnprocessableEntityException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/UnprocessableEntityException.kt)  |\n  | 429    | [`RateLimitException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/RateLimitException.kt)            |\n  | 5xx    | [`InternalServerException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/InternalServerException.kt)       |\n  | others | [`UnexpectedStatusCodeException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/UnexpectedStatusCodeException.kt) |\n\n- [`DodoPaymentsIoException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsIoException.kt): I/O networking errors.\n\n- [`DodoPaymentsRetryableException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsRetryableException.kt): Generic error indicating a failure that could be retried by the client.\n\n- [`DodoPaymentsInvalidDataException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsInvalidDataException.kt): Failure to interpret successfully parsed data. For example,       when accessing a property that\'s supposed to be required, but the API unexpectedly omitted it from the       response.\n\n- [`DodoPaymentsException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsException.kt): Base class for all exceptions. Most errors will result in one of the       previously mentioned ones, but completely generic errors may be thrown using the base class.\n\n## Pagination\n\nThe SDK defines methods that return a paginated lists of results. It provides convenient ways to access     the results either one page at a time or item-by-item across all pages.\n\n### Auto-pagination\n\nTo iterate through all results across all pages, use the `autoPager()` method, which automatically     fetches more pages as needed.\n\nWhen using the synchronous client, the method returns an [`Iterable`](https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html)\n\n```java\nimport com.dodopayments.api.models.payments.PaymentListPage;\nimport com.dodopayments.api.models.payments.PaymentListResponse;\n\nPaymentListPage page = client.payments().list();\n\n// Process as an Iterable\nfor (PaymentListResponse payment : page.autoPager()) {\n    System.out.println(payment);\n}\n\n// Process as a Stream\npage.autoPager()\n    .stream()\n    .limit(50)\n    .forEach(payment -> System.out.println(payment));\n```\n\nWhen using the asynchronous client, the method returns an [`AsyncStreamResponse`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/core/http/AsyncStreamResponse.kt):\n\n```java\nimport com.dodopayments.api.core.http.AsyncStreamResponse;\nimport com.dodopayments.api.models.payments.PaymentListPageAsync;\nimport com.dodopayments.api.models.payments.PaymentListResponse;\nimport java.util.Optional;\nimport java.util.concurrent.CompletableFuture;\n\nCompletableFuture<PaymentListPageAsync> pageFuture = client.async().payments().list();\n\npageFuture.thenRun(page -> page.autoPager().subscribe(payment -> {\n    System.out.println(payment);\n}));\n\n// If you need to handle errors or completion of the stream\npageFuture.thenRun(page -> page.autoPager().subscribe(new AsyncStreamResponse.Handler<>() {\n    @Override\n    public void onNext(PaymentListResponse payment) {\n        System.out.println(payment);\n    }\n\n    @Override\n    public void onComplete(Optional<Throwable> error) {\n        if (error.isPresent()) {\n            System.out.println("Something went wrong!");\n            throw new RuntimeException(error.get());\n        } else {\n            System.out.println("No more!");\n        }\n    }\n}));\n\n// Or use futures\npageFuture.thenRun(page -> page.autoPager()\n    .subscribe(payment -> {\n        System.out.println(payment);\n    })\n    .onCompleteFuture()\n    .whenComplete((unused, error) -> {\n        if (error != null) {\n            System.out.println("Something went wrong!");\n            throw new RuntimeException(error);\n        } else {\n            System.out.println("No more!");\n        }\n    }));\n```\n\n### Manual pagination\n\nTo access individual page items and manually request the next page, use the `items()`,\n`hasNextPage()`, and `nextPage()` methods:\n\n```java\nimport com.dodopayments.api.models.payments.PaymentListPage;\nimport com.dodopayments.api.models.payments.PaymentListResponse;\n\nPaymentListPage page = client.payments().list();\nwhile (true) {\n    for (PaymentListResponse payment : page.items()) {\n        System.out.println(payment);\n    }\n\n    if (!page.hasNextPage()) {\n        break;\n    }\n\n    page = page.nextPage();\n}\n```\n\n## Logging\n\nEnable logging by setting the `DODO_PAYMENTS_LOG` environment variable to   `info`:\n\n```sh\nexport DODO_PAYMENTS_LOG=info\n```\n\nOr to `debug` for more verbose logging:\n\n```sh\nexport DODO_PAYMENTS_LOG=debug\n```\n\nOr configure the client manually using the `logLevel` method:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.core.LogLevel;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .logLevel(LogLevel.INFO)\n    .build();\n```\n\n## ProGuard and R8\n\nAlthough the SDK uses reflection, it is still usable with     [ProGuard](https://github.com/Guardsquare/proguard) and     [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because     `dodo-payments-java-core` is published with a     [configuration file](dodo-payments-java-core/src/main/resources/META-INF/proguard/dodo-payments-java-core.pro) containing     [keep rules](https://www.guardsquare.com/manual/configuration/usage).\n\nProGuard and R8 should automatically detect and use the published rules, but you can also manually copy     the keep rules if necessary.\n\n\n\n\n\n## Jackson\n\nThe SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON     serialization/deserialization. It is compatible with version 2.13.4 or higher,     but depends on version 2.18.2 by default.\n\nThe SDK throws an exception if it detects an incompatible Jackson version at runtime (e.g. if the     default version was overridden in your Maven or Gradle config).\n\nIf the SDK threw an exception, but you\'re _certain_ the version is compatible, then disable the version     check using the `checkJacksonVersionCompatibility` on [`DodoPaymentsOkHttpClient`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClient.kt) or     [`DodoPaymentsOkHttpClientAsync`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClientAsync.kt).\n\n> [!CAUTION]\n> We make no guarantee that the SDK works correctly when the Jackson version check is disabled.\n\nAlso note that there are bugs in older Jackson versions that can affect the SDK. We don\'t work around all     Jackson bugs ([example](https://github.com/FasterXML/jackson-databind/issues/3240)) and expect users to     upgrade Jackson for those instead.\n\n## Network options\n\n### Retries\n\nThe SDK automatically retries 2 times by default, with a short exponential backoff between requests.\n\nOnly the following error types are retried:\n- Connection errors (for example, due to a network connectivity problem)\n- 408 Request Timeout\n- 409 Conflict\n- 429 Rate Limit\n- 5xx Internal\n\nThe API may also explicitly instruct the SDK to retry or not retry a request.\n\nTo set a custom number of retries, configure the client using the `maxRetries` method:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .maxRetries(4)\n    .build();\n```\n\n### Timeouts\n\nRequests time out after 1 minute by default.\n\nTo set a custom timeout, configure the method call using the `timeout` method:\n\n```java\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\n\nCheckoutSessionResponse checkoutSessionResponse = client.checkoutSessions().create(\n  params, RequestOptions.builder().timeout(Duration.ofSeconds(30)).build()\n);\n```\n\nOr configure the default for all method calls at the client level:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport java.time.Duration;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .timeout(Duration.ofSeconds(30))\n    .build();\n```\n\n### Proxies\n\nTo route requests through a proxy, configure the client using the `proxy` method:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport java.net.InetSocketAddress;\nimport java.net.Proxy;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .proxy(new Proxy(\n      Proxy.Type.HTTP, new InetSocketAddress(\n        "https://example.com", 8080\n      )\n    ))\n    .build();\n```\n\nIf the proxy responds with `407 Proxy Authentication Required`, supply credentials by also   configuring `proxyAuthenticator`:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.core.http.ProxyAuthenticator;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .proxy(...)\n    // Or a custom implementation of `ProxyAuthenticator`.\n    .proxyAuthenticator(ProxyAuthenticator.basic("username", "password"))\n    .build();\n```\n\n### Connection pooling\n\nTo customize the underlying OkHttp connection pool, configure the client using the   `maxIdleConnections` and `keepAliveDuration` methods:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport java.time.Duration;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    // If `maxIdleConnections` is set, then `keepAliveDuration` must be set, and vice versa.\n    .maxIdleConnections(10)\n    .keepAliveDuration(Duration.ofMinutes(2))\n    .build();\n```\n\nIf both options are unset, OkHttp\'s default connection pool settings are used.\n\n### HTTPS\n\n> [!NOTE]\n> Most applications should not call these methods, and instead use the system defaults. The defaults include\n> special optimizations that can be lost if the implementations are modified.\n\nTo configure how HTTPS connections are secured, configure the client using the `sslSocketFactory`,   `trustManager`, and `hostnameVerifier` methods:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    // If `sslSocketFactory` is set, then `trustManager` must be set, and vice versa.\n    .sslSocketFactory(yourSSLSocketFactory)\n    .trustManager(yourTrustManager)\n    .hostnameVerifier(yourHostnameVerifier)\n    .build();\n```\n\n### Environments\n\nThe SDK sends requests to the live_mode by default. To send requests to a different     environment, configure the client like so:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .testMode()\n    .build();\n```\n\n### Custom HTTP client\n\nThe SDK consists of three artifacts:\n- `dodo-payments-java-core`\n  - Contains core SDK logic\n  - Does not depend on [OkHttp](https://square.github.io/okhttp)\n  - Exposes [`DodoPaymentsClient`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClient.kt), [`DodoPaymentsClientAsync`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsync.kt),             [`DodoPaymentsClientImpl`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientImpl.kt), and [`DodoPaymentsClientAsyncImpl`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsyncImpl.kt), all of which can             work with any HTTP client\n- `dodo-payments-java-client-okhttp`\n  - Depends on [OkHttp](https://square.github.io/okhttp)\n  - Exposes [`DodoPaymentsOkHttpClient`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClient.kt) and [`DodoPaymentsOkHttpClientAsync`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClientAsync.kt), which             provide a way to construct [`DodoPaymentsClientImpl`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientImpl.kt) and             [`DodoPaymentsClientAsyncImpl`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsyncImpl.kt), respectively, using OkHttp\n- `dodo-payments-java`\n  - Depends on and exposes the APIs of both `dodo-payments-java-core` and `dodo-payments-java-client-okhttp`\n  - Does not have its own logic\n\nThis structure allows replacing the SDK\'s default HTTP client without pulling in unnecessary dependencies.\n\n#### Customized [`OkHttpClient`](https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html)\n\n> [!TIP]\n> Try the available [network options](#network-options) before replacing the default client.\n\nTo use a customized `OkHttpClient`:\n\n1. Replace your [`dodo-payments-java` dependency](#installation) with `dodo-payments-java-core`\n2. Copy `dodo-payments-java-client-okhttp`\'s [`OkHttpClient`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/OkHttpClient.kt) class into your code and        customize it\n3. Construct [`DodoPaymentsClientImpl`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientImpl.kt) or [`DodoPaymentsClientAsyncImpl`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsyncImpl.kt), similarly to        [`DodoPaymentsOkHttpClient`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClient.kt) or [`DodoPaymentsOkHttpClientAsync`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClientAsync.kt), using your        customized client\n\n### Completely custom HTTP client\n\nTo use a completely custom HTTP client:\n\n1. Replace your [`dodo-payments-java` dependency](#installation) with `dodo-payments-java-core`\n2. Write a class that implements the [`HttpClient`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/core/http/HttpClient.kt) interface\n3. Construct [`DodoPaymentsClientImpl`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientImpl.kt) or [`DodoPaymentsClientAsyncImpl`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsyncImpl.kt), similarly to        [`DodoPaymentsOkHttpClient`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClient.kt) or [`DodoPaymentsOkHttpClientAsync`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClientAsync.kt), using your new        client class\n\n## Undocumented API functionality\n\nThe SDK is typed for convenient usage of the documented API. However, it also supports working with undocumented or not yet supported parts of the API.\n\n### Parameters\n\nTo set undocumented parameters, call the `putAdditionalHeader`, `putAdditionalQueryParam`, or       `putAdditionalBodyProperty` methods on any `Params` class:\n\n```java\nimport com.dodopayments.api.core.JsonValue;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams;\n\nCheckoutSessionCreateParams params = CheckoutSessionCreateParams.builder()\n    .putAdditionalHeader("Secret-Header", "42")\n    .putAdditionalQueryParam("secret_query_param", "42")\n    .putAdditionalBodyProperty("secretProperty", JsonValue.from("42"))\n    .build();\n```\n\nThese can be accessed on the built object later using the `_additionalHeaders()`,       `_additionalQueryParams()`, and `_additionalBodyProperties()` methods.\n\nTo set a documented parameter or property to an undocumented or not yet supported _value_, pass a       [`JsonValue`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/core/Values.kt) object to its setter:\n\n```java\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest;\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq;\n\nCheckoutSessionCreateParams params = CheckoutSessionCreateParams.builder()\n    .checkoutSessionRequest(CheckoutSessionRequest.builder()\n        .addProductCart(ProductItemReq.builder()\n            .productId("product_id")\n            .quantity(0)\n            .build())\n        .build())\n    .build();\n```\n\nThe most straightforward way to create a [`JsonValue`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/core/Values.kt) is using its       `from(...)` method:\n\n```java\nimport com.dodopayments.api.core.JsonValue;\nimport java.util.List;\nimport java.util.Map;\n\n// Create primitive JSON values\nJsonValue nullValue = JsonValue.from(null);\nJsonValue booleanValue = JsonValue.from(true);\nJsonValue numberValue = JsonValue.from(42);\nJsonValue stringValue = JsonValue.from("Hello World!");\n\n// Create a JSON array value equivalent to `["Hello", "World"]`\nJsonValue arrayValue = JsonValue.from(List.of(\n  "Hello", "World"\n));\n\n// Create a JSON object value equivalent to `{ "a": 1, "b": 2 }`\nJsonValue objectValue = JsonValue.from(Map.of(\n  "a", 1,\n  "b", 2\n));\n\n// Create an arbitrarily nested JSON equivalent to:\n// {\n//   "a": [1, 2],\n//   "b": [3, 4]\n// }\nJsonValue complexValue = JsonValue.from(Map.of(\n  "a", List.of(\n    1, 2\n  ),\n  "b", List.of(\n    3, 4\n  )\n));\n```\n\nNormally a `Builder` class\'s `build` method will throw         [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html)         if any required parameter or property is unset.\n\nTo forcibly omit a required parameter or property, pass [`JsonMissing`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/core/Values.kt):\n\n```java\nimport com.dodopayments.api.core.JsonMissing;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest;\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq;\n\nCheckoutSessionCreateParams params = CheckoutSessionCreateParams.builder()\n    .checkoutSessionRequest(CheckoutSessionRequest.builder()\n        .addProductCart(ProductItemReq.builder()\n            .productId("product_id")\n            .quantity(0)\n            .build())\n        .build())\n    .productCart(JsonMissing.of())\n    .build();\n```\n\n### Response properties\n\nTo access undocumented response properties, call the `_additionalProperties()` method:\n\n```java\nimport com.dodopayments.api.core.JsonValue;\nimport java.util.Map;\n\nMap<String, JsonValue> additionalProperties = client.checkoutSessions().create(params)._additionalProperties();\nJsonValue secretPropertyValue = additionalProperties.get("secretProperty");\n\nString result = secretPropertyValue.accept(new JsonValue.Visitor<>() {\n    @Override\n    public String visitNull() {\n        return "It\'s null!";\n    }\n\n    @Override\n    public String visitBoolean(boolean value) {\n        return "It\'s a boolean!";\n    }\n\n    @Override\n    public String visitNumber(Number value) {\n        return "It\'s a number!";\n    }\n\n    // Other methods include `visitMissing`, `visitString`, `visitArray`, and `visitObject`\n    // The default implementation of each unimplemented method delegates to `visitDefault`, which throws by default, but can also be overridden\n});\n```\n\nTo access a property\'s raw JSON value, which may be undocumented, call its `_` prefixed method:\n\n```java\nimport com.dodopayments.api.core.JsonField;\nimport java.util.Optional;\n\nJsonField<Object> field = client.checkoutSessions().create(params)._field();\n\nif (field.isMissing()) {\n  // The property is absent from the JSON response\n} else if (field.isNull()) {\n  // The property was set to literal null\n} else {\n  // Check if value was provided as a string\n  // Other methods include `asNumber()`, `asBoolean()`, etc.\n  Optional<String> jsonString = field.asString();\n\n  // Try to deserialize into a custom type\n  MyClass myObject = field.asUnknown().orElseThrow().convert(MyClass.class);\n}\n```\n\n### Response validation\n\nIn rare cases, the API may return a response that doesn\'t match the expected type. For example, the SDK     may expect a property to contain a `String`, but the API could return something else.\n\nBy default, the SDK will not throw an exception in this case. It will throw     [`DodoPaymentsInvalidDataException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsInvalidDataException.kt) only if you directly access the property.\n\nValidating the response is _not_ forwards compatible with new types from the API for existing fields.\n\nIf you would still prefer to check that the response is completely well-typed upfront, then either call     `validate()`:\n\n```java\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\n\nCheckoutSessionResponse checkoutSessionResponse = client.checkoutSessions().create(params).validate();\n```\n\nOr configure the method call to validate the response using the `responseValidation` method:\n\n```java\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\n\nCheckoutSessionResponse checkoutSessionResponse = client.checkoutSessions().create(\n  params, RequestOptions.builder().responseValidation(true).build()\n);\n```\n\nOr configure the default for all method calls at the client level:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .responseValidation(true)\n    .build();\n```\n\n## FAQ\n\n### Why don\'t you use plain `enum` classes?\n\nJava `enum` classes are not trivially forwards compatible. Using them in   the SDK could cause runtime exceptions if the API is updated to respond with a new enum value.\n\n### Why do you represent fields using `JsonField<T>` instead of just plain `T`?\n\nUsing `JsonField<T>` enables a few features:\n\n- Allowing usage of [undocumented API functionality](#undocumented-api-functionality)\n- Lazily [validating the API response against the expected shape](#response-validation)\n- Representing absent vs explicitly null values\n\n### Why don\'t you use [`data` classes](https://kotlinlang.org/docs/data-classes.html)?\n\nIt is not [backwards compatible to add new fields to a data class](https://kotlinlang.org/docs/api-guidelines-backward-compatibility.html#avoid-using-data-classes-in-your-api)   and we don\'t want to introduce a breaking change every time we add a field to a class.\n\n### Why don\'t you use checked exceptions?\n\nChecked exceptions are widely considered a mistake in the Java programming language. In fact, they were   omitted from Kotlin for this reason.\n\nChecked exceptions:\n\n- Are verbose to handle\n- Encourage error handling at the wrong level of abstraction, where nothing can be done about the error\n- Are tedious to propagate due to the [function coloring problem](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function)\n- Don\'t play well with lambdas (also due to the function coloring problem)\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n2. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/dodopayments/dodopayments-java/issues) with questions, bugs, or suggestions.\n',
+  },
+  {
     language: 'python',
     content:
       '# Dodo Payments Python API library\n\n<!-- prettier-ignore -->\n[![PyPI version](https://img.shields.io/pypi/v/dodopayments.svg?label=pypi%20(stable))](https://pypi.org/project/dodopayments/)\n\nThe Dodo Payments Python library provides convenient access to the Dodo Payments REST API from any Python 3.9+\napplication. The library includes type definitions for all request params and response fields,\nand offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).\n\n\n\n\n\n## MCP Server\n\nUse the Dodo Payments MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6Ik15IEJlYXJlciBUb2tlbiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJNeSBXZWJob29rIEtleSJ9fQ)\n\n> Note: You may need to set environment variables in your MCP client.\n\n## Documentation\n\nThe REST API documentation can be found on [docs.dodopayments.com](https://docs.dodopayments.com/api-reference/introduction). The full API of this library can be found in [api.md](api.md).\n\n## Installation\n\n```sh\n# install from PyPI\npip install dodopayments\n```\n\n## Usage\n\nThe full API of this library can be found in [api.md](api.md).\n\n```python\nimport os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n    # defaults to "live_mode".\n    environment="test_mode",\n)\n\ncheckout_session_response = client.checkout_sessions.create(\n    product_cart=[{\n        "product_id": "pdt_example",\n        "quantity": 1,\n    }],\n)\nprint(checkout_session_response.session_id)\n```\n\nWhile you can provide a `bearer_token` keyword argument,\nwe recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)\nto add `DODO_PAYMENTS_API_KEY="My Bearer Token"` to your `.env` file\nso that your Bearer Token is not stored in source control.\n\n## Async usage\n\nSimply import `AsyncDodoPayments` instead of `DodoPayments` and use `await` with each API call:\n\n```python\nimport os\nimport asyncio\nfrom dodopayments import AsyncDodoPayments\n\nclient = AsyncDodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n    # defaults to "live_mode".\n    environment="test_mode",\n)\n\nasync def main() -> None:\n  checkout_session_response = await client.checkout_sessions.create(\n      product_cart=[{\n          "product_id": "pdt_example",\n          "quantity": 1,\n      }],\n  )\n  print(checkout_session_response.session_id)\n\nasyncio.run(main())\n```\n\nFunctionality between the synchronous and asynchronous clients is otherwise identical.\n\n### With aiohttp\n\nBy default, the async client uses `httpx` for HTTP requests. However, for improved concurrency performance you may also use `aiohttp` as the HTTP backend.\n\nYou can enable this by installing `aiohttp`:\n\n```sh\n# install from PyPI\npip install dodopayments[aiohttp]\n```\n\nThen you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:\n\n```python\nimport os\nimport asyncio\nfrom dodopayments import DefaultAioHttpClient\nfrom dodopayments import AsyncDodoPayments\n\nasync def main() -> None:\n  async with AsyncDodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n    http_client=DefaultAioHttpClient(),\n) as client:\n    checkout_session_response = await client.checkout_sessions.create(\n        product_cart=[{\n            "product_id": "pdt_example",\n            "quantity": 1,\n        }],\n    )\n    print(checkout_session_response.session_id)\n\nasyncio.run(main())\n```\n\n\n\n## Using types\n\nNested request parameters are [TypedDicts](https://docs.python.org/3/library/typing.html#typing.TypedDict). Responses are [Pydantic models](https://docs.pydantic.dev) which also provide helper methods for things like:\n\n- Serializing back into JSON, `model.to_json()`\n- Converting to a dictionary, `model.to_dict()`\n\nTyped requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.\n\n## Pagination\n\nList methods in the Dodo Payments API are paginated.\n\nThis library provides auto-paginating iterators with each list response, so you do not have to request successive pages manually:\n\n```python\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments()\n\nall_payments = []\n# Automatically fetches more pages as needed.\nfor payment in client.payments.list():\n    # Do something with payment here\n    all_payments.append(payment)\nprint(all_payments)\n```\n\nOr, asynchronously:\n\n```python\nimport asyncio\nfrom dodopayments import AsyncDodoPayments\n\nclient = AsyncDodoPayments()\n\nasync def main() -> None:\n    all_payments = []\n    # Iterate through items across all pages, issuing requests as needed.\n    async for payment in client.payments.list():\n        all_payments.append(payment)\n    print(all_payments)\n\nasyncio.run(main())\n```\n\nAlternatively, you can use the `.has_next_page()`, `.next_page_info()`, or  `.get_next_page()` methods for more granular control working with pages:\n\n```python\nfirst_page = await client.payments.list()\nif first_page.has_next_page():\n    print(f"will fetch next page using these details: {first_page.next_page_info()}")\n    next_page = await first_page.get_next_page()\n    print(f"number of items we just fetched: {len(next_page.items)}")\n\n# Remove `await` for non-async usage.\n```\n\nOr just work directly with the returned data:\n\n```python\nfirst_page = await client.payments.list()\nfor payment in first_page.items:\n    print(payment.brand_id)\n\n# Remove `await` for non-async usage.\n```\n\n## Nested params\n\nNested parameters are dictionaries, typed using `TypedDict`, for example:\n\n```python\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments()\n\ncheckout_session_response = client.checkout_sessions.create(\n    product_cart=[{\n        "product_id": "product_id",\n        "quantity": 0,\n    }],\n    billing_address={\n        "country": "AF"\n    },\n)\nprint(checkout_session_response.billing_address)\n```\n\n\n\n## Handling errors\n\nWhen the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `dodopayments.APIConnectionError` is raised.\n\nWhen the API returns a non-success status code (that is, 4xx or 5xx\nresponse), a subclass of `dodopayments.APIStatusError` is raised, containing `status_code` and `response` properties.\n\nAll errors inherit from `dodopayments.APIError`.\n\n```python\nimport dodopayments\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments()\n\ntry:\n    client.checkout_sessions.create(\n        product_cart=[{\n            "product_id": "pdt_example",\n            "quantity": 1,\n        }],\n    )\nexcept dodopayments.APIConnectionError as e:\n    print("The server could not be reached")\n    print(e.__cause__) # an underlying Exception, likely raised within httpx.\nexcept dodopayments.RateLimitError as e:\n    print("A 429 status code was received; we should back off a bit.")\nexcept dodopayments.APIStatusError as e:\n    print("Another non-200-range status code was received")\n    print(e.status_code)\n    print(e.response)\n```\n\nError codes are as follows:\n\n| Status Code | Error Type                 |\n| ----------- | -------------------------- |\n| 400         | `BadRequestError`          |\n| 401         | `AuthenticationError`      |\n| 403         | `PermissionDeniedError`    |\n| 404         | `NotFoundError`            |\n| 422         | `UnprocessableEntityError` |\n| 429         | `RateLimitError`           |\n| >=500       | `InternalServerError`      |\n| N/A         | `APIConnectionError`       |\n\n### Retries\n\nCertain errors are automatically retried 2 times by default, with a short exponential backoff.\nConnection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,\n429 Rate Limit, and >=500 Internal errors are all retried by default.\n\nYou can use the `max_retries` option to configure or disable retry settings:\n\n```python\nfrom dodopayments import DodoPayments\n\n# Configure the default for all requests:\nclient = DodoPayments(\n    # default is 2\n    max_retries=0,\n)\n\n# Or, configure per-request:\nclient.with_options(max_retries = 5).checkout_sessions.create(\n    product_cart=[{\n        "product_id": "pdt_example",\n        "quantity": 1,\n    }],\n)\n```\n\n### Timeouts\n\nBy default requests time out after 1 minute. You can configure this with a `timeout` option,\nwhich accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:\n\n```python\nfrom dodopayments import DodoPayments\n\n# Configure the default for all requests:\nclient = DodoPayments(\n    # 20 seconds (default is 1 minute)\n    timeout=20.0,\n)\n\n# More granular control:\nclient = DodoPayments(\n    timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),\n)\n\n# Override per-request:\nclient.with_options(timeout = 5.0).checkout_sessions.create(\n    product_cart=[{\n        "product_id": "pdt_example",\n        "quantity": 1,\n    }],\n)\n```\n\nOn timeout, an `APITimeoutError` is thrown.\n\nNote that requests that time out are [retried twice by default](#retries).\n\n\n\n## Advanced\n\n### Logging\n\nWe use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.\n\nYou can enable logging by setting the environment variable `DODO_PAYMENTS_LOG` to `info`.\n\n```shell\n$ export DODO_PAYMENTS_LOG=info\n```\n\nOr to `debug` for more verbose logging.\n\n### How to tell whether `None` means `null` or missing\n\nIn an API response, a field may be explicitly `null`, or missing entirely; in either case, its value is `None` in this library. You can differentiate the two cases with `.model_fields_set`:\n\n```py\nif response.my_field is None:\n  if \'my_field\' not in response.model_fields_set:\n    print(\'Got json like {}, without a "my_field" key present at all.\')\n  else:\n    print(\'Got json like {"my_field": null}.\')\n```\n\n### Accessing raw response data (e.g. headers)\n\nThe "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,\n\n```py\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments()\nresponse = client.checkout_sessions.with_raw_response.create(\n    product_cart=[{\n        "product_id": "pdt_example",\n        "quantity": 1,\n    }],\n)\nprint(response.headers.get(\'X-My-Header\'))\n\ncheckout_session = response.parse()  # get the object that `checkout_sessions.create()` would have returned\nprint(checkout_session.session_id)\n```\n\nThese methods return an [`APIResponse`](https://github.com/dodopayments/dodopayments-python/tree/main/src/dodopayments/_response.py) object.\n\nThe async client returns an [`AsyncAPIResponse`](https://github.com/dodopayments/dodopayments-python/tree/main/src/dodopayments/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.\n\n#### `.with_streaming_response`\n\nThe above interface eagerly reads the full response body when you make the request, which may not always be what you want.\n\nTo stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.\n\n```python\nwith client.checkout_sessions.with_streaming_response.create(\n    product_cart=[{\n        "product_id": "pdt_example",\n        "quantity": 1,\n    }],\n) as response :\n    print(response.headers.get(\'X-My-Header\'))\n\n    for line in response.iter_lines():\n      print(line)\n```\n\nThe context manager is required so that the response will reliably be closed.\n\n### Making custom/undocumented requests\n\nThis library is typed for convenient access to the documented API.\n\nIf you need to access undocumented endpoints, params, or response properties, the library can still be used.\n\n#### Undocumented endpoints\n\nTo make requests to undocumented endpoints, you can make requests using `client.get`, `client.post`, and other\nhttp verbs. Options on the client will be respected (such as retries) when making this request.\n\n```py\nimport httpx\n\nresponse = client.post(\n    "/foo",\n    cast_to=httpx.Response,\n    body={"my_param": True},\n)\n\nprint(response.headers.get("x-foo"))\n```\n\n#### Undocumented request params\n\nIf you want to explicitly send an extra param, you can do so with the `extra_query`, `extra_body`, and `extra_headers` request\noptions.\n\n#### Undocumented response properties\n\nTo access undocumented response properties, you can access the extra fields like `response.unknown_prop`. You\ncan also get all the extra fields on the Pydantic model as a dict with\n[`response.model_extra`](https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel.model_extra).\n\n### Configuring the HTTP client\n\nYou can directly override the [httpx client](https://www.python-httpx.org/api/#client) to customize it for your use case, including:\n\n- Support for [proxies](https://www.python-httpx.org/advanced/proxies/)\n- Custom [transports](https://www.python-httpx.org/advanced/transports/)\n- Additional [advanced](https://www.python-httpx.org/advanced/clients/) functionality\n\n```python\nimport httpx\nfrom dodopayments import DodoPayments, DefaultHttpxClient\n\nclient = DodoPayments(\n    # Or use the `DODO_PAYMENTS_BASE_URL` env var\n    base_url="http://my.test.server.example.com:8083",\n    http_client=DefaultHttpxClient(proxy="http://my.test.proxy.example.com", transport=httpx.HTTPTransport(local_address="0.0.0.0")),\n)\n```\n\nYou can also customize the client on a per-request basis by using `with_options()`:\n\n```python\nclient.with_options(http_client=DefaultHttpxClient(...))\n```\n\n### Managing HTTP resources\n\nBy default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.\n\n```py\nfrom dodopayments import DodoPayments\n\nwith DodoPayments() as client:\n  # make requests here\n  ...\n\n# HTTP client is now closed\n```\n\n## Versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes that only affect static types, without breaking runtime behavior.\n2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n3. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/dodopayments/dodopayments-python/issues) with questions, bugs, or suggestions.\n\n### Determining the installed version\n\nIf you\'ve upgraded to the latest version but aren\'t seeing any new features you were expecting then your python environment is likely still using an older version.\n\nYou can determine the version that is being used at runtime with:\n\n```py\nimport dodopayments\nprint(dodopayments.__version__)\n```\n\n## Requirements\n\nPython 3.9 or higher.\n\n## Contributing\n\nSee [the contributing documentation](./CONTRIBUTING.md).\n',
-  },
-  {
-    language: 'java',
-    content:
-      '# Dodo Payments Java API Library\n\n<!-- x-release-please-start-version -->\n[![Maven Central](https://img.shields.io/maven-central/v/com.dodopayments.api/dodo-payments-java)](https://central.sonatype.com/artifact/com.dodopayments.api/dodo-payments-java/0.0.1)\n[![javadoc](https://javadoc.io/badge2/com.dodopayments.api/dodo-payments-java/0.0.1/javadoc.svg)](https://javadoc.io/doc/com.dodopayments.api/dodo-payments-java/0.0.1)\n<!-- x-release-please-end -->\n\nThe Dodo Payments Java SDK provides convenient access to the [Dodo Payments REST API](https://docs.dodopayments.com/api-reference/introduction)   from applications written in Java.\n\nThe Dodo Payments Java SDK is similar to the Dodo Payments Kotlin SDK but with minor differences that       make it more ergonomic for use in Java, such as `Optional` instead of nullable values, `Stream`       instead of `Sequence`, and `CompletableFuture` instead of suspend functions.\n\n\n\n## MCP Server\n\nUse the Dodo Payments MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6Ik15IEJlYXJlciBUb2tlbiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJNeSBXZWJob29rIEtleSJ9fQ)\n\n> Note: You may need to set environment variables in your MCP client.\n\n<!-- x-release-please-start-version -->\n\nThe REST API documentation can be found on [docs.dodopayments.com](https://docs.dodopayments.com/api-reference/introduction). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dodopayments.api/dodo-payments-java/0.0.1).\n\n<!-- x-release-please-end -->\n\n## Installation\n\n<!-- x-release-please-start-version -->\n\n### Gradle\n\n~~~kotlin\nimplementation("com.dodopayments.api:dodo-payments-java:0.0.1")\n~~~\n\n### Maven\n\n~~~xml\n<dependency>\n  <groupId>com.dodopayments.api</groupId>\n  <artifactId>dodo-payments-java</artifactId>\n  <version>0.0.1</version>\n</dependency>\n~~~\n\n<!-- x-release-please-end -->\n\n## Requirements\n\nThis library requires Java 8 or later.\n\n## Usage\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq;\n\n// Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n// Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\nCheckoutSessionRequest params = CheckoutSessionRequest.builder()\n    .addProductCart(ProductItemReq.builder()\n        .productId("product_id")\n        .quantity(0)\n        .build())\n    .build();\nCheckoutSessionResponse checkoutSessionResponse = client.checkoutSessions().create(params);\n```\n\n## Client configuration\n\nConfigure the client using system properties or environment variables:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\n\n// Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n// Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n```\n\nOr manually:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .bearerToken("My Bearer Token")\n    .build();\n```\n\nOr using a combination of the two approaches:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    // Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n    // Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\n    .fromEnv()\n    .bearerToken("My Bearer Token")\n    .build();\n```\n\nSee this table for the available options:\n\n| Setter        | System property           | Environment variable        | Required | Default value                     |\n| ------------- | ------------------------- | --------------------------- | -------- | --------------------------------- |\n| `bearerToken` | `dodopayments.apiKey`     | `DODO_PAYMENTS_API_KEY`     | true     | -                                 |\n| `webhookKey`  | `dodopayments.webhookKey` | `DODO_PAYMENTS_WEBHOOK_KEY` | false    | -                                 |\n| `baseUrl`     | `dodopayments.baseUrl`    | `DODO_PAYMENTS_BASE_URL`    | true     | `"https://live.dodopayments.com"` |\n\nSystem properties take precedence over environment variables.\n\n> [!TIP]\n> Don\'t create more than one client in the same application. Each client has a connection pool and\n> thread pools, which are more efficient to share between requests.\n\n### Modifying configuration\n\nTo temporarily use a modified client configuration, while reusing the same connection and thread       pools, call `withOptions()` on any client or service:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\n\nDodoPaymentsClient clientWithOptions = client.withOptions(optionsBuilder -> {\n    optionsBuilder.baseUrl("https://example.com");\n    optionsBuilder.maxRetries(42);\n});\n```\n\nThe `withOptions()` method does not affect the original client or service.\n\n## Requests and responses\n\nTo send a request to the Dodo Payments API, build an instance of some `Params` class and pass it to the     corresponding client method. When the response is received, it will be deserialized into an instance of     a Java class.\n\nFor example, `client.checkoutSessions().create(...)` should be called with an instance of `CheckoutSessionCreateParams`, and it     will return an instance of `CheckoutSessionResponse`.\n\n## Immutability\n\nEach class in the SDK has an associated   [builder](https://blogs.oracle.com/javamagazine/post/exploring-joshua-blochs-builder-design-pattern-in-java)   or factory method for constructing it.\n\nEach class is [immutable](https://docs.oracle.com/javase/tutorial/essential/concurrency/immutable.html)   once constructed. If the class has an associated builder, then it has a `toBuilder()` method, which can   be used to convert it back to a builder for making a modified copy.\n\nBecause each class is immutable, builder modification will _never_ affect already built class instances.\n\n## Asynchronous execution\n\nThe default client is synchronous. To switch to asynchronous execution, call the `async()` method:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq;\nimport java.util.concurrent.CompletableFuture;\n\n// Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n// Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\nCheckoutSessionRequest params = CheckoutSessionRequest.builder()\n    .addProductCart(ProductItemReq.builder()\n        .productId("product_id")\n        .quantity(0)\n        .build())\n    .build();\nCompletableFuture<CheckoutSessionResponse> checkoutSessionResponse = client.async().checkoutSessions().create(params);\n```\n\nOr create an asynchronous client from the beginning:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClientAsync;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClientAsync;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq;\nimport java.util.concurrent.CompletableFuture;\n\n// Configures using the `dodopayments.apiKey`, `dodopayments.webhookKey` and `dodopayments.baseUrl` system properties\n// Or configures using the `DODO_PAYMENTS_API_KEY`, `DODO_PAYMENTS_WEBHOOK_KEY` and `DODO_PAYMENTS_BASE_URL` environment variables\nDodoPaymentsClientAsync client = DodoPaymentsOkHttpClientAsync.fromEnv();\n\nCheckoutSessionRequest params = CheckoutSessionRequest.builder()\n    .addProductCart(ProductItemReq.builder()\n        .productId("product_id")\n        .quantity(0)\n        .build())\n    .build();\nCompletableFuture<CheckoutSessionResponse> checkoutSessionResponse = client.checkoutSessions().create(params);\n```\n\nThe asynchronous client supports the same options as the synchronous one, except most methods return `CompletableFuture`s.\n\n\n\n\n\n## Binary responses\n\nThe SDK defines methods that return binary responses, which are used for API responses that shouldn\'t     necessarily be parsed, like non-JSON data.\n\nThese methods return [`HttpResponse`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/core/http/HttpResponse.kt):\n\n```java\nimport com.dodopayments.api.core.http.HttpResponse;\nimport com.dodopayments.api.models.invoices.payments.PaymentRetrieveParams;\n\nHttpResponse payment = client.invoices().payments().retrieve("pay_gr4RizvMOXFJ6xca3y2tU");\n```\n\nTo save the response content to a file, use the     [`Files.copy(...)`](https://docs.oracle.com/javase/8/docs/api/java/nio/file/Files.html#copy-java.io.InputStream-java.nio.file.Path-java.nio.file.CopyOption...-)     method:\n\n```java\nimport com.dodopayments.api.core.http.HttpResponse;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\nimport java.nio.file.StandardCopyOption;\n\ntry (HttpResponse response = client.invoices().payments().retrieve(params)) {\n    Files.copy(\n        response.body(),\n        Paths.get(path),\n        StandardCopyOption.REPLACE_EXISTING\n    );\n} catch (Exception e) {\n    System.out.println("Something went wrong!");\n    throw new RuntimeException(e);\n}\n```\n\nOr transfer the response content to any     [`OutputStream`](https://docs.oracle.com/javase/8/docs/api/java/io/OutputStream.html):\n\n```java\nimport com.dodopayments.api.core.http.HttpResponse;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\ntry (HttpResponse response = client.invoices().payments().retrieve(params)) {\n    response.body().transferTo(Files.newOutputStream(Paths.get(path)));\n} catch (Exception e) {\n    System.out.println("Something went wrong!");\n    throw new RuntimeException(e);\n}\n```\n\n## Raw responses\n\nThe SDK defines methods that deserialize responses into instances of Java classes.       However, these methods don\'t provide access to the response headers, status code, or the raw response       body.\n\nTo access this data, prefix any HTTP method call on a client or service with `withRawResponse()`:\n\n```java\nimport com.dodopayments.api.core.http.Headers;\nimport com.dodopayments.api.core.http.HttpResponseFor;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq;\n\nCheckoutSessionRequest params = CheckoutSessionRequest.builder()\n    .addProductCart(ProductItemReq.builder()\n        .productId("product_id")\n        .quantity(0)\n        .build())\n    .build();\nHttpResponseFor<CheckoutSessionResponse> checkoutSessionResponse = client.checkoutSessions().withRawResponse().create(params);\n\nint statusCode = checkoutSessionResponse.statusCode();\nHeaders headers = checkoutSessionResponse.headers();\n```\n\nYou can still deserialize the response into an instance of a Java class if needed:\n\n```java\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\n\nCheckoutSessionResponse parsedCheckoutSessionResponse = checkoutSessionResponse.parse();\n```\n\n## Error handling\n\nThe SDK throws custom unchecked exception types:\n\n- [`DodoPaymentsServiceException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsServiceException.kt): Base class for HTTP errors. See this table for which exception       subclass is thrown for each HTTP status code:\n\n  | Status | Exception                                          |\n  | ------ | -------------------------------------------------- |\n  | 400    | [`BadRequestException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/BadRequestException.kt)           |\n  | 401    | [`UnauthorizedException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/UnauthorizedException.kt)         |\n  | 403    | [`PermissionDeniedException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/PermissionDeniedException.kt)     |\n  | 404    | [`NotFoundException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/NotFoundException.kt)             |\n  | 422    | [`UnprocessableEntityException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/UnprocessableEntityException.kt)  |\n  | 429    | [`RateLimitException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/RateLimitException.kt)            |\n  | 5xx    | [`InternalServerException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/InternalServerException.kt)       |\n  | others | [`UnexpectedStatusCodeException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/UnexpectedStatusCodeException.kt) |\n\n- [`DodoPaymentsIoException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsIoException.kt): I/O networking errors.\n\n- [`DodoPaymentsRetryableException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsRetryableException.kt): Generic error indicating a failure that could be retried by the client.\n\n- [`DodoPaymentsInvalidDataException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsInvalidDataException.kt): Failure to interpret successfully parsed data. For example,       when accessing a property that\'s supposed to be required, but the API unexpectedly omitted it from the       response.\n\n- [`DodoPaymentsException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsException.kt): Base class for all exceptions. Most errors will result in one of the       previously mentioned ones, but completely generic errors may be thrown using the base class.\n\n## Pagination\n\nThe SDK defines methods that return a paginated lists of results. It provides convenient ways to access     the results either one page at a time or item-by-item across all pages.\n\n### Auto-pagination\n\nTo iterate through all results across all pages, use the `autoPager()` method, which automatically     fetches more pages as needed.\n\nWhen using the synchronous client, the method returns an [`Iterable`](https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html)\n\n```java\nimport com.dodopayments.api.models.payments.PaymentListPage;\nimport com.dodopayments.api.models.payments.PaymentListResponse;\n\nPaymentListPage page = client.payments().list();\n\n// Process as an Iterable\nfor (PaymentListResponse payment : page.autoPager()) {\n    System.out.println(payment);\n}\n\n// Process as a Stream\npage.autoPager()\n    .stream()\n    .limit(50)\n    .forEach(payment -> System.out.println(payment));\n```\n\nWhen using the asynchronous client, the method returns an [`AsyncStreamResponse`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/core/http/AsyncStreamResponse.kt):\n\n```java\nimport com.dodopayments.api.core.http.AsyncStreamResponse;\nimport com.dodopayments.api.models.payments.PaymentListPageAsync;\nimport com.dodopayments.api.models.payments.PaymentListResponse;\nimport java.util.Optional;\nimport java.util.concurrent.CompletableFuture;\n\nCompletableFuture<PaymentListPageAsync> pageFuture = client.async().payments().list();\n\npageFuture.thenRun(page -> page.autoPager().subscribe(payment -> {\n    System.out.println(payment);\n}));\n\n// If you need to handle errors or completion of the stream\npageFuture.thenRun(page -> page.autoPager().subscribe(new AsyncStreamResponse.Handler<>() {\n    @Override\n    public void onNext(PaymentListResponse payment) {\n        System.out.println(payment);\n    }\n\n    @Override\n    public void onComplete(Optional<Throwable> error) {\n        if (error.isPresent()) {\n            System.out.println("Something went wrong!");\n            throw new RuntimeException(error.get());\n        } else {\n            System.out.println("No more!");\n        }\n    }\n}));\n\n// Or use futures\npageFuture.thenRun(page -> page.autoPager()\n    .subscribe(payment -> {\n        System.out.println(payment);\n    })\n    .onCompleteFuture()\n    .whenComplete((unused, error) -> {\n        if (error != null) {\n            System.out.println("Something went wrong!");\n            throw new RuntimeException(error);\n        } else {\n            System.out.println("No more!");\n        }\n    }));\n```\n\n### Manual pagination\n\nTo access individual page items and manually request the next page, use the `items()`,\n`hasNextPage()`, and `nextPage()` methods:\n\n```java\nimport com.dodopayments.api.models.payments.PaymentListPage;\nimport com.dodopayments.api.models.payments.PaymentListResponse;\n\nPaymentListPage page = client.payments().list();\nwhile (true) {\n    for (PaymentListResponse payment : page.items()) {\n        System.out.println(payment);\n    }\n\n    if (!page.hasNextPage()) {\n        break;\n    }\n\n    page = page.nextPage();\n}\n```\n\n## Logging\n\nEnable logging by setting the `DODO_PAYMENTS_LOG` environment variable to   `info`:\n\n```sh\nexport DODO_PAYMENTS_LOG=info\n```\n\nOr to `debug` for more verbose logging:\n\n```sh\nexport DODO_PAYMENTS_LOG=debug\n```\n\nOr configure the client manually using the `logLevel` method:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.core.LogLevel;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .logLevel(LogLevel.INFO)\n    .build();\n```\n\n## ProGuard and R8\n\nAlthough the SDK uses reflection, it is still usable with     [ProGuard](https://github.com/Guardsquare/proguard) and     [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because     `dodo-payments-java-core` is published with a     [configuration file](dodo-payments-java-core/src/main/resources/META-INF/proguard/dodo-payments-java-core.pro) containing     [keep rules](https://www.guardsquare.com/manual/configuration/usage).\n\nProGuard and R8 should automatically detect and use the published rules, but you can also manually copy     the keep rules if necessary.\n\n\n\n\n\n## Jackson\n\nThe SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON     serialization/deserialization. It is compatible with version 2.13.4 or higher,     but depends on version 2.18.2 by default.\n\nThe SDK throws an exception if it detects an incompatible Jackson version at runtime (e.g. if the     default version was overridden in your Maven or Gradle config).\n\nIf the SDK threw an exception, but you\'re _certain_ the version is compatible, then disable the version     check using the `checkJacksonVersionCompatibility` on [`DodoPaymentsOkHttpClient`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClient.kt) or     [`DodoPaymentsOkHttpClientAsync`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClientAsync.kt).\n\n> [!CAUTION]\n> We make no guarantee that the SDK works correctly when the Jackson version check is disabled.\n\nAlso note that there are bugs in older Jackson versions that can affect the SDK. We don\'t work around all     Jackson bugs ([example](https://github.com/FasterXML/jackson-databind/issues/3240)) and expect users to     upgrade Jackson for those instead.\n\n## Network options\n\n### Retries\n\nThe SDK automatically retries 2 times by default, with a short exponential backoff between requests.\n\nOnly the following error types are retried:\n- Connection errors (for example, due to a network connectivity problem)\n- 408 Request Timeout\n- 409 Conflict\n- 429 Rate Limit\n- 5xx Internal\n\nThe API may also explicitly instruct the SDK to retry or not retry a request.\n\nTo set a custom number of retries, configure the client using the `maxRetries` method:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .maxRetries(4)\n    .build();\n```\n\n### Timeouts\n\nRequests time out after 1 minute by default.\n\nTo set a custom timeout, configure the method call using the `timeout` method:\n\n```java\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\n\nCheckoutSessionResponse checkoutSessionResponse = client.checkoutSessions().create(\n  params, RequestOptions.builder().timeout(Duration.ofSeconds(30)).build()\n);\n```\n\nOr configure the default for all method calls at the client level:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport java.time.Duration;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .timeout(Duration.ofSeconds(30))\n    .build();\n```\n\n### Proxies\n\nTo route requests through a proxy, configure the client using the `proxy` method:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport java.net.InetSocketAddress;\nimport java.net.Proxy;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .proxy(new Proxy(\n      Proxy.Type.HTTP, new InetSocketAddress(\n        "https://example.com", 8080\n      )\n    ))\n    .build();\n```\n\nIf the proxy responds with `407 Proxy Authentication Required`, supply credentials by also   configuring `proxyAuthenticator`:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.core.http.ProxyAuthenticator;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .proxy(...)\n    // Or a custom implementation of `ProxyAuthenticator`.\n    .proxyAuthenticator(ProxyAuthenticator.basic("username", "password"))\n    .build();\n```\n\n### Connection pooling\n\nTo customize the underlying OkHttp connection pool, configure the client using the   `maxIdleConnections` and `keepAliveDuration` methods:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport java.time.Duration;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    // If `maxIdleConnections` is set, then `keepAliveDuration` must be set, and vice versa.\n    .maxIdleConnections(10)\n    .keepAliveDuration(Duration.ofMinutes(2))\n    .build();\n```\n\nIf both options are unset, OkHttp\'s default connection pool settings are used.\n\n### HTTPS\n\n> [!NOTE]\n> Most applications should not call these methods, and instead use the system defaults. The defaults include\n> special optimizations that can be lost if the implementations are modified.\n\nTo configure how HTTPS connections are secured, configure the client using the `sslSocketFactory`,   `trustManager`, and `hostnameVerifier` methods:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    // If `sslSocketFactory` is set, then `trustManager` must be set, and vice versa.\n    .sslSocketFactory(yourSSLSocketFactory)\n    .trustManager(yourTrustManager)\n    .hostnameVerifier(yourHostnameVerifier)\n    .build();\n```\n\n### Environments\n\nThe SDK sends requests to the live_mode by default. To send requests to a different     environment, configure the client like so:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .testMode()\n    .build();\n```\n\n### Custom HTTP client\n\nThe SDK consists of three artifacts:\n- `dodo-payments-java-core`\n  - Contains core SDK logic\n  - Does not depend on [OkHttp](https://square.github.io/okhttp)\n  - Exposes [`DodoPaymentsClient`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClient.kt), [`DodoPaymentsClientAsync`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsync.kt),             [`DodoPaymentsClientImpl`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientImpl.kt), and [`DodoPaymentsClientAsyncImpl`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsyncImpl.kt), all of which can             work with any HTTP client\n- `dodo-payments-java-client-okhttp`\n  - Depends on [OkHttp](https://square.github.io/okhttp)\n  - Exposes [`DodoPaymentsOkHttpClient`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClient.kt) and [`DodoPaymentsOkHttpClientAsync`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClientAsync.kt), which             provide a way to construct [`DodoPaymentsClientImpl`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientImpl.kt) and             [`DodoPaymentsClientAsyncImpl`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsyncImpl.kt), respectively, using OkHttp\n- `dodo-payments-java`\n  - Depends on and exposes the APIs of both `dodo-payments-java-core` and `dodo-payments-java-client-okhttp`\n  - Does not have its own logic\n\nThis structure allows replacing the SDK\'s default HTTP client without pulling in unnecessary dependencies.\n\n#### Customized [`OkHttpClient`](https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html)\n\n> [!TIP]\n> Try the available [network options](#network-options) before replacing the default client.\n\nTo use a customized `OkHttpClient`:\n\n1. Replace your [`dodo-payments-java` dependency](#installation) with `dodo-payments-java-core`\n2. Copy `dodo-payments-java-client-okhttp`\'s [`OkHttpClient`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/OkHttpClient.kt) class into your code and        customize it\n3. Construct [`DodoPaymentsClientImpl`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientImpl.kt) or [`DodoPaymentsClientAsyncImpl`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsyncImpl.kt), similarly to        [`DodoPaymentsOkHttpClient`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClient.kt) or [`DodoPaymentsOkHttpClientAsync`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClientAsync.kt), using your        customized client\n\n### Completely custom HTTP client\n\nTo use a completely custom HTTP client:\n\n1. Replace your [`dodo-payments-java` dependency](#installation) with `dodo-payments-java-core`\n2. Write a class that implements the [`HttpClient`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/core/http/HttpClient.kt) interface\n3. Construct [`DodoPaymentsClientImpl`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientImpl.kt) or [`DodoPaymentsClientAsyncImpl`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/client/DodoPaymentsClientAsyncImpl.kt), similarly to        [`DodoPaymentsOkHttpClient`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClient.kt) or [`DodoPaymentsOkHttpClientAsync`](dodo-payments-java-client-okhttp/src/main/kotlin/com/dodopayments/api/client/okhttp/DodoPaymentsOkHttpClientAsync.kt), using your new        client class\n\n## Undocumented API functionality\n\nThe SDK is typed for convenient usage of the documented API. However, it also supports working with undocumented or not yet supported parts of the API.\n\n### Parameters\n\nTo set undocumented parameters, call the `putAdditionalHeader`, `putAdditionalQueryParam`, or       `putAdditionalBodyProperty` methods on any `Params` class:\n\n```java\nimport com.dodopayments.api.core.JsonValue;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams;\n\nCheckoutSessionCreateParams params = CheckoutSessionCreateParams.builder()\n    .putAdditionalHeader("Secret-Header", "42")\n    .putAdditionalQueryParam("secret_query_param", "42")\n    .putAdditionalBodyProperty("secretProperty", JsonValue.from("42"))\n    .build();\n```\n\nThese can be accessed on the built object later using the `_additionalHeaders()`,       `_additionalQueryParams()`, and `_additionalBodyProperties()` methods.\n\nTo set a documented parameter or property to an undocumented or not yet supported _value_, pass a       [`JsonValue`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/core/Values.kt) object to its setter:\n\n```java\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest;\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq;\n\nCheckoutSessionCreateParams params = CheckoutSessionCreateParams.builder()\n    .checkoutSessionRequest(CheckoutSessionRequest.builder()\n        .addProductCart(ProductItemReq.builder()\n            .productId("product_id")\n            .quantity(0)\n            .build())\n        .build())\n    .build();\n```\n\nThe most straightforward way to create a [`JsonValue`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/core/Values.kt) is using its       `from(...)` method:\n\n```java\nimport com.dodopayments.api.core.JsonValue;\nimport java.util.List;\nimport java.util.Map;\n\n// Create primitive JSON values\nJsonValue nullValue = JsonValue.from(null);\nJsonValue booleanValue = JsonValue.from(true);\nJsonValue numberValue = JsonValue.from(42);\nJsonValue stringValue = JsonValue.from("Hello World!");\n\n// Create a JSON array value equivalent to `["Hello", "World"]`\nJsonValue arrayValue = JsonValue.from(List.of(\n  "Hello", "World"\n));\n\n// Create a JSON object value equivalent to `{ "a": 1, "b": 2 }`\nJsonValue objectValue = JsonValue.from(Map.of(\n  "a", 1,\n  "b", 2\n));\n\n// Create an arbitrarily nested JSON equivalent to:\n// {\n//   "a": [1, 2],\n//   "b": [3, 4]\n// }\nJsonValue complexValue = JsonValue.from(Map.of(\n  "a", List.of(\n    1, 2\n  ),\n  "b", List.of(\n    3, 4\n  )\n));\n```\n\nNormally a `Builder` class\'s `build` method will throw         [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html)         if any required parameter or property is unset.\n\nTo forcibly omit a required parameter or property, pass [`JsonMissing`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/core/Values.kt):\n\n```java\nimport com.dodopayments.api.core.JsonMissing;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionCreateParams;\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionRequest;\nimport com.dodopayments.api.models.checkoutsessions.ProductItemReq;\n\nCheckoutSessionCreateParams params = CheckoutSessionCreateParams.builder()\n    .checkoutSessionRequest(CheckoutSessionRequest.builder()\n        .addProductCart(ProductItemReq.builder()\n            .productId("product_id")\n            .quantity(0)\n            .build())\n        .build())\n    .productCart(JsonMissing.of())\n    .build();\n```\n\n### Response properties\n\nTo access undocumented response properties, call the `_additionalProperties()` method:\n\n```java\nimport com.dodopayments.api.core.JsonValue;\nimport java.util.Map;\n\nMap<String, JsonValue> additionalProperties = client.checkoutSessions().create(params)._additionalProperties();\nJsonValue secretPropertyValue = additionalProperties.get("secretProperty");\n\nString result = secretPropertyValue.accept(new JsonValue.Visitor<>() {\n    @Override\n    public String visitNull() {\n        return "It\'s null!";\n    }\n\n    @Override\n    public String visitBoolean(boolean value) {\n        return "It\'s a boolean!";\n    }\n\n    @Override\n    public String visitNumber(Number value) {\n        return "It\'s a number!";\n    }\n\n    // Other methods include `visitMissing`, `visitString`, `visitArray`, and `visitObject`\n    // The default implementation of each unimplemented method delegates to `visitDefault`, which throws by default, but can also be overridden\n});\n```\n\nTo access a property\'s raw JSON value, which may be undocumented, call its `_` prefixed method:\n\n```java\nimport com.dodopayments.api.core.JsonField;\nimport java.util.Optional;\n\nJsonField<Object> field = client.checkoutSessions().create(params)._field();\n\nif (field.isMissing()) {\n  // The property is absent from the JSON response\n} else if (field.isNull()) {\n  // The property was set to literal null\n} else {\n  // Check if value was provided as a string\n  // Other methods include `asNumber()`, `asBoolean()`, etc.\n  Optional<String> jsonString = field.asString();\n\n  // Try to deserialize into a custom type\n  MyClass myObject = field.asUnknown().orElseThrow().convert(MyClass.class);\n}\n```\n\n### Response validation\n\nIn rare cases, the API may return a response that doesn\'t match the expected type. For example, the SDK     may expect a property to contain a `String`, but the API could return something else.\n\nBy default, the SDK will not throw an exception in this case. It will throw     [`DodoPaymentsInvalidDataException`](dodo-payments-java-core/src/main/kotlin/com/dodopayments/api/errors/DodoPaymentsInvalidDataException.kt) only if you directly access the property.\n\nValidating the response is _not_ forwards compatible with new types from the API for existing fields.\n\nIf you would still prefer to check that the response is completely well-typed upfront, then either call     `validate()`:\n\n```java\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\n\nCheckoutSessionResponse checkoutSessionResponse = client.checkoutSessions().create(params).validate();\n```\n\nOr configure the method call to validate the response using the `responseValidation` method:\n\n```java\nimport com.dodopayments.api.models.checkoutsessions.CheckoutSessionResponse;\n\nCheckoutSessionResponse checkoutSessionResponse = client.checkoutSessions().create(\n  params, RequestOptions.builder().responseValidation(true).build()\n);\n```\n\nOr configure the default for all method calls at the client level:\n\n```java\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\n\nDodoPaymentsClient client = DodoPaymentsOkHttpClient.builder()\n    .fromEnv()\n    .responseValidation(true)\n    .build();\n```\n\n## FAQ\n\n### Why don\'t you use plain `enum` classes?\n\nJava `enum` classes are not trivially forwards compatible. Using them in   the SDK could cause runtime exceptions if the API is updated to respond with a new enum value.\n\n### Why do you represent fields using `JsonField<T>` instead of just plain `T`?\n\nUsing `JsonField<T>` enables a few features:\n\n- Allowing usage of [undocumented API functionality](#undocumented-api-functionality)\n- Lazily [validating the API response against the expected shape](#response-validation)\n- Representing absent vs explicitly null values\n\n### Why don\'t you use [`data` classes](https://kotlinlang.org/docs/data-classes.html)?\n\nIt is not [backwards compatible to add new fields to a data class](https://kotlinlang.org/docs/api-guidelines-backward-compatibility.html#avoid-using-data-classes-in-your-api)   and we don\'t want to introduce a breaking change every time we add a field to a class.\n\n### Why don\'t you use checked exceptions?\n\nChecked exceptions are widely considered a mistake in the Java programming language. In fact, they were   omitted from Kotlin for this reason.\n\nChecked exceptions:\n\n- Are verbose to handle\n- Encourage error handling at the wrong level of abstraction, where nothing can be done about the error\n- Are tedious to propagate due to the [function coloring problem](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function)\n- Don\'t play well with lambdas (also due to the function coloring problem)\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n2. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/dodopayments/dodopayments-java/issues) with questions, bugs, or suggestions.\n',
   },
   {
     language: 'kotlin',

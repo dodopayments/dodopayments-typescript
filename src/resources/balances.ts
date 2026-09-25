@@ -62,7 +62,10 @@ export interface BalanceLedgerEntry {
     | 'visa_rdr_fee'
     | 'dispute_fees_reversal'
     | 'deflection_fees'
-    | 'deflection_fees_reversal';
+    | 'deflection_fees_reversal'
+    | 'reserve_hold'
+    | 'reserve_release'
+    | 'moderation_fees';
 
   is_credit: boolean;
 
@@ -271,7 +274,10 @@ export interface BalanceRetrieveLedgerParams extends DefaultPageNumberPagination
     | 'visa_rdr_fee'
     | 'dispute_fees_reversal'
     | 'deflection_fees'
-    | 'deflection_fees_reversal';
+    | 'deflection_fees_reversal'
+    | 'reserve_hold'
+    | 'reserve_release'
+    | 'moderation_fees';
 
   /**
    * Min : 1, Max : 100, default 10
