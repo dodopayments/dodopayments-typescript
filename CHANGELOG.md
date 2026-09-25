@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.52.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.51.0...v2.52.0) (2026-09-25)
+
+
+### Features
+
+* **api:** add moderation API and multi-subscription payments ([f913327](https://github.com/dodopayments/dodopayments-typescript/commit/f9133278affcfa11fdc1e32afdff20921e4f9436))
+* **api:** add moderation API and multi-subscription payments ([76fad4a](https://github.com/dodopayments/dodopayments-typescript/commit/76fad4a1a4f0269c579553a435aa7404b350db3c))
+
 ## [2.51.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.50.0...v2.51.0) (2026-09-18)
 
 
