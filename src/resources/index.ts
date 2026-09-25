@@ -147,6 +147,17 @@ export {
   type MiscListSupportedCountriesResponse,
 } from './misc';
 export {
+  Moderation,
+  type ModerationCategory,
+  type ModerationCategoryProvenance,
+  type ModerationCategoryScores,
+  type ModerationDecision,
+  type ModerationProvenance,
+  type ModerationRetrieveUsageResponse,
+  type ModerationScreenResponse,
+  type ModerationScreenParams,
+} from './moderation';
+export {
   Payments,
   type AttachExistingCustomer,
   type BillingAddress,
