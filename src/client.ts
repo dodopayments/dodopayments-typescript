@@ -133,6 +133,17 @@ import {
   TaxCategory,
 } from './resources/misc';
 import {
+  Moderation,
+  ModerationCategory,
+  ModerationCategoryProvenance,
+  ModerationCategoryScores,
+  ModerationDecision,
+  ModerationProvenance,
+  ModerationRetrieveUsageResponse,
+  ModerationScreenParams,
+  ModerationScreenResponse,
+} from './resources/moderation';
+import {
   AttachExistingCustomer,
   BillingAddress,
   CreateNewCustomer,
@@ -1133,6 +1144,7 @@ export class DodoPayments {
   creditEntitlements: API.CreditEntitlements = new API.CreditEntitlements(this);
   entitlements: API.Entitlements = new API.Entitlements(this);
   productCollections: API.ProductCollections = new API.ProductCollections(this);
+  moderation: API.Moderation = new API.Moderation(this);
 }
 
 DodoPayments.CheckoutSessions = CheckoutSessions;
@@ -1160,6 +1172,7 @@ DodoPayments.Balances = Balances;
 DodoPayments.CreditEntitlements = CreditEntitlements;
 DodoPayments.Entitlements = Entitlements;
 DodoPayments.ProductCollections = ProductCollections;
+DodoPayments.Moderation = Moderation;
 
 export declare namespace DodoPayments {
   export type RequestOptions = Opts.RequestOptions;
@@ -1521,5 +1534,17 @@ export declare namespace DodoPayments {
     type ProductCollectionCreateParams as ProductCollectionCreateParams,
     type ProductCollectionUpdateParams as ProductCollectionUpdateParams,
     type ProductCollectionUpdateImagesParams as ProductCollectionUpdateImagesParams,
+  };
+
+  export {
+    Moderation as Moderation,
+    type ModerationCategory as ModerationCategory,
+    type ModerationCategoryProvenance as ModerationCategoryProvenance,
+    type ModerationCategoryScores as ModerationCategoryScores,
+    type ModerationDecision as ModerationDecision,
+    type ModerationProvenance as ModerationProvenance,
+    type ModerationRetrieveUsageResponse as ModerationRetrieveUsageResponse,
+    type ModerationScreenResponse as ModerationScreenResponse,
+    type ModerationScreenParams as ModerationScreenParams,
   };
 }
