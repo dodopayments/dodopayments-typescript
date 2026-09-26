@@ -13,10 +13,10 @@ import { path } from '../../../internal/utils/path';
 
 export class Details extends APIResource {
   /**
-   * Returns paginated individual balance ledger entries for a payout, with each
-   * entry's amount pro-rated into the payout's currency. Supports pagination via
-   * `page_size` (default 10, max 100) and `page_number` (default 0) query
-   * parameters.
+   * Returns paginated individual balance ledger entries for a payout. Each entry is
+   * converted into the payout's currency at the rate the payout settled at. Supports
+   * pagination via `page_size` (default 10, max 100) and `page_number` (default 0)
+   * query parameters.
    *
    * @example
    * ```ts
@@ -64,8 +64,8 @@ export class Details extends APIResource {
 export type DetailListResponsesDefaultPageNumberPagination = DefaultPageNumberPagination<DetailListResponse>;
 
 /**
- * Individual balance ledger entry for a payout, with amounts pro-rated into the
- * payout's currency.
+ * Individual balance ledger entry for a payout, converted into the payout's
+ * currency.
  */
 export interface DetailListResponse {
   /**
@@ -97,8 +97,9 @@ export interface DetailListResponse {
 
   /**
    * Amount in the payout's currency, in that currency's smallest unit (cents for
-   * USD, yen for JPY, fils for KWD). Uses cumulative rounding to ensure sum matches
-   * payout total exactly.
+   * USD, yen for JPY, fils for KWD). The entry is converted at the rate the payout
+   * settled at. These amounts sum to the value of the entries, which can be less
+   * than the payout: the grouped breakup reports the difference as `unattributed`.
    */
   payout_currency_amount: number;
 

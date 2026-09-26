@@ -166,7 +166,8 @@ export interface EmailLogItem {
   from?: string | null;
 
   /**
-   * The address the email reached.
+   * The address the email went to. On a failed email this is the address the
+   * provider reports as bounced.
    */
   recipient?: string | null;
 
@@ -210,8 +211,9 @@ export interface EmailPolicies {
   retry_allowed: boolean;
 
   /**
-   * A later send of this email reached the provider, so this row is history. To send
-   * it again would deliver a second copy.
+   * A later send of this email replaced this row, so this row is history. A row that
+   * never went out needs a later send that reached the provider. A failed row needs
+   * a later send that was delivered.
    */
   superseded: boolean;
 }
