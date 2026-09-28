@@ -6,9 +6,12 @@ Other package managers may work but are not officially supported for development
 To set up the repository, run:
 
 ```sh
+$ cp .env.example .env
 $ yarn
 $ yarn build
 ```
+
+Configure your environment variables in `.env` (such as `DODO_PAYMENTS_API_KEY`). See `.env.example` for details on supported variables.
 
 This will install all the required dependencies and build output files to `dist/`.
 

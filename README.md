@@ -20,6 +20,22 @@ Use the Dodo Payments MCP Server to enable AI assistants to interact with this A
 npm install dodopayments
 ```
 
+## Environment Configuration
+
+When working with this repository locally or integrating the SDK in your project, configure your environment variables by copying `.env.example`:
+
+```sh
+cp .env.example .env
+```
+
+| Variable | Description | Default / Example |
+| :--- | :--- | :--- |
+| `DODO_PAYMENTS_API_KEY` | Bearer token for authenticating API requests | `your_dodo_api_key_here` |
+| `DODO_PAYMENTS_WEBHOOK_KEY` | Webhook signing key for verifying event signatures | `your_dodo_webhook_key_here` |
+| `DODO_PAYMENTS_BASE_URL` | Base URL override for API requests | `https://live.dodopayments.com` |
+| `DODO_PAYMENTS_LOG` | SDK log verbosity (`off`, `error`, `warn`, `info`, `debug`) | `warn` |
+| `TEST_API_BASE_URL` | Mock server URL for local test suites | `http://127.0.0.1:4010` |
+
 ## Usage
 
 The full API of this library can be found in [api.md](api.md).
