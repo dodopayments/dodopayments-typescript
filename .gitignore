@@ -11,3 +11,5 @@ dist-deno
 .eslintcache
 dist-bundle
 *.mcpb
+.env
+.env*.local
