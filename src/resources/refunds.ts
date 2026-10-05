@@ -115,10 +115,32 @@ export interface Refund {
   currency?: MiscAPI.Currency | null;
 
   /**
+   * The reference number that the card network or the bank gives to the refund. The
+   * customer can give this number to their bank to trace the refund. It is null
+   * until the payment processor sends it.
+   */
+  network_reference?: string | null;
+
+  /**
+   * The kind of `network_reference`: ARN, STAN or RRN.
+   */
+  network_reference_type?: RefundNetworkReferenceType | null;
+
+  /**
    * The reason provided for the refund, if any. Optional.
    */
   reason?: string | null;
 }
+
+/**
+ * The kind of reference number that the card network or the bank gives to a
+ * refund.
+ */
+export type RefundNetworkReferenceType =
+  | 'acquirer_reference_number'
+  | 'system_trace_audit_number'
+  | 'retrieval_reference_number'
+  | 'other';
 
 export type RefundStatus = 'succeeded' | 'failed' | 'pending' | 'review';
 
@@ -193,6 +215,7 @@ export namespace RefundCreateParams {
 export declare namespace Refunds {
   export {
     type Refund as Refund,
+    type RefundNetworkReferenceType as RefundNetworkReferenceType,
     type RefundStatus as RefundStatus,
     type RefundListParams as RefundListParams,
     type RefundCreateParams as RefundCreateParams,

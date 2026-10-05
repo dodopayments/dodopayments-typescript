@@ -224,6 +224,7 @@ export {
 export {
   Refunds,
   type Refund,
+  type RefundNetworkReferenceType,
   type RefundStatus,
   type RefundListParams,
   type RefundCreateParams,
@@ -239,6 +240,7 @@ export {
   type OnDemandSubscription,
   type ScheduledPlanChange,
   type Subscription,
+  type SubscriptionCancelledBy,
   type SubscriptionStatus,
   type TimeInterval,
   type UpdateSubscriptionPlanReq,
