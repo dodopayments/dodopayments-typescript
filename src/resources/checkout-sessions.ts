@@ -193,8 +193,10 @@ export interface CheckoutSessionFlags {
   redirect_immediately?: boolean;
 
   /**
-   * If true, the customer must give the name on the card to pay by card. The
-   * checkout page enforces this. Other payment methods ignore it.
+   * If true, the customer must give the name on the card to pay by card. Apple Pay
+   * and Google Pay also collect the payer name, and the payment stores it as the
+   * card holder name. The checkout page enforces this. Other payment methods ignore
+   * it.
    *
    * Default is false
    */
@@ -257,7 +259,14 @@ export interface CheckoutSessionRequest {
   billing_address?: CheckoutSessionBillingAddress | null;
 
   /**
-   * This field is ingored if adaptive pricing is disabled
+   * The currency to charge the customer in.
+   *
+   * Adaptive pricing must be enabled for the business. The customer then pays in
+   * this currency. If you do not set it, the currency comes from the billing
+   * country.
+   *
+   * If adaptive pricing is disabled, the API discards this field. The currency then
+   * comes from the product price, or from the billing country.
    */
   billing_currency?: MiscAPI.Currency | null;
 
@@ -332,8 +341,11 @@ export interface CheckoutSessionRequest {
   /**
    * If true, only zipcode is required when confirm is true; other address fields
    * remain optional
+   *
+   * Default is true when `feature_flags.single_page` is true. Otherwise, default is
+   * false.
    */
-  minimal_address?: boolean;
+  minimal_address?: boolean | null;
 
   /**
    * Optional payment method ID to use for this checkout session. Only allowed when
@@ -1067,7 +1079,14 @@ export interface CheckoutSessionCreateParams {
   billing_address?: CheckoutSessionBillingAddress | null;
 
   /**
-   * This field is ingored if adaptive pricing is disabled
+   * The currency to charge the customer in.
+   *
+   * Adaptive pricing must be enabled for the business. The customer then pays in
+   * this currency. If you do not set it, the currency comes from the billing
+   * country.
+   *
+   * If adaptive pricing is disabled, the API discards this field. The currency then
+   * comes from the product price, or from the billing country.
    */
   billing_currency?: MiscAPI.Currency | null;
 
@@ -1142,8 +1161,11 @@ export interface CheckoutSessionCreateParams {
   /**
    * If true, only zipcode is required when confirm is true; other address fields
    * remain optional
+   *
+   * Default is true when `feature_flags.single_page` is true. Otherwise, default is
+   * false.
    */
-  minimal_address?: boolean;
+  minimal_address?: boolean | null;
 
   /**
    * Optional payment method ID to use for this checkout session. Only allowed when
@@ -1204,7 +1226,14 @@ export interface CheckoutSessionPreviewParams {
   billing_address?: CheckoutSessionBillingAddress | null;
 
   /**
-   * This field is ingored if adaptive pricing is disabled
+   * The currency to charge the customer in.
+   *
+   * Adaptive pricing must be enabled for the business. The customer then pays in
+   * this currency. If you do not set it, the currency comes from the billing
+   * country.
+   *
+   * If adaptive pricing is disabled, the API discards this field. The currency then
+   * comes from the product price, or from the billing country.
    */
   billing_currency?: MiscAPI.Currency | null;
 
@@ -1279,8 +1308,11 @@ export interface CheckoutSessionPreviewParams {
   /**
    * If true, only zipcode is required when confirm is true; other address fields
    * remain optional
+   *
+   * Default is true when `feature_flags.single_page` is true. Otherwise, default is
+   * false.
    */
-  minimal_address?: boolean;
+  minimal_address?: boolean | null;
 
   /**
    * Optional payment method ID to use for this checkout session. Only allowed when
