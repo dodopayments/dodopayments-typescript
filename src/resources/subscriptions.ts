@@ -635,6 +635,12 @@ export interface Subscription {
   cancelled_at?: string | null;
 
   /**
+   * The caller that cancelled the subscription or scheduled its cancel. `null` when
+   * no caller is known, for example when the system cancelled the subscription.
+   */
+  cancelled_by?: SubscriptionCancelledBy | null;
+
+  /**
    * Customer's responses to custom fields collected during checkout
    */
   custom_field_responses?: Array<PaymentsAPI.CustomFieldResponse> | null;
@@ -692,6 +698,28 @@ export interface Subscription {
    * trial.
    */
   trial_amount?: number | null;
+}
+
+/**
+ * The caller that cancelled a subscription or scheduled its cancel.
+ */
+export interface SubscriptionCancelledBy {
+  /**
+   * The kind of caller.
+   */
+  actor_type: 'customer' | 'merchant_user' | 'api_key' | 'dodo_team';
+
+  /**
+   * Email of the customer or of the dashboard user. `null` for an API key or the
+   * Dodo Payments team.
+   */
+  email?: string | null;
+
+  /**
+   * Name of the customer or of the dashboard user. `null` for an API key or the Dodo
+   * Payments team.
+   */
+  name?: string | null;
 }
 
 export type SubscriptionStatus =
@@ -1015,6 +1043,12 @@ export interface SubscriptionListResponse {
   cancelled_at?: string | null;
 
   /**
+   * The caller that cancelled the subscription or scheduled its cancel. `null` when
+   * no caller is known, for example when the system cancelled the subscription.
+   */
+  cancelled_by?: SubscriptionCancelledBy | null;
+
+  /**
    * Business / legal name associated with the tax id (B2B). When set this is used on
    * the invoice in place of the customer's personal name.
    */
@@ -1225,13 +1259,21 @@ export namespace SubscriptionPreviewChangePlanResponse {
       currency: MiscAPI.Currency;
 
       /**
-       * Net credit movement in the smallest currency unit (e.g. cents). **Negative** –
-       * credits were deducted from the customer's balance to offset the charge (typical
-       * on upgrades). **Positive** – credits were added to the customer's balance,
-       * either from a downgrade proration refund or from topping-up the wallet to meet a
-       * gateway minimum-charge threshold. **Zero** – no credit movement occurred.
+       * Net credit movement in the smallest unit of `customer_credits_currency` (e.g.
+       * cents). Read `customer_credits_currency` for the currency. It can differ from
+       * `currency`. **Negative** – credits were deducted from the customer's balance to
+       * offset the charge (typical on upgrades). **Positive** – credits were added to
+       * the customer's balance, either from a downgrade proration refund or from
+       * topping-up the wallet to meet a gateway minimum-charge threshold. **Zero** – no
+       * credit movement occurred.
        */
       customer_credits: number;
+
+      /**
+       * This field gives the currency of `customer_credits`. The credit wallet uses the
+       * subscription currency.
+       */
+      customer_credits_currency: MiscAPI.Currency;
 
       settlement_amount: number;
 
@@ -1989,6 +2031,7 @@ export declare namespace Subscriptions {
     type OnDemandSubscription as OnDemandSubscription,
     type ScheduledPlanChange as ScheduledPlanChange,
     type Subscription as Subscription,
+    type SubscriptionCancelledBy as SubscriptionCancelledBy,
     type SubscriptionStatus as SubscriptionStatus,
     type TimeInterval as TimeInterval,
     type UpdateSubscriptionPlanReq as UpdateSubscriptionPlanReq,

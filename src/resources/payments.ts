@@ -692,6 +692,18 @@ export interface RefundListItem {
   currency?: MiscAPI.Currency | null;
 
   /**
+   * The reference number that the card network or the bank gives to the refund. The
+   * customer can give this number to their bank to trace the refund. It is null
+   * until the payment processor sends it.
+   */
+  network_reference?: string | null;
+
+  /**
+   * The kind of `network_reference`: ARN, STAN or RRN.
+   */
+  network_reference_type?: RefundsAPI.RefundNetworkReferenceType | null;
+
+  /**
    * The reason provided for the refund, if any. Optional.
    */
   reason?: string | null;
