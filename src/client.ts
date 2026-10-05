@@ -167,7 +167,14 @@ import {
   Payments,
   RefundListItem,
 } from './resources/payments';
-import { Refund, RefundCreateParams, RefundListParams, RefundStatus, Refunds } from './resources/refunds';
+import {
+  Refund,
+  RefundCreateParams,
+  RefundListParams,
+  RefundNetworkReferenceType,
+  RefundStatus,
+  Refunds,
+} from './resources/refunds';
 import {
   AddonCartResponseItem,
   AttachAddon,
@@ -178,6 +185,7 @@ import {
   OnDemandSubscription,
   ScheduledPlanChange,
   Subscription,
+  SubscriptionCancelledBy,
   SubscriptionChangePlanParams,
   SubscriptionChangePlanResponse,
   SubscriptionChargeParams,
@@ -1243,6 +1251,7 @@ export declare namespace DodoPayments {
     type OnDemandSubscription as OnDemandSubscription,
     type ScheduledPlanChange as ScheduledPlanChange,
     type Subscription as Subscription,
+    type SubscriptionCancelledBy as SubscriptionCancelledBy,
     type SubscriptionStatus as SubscriptionStatus,
     type TimeInterval as TimeInterval,
     type UpdateSubscriptionPlanReq as UpdateSubscriptionPlanReq,
@@ -1315,6 +1324,7 @@ export declare namespace DodoPayments {
   export {
     Refunds as Refunds,
     type Refund as Refund,
+    type RefundNetworkReferenceType as RefundNetworkReferenceType,
     type RefundStatus as RefundStatus,
     type RefundListParams as RefundListParams,
     type RefundCreateParams as RefundCreateParams,

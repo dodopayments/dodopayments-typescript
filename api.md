@@ -66,6 +66,7 @@ Types:
 - <code><a href="./src/resources/subscriptions.ts">OnDemandSubscription</a></code>
 - <code><a href="./src/resources/subscriptions.ts">ScheduledPlanChange</a></code>
 - <code><a href="./src/resources/subscriptions.ts">Subscription</a></code>
+- <code><a href="./src/resources/subscriptions.ts">SubscriptionCancelledBy</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionStatus</a></code>
 - <code><a href="./src/resources/subscriptions.ts">TimeInterval</a></code>
 - <code><a href="./src/resources/subscriptions.ts">UpdateSubscriptionPlanReq</a></code>
@@ -243,6 +244,7 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/refunds.ts">Refund</a></code>
+- <code><a href="./src/resources/refunds.ts">RefundNetworkReferenceType</a></code>
 - <code><a href="./src/resources/refunds.ts">RefundStatus</a></code>
 
 Methods:
