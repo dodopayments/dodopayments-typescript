@@ -1,7 +1,7 @@
 name: Build and Push MCP Server Docker Image
 
 # This workflow is triggered when a GitHub release is created.
-# It can also be run manually to re-publish to GHCR in case it failed for some reason.
+# It can also be run manually to re-publish to Docker Hub in case it failed for some reason.
 # You can run this workflow by navigating to https://www.github.com/dodopayments/dodopayments-typescript/actions/workflows/docker-mcp.yml
 on:
   release:
@@ -19,7 +19,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-      # OIDC token for build provenance attestations
+      # For OIDC token if using Docker Hub provenance
       id-token: write
 
     steps:
@@ -32,12 +32,12 @@ jobs:
           driver-opts: |
             image=moby/buildkit:latest
 
-      - name: Log in to GHCR
+      - name: Log in to Docker Hub
         uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Determine Docker tags
         id: tags
