@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.53.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.52.0...v2.53.0) (2026-10-05)
+
+
+### Features
+
+* **api:** refund network references and subscription cancelled_by ([7d99bdc](https://github.com/dodopayments/dodopayments-typescript/commit/7d99bdc73e6ed6d3ed280bb78c9d21c632c0255b))
+* **api:** refund network references and subscription cancelled_by ([fa6cef0](https://github.com/dodopayments/dodopayments-typescript/commit/fa6cef0e45d59f0b5dcba3b8c7c04485a73230c5))
+
 ## [2.52.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.51.0...v2.52.0) (2026-09-25)
 
 
