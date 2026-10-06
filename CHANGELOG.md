@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.54.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.53.0...v2.54.0) (2026-10-06)
+
+
+### Features
+
+* **api:** change-plan cancel_older_payment_link and return_url ([f5aedc8](https://github.com/dodopayments/dodopayments-typescript/commit/f5aedc8edeaabbb3556062206b7769a8360e6f64))
+* **api:** change-plan cancel_older_payment_link and return_url ([bdb6531](https://github.com/dodopayments/dodopayments-typescript/commit/bdb6531a64798d6ca7a36af85192f16c05b3d510))
+
 ## [2.53.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.52.0...v2.53.0) (2026-10-05)
 
 
