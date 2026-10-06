@@ -770,6 +770,22 @@ export interface UpdateSubscriptionPlanReq {
   addons?: Array<AttachAddon> | null;
 
   /**
+   * Cancel the payment link of a pending plan change, so that this change can
+   * replace it.
+   *
+   * The link is cancelled only if the customer has not started to pay. A paid or
+   * in-progress payment gives a `409`. A failed cancel gives a `503`, and a retry is
+   * safe.
+   *
+   * The request is validated before the cancel. A later failure, for example an
+   * amount below the minimum, leaves the subscription on its current plan with no
+   * open link. A retry is safe.
+   *
+   * The preview route shares this request body and ignores this field.
+   */
+  cancel_older_payment_link?: boolean;
+
+  /**
    * Replace a scheduled plan change with this one.
    *
    * The scheduled change is cancelled by the transaction that applies this change. A
@@ -834,6 +850,20 @@ export interface UpdateSubscriptionPlanReq {
    * If not specified, uses the business-level default setting.
    */
   on_payment_failure?: 'prevent_change' | 'apply_change' | null;
+
+  /**
+   * The URL that receives the customer after they pay the payment link. Needs
+   * `collect_via_payment_link: true`. Without it, the request gets a `422`. A change
+   * that collects no money issues no link and does not use the URL. The preview
+   * route validates this field but does not use it.
+   *
+   * The redirect adds `subscription_id`, `payment_id` and `status`. The `status`
+   * value is the status of the plan-change payment. It is not the status of the
+   * subscription. When that payment fails, the subscription stays active on its
+   * current plan. To try again, call this endpoint again to get a new link. The new
+   * plan can apply after the redirect, when the payment webhook arrives.
+   */
+  return_url?: string | null;
 }
 
 export interface SubscriptionCreateResponse {
@@ -1810,6 +1840,22 @@ export interface SubscriptionChangePlanParams {
   addons?: Array<AttachAddon> | null;
 
   /**
+   * Cancel the payment link of a pending plan change, so that this change can
+   * replace it.
+   *
+   * The link is cancelled only if the customer has not started to pay. A paid or
+   * in-progress payment gives a `409`. A failed cancel gives a `503`, and a retry is
+   * safe.
+   *
+   * The request is validated before the cancel. A later failure, for example an
+   * amount below the minimum, leaves the subscription on its current plan with no
+   * open link. A retry is safe.
+   *
+   * The preview route shares this request body and ignores this field.
+   */
+  cancel_older_payment_link?: boolean;
+
+  /**
    * Replace a scheduled plan change with this one.
    *
    * The scheduled change is cancelled by the transaction that applies this change. A
@@ -1874,6 +1920,20 @@ export interface SubscriptionChangePlanParams {
    * If not specified, uses the business-level default setting.
    */
   on_payment_failure?: 'prevent_change' | 'apply_change' | null;
+
+  /**
+   * The URL that receives the customer after they pay the payment link. Needs
+   * `collect_via_payment_link: true`. Without it, the request gets a `422`. A change
+   * that collects no money issues no link and does not use the URL. The preview
+   * route validates this field but does not use it.
+   *
+   * The redirect adds `subscription_id`, `payment_id` and `status`. The `status`
+   * value is the status of the plan-change payment. It is not the status of the
+   * subscription. When that payment fails, the subscription stays active on its
+   * current plan. To try again, call this endpoint again to get a new link. The new
+   * plan can apply after the redirect, when the payment webhook arrives.
+   */
+  return_url?: string | null;
 }
 
 export interface SubscriptionRetrieveUsageHistoryParams extends DefaultPageNumberPaginationParams {
@@ -1954,6 +2014,22 @@ export interface SubscriptionPreviewChangePlanParams {
   addons?: Array<AttachAddon> | null;
 
   /**
+   * Cancel the payment link of a pending plan change, so that this change can
+   * replace it.
+   *
+   * The link is cancelled only if the customer has not started to pay. A paid or
+   * in-progress payment gives a `409`. A failed cancel gives a `503`, and a retry is
+   * safe.
+   *
+   * The request is validated before the cancel. A later failure, for example an
+   * amount below the minimum, leaves the subscription on its current plan with no
+   * open link. A retry is safe.
+   *
+   * The preview route shares this request body and ignores this field.
+   */
+  cancel_older_payment_link?: boolean;
+
+  /**
    * Replace a scheduled plan change with this one.
    *
    * The scheduled change is cancelled by the transaction that applies this change. A
@@ -2018,6 +2094,20 @@ export interface SubscriptionPreviewChangePlanParams {
    * If not specified, uses the business-level default setting.
    */
   on_payment_failure?: 'prevent_change' | 'apply_change' | null;
+
+  /**
+   * The URL that receives the customer after they pay the payment link. Needs
+   * `collect_via_payment_link: true`. Without it, the request gets a `422`. A change
+   * that collects no money issues no link and does not use the URL. The preview
+   * route validates this field but does not use it.
+   *
+   * The redirect adds `subscription_id`, `payment_id` and `status`. The `status`
+   * value is the status of the plan-change payment. It is not the status of the
+   * subscription. When that payment fails, the subscription stays active on its
+   * current plan. To try again, call this endpoint again to get a new link. The new
+   * plan can apply after the redirect, when the payment webhook arrives.
+   */
+  return_url?: string | null;
 }
 
 export declare namespace Subscriptions {

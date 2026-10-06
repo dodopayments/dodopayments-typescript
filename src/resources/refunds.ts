@@ -117,7 +117,7 @@ export interface Refund {
   /**
    * The reference number that the card network or the bank gives to the refund. The
    * customer can give this number to their bank to trace the refund. It is null
-   * until the payment processor sends it.
+   * until the reference is available.
    */
   network_reference?: string | null;
 
