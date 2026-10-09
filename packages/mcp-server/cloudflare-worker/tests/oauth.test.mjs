@@ -206,6 +206,17 @@ test('new registrations and S256 token flow work for both transports', async () 
     assert.equal(response.status, 200);
   }
 });
+test('path metadata is served even when the request carries an origin-bound token', async () => {
+  const f = fixture();
+  const old = await tokens(f, f.legacy, origin);
+  for (const path of ['/mcp', '/sse']) {
+    const response = await f.call(f.current, '/.well-known/oauth-protected-resource' + path, {
+      headers: { authorization: `Bearer ${old.access_token}` },
+    });
+    assert.equal(response.status, 200);
+    assert.equal((await response.json()).resource, origin + path);
+  }
+});
 test('path-bound token cannot authorize the other transport', async () => {
   const f = fixture();
   const issued = await tokens(f, f.current, origin + '/mcp');

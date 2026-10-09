@@ -52,4 +52,6 @@ updates:
           - 'dodopayments-mcp'
     labels:
       - 'dependencies'
-    open-pull-requests-limit: 5
+    # Security updates only: the worker is sealed custom code in
+    # dodopayments-sdk-config, so every merged bump needs a manual re-seal.
+    open-pull-requests-limit: 0

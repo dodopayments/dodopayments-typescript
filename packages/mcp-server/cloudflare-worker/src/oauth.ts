@@ -49,15 +49,22 @@ export function makeOAuthHandler<E extends { OAUTH_KV: KVNamespace }, Props>(
         const handler = handlers[path ?? '/mcp'];
         // Origin-bound (including previously unbound) tokens cover both transports.
         // Use the origin resource host for those tokens, without rewriting audience.
-        const bearer = request.headers.get('authorization')?.match(/^Bearer\s+(.+)$/i)?.[1];
+        // Metadata documents are public and must describe the requested path whatever
+        // token the client sends, so only transport requests are pre-validated. The
+        // path-bound audience is tried first because that is what most clients hold.
+        const isTransport = path !== undefined && !pathname.startsWith('/.well-known/');
+        const bearer =
+          isTransport ? request.headers.get('authorization')?.match(/^Bearer\s+(\S+)$/i)?.[1] : undefined;
+        const pathToken =
+          bearer ? await authorizationServer.validateToken<Props>(`${origin}${path}`, bearer, env) : null;
         const originToken =
-          bearer ? await authorizationServer.validateToken<Props>(origin, bearer, env) : null;
+          bearer && !pathToken ? await authorizationServer.validateToken<Props>(origin, bearer, env) : null;
         const resource = originToken || !path ? origin : `${origin}${path}`;
         const host = new OAuthResourceServer<E, Props>({
           resourceMetadata: { resource, authorization_servers: [origin] },
           handler,
           validateToken: () => (audience, token) =>
-            originToken ?
+            originToken && token === bearer ?
               Promise.resolve(originToken)
             : authorizationServer.validateToken<Props>(audience, token, env),
         });
@@ -66,7 +73,6 @@ export function makeOAuthHandler<E extends { OAUTH_KV: KVNamespace }, Props>(
 
       if (
         pathname === '/token' ||
-        pathname === '/token/revoke' ||
         pathname === '/register' ||
         pathname === '/.well-known/oauth-authorization-server'
       ) {
