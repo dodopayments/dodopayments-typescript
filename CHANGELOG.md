@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.54.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.54.0...v2.54.1) (2026-10-09)
+
+
+### Bug Fixes
+
+* **mcp-worker:** explicit readOnly/destructive/openWorld hints on every tool ([6588112](https://github.com/dodopayments/dodopayments-typescript/commit/658811279f450045a779f0435fe36f2f33404e5f))
+* **mcp-worker:** explicit tool annotation hints for the OpenAI plugin directory ([e4e1cfe](https://github.com/dodopayments/dodopayments-typescript/commit/e4e1cfeffaecbac1c2aff57679e2716ae684f6dc))
+
+
+### Chores
+
+* restore yarn.lock ([9fa896b](https://github.com/dodopayments/dodopayments-typescript/commit/9fa896b9eba7c642b2737cb98e912434bba5a12f))
+
+
+### Styles
+
+* prettier ([84cfa34](https://github.com/dodopayments/dodopayments-typescript/commit/84cfa3429cb29a6268a9b3aa363b13f4d3dc1f74))
+
 ## [2.54.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.53.0...v2.54.0) (2026-10-06)
 
 
