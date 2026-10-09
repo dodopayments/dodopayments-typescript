@@ -137,10 +137,7 @@ export interface Refund {
  * refund.
  */
 export type RefundNetworkReferenceType =
-  | 'acquirer_reference_number'
-  | 'system_trace_audit_number'
-  | 'retrieval_reference_number'
-  | 'other';
+  'acquirer_reference_number' | 'system_trace_audit_number' | 'retrieval_reference_number' | 'other';
 
 export type RefundStatus = 'succeeded' | 'failed' | 'pending' | 'review';
 

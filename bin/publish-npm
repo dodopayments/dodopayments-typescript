@@ -10,7 +10,7 @@ if [ -n "${NPM_TOKEN:-}" ]; then
   npm config set '//registry.npmjs.org/:_authToken' "$NPM_TOKEN"
 fi
 
-yarn build
+pnpm build
 cd dist
 
 # Get package name and version from package.json
@@ -64,13 +64,12 @@ else
 fi
 
 # Publish with the appropriate tag.
-# Use `npm publish` (not `yarn publish`): only the npm CLI (>= 11.5.1) performs
-# the OIDC token exchange for npm Trusted Publishing. Yarn Classic has no OIDC
-# support, so it cannot publish tokenlessly. publishConfig.access is "public".
+# Use `npm publish` (not `pnpm publish`): the npm CLI (>= 11.5.1) performs the
+# OIDC token exchange for npm Trusted Publishing. publishConfig.access is "public".
 #
-# Pin the registry explicitly: this script is spawned under `yarn`, which injects
-# npm_config_registry=https://registry.yarnpkg.com into the environment. npm would
-# otherwise inherit that and target the yarn mirror, where Trusted Publishing does
+# Pin the registry explicitly: this script is spawned under `pnpm tsn`, which injects
+# npm_config_* settings into the environment. npm would otherwise inherit a
+# non-npmjs registry from them and target a mirror, where Trusted Publishing does
 # not exist (the publish then fails with ENEEDAUTH). OIDC only works against
 # registry.npmjs.org, so force it here.
 npm publish --tag "$TAG" --access public --registry https://registry.npmjs.org
