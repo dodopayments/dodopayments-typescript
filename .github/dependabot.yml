@@ -17,14 +17,12 @@ updates:
   # packages/mcp-server depends on `dodopayments` via `link:../../dist/`, which exists
   # only after a build, so file fetching failed with "path based dependencies could not
   # be retrieved". `ignore` applies to security updates too and makes the fetcher skip
-  # that path dependency; `exclude-paths` (version updates only) skips the path as well.
+  # that path dependency (`exclude-paths` cannot point outside the directory).
   # Version update PRs stay off (limit 0); security updates are unaffected by the limit.
   - package-ecosystem: 'npm'
     directory: '/packages/mcp-server'
     schedule:
       interval: 'weekly'
-    exclude-paths:
-      - '../../dist'
     ignore:
       - dependency-name: 'dodopayments'
     open-pull-requests-limit: 0
