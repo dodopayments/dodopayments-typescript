@@ -10,34 +10,37 @@
     "lint:fix": "biome lint --fix",
     "start": "npm run build:isolate && wrangler dev",
     "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.mjs",
     "cf-typegen": "wrangler types",
     "postinstall": "node scripts/patch-deps.js && node scripts/build-isolate.mjs"
   },
   "devDependencies": {
-    "esbuild": "^0.28.0",
-    "marked": "^15.0.11",
-    "typescript": "^5.8.3",
-    "workers-mcp": "0.1.0-3",
-    "wrangler": "^4.59.1"
+    "esbuild": "^0.28.2",
+    "marked": "^18.1.0",
+    "oauth-provider-v0": "npm:@cloudflare/workers-oauth-provider@0.8.0",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.149.0"
   },
   "dependencies": {
-    "@cloudflare/workers-oauth-provider": "^0.8.0",
-    "@modelcontextprotocol/sdk": "1.28.0",
-    "agents": "~0.8.7",
-    "hono": "^4.12.4",
-    "dodopayments-mcp": "latest",
-    "dodopayments": "latest"
+    "@cloudflare/workers-oauth-provider": "^1.2.3",
+    "@modelcontextprotocol/client": "2.3.1",
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "@modelcontextprotocol/server": "2.3.1",
+    "agents": "~0.27.0",
+    "dodopayments": "2.54.1",
+    "dodopayments-mcp": "2.54.1",
+    "hono": "^4.13.13"
   },
-  "// overrides": "agents pins @modelcontextprotocol/sdk exactly; the three override blocks below force npm/yarn/pnpm to dedupe to that same version. Keep all four @modelcontextprotocol/sdk values in sync. See src/index.ts for the full rationale.",
+  "// overrides": "Use patched MCP releases rather than agents' older exact peer pins. Keep the SDK pin and overrides in sync so McpAgent and dodopayments-mcp share one McpServer constructor. Explicit v2 peers are required by agents/mcp imports even though MyMCP uses SDK v1. legacy-peer-deps in .npmrc is intentional; compatibility is checked by types, tests and the Worker build.",
   "overrides": {
-    "@modelcontextprotocol/sdk": "1.28.0"
+    "@modelcontextprotocol/sdk": "1.32.1"
   },
   "resolutions": {
-    "@modelcontextprotocol/sdk": "1.28.0"
+    "@modelcontextprotocol/sdk": "1.32.1"
   },
   "pnpm": {
     "overrides": {
-      "@modelcontextprotocol/sdk": "1.28.0"
+      "@modelcontextprotocol/sdk": "1.32.1"
     }
   }
 }

@@ -1,10 +1,10 @@
 import { makeOAuthConsent } from './app';
 // `agents` and `@modelcontextprotocol/sdk` versions must stay in sync with the
-// pins/overrides in package.json. `agents` declares an exact pin on
-// `@modelcontextprotocol/sdk`; if our resolved version drifts, npm installs a
-// second copy under `agents/node_modules/`, and `initMcpServer`'s runtime
-// `instanceof McpServer` check fails because the two `McpServer` classes are
-// distinct constructors.
+// pins/overrides in package.json. `agents` declares an exact peer on
+// `@modelcontextprotocol/sdk` (older than our pin); the overrides force one copy.
+// If they drift, npm installs a second copy under `agents/node_modules/`, and
+// `initMcpServer`'s runtime `instanceof McpServer` check fails because the two
+// `McpServer` classes are distinct constructors.
 import { McpAgent } from 'agents/mcp';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import {
@@ -14,7 +14,7 @@ import {
   type ListToolsResult,
   type ServerResult,
 } from '@modelcontextprotocol/sdk/types.js';
-import OAuthProvider from '@cloudflare/workers-oauth-provider';
+import { makeOAuthHandler } from './oauth';
 import { ClientOptions } from 'dodopayments';
 import { McpOptions } from 'dodopayments-mcp/options';
 import { initMcpServer, newMcpServer } from 'dodopayments-mcp/server';
@@ -238,31 +238,10 @@ export type ClientProperty = {
 };
 
 // Export the OAuth handler as the default
-export default new OAuthProvider({
-  apiHandlers: {
+export default makeOAuthHandler<Env, MCPProps>(
+  {
     '/sse': MyMCP.serveSSE('/sse'), // legacy SSE
     '/mcp': MyMCP.serve('/mcp'), // Streaming HTTP
   },
-  defaultHandler: makeOAuthConsent(serverConfig),
-  authorizeEndpoint: '/authorize',
-  tokenEndpoint: '/token',
-  clientRegistrationEndpoint: '/register',
-  // Access tokens live 24h rather than the 1h default. Most clients reach this server via
-  // `mcp-remote`, which does not track token expiry locally and only refreshes AFTER the
-  // server 401s (geelen/mcp-remote#273); its refresh-on-401 path frequently loses a race
-  // with the host restarting the process, surfacing a fresh browser-auth popup. A 1h TTL
-  // triggers that ~24x/day; 24h cuts it to ~1x/day. The larger access-token leak window is
-  // acceptable here because refresh tokens are already non-expiring (standing exposure is
-  // unchanged) and grants stay individually revocable.
-  accessTokenTTL: 86400,
-  // This provider defaults refresh tokens to 30 days and dynamically-registered clients to
-  // 90 days; letting either expire forces every MCP client to re-run the full browser
-  // authorization once the window lapses. Pin both to `undefined` (never expire) so refresh
-  // keeps sessions alive indefinitely. Do NOT "simplify" these away — omitting them re-enables
-  // the 30d/90d defaults and reintroduces periodic re-authorization. Verified against
-  // @cloudflare/workers-oauth-provider 0.8.0: the constructor spreads `{ ...defaults, ...options }`
-  // and every TTL usage site gates on `!== void 0`, so an explicit `undefined` overrides the
-  // default rather than falling back to it.
-  refreshTokenTTL: undefined,
-  clientRegistrationTTL: undefined,
-});
+  makeOAuthConsent(serverConfig),
+);
