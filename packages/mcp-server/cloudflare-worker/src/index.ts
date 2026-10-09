@@ -21,6 +21,17 @@ import { initMcpServer, newMcpServer } from 'dodopayments-mcp/server';
 import { configureLogger } from 'dodopayments-mcp/logger';
 import { executeToolDescriptor, runExecute } from './execute-tool';
 
+// Explicit booleans for all three MCP tool hints. The generated package sets only
+// `readOnlyHint` on `search_docs` and nothing on `execute`; the OpenAI plugin
+// directory refuses submission unless every tool carries all three.
+// - search_docs reads the embedded docs index: read-only, no side effects.
+// - execute runs arbitrary SDK code against the caller's account, so it can create,
+//   refund, cancel or delete real resources in Dodo Payments.
+const TOOL_HINTS: Record<string, { readOnlyHint: boolean; destructiveHint: boolean; openWorldHint: boolean }> = {
+  search_docs: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+  execute: { readOnlyHint: false, destructiveHint: true, openWorldHint: true },
+};
+
 type MCPProps = {
   clientProps: ClientOptions;
   clientConfig: McpOptions;
@@ -166,7 +177,11 @@ export class MyMCP extends McpAgent<Env, unknown, MCPProps> {
 
     raw.setRequestHandler(ListToolsRequestSchema, async (request, extra): Promise<ServerResult> => {
       const base = (await innerList(request, extra)) as ListToolsResult;
-      return { ...base, tools: [...base.tools, executeToolDescriptor] };
+      const tools = [...base.tools, executeToolDescriptor].map((tool) => ({
+        ...tool,
+        annotations: { ...tool.annotations, ...TOOL_HINTS[tool.name] },
+      }));
+      return { ...base, tools };
     });
 
     raw.setRequestHandler(
