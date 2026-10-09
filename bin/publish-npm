@@ -2,13 +2,7 @@
 
 set -eux
 
-# Only wire a static _authToken when NPM_TOKEN is provided. Under npm Trusted
-# Publishing (OIDC) there is no token, and npm CLI performs its own OIDC token
-# exchange during `npm publish`. Setting an empty/placeholder _authToken would
-# make npm skip that exchange and fail auth, so leave it unset for the OIDC path.
-if [ -n "${NPM_TOKEN:-}" ]; then
-  npm config set '//registry.npmjs.org/:_authToken' "$NPM_TOKEN"
-fi
+npm config set '//registry.npmjs.org/:_authToken' "$NPM_TOKEN"
 
 pnpm build
 cd dist
@@ -63,13 +57,5 @@ else
   TAG="latest"
 fi
 
-# Publish with the appropriate tag.
-# Use `npm publish` (not `pnpm publish`): the npm CLI (>= 11.5.1) performs the
-# OIDC token exchange for npm Trusted Publishing. publishConfig.access is "public".
-#
-# Pin the registry explicitly: this script is spawned under `pnpm tsn`, which injects
-# npm_config_* settings into the environment. npm would otherwise inherit a
-# non-npmjs registry from them and target a mirror, where Trusted Publishing does
-# not exist (the publish then fails with ENEEDAUTH). OIDC only works against
-# registry.npmjs.org, so force it here.
-npm publish --tag "$TAG" --access public --registry https://registry.npmjs.org
+# Publish with the appropriate tag
+pnpm publish --no-git-checks --tag "$TAG"
