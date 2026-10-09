@@ -4,8 +4,9 @@
   "compilerOptions": {
     "target": "es2020",
     "lib": ["es2020"],
+    "types": ["node", "jest"],
     "module": "commonjs",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "paths": {
       "dodopayments/*": ["./src/*"],

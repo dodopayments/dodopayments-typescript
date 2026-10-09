@@ -127,11 +127,7 @@ export interface BlockedCustomer {
  * dashboard actor. The other values name the screen the merchant used.
  */
 export type BlockedCustomerSource =
-  | 'blocklist_page'
-  | 'customer_page'
-  | 'payment_page'
-  | 'dispute_page'
-  | 'api';
+  'blocklist_page' | 'customer_page' | 'payment_page' | 'dispute_page' | 'api';
 
 export type CreateBlockedCustomerRequest =
   | CreateBlockedCustomerRequest.BlocklistCustomersBlockByCustomerID
