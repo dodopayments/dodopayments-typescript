@@ -27,7 +27,10 @@ import { executeToolDescriptor, runExecute } from './execute-tool';
 // - search_docs reads the embedded docs index: read-only, no side effects.
 // - execute runs arbitrary SDK code against the caller's account, so it can create,
 //   refund, cancel or delete real resources in Dodo Payments.
-const TOOL_HINTS: Record<string, { readOnlyHint: boolean; destructiveHint: boolean; openWorldHint: boolean }> = {
+const TOOL_HINTS: Record<
+  string,
+  { readOnlyHint: boolean; destructiveHint: boolean; openWorldHint: boolean }
+> = {
   search_docs: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
   execute: { readOnlyHint: false, destructiveHint: true, openWorldHint: true },
 };
