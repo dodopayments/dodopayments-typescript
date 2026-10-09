@@ -15,22 +15,21 @@
     "postinstall": "node scripts/patch-deps.js && node scripts/build-isolate.mjs"
   },
   "devDependencies": {
-    "oauth-provider-v0": "npm:@cloudflare/workers-oauth-provider@0.8.0",
     "esbuild": "^0.28.2",
     "marked": "^18.1.0",
+    "oauth-provider-v0": "npm:@cloudflare/workers-oauth-provider@0.8.0",
     "typescript": "^7.0.2",
-    "workers-mcp": "0.0.13",
     "wrangler": "^4.149.0"
   },
   "dependencies": {
     "@cloudflare/workers-oauth-provider": "^1.2.3",
-    "@modelcontextprotocol/sdk": "1.32.1",
     "@modelcontextprotocol/client": "2.3.1",
+    "@modelcontextprotocol/sdk": "1.32.1",
     "@modelcontextprotocol/server": "2.3.1",
     "agents": "~0.27.0",
-    "hono": "^4.13.13",
+    "dodopayments": "2.54.1",
     "dodopayments-mcp": "2.54.1",
-    "dodopayments": "2.54.1"
+    "hono": "^4.13.13"
   },
   "// overrides": "Use patched MCP releases rather than agents' older exact peer pins. Keep the SDK pin and overrides in sync so McpAgent and dodopayments-mcp share one McpServer constructor. Explicit v2 peers are required by agents/mcp imports even though MyMCP uses SDK v1. legacy-peer-deps in .npmrc is intentional; compatibility is checked by types, tests and the Worker build.",
   "overrides": {
