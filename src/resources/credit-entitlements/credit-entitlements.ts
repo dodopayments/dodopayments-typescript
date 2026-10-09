@@ -336,10 +336,7 @@ export type CreditEntitlementsDefaultPageNumberPagination = DefaultPageNumberPag
  * | `carry_deficit_auto_repay` |        No         |          Yes           |            Yes            |
  */
 export type CbbOverageBehavior =
-  | 'forgive_at_reset'
-  | 'invoice_at_billing'
-  | 'carry_deficit'
-  | 'carry_deficit_auto_repay';
+  'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay';
 
 export interface CreditEntitlement {
   id: string;
