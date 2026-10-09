@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.54.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.54.1...v2.54.2) (2026-10-09)
+
+
+### Bug Fixes
+
+* **deps:** upgrade SDK toolchains (pnpm, TypeScript 7, Jest 30, zod 4, yargs 18) and stop cursor pagination on done ([24ba038](https://github.com/dodopayments/dodopayments-typescript/commit/24ba03877825df64a9cca0f2e92b99ba751e1574))
+* **deps:** upgrade SDK toolchains (pnpm, TypeScript 7, Jest 30, zod 4, yargs 18) and stop cursor pagination on done ([5b54f93](https://github.com/dodopayments/dodopayments-typescript/commit/5b54f939e76ea84d06402fe0efb1b355ac9c9ba4))
+
 ## [2.54.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.54.0...v2.54.1) (2026-10-09)
 
 
