@@ -29,7 +29,7 @@ export const newMcpServer = async ({
   new McpServer(
     {
       name: 'dodopayments_api',
-      version: '2.53.0',
+      version: '2.54.1',
     },
     {
       instructions: await getInstructions({ stainlessApiKey, customInstructionsPath }),

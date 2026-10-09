@@ -723,14 +723,7 @@ export interface SubscriptionCancelledBy {
 }
 
 export type SubscriptionStatus =
-  | 'pending'
-  | 'active'
-  | 'on_hold'
-  | 'paused'
-  | 'cancelled'
-  | 'failed'
-  | 'expired'
-  | 'past_due';
+  'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due';
 
 /**
  * Unit of a duration count (e.g. license-key validity period).
@@ -747,10 +740,7 @@ export interface UpdateSubscriptionPlanReq {
    * Proration Billing Mode
    */
   proration_billing_mode:
-    | 'prorated_immediately'
-    | 'full_immediately'
-    | 'difference_immediately'
-    | 'do_not_bill';
+    'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill';
 
   /**
    * Number of units to subscribe for. Must be at least 1.
@@ -1817,10 +1807,7 @@ export interface SubscriptionChangePlanParams {
    * Proration Billing Mode
    */
   proration_billing_mode:
-    | 'prorated_immediately'
-    | 'full_immediately'
-    | 'difference_immediately'
-    | 'do_not_bill';
+    'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill';
 
   /**
    * Number of units to subscribe for. Must be at least 1.
@@ -1991,10 +1978,7 @@ export interface SubscriptionPreviewChangePlanParams {
    * Proration Billing Mode
    */
   proration_billing_mode:
-    | 'prorated_immediately'
-    | 'full_immediately'
-    | 'difference_immediately'
-    | 'do_not_bill';
+    'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill';
 
   /**
    * Number of units to subscribe for. Must be at least 1.

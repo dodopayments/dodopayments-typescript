@@ -115,9 +115,10 @@ Launching the client with `--transport=http` launches the server as a remote ser
 Authorization can be provided via the `Authorization` header using the Bearer scheme.
 
 Additionally, authorization can be provided via the following headers:
-| Header | Equivalent client option | Security scheme |
+
+| Header                    | Equivalent client option | Security scheme |
 | ------------------------- | ------------------------ | --------------- |
-| `x-dodo-payments-api-key` | `bearerToken` | API_KEY |
+| `x-dodo-payments-api-key` | `bearerToken`            | API_KEY         |
 
 A configuration JSON for this server might look like this, assuming the server is hosted at `http://localhost:3000`:
 

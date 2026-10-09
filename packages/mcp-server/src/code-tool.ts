@@ -89,9 +89,7 @@ export function codeTool({
       const blockedMatches = blockedMethods.filter((method) => code.includes(method.fullyQualifiedName));
       if (blockedMatches.length > 0) {
         return asErrorResult(
-          `The following methods have been blocked by the MCP server and cannot be used in code execution: ${blockedMatches
-            .map((m) => m.fullyQualifiedName)
-            .join(', ')}`,
+          `The following methods have been blocked by the MCP server and cannot be used in code execution: ${blockedMatches.map((m) => m.fullyQualifiedName).join(', ')}`,
         );
       }
     }
