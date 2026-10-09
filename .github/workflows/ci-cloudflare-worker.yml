@@ -33,25 +33,30 @@ jobs:
       run:
         working-directory: packages/mcp-server/cloudflare-worker
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '22'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      # The Worker declares `dodopayments` and `dodopayments-mcp` as `latest`, so without
-      # this it would validate whatever is on npm rather than this commit, and a change to
-      # `packages/mcp-server/src` that breaks the Worker would only surface after release.
+      - name: Validate the locked production packages
+        run: |
+          npm run typecheck
+          npm test
+          npx --no-install wrangler deploy --dry-run
+
+      # Also validate this commit, so a change to `packages/mcp-server/src` that breaks
+      # the Worker surfaces here, not only after the next release is pinned.
       # `src/execute-tool.ts` imports `dodopayments-mcp/code-tool` directly, so that is a
       # real exposure rather than a theoretical one.
       - name: Build the packages from this commit
         working-directory: ${{ github.workspace }}
         run: |
-          yarn install
+          yarn install --frozen-lockfile
           ./scripts/build
 
       # `patch-deps.js` rewrites files inside the installed package, so it has to run again
@@ -69,5 +74,8 @@ jobs:
       - name: Check types
         run: npm run typecheck
 
+      - name: Test OAuth migration
+        run: npm test
+
       - name: Validate worker build
-        run: npx wrangler deploy --dry-run
+        run: npx --no-install wrangler deploy --dry-run
