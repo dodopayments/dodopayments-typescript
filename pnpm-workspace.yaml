@@ -1,0 +1,10 @@
+packages:
+  - 'packages/*'
+onlyBuiltDependencies:
+  - '@swc/core'
+ignoredBuiltDependencies:
+  - '@parcel/watcher'
+  - unrs-resolver
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - dodopayments

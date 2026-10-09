@@ -73,9 +73,9 @@ export abstract class AbstractPage<Item> implements AsyncIterable<Item> {
  *    }
  */
 export class PagePromise<
-    PageClass extends AbstractPage<Item>,
-    Item = ReturnType<PageClass['getPaginatedItems']>[number],
-  >
+  PageClass extends AbstractPage<Item>,
+  Item = ReturnType<PageClass['getPaginatedItems']>[number],
+>
   extends APIPromise<PageClass>
   implements AsyncIterable<Item>
 {
@@ -194,6 +194,10 @@ export class CursorPagePagination<Item>
   }
 
   nextPageRequestOptions(): PageRequestOptions | null {
+    if (this.done === true) {
+      return null;
+    }
+
     const cursor = this.iterator;
     if (!cursor) {
       return null;

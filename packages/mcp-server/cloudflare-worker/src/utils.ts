@@ -308,9 +308,11 @@ export const renderLoggedOutAuthorizeScreen = async (
                     />
                     <span class="text-sm font-medium text-text-primary">${opt.label}</span>
                   </span>
-                  ${opt.description ?
-                    html`<span class="text-xs text-text-secondary pl-6">${opt.description}</span>`
-                  : ''}
+                  ${
+                    opt.description ?
+                      html`<span class="text-xs text-text-secondary pl-6">${opt.description}</span>`
+                    : ''
+                  }
                 </label>
               `,
             )}
@@ -366,41 +368,47 @@ export const renderLoggedOutAuthorizeScreen = async (
     >
       <div class="px-8 pt-8 pb-6 border-b border-border-secondary">
         <div class="flex items-center justify-center mb-5">
-          ${config.logoUrl ?
-            html`<img src="${config.logoUrl}" class="h-10" alt="${config.orgName}" />`
-          : raw(DODO_LOGO_SVG)}
+          ${
+            config.logoUrl ?
+              html`<img src="${config.logoUrl}" class="h-10" alt="${config.orgName}" />`
+            : raw(DODO_LOGO_SVG)
+          }
         </div>
         <h1 class="text-xl font-heading font-semibold text-text-primary text-center">
           Authorize ${config.orgName} MCP server
         </h1>
         <p class="mt-2 text-sm text-text-secondary text-center">
           Enter your credentials to connect your MCP client.${' '}
-          ${config.instructionsUrl ?
-            html`<a
-              href="${config.instructionsUrl}"
-              class="text-text-primary font-medium underline underline-offset-2 hover:text-ink transition-colors"
-              >View instructions</a
-            >`
-          : ''}
+          ${
+            config.instructionsUrl ?
+              html`<a
+                href="${config.instructionsUrl}"
+                class="text-text-primary font-medium underline underline-offset-2 hover:text-ink transition-colors"
+                >View instructions</a
+              >`
+            : ''
+          }
         </p>
       </div>
 
       <div class="px-8 py-6">
-        ${state.formError ?
-          html`<div
-            role="alert"
-            class="mb-5 flex items-start gap-2.5 px-4 py-3 bg-error-bg border border-error-border text-error-text rounded-lg text-sm"
-          >
-            <svg class="w-4 h-4 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path
-                fill-rule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span>${state.formError}</span>
-          </div>`
-        : ''}
+        ${
+          state.formError ?
+            html`<div
+              role="alert"
+              class="mb-5 flex items-start gap-2.5 px-4 py-3 bg-error-bg border border-error-border text-error-text rounded-lg text-sm"
+            >
+              <svg class="w-4 h-4 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <span>${state.formError}</span>
+            </div>`
+          : ''
+        }
         <form action="/approve" method="POST" class="space-y-5">
           <input type="hidden" name="oauthReqInfo" value="${JSON.stringify(oauthReqInfo)}" />
           <div class="space-y-4">${config.clientProperties.map(renderField)}</div>
@@ -452,18 +460,20 @@ export const renderApproveContent = async (message: string, status: string, redi
     >
       <div class="mb-5">
         <span
-          class="inline-flex items-center justify-center w-12 h-12 text-xl ${status === 'success' ?
-            'bg-brand text-ink'
-          : 'bg-error-bg text-error-text'} rounded-full"
+          class="inline-flex items-center justify-center w-12 h-12 text-xl ${
+            status === 'success' ? 'bg-brand text-ink' : 'bg-error-bg text-error-text'
+          } rounded-full"
         >
           ${status === 'success' ? '✓' : '✗'}
         </span>
       </div>
       <h1 class="text-xl font-heading font-semibold mb-2 text-text-primary">${message}</h1>
       <p class="mb-6 text-sm text-text-secondary">
-        ${safeRedirectUrl ?
-          'You will be redirected back to the application shortly.'
-        : 'You can now close this window.'}
+        ${
+          safeRedirectUrl ?
+            'You will be redirected back to the application shortly.'
+          : 'You can now close this window.'
+        }
       </p>
       <a
         id="redirect-link"
@@ -472,16 +482,18 @@ export const renderApproveContent = async (message: string, status: string, redi
       >
         ${safeRedirectUrl ? 'Continue now' : 'Return to Home'}
       </a>
-      ${safeRedirectUrl ?
-        html`<script>
-          setTimeout(() => {
-            const link = document.getElementById('redirect-link');
-            if (link instanceof HTMLAnchorElement) {
-              window.location.assign(link.href);
-            }
-          }, 2000);
-        </script>`
-      : ''}
+      ${
+        safeRedirectUrl ?
+          html`<script>
+            setTimeout(() => {
+              const link = document.getElementById('redirect-link');
+              if (link instanceof HTMLAnchorElement) {
+                window.location.assign(link.href);
+              }
+            }, 2000);
+          </script>`
+        : ''
+      }
     </div>
   `;
 };
