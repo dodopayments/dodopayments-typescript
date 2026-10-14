@@ -248,6 +248,23 @@ export interface ManualRetryState {
   sends_used: number;
 
   /**
+   * The number of the queued automatic retry, starting at 1.
+   */
+  automatic_retry_number?: number | null;
+
+  /**
+   * The number of automatic retries that the current configuration plans for this
+   * invoice. It is never less than `automatic_retry_number`.
+   */
+  automatic_retry_total?: number | null;
+
+  /**
+   * When the next automatic retry on this invoice is scheduled. Null when no
+   * automatic retry is queued or automatic retries are disabled.
+   */
+  next_automatic_retry_at?: string | null;
+
+  /**
    * The code `POST` would fail with. Null when `can_retry` is true.
    */
   reason?: string | null;
@@ -369,6 +386,15 @@ export interface Payment {
    * Always `0` for non-subscription payments.
    */
   retry_attempt: number;
+
+  /**
+   * The service period of each subscription that this payment pays for. The order is
+   * the same as `subscription_ids`. For a plan change charge, the period starts at
+   * the plan change and ends at the next billing date. The list is empty unless the
+   * payment status is `succeeded`. The list is also empty for a one-time payment, an
+   * on-demand charge, or a payment method update.
+   */
+  service_periods: Array<SubscriptionServicePeriod>;
 
   /**
    * The amount that will be credited to your Dodo balance after currency conversion
@@ -704,9 +730,38 @@ export interface RefundListItem {
   network_reference_type?: RefundsAPI.RefundNetworkReferenceType | null;
 
   /**
+   * The time in UTC when `network_reference` became available. It is null when the
+   * reference is not available, or when it became available before this field
+   * existed.
+   */
+  network_reference_updated_at?: string | null;
+
+  /**
    * The reason provided for the refund, if any. Optional.
    */
   reason?: string | null;
+}
+
+/**
+ * The service period that a payment pays for, for one subscription.
+ */
+export interface SubscriptionServicePeriod {
+  /**
+   * End of the service period.
+   */
+  ends_at: string;
+
+  /**
+   * Start of the service period. For a renewal, this is the billing date. For a plan
+   * change that applies at the next billing date, this is the time when the change
+   * applied. This time can be some minutes after the billing date.
+   */
+  starts_at: string;
+
+  /**
+   * Identifier of the subscription.
+   */
+  subscription_id: string;
 }
 
 export interface PaymentCreateResponse {
@@ -797,6 +852,22 @@ export interface PaymentListResponse {
   payment_provider: 'stripe' | 'adyen' | 'dodo';
 
   /**
+   * The retry attempt number of this payment. The value is `0` for the original
+   * payment. Each retry after a failed subscription renewal adds `1`. The value is
+   * always `0` for a payment that is not for a subscription.
+   */
+  retry_attempt: number;
+
+  /**
+   * The service period of each subscription that this payment pays for. The order is
+   * the same as `subscription_ids`. For a plan change charge, the period starts at
+   * the plan change and ends at the next billing date. The list is empty unless the
+   * payment status is `succeeded`. The list is also empty for a one-time payment, an
+   * on-demand charge, or a payment method update.
+   */
+  service_periods: Array<SubscriptionServicePeriod>;
+
+  /**
    * Every subscription that this payment starts or charges, in a stable order. It is
    * empty for a one-time payment. It holds the value of `subscription_id` when the
    * payment names one subscription.
@@ -814,6 +885,12 @@ export interface PaymentListResponse {
    * Card network like VISA, MASTERCARD etc.
    */
   card_network?: string | null;
+
+  /**
+   * The ID of the checkout session for this payment. The value is null when the
+   * payment does not use a checkout session.
+   */
+  checkout_session_id?: string | null;
 
   /**
    * The most recent dispute status for this payment. None if no disputes exist.
@@ -1197,6 +1274,7 @@ export declare namespace Payments {
     type PaymentMethodTypes as PaymentMethodTypes,
     type PaymentRefundStatus as PaymentRefundStatus,
     type RefundListItem as RefundListItem,
+    type SubscriptionServicePeriod as SubscriptionServicePeriod,
     type PaymentCreateResponse as PaymentCreateResponse,
     type PaymentListResponse as PaymentListResponse,
     type PaymentRetrieveLineItemsResponse as PaymentRetrieveLineItemsResponse,
