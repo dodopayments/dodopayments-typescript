@@ -740,7 +740,11 @@ export interface UpdateSubscriptionPlanReq {
    * Proration Billing Mode
    */
   proration_billing_mode:
-    'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill';
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | 'prorated_immediately_keep_cycle';
 
   /**
    * Number of units to subscribe for. Must be at least 1.
@@ -1807,7 +1811,11 @@ export interface SubscriptionChangePlanParams {
    * Proration Billing Mode
    */
   proration_billing_mode:
-    'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill';
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | 'prorated_immediately_keep_cycle';
 
   /**
    * Number of units to subscribe for. Must be at least 1.
@@ -1978,7 +1986,11 @@ export interface SubscriptionPreviewChangePlanParams {
    * Proration Billing Mode
    */
   proration_billing_mode:
-    'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill';
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | 'prorated_immediately_keep_cycle';
 
   /**
    * Number of units to subscribe for. Must be at least 1.
