@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.55.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.54.2...v2.55.0) (2026-10-14)
+
+
+### Features
+
+* **api:** payment service periods, retry attempts and subscription renewal payment_id ([93d61b6](https://github.com/dodopayments/dodopayments-typescript/commit/93d61b67767ba33ecd273ae39a4284b7f8249715))
+* **api:** payment service periods, retry attempts and subscription renewal payment_id ([16ef1e2](https://github.com/dodopayments/dodopayments-typescript/commit/16ef1e25bdc79329ca105aa1afb264ca22a052f4))
+
 ## [2.54.2](https://github.com/dodopayments/dodopayments-typescript/compare/v2.54.1...v2.54.2) (2026-10-09)
 
 
