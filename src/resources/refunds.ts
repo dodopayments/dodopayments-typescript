@@ -127,6 +127,13 @@ export interface Refund {
   network_reference_type?: RefundNetworkReferenceType | null;
 
   /**
+   * The time in UTC when `network_reference` became available. It is null when the
+   * reference is not available, or when it became available before this field
+   * existed.
+   */
+  network_reference_updated_at?: string | null;
+
+  /**
    * The reason provided for the refund, if any. Optional.
    */
   reason?: string | null;

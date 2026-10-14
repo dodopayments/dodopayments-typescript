@@ -166,6 +166,7 @@ import {
   PaymentRetrieveLineItemsResponse,
   Payments,
   RefundListItem,
+  SubscriptionServicePeriod,
 } from './resources/payments';
 import {
   Refund,
@@ -1230,6 +1231,7 @@ export declare namespace DodoPayments {
     type PaymentMethodTypes as PaymentMethodTypes,
     type PaymentRefundStatus as PaymentRefundStatus,
     type RefundListItem as RefundListItem,
+    type SubscriptionServicePeriod as SubscriptionServicePeriod,
     type PaymentCreateResponse as PaymentCreateResponse,
     type PaymentListResponse as PaymentListResponse,
     type PaymentRetrieveLineItemsResponse as PaymentRetrieveLineItemsResponse,

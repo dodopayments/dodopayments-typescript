@@ -174,6 +174,7 @@ export {
   type PaymentMethodTypes,
   type PaymentRefundStatus,
   type RefundListItem,
+  type SubscriptionServicePeriod,
   type PaymentCreateResponse,
   type PaymentListResponse,
   type PaymentRetrieveLineItemsResponse,

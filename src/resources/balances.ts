@@ -65,7 +65,10 @@ export interface BalanceLedgerEntry {
     | 'deflection_fees_reversal'
     | 'reserve_hold'
     | 'reserve_release'
-    | 'moderation_fees';
+    | 'moderation_fees'
+    | 'dodo_fixed_fee'
+    | 'interchange_fee'
+    | 'scheme_fee';
 
   is_credit: boolean;
 
@@ -277,7 +280,10 @@ export interface BalanceRetrieveLedgerParams extends DefaultPageNumberPagination
     | 'deflection_fees_reversal'
     | 'reserve_hold'
     | 'reserve_release'
-    | 'moderation_fees';
+    | 'moderation_fees'
+    | 'dodo_fixed_fee'
+    | 'interchange_fee'
+    | 'scheme_fee';
 
   /**
    * Min : 1, Max : 100, default 10
