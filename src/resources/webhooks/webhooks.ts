@@ -1502,6 +1502,12 @@ export namespace SubscriptionActiveWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -1544,6 +1550,12 @@ export namespace SubscriptionCancelledWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -1586,6 +1598,12 @@ export namespace SubscriptionExpiredWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -1628,6 +1646,12 @@ export namespace SubscriptionFailedWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -1670,6 +1694,12 @@ export namespace SubscriptionOnHoldWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -1712,6 +1742,12 @@ export namespace SubscriptionPastDueWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -1754,6 +1790,12 @@ export namespace SubscriptionPausedWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -1796,6 +1838,12 @@ export namespace SubscriptionPlanChangedWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -1838,6 +1886,12 @@ export namespace SubscriptionRenewedWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -1880,6 +1934,12 @@ export namespace SubscriptionUnpausedWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -1922,6 +1982,12 @@ export namespace SubscriptionUpdatePaymentMethodWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -1964,6 +2030,12 @@ export namespace SubscriptionUpdatedWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -3283,6 +3355,12 @@ export namespace SubscriptionActiveWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -3325,6 +3403,12 @@ export namespace SubscriptionCancelledWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -3367,6 +3451,12 @@ export namespace SubscriptionExpiredWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -3409,6 +3499,12 @@ export namespace SubscriptionFailedWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -3451,6 +3547,12 @@ export namespace SubscriptionOnHoldWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -3493,6 +3595,12 @@ export namespace SubscriptionPastDueWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -3535,6 +3643,12 @@ export namespace SubscriptionPausedWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -3577,6 +3691,12 @@ export namespace SubscriptionPlanChangedWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -3619,6 +3739,12 @@ export namespace SubscriptionRenewedWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -3661,6 +3787,12 @@ export namespace SubscriptionUnpausedWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -3703,6 +3835,12 @@ export namespace SubscriptionUpdatePaymentMethodWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 
@@ -3745,6 +3883,12 @@ export namespace SubscriptionUpdatedWebhookEvent {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 }
 

@@ -200,14 +200,24 @@ export interface ProductCollection {
    * from business)
    */
   proration_billing_mode_on_downgrade?:
-    'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill' | null;
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | 'prorated_immediately_keep_cycle'
+    | null;
 
   /**
    * Default proration billing mode for subscription plan upgrades (null = inherit
    * from business)
    */
   proration_billing_mode_on_upgrade?:
-    'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill' | null;
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | 'prorated_immediately_keep_cycle'
+    | null;
 }
 
 export interface ProductCollectionListResponse {
@@ -332,14 +342,24 @@ export interface ProductCollectionCreateParams {
    * from business)
    */
   proration_billing_mode_on_downgrade?:
-    'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill' | null;
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | 'prorated_immediately_keep_cycle'
+    | null;
 
   /**
    * Default proration billing mode for subscription plan upgrades (NULL = inherit
    * from business)
    */
   proration_billing_mode_on_upgrade?:
-    'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill' | null;
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | 'prorated_immediately_keep_cycle'
+    | null;
 }
 
 export interface ProductCollectionUpdateParams {
@@ -391,14 +411,24 @@ export interface ProductCollectionUpdateParams {
    * (inherit), None = no change
    */
   proration_billing_mode_on_downgrade?:
-    'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill' | null;
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | 'prorated_immediately_keep_cycle'
+    | null;
 
   /**
    * Proration billing mode for upgrades: Some(Some(val)) = set, Some(None) = clear
    * (inherit), None = no change
    */
   proration_billing_mode_on_upgrade?:
-    'prorated_immediately' | 'full_immediately' | 'difference_immediately' | 'do_not_bill' | null;
+    | 'prorated_immediately'
+    | 'full_immediately'
+    | 'difference_immediately'
+    | 'do_not_bill'
+    | 'prorated_immediately_keep_cycle'
+    | null;
 }
 
 export interface ProductCollectionUpdateImagesParams {

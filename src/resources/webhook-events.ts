@@ -117,6 +117,12 @@ export namespace WebhookPayload {
      * deadline too, next to a `past_due` status.
      */
     past_due_ends_at?: string | null;
+
+    /**
+     * Identifier of the payment that caused this event. It is set only for
+     * `subscription.renewed`. It is null for all other subscription events.
+     */
+    payment_id?: string | null;
   }
 
   export interface Refund extends RefundsAPI.Refund {

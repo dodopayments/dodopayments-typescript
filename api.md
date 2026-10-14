@@ -40,6 +40,7 @@ Types:
 - <code><a href="./src/resources/payments.ts">PaymentMethodTypes</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentRefundStatus</a></code>
 - <code><a href="./src/resources/payments.ts">RefundListItem</a></code>
+- <code><a href="./src/resources/payments.ts">SubscriptionServicePeriod</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentCreateResponse</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentListResponse</a></code>
 - <code><a href="./src/resources/payments.ts">PaymentRetrieveLineItemsResponse</a></code>
