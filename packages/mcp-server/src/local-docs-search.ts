@@ -116,7 +116,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.CheckoutSessions.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tcheckoutSessionResponse, err := client.CheckoutSessions.New(context.TODO(), dodopayments.CheckoutSessionNewParams{\n\t\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t\t}}),\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", checkoutSessionResponse.SessionID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  checkoutSessionResponse, err := client.CheckoutSessions.New(context.TODO(), dodopayments.CheckoutSessionNewParams{\n    CheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n      ProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{dodopayments.ProductItemReqParam{\n        ProductID: dodopayments.F("product_id"),\n        Quantity: dodopayments.F(int64(0)),\n      }}),\n    },\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", checkoutSessionResponse.SessionID)\n}\n',
       },
       ruby: {
         method: 'checkout_sessions.create',
@@ -176,7 +176,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.CheckoutSessions.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tcheckoutSessionStatus, err := client.CheckoutSessions.Get(context.TODO(), "cks_n010SZaY4NXc7F1ck3Tq1")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", checkoutSessionStatus.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  checkoutSessionStatus, err := client.CheckoutSessions.Get(context.TODO(), "cks_n010SZaY4NXc7F1ck3Tq1")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", checkoutSessionStatus.ID)\n}\n',
       },
       ruby: {
         method: 'checkout_sessions.retrieve',
@@ -230,9 +230,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'tax_id?: string;',
     ],
     response:
-      '{ billing_country: string; currency: string; current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }; is_byop: boolean; payment_method_required: boolean; product_cart: { credit_entitlements: object[]; currency: currency; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: object[]; og_currency: currency; og_price: number; product_id: string; quantity: number; tax_category: tax_category; tax_inclusive: boolean; tax_rate: number; addons?: object[]; description?: string; discount_amount?: number; discount_cycle?: number; name?: string; tax?: number; }[]; total_price: number; next_billing_date?: string; recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }; subscriptions?: { amount_due_now: number; product_id: string; recurring_amount: number; next_billing_date?: string; recurring_tax?: number; tax_due_now?: number; trial_period_days?: number; }[]; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }',
+      '{ billing_country: string; currency: string; current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }; is_byop: boolean; payment_method_required: boolean; product_cart: { credit_entitlements: object[]; currency: currency; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: object[]; og_currency: currency; og_price: number; product_id: string; quantity: number; tax_category: tax_category; tax_inclusive: boolean; tax_rate: number; addons?: object[]; description?: string; discount_amount?: number; discount_cycle?: number; monthly_equivalent?: number; name?: string; tax?: number; }[]; total_price: number; next_billing_date?: string; recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }; subscriptions?: { amount_due_now: number; product_id: string; recurring_amount: number; next_billing_date?: string; recurring_tax?: number; tax_due_now?: number; trial_period_days?: number; }[]; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }',
     markdown:
-      "## preview\n\n`client.checkoutSessions.preview(product_cart: { product_id: string; quantity: number; addons?: attach_addon[]; amount?: number; credit_entitlements?: object[]; }[], allowed_payment_method_types?: string[], billing_address?: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }, billing_currency?: string, cancel_url?: string, confirm?: boolean, custom_fields?: { field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean'; key: string; label: string; options?: string[]; placeholder?: string; required?: boolean; }[], customer?: object | object, customer_business_name?: string, customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: theme_config; }, discount_code?: string, discount_codes?: string[], feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_cardholder_name?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; }, force_3ds?: boolean, mandate_min_amount_inr_paise?: number, metadata?: object, minimal_address?: boolean, payment_method_id?: string, product_collection_id?: string, return_url?: string, short_link?: boolean, show_saved_payment_methods?: boolean, subscription_data?: { on_demand?: on_demand_subscription; trial_period_days?: number; }, tax_id?: string): { billing_country: country_code; currency: currency; current_breakup: object; is_byop: boolean; payment_method_required: boolean; product_cart: object[]; total_price: number; next_billing_date?: string; recurring_breakup?: object; subscriptions?: object[]; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }`\n\n**post** `/checkouts/preview`\n\n### Parameters\n\n- `product_cart: { product_id: string; quantity: number; addons?: { addon_id: string; quantity: number; }[]; amount?: number; credit_entitlements?: { credit_entitlement_id: string; credits_amount: string; }[]; }[]`\n  The products of the checkout. A cart holds at most 20 of them, one-time and\nsubscription products together. An empty cart is valid for the product-collection\nflow, where the customer chooses the product later.\n\n- `allowed_payment_method_types?: string[]`\n  Customers will never see payment methods that are not in this list.\nHowever, adding a method here does not guarantee customers will see it.\nAvailability still depends on other factors (e.g., customer location, merchant settings).\n\nDisclaimar: Always provide 'credit' and 'debit' as a fallback.\nIf all payment methods are unavailable, checkout session will fail.\n\n- `billing_address?: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  Billing address information for the session\n  - `country: string`\n    Two-letter ISO country code (ISO 3166-1 alpha-2)\n  - `city?: string`\n    City name\n  - `state?: string`\n    State or province name\n  - `street?: string`\n    Street address including house number and unit/apartment if applicable\n  - `zipcode?: string`\n    Postal code or ZIP code\n\n- `billing_currency?: string`\n  The currency to charge the customer in.\n\nAdaptive pricing must be enabled for the business. The customer then pays in this\ncurrency. If you do not set it, the currency comes from the billing country.\n\nIf adaptive pricing is disabled, the API discards this field. The currency then comes\nfrom the product price, or from the billing country.\n\n- `cancel_url?: string`\n  The URL to redirect the customer if they cancel or go back from the checkout.\nIf not provided, the back button will not be displayed.\n\n- `confirm?: boolean`\n  If confirm is true, all the details will be finalized. If required data is missing, an API error is thrown.\n\n- `custom_fields?: { field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean'; key: string; label: string; options?: string[]; placeholder?: string; required?: boolean; }[]`\n  Custom fields to collect from customer during checkout (max 5 fields)\n\n- `customer?: { customer_id: string; } | { email: string; name?: string; phone_number?: string; }`\n  Customer details for the session\n\n- `customer_business_name?: string`\n  Optional business / legal name associated with the tax id. When provided\ntogether with a valid tax id for a B2B purchase, this name is rendered\non the invoice instead of the customer's personal name.\n\n- `customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: { dark?: theme_mode_config; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: theme_mode_config; pay_button_text?: string; radius?: string; }; }`\n  Customization for the checkout session page\n  - `force_language?: string`\n    Force the checkout interface to render in a specific language (e.g. `en`, `es`)\n  - `show_on_demand_tag?: boolean`\n    Show on demand tag\n\nDefault is true\n  - `show_order_details?: boolean`\n    Show order details by default\n\nDefault is true\n  - `theme?: 'dark' | 'light' | 'system'`\n    Theme of the page (determines which mode - light/dark/system - to use)\n\nIf not provided, uses the business-configured theme from business_themes table.\n  - `theme_config?: { dark?: { bg_primary?: string; bg_secondary?: string; border_primary?: string; border_secondary?: string; button_primary?: string; button_primary_hover?: string; button_secondary?: string; button_secondary_hover?: string; button_text_primary?: string; button_text_secondary?: string; input_focus_border?: string; text_error?: string; text_placeholder?: string; text_primary?: string; text_secondary?: string; text_success?: string; }; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: { bg_primary?: string; bg_secondary?: string; border_primary?: string; border_secondary?: string; button_primary?: string; button_primary_hover?: string; button_secondary?: string; button_secondary_hover?: string; button_text_primary?: string; button_text_secondary?: string; input_focus_border?: string; text_error?: string; text_placeholder?: string; text_primary?: string; text_secondary?: string; text_success?: string; }; pay_button_text?: string; radius?: string; }`\n    Optional custom theme configuration with colors for light and dark modes\n\n- `discount_code?: string`\n  DEPRECATED: Use discount_codes instead. Cannot be used together with discount_codes.\n\n- `discount_codes?: string[]`\n  Stacked discount codes to apply, in order. Max 20.\nCannot be used together with discount_code.\n\n- `feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_cardholder_name?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; }`\n  - `allow_currency_selection?: boolean`\n    if customer is allowed to change currency, set it to true\n\nDefault is true\n  - `allow_customer_editing_business_name?: boolean`\n    If true, the customer can supply or edit the business name associated\nwith the tax id during checkout. Works independently of\n`allow_customer_editing_tax_id` — either flag (or `allow_tax_id`) is\nsufficient to let the customer override the session's business name.\nTypically set together with `allow_customer_editing_tax_id`.\n\nDefault is false\n  - `allow_customer_editing_city?: boolean`\n  - `allow_customer_editing_country?: boolean`\n  - `allow_customer_editing_email?: boolean`\n  - `allow_customer_editing_name?: boolean`\n  - `allow_customer_editing_state?: boolean`\n  - `allow_customer_editing_street?: boolean`\n  - `allow_customer_editing_tax_id?: boolean`\n  - `allow_customer_editing_zipcode?: boolean`\n  - `allow_discount_code?: boolean`\n    If the customer is allowed to apply discount code, set it to true.\n\nIf this flag is false, the customer cannot change the discount codes.\nThe discount codes that you give when you create the session still apply.\n\nDefault is true\n  - `allow_editing_addons?: boolean`\n    If true, the customer can add or remove addons on a subscription product\nduring checkout.\n\nDefault is false\n  - `allow_phone_number_collection?: boolean`\n    If phone number is collected from customer, set it to rue\n\nDefault is true\n  - `allow_tax_id?: boolean`\n    If the customer is allowed to add tax id, set it to true\n\nDefault is true\n  - `always_create_new_customer?: boolean`\n    Set to true if a new customer object should be created.\nBy default email is used to find an existing customer to attach the session to\n\nDefault is false\n  - `redirect_immediately?: boolean`\n    If true, redirects the customer immediately after payment completion\n\nDefault is false\n  - `require_cardholder_name?: boolean`\n    If true, the customer must give the name on the card to pay by card.\nApple Pay and Google Pay also collect the payer name, and the payment\nstores it as the card holder name. The checkout page enforces this.\nOther payment methods ignore it.\n\nDefault is false\n  - `require_phone_number?: boolean`\n    If true, the customer must provide a phone number to complete checkout.\nRequires `allow_phone_number_collection` to also be true.\n\nDefault is false\n  - `require_tax_id?: boolean`\n    If true, the customer must give a tax id to check out as a business.\nA tax id is the GST number in India, or the VAT number in the EU.\nYou must also set `allow_tax_id` to true.\n\nOn the checkout page, this field does not change checkout for a customer\nwho buys as an individual.\n\nA `confirm: true` request skips the checkout page. The request must\ncontain `tax_id`.\n\nDefault is false\n  - `single_page?: boolean`\n    If true, the session uses the single-page checkout flow: the page\ninitializes the payment at load time and confirms it in\nplace, with no separate payment page.\n\nDefault is false\n\n- `force_3ds?: boolean`\n  Override merchant default 3DS behaviour for this session\n\n- `mandate_min_amount_inr_paise?: number`\n  Override the merchant-level mandate floor (in INR paise) for INR\ne-mandates on Indian-card recurring payments. The mandate amount sent to\nthe processor is `max(this_floor, actual_billing_amount)`, so this is\neffectively the customer-facing authorization ceiling whenever billing is\nlower. When unset, the merchant setting applies; when that's also unset,\nthe system default of ₹15,000 applies.\n\n- `metadata?: object`\n  Additional metadata associated with the payment. Defaults to empty if not provided.\n\n- `minimal_address?: boolean`\n  If true, only zipcode is required when confirm is true; other address fields remain optional\n\nDefault is true when `feature_flags.single_page` is true. Otherwise, default is false.\n\n- `payment_method_id?: string`\n  Optional payment method ID to use for this checkout session.\nOnly allowed when `confirm` is true.\nIf provided, existing customer id must also be provided.\n\n- `product_collection_id?: string`\n  Product collection ID for collection-based checkout flow\n\n- `return_url?: string`\n  The url to redirect after payment failure or success.\n\n- `short_link?: boolean`\n  If true, returns a shortened checkout URL.\nDefaults to false if not specified.\n\n- `show_saved_payment_methods?: boolean`\n  Display saved payment methods of a returning customer False by default\n\n- `subscription_data?: { on_demand?: { mandate_only: boolean; adaptive_currency_fees_inclusive?: boolean; product_currency?: currency; product_description?: string; product_price?: number; }; trial_period_days?: number; }`\n  - `on_demand?: { mandate_only: boolean; adaptive_currency_fees_inclusive?: boolean; product_currency?: string; product_description?: string; product_price?: number; }`\n  - `trial_period_days?: number`\n    Optional trial period in days If specified, this value overrides the trial period set in the product's price Must be between 0 and 10000 days\n\n- `tax_id?: string`\n  Tax ID for the customer (e.g. VAT number). Requires billing_address with country.\n\n### Returns\n\n- `{ billing_country: string; currency: string; current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }; is_byop: boolean; payment_method_required: boolean; product_cart: { credit_entitlements: { credit_entitlement_id: string; credit_entitlement_name: string; credit_entitlement_unit: string; credits_amount: string; }[]; currency: string; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: { measurement_unit: string; name: string; price_per_unit: string; description?: string; free_threshold?: number; }[]; og_currency: string; og_price: number; product_id: string; quantity: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; addons?: { addon_id: string; currency: currency; discounted_price: number; name: string; og_currency: currency; og_price: number; quantity: number; single_quantity_price: number; tax_category: tax_category; tax_inclusive: boolean; tax_rate: number; description?: string; discount_amount?: number; tax?: number; }[]; description?: string; discount_amount?: number; discount_cycle?: number; name?: string; tax?: number; }[]; total_price: number; next_billing_date?: string; recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }; subscriptions?: { amount_due_now: number; product_id: string; recurring_amount: number; next_billing_date?: string; recurring_tax?: number; tax_due_now?: number; trial_period_days?: number; }[]; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }`\n  Data returned by the calculate checkout session API\n\n  - `billing_country: string`\n  - `currency: string`\n  - `current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }`\n  - `is_byop: boolean`\n  - `payment_method_required: boolean`\n  - `product_cart: { credit_entitlements: { credit_entitlement_id: string; credit_entitlement_name: string; credit_entitlement_unit: string; credits_amount: string; }[]; currency: string; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: { measurement_unit: string; name: string; price_per_unit: string; description?: string; free_threshold?: number; }[]; og_currency: string; og_price: number; product_id: string; quantity: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; addons?: { addon_id: string; currency: string; discounted_price: number; name: string; og_currency: string; og_price: number; quantity: number; single_quantity_price: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; description?: string; discount_amount?: number; tax?: number; }[]; description?: string; discount_amount?: number; discount_cycle?: number; name?: string; tax?: number; }[]`\n  - `total_price: number`\n  - `next_billing_date?: string`\n  - `recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }`\n  - `subscriptions?: { amount_due_now: number; product_id: string; recurring_amount: number; next_billing_date?: string; recurring_tax?: number; tax_due_now?: number; trial_period_days?: number; }[]`\n  - `tax_id_business_name?: string`\n  - `tax_id_err_msg?: string`\n  - `tax_id_format_name?: string`\n  - `total_tax?: number`\n  - `trial_amount?: number`\n  - `trial_period_days?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.checkoutSessions.preview({ product_cart: [{ product_id: 'product_id', quantity: 0 }] });\n\nconsole.log(response);\n```",
+      "## preview\n\n`client.checkoutSessions.preview(product_cart: { product_id: string; quantity: number; addons?: attach_addon[]; amount?: number; credit_entitlements?: object[]; }[], allowed_payment_method_types?: string[], billing_address?: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }, billing_currency?: string, cancel_url?: string, confirm?: boolean, custom_fields?: { field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean'; key: string; label: string; options?: string[]; placeholder?: string; required?: boolean; }[], customer?: object | object, customer_business_name?: string, customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: theme_config; }, discount_code?: string, discount_codes?: string[], feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_cardholder_name?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; }, force_3ds?: boolean, mandate_min_amount_inr_paise?: number, metadata?: object, minimal_address?: boolean, payment_method_id?: string, product_collection_id?: string, return_url?: string, short_link?: boolean, show_saved_payment_methods?: boolean, subscription_data?: { on_demand?: on_demand_subscription; trial_period_days?: number; }, tax_id?: string): { billing_country: country_code; currency: currency; current_breakup: object; is_byop: boolean; payment_method_required: boolean; product_cart: object[]; total_price: number; next_billing_date?: string; recurring_breakup?: object; subscriptions?: object[]; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }`\n\n**post** `/checkouts/preview`\n\n### Parameters\n\n- `product_cart: { product_id: string; quantity: number; addons?: { addon_id: string; quantity: number; }[]; amount?: number; credit_entitlements?: { credit_entitlement_id: string; credits_amount: string; }[]; }[]`\n  The products of the checkout. A cart holds at most 20 of them, one-time and\nsubscription products together. An empty cart is valid for the product-collection\nflow, where the customer chooses the product later.\n\n- `allowed_payment_method_types?: string[]`\n  Customers will never see payment methods that are not in this list.\nHowever, adding a method here does not guarantee customers will see it.\nAvailability still depends on other factors (e.g., customer location, merchant settings).\n\nDisclaimar: Always provide 'credit' and 'debit' as a fallback.\nIf all payment methods are unavailable, checkout session will fail.\n\n- `billing_address?: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  Billing address information for the session\n  - `country: string`\n    Two-letter ISO country code (ISO 3166-1 alpha-2)\n  - `city?: string`\n    City name\n  - `state?: string`\n    State or province name\n  - `street?: string`\n    Street address including house number and unit/apartment if applicable\n  - `zipcode?: string`\n    Postal code or ZIP code\n\n- `billing_currency?: string`\n  The currency to charge the customer in.\n\nAdaptive pricing must be enabled for the business. The customer then pays in this\ncurrency. If you do not set it, the currency comes from the billing country.\n\nIf adaptive pricing is disabled, the API discards this field. The currency then comes\nfrom the product price, or from the billing country.\n\n- `cancel_url?: string`\n  The URL to redirect the customer if they cancel or go back from the checkout.\nIf not provided, the back button will not be displayed.\n\n- `confirm?: boolean`\n  If confirm is true, all the details will be finalized. If required data is missing, an API error is thrown.\n\n- `custom_fields?: { field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean'; key: string; label: string; options?: string[]; placeholder?: string; required?: boolean; }[]`\n  Custom fields to collect from customer during checkout (max 5 fields)\n\n- `customer?: { customer_id: string; } | { email: string; name?: string; phone_number?: string; }`\n  Customer details for the session\n\n- `customer_business_name?: string`\n  Optional business / legal name associated with the tax id. When provided\ntogether with a valid tax id for a B2B purchase, this name is rendered\non the invoice instead of the customer's personal name.\n\n- `customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: { dark?: theme_mode_config; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: theme_mode_config; pay_button_text?: string; radius?: string; }; }`\n  Customization for the checkout session page\n  - `force_language?: string`\n    Force the checkout interface to render in a specific language (e.g. `en`, `es`)\n  - `show_on_demand_tag?: boolean`\n    Show on demand tag\n\nDefault is true\n  - `show_order_details?: boolean`\n    Show order details by default\n\nDefault is true\n  - `theme?: 'dark' | 'light' | 'system'`\n    Theme of the page (determines which mode - light/dark/system - to use)\n\nIf not provided, uses the business-configured theme from business_themes table.\n  - `theme_config?: { dark?: { bg_primary?: string; bg_secondary?: string; border_primary?: string; border_secondary?: string; button_primary?: string; button_primary_hover?: string; button_secondary?: string; button_secondary_hover?: string; button_text_primary?: string; button_text_secondary?: string; input_focus_border?: string; text_error?: string; text_placeholder?: string; text_primary?: string; text_secondary?: string; text_success?: string; }; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: { bg_primary?: string; bg_secondary?: string; border_primary?: string; border_secondary?: string; button_primary?: string; button_primary_hover?: string; button_secondary?: string; button_secondary_hover?: string; button_text_primary?: string; button_text_secondary?: string; input_focus_border?: string; text_error?: string; text_placeholder?: string; text_primary?: string; text_secondary?: string; text_success?: string; }; pay_button_text?: string; radius?: string; }`\n    Optional custom theme configuration with colors for light and dark modes\n\n- `discount_code?: string`\n  DEPRECATED: Use discount_codes instead. Cannot be used together with discount_codes.\n\n- `discount_codes?: string[]`\n  Stacked discount codes to apply, in order. Max 20.\nCannot be used together with discount_code.\n\n- `feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_cardholder_name?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; }`\n  - `allow_currency_selection?: boolean`\n    if customer is allowed to change currency, set it to true\n\nDefault is true\n  - `allow_customer_editing_business_name?: boolean`\n    If true, the customer can supply or edit the business name associated\nwith the tax id during checkout. Works independently of\n`allow_customer_editing_tax_id` — either flag (or `allow_tax_id`) is\nsufficient to let the customer override the session's business name.\nTypically set together with `allow_customer_editing_tax_id`.\n\nDefault is false\n  - `allow_customer_editing_city?: boolean`\n  - `allow_customer_editing_country?: boolean`\n  - `allow_customer_editing_email?: boolean`\n  - `allow_customer_editing_name?: boolean`\n  - `allow_customer_editing_state?: boolean`\n  - `allow_customer_editing_street?: boolean`\n  - `allow_customer_editing_tax_id?: boolean`\n  - `allow_customer_editing_zipcode?: boolean`\n  - `allow_discount_code?: boolean`\n    If the customer is allowed to apply discount code, set it to true.\n\nIf this flag is false, the customer cannot change the discount codes.\nThe discount codes that you give when you create the session still apply.\n\nDefault is true\n  - `allow_editing_addons?: boolean`\n    If true, the customer can add or remove addons on a subscription product\nduring checkout.\n\nDefault is false\n  - `allow_phone_number_collection?: boolean`\n    If phone number is collected from customer, set it to rue\n\nDefault is true\n  - `allow_tax_id?: boolean`\n    If the customer is allowed to add tax id, set it to true\n\nDefault is true\n  - `always_create_new_customer?: boolean`\n    Set to true if a new customer object should be created.\nBy default email is used to find an existing customer to attach the session to\n\nDefault is false\n  - `redirect_immediately?: boolean`\n    If true, redirects the customer immediately after payment completion\n\nDefault is false\n  - `require_cardholder_name?: boolean`\n    If true, the customer must give the name on the card to pay by card.\nApple Pay and Google Pay also collect the payer name, and the payment\nstores it as the card holder name. The checkout page enforces this.\nOther payment methods ignore it.\n\nDefault is false\n  - `require_phone_number?: boolean`\n    If true, the customer must provide a phone number to complete checkout.\nRequires `allow_phone_number_collection` to also be true.\n\nDefault is false\n  - `require_tax_id?: boolean`\n    If true, the customer must give a tax id to check out as a business.\nA tax id is the GST number in India, or the VAT number in the EU.\nYou must also set `allow_tax_id` to true.\n\nOn the checkout page, this field does not change checkout for a customer\nwho buys as an individual.\n\nA `confirm: true` request skips the checkout page. The request must\ncontain `tax_id`.\n\nDefault is false\n  - `single_page?: boolean`\n    If true, the session uses the single-page checkout flow: the page\ninitializes the payment at load time and confirms it in\nplace, with no separate payment page.\n\nDefault is false\n\n- `force_3ds?: boolean`\n  Override merchant default 3DS behaviour for this session\n\n- `mandate_min_amount_inr_paise?: number`\n  Override the merchant-level mandate floor (in INR paise) for INR\ne-mandates on Indian-card recurring payments. The mandate amount sent to\nthe processor is `max(this_floor, actual_billing_amount)`, so this is\neffectively the customer-facing authorization ceiling whenever billing is\nlower. When unset, the merchant setting applies; when that's also unset,\nthe system default of ₹15,000 applies.\n\n- `metadata?: object`\n  Additional metadata associated with the payment. Defaults to empty if not provided.\n\n- `minimal_address?: boolean`\n  If true, only zipcode is required when confirm is true; other address fields remain optional\n\nDefault is true when `feature_flags.single_page` is true. Otherwise, default is false.\n\n- `payment_method_id?: string`\n  Optional payment method ID to use for this checkout session.\nOnly allowed when `confirm` is true.\nIf provided, existing customer id must also be provided.\n\n- `product_collection_id?: string`\n  Product collection ID for collection-based checkout flow\n\n- `return_url?: string`\n  The url to redirect after payment failure or success.\n\n- `short_link?: boolean`\n  If true, returns a shortened checkout URL.\nDefaults to false if not specified.\n\n- `show_saved_payment_methods?: boolean`\n  Display saved payment methods of a returning customer False by default\n\n- `subscription_data?: { on_demand?: { mandate_only: boolean; adaptive_currency_fees_inclusive?: boolean; product_currency?: currency; product_description?: string; product_price?: number; }; trial_period_days?: number; }`\n  - `on_demand?: { mandate_only: boolean; adaptive_currency_fees_inclusive?: boolean; product_currency?: string; product_description?: string; product_price?: number; }`\n  - `trial_period_days?: number`\n    Optional trial period in days If specified, this value overrides the trial period set in the product's price Must be between 0 and 10000 days\n\n- `tax_id?: string`\n  Tax ID for the customer (e.g. VAT number). Requires billing_address with country.\n\n### Returns\n\n- `{ billing_country: string; currency: string; current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }; is_byop: boolean; payment_method_required: boolean; product_cart: { credit_entitlements: { credit_entitlement_id: string; credit_entitlement_name: string; credit_entitlement_unit: string; credits_amount: string; }[]; currency: string; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: { measurement_unit: string; name: string; price_per_unit: string; description?: string; free_threshold?: number; }[]; og_currency: string; og_price: number; product_id: string; quantity: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; addons?: { addon_id: string; currency: currency; discounted_price: number; name: string; og_currency: currency; og_price: number; quantity: number; single_quantity_price: number; tax_category: tax_category; tax_inclusive: boolean; tax_rate: number; description?: string; discount_amount?: number; tax?: number; }[]; description?: string; discount_amount?: number; discount_cycle?: number; monthly_equivalent?: number; name?: string; tax?: number; }[]; total_price: number; next_billing_date?: string; recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }; subscriptions?: { amount_due_now: number; product_id: string; recurring_amount: number; next_billing_date?: string; recurring_tax?: number; tax_due_now?: number; trial_period_days?: number; }[]; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }`\n  Data returned by the calculate checkout session API\n\n  - `billing_country: string`\n  - `currency: string`\n  - `current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }`\n  - `is_byop: boolean`\n  - `payment_method_required: boolean`\n  - `product_cart: { credit_entitlements: { credit_entitlement_id: string; credit_entitlement_name: string; credit_entitlement_unit: string; credits_amount: string; }[]; currency: string; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: { measurement_unit: string; name: string; price_per_unit: string; description?: string; free_threshold?: number; }[]; og_currency: string; og_price: number; product_id: string; quantity: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; addons?: { addon_id: string; currency: string; discounted_price: number; name: string; og_currency: string; og_price: number; quantity: number; single_quantity_price: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; description?: string; discount_amount?: number; tax?: number; }[]; description?: string; discount_amount?: number; discount_cycle?: number; monthly_equivalent?: number; name?: string; tax?: number; }[]`\n  - `total_price: number`\n  - `next_billing_date?: string`\n  - `recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }`\n  - `subscriptions?: { amount_due_now: number; product_id: string; recurring_amount: number; next_billing_date?: string; recurring_tax?: number; tax_due_now?: number; trial_period_days?: number; }[]`\n  - `tax_id_business_name?: string`\n  - `tax_id_err_msg?: string`\n  - `tax_id_format_name?: string`\n  - `total_tax?: number`\n  - `trial_amount?: number`\n  - `trial_period_days?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.checkoutSessions.preview({ product_cart: [{ product_id: 'product_id', quantity: 0 }] });\n\nconsole.log(response);\n```",
     perLanguage: {
       typescript: {
         method: 'client.checkoutSessions.preview',
@@ -261,7 +261,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.CheckoutSessions.Preview',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.CheckoutSessions.Preview(context.TODO(), dodopayments.CheckoutSessionPreviewParams{\n\t\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t\t}}),\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.TaxIDBusinessName)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.CheckoutSessions.Preview(context.TODO(), dodopayments.CheckoutSessionPreviewParams{\n    CheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n      ProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{dodopayments.ProductItemReqParam{\n        ProductID: dodopayments.F("product_id"),\n        Quantity: dodopayments.F(int64(0)),\n      }}),\n    },\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.TaxIDBusinessName)\n}\n',
       },
       ruby: {
         method: 'checkout_sessions.preview',
@@ -301,9 +301,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'subscription_id?: string;',
     ],
     response:
-      "{ brand_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; has_license_key: boolean; is_multi_subscription: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; retry_attempt: number; service_periods: { ends_at: string; starts_at: string; subscription_id: string; }[]; subscription_ids: string[]; total_amount: number; card_last_four?: string; card_network?: string; checkout_session_id?: string; dispute_status?: string; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: 'partial' | 'full'; status?: string; subscription_id?: string; }",
+      "{ brand_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; has_license_key: boolean; includes_usage: boolean; is_multi_subscription: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; retry_attempt: number; service_periods: { ends_at: string; proration_factor: string; starts_at: string; subscription_id: string; }[]; subscription_ids: string[]; total_amount: number; card_exp_month?: string; card_exp_year?: string; card_last_four?: string; card_network?: string; card_type?: string; charge_type?: 'new' | 'renewal' | 'plan_change' | 'on_demand'; checkout_session_id?: string; dispute_status?: string; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: 'partial' | 'full'; status?: string; subscription_id?: string; }",
     markdown:
-      "## list\n\n`client.payments.list(brand_id?: string, created_at_gte?: string, created_at_lte?: string, currency?: string, customer_id?: string, page_number?: number, page_size?: number, product_id?: string, status?: string, subscription_id?: string): { brand_id: string; created_at: string; currency: currency; customer: customer_limited_details; digital_products_delivered: boolean; has_license_key: boolean; is_multi_subscription: boolean; metadata: metadata; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; retry_attempt: number; service_periods: subscription_service_period[]; subscription_ids: string[]; total_amount: number; card_last_four?: string; card_network?: string; checkout_session_id?: string; dispute_status?: dispute_status; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: payment_refund_status; status?: intent_status; subscription_id?: string; }`\n\n**get** `/payments`\n\n### Parameters\n\n- `brand_id?: string`\n  filter by Brand id\n\n- `created_at_gte?: string`\n  Get events after this created time\n\n- `created_at_lte?: string`\n  Get events created before this time\n\n- `currency?: string`\n  Filter by currency\n\n- `customer_id?: string`\n  Filter by customer id\n\n- `page_number?: number`\n  Page number default is 0. Capped to bound OFFSET-based deep pagination,\nwhich forces Postgres to scan and discard every preceding row.\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n- `product_id?: string`\n  Filter by product id\n\n- `status?: string`\n  Filter by status\n\n- `subscription_id?: string`\n  Filter by subscription id\n\n### Returns\n\n- `{ brand_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; has_license_key: boolean; is_multi_subscription: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; retry_attempt: number; service_periods: { ends_at: string; starts_at: string; subscription_id: string; }[]; subscription_ids: string[]; total_amount: number; card_last_four?: string; card_network?: string; checkout_session_id?: string; dispute_status?: string; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: 'partial' | 'full'; status?: string; subscription_id?: string; }`\n\n  - `brand_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `digital_products_delivered: boolean`\n  - `has_license_key: boolean`\n  - `is_multi_subscription: boolean`\n  - `metadata: object`\n  - `payment_id: string`\n  - `payment_provider: 'stripe' | 'adyen' | 'dodo'`\n  - `retry_attempt: number`\n  - `service_periods: { ends_at: string; starts_at: string; subscription_id: string; }[]`\n  - `subscription_ids: string[]`\n  - `total_amount: number`\n  - `card_last_four?: string`\n  - `card_network?: string`\n  - `checkout_session_id?: string`\n  - `dispute_status?: string`\n  - `invoice_id?: string`\n  - `invoice_url?: string`\n  - `payment_method?: string`\n  - `payment_method_type?: string`\n  - `refund_status?: 'partial' | 'full'`\n  - `status?: string`\n  - `subscription_id?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const paymentListResponse of client.payments.list()) {\n  console.log(paymentListResponse);\n}\n```",
+      "## list\n\n`client.payments.list(brand_id?: string, created_at_gte?: string, created_at_lte?: string, currency?: string, customer_id?: string, page_number?: number, page_size?: number, product_id?: string, status?: string, subscription_id?: string): { brand_id: string; created_at: string; currency: currency; customer: customer_limited_details; digital_products_delivered: boolean; has_license_key: boolean; includes_usage: boolean; is_multi_subscription: boolean; metadata: metadata; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; retry_attempt: number; service_periods: subscription_service_period[]; subscription_ids: string[]; total_amount: number; card_exp_month?: string; card_exp_year?: string; card_last_four?: string; card_network?: string; card_type?: string; charge_type?: charge_type; checkout_session_id?: string; dispute_status?: dispute_status; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: payment_refund_status; status?: intent_status; subscription_id?: string; }`\n\n**get** `/payments`\n\n### Parameters\n\n- `brand_id?: string`\n  filter by Brand id\n\n- `created_at_gte?: string`\n  Get events after this created time\n\n- `created_at_lte?: string`\n  Get events created before this time\n\n- `currency?: string`\n  Filter by currency\n\n- `customer_id?: string`\n  Filter by customer id\n\n- `page_number?: number`\n  Page number default is 0. Capped to bound OFFSET-based deep pagination,\nwhich forces Postgres to scan and discard every preceding row.\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n- `product_id?: string`\n  Filter by product id\n\n- `status?: string`\n  Filter by status\n\n- `subscription_id?: string`\n  Filter by subscription id\n\n### Returns\n\n- `{ brand_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; has_license_key: boolean; includes_usage: boolean; is_multi_subscription: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; retry_attempt: number; service_periods: { ends_at: string; proration_factor: string; starts_at: string; subscription_id: string; }[]; subscription_ids: string[]; total_amount: number; card_exp_month?: string; card_exp_year?: string; card_last_four?: string; card_network?: string; card_type?: string; charge_type?: 'new' | 'renewal' | 'plan_change' | 'on_demand'; checkout_session_id?: string; dispute_status?: string; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: 'partial' | 'full'; status?: string; subscription_id?: string; }`\n\n  - `brand_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `digital_products_delivered: boolean`\n  - `has_license_key: boolean`\n  - `includes_usage: boolean`\n  - `is_multi_subscription: boolean`\n  - `metadata: object`\n  - `payment_id: string`\n  - `payment_provider: 'stripe' | 'adyen' | 'dodo'`\n  - `retry_attempt: number`\n  - `service_periods: { ends_at: string; proration_factor: string; starts_at: string; subscription_id: string; }[]`\n  - `subscription_ids: string[]`\n  - `total_amount: number`\n  - `card_exp_month?: string`\n  - `card_exp_year?: string`\n  - `card_last_four?: string`\n  - `card_network?: string`\n  - `card_type?: string`\n  - `charge_type?: 'new' | 'renewal' | 'plan_change' | 'on_demand'`\n  - `checkout_session_id?: string`\n  - `dispute_status?: string`\n  - `invoice_id?: string`\n  - `invoice_url?: string`\n  - `payment_method?: string`\n  - `payment_method_type?: string`\n  - `refund_status?: 'partial' | 'full'`\n  - `status?: string`\n  - `subscription_id?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const paymentListResponse of client.payments.list()) {\n  console.log(paymentListResponse);\n}\n```",
     perLanguage: {
       typescript: {
         method: 'client.payments.list',
@@ -332,7 +332,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Payments.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Payments.List(context.TODO(), dodopayments.PaymentListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Payments.List(context.TODO(), dodopayments.PaymentListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'payments.list',
@@ -412,7 +412,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Payments.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpayment, err := client.Payments.New(context.TODO(), dodopayments.PaymentNewParams{\n\t\tBilling: dodopayments.F(dodopayments.BillingAddressParam{\n\t\t\tCountry: dodopayments.F(dodopayments.CountryCodeAf),\n\t\t}),\n\t\tCustomer: dodopayments.F[dodopayments.CustomerRequestUnionParam](dodopayments.AttachExistingCustomerParam{\n\t\t\tCustomerID: dodopayments.F("customer_id"),\n\t\t}),\n\t\tProductCart: dodopayments.F([]dodopayments.OneTimeProductCartItemParam{{\n\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t}}),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", payment.PaymentID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  payment, err := client.Payments.New(context.TODO(), dodopayments.PaymentNewParams{\n    Billing: dodopayments.F(dodopayments.BillingAddressParam{\n      Country: dodopayments.F(dodopayments.CountryCodeAf),\n    }),\n    Customer: dodopayments.F[dodopayments.CustomerRequestUnionParam](dodopayments.AttachExistingCustomerParam{\n      CustomerID: dodopayments.F("customer_id"),\n    }),\n    ProductCart: dodopayments.F([]dodopayments.OneTimeProductCartItemParam{dodopayments.OneTimeProductCartItemParam{\n      ProductID: dodopayments.F("product_id"),\n      Quantity: dodopayments.F(int64(0)),\n    }}),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", payment.PaymentID)\n}\n',
       },
       ruby: {
         method: 'payments.create',
@@ -440,10 +440,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     stainlessPath: '(resource) payments > (method) retrieve',
     qualified: 'client.payments.retrieve',
     params: ['payment_id: string;'],
-    response:
-      "{ billing: object; brand_id: string; business_id: string; created_at: string; currency: string; customer: object; digital_products_delivered: boolean; disputes: object[]; is_multi_subscription: boolean; is_update_payment_method: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; refunds: object[]; retry_attempt: number; service_periods: object[]; settlement_amount: number; settlement_currency: string; subscription_ids: string[]; total_amount: number; card_holder_name?: string; card_issuing_country?: string; card_last_four?: string; card_network?: string; card_type?: string; checkout_session_id?: string; custom_field_responses?: object[]; discount_id?: string; discounts?: object[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_id?: string; payment_method_type?: string; product_cart?: { product_id: string; quantity: number; }[]; refund_status?: 'partial' | 'full'; settlement_tax?: number; status?: string; subscription_id?: string; tax?: number; updated_at?: string; }",
+    response: 'object',
     markdown:
-      "## retrieve\n\n`client.payments.retrieve(payment_id: string): { billing: billing_address; brand_id: string; business_id: string; created_at: string; currency: currency; customer: customer_limited_details; digital_products_delivered: boolean; disputes: dispute[]; is_multi_subscription: boolean; is_update_payment_method: boolean; metadata: metadata; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; refunds: refund_list_item[]; retry_attempt: number; service_periods: subscription_service_period[]; settlement_amount: number; settlement_currency: currency; subscription_ids: string[]; total_amount: number; card_holder_name?: string; card_issuing_country?: country_code; card_last_four?: string; card_network?: string; card_type?: string; checkout_session_id?: string; custom_field_responses?: custom_field_response[]; discount_id?: string; discounts?: discount_detail[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_id?: string; payment_method_type?: string; product_cart?: object[]; refund_status?: payment_refund_status; settlement_tax?: number; status?: intent_status; subscription_id?: string; tax?: number; updated_at?: string; }`\n\n**get** `/payments/{payment_id}`\n\n### Parameters\n\n- `payment_id: string`\n\n### Returns\n\n- `{ billing: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }; brand_id: string; business_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; disputes: { amount: string; business_id: string; created_at: string; currency: string; dispute_id: string; dispute_stage: dispute_stage; dispute_status: dispute_status; payment_id: string; is_resolved_by_rdr?: boolean; remarks?: string; }[]; is_multi_subscription: boolean; is_update_payment_method: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; refunds: { business_id: string; created_at: string; is_partial: boolean; payment_id: string; refund_id: string; status: refund_status; amount?: number; currency?: currency; network_reference?: string; network_reference_type?: refund_network_reference_type; network_reference_updated_at?: string; reason?: string; }[]; retry_attempt: number; service_periods: { ends_at: string; starts_at: string; subscription_id: string; }[]; settlement_amount: number; settlement_currency: string; subscription_ids: string[]; total_amount: number; card_holder_name?: string; card_issuing_country?: string; card_last_four?: string; card_network?: string; card_type?: string; checkout_session_id?: string; custom_field_responses?: { key: string; value: string; }[]; discount_id?: string; discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: metadata; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_id?: string; payment_method_type?: string; product_cart?: { product_id: string; quantity: number; }[]; refund_status?: 'partial' | 'full'; settlement_tax?: number; status?: string; subscription_id?: string; tax?: number; updated_at?: string; }`\n\n  - `billing: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  - `brand_id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `digital_products_delivered: boolean`\n  - `disputes: { amount: string; business_id: string; created_at: string; currency: string; dispute_id: string; dispute_stage: 'pre_dispute' | 'dispute' | 'pre_arbitration'; dispute_status: string; payment_id: string; is_resolved_by_rdr?: boolean; remarks?: string; }[]`\n  - `is_multi_subscription: boolean`\n  - `is_update_payment_method: boolean`\n  - `metadata: object`\n  - `payment_id: string`\n  - `payment_provider: 'stripe' | 'adyen' | 'dodo'`\n  - `refunds: { business_id: string; created_at: string; is_partial: boolean; payment_id: string; refund_id: string; status: 'succeeded' | 'failed' | 'pending' | 'review'; amount?: number; currency?: string; network_reference?: string; network_reference_type?: 'acquirer_reference_number' | 'system_trace_audit_number' | 'retrieval_reference_number' | 'other'; network_reference_updated_at?: string; reason?: string; }[]`\n  - `retry_attempt: number`\n  - `service_periods: { ends_at: string; starts_at: string; subscription_id: string; }[]`\n  - `settlement_amount: number`\n  - `settlement_currency: string`\n  - `subscription_ids: string[]`\n  - `total_amount: number`\n  - `card_holder_name?: string`\n  - `card_issuing_country?: string`\n  - `card_last_four?: string`\n  - `card_network?: string`\n  - `card_type?: string`\n  - `checkout_session_id?: string`\n  - `custom_field_responses?: { key: string; value: string; }[]`\n  - `discount_id?: string`\n  - `discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'flat' | 'percentage'; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]`\n  - `error_code?: string`\n  - `error_message?: string`\n  - `invoice_id?: string`\n  - `invoice_url?: string`\n  - `payment_link?: string`\n  - `payment_method?: string`\n  - `payment_method_id?: string`\n  - `payment_method_type?: string`\n  - `product_cart?: { product_id: string; quantity: number; }[]`\n  - `refund_status?: 'partial' | 'full'`\n  - `settlement_tax?: number`\n  - `status?: string`\n  - `subscription_id?: string`\n  - `tax?: number`\n  - `updated_at?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst payment = await client.payments.retrieve('pay_gr4RizvMOXFJ6xca3y2tU');\n\nconsole.log(payment);\n```",
+      "## retrieve\n\n`client.payments.retrieve(payment_id: string): { billing: billing_address; brand_id: string; business_id: string; created_at: string; currency: currency; customer: customer_limited_details; digital_products_delivered: boolean; disputes: dispute[]; includes_usage: boolean; is_multi_subscription: boolean; is_update_payment_method: boolean; metadata: metadata; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; refunds: refund_list_item[]; retry_attempt: number; service_periods: subscription_service_period[]; settlement_amount: number; settlement_currency: currency; subscription_ids: string[]; total_amount: number; card_exp_month?: string; card_exp_year?: string; card_holder_name?: string; card_issuing_country?: country_code; card_last_four?: string; card_network?: string; card_type?: string; charge_type?: charge_type; checkout_session_id?: string; custom_field_responses?: custom_field_response[]; discount_id?: string; discounts?: discount_detail[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_id?: string; payment_method_type?: string; product_cart?: object[]; refund_status?: payment_refund_status; settlement_tax?: number; status?: intent_status; subscription_id?: string; tax?: number; updated_at?: string; }`\n\n**get** `/payments/{payment_id}`\n\n### Parameters\n\n- `payment_id: string`\n\n### Returns\n\n- `{ billing: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }; brand_id: string; business_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; disputes: { amount: string; business_id: string; created_at: string; currency: string; dispute_id: string; dispute_stage: dispute_stage; dispute_status: dispute_status; payment_id: string; is_resolved_by_rdr?: boolean; remarks?: string; }[]; includes_usage: boolean; is_multi_subscription: boolean; is_update_payment_method: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; refunds: { business_id: string; created_at: string; is_partial: boolean; payment_id: string; refund_id: string; status: refund_status; amount?: number; currency?: currency; network_reference?: string; network_reference_type?: refund_network_reference_type; network_reference_updated_at?: string; reason?: string; }[]; retry_attempt: number; service_periods: { ends_at: string; proration_factor: string; starts_at: string; subscription_id: string; }[]; settlement_amount: number; settlement_currency: string; subscription_ids: string[]; total_amount: number; card_exp_month?: string; card_exp_year?: string; card_holder_name?: string; card_issuing_country?: string; card_last_four?: string; card_network?: string; card_type?: string; charge_type?: 'new' | 'renewal' | 'plan_change' | 'on_demand'; checkout_session_id?: string; custom_field_responses?: { key: string; value: string; }[]; discount_id?: string; discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: metadata; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_id?: string; payment_method_type?: string; product_cart?: { product_id: string; quantity: number; }[]; refund_status?: 'partial' | 'full'; settlement_tax?: number; status?: string; subscription_id?: string; tax?: number; updated_at?: string; }`\n\n  - `billing: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  - `brand_id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `digital_products_delivered: boolean`\n  - `disputes: { amount: string; business_id: string; created_at: string; currency: string; dispute_id: string; dispute_stage: 'pre_dispute' | 'dispute' | 'pre_arbitration'; dispute_status: string; payment_id: string; is_resolved_by_rdr?: boolean; remarks?: string; }[]`\n  - `includes_usage: boolean`\n  - `is_multi_subscription: boolean`\n  - `is_update_payment_method: boolean`\n  - `metadata: object`\n  - `payment_id: string`\n  - `payment_provider: 'stripe' | 'adyen' | 'dodo'`\n  - `refunds: { business_id: string; created_at: string; is_partial: boolean; payment_id: string; refund_id: string; status: 'succeeded' | 'failed' | 'pending' | 'review'; amount?: number; currency?: string; network_reference?: string; network_reference_type?: 'acquirer_reference_number' | 'system_trace_audit_number' | 'retrieval_reference_number' | 'other'; network_reference_updated_at?: string; reason?: string; }[]`\n  - `retry_attempt: number`\n  - `service_periods: { ends_at: string; proration_factor: string; starts_at: string; subscription_id: string; }[]`\n  - `settlement_amount: number`\n  - `settlement_currency: string`\n  - `subscription_ids: string[]`\n  - `total_amount: number`\n  - `card_exp_month?: string`\n  - `card_exp_year?: string`\n  - `card_holder_name?: string`\n  - `card_issuing_country?: string`\n  - `card_last_four?: string`\n  - `card_network?: string`\n  - `card_type?: string`\n  - `charge_type?: 'new' | 'renewal' | 'plan_change' | 'on_demand'`\n  - `checkout_session_id?: string`\n  - `custom_field_responses?: { key: string; value: string; }[]`\n  - `discount_id?: string`\n  - `discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'flat' | 'percentage'; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]`\n  - `error_code?: string`\n  - `error_message?: string`\n  - `invoice_id?: string`\n  - `invoice_url?: string`\n  - `payment_link?: string`\n  - `payment_method?: string`\n  - `payment_method_id?: string`\n  - `payment_method_type?: string`\n  - `product_cart?: { product_id: string; quantity: number; }[]`\n  - `refund_status?: 'partial' | 'full'`\n  - `settlement_tax?: number`\n  - `status?: string`\n  - `subscription_id?: string`\n  - `tax?: number`\n  - `updated_at?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst payment = await client.payments.retrieve('pay_gr4RizvMOXFJ6xca3y2tU');\n\nconsole.log(payment);\n```",
     perLanguage: {
       typescript: {
         method: 'client.payments.retrieve',
@@ -472,7 +471,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Payments.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpayment, err := client.Payments.Get(context.TODO(), "pay_gr4RizvMOXFJ6xca3y2tU")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", payment.BrandID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  payment, err := client.Payments.Get(context.TODO(), "pay_gr4RizvMOXFJ6xca3y2tU")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", payment.BrandID)\n}\n',
       },
       ruby: {
         method: 'payments.retrieve',
@@ -532,7 +531,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Payments.GetLineItems',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Payments.GetLineItems(context.TODO(), "pay_gr4RizvMOXFJ6xca3y2tU")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Currency)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Payments.GetLineItems(context.TODO(), "pay_gr4RizvMOXFJ6xca3y2tU")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.Currency)\n}\n',
       },
       ruby: {
         method: 'payments.retrieve_line_items',
@@ -592,7 +591,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Payments.Retry',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tmanualRetry, err := client.Payments.Retry(context.TODO(), "payment_id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", manualRetry.InvoiceID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  manualRetry, err := client.Payments.Retry(context.TODO(), "payment_id")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", manualRetry.InvoiceID)\n}\n',
       },
       ruby: {
         method: 'payments.retry_',
@@ -652,7 +651,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Payments.GetRetryState',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tmanualRetryState, err := client.Payments.GetRetryState(context.TODO(), "payment_id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", manualRetryState.CanRetry)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  manualRetryState, err := client.Payments.GetRetryState(context.TODO(), "payment_id")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", manualRetryState.CanRetry)\n}\n',
       },
       ruby: {
         method: 'payments.retrieve_retry_state',
@@ -722,7 +721,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Subscriptions.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Subscriptions.List(context.TODO(), dodopayments.SubscriptionListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Subscriptions.List(context.TODO(), dodopayments.SubscriptionListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'subscriptions.list',
@@ -807,7 +806,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Subscriptions.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tsubscription, err := client.Subscriptions.New(context.TODO(), dodopayments.SubscriptionNewParams{\n\t\tBilling: dodopayments.F(dodopayments.BillingAddressParam{\n\t\t\tCountry: dodopayments.F(dodopayments.CountryCodeAf),\n\t\t}),\n\t\tCustomer: dodopayments.F[dodopayments.CustomerRequestUnionParam](dodopayments.AttachExistingCustomerParam{\n\t\t\tCustomerID: dodopayments.F("customer_id"),\n\t\t}),\n\t\tProductID: dodopayments.F("product_id"),\n\t\tQuantity:  dodopayments.F(int64(0)),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", subscription.PaymentID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  subscription, err := client.Subscriptions.New(context.TODO(), dodopayments.SubscriptionNewParams{\n    Billing: dodopayments.F(dodopayments.BillingAddressParam{\n      Country: dodopayments.F(dodopayments.CountryCodeAf),\n    }),\n    Customer: dodopayments.F[dodopayments.CustomerRequestUnionParam](dodopayments.AttachExistingCustomerParam{\n      CustomerID: dodopayments.F("customer_id"),\n    }),\n    ProductID: dodopayments.F("product_id"),\n    Quantity: dodopayments.F(int64(0)),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", subscription.PaymentID)\n}\n',
       },
       ruby: {
         method: 'subscriptions.create',
@@ -866,7 +865,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Subscriptions.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tsubscription, err := client.Subscriptions.Get(context.TODO(), "sub_Iuaq622bbmmfOGrVTqdXv")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", subscription.BrandID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  subscription, err := client.Subscriptions.Get(context.TODO(), "sub_Iuaq622bbmmfOGrVTqdXv")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", subscription.BrandID)\n}\n',
       },
       ruby: {
         method: 'subscriptions.retrieve',
@@ -943,7 +942,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Subscriptions.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tsubscription, err := client.Subscriptions.Update(\n\t\tcontext.TODO(),\n\t\t"sub_Iuaq622bbmmfOGrVTqdXv",\n\t\tdodopayments.SubscriptionUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", subscription.BrandID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  subscription, err := client.Subscriptions.Update(\n    context.TODO(),\n    "sub_Iuaq622bbmmfOGrVTqdXv",\n    dodopayments.SubscriptionUpdateParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", subscription.BrandID)\n}\n',
       },
       ruby: {
         method: 'subscriptions.update',
@@ -1010,7 +1009,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Subscriptions.Charge',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Subscriptions.Charge(\n\t\tcontext.TODO(),\n\t\t"sub_Iuaq622bbmmfOGrVTqdXv",\n\t\tdodopayments.SubscriptionChargeParams{\n\t\t\tProductPrice: dodopayments.F(int64(0)),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.PaymentID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Subscriptions.Charge(\n    context.TODO(),\n    "sub_Iuaq622bbmmfOGrVTqdXv",\n    dodopayments.SubscriptionChargeParams{\n      ProductPrice: dodopayments.F(int64(0)),\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.PaymentID)\n}\n',
       },
       ruby: {
         method: 'subscriptions.charge',
@@ -1085,7 +1084,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Subscriptions.ChangePlan',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Subscriptions.ChangePlan(\n\t\tcontext.TODO(),\n\t\t"sub_Iuaq622bbmmfOGrVTqdXv",\n\t\tdodopayments.SubscriptionChangePlanParams{\n\t\t\tUpdateSubscriptionPlanReq: dodopayments.UpdateSubscriptionPlanReqParam{\n\t\t\t\tProductID:            dodopayments.F("product_id"),\n\t\t\t\tProrationBillingMode: dodopayments.F(dodopayments.UpdateSubscriptionPlanReqProrationBillingModeProratedImmediately),\n\t\t\t\tQuantity:             dodopayments.F(int64(0)),\n\t\t\t},\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.PaymentID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Subscriptions.ChangePlan(\n    context.TODO(),\n    "sub_Iuaq622bbmmfOGrVTqdXv",\n    dodopayments.SubscriptionChangePlanParams{\n      UpdateSubscriptionPlanReq: dodopayments.UpdateSubscriptionPlanReqParam{\n        ProductID: dodopayments.F("product_id"),\n        ProrationBillingMode: dodopayments.F(dodopayments.UpdateSubscriptionPlanReqProrationBillingModeProratedImmediately),\n        Quantity: dodopayments.F(int64(0)),\n      },\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.PaymentID)\n}\n',
       },
       ruby: {
         method: 'subscriptions.change_plan',
@@ -1153,7 +1152,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Subscriptions.GetUsageHistory',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Subscriptions.GetUsageHistory(\n\t\tcontext.TODO(),\n\t\t"sub_Iuaq622bbmmfOGrVTqdXv",\n\t\tdodopayments.SubscriptionGetUsageHistoryParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Subscriptions.GetUsageHistory(\n    context.TODO(),\n    "sub_Iuaq622bbmmfOGrVTqdXv",\n    dodopayments.SubscriptionGetUsageHistoryParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'subscriptions.retrieve_usage_history',
@@ -1215,7 +1214,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Subscriptions.UpdatePaymentMethod',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Subscriptions.UpdatePaymentMethod(\n\t\tcontext.TODO(),\n\t\t"sub_Iuaq622bbmmfOGrVTqdXv",\n\t\tdodopayments.SubscriptionUpdatePaymentMethodParams{\n\t\t\tPaymentMethod: dodopayments.SubscriptionUpdatePaymentMethodParamsPaymentMethodNew{\n\t\t\t\tType: dodopayments.F(dodopayments.SubscriptionUpdatePaymentMethodParamsPaymentMethodNewTypeNew),\n\t\t\t},\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.PaymentID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Subscriptions.UpdatePaymentMethod(\n    context.TODO(),\n    "sub_Iuaq622bbmmfOGrVTqdXv",\n    dodopayments.SubscriptionUpdatePaymentMethodParams{\n      PaymentMethod: dodopayments.SubscriptionUpdatePaymentMethodParamsPaymentMethodNew{\n        Type: dodopayments.F(dodopayments.SubscriptionUpdatePaymentMethodParamsPaymentMethodNewTypeNew),\n      },\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.PaymentID)\n}\n',
       },
       ruby: {
         method: 'subscriptions.update_payment_method',
@@ -1291,7 +1290,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Subscriptions.PreviewChangePlan',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Subscriptions.PreviewChangePlan(\n\t\tcontext.TODO(),\n\t\t"sub_Iuaq622bbmmfOGrVTqdXv",\n\t\tdodopayments.SubscriptionPreviewChangePlanParams{\n\t\t\tUpdateSubscriptionPlanReq: dodopayments.UpdateSubscriptionPlanReqParam{\n\t\t\t\tProductID:            dodopayments.F("product_id"),\n\t\t\t\tProrationBillingMode: dodopayments.F(dodopayments.UpdateSubscriptionPlanReqProrationBillingModeProratedImmediately),\n\t\t\t\tQuantity:             dodopayments.F(int64(0)),\n\t\t\t},\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ImmediateCharge)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Subscriptions.PreviewChangePlan(\n    context.TODO(),\n    "sub_Iuaq622bbmmfOGrVTqdXv",\n    dodopayments.SubscriptionPreviewChangePlanParams{\n      UpdateSubscriptionPlanReq: dodopayments.UpdateSubscriptionPlanReqParam{\n        ProductID: dodopayments.F("product_id"),\n        ProrationBillingMode: dodopayments.F(dodopayments.UpdateSubscriptionPlanReqProrationBillingModeProratedImmediately),\n        Quantity: dodopayments.F(int64(0)),\n      },\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.ImmediateCharge)\n}\n',
       },
       ruby: {
         method: 'subscriptions.preview_change_plan',
@@ -1351,7 +1350,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Subscriptions.GetCreditUsage',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Subscriptions.GetCreditUsage(context.TODO(), "sub_Iuaq622bbmmfOGrVTqdXv")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.SubscriptionID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Subscriptions.GetCreditUsage(context.TODO(), "sub_Iuaq622bbmmfOGrVTqdXv")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.SubscriptionID)\n}\n',
       },
       ruby: {
         method: 'subscriptions.retrieve_credit_usage',
@@ -1409,7 +1408,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Subscriptions.CancelChangePlan',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Subscriptions.CancelChangePlan(context.TODO(), "sub_Iuaq622bbmmfOGrVTqdXv")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Subscriptions.CancelChangePlan(context.TODO(), "sub_Iuaq622bbmmfOGrVTqdXv")\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'subscriptions.cancel_change_plan',
@@ -1436,10 +1435,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: '',
     stainlessPath: '(resource) invoices.payments > (method) retrieve',
     qualified: 'client.invoices.payments.retrieve',
-    params: ['payment_id: string;'],
+    params: ['payment_id: string;', 'token?: string;'],
     response: 'string',
     markdown:
-      "## retrieve\n\n`client.invoices.payments.retrieve(payment_id: string): string`\n\n**get** `/invoices/payments/{payment_id}`\n\n### Parameters\n\n- `payment_id: string`\n\n### Returns\n\n- `string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst payment = await client.invoices.payments.retrieve('pay_gr4RizvMOXFJ6xca3y2tU');\n\nconsole.log(payment);\n\nconst content = await payment.blob()\nconsole.log(content)\n```",
+      "## retrieve\n\n`client.invoices.payments.retrieve(payment_id: string, token?: string): string`\n\n**get** `/invoices/payments/{payment_id}`\n\n### Parameters\n\n- `payment_id: string`\n\n- `token?: string`\n  The signed link token. If the business asks for a credential on its invoice links, a valid token for this record replaces the credential.\n\n### Returns\n\n- `string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst payment = await client.invoices.payments.retrieve('pay_gr4RizvMOXFJ6xca3y2tU');\n\nconsole.log(payment);\n\nconst content = await payment.blob()\nconsole.log(content)\n```",
     perLanguage: {
       typescript: {
         method: 'client.invoices.payments.retrieve',
@@ -1453,7 +1452,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       python: {
         method: 'invoices.payments.retrieve',
         example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npayment = client.invoices.payments.retrieve(\n    "pay_gr4RizvMOXFJ6xca3y2tU",\n)\nprint(payment)\ncontent = payment.read()\nprint(content)',
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\npayment = client.invoices.payments.retrieve(\n    payment_id="pay_gr4RizvMOXFJ6xca3y2tU",\n)\nprint(payment)\ncontent = payment.read()\nprint(content)',
       },
       java: {
         method: 'invoices().payments().retrieve',
@@ -1468,7 +1467,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Invoices.Payments.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpayment, err := client.Invoices.Payments.Get(context.TODO(), "pay_gr4RizvMOXFJ6xca3y2tU")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", payment)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  payment, err := client.Invoices.Payments.Get(\n    context.TODO(),\n    "pay_gr4RizvMOXFJ6xca3y2tU",\n    dodopayments.InvoicePaymentGetParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", payment)\n}\n',
       },
       ruby: {
         method: 'invoices.payments.retrieve',
@@ -1478,7 +1477,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'invoices->payments->retrieve',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$payment = $client->invoices->payments->retrieve('pay_gr4RizvMOXFJ6xca3y2tU');\n\nvar_dump($payment);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$payment = $client->invoices->payments->retrieve(\n  'pay_gr4RizvMOXFJ6xca3y2tU', token: 'token'\n);\n\nvar_dump($payment);",
       },
       csharp: {
         method: 'Invoices.Payments.Retrieve',
@@ -1495,10 +1494,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: '',
     stainlessPath: '(resource) invoices.payments > (method) retrieve_refund',
     qualified: 'client.invoices.payments.retrieveRefund',
-    params: ['refund_id: string;'],
+    params: ['refund_id: string;', 'token?: string;'],
     response: 'string',
     markdown:
-      "## retrieve_refund\n\n`client.invoices.payments.retrieveRefund(refund_id: string): string`\n\n**get** `/invoices/refunds/{refund_id}`\n\n### Parameters\n\n- `refund_id: string`\n\n### Returns\n\n- `string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.invoices.payments.retrieveRefund('ref_F0gZetLvTxxBrMU2CZcmy');\n\nconsole.log(response);\n\nconst content = await response.blob()\nconsole.log(content)\n```",
+      "## retrieve_refund\n\n`client.invoices.payments.retrieveRefund(refund_id: string, token?: string): string`\n\n**get** `/invoices/refunds/{refund_id}`\n\n### Parameters\n\n- `refund_id: string`\n\n- `token?: string`\n  The signed link token. If the business asks for a credential on its invoice links, a valid token for this record replaces the credential.\n\n### Returns\n\n- `string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.invoices.payments.retrieveRefund('ref_F0gZetLvTxxBrMU2CZcmy');\n\nconsole.log(response);\n\nconst content = await response.blob()\nconsole.log(content)\n```",
     perLanguage: {
       typescript: {
         method: 'client.invoices.payments.retrieveRefund',
@@ -1512,7 +1511,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       python: {
         method: 'invoices.payments.retrieve_refund',
         example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.invoices.payments.retrieve_refund(\n    "ref_F0gZetLvTxxBrMU2CZcmy",\n)\nprint(response)\ncontent = response.read()\nprint(content)',
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.invoices.payments.retrieve_refund(\n    refund_id="ref_F0gZetLvTxxBrMU2CZcmy",\n)\nprint(response)\ncontent = response.read()\nprint(content)',
       },
       java: {
         method: 'invoices().payments().retrieveRefund',
@@ -1527,7 +1526,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Invoices.Payments.GetRefund',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Invoices.Payments.GetRefund(context.TODO(), "ref_F0gZetLvTxxBrMU2CZcmy")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Invoices.Payments.GetRefund(\n    context.TODO(),\n    "ref_F0gZetLvTxxBrMU2CZcmy",\n    dodopayments.InvoicePaymentGetRefundParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response)\n}\n',
       },
       ruby: {
         method: 'invoices.payments.retrieve_refund',
@@ -1537,7 +1536,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'invoices->payments->retrieveRefund',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->invoices->payments->retrieveRefund(\n  'ref_F0gZetLvTxxBrMU2CZcmy'\n);\n\nvar_dump($response);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->invoices->payments->retrieveRefund(\n  'ref_F0gZetLvTxxBrMU2CZcmy', token: 'token'\n);\n\nvar_dump($response);",
       },
       csharp: {
         method: 'Invoices.Payments.RetrieveRefund',
@@ -1554,10 +1553,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: '',
     stainlessPath: '(resource) invoices.payments > (method) retrieve_payout',
     qualified: 'client.invoices.payments.retrievePayout',
-    params: ['payout_id: string;'],
+    params: ['payout_id: string;', 'token?: string;'],
     response: 'string',
     markdown:
-      "## retrieve_payout\n\n`client.invoices.payments.retrievePayout(payout_id: string): string`\n\n**get** `/invoices/payouts/{payout_id}`\n\n### Parameters\n\n- `payout_id: string`\n\n### Returns\n\n- `string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.invoices.payments.retrievePayout('pyt_zFTrrn4sk3x3y2vjDBW3T');\n\nconsole.log(response);\n\nconst content = await response.blob()\nconsole.log(content)\n```",
+      "## retrieve_payout\n\n`client.invoices.payments.retrievePayout(payout_id: string, token?: string): string`\n\n**get** `/invoices/payouts/{payout_id}`\n\n### Parameters\n\n- `payout_id: string`\n\n- `token?: string`\n  The signed link token. If the business asks for a credential on its invoice links, a valid token for this record replaces the credential.\n\n### Returns\n\n- `string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.invoices.payments.retrievePayout('pyt_zFTrrn4sk3x3y2vjDBW3T');\n\nconsole.log(response);\n\nconst content = await response.blob()\nconsole.log(content)\n```",
     perLanguage: {
       typescript: {
         method: 'client.invoices.payments.retrievePayout',
@@ -1571,7 +1570,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       python: {
         method: 'invoices.payments.retrieve_payout',
         example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.invoices.payments.retrieve_payout(\n    "pyt_zFTrrn4sk3x3y2vjDBW3T",\n)\nprint(response)\ncontent = response.read()\nprint(content)',
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.invoices.payments.retrieve_payout(\n    payout_id="pyt_zFTrrn4sk3x3y2vjDBW3T",\n)\nprint(response)\ncontent = response.read()\nprint(content)',
       },
       java: {
         method: 'invoices().payments().retrievePayout',
@@ -1586,7 +1585,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Invoices.Payments.GetPayout',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Invoices.Payments.GetPayout(context.TODO(), "pyt_zFTrrn4sk3x3y2vjDBW3T")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Invoices.Payments.GetPayout(\n    context.TODO(),\n    "pyt_zFTrrn4sk3x3y2vjDBW3T",\n    dodopayments.InvoicePaymentGetPayoutParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response)\n}\n',
       },
       ruby: {
         method: 'invoices.payments.retrieve_payout',
@@ -1596,7 +1595,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'invoices->payments->retrievePayout',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->invoices->payments->retrievePayout(\n  'pyt_zFTrrn4sk3x3y2vjDBW3T'\n);\n\nvar_dump($response);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->invoices->payments->retrievePayout(\n  'pyt_zFTrrn4sk3x3y2vjDBW3T', token: 'token'\n);\n\nvar_dump($response);",
       },
       csharp: {
         method: 'Invoices.Payments.RetrievePayout',
@@ -1646,7 +1645,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Licenses.Activate',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Licenses.Activate(context.TODO(), dodopayments.LicenseActivateParams{\n\t\tLicenseKey: dodopayments.F("license_key"),\n\t\tName:       dodopayments.F("name"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Licenses.Activate(context.TODO(), dodopayments.LicenseActivateParams{\n    LicenseKey: dodopayments.F("license_key"),\n    Name: dodopayments.F("name"),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.ID)\n}\n',
       },
       ruby: {
         method: 'licenses.activate',
@@ -1704,7 +1703,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Licenses.Deactivate',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Licenses.Deactivate(context.TODO(), dodopayments.LicenseDeactivateParams{\n\t\tLicenseKey:           dodopayments.F("license_key"),\n\t\tLicenseKeyInstanceID: dodopayments.F("license_key_instance_id"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Licenses.Deactivate(context.TODO(), dodopayments.LicenseDeactivateParams{\n    LicenseKey: dodopayments.F("license_key"),\n    LicenseKeyInstanceID: dodopayments.F("license_key_instance_id"),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'licenses.deactivate',
@@ -1763,7 +1762,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Licenses.Validate',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Licenses.Validate(context.TODO(), dodopayments.LicenseValidateParams{\n\t\tLicenseKey: dodopayments.F("2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Valid)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Licenses.Validate(context.TODO(), dodopayments.LicenseValidateParams{\n    LicenseKey: dodopayments.F("2b1f8e2d-c41e-4e8f-b2d3-d9fd61c38f43"),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.Valid)\n}\n',
       },
       ruby: {
         method: 'licenses.validate',
@@ -1832,7 +1831,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.LicenseKeys.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.LicenseKeys.List(context.TODO(), dodopayments.LicenseKeyListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.LicenseKeys.List(context.TODO(), dodopayments.LicenseKeyListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'license_keys.list',
@@ -1892,7 +1891,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.LicenseKeys.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tlicenseKey, err := client.LicenseKeys.Get(context.TODO(), "lic_7namTC0VcgrnzrF3GTSwB")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", licenseKey.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  licenseKey, err := client.LicenseKeys.Get(context.TODO(), "lic_7namTC0VcgrnzrF3GTSwB")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", licenseKey.ID)\n}\n',
       },
       ruby: {
         method: 'license_keys.retrieve',
@@ -1952,7 +1951,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.LicenseKeys.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tlicenseKey, err := client.LicenseKeys.Update(\n\t\tcontext.TODO(),\n\t\t"lic_7namTC0VcgrnzrF3GTSwB",\n\t\tdodopayments.LicenseKeyUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", licenseKey.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  licenseKey, err := client.LicenseKeys.Update(\n    context.TODO(),\n    "lic_7namTC0VcgrnzrF3GTSwB",\n    dodopayments.LicenseKeyUpdateParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", licenseKey.ID)\n}\n',
       },
       ruby: {
         method: 'license_keys.update',
@@ -2018,7 +2017,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.LicenseKeys.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tlicenseKey, err := client.LicenseKeys.New(context.TODO(), dodopayments.LicenseKeyNewParams{\n\t\tCustomerID: dodopayments.F("customer_id"),\n\t\tKey:        dodopayments.F("key"),\n\t\tProductID:  dodopayments.F("product_id"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", licenseKey.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  licenseKey, err := client.LicenseKeys.New(context.TODO(), dodopayments.LicenseKeyNewParams{\n    CustomerID: dodopayments.F("customer_id"),\n    Key: dodopayments.F("key"),\n    ProductID: dodopayments.F("product_id"),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", licenseKey.ID)\n}\n',
       },
       ruby: {
         method: 'license_keys.create',
@@ -2083,7 +2082,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.LicenseKeyInstances.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.LicenseKeyInstances.List(context.TODO(), dodopayments.LicenseKeyInstanceListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.LicenseKeyInstances.List(context.TODO(), dodopayments.LicenseKeyInstanceListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'license_key_instances.list',
@@ -2143,7 +2142,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.LicenseKeyInstances.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tlicenseKeyInstance, err := client.LicenseKeyInstances.Get(context.TODO(), "lki_EeWORStkMc7z0KycI31VS")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", licenseKeyInstance.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  licenseKeyInstance, err := client.LicenseKeyInstances.Get(context.TODO(), "lki_EeWORStkMc7z0KycI31VS")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", licenseKeyInstance.ID)\n}\n',
       },
       ruby: {
         method: 'license_key_instances.retrieve',
@@ -2203,7 +2202,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.LicenseKeyInstances.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tlicenseKeyInstance, err := client.LicenseKeyInstances.Update(\n\t\tcontext.TODO(),\n\t\t"lki_EeWORStkMc7z0KycI31VS",\n\t\tdodopayments.LicenseKeyInstanceUpdateParams{\n\t\t\tName: dodopayments.F("name"),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", licenseKeyInstance.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  licenseKeyInstance, err := client.LicenseKeyInstances.Update(\n    context.TODO(),\n    "lki_EeWORStkMc7z0KycI31VS",\n    dodopayments.LicenseKeyInstanceUpdateParams{\n      Name: dodopayments.F("name"),\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", licenseKeyInstance.ID)\n}\n',
       },
       ruby: {
         method: 'license_key_instances.update',
@@ -2270,7 +2269,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Customers.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Customers.List(context.TODO(), dodopayments.CustomerListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Customers.List(context.TODO(), dodopayments.CustomerListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'customers.list',
@@ -2330,7 +2329,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Customers.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tcustomer, err := client.Customers.Get(context.TODO(), "cus_TV52uJWWXt2yIoBBxpjaa")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", customer.BusinessID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  customer, err := client.Customers.Get(context.TODO(), "cus_TV52uJWWXt2yIoBBxpjaa")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", customer.BusinessID)\n}\n',
       },
       ruby: {
         method: 'customers.retrieve',
@@ -2390,7 +2389,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Customers.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tcustomer, err := client.Customers.New(context.TODO(), dodopayments.CustomerNewParams{\n\t\tEmail: dodopayments.F("email"),\n\t\tName:  dodopayments.F("name"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", customer.BusinessID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  customer, err := client.Customers.New(context.TODO(), dodopayments.CustomerNewParams{\n    Email: dodopayments.F("email"),\n    Name: dodopayments.F("name"),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", customer.BusinessID)\n}\n',
       },
       ruby: {
         method: 'customers.create',
@@ -2456,7 +2455,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Customers.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tcustomer, err := client.Customers.Update(\n\t\tcontext.TODO(),\n\t\t"cus_TV52uJWWXt2yIoBBxpjaa",\n\t\tdodopayments.CustomerUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", customer.BusinessID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  customer, err := client.Customers.Update(\n    context.TODO(),\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n    dodopayments.CustomerUpdateParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", customer.BusinessID)\n}\n',
       },
       ruby: {
         method: 'customers.update',
@@ -2516,7 +2515,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Customers.GetPaymentMethods',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Customers.GetPaymentMethods(context.TODO(), "cus_TV52uJWWXt2yIoBBxpjaa")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Items)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Customers.GetPaymentMethods(context.TODO(), "cus_TV52uJWWXt2yIoBBxpjaa")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.Items)\n}\n',
       },
       ruby: {
         method: 'customers.retrieve_payment_methods',
@@ -2576,7 +2575,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Customers.ListCreditEntitlements',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Customers.ListCreditEntitlements(context.TODO(), "cus_TV52uJWWXt2yIoBBxpjaa")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Items)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Customers.ListCreditEntitlements(context.TODO(), "cus_TV52uJWWXt2yIoBBxpjaa")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.Items)\n}\n',
       },
       ruby: {
         method: 'customers.list_credit_entitlements',
@@ -2634,7 +2633,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Customers.DeletePaymentMethod',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Customers.DeletePaymentMethod(\n\t\tcontext.TODO(),\n\t\t"cus_TV52uJWWXt2yIoBBxpjaa",\n\t\t"payment_method_id",\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Customers.DeletePaymentMethod(\n    context.TODO(),\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n    "payment_method_id",\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'customers.delete_payment_method',
@@ -2694,7 +2693,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Customers.ListEntitlements',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Customers.ListEntitlements(context.TODO(), "cus_TV52uJWWXt2yIoBBxpjaa")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Items)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Customers.ListEntitlements(context.TODO(), "cus_TV52uJWWXt2yIoBBxpjaa")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.Items)\n}\n',
       },
       ruby: {
         method: 'customers.list_entitlements',
@@ -2760,7 +2759,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Customers.ListEntitlementGrants',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Customers.ListEntitlementGrants(\n\t\tcontext.TODO(),\n\t\t"cus_TV52uJWWXt2yIoBBxpjaa",\n\t\tdodopayments.CustomerListEntitlementGrantsParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Customers.ListEntitlementGrants(\n    context.TODO(),\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n    dodopayments.CustomerListEntitlementGrantsParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'customers.list_entitlement_grants',
@@ -2819,7 +2818,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Customers.CustomerPortal.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tcustomerPortalSession, err := client.Customers.CustomerPortal.New(\n\t\tcontext.TODO(),\n\t\t"cus_TV52uJWWXt2yIoBBxpjaa",\n\t\tdodopayments.CustomerCustomerPortalNewParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", customerPortalSession.Link)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  customerPortalSession, err := client.Customers.CustomerPortal.New(\n    context.TODO(),\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n    dodopayments.CustomerCustomerPortalNewParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", customerPortalSession.Link)\n}\n',
       },
       ruby: {
         method: 'customers.customer_portal.create',
@@ -2879,7 +2878,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Customers.Wallets.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\twallets, err := client.Customers.Wallets.List(context.TODO(), "cus_TV52uJWWXt2yIoBBxpjaa")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", wallets.Items)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  wallets, err := client.Customers.Wallets.List(context.TODO(), "cus_TV52uJWWXt2yIoBBxpjaa")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", wallets.Items)\n}\n',
       },
       ruby: {
         method: 'customers.wallets.list',
@@ -2939,7 +2938,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Customers.Wallets.LedgerEntries.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Customers.Wallets.LedgerEntries.List(\n\t\tcontext.TODO(),\n\t\t"cus_TV52uJWWXt2yIoBBxpjaa",\n\t\tdodopayments.CustomerWalletLedgerEntryListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Customers.Wallets.LedgerEntries.List(\n    context.TODO(),\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n    dodopayments.CustomerWalletLedgerEntryListParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'customers.wallets.ledger_entries.list',
@@ -3006,7 +3005,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Customers.Wallets.LedgerEntries.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tcustomerWallet, err := client.Customers.Wallets.LedgerEntries.New(\n\t\tcontext.TODO(),\n\t\t"cus_TV52uJWWXt2yIoBBxpjaa",\n\t\tdodopayments.CustomerWalletLedgerEntryNewParams{\n\t\t\tAmount:    dodopayments.F(int64(0)),\n\t\t\tCurrency:  dodopayments.F(dodopayments.CurrencyAed),\n\t\t\tEntryType: dodopayments.F(dodopayments.CustomerWalletLedgerEntryNewParamsEntryTypeCredit),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", customerWallet.CustomerID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  customerWallet, err := client.Customers.Wallets.LedgerEntries.New(\n    context.TODO(),\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n    dodopayments.CustomerWalletLedgerEntryNewParams{\n      Amount: dodopayments.F(int64(0)),\n      Currency: dodopayments.F(dodopayments.CurrencyAed),\n      EntryType: dodopayments.F(dodopayments.CustomerWalletLedgerEntryNewParamsEntryTypeCredit),\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", customerWallet.CustomerID)\n}\n',
       },
       ruby: {
         method: 'customers.wallets.ledger_entries.create',
@@ -3067,7 +3066,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Customers.Emails.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Customers.Emails.List(\n\t\tcontext.TODO(),\n\t\t"customer_id",\n\t\tdodopayments.CustomerEmailListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Customers.Emails.List(\n    context.TODO(),\n    "customer_id",\n    dodopayments.CustomerEmailListParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'customers.emails.list',
@@ -3128,7 +3127,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Customers.Emails.GetBody',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\temailBody, err := client.Customers.Emails.GetBody(\n\t\tcontext.TODO(),\n\t\t"customer_id",\n\t\t"email_log_id",\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", emailBody.MerchantAuthored)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  emailBody, err := client.Customers.Emails.GetBody(\n    context.TODO(),\n    "customer_id",\n    "email_log_id",\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", emailBody.MerchantAuthored)\n}\n',
       },
       ruby: {
         method: 'customers.emails.retrieve_body',
@@ -3195,7 +3194,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Blocklist.Customers.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Blocklist.Customers.List(context.TODO(), dodopayments.BlocklistCustomerListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Blocklist.Customers.List(context.TODO(), dodopayments.BlocklistCustomerListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'blocklist.customers.list',
@@ -3253,7 +3252,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Blocklist.Customers.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tblockedCustomer, err := client.Blocklist.Customers.New(context.TODO(), dodopayments.BlocklistCustomerNewParams{\n\t\tCreateBlockedCustomerRequest: dodopayments.CreateBlockedCustomerRequestBlocklistCustomersBlockByCustomerIDParam(dodopayments.CreateBlockedCustomerRequestBlocklistCustomersBlockByCustomerIDParam{\n\t\t\tBlockByCustomerIDParam: dodopayments.BlockByCustomerIDParam{\n\t\t\t\tCustomerID: dodopayments.F("customer_id"),\n\t\t\t},\n\t\t}),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", blockedCustomer.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  blockedCustomer, err := client.Blocklist.Customers.New(context.TODO(), dodopayments.BlocklistCustomerNewParams{\n    CreateBlockedCustomerRequest: dodopayments.CreateBlockedCustomerRequestBlocklistCustomersBlockByCustomerIDParam(dodopayments.CreateBlockedCustomerRequestBlocklistCustomersBlockByCustomerIDParam{\n      BlockByCustomerIDParam: dodopayments.BlockByCustomerIDParam{\n        CustomerID: dodopayments.F("customer_id"),\n      },\n    }),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", blockedCustomer.ID)\n}\n',
       },
       ruby: {
         method: 'blocklist.customers.create',
@@ -3313,7 +3312,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Blocklist.Customers.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tblockedCustomer, err := client.Blocklist.Customers.Get(context.TODO(), "entry_id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", blockedCustomer.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  blockedCustomer, err := client.Blocklist.Customers.Get(context.TODO(), "entry_id")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", blockedCustomer.ID)\n}\n',
       },
       ruby: {
         method: 'blocklist.customers.retrieve',
@@ -3371,7 +3370,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Blocklist.Customers.Delete',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Blocklist.Customers.Delete(context.TODO(), "entry_id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Blocklist.Customers.Delete(context.TODO(), "entry_id")\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'blocklist.customers.delete',
@@ -3430,7 +3429,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Blocklist.Customers.Notes.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tblockedCustomerNote, err := client.Blocklist.Customers.Notes.New(\n\t\tcontext.TODO(),\n\t\t"entry_id",\n\t\tdodopayments.BlocklistCustomerNoteNewParams{\n\t\t\tNoteRequest: dodopayments.NoteRequestParam{\n\t\t\t\tNote: dodopayments.F("note"),\n\t\t\t},\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", blockedCustomerNote.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  blockedCustomerNote, err := client.Blocklist.Customers.Notes.New(\n    context.TODO(),\n    "entry_id",\n    dodopayments.BlocklistCustomerNoteNewParams{\n      NoteRequest: dodopayments.NoteRequestParam{\n        Note: dodopayments.F("note"),\n      },\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", blockedCustomerNote.ID)\n}\n',
       },
       ruby: {
         method: 'blocklist.customers.notes.create',
@@ -3489,7 +3488,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Blocklist.Customers.Notes.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tblockedCustomerNote, err := client.Blocklist.Customers.Notes.Update(\n\t\tcontext.TODO(),\n\t\t"entry_id",\n\t\t"note_id",\n\t\tdodopayments.BlocklistCustomerNoteUpdateParams{\n\t\t\tNoteRequest: dodopayments.NoteRequestParam{\n\t\t\t\tNote: dodopayments.F("note"),\n\t\t\t},\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", blockedCustomerNote.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  blockedCustomerNote, err := client.Blocklist.Customers.Notes.Update(\n    context.TODO(),\n    "entry_id",\n    "note_id",\n    dodopayments.BlocklistCustomerNoteUpdateParams{\n      NoteRequest: dodopayments.NoteRequestParam{\n        Note: dodopayments.F("note"),\n      },\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", blockedCustomerNote.ID)\n}\n',
       },
       ruby: {
         method: 'blocklist.customers.notes.update',
@@ -3557,7 +3556,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Refunds.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Refunds.List(context.TODO(), dodopayments.RefundListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Refunds.List(context.TODO(), dodopayments.RefundListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'refunds.list',
@@ -3622,7 +3621,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Refunds.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\trefund, err := client.Refunds.New(context.TODO(), dodopayments.RefundNewParams{\n\t\tPaymentID: dodopayments.F("payment_id"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", refund.BrandID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  refund, err := client.Refunds.New(context.TODO(), dodopayments.RefundNewParams{\n    PaymentID: dodopayments.F("payment_id"),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", refund.BrandID)\n}\n',
       },
       ruby: {
         method: 'refunds.create',
@@ -3682,7 +3681,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Refunds.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\trefund, err := client.Refunds.Get(context.TODO(), "ref_F0gZetLvTxxBrMU2CZcmy")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", refund.BrandID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  refund, err := client.Refunds.Get(context.TODO(), "ref_F0gZetLvTxxBrMU2CZcmy")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", refund.BrandID)\n}\n',
       },
       ruby: {
         method: 'refunds.retrieve',
@@ -3750,7 +3749,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Disputes.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Disputes.List(context.TODO(), dodopayments.DisputeListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Disputes.List(context.TODO(), dodopayments.DisputeListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'disputes.list',
@@ -3810,7 +3809,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Disputes.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tgetDispute, err := client.Disputes.Get(context.TODO(), "dispute_id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", getDispute.BrandID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  getDispute, err := client.Disputes.Get(context.TODO(), "dispute_id")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", getDispute.BrandID)\n}\n',
       },
       ruby: {
         method: 'disputes.retrieve',
@@ -3875,7 +3874,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Payouts.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Payouts.List(context.TODO(), dodopayments.PayoutListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Payouts.List(context.TODO(), dodopayments.PayoutListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'payouts.list',
@@ -3935,7 +3934,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Payouts.Breakup.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tbreakups, err := client.Payouts.Breakup.Get(context.TODO(), "pyt_zFTrrn4sk3x3y2vjDBW3T")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", breakups)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  breakups, err := client.Payouts.Breakup.Get(context.TODO(), "pyt_zFTrrn4sk3x3y2vjDBW3T")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", breakups)\n}\n',
       },
       ruby: {
         method: 'payouts.breakup.retrieve',
@@ -3996,7 +3995,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Payouts.Breakup.Details.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Payouts.Breakup.Details.List(\n\t\tcontext.TODO(),\n\t\t"pyt_zFTrrn4sk3x3y2vjDBW3T",\n\t\tdodopayments.PayoutBreakupDetailListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Payouts.Breakup.Details.List(\n    context.TODO(),\n    "pyt_zFTrrn4sk3x3y2vjDBW3T",\n    dodopayments.PayoutBreakupDetailListParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'payouts.breakup.details.list',
@@ -4055,7 +4054,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Payouts.Breakup.Details.DownloadCsv',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Payouts.Breakup.Details.DownloadCsv(context.TODO(), "pyt_zFTrrn4sk3x3y2vjDBW3T")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Payouts.Breakup.Details.DownloadCsv(context.TODO(), "pyt_zFTrrn4sk3x3y2vjDBW3T")\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'payouts.breakup.details.download_csv',
@@ -4121,7 +4120,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Products.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Products.List(context.TODO(), dodopayments.ProductListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Products.List(context.TODO(), dodopayments.ProductListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'products.list',
@@ -4197,7 +4196,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Products.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tproduct, err := client.Products.New(context.TODO(), dodopayments.ProductNewParams{\n\t\tName: dodopayments.F("name"),\n\t\tPrice: dodopayments.F[dodopayments.PriceUnionParam](dodopayments.PriceOneTimePriceParam{\n\t\t\tCurrency: dodopayments.F(dodopayments.CurrencyAed),\n\t\t\tPrice:    dodopayments.F(int64(0)),\n\t\t\tType:     dodopayments.F(dodopayments.PriceOneTimePriceTypeOneTimePrice),\n\t\t}),\n\t\tTaxCategory: dodopayments.F(dodopayments.TaxCategoryDigitalProducts),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", product.BrandID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  product, err := client.Products.New(context.TODO(), dodopayments.ProductNewParams{\n    Name: dodopayments.F("name"),\n    Price: dodopayments.F[dodopayments.PriceUnionParam](dodopayments.PriceOneTimePriceParam{\n      Currency: dodopayments.F(dodopayments.CurrencyAed),\n      Price: dodopayments.F(int64(0)),\n      Type: dodopayments.F(dodopayments.PriceOneTimePriceTypeOneTimePrice),\n    }),\n    TaxCategory: dodopayments.F(dodopayments.TaxCategoryDigitalProducts),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", product.BrandID)\n}\n',
       },
       ruby: {
         method: 'products.create',
@@ -4257,7 +4256,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Products.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tproduct, err := client.Products.Get(context.TODO(), "pdt_R8AWMPiV8RyJElcCKvAID")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", product.BrandID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  product, err := client.Products.Get(context.TODO(), "pdt_R8AWMPiV8RyJElcCKvAID")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", product.BrandID)\n}\n',
       },
       ruby: {
         method: 'products.retrieve',
@@ -4333,7 +4332,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Products.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Products.Update(\n\t\tcontext.TODO(),\n\t\t"pdt_R8AWMPiV8RyJElcCKvAID",\n\t\tdodopayments.ProductUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Products.Update(\n    context.TODO(),\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n    dodopayments.ProductUpdateParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'products.update',
@@ -4391,7 +4390,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Products.Archive',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Products.Archive(context.TODO(), "pdt_R8AWMPiV8RyJElcCKvAID")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Products.Archive(context.TODO(), "pdt_R8AWMPiV8RyJElcCKvAID")\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'products.archive',
@@ -4449,7 +4448,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Products.Unarchive',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Products.Unarchive(context.TODO(), "pdt_R8AWMPiV8RyJElcCKvAID")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Products.Unarchive(context.TODO(), "pdt_R8AWMPiV8RyJElcCKvAID")\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'products.unarchive',
@@ -4508,7 +4507,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Products.UpdateFiles',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Products.UpdateFiles(\n\t\tcontext.TODO(),\n\t\t"pdt_R8AWMPiV8RyJElcCKvAID",\n\t\tdodopayments.ProductUpdateFilesParams{\n\t\t\tFileName: dodopayments.F("file_name"),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.FileID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Products.UpdateFiles(\n    context.TODO(),\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n    dodopayments.ProductUpdateFilesParams{\n      FileName: dodopayments.F("file_name"),\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.FileID)\n}\n',
       },
       ruby: {
         method: 'products.update_files',
@@ -4567,7 +4566,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Products.Images.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\timage, err := client.Products.Images.Update(\n\t\tcontext.TODO(),\n\t\t"pdt_R8AWMPiV8RyJElcCKvAID",\n\t\tdodopayments.ProductImageUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", image.ImageID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  image, err := client.Products.Images.Update(\n    context.TODO(),\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n    dodopayments.ProductImageUpdateParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", image.ImageID)\n}\n',
       },
       ruby: {
         method: 'products.images.update',
@@ -4626,7 +4625,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Products.ShortLinks.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Products.ShortLinks.List(context.TODO(), dodopayments.ProductShortLinkListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Products.ShortLinks.List(context.TODO(), dodopayments.ProductShortLinkListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'products.short_links.list',
@@ -4687,7 +4686,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Products.ShortLinks.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tshortLink, err := client.Products.ShortLinks.New(\n\t\tcontext.TODO(),\n\t\t"pdt_R8AWMPiV8RyJElcCKvAID",\n\t\tdodopayments.ProductShortLinkNewParams{\n\t\t\tSlug: dodopayments.F("slug"),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", shortLink.FullURL)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  shortLink, err := client.Products.ShortLinks.New(\n    context.TODO(),\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n    dodopayments.ProductShortLinkNewParams{\n      Slug: dodopayments.F("slug"),\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", shortLink.FullURL)\n}\n',
       },
       ruby: {
         method: 'products.short_links.create',
@@ -4747,7 +4746,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Products.LocalizedPrices.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tlistLocalizedPricesResponse, err := client.Products.LocalizedPrices.List(context.TODO(), "pdt_R8AWMPiV8RyJElcCKvAID")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", listLocalizedPricesResponse.Items)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  listLocalizedPricesResponse, err := client.Products.LocalizedPrices.List(context.TODO(), "pdt_R8AWMPiV8RyJElcCKvAID")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", listLocalizedPricesResponse.Items)\n}\n',
       },
       ruby: {
         method: 'products.localized_prices.list',
@@ -4807,7 +4806,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Products.LocalizedPrices.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tlocalizedPrice, err := client.Products.LocalizedPrices.New(\n\t\tcontext.TODO(),\n\t\t"pdt_R8AWMPiV8RyJElcCKvAID",\n\t\tdodopayments.ProductLocalizedPriceNewParams{\n\t\t\tAmount:   dodopayments.F(int64(0)),\n\t\t\tCurrency: dodopayments.F(dodopayments.CurrencyAed),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", localizedPrice.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  localizedPrice, err := client.Products.LocalizedPrices.New(\n    context.TODO(),\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n    dodopayments.ProductLocalizedPriceNewParams{\n      Amount: dodopayments.F(int64(0)),\n      Currency: dodopayments.F(dodopayments.CurrencyAed),\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", localizedPrice.ID)\n}\n',
       },
       ruby: {
         method: 'products.localized_prices.create',
@@ -4867,7 +4866,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Products.LocalizedPrices.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tlocalizedPrice, err := client.Products.LocalizedPrices.Get(\n\t\tcontext.TODO(),\n\t\t"pdt_R8AWMPiV8RyJElcCKvAID",\n\t\t"lcp_3aOOT7ebrzBOV41yL2V6s",\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", localizedPrice.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  localizedPrice, err := client.Products.LocalizedPrices.Get(\n    context.TODO(),\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n    "lcp_3aOOT7ebrzBOV41yL2V6s",\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", localizedPrice.ID)\n}\n',
       },
       ruby: {
         method: 'products.localized_prices.retrieve',
@@ -4927,7 +4926,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Products.LocalizedPrices.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tlocalizedPrice, err := client.Products.LocalizedPrices.Update(\n\t\tcontext.TODO(),\n\t\t"pdt_R8AWMPiV8RyJElcCKvAID",\n\t\t"lcp_3aOOT7ebrzBOV41yL2V6s",\n\t\tdodopayments.ProductLocalizedPriceUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", localizedPrice.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  localizedPrice, err := client.Products.LocalizedPrices.Update(\n    context.TODO(),\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n    "lcp_3aOOT7ebrzBOV41yL2V6s",\n    dodopayments.ProductLocalizedPriceUpdateParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", localizedPrice.ID)\n}\n',
       },
       ruby: {
         method: 'products.localized_prices.update',
@@ -4985,7 +4984,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Products.LocalizedPrices.Archive',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Products.LocalizedPrices.Archive(\n\t\tcontext.TODO(),\n\t\t"pdt_R8AWMPiV8RyJElcCKvAID",\n\t\t"lcp_3aOOT7ebrzBOV41yL2V6s",\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Products.LocalizedPrices.Archive(\n    context.TODO(),\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n    "lcp_3aOOT7ebrzBOV41yL2V6s",\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'products.localized_prices.archive',
@@ -5043,7 +5042,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Misc.ListSupportedCountries',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tcountryCodes, err := client.Misc.ListSupportedCountries(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", countryCodes)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  countryCodes, err := client.Misc.ListSupportedCountries(context.TODO())\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", countryCodes)\n}\n',
       },
       ruby: {
         method: 'misc.list_supported_countries',
@@ -5110,7 +5109,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Discounts.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Discounts.List(context.TODO(), dodopayments.DiscountListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Discounts.List(context.TODO(), dodopayments.DiscountListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'discounts.list',
@@ -5186,7 +5185,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Discounts.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tdiscount, err := client.Discounts.New(context.TODO(), dodopayments.DiscountNewParams{\n\t\tAmount: dodopayments.F(int64(0)),\n\t\tType:   dodopayments.F(dodopayments.DiscountTypeFlat),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", discount.BusinessID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  discount, err := client.Discounts.New(context.TODO(), dodopayments.DiscountNewParams{\n    Amount: dodopayments.F(int64(0)),\n    Type: dodopayments.F(dodopayments.DiscountTypeFlat),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", discount.BusinessID)\n}\n',
       },
       ruby: {
         method: 'discounts.create',
@@ -5246,7 +5245,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Discounts.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tdiscount, err := client.Discounts.Get(context.TODO(), "dsc_qxxEmg5PuM1uNTE0LgkP9")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", discount.BusinessID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  discount, err := client.Discounts.Get(context.TODO(), "dsc_qxxEmg5PuM1uNTE0LgkP9")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", discount.BusinessID)\n}\n',
       },
       ruby: {
         method: 'discounts.retrieve',
@@ -5304,7 +5303,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Discounts.Delete',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Discounts.Delete(context.TODO(), "dsc_qxxEmg5PuM1uNTE0LgkP9")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Discounts.Delete(context.TODO(), "dsc_qxxEmg5PuM1uNTE0LgkP9")\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'discounts.delete',
@@ -5380,7 +5379,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Discounts.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tdiscount, err := client.Discounts.Update(\n\t\tcontext.TODO(),\n\t\t"dsc_qxxEmg5PuM1uNTE0LgkP9",\n\t\tdodopayments.DiscountUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", discount.BusinessID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  discount, err := client.Discounts.Update(\n    context.TODO(),\n    "dsc_qxxEmg5PuM1uNTE0LgkP9",\n    dodopayments.DiscountUpdateParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", discount.BusinessID)\n}\n',
       },
       ruby: {
         method: 'discounts.update',
@@ -5441,7 +5440,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Discounts.GetByCode',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tdiscount, err := client.Discounts.GetByCode(context.TODO(), "code")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", discount.BusinessID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  discount, err := client.Discounts.GetByCode(context.TODO(), "code")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", discount.BusinessID)\n}\n',
       },
       ruby: {
         method: 'discounts.retrieve_by_code',
@@ -5501,7 +5500,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Addons.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Addons.List(context.TODO(), dodopayments.AddonListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Addons.List(context.TODO(), dodopayments.AddonListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'addons.list',
@@ -5567,7 +5566,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Addons.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\taddonResponse, err := client.Addons.New(context.TODO(), dodopayments.AddonNewParams{\n\t\tCurrency:    dodopayments.F(dodopayments.CurrencyAed),\n\t\tName:        dodopayments.F("name"),\n\t\tPrice:       dodopayments.F(int64(0)),\n\t\tTaxCategory: dodopayments.F(dodopayments.TaxCategoryDigitalProducts),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", addonResponse.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  addonResponse, err := client.Addons.New(context.TODO(), dodopayments.AddonNewParams{\n    Currency: dodopayments.F(dodopayments.CurrencyAed),\n    Name: dodopayments.F("name"),\n    Price: dodopayments.F(int64(0)),\n    TaxCategory: dodopayments.F(dodopayments.TaxCategoryDigitalProducts),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", addonResponse.ID)\n}\n',
       },
       ruby: {
         method: 'addons.create',
@@ -5627,7 +5626,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Addons.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\taddonResponse, err := client.Addons.Get(context.TODO(), "adn_NX1zdqW4Hbivsqz8vI9dc")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", addonResponse.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  addonResponse, err := client.Addons.Get(context.TODO(), "adn_NX1zdqW4Hbivsqz8vI9dc")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", addonResponse.ID)\n}\n',
       },
       ruby: {
         method: 'addons.retrieve',
@@ -5695,7 +5694,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Addons.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\taddonResponse, err := client.Addons.Update(\n\t\tcontext.TODO(),\n\t\t"adn_NX1zdqW4Hbivsqz8vI9dc",\n\t\tdodopayments.AddonUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", addonResponse.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  addonResponse, err := client.Addons.Update(\n    context.TODO(),\n    "adn_NX1zdqW4Hbivsqz8vI9dc",\n    dodopayments.AddonUpdateParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", addonResponse.ID)\n}\n',
       },
       ruby: {
         method: 'addons.update',
@@ -5754,7 +5753,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Addons.UpdateImages',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Addons.UpdateImages(context.TODO(), "adn_NX1zdqW4Hbivsqz8vI9dc")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ImageID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Addons.UpdateImages(context.TODO(), "adn_NX1zdqW4Hbivsqz8vI9dc")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.ImageID)\n}\n',
       },
       ruby: {
         method: 'addons.update_images',
@@ -5814,7 +5813,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Brands.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tbrands, err := client.Brands.List(context.TODO(), dodopayments.BrandListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", brands.Items)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  brands, err := client.Brands.List(context.TODO(), dodopayments.BrandListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", brands.Items)\n}\n',
       },
       ruby: {
         method: 'brands.list',
@@ -5880,7 +5879,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Brands.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tbrand, err := client.Brands.New(context.TODO(), dodopayments.BrandNewParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", brand.BrandID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  brand, err := client.Brands.New(context.TODO(), dodopayments.BrandNewParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", brand.BrandID)\n}\n',
       },
       ruby: {
         method: 'brands.create',
@@ -5940,7 +5939,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Brands.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tbrand, err := client.Brands.Get(context.TODO(), "brnd_8dFiAW42v28JzhlVSocjq")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", brand.BrandID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  brand, err := client.Brands.Get(context.TODO(), "brnd_8dFiAW42v28JzhlVSocjq")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", brand.BrandID)\n}\n',
       },
       ruby: {
         method: 'brands.retrieve',
@@ -6008,7 +6007,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Brands.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tbrand, err := client.Brands.Update(\n\t\tcontext.TODO(),\n\t\t"brnd_8dFiAW42v28JzhlVSocjq",\n\t\tdodopayments.BrandUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", brand.BrandID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  brand, err := client.Brands.Update(\n    context.TODO(),\n    "brnd_8dFiAW42v28JzhlVSocjq",\n    dodopayments.BrandUpdateParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", brand.BrandID)\n}\n',
       },
       ruby: {
         method: 'brands.update',
@@ -6067,7 +6066,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Brands.UpdateImages',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Brands.UpdateImages(context.TODO(), "brnd_8dFiAW42v28JzhlVSocjq")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ImageID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Brands.UpdateImages(context.TODO(), "brnd_8dFiAW42v28JzhlVSocjq")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.ImageID)\n}\n',
       },
       ruby: {
         method: 'brands.update_images',
@@ -6129,7 +6128,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Brands.Archive',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Brands.Archive(\n\t\tcontext.TODO(),\n\t\t"brnd_8dFiAW42v28JzhlVSocjq",\n\t\tdodopayments.BrandArchiveParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.BrandID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Brands.Archive(\n    context.TODO(),\n    "brnd_8dFiAW42v28JzhlVSocjq",\n    dodopayments.BrandArchiveParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.BrandID)\n}\n',
       },
       ruby: {
         method: 'brands.archive',
@@ -6189,7 +6188,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Webhooks.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Webhooks.List(context.TODO(), dodopayments.WebhookListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Webhooks.List(context.TODO(), dodopayments.WebhookListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'webhooks.list',
@@ -6258,7 +6257,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Webhooks.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\twebhookDetails, err := client.Webhooks.New(context.TODO(), dodopayments.WebhookNewParams{\n\t\tURL: dodopayments.F("url"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", webhookDetails.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  webhookDetails, err := client.Webhooks.New(context.TODO(), dodopayments.WebhookNewParams{\n    URL: dodopayments.F("url"),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", webhookDetails.ID)\n}\n',
       },
       ruby: {
         method: 'webhooks.create',
@@ -6318,7 +6317,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Webhooks.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\twebhookDetails, err := client.Webhooks.Get(context.TODO(), "whk_YdWqVEGKmSYKbsIyDxEab")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", webhookDetails.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  webhookDetails, err := client.Webhooks.Get(context.TODO(), "whk_YdWqVEGKmSYKbsIyDxEab")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", webhookDetails.ID)\n}\n',
       },
       ruby: {
         method: 'webhooks.retrieve',
@@ -6376,7 +6375,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Webhooks.Delete',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Webhooks.Delete(context.TODO(), "whk_YdWqVEGKmSYKbsIyDxEab")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Webhooks.Delete(context.TODO(), "whk_YdWqVEGKmSYKbsIyDxEab")\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'webhooks.delete',
@@ -6444,7 +6443,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Webhooks.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\twebhookDetails, err := client.Webhooks.Update(\n\t\tcontext.TODO(),\n\t\t"whk_YdWqVEGKmSYKbsIyDxEab",\n\t\tdodopayments.WebhookUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", webhookDetails.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  webhookDetails, err := client.Webhooks.Update(\n    context.TODO(),\n    "whk_YdWqVEGKmSYKbsIyDxEab",\n    dodopayments.WebhookUpdateParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", webhookDetails.ID)\n}\n',
       },
       ruby: {
         method: 'webhooks.update',
@@ -6503,7 +6502,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Webhooks.GetSecret',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Webhooks.GetSecret(context.TODO(), "whk_YdWqVEGKmSYKbsIyDxEab")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Secret)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Webhooks.GetSecret(context.TODO(), "whk_YdWqVEGKmSYKbsIyDxEab")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.Secret)\n}\n',
       },
       ruby: {
         method: 'webhooks.retrieve_secret',
@@ -6552,7 +6551,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Webhooks.Unwrap',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Webhooks.Unwrap(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Webhooks.Unwrap(context.TODO())\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'webhooks.unwrap',
@@ -6596,7 +6595,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Webhooks.UnsafeUnwrap',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Webhooks.UnsafeUnwrap(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Webhooks.UnsafeUnwrap(context.TODO())\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'webhooks.unsafe_unwrap',
@@ -6650,7 +6649,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Webhooks.Headers.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\theader, err := client.Webhooks.Headers.Get(context.TODO(), "whk_YdWqVEGKmSYKbsIyDxEab")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", header.Headers)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  header, err := client.Webhooks.Headers.Get(context.TODO(), "whk_YdWqVEGKmSYKbsIyDxEab")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", header.Headers)\n}\n',
       },
       ruby: {
         method: 'webhooks.headers.retrieve',
@@ -6708,7 +6707,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Webhooks.Headers.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Webhooks.Headers.Update(\n\t\tcontext.TODO(),\n\t\t"whk_YdWqVEGKmSYKbsIyDxEab",\n\t\tdodopayments.WebhookHeaderUpdateParams{\n\t\t\tHeaders: dodopayments.F(map[string]string{\n\t\t\t\t"foo": "string",\n\t\t\t}),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Webhooks.Headers.Update(\n    context.TODO(),\n    "whk_YdWqVEGKmSYKbsIyDxEab",\n    dodopayments.WebhookHeaderUpdateParams{\n      Headers: dodopayments.F(map[string]string{\n      "foo": "string",\n      }),\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'webhooks.headers.update',
@@ -6770,7 +6769,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.UsageEvents.Ingest',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.UsageEvents.Ingest(context.TODO(), dodopayments.UsageEventIngestParams{\n\t\tEvents: dodopayments.F([]dodopayments.EventInputParam{{\n\t\t\tCustomerID: dodopayments.F("customer_id"),\n\t\t\tEventID:    dodopayments.F("event_id"),\n\t\t\tEventName:  dodopayments.F("event_name"),\n\t\t}}),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.IngestedCount)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.UsageEvents.Ingest(context.TODO(), dodopayments.UsageEventIngestParams{\n    Events: dodopayments.F([]dodopayments.EventInputParam{dodopayments.EventInputParam{\n      CustomerID: dodopayments.F("customer_id"),\n      EventID: dodopayments.F("event_id"),\n      EventName: dodopayments.F("event_name"),\n    }}),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.IngestedCount)\n}\n',
       },
       ruby: {
         method: 'usage_events.ingest',
@@ -6839,7 +6838,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.UsageEvents.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.UsageEvents.List(context.TODO(), dodopayments.UsageEventListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.UsageEvents.List(context.TODO(), dodopayments.UsageEventListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'usage_events.list',
@@ -6900,7 +6899,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.UsageEvents.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tevent, err := client.UsageEvents.Get(context.TODO(), "event_id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", event.BusinessID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  event, err := client.UsageEvents.Get(context.TODO(), "event_id")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", event.BusinessID)\n}\n',
       },
       ruby: {
         method: 'usage_events.retrieve',
@@ -6960,7 +6959,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Meters.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Meters.List(context.TODO(), dodopayments.MeterListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Meters.List(context.TODO(), dodopayments.MeterListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'meters.list',
@@ -7027,7 +7026,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Meters.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tmeter, err := client.Meters.New(context.TODO(), dodopayments.MeterNewParams{\n\t\tAggregation: dodopayments.F(dodopayments.MeterAggregationParam{\n\t\t\tType: dodopayments.F(dodopayments.MeterAggregationTypeCount),\n\t\t}),\n\t\tEventName:       dodopayments.F("event_name"),\n\t\tMeasurementUnit: dodopayments.F("measurement_unit"),\n\t\tName:            dodopayments.F("name"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", meter.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  meter, err := client.Meters.New(context.TODO(), dodopayments.MeterNewParams{\n    Aggregation: dodopayments.F(dodopayments.MeterAggregationParam{\n      Type: dodopayments.F(dodopayments.MeterAggregationTypeCount),\n    }),\n    EventName: dodopayments.F("event_name"),\n    MeasurementUnit: dodopayments.F("measurement_unit"),\n    Name: dodopayments.F("name"),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", meter.ID)\n}\n',
       },
       ruby: {
         method: 'meters.create',
@@ -7087,7 +7086,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Meters.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tmeter, err := client.Meters.Get(context.TODO(), "mtr_h5tgTWL55OyMO0L2Q9w9v")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", meter.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  meter, err := client.Meters.Get(context.TODO(), "mtr_h5tgTWL55OyMO0L2Q9w9v")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", meter.ID)\n}\n',
       },
       ruby: {
         method: 'meters.retrieve',
@@ -7145,7 +7144,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Meters.Archive',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Meters.Archive(context.TODO(), "mtr_h5tgTWL55OyMO0L2Q9w9v")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Meters.Archive(context.TODO(), "mtr_h5tgTWL55OyMO0L2Q9w9v")\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'meters.archive',
@@ -7203,7 +7202,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Meters.Unarchive',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Meters.Unarchive(context.TODO(), "mtr_h5tgTWL55OyMO0L2Q9w9v")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Meters.Unarchive(context.TODO(), "mtr_h5tgTWL55OyMO0L2Q9w9v")\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'meters.unarchive',
@@ -7272,7 +7271,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Balances.GetLedger',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Balances.GetLedger(context.TODO(), dodopayments.BalanceGetLedgerParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Balances.GetLedger(context.TODO(), dodopayments.BalanceGetLedgerParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'balances.retrieve_ledger',
@@ -7333,7 +7332,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.CreditEntitlements.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.CreditEntitlements.List(context.TODO(), dodopayments.CreditEntitlementListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.CreditEntitlements.List(context.TODO(), dodopayments.CreditEntitlementListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'credit_entitlements.list',
@@ -7410,7 +7409,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.CreditEntitlements.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tcreditEntitlement, err := client.CreditEntitlements.New(context.TODO(), dodopayments.CreditEntitlementNewParams{\n\t\tName:            dodopayments.F("name"),\n\t\tOverageEnabled:  dodopayments.F(true),\n\t\tPrecision:       dodopayments.F(int64(0)),\n\t\tRolloverEnabled: dodopayments.F(true),\n\t\tUnit:            dodopayments.F("unit"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", creditEntitlement.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  creditEntitlement, err := client.CreditEntitlements.New(context.TODO(), dodopayments.CreditEntitlementNewParams{\n    Name: dodopayments.F("name"),\n    OverageEnabled: dodopayments.F(true),\n    Precision: dodopayments.F(int64(0)),\n    RolloverEnabled: dodopayments.F(true),\n    Unit: dodopayments.F("unit"),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", creditEntitlement.ID)\n}\n',
       },
       ruby: {
         method: 'credit_entitlements.create',
@@ -7471,7 +7470,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.CreditEntitlements.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tcreditEntitlement, err := client.CreditEntitlements.Get(context.TODO(), "cde_ztxm5XJsKxWucRWA3rjdM")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", creditEntitlement.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  creditEntitlement, err := client.CreditEntitlements.Get(context.TODO(), "cde_ztxm5XJsKxWucRWA3rjdM")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", creditEntitlement.ID)\n}\n',
       },
       ruby: {
         method: 'credit_entitlements.retrieve',
@@ -7529,7 +7528,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.CreditEntitlements.Delete',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.CreditEntitlements.Delete(context.TODO(), "cde_ztxm5XJsKxWucRWA3rjdM")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.CreditEntitlements.Delete(context.TODO(), "cde_ztxm5XJsKxWucRWA3rjdM")\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'credit_entitlements.delete',
@@ -7604,7 +7603,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.CreditEntitlements.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.CreditEntitlements.Update(\n\t\tcontext.TODO(),\n\t\t"cde_ztxm5XJsKxWucRWA3rjdM",\n\t\tdodopayments.CreditEntitlementUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.CreditEntitlements.Update(\n    context.TODO(),\n    "cde_ztxm5XJsKxWucRWA3rjdM",\n    dodopayments.CreditEntitlementUpdateParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'credit_entitlements.update',
@@ -7663,7 +7662,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.CreditEntitlements.Undelete',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.CreditEntitlements.Undelete(context.TODO(), "cde_ztxm5XJsKxWucRWA3rjdM")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.CreditEntitlements.Undelete(context.TODO(), "cde_ztxm5XJsKxWucRWA3rjdM")\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'credit_entitlements.undelete',
@@ -7729,7 +7728,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.CreditEntitlements.Balances.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.CreditEntitlements.Balances.List(\n\t\tcontext.TODO(),\n\t\t"cde_ztxm5XJsKxWucRWA3rjdM",\n\t\tdodopayments.CreditEntitlementBalanceListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.CreditEntitlements.Balances.List(\n    context.TODO(),\n    "cde_ztxm5XJsKxWucRWA3rjdM",\n    dodopayments.CreditEntitlementBalanceListParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'credit_entitlements.balances.list',
@@ -7790,7 +7789,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.CreditEntitlements.Balances.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tcustomerCreditBalance, err := client.CreditEntitlements.Balances.Get(\n\t\tcontext.TODO(),\n\t\t"cde_ztxm5XJsKxWucRWA3rjdM",\n\t\t"cus_TV52uJWWXt2yIoBBxpjaa",\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", customerCreditBalance.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  customerCreditBalance, err := client.CreditEntitlements.Balances.Get(\n    context.TODO(),\n    "cde_ztxm5XJsKxWucRWA3rjdM",\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", customerCreditBalance.ID)\n}\n',
       },
       ruby: {
         method: 'credit_entitlements.balances.retrieve',
@@ -7857,7 +7856,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.CreditEntitlements.Balances.ListGrants',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.CreditEntitlements.Balances.ListGrants(\n\t\tcontext.TODO(),\n\t\t"cde_ztxm5XJsKxWucRWA3rjdM",\n\t\t"cus_TV52uJWWXt2yIoBBxpjaa",\n\t\tdodopayments.CreditEntitlementBalanceListGrantsParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.CreditEntitlements.Balances.ListGrants(\n    context.TODO(),\n    "cde_ztxm5XJsKxWucRWA3rjdM",\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n    dodopayments.CreditEntitlementBalanceListGrantsParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'credit_entitlements.balances.list_grants',
@@ -7926,7 +7925,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.CreditEntitlements.Balances.ListLedger',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.CreditEntitlements.Balances.ListLedger(\n\t\tcontext.TODO(),\n\t\t"cde_ztxm5XJsKxWucRWA3rjdM",\n\t\t"cus_TV52uJWWXt2yIoBBxpjaa",\n\t\tdodopayments.CreditEntitlementBalanceListLedgerParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.CreditEntitlements.Balances.ListLedger(\n    context.TODO(),\n    "cde_ztxm5XJsKxWucRWA3rjdM",\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n    dodopayments.CreditEntitlementBalanceListLedgerParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'credit_entitlements.balances.list_ledger',
@@ -7996,7 +7995,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.CreditEntitlements.Balances.NewLedgerEntry',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.CreditEntitlements.Balances.NewLedgerEntry(\n\t\tcontext.TODO(),\n\t\t"cde_ztxm5XJsKxWucRWA3rjdM",\n\t\t"cus_TV52uJWWXt2yIoBBxpjaa",\n\t\tdodopayments.CreditEntitlementBalanceNewLedgerEntryParams{\n\t\t\tAmount:    dodopayments.F("amount"),\n\t\t\tEntryType: dodopayments.F(dodopayments.LedgerEntryTypeCredit),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.CreditEntitlements.Balances.NewLedgerEntry(\n    context.TODO(),\n    "cde_ztxm5XJsKxWucRWA3rjdM",\n    "cus_TV52uJWWXt2yIoBBxpjaa",\n    dodopayments.CreditEntitlementBalanceNewLedgerEntryParams{\n      Amount: dodopayments.F("amount"),\n      EntryType: dodopayments.F(dodopayments.LedgerEntryTypeCredit),\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.ID)\n}\n',
       },
       ruby: {
         method: 'credit_entitlements.balances.create_ledger_entry',
@@ -8056,7 +8055,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Entitlements.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Entitlements.List(context.TODO(), dodopayments.EntitlementListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Entitlements.List(context.TODO(), dodopayments.EntitlementListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'entitlements.list',
@@ -8122,7 +8121,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Entitlements.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tentitlement, err := client.Entitlements.New(context.TODO(), dodopayments.EntitlementNewParams{\n\t\tIntegrationConfig: dodopayments.F[dodopayments.IntegrationConfigUnionParam](dodopayments.IntegrationConfigFeatureFlagConfigParam{\n\t\t\tFeatureID:   dodopayments.F("feature_id"),\n\t\t\tFeatureType: dodopayments.F(dodopayments.FeatureTypeBoolean),\n\t\t}),\n\t\tIntegrationType: dodopayments.F(dodopayments.EntitlementIntegrationTypeDiscord),\n\t\tName:            dodopayments.F("name"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", entitlement.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  entitlement, err := client.Entitlements.New(context.TODO(), dodopayments.EntitlementNewParams{\n    IntegrationConfig: dodopayments.F[dodopayments.IntegrationConfigUnionParam](dodopayments.IntegrationConfigFeatureFlagConfigParam{\n      FeatureID: dodopayments.F("feature_id"),\n      FeatureType: dodopayments.F(dodopayments.FeatureTypeBoolean),\n    }),\n    IntegrationType: dodopayments.F(dodopayments.EntitlementIntegrationTypeDiscord),\n    Name: dodopayments.F("name"),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", entitlement.ID)\n}\n',
       },
       ruby: {
         method: 'entitlements.create',
@@ -8182,7 +8181,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Entitlements.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tentitlement, err := client.Entitlements.Get(context.TODO(), "ent_jt7jcvI79Xh8eehqgWdcm")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", entitlement.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  entitlement, err := client.Entitlements.Get(context.TODO(), "ent_jt7jcvI79Xh8eehqgWdcm")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", entitlement.ID)\n}\n',
       },
       ruby: {
         method: 'entitlements.retrieve',
@@ -8240,7 +8239,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Entitlements.Delete',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Entitlements.Delete(context.TODO(), "ent_jt7jcvI79Xh8eehqgWdcm")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Entitlements.Delete(context.TODO(), "ent_jt7jcvI79Xh8eehqgWdcm")\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'entitlements.delete',
@@ -8306,7 +8305,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Entitlements.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tentitlement, err := client.Entitlements.Update(\n\t\tcontext.TODO(),\n\t\t"ent_jt7jcvI79Xh8eehqgWdcm",\n\t\tdodopayments.EntitlementUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", entitlement.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  entitlement, err := client.Entitlements.Update(\n    context.TODO(),\n    "ent_jt7jcvI79Xh8eehqgWdcm",\n    dodopayments.EntitlementUpdateParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", entitlement.ID)\n}\n',
       },
       ruby: {
         method: 'entitlements.update',
@@ -8365,7 +8364,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Entitlements.Files.Upload',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Entitlements.Files.Upload(context.TODO(), "ent_jt7jcvI79Xh8eehqgWdcm")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.FileID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Entitlements.Files.Upload(context.TODO(), "ent_jt7jcvI79Xh8eehqgWdcm")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.FileID)\n}\n',
       },
       ruby: {
         method: 'entitlements.files.upload',
@@ -8423,7 +8422,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Entitlements.Files.Delete',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Entitlements.Files.Delete(\n\t\tcontext.TODO(),\n\t\t"ent_jt7jcvI79Xh8eehqgWdcm",\n\t\t"file_id",\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.Entitlements.Files.Delete(\n    context.TODO(),\n    "ent_jt7jcvI79Xh8eehqgWdcm",\n    "file_id",\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'entitlements.files.delete',
@@ -8489,7 +8488,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Entitlements.Grants.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.Entitlements.Grants.List(\n\t\tcontext.TODO(),\n\t\t"ent_jt7jcvI79Xh8eehqgWdcm",\n\t\tdodopayments.EntitlementGrantListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.Entitlements.Grants.List(\n    context.TODO(),\n    "ent_jt7jcvI79Xh8eehqgWdcm",\n    dodopayments.EntitlementGrantListParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'entitlements.grants.list',
@@ -8551,7 +8550,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Entitlements.Grants.Revoke',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tentitlementGrant, err := client.Entitlements.Grants.Revoke(\n\t\tcontext.TODO(),\n\t\t"ent_jt7jcvI79Xh8eehqgWdcm",\n\t\t"entg_w0ZCJZgNXuNDdMVzvja6p",\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", entitlementGrant.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  entitlementGrant, err := client.Entitlements.Grants.Revoke(\n    context.TODO(),\n    "ent_jt7jcvI79Xh8eehqgWdcm",\n    "entg_w0ZCJZgNXuNDdMVzvja6p",\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", entitlementGrant.ID)\n}\n',
       },
       ruby: {
         method: 'entitlements.grants.revoke',
@@ -8612,7 +8611,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Entitlements.Grants.FulfillLicenseKey',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tentitlementGrant, err := client.Entitlements.Grants.FulfillLicenseKey(\n\t\tcontext.TODO(),\n\t\t"entg_w0ZCJZgNXuNDdMVzvja6p",\n\t\tdodopayments.EntitlementGrantFulfillLicenseKeyParams{\n\t\t\tKey: dodopayments.F("key"),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", entitlementGrant.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  entitlementGrant, err := client.Entitlements.Grants.FulfillLicenseKey(\n    context.TODO(),\n    "entg_w0ZCJZgNXuNDdMVzvja6p",\n    dodopayments.EntitlementGrantFulfillLicenseKeyParams{\n      Key: dodopayments.F("key"),\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", entitlementGrant.ID)\n}\n',
       },
       ruby: {
         method: 'entitlements.grants.fulfill_license_key',
@@ -8672,7 +8671,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.ProductCollections.List',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tpage, err := client.ProductCollections.List(context.TODO(), dodopayments.ProductCollectionListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  page, err := client.ProductCollections.List(context.TODO(), dodopayments.ProductCollectionListParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", page)\n}\n',
       },
       ruby: {
         method: 'product_collections.list',
@@ -8742,7 +8741,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.ProductCollections.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tproductCollection, err := client.ProductCollections.New(context.TODO(), dodopayments.ProductCollectionNewParams{\n\t\tGroups: dodopayments.F([]dodopayments.ProductCollectionGroupDetailsParam{{\n\t\t\tProducts: dodopayments.F([]dodopayments.GroupProductParam{{\n\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t}}),\n\t\t}}),\n\t\tName: dodopayments.F("name"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", productCollection.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  productCollection, err := client.ProductCollections.New(context.TODO(), dodopayments.ProductCollectionNewParams{\n    Groups: dodopayments.F([]dodopayments.ProductCollectionGroupDetailsParam{dodopayments.ProductCollectionGroupDetailsParam{\n      Products: dodopayments.F([]dodopayments.GroupProductParam{dodopayments.GroupProductParam{\n        ProductID: dodopayments.F("product_id"),\n      }}),\n    }}),\n    Name: dodopayments.F("name"),\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", productCollection.ID)\n}\n',
       },
       ruby: {
         method: 'product_collections.create',
@@ -8802,7 +8801,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.ProductCollections.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tproductCollection, err := client.ProductCollections.Get(context.TODO(), "pdc_8BWv0hojwUH7iCDabr0NI")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", productCollection.ID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  productCollection, err := client.ProductCollections.Get(context.TODO(), "pdc_8BWv0hojwUH7iCDabr0NI")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", productCollection.ID)\n}\n',
       },
       ruby: {
         method: 'product_collections.retrieve',
@@ -8860,7 +8859,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.ProductCollections.Delete',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.ProductCollections.Delete(context.TODO(), "pdc_8BWv0hojwUH7iCDabr0NI")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.ProductCollections.Delete(context.TODO(), "pdc_8BWv0hojwUH7iCDabr0NI")\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'product_collections.delete',
@@ -8930,7 +8929,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.ProductCollections.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.ProductCollections.Update(\n\t\tcontext.TODO(),\n\t\t"pdc_8BWv0hojwUH7iCDabr0NI",\n\t\tdodopayments.ProductCollectionUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.ProductCollections.Update(\n    context.TODO(),\n    "pdc_8BWv0hojwUH7iCDabr0NI",\n    dodopayments.ProductCollectionUpdateParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'product_collections.update',
@@ -8989,7 +8988,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.ProductCollections.UpdateImages',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.ProductCollections.UpdateImages(\n\t\tcontext.TODO(),\n\t\t"pdc_8BWv0hojwUH7iCDabr0NI",\n\t\tdodopayments.ProductCollectionUpdateImagesParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ImageID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.ProductCollections.UpdateImages(\n    context.TODO(),\n    "pdc_8BWv0hojwUH7iCDabr0NI",\n    dodopayments.ProductCollectionUpdateImagesParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.ImageID)\n}\n',
       },
       ruby: {
         method: 'product_collections.update_images',
@@ -9048,7 +9047,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.ProductCollections.Unarchive',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.ProductCollections.Unarchive(context.TODO(), "pdc_8BWv0hojwUH7iCDabr0NI")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.CollectionID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.ProductCollections.Unarchive(context.TODO(), "pdc_8BWv0hojwUH7iCDabr0NI")\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.CollectionID)\n}\n',
       },
       ruby: {
         method: 'product_collections.unarchive',
@@ -9113,7 +9112,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.ProductCollections.Groups.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tproductCollectionGroupResponse, err := client.ProductCollections.Groups.New(\n\t\tcontext.TODO(),\n\t\t"pdc_8BWv0hojwUH7iCDabr0NI",\n\t\tdodopayments.ProductCollectionGroupNewParams{\n\t\t\tProductCollectionGroupDetails: dodopayments.ProductCollectionGroupDetailsParam{\n\t\t\t\tProducts: dodopayments.F([]dodopayments.GroupProductParam{{\n\t\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t\t}}),\n\t\t\t},\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", productCollectionGroupResponse.GroupID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  productCollectionGroupResponse, err := client.ProductCollections.Groups.New(\n    context.TODO(),\n    "pdc_8BWv0hojwUH7iCDabr0NI",\n    dodopayments.ProductCollectionGroupNewParams{\n      ProductCollectionGroupDetails: dodopayments.ProductCollectionGroupDetailsParam{\n        Products: dodopayments.F([]dodopayments.GroupProductParam{dodopayments.GroupProductParam{\n          ProductID: dodopayments.F("product_id"),\n        }}),\n      },\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", productCollectionGroupResponse.GroupID)\n}\n',
       },
       ruby: {
         method: 'product_collections.groups.create',
@@ -9171,7 +9170,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.ProductCollections.Groups.Delete',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.ProductCollections.Groups.Delete(\n\t\tcontext.TODO(),\n\t\t"pdc_8BWv0hojwUH7iCDabr0NI",\n\t\t"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.ProductCollections.Groups.Delete(\n    context.TODO(),\n    "pdc_8BWv0hojwUH7iCDabr0NI",\n    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'product_collections.groups.delete',
@@ -9206,7 +9205,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'status?: boolean;',
     ],
     markdown:
-      "## update\n\n`client.productCollections.groups.update(id: string, group_id: string, group_name?: string, product_order?: string[], status?: boolean): void`\n\n**patch** `/product-collections/{id}/groups/{group_id}`\n\n### Parameters\n\n- `id: string`\n\n- `group_id: string`\n\n- `group_name?: string`\n  Optional group name update: Some(Some(name)) = set name, Some(None) = clear name, None = no change\n\n- `product_order?: string[]`\n  Optional new order for products in this group (array of product_collection_group_pdts UUIDs)\n\n- `status?: boolean`\n  Optional status update\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nawait client.productCollections.groups.update('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { id: 'pdc_8BWv0hojwUH7iCDabr0NI' })\n```",
+      "## update\n\n`client.productCollections.groups.update(id: string, group_id: string, group_name?: string, product_order?: string[], status?: boolean): void`\n\n**patch** `/product-collections/{id}/groups/{group_id}`\n\n### Parameters\n\n- `id: string`\n\n- `group_id: string`\n\n- `group_name?: string`\n  Optional group name update: Some(Some(name)) = set name, Some(None) = clear name, None = no change\nThe API returns 422 if another group in the collection has no name.\n\n- `product_order?: string[]`\n  Optional new order for products in this group (array of product_collection_group_pdts UUIDs)\n\n- `status?: boolean`\n  Optional status update\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nawait client.productCollections.groups.update('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { id: 'pdc_8BWv0hojwUH7iCDabr0NI' })\n```",
     perLanguage: {
       typescript: {
         method: 'client.productCollections.groups.update',
@@ -9235,7 +9234,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.ProductCollections.Groups.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.ProductCollections.Groups.Update(\n\t\tcontext.TODO(),\n\t\t"pdc_8BWv0hojwUH7iCDabr0NI",\n\t\t"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n\t\tdodopayments.ProductCollectionGroupUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.ProductCollections.Groups.Update(\n    context.TODO(),\n    "pdc_8BWv0hojwUH7iCDabr0NI",\n    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    dodopayments.ProductCollectionGroupUpdateParams{\n\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'product_collections.groups.update',
@@ -9295,7 +9294,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.ProductCollections.Groups.Items.New',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tproductCollectionProducts, err := client.ProductCollections.Groups.Items.New(\n\t\tcontext.TODO(),\n\t\t"pdc_8BWv0hojwUH7iCDabr0NI",\n\t\t"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n\t\tdodopayments.ProductCollectionGroupItemNewParams{\n\t\t\tProducts: dodopayments.F([]dodopayments.GroupProductParam{{\n\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t}}),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", productCollectionProducts)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  productCollectionProducts, err := client.ProductCollections.Groups.Items.New(\n    context.TODO(),\n    "pdc_8BWv0hojwUH7iCDabr0NI",\n    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    dodopayments.ProductCollectionGroupItemNewParams{\n      Products: dodopayments.F([]dodopayments.GroupProductParam{dodopayments.GroupProductParam{\n        ProductID: dodopayments.F("product_id"),\n      }}),\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", productCollectionProducts)\n}\n',
       },
       ruby: {
         method: 'product_collections.groups.items.create',
@@ -9353,7 +9352,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.ProductCollections.Groups.Items.Delete',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.ProductCollections.Groups.Items.Delete(\n\t\tcontext.TODO(),\n\t\t"pdc_8BWv0hojwUH7iCDabr0NI",\n\t\t"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n\t\t"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.ProductCollections.Groups.Items.Delete(\n    context.TODO(),\n    "pdc_8BWv0hojwUH7iCDabr0NI",\n    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'product_collections.groups.items.delete',
@@ -9411,7 +9410,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.ProductCollections.Groups.Items.Update',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.ProductCollections.Groups.Items.Update(\n\t\tcontext.TODO(),\n\t\t"pdc_8BWv0hojwUH7iCDabr0NI",\n\t\t"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n\t\t"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n\t\tdodopayments.ProductCollectionGroupItemUpdateParams{\n\t\t\tStatus: dodopayments.F(true),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+          'package main\n\nimport (\n  "context"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  err := client.ProductCollections.Groups.Items.Update(\n    context.TODO(),\n    "pdc_8BWv0hojwUH7iCDabr0NI",\n    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    dodopayments.ProductCollectionGroupItemUpdateParams{\n      Status: dodopayments.F(true),\n    },\n  )\n  if err != nil {\n    panic(err.Error())\n  }\n}\n',
       },
       ruby: {
         method: 'product_collections.groups.items.update',
@@ -9472,7 +9471,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Moderation.Screen',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Moderation.Screen(context.TODO(), dodopayments.ModerationScreenParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.RequestID)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Moderation.Screen(context.TODO(), dodopayments.ModerationScreenParams{\n\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.RequestID)\n}\n',
       },
       ruby: {
         method: 'moderation.screen',
@@ -9532,7 +9531,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Moderation.GetUsage',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Moderation.GetUsage(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Daily)\n}\n',
+          'package main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"),\n  )\n  response, err := client.Moderation.GetUsage(context.TODO())\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", response.Daily)\n}\n',
       },
       ruby: {
         method: 'moderation.retrieve_usage',
@@ -9577,7 +9576,7 @@ const EMBEDDED_READMES: { language: string; content: string }[] = [
   {
     language: 'go',
     content:
-      '# Dodo Payments Go API Library\n\n<a href="https://pkg.go.dev/github.com/dodopayments/dodopayments-go"><img src="https://pkg.go.dev/badge/github.com/dodopayments/dodopayments-go.svg" alt="Go Reference"></a>\n\nThe Dodo Payments Go library provides convenient access to the [Dodo Payments REST API](https://docs.dodopayments.com/api-reference/introduction)\nfrom applications written in Go.\n\n\n\n## MCP Server\n\nUse the Dodo Payments MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6Ik15IEJlYXJlciBUb2tlbiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJNeSBXZWJob29rIEtleSJ9fQ)\n\n> Note: You may need to set environment variables in your MCP client.\n\n## Installation\n\n<!-- x-release-please-start-version -->\n\n```go\nimport (\n\t"github.com/dodopayments/dodopayments-go" // imported as SDK_PackageName\n)\n```\n\n<!-- x-release-please-end -->\n\nOr to pin the version:\n\n<!-- x-release-please-start-version -->\n\n```sh\ngo get -u \'github.com/dodopayments/dodopayments-go@v0.0.1\'\n```\n\n<!-- x-release-please-end -->\n\n## Requirements\n\nThis library requires Go 1.22+.\n\n## Usage\n\nThe full API of this library can be found in [api.md](api.md).\n\n```go\npackage main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"), // defaults to os.LookupEnv("DODO_PAYMENTS_API_KEY")\n\t\toption.WithEnvironmentTestMode(),          // defaults to option.WithEnvironmentLiveMode()\n\t)\n\tcheckoutSessionResponse, err := client.CheckoutSessions.New(context.TODO(), dodopayments.CheckoutSessionNewParams{\n\t\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t\t}}),\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", checkoutSessionResponse.SessionID)\n}\n\n```\n\n### Request fields\n\nAll request parameters are wrapped in a generic `Field` type,\nwhich we use to distinguish zero values from null or omitted fields.\n\nThis prevents accidentally sending a zero value if you forget a required parameter,\nand enables explicitly sending `null`, `false`, `\'\'`, or `0` on optional parameters.\nAny field not specified is not sent.\n\nTo construct fields with values, use the helpers `String()`, `Int()`, `Float()`, or most commonly, the generic `F[T]()`.\nTo send a null, use `Null[T]()`, and to send a nonconforming value, use `Raw[T](any)`. For example:\n\n```go\nparams := FooParams{\n\tName: SDK_PackageName.F("hello"),\n\n\t// Explicitly send `"description": null`\n\tDescription: SDK_PackageName.Null[string](),\n\n\tPoint: SDK_PackageName.F(SDK_PackageName.Point{\n\t\tX: SDK_PackageName.Int(0),\n\t\tY: SDK_PackageName.Int(1),\n\n\t\t// In cases where the API specifies a given type,\n\t\t// but you want to send something else, use `Raw`:\n\t\tZ: SDK_PackageName.Raw[int64](0.01), // sends a float\n\t}),\n}\n```\n\n### Response objects\n\nAll fields in response structs are value types (not pointers or wrappers).\n\nIf a given field is `null`, not present, or invalid, the corresponding field\nwill simply be its zero value.\n\nAll response structs also include a special `JSON` field, containing more detailed\ninformation about each property, which you can use like so:\n\n```go\nif res.Name == "" {\n\t// true if `"name"` is either not present or explicitly null\n\tres.JSON.Name.IsNull()\n\n\t// true if the `"name"` key was not present in the response JSON at all\n\tres.JSON.Name.IsMissing()\n\n\t// When the API returns data that cannot be coerced to the expected type:\n\tif res.JSON.Name.IsInvalid() {\n\t\traw := res.JSON.Name.Raw()\n\n\t\tlegacyName := struct{\n\t\t\tFirst string `json:"first"`\n\t\t\tLast  string `json:"last"`\n\t\t}{}\n\t\tjson.Unmarshal([]byte(raw), &legacyName)\n\t\tname = legacyName.First + " " + legacyName.Last\n\t}\n}\n```\n\nThese `.JSON` structs also include an `Extras` map containing\nany properties in the json response that were not specified\nin the struct. This can be useful for API features not yet\npresent in the SDK.\n\n```go\nbody := res.JSON.ExtraFields["my_unexpected_field"].Raw()\n```\n\n### RequestOptions\n\nThis library uses the functional options pattern. Functions defined in the\n`SDK_PackageOptionName` package return a `RequestOption`, which is a closure that mutates a\n`RequestConfig`. These options can be supplied to the client or at individual\nrequests. For example:\n\n```go\nclient := SDK_PackageName.SDK_ClientInitializerName(\n\t// Adds a header to every request made by the client\n\tSDK_PackageOptionName.WithHeader("X-Some-Header", "custom_header_info"),\n)\n\nclient.CheckoutSessions.New(context.TODO(), ...,\n\t// Override the header\n\tSDK_PackageOptionName.WithHeader("X-Some-Header", "some_other_custom_header_info"),\n\t// Add an undocumented field to the request body, using sjson syntax\n\tSDK_PackageOptionName.WithJSONSet("some.json.path", map[string]string{"my": "object"}),\n)\n```\n\nSee the [full list of request options](https://pkg.go.dev/github.com/dodopayments/dodopayments-go/SDK_PackageOptionName).\n\n### Pagination\n\nThis library provides some conveniences for working with paginated list endpoints.\n\nYou can use `.ListAutoPaging()` methods to iterate through items across all pages:\n\n```go\niter := client.Payments.ListAutoPaging(context.TODO(), dodopayments.PaymentListParams{})\n// Automatically fetches more pages as needed.\nfor iter.Next() {\n\tpaymentListResponse := iter.Current()\n\tfmt.Printf("%+v\\n", paymentListResponse)\n}\nif err := iter.Err(); err != nil {\n\tpanic(err.Error())\n}\n```\n\nOr you can use simple `.List()` methods to fetch a single page and receive a standard response object\nwith additional helper methods like `.GetNextPage()`, e.g.:\n\n```go\npage, err := client.Payments.List(context.TODO(), dodopayments.PaymentListParams{})\nfor page != nil {\n\tfor _, payment := range page.Items {\n\t\tfmt.Printf("%+v\\n", payment)\n\t}\n\tpage, err = page.GetNextPage()\n}\nif err != nil {\n\tpanic(err.Error())\n}\n```\n\n### Errors\n\nWhen the API returns a non-success status code, we return an error with type\n`*SDK_PackageName.Error`. This contains the `StatusCode`, `*http.Request`, and\n`*http.Response` values of the request, as well as the JSON of the error body\n(much like other response objects in the SDK).\n\nTo handle errors, we recommend that you use the `errors.As` pattern:\n\n```go\n_, err := client.CheckoutSessions.New(context.TODO(), dodopayments.CheckoutSessionNewParams{\n\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t}}),\n\t},\n})\nif err != nil {\n\tvar apierr *dodopayments.Error\n\tif errors.As(err, &apierr) {\n\t\tprintln(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request\n\t\tprintln(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response\n\t}\n\tpanic(err.Error()) // GET "/checkouts": 400 Bad Request { ... }\n}\n```\n\nWhen other errors occur, they are returned unwrapped; for example,\nif HTTP transport fails, you might receive `*url.Error` wrapping `*net.OpError`.\n\n### Timeouts\n\nRequests do not time out by default; use context to configure a timeout for a request lifecycle.\n\nNote that if a request is [retried](#retries), the context timeout does not start over.\nTo set a per-retry timeout, use `SDK_PackageOptionName.WithRequestTimeout()`.\n\n```go\n// This sets the timeout for the request, including all the retries.\nctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)\ndefer cancel()\nclient.CheckoutSessions.New(\n\tctx,\n\tdodopayments.CheckoutSessionNewParams{\n\t\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t\t}}),\n\t\t},\n\t},\n\t// This sets the per-retry timeout\n\toption.WithRequestTimeout(20*time.Second),\n)\n```\n\n### File uploads\n\nRequest parameters that correspond to file uploads in multipart requests are typed as\n`param.Field[io.Reader]`. The contents of the `io.Reader` will by default be sent as a multipart form\npart with the file name of "anonymous_file" and content-type of "application/octet-stream".\n\nThe file name and content-type can be customized by implementing `Name() string` or `ContentType()\nstring` on the run-time type of `io.Reader`. Note that `os.File` implements `Name() string`, so a\nfile returned by `os.Open` will be sent with the file name on disk.\n\nWe also provide a helper `SDK_PackageName.FileParam(reader io.Reader, filename string, contentType string)`\nwhich can be used to wrap any `io.Reader` with the appropriate file name and content type.\n\n\n\n### Retries\n\nCertain errors will be automatically retried 2 times by default, with a short exponential backoff.\nWe retry by default all connection errors, 408 Request Timeout, 409 Conflict, 429 Rate Limit,\nand >=500 Internal errors.\n\nYou can use the `WithMaxRetries` option to configure or disable this:\n\n```go\n// Configure the default for all requests:\nclient := dodopayments.NewClient(\n\toption.WithMaxRetries(0), // default is 2\n)\n\n// Override per-request:\nclient.CheckoutSessions.New(\n\tcontext.TODO(),\n\tdodopayments.CheckoutSessionNewParams{\n\t\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t\t}}),\n\t\t},\n\t},\n\toption.WithMaxRetries(5),\n)\n```\n\n\n### Accessing raw response data (e.g. response headers)\n\nYou can access the raw HTTP response data by using the `option.WithResponseInto()` request option. This is useful when\nyou need to examine response headers, status codes, or other details.\n\n```go\n// Create a variable to store the HTTP response\nvar response *http.Response\ncheckoutSessionResponse, err := client.CheckoutSessions.New(\n\tcontext.TODO(),\n\tdodopayments.CheckoutSessionNewParams{\n\t\tCheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n\t\t\tProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{{\n\t\t\t\tProductID: dodopayments.F("product_id"),\n\t\t\t\tQuantity:  dodopayments.F(int64(0)),\n\t\t\t}}),\n\t\t},\n\t},\n\toption.WithResponseInto(&response),\n)\nif err != nil {\n\t// handle error\n}\nfmt.Printf("%+v\\n", checkoutSessionResponse)\n\nfmt.Printf("Status Code: %d\\n", response.StatusCode)\nfmt.Printf("Headers: %+#v\\n", response.Header)\n```\n\n### Making custom/undocumented requests\n\nThis library is typed for convenient access to the documented API. If you need to access undocumented\nendpoints, params, or response properties, the library can still be used.\n\n#### Undocumented endpoints\n\nTo make requests to undocumented endpoints, you can use `client.Get`, `client.Post`, and other HTTP verbs.\n`RequestOptions` on the client, such as retries, will be respected when making these requests.\n\n```go\nvar (\n    // params can be an io.Reader, a []byte, an encoding/json serializable object,\n    // or a "…Params" struct defined in this library.\n    params map[string]interface{}\n\n    // result can be an []byte, *http.Response, a encoding/json deserializable object,\n    // or a model defined in this library.\n    result *http.Response\n)\nerr := client.Post(context.Background(), "/unspecified", params, &result)\nif err != nil {\n    …\n}\n```\n\n#### Undocumented request params\n\nTo make requests using undocumented parameters, you may use either the `SDK_PackageOptionName.WithQuerySet()`\nor the `SDK_PackageOptionName.WithJSONSet()` methods.\n\n```go\nparams := FooNewParams{\n    ID:   SDK_PackageName.F("id_xxxx"),\n    Data: SDK_PackageName.F(FooNewParamsData{\n        FirstName: SDK_PackageName.F("John"),\n    }),\n}\nclient.Foo.New(context.Background(), params, SDK_PackageOptionName.WithJSONSet("data.last_name", "Doe"))\n```\n\n#### Undocumented response properties\n\nTo access undocumented response properties, you may either access the raw JSON of the response as a string\nwith `result.JSON.RawJSON()`, or get the raw JSON of a particular field on the result with\n`result.JSON.Foo.Raw()`.\n\nAny fields that are not present on the response struct will be saved and can be accessed by `result.JSON.ExtraFields()` which returns the extra fields as a `map[string]Field`.\n\n### Middleware\n\nWe provide `SDK_PackageOptionName.WithMiddleware` which applies the given\nmiddleware to requests.\n\n```go\nfunc Logger(req *http.Request, next SDK_PackageOptionName.MiddlewareNext) (res *http.Response, err error) {\n\t// Before the request\n\tstart := time.Now()\n\tLogReq(req)\n\n\t// Forward the request to the next handler\n\tres, err = next(req)\n\n\t// Handle stuff after the request\n\tend := time.Now()\n\tLogRes(res, err, start - end)\n\n    return res, err\n}\n\nclient := SDK_PackageName.SDK_ClientInitializerName(\n\tSDK_PackageOptionName.WithMiddleware(Logger),\n)\n```\n\nWhen multiple middlewares are provided as variadic arguments, the middlewares\nare applied left to right. If `SDK_PackageOptionName.WithMiddleware` is given\nmultiple times, for example first in the client then the method, the\nmiddleware in the client will run first and the middleware given in the method\nwill run next.\n\nYou may also replace the default `http.Client` with\n`SDK_PackageOptionName.WithHTTPClient(client)`. Only one http client is\naccepted (this overwrites any previous client) and receives requests after any\nmiddleware has been applied.\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n2. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/dodopayments/dodopayments-go/issues) with questions, bugs, or suggestions.\n\n## Contributing\n\nSee [the contributing documentation](./CONTRIBUTING.md).\n',
+      '# Dodo Payments Go API Library\n\n<a href="https://pkg.go.dev/github.com/dodopayments/dodopayments-go"><img src="https://pkg.go.dev/badge/github.com/dodopayments/dodopayments-go.svg" alt="Go Reference"></a>\n\nThe Dodo Payments Go library provides convenient access to the [Dodo Payments REST API](https://docs.dodopayments.com/api-reference/introduction)\nfrom applications written in Go.\n\n\n\n## MCP Server\n\nUse the Dodo Payments MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=dodopayments-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRvZG9wYXltZW50cy1tY3AiXSwiZW52Ijp7IkRPRE9fUEFZTUVOVFNfQVBJX0tFWSI6Ik15IEJlYXJlciBUb2tlbiIsIkRPRE9fUEFZTUVOVFNfV0VCSE9PS19LRVkiOiJNeSBXZWJob29rIEtleSJ9fQ)\n\n> Note: You may need to set environment variables in your MCP client.\n\n## Installation\n\n<!-- x-release-please-start-version -->\n\n```go\nimport (\n\t"github.com/dodopayments/dodopayments-go" // imported as SDK_PackageName\n)\n```\n\n<!-- x-release-please-end -->\n\nOr to pin the version:\n\n<!-- x-release-please-start-version -->\n\n```sh\ngo get -u \'github.com/dodopayments/dodopayments-go@v0.0.1\'\n```\n\n<!-- x-release-please-end -->\n\n## Requirements\n\nThis library requires Go 1.22+.\n\n## Usage\n\nThe full API of this library can be found in [api.md](api.md).\n\n```go\npackage main\n\nimport (\n  "context"\n  "fmt"\n\n  "github.com/dodopayments/dodopayments-go"\n  "github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n  client := dodopayments.NewClient(\n    option.WithBearerToken("My Bearer Token"), // defaults to os.LookupEnv("DODO_PAYMENTS_API_KEY")\n    option.WithEnvironmentTestMode(), // defaults to option.WithEnvironmentLiveMode()\n  )\n  checkoutSessionResponse, err := client.CheckoutSessions.New(context.TODO(), dodopayments.CheckoutSessionNewParams{\n    CheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n      ProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{dodopayments.ProductItemReqParam{\n        ProductID: dodopayments.F("product_id"),\n        Quantity: dodopayments.F(int64(0)),\n      }}),\n    },\n  })\n  if err != nil {\n    panic(err.Error())\n  }\n  fmt.Printf("%+v\\n", checkoutSessionResponse.SessionID)\n}\n\n```\n\n### Request fields\n\nAll request parameters are wrapped in a generic `Field` type,\nwhich we use to distinguish zero values from null or omitted fields.\n\nThis prevents accidentally sending a zero value if you forget a required parameter,\nand enables explicitly sending `null`, `false`, `\'\'`, or `0` on optional parameters.\nAny field not specified is not sent.\n\nTo construct fields with values, use the helpers `String()`, `Int()`, `Float()`, or most commonly, the generic `F[T]()`.\nTo send a null, use `Null[T]()`, and to send a nonconforming value, use `Raw[T](any)`. For example:\n\n```go\nparams := FooParams{\n\tName: SDK_PackageName.F("hello"),\n\n\t// Explicitly send `"description": null`\n\tDescription: SDK_PackageName.Null[string](),\n\n\tPoint: SDK_PackageName.F(SDK_PackageName.Point{\n\t\tX: SDK_PackageName.Int(0),\n\t\tY: SDK_PackageName.Int(1),\n\n\t\t// In cases where the API specifies a given type,\n\t\t// but you want to send something else, use `Raw`:\n\t\tZ: SDK_PackageName.Raw[int64](0.01), // sends a float\n\t}),\n}\n```\n\n### Response objects\n\nAll fields in response structs are value types (not pointers or wrappers).\n\nIf a given field is `null`, not present, or invalid, the corresponding field\nwill simply be its zero value.\n\nAll response structs also include a special `JSON` field, containing more detailed\ninformation about each property, which you can use like so:\n\n```go\nif res.Name == "" {\n\t// true if `"name"` is either not present or explicitly null\n\tres.JSON.Name.IsNull()\n\n\t// true if the `"name"` key was not present in the response JSON at all\n\tres.JSON.Name.IsMissing()\n\n\t// When the API returns data that cannot be coerced to the expected type:\n\tif res.JSON.Name.IsInvalid() {\n\t\traw := res.JSON.Name.Raw()\n\n\t\tlegacyName := struct{\n\t\t\tFirst string `json:"first"`\n\t\t\tLast  string `json:"last"`\n\t\t}{}\n\t\tjson.Unmarshal([]byte(raw), &legacyName)\n\t\tname = legacyName.First + " " + legacyName.Last\n\t}\n}\n```\n\nThese `.JSON` structs also include an `Extras` map containing\nany properties in the json response that were not specified\nin the struct. This can be useful for API features not yet\npresent in the SDK.\n\n```go\nbody := res.JSON.ExtraFields["my_unexpected_field"].Raw()\n```\n\n### RequestOptions\n\nThis library uses the functional options pattern. Functions defined in the\n`SDK_PackageOptionName` package return a `RequestOption`, which is a closure that mutates a\n`RequestConfig`. These options can be supplied to the client or at individual\nrequests. For example:\n\n```go\nclient := SDK_PackageName.SDK_ClientInitializerName(\n\t// Adds a header to every request made by the client\n\tSDK_PackageOptionName.WithHeader("X-Some-Header", "custom_header_info"),\n)\n\nclient.CheckoutSessions.New(context.TODO(), ...,\n\t// Override the header\n\tSDK_PackageOptionName.WithHeader("X-Some-Header", "some_other_custom_header_info"),\n\t// Add an undocumented field to the request body, using sjson syntax\n\tSDK_PackageOptionName.WithJSONSet("some.json.path", map[string]string{"my": "object"}),\n)\n```\n\nSee the [full list of request options](https://pkg.go.dev/github.com/dodopayments/dodopayments-go/SDK_PackageOptionName).\n\n### Pagination\n\nThis library provides some conveniences for working with paginated list endpoints.\n\nYou can use `.ListAutoPaging()` methods to iterate through items across all pages:\n\n```go\niter := client.Payments.ListAutoPaging(context.TODO(), dodopayments.PaymentListParams{\n\n})\n// Automatically fetches more pages as needed.\nfor iter.Next() {\n  paymentListResponse := iter.Current()\n  fmt.Printf("%+v\\n", paymentListResponse)\n}\nif err := iter.Err(); err != nil {\n  panic(err.Error())\n}\n```\n\nOr you can use simple `.List()` methods to fetch a single page and receive a standard response object\nwith additional helper methods like `.GetNextPage()`, e.g.:\n\n```go\npage, err := client.Payments.List(context.TODO(), dodopayments.PaymentListParams{\n\n})\nfor page != nil {\n  for _, payment := range page.Items {\n    fmt.Printf("%+v\\n", payment)\n  }\n  page, err = page.GetNextPage()\n}\nif err != nil {\n  panic(err.Error())\n}\n```\n\n### Errors\n\nWhen the API returns a non-success status code, we return an error with type\n`*SDK_PackageName.Error`. This contains the `StatusCode`, `*http.Request`, and\n`*http.Response` values of the request, as well as the JSON of the error body\n(much like other response objects in the SDK).\n\nTo handle errors, we recommend that you use the `errors.As` pattern:\n\n```go\n_, err := client.CheckoutSessions.New(context.TODO(), dodopayments.CheckoutSessionNewParams{\n  CheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n    ProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{dodopayments.ProductItemReqParam{\n      ProductID: dodopayments.F("product_id"),\n      Quantity: dodopayments.F(int64(0)),\n    }}),\n  },\n})\nif err != nil {\n  var apierr *dodopayments.Error\n  if errors.As(err, &apierr) {\n     println(string(apierr.DumpRequest(true))) // Prints the serialized HTTP request\n     println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response\n  }\n  panic(err.Error()) // GET "/checkouts": 400 Bad Request { ... }\n}\n```\n\nWhen other errors occur, they are returned unwrapped; for example,\nif HTTP transport fails, you might receive `*url.Error` wrapping `*net.OpError`.\n\n### Timeouts\n\nRequests do not time out by default; use context to configure a timeout for a request lifecycle.\n\nNote that if a request is [retried](#retries), the context timeout does not start over.\nTo set a per-retry timeout, use `SDK_PackageOptionName.WithRequestTimeout()`.\n\n```go\n// This sets the timeout for the request, including all the retries.\nctx, cancel := context.WithTimeout(context.Background(), 5 * time.Minute)\ndefer cancel()\nclient.CheckoutSessions.New(\n  ctx,\n  dodopayments.CheckoutSessionNewParams{\n    CheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n      ProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{dodopayments.ProductItemReqParam{\n        ProductID: dodopayments.F("product_id"),\n        Quantity: dodopayments.F(int64(0)),\n      }}),\n    },\n  },\n  // This sets the per-retry timeout\n    option.WithRequestTimeout(20 * time.Second),\n)\n```\n\n### File uploads\n\nRequest parameters that correspond to file uploads in multipart requests are typed as\n`param.Field[io.Reader]`. The contents of the `io.Reader` will by default be sent as a multipart form\npart with the file name of "anonymous_file" and content-type of "application/octet-stream".\n\nThe file name and content-type can be customized by implementing `Name() string` or `ContentType()\nstring` on the run-time type of `io.Reader`. Note that `os.File` implements `Name() string`, so a\nfile returned by `os.Open` will be sent with the file name on disk.\n\nWe also provide a helper `SDK_PackageName.FileParam(reader io.Reader, filename string, contentType string)`\nwhich can be used to wrap any `io.Reader` with the appropriate file name and content type.\n\n\n\n### Retries\n\nCertain errors will be automatically retried 2 times by default, with a short exponential backoff.\nWe retry by default all connection errors, 408 Request Timeout, 409 Conflict, 429 Rate Limit,\nand >=500 Internal errors.\n\nYou can use the `WithMaxRetries` option to configure or disable this:\n\n```go\n// Configure the default for all requests:\nclient := dodopayments.NewClient(\n  option.WithMaxRetries(0), // default is 2\n)\n\n// Override per-request:\nclient.CheckoutSessions.New(\n  context.TODO(),\n  dodopayments.CheckoutSessionNewParams{\n    CheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n      ProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{dodopayments.ProductItemReqParam{\n        ProductID: dodopayments.F("product_id"),\n        Quantity: dodopayments.F(int64(0)),\n      }}),\n    },\n  },\n  option.WithMaxRetries(5),\n)\n```\n\n\n### Accessing raw response data (e.g. response headers)\n\nYou can access the raw HTTP response data by using the `option.WithResponseInto()` request option. This is useful when\nyou need to examine response headers, status codes, or other details.\n\n```go\n// Create a variable to store the HTTP response\nvar response *http.Response\ncheckoutSessionResponse, err := client.CheckoutSessions.New(\n  context.TODO(),\n  dodopayments.CheckoutSessionNewParams{\n    CheckoutSessionRequest: dodopayments.CheckoutSessionRequestParam{\n      ProductCart: dodopayments.F([]dodopayments.ProductItemReqParam{dodopayments.ProductItemReqParam{\n        ProductID: dodopayments.F("product_id"),\n        Quantity: dodopayments.F(int64(0)),\n      }}),\n    },\n  },\n  option.WithResponseInto(&response),\n)\nif err != nil {\n  // handle error\n}\nfmt.Printf("%+v\\n", checkoutSessionResponse)\n\nfmt.Printf("Status Code: %d\\n", response.StatusCode)\nfmt.Printf("Headers: %+#v\\n", response.Header)\n```\n\n### Making custom/undocumented requests\n\nThis library is typed for convenient access to the documented API. If you need to access undocumented\nendpoints, params, or response properties, the library can still be used.\n\n#### Undocumented endpoints\n\nTo make requests to undocumented endpoints, you can use `client.Get`, `client.Post`, and other HTTP verbs.\n`RequestOptions` on the client, such as retries, will be respected when making these requests.\n\n```go\nvar (\n    // params can be an io.Reader, a []byte, an encoding/json serializable object,\n    // or a "…Params" struct defined in this library.\n    params map[string]interface{}\n\n    // result can be an []byte, *http.Response, a encoding/json deserializable object,\n    // or a model defined in this library.\n    result *http.Response\n)\nerr := client.Post(context.Background(), "/unspecified", params, &result)\nif err != nil {\n    …\n}\n```\n\n#### Undocumented request params\n\nTo make requests using undocumented parameters, you may use either the `SDK_PackageOptionName.WithQuerySet()`\nor the `SDK_PackageOptionName.WithJSONSet()` methods.\n\n```go\nparams := FooNewParams{\n    ID:   SDK_PackageName.F("id_xxxx"),\n    Data: SDK_PackageName.F(FooNewParamsData{\n        FirstName: SDK_PackageName.F("John"),\n    }),\n}\nclient.Foo.New(context.Background(), params, SDK_PackageOptionName.WithJSONSet("data.last_name", "Doe"))\n```\n\n#### Undocumented response properties\n\nTo access undocumented response properties, you may either access the raw JSON of the response as a string\nwith `result.JSON.RawJSON()`, or get the raw JSON of a particular field on the result with\n`result.JSON.Foo.Raw()`.\n\nAny fields that are not present on the response struct will be saved and can be accessed by `result.JSON.ExtraFields()` which returns the extra fields as a `map[string]Field`.\n\n### Middleware\n\nWe provide `SDK_PackageOptionName.WithMiddleware` which applies the given\nmiddleware to requests.\n\n```go\nfunc Logger(req *http.Request, next SDK_PackageOptionName.MiddlewareNext) (res *http.Response, err error) {\n\t// Before the request\n\tstart := time.Now()\n\tLogReq(req)\n\n\t// Forward the request to the next handler\n\tres, err = next(req)\n\n\t// Handle stuff after the request\n\tend := time.Now()\n\tLogRes(res, err, start - end)\n\n    return res, err\n}\n\nclient := SDK_PackageName.SDK_ClientInitializerName(\n\tSDK_PackageOptionName.WithMiddleware(Logger),\n)\n```\n\nWhen multiple middlewares are provided as variadic arguments, the middlewares\nare applied left to right. If `SDK_PackageOptionName.WithMiddleware` is given\nmultiple times, for example first in the client then the method, the\nmiddleware in the client will run first and the middleware given in the method\nwill run next.\n\nYou may also replace the default `http.Client` with\n`SDK_PackageOptionName.WithHTTPClient(client)`. Only one http client is\naccepted (this overwrites any previous client) and receives requests after any\nmiddleware has been applied.\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n2. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/dodopayments/dodopayments-go/issues) with questions, bugs, or suggestions.\n\n## Contributing\n\nSee [the contributing documentation](./CONTRIBUTING.md).\n',
   },
   {
     language: 'ruby',

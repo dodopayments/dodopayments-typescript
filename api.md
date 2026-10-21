@@ -27,6 +27,7 @@ Types:
 
 - <code><a href="./src/resources/payments.ts">AttachExistingCustomer</a></code>
 - <code><a href="./src/resources/payments.ts">BillingAddress</a></code>
+- <code><a href="./src/resources/payments.ts">ChargeType</a></code>
 - <code><a href="./src/resources/payments.ts">CreateNewCustomer</a></code>
 - <code><a href="./src/resources/payments.ts">CustomFieldResponse</a></code>
 - <code><a href="./src/resources/payments.ts">CustomerLimitedDetails</a></code>
@@ -100,9 +101,9 @@ Methods:
 
 Methods:
 
-- <code title="get /invoices/payments/{payment_id}">client.invoices.payments.<a href="./src/resources/invoices/payments.ts">retrieve</a>(paymentID) -> Response</code>
-- <code title="get /invoices/refunds/{refund_id}">client.invoices.payments.<a href="./src/resources/invoices/payments.ts">retrieveRefund</a>(refundID) -> Response</code>
-- <code title="get /invoices/payouts/{payout_id}">client.invoices.payments.<a href="./src/resources/invoices/payments.ts">retrievePayout</a>(payoutID) -> Response</code>
+- <code title="get /invoices/payments/{payment_id}">client.invoices.payments.<a href="./src/resources/invoices/payments.ts">retrieve</a>(paymentID, { ...params }) -> Response</code>
+- <code title="get /invoices/refunds/{refund_id}">client.invoices.payments.<a href="./src/resources/invoices/payments.ts">retrieveRefund</a>(refundID, { ...params }) -> Response</code>
+- <code title="get /invoices/payouts/{payout_id}">client.invoices.payments.<a href="./src/resources/invoices/payments.ts">retrievePayout</a>(payoutID, { ...params }) -> Response</code>
 
 # Licenses
 

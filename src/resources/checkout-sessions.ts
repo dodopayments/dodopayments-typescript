@@ -897,6 +897,14 @@ export namespace CheckoutSessionPreviewResponse {
     discount_cycle?: number | null;
 
     /**
+     * The monthly equivalent of the yearly unit price after discounts, in minor units
+     * of `currency`. Only the hosted checkout sets it, when the business shows yearly
+     * plans as monthly. The value is only for display. The order summary shows the
+     * amounts that we charge.
+     */
+    monthly_equivalent?: number | null;
+
+    /**
      * name of the product
      */
     name?: string | null;
