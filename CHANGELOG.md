@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.56.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.55.0...v2.56.0) (2026-10-21)
+
+
+### Features
+
+* **api:** payment charge type, usage flag and card details, signed invoice link tokens ([1ae755a](https://github.com/dodopayments/dodopayments-typescript/commit/1ae755a2cb52d839b6563d80d0f5d970084d3f61))
+* **api:** payment charge type, usage flag and card details, signed invoice link tokens ([883c488](https://github.com/dodopayments/dodopayments-typescript/commit/883c4887923c64eab35bbb3902d753c5094ffae7))
+
 ## [2.55.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.54.2...v2.55.0) (2026-10-14)
 
 
