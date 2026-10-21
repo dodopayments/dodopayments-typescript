@@ -125,6 +125,9 @@ client.example.list(undefined, { headers: { ... } });
 - `client.payments.list()`
 - `client.subscriptions.list()`
 - `client.subscriptions.retrieveUsageHistory()`
+- `client.invoices.payments.retrieve()`
+- `client.invoices.payments.retrieveRefund()`
+- `client.invoices.payments.retrievePayout()`
 - `client.licenseKeys.list()`
 - `client.licenseKeyInstances.list()`
 - `client.customers.list()`

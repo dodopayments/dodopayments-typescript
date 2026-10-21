@@ -146,6 +146,7 @@ import {
 import {
   AttachExistingCustomer,
   BillingAddress,
+  ChargeType,
   CreateNewCustomer,
   CustomFieldResponse,
   CustomerLimitedDetails,
@@ -1218,6 +1219,7 @@ export declare namespace DodoPayments {
     Payments as Payments,
     type AttachExistingCustomer as AttachExistingCustomer,
     type BillingAddress as BillingAddress,
+    type ChargeType as ChargeType,
     type CreateNewCustomer as CreateNewCustomer,
     type CustomFieldResponse as CustomFieldResponse,
     type CustomerLimitedDetails as CustomerLimitedDetails,

@@ -161,6 +161,7 @@ export {
   Payments,
   type AttachExistingCustomer,
   type BillingAddress,
+  type ChargeType,
   type CreateNewCustomer,
   type CustomFieldResponse,
   type CustomerLimitedDetails,
