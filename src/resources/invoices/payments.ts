@@ -18,8 +18,13 @@ export class Payments extends APIResource {
    * console.log(content);
    * ```
    */
-  retrieve(paymentID: string, options?: RequestOptions): APIPromise<Response> {
+  retrieve(
+    paymentID: string,
+    query: PaymentRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Response> {
     return this._client.get(path`/invoices/payments/${paymentID}`, {
+      query,
       ...options,
       headers: buildHeaders([{ Accept: 'application/pdf' }, options?.headers]),
       __binaryResponse: true,
@@ -38,8 +43,13 @@ export class Payments extends APIResource {
    * console.log(content);
    * ```
    */
-  retrieveRefund(refundID: string, options?: RequestOptions): APIPromise<Response> {
+  retrieveRefund(
+    refundID: string,
+    query: PaymentRetrieveRefundParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Response> {
     return this._client.get(path`/invoices/refunds/${refundID}`, {
+      query,
       ...options,
       headers: buildHeaders([{ Accept: 'application/pdf' }, options?.headers]),
       __binaryResponse: true,
@@ -58,11 +68,48 @@ export class Payments extends APIResource {
    * console.log(content);
    * ```
    */
-  retrievePayout(payoutID: string, options?: RequestOptions): APIPromise<Response> {
+  retrievePayout(
+    payoutID: string,
+    query: PaymentRetrievePayoutParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Response> {
     return this._client.get(path`/invoices/payouts/${payoutID}`, {
+      query,
       ...options,
       headers: buildHeaders([{ Accept: 'application/pdf' }, options?.headers]),
       __binaryResponse: true,
     });
   }
+}
+
+export interface PaymentRetrieveParams {
+  /**
+   * The signed link token. If the business asks for a credential on its invoice
+   * links, a valid token for this record replaces the credential.
+   */
+  token?: string;
+}
+
+export interface PaymentRetrieveRefundParams {
+  /**
+   * The signed link token. If the business asks for a credential on its invoice
+   * links, a valid token for this record replaces the credential.
+   */
+  token?: string;
+}
+
+export interface PaymentRetrievePayoutParams {
+  /**
+   * The signed link token. If the business asks for a credential on its invoice
+   * links, a valid token for this record replaces the credential.
+   */
+  token?: string;
+}
+
+export declare namespace Payments {
+  export {
+    type PaymentRetrieveParams as PaymentRetrieveParams,
+    type PaymentRetrieveRefundParams as PaymentRetrieveRefundParams,
+    type PaymentRetrievePayoutParams as PaymentRetrievePayoutParams,
+  };
 }

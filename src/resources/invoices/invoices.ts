@@ -2,7 +2,12 @@
 
 import { APIResource } from '../../core/resource';
 import * as PaymentsAPI from './payments';
-import { Payments } from './payments';
+import {
+  PaymentRetrieveParams,
+  PaymentRetrievePayoutParams,
+  PaymentRetrieveRefundParams,
+  Payments,
+} from './payments';
 
 export class Invoices extends APIResource {
   payments: PaymentsAPI.Payments = new PaymentsAPI.Payments(this._client);
@@ -11,5 +16,10 @@ export class Invoices extends APIResource {
 Invoices.Payments = Payments;
 
 export declare namespace Invoices {
-  export { Payments as Payments };
+  export {
+    Payments as Payments,
+    type PaymentRetrieveParams as PaymentRetrieveParams,
+    type PaymentRetrieveRefundParams as PaymentRetrieveRefundParams,
+    type PaymentRetrievePayoutParams as PaymentRetrievePayoutParams,
+  };
 }
