@@ -140,7 +140,8 @@ export class DefaultPageNumberPagination<Item>
 
   nextPageRequestOptions(): PageRequestOptions | null {
     const query = this.options.query as DefaultPageNumberPaginationParams;
-    const currentPage = query?.page_number ?? 1;
+    // The API numbers pages from 0, and omitting `page_number` returns page 0.
+    const currentPage = query?.page_number ?? 0;
 
     return {
       ...this.options,
