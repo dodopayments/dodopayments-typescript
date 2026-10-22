@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.56.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.56.0...v2.56.1) (2026-10-22)
+
+
+### Bug Fixes
+
+* **deps:** bump remaining vulnerable transitive dependencies in lockfile ([5c6c8ae](https://github.com/dodopayments/dodopayments-typescript/commit/5c6c8aebe920d334446b68bc983f2783f97b1b46))
+* **deps:** bump remaining vulnerable transitive dependencies in lockfile ([dad208c](https://github.com/dodopayments/dodopayments-typescript/commit/dad208c85079193f24daeef06cf1be725aab5b15))
+
+
+### Chores
+
+* **deps:** bump vulnerable transitive dependencies in lockfile ([429d217](https://github.com/dodopayments/dodopayments-typescript/commit/429d217669622791b9f58816787ae12e84db3da7))
+* **deps:** bump vulnerable transitive dependencies in lockfile ([a0ce6e6](https://github.com/dodopayments/dodopayments-typescript/commit/a0ce6e6812ad69aaa301f7761f6df4e5dd9e27d7))
+
 ## [2.56.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.55.0...v2.56.0) (2026-10-21)
 
 
