@@ -68,7 +68,8 @@ export interface BalanceLedgerEntry {
     | 'moderation_fees'
     | 'dodo_fixed_fee'
     | 'interchange_fee'
-    | 'scheme_fee';
+    | 'scheme_fee'
+    | 'opening_balance';
 
   is_credit: boolean;
 
@@ -283,7 +284,8 @@ export interface BalanceRetrieveLedgerParams extends DefaultPageNumberPagination
     | 'moderation_fees'
     | 'dodo_fixed_fee'
     | 'interchange_fee'
-    | 'scheme_fee';
+    | 'scheme_fee'
+    | 'opening_balance';
 
   /**
    * Min : 1, Max : 100, default 10

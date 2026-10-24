@@ -11,6 +11,7 @@ export {
   type IntegrationConfigResponse,
   type EntitlementListParams,
   type EntitlementCreateParams,
+  type EntitlementRetrieveParams,
   type EntitlementUpdateParams,
   type EntitlementsDefaultPageNumberPagination,
 } from './entitlements';
@@ -24,3 +25,11 @@ export {
   type GrantFulfillLicenseKeyParams,
   type EntitlementGrantsDefaultPageNumberPagination,
 } from './grants';
+export {
+  Translations,
+  type EntitlementTranslation,
+  type EntitlementTranslationsListResponse,
+  type TranslationListParams,
+  type TranslationUpdateParams,
+  type TranslationDeleteParams,
+} from './translations';

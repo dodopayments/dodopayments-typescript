@@ -6,9 +6,10 @@ export {
   type AddonUpdateImagesResponse,
   type AddonListParams,
   type AddonCreateParams,
+  type AddonRetrieveParams,
   type AddonUpdateParams,
   type AddonResponsesDefaultPageNumberPagination,
-} from './addons';
+} from './addons/addons';
 export {
   Balances,
   type BalanceLedgerEntry,
@@ -50,6 +51,7 @@ export {
   type CreditEntitlement,
   type CreditEntitlementListParams,
   type CreditEntitlementCreateParams,
+  type CreditEntitlementRetrieveParams,
   type CreditEntitlementUpdateParams,
   type CreditEntitlementsDefaultPageNumberPagination,
 } from './credit-entitlements/credit-entitlements';
@@ -98,6 +100,7 @@ export {
   type IntegrationConfigResponse,
   type EntitlementListParams,
   type EntitlementCreateParams,
+  type EntitlementRetrieveParams,
   type EntitlementUpdateParams,
   type EntitlementsDefaultPageNumberPagination,
 } from './entitlements/entitlements';
@@ -136,14 +139,19 @@ export {
   type MeterFilter,
   type MeterListParams,
   type MeterCreateParams,
+  type MeterRetrieveParams,
+  type MeterUpdateParams,
   type MetersDefaultPageNumberPagination,
-} from './meters';
+} from './meters/meters';
 export {
   Misc,
   type CountryCode,
   type Currency,
+  type Locale,
+  type LocaleInfo,
   type Metadata,
   type TaxCategory,
+  type MiscListLocalesResponse,
   type MiscListSupportedCountriesResponse,
 } from './misc';
 export {
@@ -176,11 +184,14 @@ export {
   type PaymentRefundStatus,
   type RefundListItem,
   type SubscriptionServicePeriod,
+  type ThreeDSFlow,
+  type ThreeDSStatus,
   type PaymentCreateResponse,
   type PaymentListResponse,
   type PaymentRetrieveLineItemsResponse,
   type PaymentListParams,
   type PaymentCreateParams,
+  type PaymentRetrieveLineItemsParams,
   type RefundListItemsDefaultPageNumberPagination,
   type PaymentListResponsesDefaultPageNumberPagination,
 } from './payments';
@@ -198,6 +209,7 @@ export {
   type ProductCollectionUpdateImagesResponse,
   type ProductCollectionListParams,
   type ProductCollectionCreateParams,
+  type ProductCollectionRetrieveParams,
   type ProductCollectionUpdateParams,
   type ProductCollectionUpdateImagesParams,
   type ProductCollectionListResponsesDefaultPageNumberPagination,
@@ -219,6 +231,7 @@ export {
   type ProductUpdateFilesResponse,
   type ProductListParams,
   type ProductCreateParams,
+  type ProductRetrieveParams,
   type ProductUpdateParams,
   type ProductUpdateFilesParams,
   type ProductListResponsesDefaultPageNumberPagination,
@@ -256,6 +269,7 @@ export {
   type SubscriptionUpdatePaymentMethodResponse,
   type SubscriptionListParams,
   type SubscriptionCreateParams,
+  type SubscriptionRetrieveParams,
   type SubscriptionUpdateParams,
   type SubscriptionChargeParams,
   type SubscriptionChangePlanParams,

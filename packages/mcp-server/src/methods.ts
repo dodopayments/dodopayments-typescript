@@ -431,6 +431,24 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/products/{id}/files',
   },
   {
+    clientCallName: 'client.products.translations.list',
+    fullyQualifiedName: 'products.translations.list',
+    httpMethod: 'get',
+    httpPath: '/products/{id}/translations',
+  },
+  {
+    clientCallName: 'client.products.translations.update',
+    fullyQualifiedName: 'products.translations.update',
+    httpMethod: 'put',
+    httpPath: '/products/{id}/translations/{locale}',
+  },
+  {
+    clientCallName: 'client.products.translations.delete',
+    fullyQualifiedName: 'products.translations.delete',
+    httpMethod: 'delete',
+    httpPath: '/products/{id}/translations/{locale}',
+  },
+  {
     clientCallName: 'client.products.images.update',
     fullyQualifiedName: 'products.images.update',
     httpMethod: 'put',
@@ -483,6 +501,12 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'misc.listSupportedCountries',
     httpMethod: 'get',
     httpPath: '/checkout/supported_countries',
+  },
+  {
+    clientCallName: 'client.misc.listLocales',
+    fullyQualifiedName: 'misc.listLocales',
+    httpMethod: 'get',
+    httpPath: '/locales',
   },
   {
     clientCallName: 'client.discounts.list',
@@ -549,6 +573,36 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'addons.updateImages',
     httpMethod: 'put',
     httpPath: '/addons/{id}/images',
+  },
+  {
+    clientCallName: 'client.addons.delete',
+    fullyQualifiedName: 'addons.delete',
+    httpMethod: 'delete',
+    httpPath: '/addons/{id}',
+  },
+  {
+    clientCallName: 'client.addons.unarchive',
+    fullyQualifiedName: 'addons.unarchive',
+    httpMethod: 'post',
+    httpPath: '/addons/{id}/unarchive',
+  },
+  {
+    clientCallName: 'client.addons.translations.list',
+    fullyQualifiedName: 'addons.translations.list',
+    httpMethod: 'get',
+    httpPath: '/addons/{id}/translations',
+  },
+  {
+    clientCallName: 'client.addons.translations.update',
+    fullyQualifiedName: 'addons.translations.update',
+    httpMethod: 'put',
+    httpPath: '/addons/{id}/translations/{locale}',
+  },
+  {
+    clientCallName: 'client.addons.translations.delete',
+    fullyQualifiedName: 'addons.translations.delete',
+    httpMethod: 'delete',
+    httpPath: '/addons/{id}/translations/{locale}',
   },
   {
     clientCallName: 'client.brands.list',
@@ -673,6 +727,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/meters/{id}',
   },
   {
+    clientCallName: 'client.meters.update',
+    fullyQualifiedName: 'meters.update',
+    httpMethod: 'patch',
+    httpPath: '/meters/{id}',
+  },
+  {
     clientCallName: 'client.meters.archive',
     fullyQualifiedName: 'meters.archive',
     httpMethod: 'delete',
@@ -683,6 +743,24 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'meters.unarchive',
     httpMethod: 'post',
     httpPath: '/meters/{id}/unarchive',
+  },
+  {
+    clientCallName: 'client.meters.translations.list',
+    fullyQualifiedName: 'meters.translations.list',
+    httpMethod: 'get',
+    httpPath: '/meters/{id}/translations',
+  },
+  {
+    clientCallName: 'client.meters.translations.update',
+    fullyQualifiedName: 'meters.translations.update',
+    httpMethod: 'put',
+    httpPath: '/meters/{id}/translations/{locale}',
+  },
+  {
+    clientCallName: 'client.meters.translations.delete',
+    fullyQualifiedName: 'meters.translations.delete',
+    httpMethod: 'delete',
+    httpPath: '/meters/{id}/translations/{locale}',
   },
   {
     clientCallName: 'client.balances.retrieveLedger',
@@ -725,6 +803,24 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'creditEntitlements.undelete',
     httpMethod: 'post',
     httpPath: '/credit-entitlements/{id}/undelete',
+  },
+  {
+    clientCallName: 'client.creditEntitlements.translations.list',
+    fullyQualifiedName: 'creditEntitlements.translations.list',
+    httpMethod: 'get',
+    httpPath: '/credit-entitlements/{id}/translations',
+  },
+  {
+    clientCallName: 'client.creditEntitlements.translations.update',
+    fullyQualifiedName: 'creditEntitlements.translations.update',
+    httpMethod: 'put',
+    httpPath: '/credit-entitlements/{id}/translations/{locale}',
+  },
+  {
+    clientCallName: 'client.creditEntitlements.translations.delete',
+    fullyQualifiedName: 'creditEntitlements.translations.delete',
+    httpMethod: 'delete',
+    httpPath: '/credit-entitlements/{id}/translations/{locale}',
   },
   {
     clientCallName: 'client.creditEntitlements.balances.list',
@@ -785,6 +881,24 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'entitlements.update',
     httpMethod: 'patch',
     httpPath: '/entitlements/{id}',
+  },
+  {
+    clientCallName: 'client.entitlements.translations.list',
+    fullyQualifiedName: 'entitlements.translations.list',
+    httpMethod: 'get',
+    httpPath: '/entitlements/{id}/translations',
+  },
+  {
+    clientCallName: 'client.entitlements.translations.update',
+    fullyQualifiedName: 'entitlements.translations.update',
+    httpMethod: 'put',
+    httpPath: '/entitlements/{id}/translations/{locale}',
+  },
+  {
+    clientCallName: 'client.entitlements.translations.delete',
+    fullyQualifiedName: 'entitlements.translations.delete',
+    httpMethod: 'delete',
+    httpPath: '/entitlements/{id}/translations/{locale}',
   },
   {
     clientCallName: 'client.entitlements.files.upload',
@@ -857,6 +971,24 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'productCollections.unarchive',
     httpMethod: 'post',
     httpPath: '/product-collections/{id}/unarchive',
+  },
+  {
+    clientCallName: 'client.productCollections.translations.list',
+    fullyQualifiedName: 'productCollections.translations.list',
+    httpMethod: 'get',
+    httpPath: '/product-collections/{id}/translations',
+  },
+  {
+    clientCallName: 'client.productCollections.translations.update',
+    fullyQualifiedName: 'productCollections.translations.update',
+    httpMethod: 'put',
+    httpPath: '/product-collections/{id}/translations/{locale}',
+  },
+  {
+    clientCallName: 'client.productCollections.translations.delete',
+    fullyQualifiedName: 'productCollections.translations.delete',
+    httpMethod: 'delete',
+    httpPath: '/product-collections/{id}/translations/{locale}',
   },
   {
     clientCallName: 'client.productCollections.groups.create',

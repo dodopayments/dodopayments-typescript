@@ -88,7 +88,7 @@ importers:
         version: 2.1.5(hono@4.13.13)
       '@modelcontextprotocol/sdk':
         specifier: ^1.32.1
-        version: 1.32.1(zod@4.6.7)
+        version: 1.32.2(zod@4.6.7)
       '@valtown/deno-http-worker':
         specifier: ^0.0.21
         version: 0.0.21
@@ -1070,10 +1070,10 @@ packages:
         integrity: sha512-G8FdIoF5CypfwmD9rl8BXod5HDn8JqB0CCNBXDTaRZ+yRYhARrrSToX1zg1zy9jX3zLqigsELwhT4gNtkdQAUg==,
       }
 
-  '@modelcontextprotocol/sdk@1.32.1':
+  '@modelcontextprotocol/sdk@1.32.2':
     resolution:
       {
-        integrity: sha512-2DdE+SJDtzLEEWzY1ZjY7Q+VcPhcV1KisD3zI4u0XZyktsjHum1mwbMI+JaulUBi2OZk+KJAi2uPXzxichPkdw==,
+        integrity: sha512-SWsVtH/0vULSQStoZ6xxH2K09Li8fXYTMC64ZeogCdpZ3XSi1eCPOByV1OpuJxuI3OcmHhosDWYyii07tpPsLw==,
       }
     engines: { node: '>=18' }
     peerDependencies:
@@ -6764,7 +6764,7 @@ snapshots:
     dependencies:
       '@braidai/lang': 1.1.2
 
-  '@modelcontextprotocol/sdk@1.32.1(zod@4.6.7)':
+  '@modelcontextprotocol/sdk@1.32.2(zod@4.6.7)':
     dependencies:
       '@hono/node-server': 2.1.5(hono@4.13.13)
       ajv: 8.20.0

@@ -51,8 +51,12 @@ export class Subscriptions extends APIResource {
    * );
    * ```
    */
-  retrieve(subscriptionID: string, options?: RequestOptions): APIPromise<Subscription> {
-    return this._client.get(path`/subscriptions/${subscriptionID}`, options);
+  retrieve(
+    subscriptionID: string,
+    query: SubscriptionRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Subscription> {
+    return this._client.get(path`/subscriptions/${subscriptionID}`, { query, ...options });
   }
 
   /**
@@ -841,6 +845,11 @@ export interface UpdateSubscriptionPlanReq {
    * - `apply_change` (default): Apply plan change immediately regardless of payment
    *   outcome
    *
+   * With `effective_at: next_billing_date`, the plan change payment replaces the
+   * renewal payment. If that payment fails with `prevent_change`, the plan change is
+   * cancelled. The subscription then renews on the current plan, with the usual
+   * payment retries.
+   *
    * If not specified, uses the business-level default setting.
    */
   on_payment_failure?: 'prevent_change' | 'apply_change' | null;
@@ -1470,6 +1479,16 @@ export interface SubscriptionListParams extends DefaultPageNumberPaginationParam
   customer_id?: string;
 
   /**
+   * Shows the translated name, description and unit of the catalog entities in this
+   * locale. The value must be a code from `GET /locales`, for example `fr`. A field
+   * with no translation, an unknown code, or no code shows the base text.
+   *
+   * Do not send a text from a localized response back in a create or update request.
+   * The base text then changes to the translated text.
+   */
+  locale?: string;
+
+  /**
    * Filter by product id
    */
   product_id?: string;
@@ -1619,6 +1638,18 @@ export interface SubscriptionCreateParams {
    * period set in the product's price Must be between 0 and 10000 days
    */
   trial_period_days?: number | null;
+}
+
+export interface SubscriptionRetrieveParams {
+  /**
+   * Shows the translated name, description and unit of the catalog entities in this
+   * locale. The value must be a code from `GET /locales`, for example `fr`. A field
+   * with no translation, an unknown code, or no code shows the base text.
+   *
+   * Do not send a text from a localized response back in a create or update request.
+   * The base text then changes to the translated text.
+   */
+  locale?: string;
 }
 
 export interface SubscriptionUpdateParams {
@@ -1912,6 +1943,11 @@ export interface SubscriptionChangePlanParams {
    * - `apply_change` (default): Apply plan change immediately regardless of payment
    *   outcome
    *
+   * With `effective_at: next_billing_date`, the plan change payment replaces the
+   * renewal payment. If that payment fails with `prevent_change`, the plan change is
+   * cancelled. The subscription then renews on the current plan, with the usual
+   * payment retries.
+   *
    * If not specified, uses the business-level default setting.
    */
   on_payment_failure?: 'prevent_change' | 'apply_change' | null;
@@ -2087,6 +2123,11 @@ export interface SubscriptionPreviewChangePlanParams {
    * - `apply_change` (default): Apply plan change immediately regardless of payment
    *   outcome
    *
+   * With `effective_at: next_billing_date`, the plan change payment replaces the
+   * renewal payment. If that payment fails with `prevent_change`, the plan change is
+   * cancelled. The subscription then renews on the current plan, with the usual
+   * payment retries.
+   *
    * If not specified, uses the business-level default setting.
    */
   on_payment_failure?: 'prevent_change' | 'apply_change' | null;
@@ -2133,6 +2174,7 @@ export declare namespace Subscriptions {
     type SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination as SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
     type SubscriptionListParams as SubscriptionListParams,
     type SubscriptionCreateParams as SubscriptionCreateParams,
+    type SubscriptionRetrieveParams as SubscriptionRetrieveParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionChargeParams as SubscriptionChargeParams,
     type SubscriptionChangePlanParams as SubscriptionChangePlanParams,

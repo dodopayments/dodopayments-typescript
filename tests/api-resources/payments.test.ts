@@ -113,6 +113,17 @@ describe('resource payments', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('retrieveLineItems: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.payments.retrieveLineItems(
+        'pay_gr4RizvMOXFJ6xca3y2tU',
+        { currency: 'AED' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
+
   test('retry', async () => {
     const responsePromise = client.payments.retry('payment_id');
     const rawResponse = await responsePromise.asResponse();
