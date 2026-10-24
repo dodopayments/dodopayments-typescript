@@ -28,7 +28,7 @@
     "@modelcontextprotocol/server": "2.3.1",
     "agents": "~0.27.0",
     "dodopayments": "2.54.1",
-    "dodopayments-mcp": "2.54.1",
+    "dodopayments-mcp": "2.57.0",
     "hono": "^4.13.13"
   },
   "// overrides": "Use patched MCP releases rather than agents' older exact peer pins. Keep the SDK pin and overrides in sync so McpAgent and dodopayments-mcp share one McpServer constructor. Explicit v2 peers are required by agents/mcp imports even though MyMCP uses SDK v1. legacy-peer-deps in .npmrc is intentional; compatibility is checked by types, tests and the Worker build.",
