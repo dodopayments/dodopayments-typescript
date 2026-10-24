@@ -78,8 +78,9 @@ and repeatably.
 
 ### Requirements for the code tool
 
-The `execute` tool runs your code in a local [Deno](https://deno.land) sandbox, so Deno must be
-available. The server looks for it in this order:
+The `execute` tool runs your code in a local [Deno](https://deno.land) sandbox, so Deno **2.9 or
+later** must be available; earlier versions cannot start the sandbox. The server looks for it in
+this order:
 
 1. A `deno` binary on your `PATH`.
 2. A `deno` binary from the [`deno` npm package](https://www.npmjs.com/package/deno), when it is
@@ -93,12 +94,6 @@ documentation search, keeps working.
 > server then resolves from its own cache directory rather than from your project. Since
 > `npx -y dodopayments-mcp` is the most common way to run it, installing Deno on your `PATH` is the
 > recommended setup.
-
-> [!WARNING]
-> Use **Deno 2.8 or earlier** for now. On Deno 2.9+ the sandbox fails to start, because binding the
-> worker's Unix socket began requiring `--allow-net` permission for that socket, which the worker
-> does not grant. Note that `npm install deno` currently installs an affected version. Tracked in
-> [#330](https://github.com/dodopayments/dodopayments-typescript/issues/330).
 
 > [!IMPORTANT]
 > Local code execution is supported on **macOS and Linux only**. It does not work on Windows,
