@@ -16,6 +16,15 @@ import {
   Grants,
   LicenseKeyGrant,
 } from './grants';
+import * as TranslationsAPI from './translations';
+import {
+  EntitlementTranslation,
+  EntitlementTranslationsListResponse,
+  TranslationDeleteParams,
+  TranslationListParams,
+  TranslationUpdateParams,
+  Translations,
+} from './translations';
 import { APIPromise } from '../../core/api-promise';
 import {
   DefaultPageNumberPagination,
@@ -27,6 +36,7 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class Entitlements extends APIResource {
+  translations: TranslationsAPI.Translations = new TranslationsAPI.Translations(this._client);
   files: FilesAPI.Files = new FilesAPI.Files(this._client);
   grants: GrantsAPI.Grants = new GrantsAPI.Grants(this._client);
 
@@ -80,8 +90,12 @@ export class Entitlements extends APIResource {
    * );
    * ```
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<Entitlement> {
-    return this._client.get(path`/entitlements/${id}`, options);
+  retrieve(
+    id: string,
+    query: EntitlementRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Entitlement> {
+    return this._client.get(path`/entitlements/${id}`, { query, ...options });
   }
 
   /**
@@ -560,6 +574,16 @@ export interface EntitlementListParams extends DefaultPageNumberPaginationParams
     | 'digital_files'
     | 'license_key'
     | 'feature_flag';
+
+  /**
+   * Shows the translated name, description and unit of the catalog entities in this
+   * locale. The value must be a code from `GET /locales`, for example `fr`. A field
+   * with no translation, an unknown code, or no code shows the base text.
+   *
+   * Do not send a text from a localized response back in a create or update request.
+   * The base text then changes to the translated text.
+   */
+  locale?: string;
 }
 
 export interface EntitlementCreateParams {
@@ -589,6 +613,18 @@ export interface EntitlementCreateParams {
   metadata?: MiscAPI.Metadata;
 }
 
+export interface EntitlementRetrieveParams {
+  /**
+   * Shows the translated name, description and unit of the catalog entities in this
+   * locale. The value must be a code from `GET /locales`, for example `fr`. A field
+   * with no translation, an unknown code, or no code shows the base text.
+   *
+   * Do not send a text from a localized response back in a create or update request.
+   * The base text then changes to the translated text.
+   */
+  locale?: string;
+}
+
 export interface EntitlementUpdateParams {
   description?: string | null;
 
@@ -610,6 +646,7 @@ export interface EntitlementUpdateParams {
   name?: string | null;
 }
 
+Entitlements.Translations = Translations;
 Entitlements.Files = Files;
 Entitlements.Grants = Grants;
 
@@ -625,7 +662,17 @@ export declare namespace Entitlements {
     type EntitlementsDefaultPageNumberPagination as EntitlementsDefaultPageNumberPagination,
     type EntitlementListParams as EntitlementListParams,
     type EntitlementCreateParams as EntitlementCreateParams,
+    type EntitlementRetrieveParams as EntitlementRetrieveParams,
     type EntitlementUpdateParams as EntitlementUpdateParams,
+  };
+
+  export {
+    Translations as Translations,
+    type EntitlementTranslation as EntitlementTranslation,
+    type EntitlementTranslationsListResponse as EntitlementTranslationsListResponse,
+    type TranslationListParams as TranslationListParams,
+    type TranslationUpdateParams as TranslationUpdateParams,
+    type TranslationDeleteParams as TranslationDeleteParams,
   };
 
   export {

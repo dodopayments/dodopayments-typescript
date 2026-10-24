@@ -22,6 +22,15 @@ export {
   type CreditEntitlement,
   type CreditEntitlementListParams,
   type CreditEntitlementCreateParams,
+  type CreditEntitlementRetrieveParams,
   type CreditEntitlementUpdateParams,
   type CreditEntitlementsDefaultPageNumberPagination,
 } from './credit-entitlements';
+export {
+  Translations,
+  type CreditEntitlementTranslation,
+  type CreditEntitlementTranslationsListResponse,
+  type TranslationListParams,
+  type TranslationUpdateParams,
+  type TranslationDeleteParams,
+} from './translations';

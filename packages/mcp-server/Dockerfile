@@ -43,7 +43,7 @@ ENV CI=true
 RUN pnpm install --frozen-lockfile && \
     pnpm build
 
-FROM denoland/deno:alpine-2.9.8
+FROM denoland/deno:alpine-2.7.1
 
 # Install node and npm
 RUN apk add --no-cache nodejs npm

@@ -17,7 +17,14 @@ export {
   type ProductCollectionUpdateImagesResponse,
   type ProductCollectionListParams,
   type ProductCollectionCreateParams,
+  type ProductCollectionRetrieveParams,
   type ProductCollectionUpdateParams,
   type ProductCollectionUpdateImagesParams,
   type ProductCollectionListResponsesDefaultPageNumberPagination,
 } from './product-collections';
+export {
+  Translations,
+  type TranslationListParams,
+  type TranslationUpdateParams,
+  type TranslationDeleteParams,
+} from './translations';
