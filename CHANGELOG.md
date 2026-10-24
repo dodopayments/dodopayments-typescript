@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.57.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.56.1...v2.57.0) (2026-10-24)
+
+
+### Features
+
+* **api:** translations and locales, addon delete/unarchive, meter update, 3DS payment details ([6934ef9](https://github.com/dodopayments/dodopayments-typescript/commit/6934ef9679399f3d3b857f0bc6a832db4bdf54e4))
+* **api:** translations and locales, addon delete/unarchive, meter update, 3DS payment details ([b7c87ad](https://github.com/dodopayments/dodopayments-typescript/commit/b7c87adf17d98b378fe202094a0bb911d77d9ad6))
+
+
+### Bug Fixes
+
+* **mcp:** bump Docker runtime image to Deno 2.9.8 ([8850bd2](https://github.com/dodopayments/dodopayments-typescript/commit/8850bd26450eac6acc181d59437b81c7b74887ff)), closes [#330](https://github.com/dodopayments/dodopayments-typescript/issues/330)
+* **mcp:** support Deno 2.9+ in the code tool sandbox ([a8ad3cb](https://github.com/dodopayments/dodopayments-typescript/commit/a8ad3cbc09acb2dc6c2f54191c3a3dce568fae89))
+* **mcp:** support Deno 2.9+ in the code tool sandbox ([5e1f90d](https://github.com/dodopayments/dodopayments-typescript/commit/5e1f90d4343df9159d7f6849101360993b130f56)), closes [#330](https://github.com/dodopayments/dodopayments-typescript/issues/330)
+
 ## [2.56.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.56.0...v2.56.1) (2026-10-22)
 
 
