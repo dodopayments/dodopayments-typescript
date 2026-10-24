@@ -28,6 +28,15 @@ import {
   ShortLinkListResponsesDefaultPageNumberPagination,
   ShortLinks,
 } from './short-links';
+import * as TranslationsAPI from './translations';
+import {
+  Translation,
+  TranslationDeleteParams,
+  TranslationListParams,
+  TranslationUpdateParams,
+  Translations,
+  TranslationsListResponse,
+} from './translations';
 import { APIPromise } from '../../core/api-promise';
 import {
   DefaultPageNumberPagination,
@@ -39,6 +48,7 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class Products extends APIResource {
+  translations: TranslationsAPI.Translations = new TranslationsAPI.Translations(this._client);
   images: ImagesAPI.Images = new ImagesAPI.Images(this._client);
   shortLinks: ShortLinksAPI.ShortLinks = new ShortLinksAPI.ShortLinks(this._client);
   localizedPrices: LocalizedPricesAPI.LocalizedPrices = new LocalizedPricesAPI.LocalizedPrices(this._client);
@@ -88,8 +98,12 @@ export class Products extends APIResource {
    * );
    * ```
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<Product> {
-    return this._client.get(path`/products/${id}`, options);
+  retrieve(
+    id: string,
+    query: ProductRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Product> {
+    return this._client.get(path`/products/${id}`, { query, ...options });
   }
 
   /**
@@ -995,6 +1009,16 @@ export interface ProductListParams extends DefaultPageNumberPaginationParams {
   brand_id?: string;
 
   /**
+   * Shows the translated name, description and unit of the catalog entities in this
+   * locale. The value must be a code from `GET /locales`, for example `fr`. A field
+   * with no translation, an unknown code, or no code shows the base text.
+   *
+   * Do not send a text from a localized response back in a create or update request.
+   * The base text then changes to the translated text.
+   */
+  locale?: string;
+
+  /**
    * Filter products by pricing type:
    *
    * - `true`: Show only recurring pricing products (e.g. subscriptions)
@@ -1110,6 +1134,18 @@ export namespace ProductCreateParams {
      */
     instructions?: string | null;
   }
+}
+
+export interface ProductRetrieveParams {
+  /**
+   * Shows the translated name, description and unit of the catalog entities in this
+   * locale. The value must be a code from `GET /locales`, for example `fr`. A field
+   * with no translation, an unknown code, or no code shows the base text.
+   *
+   * Do not send a text from a localized response back in a create or update request.
+   * The base text then changes to the translated text.
+   */
+  locale?: string;
 }
 
 export interface ProductUpdateParams {
@@ -1233,6 +1269,7 @@ export interface ProductUpdateFilesParams {
   file_name: string;
 }
 
+Products.Translations = Translations;
 Products.Images = Images;
 Products.ShortLinks = ShortLinks;
 Products.LocalizedPrices = LocalizedPrices;
@@ -1255,8 +1292,18 @@ export declare namespace Products {
     type ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
     type ProductListParams as ProductListParams,
     type ProductCreateParams as ProductCreateParams,
+    type ProductRetrieveParams as ProductRetrieveParams,
     type ProductUpdateParams as ProductUpdateParams,
     type ProductUpdateFilesParams as ProductUpdateFilesParams,
+  };
+
+  export {
+    Translations as Translations,
+    type Translation as Translation,
+    type TranslationsListResponse as TranslationsListResponse,
+    type TranslationListParams as TranslationListParams,
+    type TranslationUpdateParams as TranslationUpdateParams,
+    type TranslationDeleteParams as TranslationDeleteParams,
   };
 
   export {

@@ -63,9 +63,10 @@ export class Payments extends APIResource {
    */
   retrieveLineItems(
     paymentID: string,
+    query: PaymentRetrieveLineItemsParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<PaymentRetrieveLineItemsResponse> {
-    return this._client.get(path`/payments/${paymentID}/line-items`, options);
+    return this._client.get(path`/payments/${paymentID}/line-items`, { query, ...options });
   }
 
   /**
@@ -161,6 +162,14 @@ export interface CreateNewCustomer {
   create_new_customer?: boolean;
 
   phone_number?: string | null;
+
+  /**
+   * The language of the customer emails, a code from `GET /locales`. A value
+   * replaces the stored language of the customer, also for an existing customer.
+   * Send a value only to change that language on purpose. With no value, the stored
+   * language stays.
+   */
+  preferred_locale?: MiscAPI.Locale | null;
 }
 
 /**
@@ -602,6 +611,25 @@ export interface Payment {
   tax?: number | null;
 
   /**
+   * How the cardholder completed the 3DS authentication. The value is null when the
+   * processor does not report it.
+   */
+  three_ds_flow?: ThreeDSFlow | null;
+
+  /**
+   * The result of the 3DS authentication, as the processor reports it. The value is
+   * null when the processor reports no 3DS data, for example when the payment did
+   * not use 3DS.
+   */
+  three_ds_status?: ThreeDSStatus | null;
+
+  /**
+   * The 3DS protocol version, for example `2.2.0`. The value is null when the
+   * processor does not report it.
+   */
+  three_ds_version?: string | null;
+
+  /**
    * Timestamp when the payment was last updated
    */
   updated_at?: string | null;
@@ -825,6 +853,18 @@ export interface SubscriptionServicePeriod {
   subscription_id: string;
 }
 
+/**
+ * How the cardholder completed the 3DS authentication.
+ */
+export type ThreeDSFlow = 'challenge' | 'frictionless';
+
+/**
+ * The result of the 3DS authentication of a card payment, as the processor reports
+ * it.
+ */
+export type ThreeDSStatus =
+  'authenticated' | 'attempt_acknowledged' | 'exempted' | 'failed' | 'not_supported' | 'processing_error';
+
 export interface PaymentCreateResponse {
   /**
    * Client secret used to load Dodo checkout SDK NOTE : Dodo checkout SDK will be
@@ -1019,12 +1059,36 @@ export interface PaymentListResponse {
   status?: IntentStatus | null;
 
   subscription_id?: string | null;
+
+  /**
+   * How the cardholder completed the 3DS authentication. The value is null when the
+   * processor does not report it.
+   */
+  three_ds_flow?: ThreeDSFlow | null;
+
+  /**
+   * The result of the 3DS authentication, as the processor reports it. The value is
+   * null when the processor reports no 3DS data, for example when the payment did
+   * not use 3DS.
+   */
+  three_ds_status?: ThreeDSStatus | null;
+
+  /**
+   * The 3DS protocol version, for example `2.2.0`. The value is null when the
+   * processor does not report it.
+   */
+  three_ds_version?: string | null;
 }
 
 export interface PaymentRetrieveLineItemsResponse {
   currency: MiscAPI.Currency;
 
   items: Array<PaymentRetrieveLineItemsResponse.Item>;
+
+  /**
+   * False when the payment method does not allow a partial refund of this payment.
+   */
+  partial_refund_allowed: boolean;
 }
 
 export namespace PaymentRetrieveLineItemsResponse {
@@ -1356,6 +1420,14 @@ export interface PaymentCreateParams {
   tax_id?: string | null;
 }
 
+export interface PaymentRetrieveLineItemsParams {
+  /**
+   * The currency of the amounts. It must be the currency that the customer paid in.
+   * Without it, the amounts are in the settlement currency.
+   */
+  currency?: MiscAPI.Currency;
+}
+
 export declare namespace Payments {
   export {
     type AttachExistingCustomer as AttachExistingCustomer,
@@ -1375,11 +1447,14 @@ export declare namespace Payments {
     type PaymentRefundStatus as PaymentRefundStatus,
     type RefundListItem as RefundListItem,
     type SubscriptionServicePeriod as SubscriptionServicePeriod,
+    type ThreeDSFlow as ThreeDSFlow,
+    type ThreeDSStatus as ThreeDSStatus,
     type PaymentCreateResponse as PaymentCreateResponse,
     type PaymentListResponse as PaymentListResponse,
     type PaymentRetrieveLineItemsResponse as PaymentRetrieveLineItemsResponse,
     type PaymentListResponsesDefaultPageNumberPagination as PaymentListResponsesDefaultPageNumberPagination,
     type PaymentListParams as PaymentListParams,
     type PaymentCreateParams as PaymentCreateParams,
+    type PaymentRetrieveLineItemsParams as PaymentRetrieveLineItemsParams,
   };
 }

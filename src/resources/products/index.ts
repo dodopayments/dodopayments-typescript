@@ -28,6 +28,7 @@ export {
   type ProductUpdateFilesResponse,
   type ProductListParams,
   type ProductCreateParams,
+  type ProductRetrieveParams,
   type ProductUpdateParams,
   type ProductUpdateFilesParams,
   type ProductListResponsesDefaultPageNumberPagination,
@@ -40,3 +41,11 @@ export {
   type ShortLinkCreateParams,
   type ShortLinkListResponsesDefaultPageNumberPagination,
 } from './short-links';
+export {
+  Translations,
+  type Translation,
+  type TranslationsListResponse,
+  type TranslationListParams,
+  type TranslationUpdateParams,
+  type TranslationDeleteParams,
+} from './translations';

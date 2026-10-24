@@ -205,6 +205,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     qualified: 'client.checkoutSessions.preview',
     params: [
       'product_cart: { product_id: string; quantity: number; addons?: { addon_id: string; quantity: number; }[]; amount?: number; credit_entitlements?: { credit_entitlement_id: string; credits_amount: string; }[]; }[];',
+      'locale?: string;',
       'allowed_payment_method_types?: string[];',
       'billing_address?: { country: string; city?: string; state?: string; street?: string; zipcode?: string; };',
       'billing_currency?: string;',
@@ -232,7 +233,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     response:
       '{ billing_country: string; currency: string; current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }; is_byop: boolean; payment_method_required: boolean; product_cart: { credit_entitlements: object[]; currency: currency; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: object[]; og_currency: currency; og_price: number; product_id: string; quantity: number; tax_category: tax_category; tax_inclusive: boolean; tax_rate: number; addons?: object[]; description?: string; discount_amount?: number; discount_cycle?: number; monthly_equivalent?: number; name?: string; tax?: number; }[]; total_price: number; next_billing_date?: string; recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }; subscriptions?: { amount_due_now: number; product_id: string; recurring_amount: number; next_billing_date?: string; recurring_tax?: number; tax_due_now?: number; trial_period_days?: number; }[]; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }',
     markdown:
-      "## preview\n\n`client.checkoutSessions.preview(product_cart: { product_id: string; quantity: number; addons?: attach_addon[]; amount?: number; credit_entitlements?: object[]; }[], allowed_payment_method_types?: string[], billing_address?: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }, billing_currency?: string, cancel_url?: string, confirm?: boolean, custom_fields?: { field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean'; key: string; label: string; options?: string[]; placeholder?: string; required?: boolean; }[], customer?: object | object, customer_business_name?: string, customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: theme_config; }, discount_code?: string, discount_codes?: string[], feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_cardholder_name?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; }, force_3ds?: boolean, mandate_min_amount_inr_paise?: number, metadata?: object, minimal_address?: boolean, payment_method_id?: string, product_collection_id?: string, return_url?: string, short_link?: boolean, show_saved_payment_methods?: boolean, subscription_data?: { on_demand?: on_demand_subscription; trial_period_days?: number; }, tax_id?: string): { billing_country: country_code; currency: currency; current_breakup: object; is_byop: boolean; payment_method_required: boolean; product_cart: object[]; total_price: number; next_billing_date?: string; recurring_breakup?: object; subscriptions?: object[]; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }`\n\n**post** `/checkouts/preview`\n\n### Parameters\n\n- `product_cart: { product_id: string; quantity: number; addons?: { addon_id: string; quantity: number; }[]; amount?: number; credit_entitlements?: { credit_entitlement_id: string; credits_amount: string; }[]; }[]`\n  The products of the checkout. A cart holds at most 20 of them, one-time and\nsubscription products together. An empty cart is valid for the product-collection\nflow, where the customer chooses the product later.\n\n- `allowed_payment_method_types?: string[]`\n  Customers will never see payment methods that are not in this list.\nHowever, adding a method here does not guarantee customers will see it.\nAvailability still depends on other factors (e.g., customer location, merchant settings).\n\nDisclaimar: Always provide 'credit' and 'debit' as a fallback.\nIf all payment methods are unavailable, checkout session will fail.\n\n- `billing_address?: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  Billing address information for the session\n  - `country: string`\n    Two-letter ISO country code (ISO 3166-1 alpha-2)\n  - `city?: string`\n    City name\n  - `state?: string`\n    State or province name\n  - `street?: string`\n    Street address including house number and unit/apartment if applicable\n  - `zipcode?: string`\n    Postal code or ZIP code\n\n- `billing_currency?: string`\n  The currency to charge the customer in.\n\nAdaptive pricing must be enabled for the business. The customer then pays in this\ncurrency. If you do not set it, the currency comes from the billing country.\n\nIf adaptive pricing is disabled, the API discards this field. The currency then comes\nfrom the product price, or from the billing country.\n\n- `cancel_url?: string`\n  The URL to redirect the customer if they cancel or go back from the checkout.\nIf not provided, the back button will not be displayed.\n\n- `confirm?: boolean`\n  If confirm is true, all the details will be finalized. If required data is missing, an API error is thrown.\n\n- `custom_fields?: { field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean'; key: string; label: string; options?: string[]; placeholder?: string; required?: boolean; }[]`\n  Custom fields to collect from customer during checkout (max 5 fields)\n\n- `customer?: { customer_id: string; } | { email: string; name?: string; phone_number?: string; }`\n  Customer details for the session\n\n- `customer_business_name?: string`\n  Optional business / legal name associated with the tax id. When provided\ntogether with a valid tax id for a B2B purchase, this name is rendered\non the invoice instead of the customer's personal name.\n\n- `customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: { dark?: theme_mode_config; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: theme_mode_config; pay_button_text?: string; radius?: string; }; }`\n  Customization for the checkout session page\n  - `force_language?: string`\n    Force the checkout interface to render in a specific language (e.g. `en`, `es`)\n  - `show_on_demand_tag?: boolean`\n    Show on demand tag\n\nDefault is true\n  - `show_order_details?: boolean`\n    Show order details by default\n\nDefault is true\n  - `theme?: 'dark' | 'light' | 'system'`\n    Theme of the page (determines which mode - light/dark/system - to use)\n\nIf not provided, uses the business-configured theme from business_themes table.\n  - `theme_config?: { dark?: { bg_primary?: string; bg_secondary?: string; border_primary?: string; border_secondary?: string; button_primary?: string; button_primary_hover?: string; button_secondary?: string; button_secondary_hover?: string; button_text_primary?: string; button_text_secondary?: string; input_focus_border?: string; text_error?: string; text_placeholder?: string; text_primary?: string; text_secondary?: string; text_success?: string; }; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: { bg_primary?: string; bg_secondary?: string; border_primary?: string; border_secondary?: string; button_primary?: string; button_primary_hover?: string; button_secondary?: string; button_secondary_hover?: string; button_text_primary?: string; button_text_secondary?: string; input_focus_border?: string; text_error?: string; text_placeholder?: string; text_primary?: string; text_secondary?: string; text_success?: string; }; pay_button_text?: string; radius?: string; }`\n    Optional custom theme configuration with colors for light and dark modes\n\n- `discount_code?: string`\n  DEPRECATED: Use discount_codes instead. Cannot be used together with discount_codes.\n\n- `discount_codes?: string[]`\n  Stacked discount codes to apply, in order. Max 20.\nCannot be used together with discount_code.\n\n- `feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_cardholder_name?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; }`\n  - `allow_currency_selection?: boolean`\n    if customer is allowed to change currency, set it to true\n\nDefault is true\n  - `allow_customer_editing_business_name?: boolean`\n    If true, the customer can supply or edit the business name associated\nwith the tax id during checkout. Works independently of\n`allow_customer_editing_tax_id` — either flag (or `allow_tax_id`) is\nsufficient to let the customer override the session's business name.\nTypically set together with `allow_customer_editing_tax_id`.\n\nDefault is false\n  - `allow_customer_editing_city?: boolean`\n  - `allow_customer_editing_country?: boolean`\n  - `allow_customer_editing_email?: boolean`\n  - `allow_customer_editing_name?: boolean`\n  - `allow_customer_editing_state?: boolean`\n  - `allow_customer_editing_street?: boolean`\n  - `allow_customer_editing_tax_id?: boolean`\n  - `allow_customer_editing_zipcode?: boolean`\n  - `allow_discount_code?: boolean`\n    If the customer is allowed to apply discount code, set it to true.\n\nIf this flag is false, the customer cannot change the discount codes.\nThe discount codes that you give when you create the session still apply.\n\nDefault is true\n  - `allow_editing_addons?: boolean`\n    If true, the customer can add or remove addons on a subscription product\nduring checkout.\n\nDefault is false\n  - `allow_phone_number_collection?: boolean`\n    If phone number is collected from customer, set it to rue\n\nDefault is true\n  - `allow_tax_id?: boolean`\n    If the customer is allowed to add tax id, set it to true\n\nDefault is true\n  - `always_create_new_customer?: boolean`\n    Set to true if a new customer object should be created.\nBy default email is used to find an existing customer to attach the session to\n\nDefault is false\n  - `redirect_immediately?: boolean`\n    If true, redirects the customer immediately after payment completion\n\nDefault is false\n  - `require_cardholder_name?: boolean`\n    If true, the customer must give the name on the card to pay by card.\nApple Pay and Google Pay also collect the payer name, and the payment\nstores it as the card holder name. The checkout page enforces this.\nOther payment methods ignore it.\n\nDefault is false\n  - `require_phone_number?: boolean`\n    If true, the customer must provide a phone number to complete checkout.\nRequires `allow_phone_number_collection` to also be true.\n\nDefault is false\n  - `require_tax_id?: boolean`\n    If true, the customer must give a tax id to check out as a business.\nA tax id is the GST number in India, or the VAT number in the EU.\nYou must also set `allow_tax_id` to true.\n\nOn the checkout page, this field does not change checkout for a customer\nwho buys as an individual.\n\nA `confirm: true` request skips the checkout page. The request must\ncontain `tax_id`.\n\nDefault is false\n  - `single_page?: boolean`\n    If true, the session uses the single-page checkout flow: the page\ninitializes the payment at load time and confirms it in\nplace, with no separate payment page.\n\nDefault is false\n\n- `force_3ds?: boolean`\n  Override merchant default 3DS behaviour for this session\n\n- `mandate_min_amount_inr_paise?: number`\n  Override the merchant-level mandate floor (in INR paise) for INR\ne-mandates on Indian-card recurring payments. The mandate amount sent to\nthe processor is `max(this_floor, actual_billing_amount)`, so this is\neffectively the customer-facing authorization ceiling whenever billing is\nlower. When unset, the merchant setting applies; when that's also unset,\nthe system default of ₹15,000 applies.\n\n- `metadata?: object`\n  Additional metadata associated with the payment. Defaults to empty if not provided.\n\n- `minimal_address?: boolean`\n  If true, only zipcode is required when confirm is true; other address fields remain optional\n\nDefault is true when `feature_flags.single_page` is true. Otherwise, default is false.\n\n- `payment_method_id?: string`\n  Optional payment method ID to use for this checkout session.\nOnly allowed when `confirm` is true.\nIf provided, existing customer id must also be provided.\n\n- `product_collection_id?: string`\n  Product collection ID for collection-based checkout flow\n\n- `return_url?: string`\n  The url to redirect after payment failure or success.\n\n- `short_link?: boolean`\n  If true, returns a shortened checkout URL.\nDefaults to false if not specified.\n\n- `show_saved_payment_methods?: boolean`\n  Display saved payment methods of a returning customer False by default\n\n- `subscription_data?: { on_demand?: { mandate_only: boolean; adaptive_currency_fees_inclusive?: boolean; product_currency?: currency; product_description?: string; product_price?: number; }; trial_period_days?: number; }`\n  - `on_demand?: { mandate_only: boolean; adaptive_currency_fees_inclusive?: boolean; product_currency?: string; product_description?: string; product_price?: number; }`\n  - `trial_period_days?: number`\n    Optional trial period in days If specified, this value overrides the trial period set in the product's price Must be between 0 and 10000 days\n\n- `tax_id?: string`\n  Tax ID for the customer (e.g. VAT number). Requires billing_address with country.\n\n### Returns\n\n- `{ billing_country: string; currency: string; current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }; is_byop: boolean; payment_method_required: boolean; product_cart: { credit_entitlements: { credit_entitlement_id: string; credit_entitlement_name: string; credit_entitlement_unit: string; credits_amount: string; }[]; currency: string; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: { measurement_unit: string; name: string; price_per_unit: string; description?: string; free_threshold?: number; }[]; og_currency: string; og_price: number; product_id: string; quantity: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; addons?: { addon_id: string; currency: currency; discounted_price: number; name: string; og_currency: currency; og_price: number; quantity: number; single_quantity_price: number; tax_category: tax_category; tax_inclusive: boolean; tax_rate: number; description?: string; discount_amount?: number; tax?: number; }[]; description?: string; discount_amount?: number; discount_cycle?: number; monthly_equivalent?: number; name?: string; tax?: number; }[]; total_price: number; next_billing_date?: string; recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }; subscriptions?: { amount_due_now: number; product_id: string; recurring_amount: number; next_billing_date?: string; recurring_tax?: number; tax_due_now?: number; trial_period_days?: number; }[]; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }`\n  Data returned by the calculate checkout session API\n\n  - `billing_country: string`\n  - `currency: string`\n  - `current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }`\n  - `is_byop: boolean`\n  - `payment_method_required: boolean`\n  - `product_cart: { credit_entitlements: { credit_entitlement_id: string; credit_entitlement_name: string; credit_entitlement_unit: string; credits_amount: string; }[]; currency: string; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: { measurement_unit: string; name: string; price_per_unit: string; description?: string; free_threshold?: number; }[]; og_currency: string; og_price: number; product_id: string; quantity: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; addons?: { addon_id: string; currency: string; discounted_price: number; name: string; og_currency: string; og_price: number; quantity: number; single_quantity_price: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; description?: string; discount_amount?: number; tax?: number; }[]; description?: string; discount_amount?: number; discount_cycle?: number; monthly_equivalent?: number; name?: string; tax?: number; }[]`\n  - `total_price: number`\n  - `next_billing_date?: string`\n  - `recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }`\n  - `subscriptions?: { amount_due_now: number; product_id: string; recurring_amount: number; next_billing_date?: string; recurring_tax?: number; tax_due_now?: number; trial_period_days?: number; }[]`\n  - `tax_id_business_name?: string`\n  - `tax_id_err_msg?: string`\n  - `tax_id_format_name?: string`\n  - `total_tax?: number`\n  - `trial_amount?: number`\n  - `trial_period_days?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.checkoutSessions.preview({ product_cart: [{ product_id: 'product_id', quantity: 0 }] });\n\nconsole.log(response);\n```",
+      "## preview\n\n`client.checkoutSessions.preview(product_cart: { product_id: string; quantity: number; addons?: attach_addon[]; amount?: number; credit_entitlements?: object[]; }[], locale?: string, allowed_payment_method_types?: string[], billing_address?: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }, billing_currency?: string, cancel_url?: string, confirm?: boolean, custom_fields?: { field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean'; key: string; label: string; options?: string[]; placeholder?: string; required?: boolean; }[], customer?: object | object, customer_business_name?: string, customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: theme_config; }, discount_code?: string, discount_codes?: string[], feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_cardholder_name?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; }, force_3ds?: boolean, mandate_min_amount_inr_paise?: number, metadata?: object, minimal_address?: boolean, payment_method_id?: string, product_collection_id?: string, return_url?: string, short_link?: boolean, show_saved_payment_methods?: boolean, subscription_data?: { on_demand?: on_demand_subscription; trial_period_days?: number; }, tax_id?: string): { billing_country: country_code; currency: currency; current_breakup: object; is_byop: boolean; payment_method_required: boolean; product_cart: object[]; total_price: number; next_billing_date?: string; recurring_breakup?: object; subscriptions?: object[]; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }`\n\n**post** `/checkouts/preview`\n\n### Parameters\n\n- `product_cart: { product_id: string; quantity: number; addons?: { addon_id: string; quantity: number; }[]; amount?: number; credit_entitlements?: { credit_entitlement_id: string; credits_amount: string; }[]; }[]`\n  The products of the checkout. A cart holds at most 20 of them, one-time and\nsubscription products together. An empty cart is valid for the product-collection\nflow, where the customer chooses the product later.\n\n- `locale?: string`\n  Shows the translated name, description and unit of the catalog entities in this\nlocale. The value must be a code from `GET /locales`, for example `fr`.\nA field with no translation, an unknown code, or no code shows the base text.\n\nDo not send a text from a localized response back in a create or update request.\nThe base text then changes to the translated text.\n\n- `allowed_payment_method_types?: string[]`\n  Customers will never see payment methods that are not in this list.\nHowever, adding a method here does not guarantee customers will see it.\nAvailability still depends on other factors (e.g., customer location, merchant settings).\n\nDisclaimar: Always provide 'credit' and 'debit' as a fallback.\nIf all payment methods are unavailable, checkout session will fail.\n\n- `billing_address?: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  Billing address information for the session\n  - `country: string`\n    Two-letter ISO country code (ISO 3166-1 alpha-2)\n  - `city?: string`\n    City name\n  - `state?: string`\n    State or province name\n  - `street?: string`\n    Street address including house number and unit/apartment if applicable\n  - `zipcode?: string`\n    Postal code or ZIP code\n\n- `billing_currency?: string`\n  The currency to charge the customer in.\n\nAdaptive pricing must be enabled for the business. The customer then pays in this\ncurrency. If you do not set it, the currency comes from the billing country.\n\nIf adaptive pricing is disabled, the API discards this field. The currency then comes\nfrom the product price, or from the billing country.\n\n- `cancel_url?: string`\n  The URL to redirect the customer if they cancel or go back from the checkout.\nIf not provided, the back button will not be displayed.\n\n- `confirm?: boolean`\n  If confirm is true, all the details will be finalized. If required data is missing, an API error is thrown.\n\n- `custom_fields?: { field_type: 'text' | 'number' | 'email' | 'url' | 'date' | 'dropdown' | 'boolean'; key: string; label: string; options?: string[]; placeholder?: string; required?: boolean; }[]`\n  Custom fields to collect from customer during checkout (max 5 fields)\n\n- `customer?: { customer_id: string; } | { email: string; name?: string; phone_number?: string; }`\n  Customer details for the session\n\n- `customer_business_name?: string`\n  Optional business / legal name associated with the tax id. When provided\ntogether with a valid tax id for a B2B purchase, this name is rendered\non the invoice instead of the customer's personal name.\n\n- `customization?: { force_language?: string; show_on_demand_tag?: boolean; show_order_details?: boolean; theme?: 'dark' | 'light' | 'system'; theme_config?: { dark?: theme_mode_config; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: theme_mode_config; pay_button_text?: string; radius?: string; }; }`\n  Customization for the checkout session page\n  - `force_language?: string`\n    Force the checkout interface to render in a specific language (e.g. `en`, `es`)\n  - `show_on_demand_tag?: boolean`\n    Show on demand tag\n\nDefault is true\n  - `show_order_details?: boolean`\n    Show order details by default\n\nDefault is true\n  - `theme?: 'dark' | 'light' | 'system'`\n    Theme of the page (determines which mode - light/dark/system - to use)\n\nIf not provided, uses the business-configured theme from business_themes table.\n  - `theme_config?: { dark?: { bg_primary?: string; bg_secondary?: string; border_primary?: string; border_secondary?: string; button_primary?: string; button_primary_hover?: string; button_secondary?: string; button_secondary_hover?: string; button_text_primary?: string; button_text_secondary?: string; input_focus_border?: string; text_error?: string; text_placeholder?: string; text_primary?: string; text_secondary?: string; text_success?: string; }; font_primary_url?: string; font_secondary_url?: string; font_size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; font_weight?: 'normal' | 'medium' | 'bold' | 'extraBold'; light?: { bg_primary?: string; bg_secondary?: string; border_primary?: string; border_secondary?: string; button_primary?: string; button_primary_hover?: string; button_secondary?: string; button_secondary_hover?: string; button_text_primary?: string; button_text_secondary?: string; input_focus_border?: string; text_error?: string; text_placeholder?: string; text_primary?: string; text_secondary?: string; text_success?: string; }; pay_button_text?: string; radius?: string; }`\n    Optional custom theme configuration with colors for light and dark modes\n\n- `discount_code?: string`\n  DEPRECATED: Use discount_codes instead. Cannot be used together with discount_codes.\n\n- `discount_codes?: string[]`\n  Stacked discount codes to apply, in order. Max 20.\nCannot be used together with discount_code.\n\n- `feature_flags?: { allow_currency_selection?: boolean; allow_customer_editing_business_name?: boolean; allow_customer_editing_city?: boolean; allow_customer_editing_country?: boolean; allow_customer_editing_email?: boolean; allow_customer_editing_name?: boolean; allow_customer_editing_state?: boolean; allow_customer_editing_street?: boolean; allow_customer_editing_tax_id?: boolean; allow_customer_editing_zipcode?: boolean; allow_discount_code?: boolean; allow_editing_addons?: boolean; allow_phone_number_collection?: boolean; allow_tax_id?: boolean; always_create_new_customer?: boolean; redirect_immediately?: boolean; require_cardholder_name?: boolean; require_phone_number?: boolean; require_tax_id?: boolean; single_page?: boolean; }`\n  - `allow_currency_selection?: boolean`\n    if customer is allowed to change currency, set it to true\n\nDefault is true\n  - `allow_customer_editing_business_name?: boolean`\n    If true, the customer can supply or edit the business name associated\nwith the tax id during checkout. Works independently of\n`allow_customer_editing_tax_id` — either flag (or `allow_tax_id`) is\nsufficient to let the customer override the session's business name.\nTypically set together with `allow_customer_editing_tax_id`.\n\nDefault is false\n  - `allow_customer_editing_city?: boolean`\n  - `allow_customer_editing_country?: boolean`\n  - `allow_customer_editing_email?: boolean`\n  - `allow_customer_editing_name?: boolean`\n  - `allow_customer_editing_state?: boolean`\n  - `allow_customer_editing_street?: boolean`\n  - `allow_customer_editing_tax_id?: boolean`\n  - `allow_customer_editing_zipcode?: boolean`\n  - `allow_discount_code?: boolean`\n    If the customer is allowed to apply discount code, set it to true.\n\nIf this flag is false, the customer cannot change the discount codes.\nThe discount codes that you give when you create the session still apply.\n\nDefault is true\n  - `allow_editing_addons?: boolean`\n    If true, the customer can add or remove addons on a subscription product\nduring checkout.\n\nDefault is false\n  - `allow_phone_number_collection?: boolean`\n    If phone number is collected from customer, set it to rue\n\nDefault is true\n  - `allow_tax_id?: boolean`\n    If the customer is allowed to add tax id, set it to true\n\nDefault is true\n  - `always_create_new_customer?: boolean`\n    Set to true if a new customer object should be created.\nBy default email is used to find an existing customer to attach the session to\n\nDefault is false\n  - `redirect_immediately?: boolean`\n    If true, redirects the customer immediately after payment completion\n\nDefault is false\n  - `require_cardholder_name?: boolean`\n    If true, the customer must give the name on the card to pay by card.\nApple Pay and Google Pay also collect the payer name, and the payment\nstores it as the card holder name. The checkout page enforces this.\nOther payment methods ignore it.\n\nDefault is false\n  - `require_phone_number?: boolean`\n    If true, the customer must provide a phone number to complete checkout.\nRequires `allow_phone_number_collection` to also be true.\n\nDefault is false\n  - `require_tax_id?: boolean`\n    If true, the customer must give a tax id to check out as a business.\nA tax id is the GST number in India, or the VAT number in the EU.\nYou must also set `allow_tax_id` to true.\n\nOn the checkout page, this field does not change checkout for a customer\nwho buys as an individual.\n\nA `confirm: true` request skips the checkout page. The request must\ncontain `tax_id`.\n\nDefault is false\n  - `single_page?: boolean`\n    If true, the session uses the single-page checkout flow: the page\ninitializes the payment at load time and confirms it in\nplace, with no separate payment page.\n\nDefault is false\n\n- `force_3ds?: boolean`\n  Override merchant default 3DS behaviour for this session\n\n- `mandate_min_amount_inr_paise?: number`\n  Override the merchant-level mandate floor (in INR paise) for INR\ne-mandates on Indian-card recurring payments. The mandate amount sent to\nthe processor is `max(this_floor, actual_billing_amount)`, so this is\neffectively the customer-facing authorization ceiling whenever billing is\nlower. When unset, the merchant setting applies; when that's also unset,\nthe system default of ₹15,000 applies.\n\n- `metadata?: object`\n  Additional metadata associated with the payment. Defaults to empty if not provided.\n\n- `minimal_address?: boolean`\n  If true, only zipcode is required when confirm is true; other address fields remain optional\n\nDefault is true when `feature_flags.single_page` is true. Otherwise, default is false.\n\n- `payment_method_id?: string`\n  Optional payment method ID to use for this checkout session.\nOnly allowed when `confirm` is true.\nIf provided, existing customer id must also be provided.\n\n- `product_collection_id?: string`\n  Product collection ID for collection-based checkout flow\n\n- `return_url?: string`\n  The url to redirect after payment failure or success.\n\n- `short_link?: boolean`\n  If true, returns a shortened checkout URL.\nDefaults to false if not specified.\n\n- `show_saved_payment_methods?: boolean`\n  Display saved payment methods of a returning customer False by default\n\n- `subscription_data?: { on_demand?: { mandate_only: boolean; adaptive_currency_fees_inclusive?: boolean; product_currency?: currency; product_description?: string; product_price?: number; }; trial_period_days?: number; }`\n  - `on_demand?: { mandate_only: boolean; adaptive_currency_fees_inclusive?: boolean; product_currency?: string; product_description?: string; product_price?: number; }`\n  - `trial_period_days?: number`\n    Optional trial period in days If specified, this value overrides the trial period set in the product's price Must be between 0 and 10000 days\n\n- `tax_id?: string`\n  Tax ID for the customer (e.g. VAT number). Requires billing_address with country.\n\n### Returns\n\n- `{ billing_country: string; currency: string; current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }; is_byop: boolean; payment_method_required: boolean; product_cart: { credit_entitlements: { credit_entitlement_id: string; credit_entitlement_name: string; credit_entitlement_unit: string; credits_amount: string; }[]; currency: string; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: { measurement_unit: string; name: string; price_per_unit: string; description?: string; free_threshold?: number; }[]; og_currency: string; og_price: number; product_id: string; quantity: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; addons?: { addon_id: string; currency: currency; discounted_price: number; name: string; og_currency: currency; og_price: number; quantity: number; single_quantity_price: number; tax_category: tax_category; tax_inclusive: boolean; tax_rate: number; description?: string; discount_amount?: number; tax?: number; }[]; description?: string; discount_amount?: number; discount_cycle?: number; monthly_equivalent?: number; name?: string; tax?: number; }[]; total_price: number; next_billing_date?: string; recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }; subscriptions?: { amount_due_now: number; product_id: string; recurring_amount: number; next_billing_date?: string; recurring_tax?: number; tax_due_now?: number; trial_period_days?: number; }[]; tax_id_business_name?: string; tax_id_err_msg?: string; tax_id_format_name?: string; total_tax?: number; trial_amount?: number; trial_period_days?: number; }`\n  Data returned by the calculate checkout session API\n\n  - `billing_country: string`\n  - `currency: string`\n  - `current_breakup: { discount: number; subtotal: number; total_amount: number; tax?: number; }`\n  - `is_byop: boolean`\n  - `payment_method_required: boolean`\n  - `product_cart: { credit_entitlements: { credit_entitlement_id: string; credit_entitlement_name: string; credit_entitlement_unit: string; credits_amount: string; }[]; currency: string; discounted_price: number; is_subscription: boolean; is_usage_based: boolean; meters: { measurement_unit: string; name: string; price_per_unit: string; description?: string; free_threshold?: number; }[]; og_currency: string; og_price: number; product_id: string; quantity: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; addons?: { addon_id: string; currency: string; discounted_price: number; name: string; og_currency: string; og_price: number; quantity: number; single_quantity_price: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; description?: string; discount_amount?: number; tax?: number; }[]; description?: string; discount_amount?: number; discount_cycle?: number; monthly_equivalent?: number; name?: string; tax?: number; }[]`\n  - `total_price: number`\n  - `next_billing_date?: string`\n  - `recurring_breakup?: { discount: number; subtotal: number; total_amount: number; tax?: number; }`\n  - `subscriptions?: { amount_due_now: number; product_id: string; recurring_amount: number; next_billing_date?: string; recurring_tax?: number; tax_due_now?: number; trial_period_days?: number; }[]`\n  - `tax_id_business_name?: string`\n  - `tax_id_err_msg?: string`\n  - `tax_id_format_name?: string`\n  - `total_tax?: number`\n  - `trial_amount?: number`\n  - `trial_period_days?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.checkoutSessions.preview({ product_cart: [{ product_id: 'product_id', quantity: 0 }] });\n\nconsole.log(response);\n```",
     perLanguage: {
       typescript: {
         method: 'client.checkoutSessions.preview',
@@ -271,7 +272,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'checkoutSessions->preview',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->checkoutSessions->preview(\n  productCart: [\n    [\n      'productID' => 'product_id',\n      'quantity' => 0,\n      'addons' => [['addonID' => 'addon_id', 'quantity' => 0]],\n      'amount' => 0,\n      'creditEntitlements' => [\n        [\n          'creditEntitlementID' => 'credit_entitlement_id',\n          'creditsAmount' => 'credits_amount',\n        ],\n      ],\n    ],\n  ],\n  allowedPaymentMethodTypes: [PaymentMethodTypes::ACH],\n  billingAddress: [\n    'country' => CountryCode::AF,\n    'city' => 'city',\n    'state' => 'state',\n    'street' => 'street',\n    'zipcode' => 'zipcode',\n  ],\n  billingCurrency: Currency::AED,\n  cancelURL: 'cancel_url',\n  confirm: true,\n  customFields: [\n    [\n      'fieldType' => 'text',\n      'key' => 'key',\n      'label' => 'label',\n      'options' => ['string'],\n      'placeholder' => 'placeholder',\n      'required' => true,\n    ],\n  ],\n  customer: ['customerID' => 'customer_id'],\n  customerBusinessName: 'customer_business_name',\n  customization: [\n    'forceLanguage' => 'force_language',\n    'showOnDemandTag' => true,\n    'showOrderDetails' => true,\n    'theme' => 'dark',\n    'themeConfig' => [\n      'dark' => [\n        'bgPrimary' => 'bg_primary',\n        'bgSecondary' => 'bg_secondary',\n        'borderPrimary' => 'border_primary',\n        'borderSecondary' => 'border_secondary',\n        'buttonPrimary' => 'button_primary',\n        'buttonPrimaryHover' => 'button_primary_hover',\n        'buttonSecondary' => 'button_secondary',\n        'buttonSecondaryHover' => 'button_secondary_hover',\n        'buttonTextPrimary' => 'button_text_primary',\n        'buttonTextSecondary' => 'button_text_secondary',\n        'inputFocusBorder' => 'input_focus_border',\n        'textError' => 'text_error',\n        'textPlaceholder' => 'text_placeholder',\n        'textPrimary' => 'text_primary',\n        'textSecondary' => 'text_secondary',\n        'textSuccess' => 'text_success',\n      ],\n      'fontPrimaryURL' => 'font_primary_url',\n      'fontSecondaryURL' => 'font_secondary_url',\n      'fontSize' => 'xs',\n      'fontWeight' => 'normal',\n      'light' => [\n        'bgPrimary' => 'bg_primary',\n        'bgSecondary' => 'bg_secondary',\n        'borderPrimary' => 'border_primary',\n        'borderSecondary' => 'border_secondary',\n        'buttonPrimary' => 'button_primary',\n        'buttonPrimaryHover' => 'button_primary_hover',\n        'buttonSecondary' => 'button_secondary',\n        'buttonSecondaryHover' => 'button_secondary_hover',\n        'buttonTextPrimary' => 'button_text_primary',\n        'buttonTextSecondary' => 'button_text_secondary',\n        'inputFocusBorder' => 'input_focus_border',\n        'textError' => 'text_error',\n        'textPlaceholder' => 'text_placeholder',\n        'textPrimary' => 'text_primary',\n        'textSecondary' => 'text_secondary',\n        'textSuccess' => 'text_success',\n      ],\n      'payButtonText' => 'pay_button_text',\n      'radius' => 'radius',\n    ],\n  ],\n  discountCode: 'discount_code',\n  discountCodes: ['string'],\n  featureFlags: [\n    'allowCurrencySelection' => true,\n    'allowCustomerEditingBusinessName' => true,\n    'allowCustomerEditingCity' => true,\n    'allowCustomerEditingCountry' => true,\n    'allowCustomerEditingEmail' => true,\n    'allowCustomerEditingName' => true,\n    'allowCustomerEditingState' => true,\n    'allowCustomerEditingStreet' => true,\n    'allowCustomerEditingTaxID' => true,\n    'allowCustomerEditingZipcode' => true,\n    'allowDiscountCode' => true,\n    'allowEditingAddons' => true,\n    'allowPhoneNumberCollection' => true,\n    'allowTaxID' => true,\n    'alwaysCreateNewCustomer' => true,\n    'redirectImmediately' => true,\n    'requireCardholderName' => true,\n    'requirePhoneNumber' => true,\n    'requireTaxID' => true,\n    'singlePage' => true,\n  ],\n  force3DS: true,\n  mandateMinAmountInrPaise: 0,\n  metadata: ['foo' => 'string'],\n  minimalAddress: true,\n  paymentMethodID: 'payment_method_id',\n  productCollectionID: 'product_collection_id',\n  returnURL: 'return_url',\n  shortLink: true,\n  showSavedPaymentMethods: true,\n  subscriptionData: [\n    'onDemand' => [\n      'mandateOnly' => true,\n      'adaptiveCurrencyFeesInclusive' => true,\n      'productCurrency' => Currency::AED,\n      'productDescription' => 'product_description',\n      'productPrice' => 0,\n    ],\n    'trialPeriodDays' => 0,\n  ],\n  taxID: 'tax_id',\n);\n\nvar_dump($response);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->checkoutSessions->preview(\n  productCart: [\n    [\n      'productID' => 'product_id',\n      'quantity' => 0,\n      'addons' => [['addonID' => 'addon_id', 'quantity' => 0]],\n      'amount' => 0,\n      'creditEntitlements' => [\n        [\n          'creditEntitlementID' => 'credit_entitlement_id',\n          'creditsAmount' => 'credits_amount',\n        ],\n      ],\n    ],\n  ],\n  locale: 'locale',\n  allowedPaymentMethodTypes: [PaymentMethodTypes::ACH],\n  billingAddress: [\n    'country' => CountryCode::AF,\n    'city' => 'city',\n    'state' => 'state',\n    'street' => 'street',\n    'zipcode' => 'zipcode',\n  ],\n  billingCurrency: Currency::AED,\n  cancelURL: 'cancel_url',\n  confirm: true,\n  customFields: [\n    [\n      'fieldType' => 'text',\n      'key' => 'key',\n      'label' => 'label',\n      'options' => ['string'],\n      'placeholder' => 'placeholder',\n      'required' => true,\n    ],\n  ],\n  customer: ['customerID' => 'customer_id'],\n  customerBusinessName: 'customer_business_name',\n  customization: [\n    'forceLanguage' => 'force_language',\n    'showOnDemandTag' => true,\n    'showOrderDetails' => true,\n    'theme' => 'dark',\n    'themeConfig' => [\n      'dark' => [\n        'bgPrimary' => 'bg_primary',\n        'bgSecondary' => 'bg_secondary',\n        'borderPrimary' => 'border_primary',\n        'borderSecondary' => 'border_secondary',\n        'buttonPrimary' => 'button_primary',\n        'buttonPrimaryHover' => 'button_primary_hover',\n        'buttonSecondary' => 'button_secondary',\n        'buttonSecondaryHover' => 'button_secondary_hover',\n        'buttonTextPrimary' => 'button_text_primary',\n        'buttonTextSecondary' => 'button_text_secondary',\n        'inputFocusBorder' => 'input_focus_border',\n        'textError' => 'text_error',\n        'textPlaceholder' => 'text_placeholder',\n        'textPrimary' => 'text_primary',\n        'textSecondary' => 'text_secondary',\n        'textSuccess' => 'text_success',\n      ],\n      'fontPrimaryURL' => 'font_primary_url',\n      'fontSecondaryURL' => 'font_secondary_url',\n      'fontSize' => 'xs',\n      'fontWeight' => 'normal',\n      'light' => [\n        'bgPrimary' => 'bg_primary',\n        'bgSecondary' => 'bg_secondary',\n        'borderPrimary' => 'border_primary',\n        'borderSecondary' => 'border_secondary',\n        'buttonPrimary' => 'button_primary',\n        'buttonPrimaryHover' => 'button_primary_hover',\n        'buttonSecondary' => 'button_secondary',\n        'buttonSecondaryHover' => 'button_secondary_hover',\n        'buttonTextPrimary' => 'button_text_primary',\n        'buttonTextSecondary' => 'button_text_secondary',\n        'inputFocusBorder' => 'input_focus_border',\n        'textError' => 'text_error',\n        'textPlaceholder' => 'text_placeholder',\n        'textPrimary' => 'text_primary',\n        'textSecondary' => 'text_secondary',\n        'textSuccess' => 'text_success',\n      ],\n      'payButtonText' => 'pay_button_text',\n      'radius' => 'radius',\n    ],\n  ],\n  discountCode: 'discount_code',\n  discountCodes: ['string'],\n  featureFlags: [\n    'allowCurrencySelection' => true,\n    'allowCustomerEditingBusinessName' => true,\n    'allowCustomerEditingCity' => true,\n    'allowCustomerEditingCountry' => true,\n    'allowCustomerEditingEmail' => true,\n    'allowCustomerEditingName' => true,\n    'allowCustomerEditingState' => true,\n    'allowCustomerEditingStreet' => true,\n    'allowCustomerEditingTaxID' => true,\n    'allowCustomerEditingZipcode' => true,\n    'allowDiscountCode' => true,\n    'allowEditingAddons' => true,\n    'allowPhoneNumberCollection' => true,\n    'allowTaxID' => true,\n    'alwaysCreateNewCustomer' => true,\n    'redirectImmediately' => true,\n    'requireCardholderName' => true,\n    'requirePhoneNumber' => true,\n    'requireTaxID' => true,\n    'singlePage' => true,\n  ],\n  force3DS: true,\n  mandateMinAmountInrPaise: 0,\n  metadata: ['foo' => 'string'],\n  minimalAddress: true,\n  paymentMethodID: 'payment_method_id',\n  productCollectionID: 'product_collection_id',\n  returnURL: 'return_url',\n  shortLink: true,\n  showSavedPaymentMethods: true,\n  subscriptionData: [\n    'onDemand' => [\n      'mandateOnly' => true,\n      'adaptiveCurrencyFeesInclusive' => true,\n      'productCurrency' => Currency::AED,\n      'productDescription' => 'product_description',\n      'productPrice' => 0,\n    ],\n    'trialPeriodDays' => 0,\n  ],\n  taxID: 'tax_id',\n);\n\nvar_dump($response);",
       },
       csharp: {
         method: 'CheckoutSessions.Preview',
@@ -301,9 +302,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'subscription_id?: string;',
     ],
     response:
-      "{ brand_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; has_license_key: boolean; includes_usage: boolean; is_multi_subscription: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; retry_attempt: number; service_periods: { ends_at: string; proration_factor: string; starts_at: string; subscription_id: string; }[]; subscription_ids: string[]; total_amount: number; card_exp_month?: string; card_exp_year?: string; card_last_four?: string; card_network?: string; card_type?: string; charge_type?: 'new' | 'renewal' | 'plan_change' | 'on_demand'; checkout_session_id?: string; dispute_status?: string; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: 'partial' | 'full'; status?: string; subscription_id?: string; }",
+      "{ brand_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; has_license_key: boolean; includes_usage: boolean; is_multi_subscription: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; retry_attempt: number; service_periods: { ends_at: string; proration_factor: string; starts_at: string; subscription_id: string; }[]; subscription_ids: string[]; total_amount: number; card_exp_month?: string; card_exp_year?: string; card_last_four?: string; card_network?: string; card_type?: string; charge_type?: 'new' | 'renewal' | 'plan_change' | 'on_demand'; checkout_session_id?: string; dispute_status?: string; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: 'partial' | 'full'; status?: string; subscription_id?: string; three_ds_flow?: 'challenge' | 'frictionless'; three_ds_status?: string; three_ds_version?: string; }",
     markdown:
-      "## list\n\n`client.payments.list(brand_id?: string, created_at_gte?: string, created_at_lte?: string, currency?: string, customer_id?: string, page_number?: number, page_size?: number, product_id?: string, status?: string, subscription_id?: string): { brand_id: string; created_at: string; currency: currency; customer: customer_limited_details; digital_products_delivered: boolean; has_license_key: boolean; includes_usage: boolean; is_multi_subscription: boolean; metadata: metadata; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; retry_attempt: number; service_periods: subscription_service_period[]; subscription_ids: string[]; total_amount: number; card_exp_month?: string; card_exp_year?: string; card_last_four?: string; card_network?: string; card_type?: string; charge_type?: charge_type; checkout_session_id?: string; dispute_status?: dispute_status; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: payment_refund_status; status?: intent_status; subscription_id?: string; }`\n\n**get** `/payments`\n\n### Parameters\n\n- `brand_id?: string`\n  filter by Brand id\n\n- `created_at_gte?: string`\n  Get events after this created time\n\n- `created_at_lte?: string`\n  Get events created before this time\n\n- `currency?: string`\n  Filter by currency\n\n- `customer_id?: string`\n  Filter by customer id\n\n- `page_number?: number`\n  Page number default is 0. Capped to bound OFFSET-based deep pagination,\nwhich forces Postgres to scan and discard every preceding row.\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n- `product_id?: string`\n  Filter by product id\n\n- `status?: string`\n  Filter by status\n\n- `subscription_id?: string`\n  Filter by subscription id\n\n### Returns\n\n- `{ brand_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; has_license_key: boolean; includes_usage: boolean; is_multi_subscription: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; retry_attempt: number; service_periods: { ends_at: string; proration_factor: string; starts_at: string; subscription_id: string; }[]; subscription_ids: string[]; total_amount: number; card_exp_month?: string; card_exp_year?: string; card_last_four?: string; card_network?: string; card_type?: string; charge_type?: 'new' | 'renewal' | 'plan_change' | 'on_demand'; checkout_session_id?: string; dispute_status?: string; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: 'partial' | 'full'; status?: string; subscription_id?: string; }`\n\n  - `brand_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `digital_products_delivered: boolean`\n  - `has_license_key: boolean`\n  - `includes_usage: boolean`\n  - `is_multi_subscription: boolean`\n  - `metadata: object`\n  - `payment_id: string`\n  - `payment_provider: 'stripe' | 'adyen' | 'dodo'`\n  - `retry_attempt: number`\n  - `service_periods: { ends_at: string; proration_factor: string; starts_at: string; subscription_id: string; }[]`\n  - `subscription_ids: string[]`\n  - `total_amount: number`\n  - `card_exp_month?: string`\n  - `card_exp_year?: string`\n  - `card_last_four?: string`\n  - `card_network?: string`\n  - `card_type?: string`\n  - `charge_type?: 'new' | 'renewal' | 'plan_change' | 'on_demand'`\n  - `checkout_session_id?: string`\n  - `dispute_status?: string`\n  - `invoice_id?: string`\n  - `invoice_url?: string`\n  - `payment_method?: string`\n  - `payment_method_type?: string`\n  - `refund_status?: 'partial' | 'full'`\n  - `status?: string`\n  - `subscription_id?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const paymentListResponse of client.payments.list()) {\n  console.log(paymentListResponse);\n}\n```",
+      "## list\n\n`client.payments.list(brand_id?: string, created_at_gte?: string, created_at_lte?: string, currency?: string, customer_id?: string, page_number?: number, page_size?: number, product_id?: string, status?: string, subscription_id?: string): { brand_id: string; created_at: string; currency: currency; customer: customer_limited_details; digital_products_delivered: boolean; has_license_key: boolean; includes_usage: boolean; is_multi_subscription: boolean; metadata: metadata; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; retry_attempt: number; service_periods: subscription_service_period[]; subscription_ids: string[]; total_amount: number; card_exp_month?: string; card_exp_year?: string; card_last_four?: string; card_network?: string; card_type?: string; charge_type?: charge_type; checkout_session_id?: string; dispute_status?: dispute_status; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: payment_refund_status; status?: intent_status; subscription_id?: string; three_ds_flow?: three_ds_flow; three_ds_status?: three_ds_status; three_ds_version?: string; }`\n\n**get** `/payments`\n\n### Parameters\n\n- `brand_id?: string`\n  filter by Brand id\n\n- `created_at_gte?: string`\n  Get events after this created time\n\n- `created_at_lte?: string`\n  Get events created before this time\n\n- `currency?: string`\n  Filter by currency\n\n- `customer_id?: string`\n  Filter by customer id\n\n- `page_number?: number`\n  Page number default is 0. Capped to bound OFFSET-based deep pagination,\nwhich forces Postgres to scan and discard every preceding row.\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n- `product_id?: string`\n  Filter by product id\n\n- `status?: string`\n  Filter by status\n\n- `subscription_id?: string`\n  Filter by subscription id\n\n### Returns\n\n- `{ brand_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; has_license_key: boolean; includes_usage: boolean; is_multi_subscription: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; retry_attempt: number; service_periods: { ends_at: string; proration_factor: string; starts_at: string; subscription_id: string; }[]; subscription_ids: string[]; total_amount: number; card_exp_month?: string; card_exp_year?: string; card_last_four?: string; card_network?: string; card_type?: string; charge_type?: 'new' | 'renewal' | 'plan_change' | 'on_demand'; checkout_session_id?: string; dispute_status?: string; invoice_id?: string; invoice_url?: string; payment_method?: string; payment_method_type?: string; refund_status?: 'partial' | 'full'; status?: string; subscription_id?: string; three_ds_flow?: 'challenge' | 'frictionless'; three_ds_status?: string; three_ds_version?: string; }`\n\n  - `brand_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `digital_products_delivered: boolean`\n  - `has_license_key: boolean`\n  - `includes_usage: boolean`\n  - `is_multi_subscription: boolean`\n  - `metadata: object`\n  - `payment_id: string`\n  - `payment_provider: 'stripe' | 'adyen' | 'dodo'`\n  - `retry_attempt: number`\n  - `service_periods: { ends_at: string; proration_factor: string; starts_at: string; subscription_id: string; }[]`\n  - `subscription_ids: string[]`\n  - `total_amount: number`\n  - `card_exp_month?: string`\n  - `card_exp_year?: string`\n  - `card_last_four?: string`\n  - `card_network?: string`\n  - `card_type?: string`\n  - `charge_type?: 'new' | 'renewal' | 'plan_change' | 'on_demand'`\n  - `checkout_session_id?: string`\n  - `dispute_status?: string`\n  - `invoice_id?: string`\n  - `invoice_url?: string`\n  - `payment_method?: string`\n  - `payment_method_type?: string`\n  - `refund_status?: 'partial' | 'full'`\n  - `status?: string`\n  - `subscription_id?: string`\n  - `three_ds_flow?: 'challenge' | 'frictionless'`\n  - `three_ds_status?: string`\n  - `three_ds_version?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const paymentListResponse of client.payments.list()) {\n  console.log(paymentListResponse);\n}\n```",
     perLanguage: {
       typescript: {
         method: 'client.payments.list',
@@ -442,7 +443,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     params: ['payment_id: string;'],
     response: 'object',
     markdown:
-      "## retrieve\n\n`client.payments.retrieve(payment_id: string): { billing: billing_address; brand_id: string; business_id: string; created_at: string; currency: currency; customer: customer_limited_details; digital_products_delivered: boolean; disputes: dispute[]; includes_usage: boolean; is_multi_subscription: boolean; is_update_payment_method: boolean; metadata: metadata; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; refunds: refund_list_item[]; retry_attempt: number; service_periods: subscription_service_period[]; settlement_amount: number; settlement_currency: currency; subscription_ids: string[]; total_amount: number; card_exp_month?: string; card_exp_year?: string; card_holder_name?: string; card_issuing_country?: country_code; card_last_four?: string; card_network?: string; card_type?: string; charge_type?: charge_type; checkout_session_id?: string; custom_field_responses?: custom_field_response[]; discount_id?: string; discounts?: discount_detail[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_id?: string; payment_method_type?: string; product_cart?: object[]; refund_status?: payment_refund_status; settlement_tax?: number; status?: intent_status; subscription_id?: string; tax?: number; updated_at?: string; }`\n\n**get** `/payments/{payment_id}`\n\n### Parameters\n\n- `payment_id: string`\n\n### Returns\n\n- `{ billing: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }; brand_id: string; business_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; disputes: { amount: string; business_id: string; created_at: string; currency: string; dispute_id: string; dispute_stage: dispute_stage; dispute_status: dispute_status; payment_id: string; is_resolved_by_rdr?: boolean; remarks?: string; }[]; includes_usage: boolean; is_multi_subscription: boolean; is_update_payment_method: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; refunds: { business_id: string; created_at: string; is_partial: boolean; payment_id: string; refund_id: string; status: refund_status; amount?: number; currency?: currency; network_reference?: string; network_reference_type?: refund_network_reference_type; network_reference_updated_at?: string; reason?: string; }[]; retry_attempt: number; service_periods: { ends_at: string; proration_factor: string; starts_at: string; subscription_id: string; }[]; settlement_amount: number; settlement_currency: string; subscription_ids: string[]; total_amount: number; card_exp_month?: string; card_exp_year?: string; card_holder_name?: string; card_issuing_country?: string; card_last_four?: string; card_network?: string; card_type?: string; charge_type?: 'new' | 'renewal' | 'plan_change' | 'on_demand'; checkout_session_id?: string; custom_field_responses?: { key: string; value: string; }[]; discount_id?: string; discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: metadata; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_id?: string; payment_method_type?: string; product_cart?: { product_id: string; quantity: number; }[]; refund_status?: 'partial' | 'full'; settlement_tax?: number; status?: string; subscription_id?: string; tax?: number; updated_at?: string; }`\n\n  - `billing: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  - `brand_id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `digital_products_delivered: boolean`\n  - `disputes: { amount: string; business_id: string; created_at: string; currency: string; dispute_id: string; dispute_stage: 'pre_dispute' | 'dispute' | 'pre_arbitration'; dispute_status: string; payment_id: string; is_resolved_by_rdr?: boolean; remarks?: string; }[]`\n  - `includes_usage: boolean`\n  - `is_multi_subscription: boolean`\n  - `is_update_payment_method: boolean`\n  - `metadata: object`\n  - `payment_id: string`\n  - `payment_provider: 'stripe' | 'adyen' | 'dodo'`\n  - `refunds: { business_id: string; created_at: string; is_partial: boolean; payment_id: string; refund_id: string; status: 'succeeded' | 'failed' | 'pending' | 'review'; amount?: number; currency?: string; network_reference?: string; network_reference_type?: 'acquirer_reference_number' | 'system_trace_audit_number' | 'retrieval_reference_number' | 'other'; network_reference_updated_at?: string; reason?: string; }[]`\n  - `retry_attempt: number`\n  - `service_periods: { ends_at: string; proration_factor: string; starts_at: string; subscription_id: string; }[]`\n  - `settlement_amount: number`\n  - `settlement_currency: string`\n  - `subscription_ids: string[]`\n  - `total_amount: number`\n  - `card_exp_month?: string`\n  - `card_exp_year?: string`\n  - `card_holder_name?: string`\n  - `card_issuing_country?: string`\n  - `card_last_four?: string`\n  - `card_network?: string`\n  - `card_type?: string`\n  - `charge_type?: 'new' | 'renewal' | 'plan_change' | 'on_demand'`\n  - `checkout_session_id?: string`\n  - `custom_field_responses?: { key: string; value: string; }[]`\n  - `discount_id?: string`\n  - `discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'flat' | 'percentage'; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]`\n  - `error_code?: string`\n  - `error_message?: string`\n  - `invoice_id?: string`\n  - `invoice_url?: string`\n  - `payment_link?: string`\n  - `payment_method?: string`\n  - `payment_method_id?: string`\n  - `payment_method_type?: string`\n  - `product_cart?: { product_id: string; quantity: number; }[]`\n  - `refund_status?: 'partial' | 'full'`\n  - `settlement_tax?: number`\n  - `status?: string`\n  - `subscription_id?: string`\n  - `tax?: number`\n  - `updated_at?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst payment = await client.payments.retrieve('pay_gr4RizvMOXFJ6xca3y2tU');\n\nconsole.log(payment);\n```",
+      "## retrieve\n\n`client.payments.retrieve(payment_id: string): { billing: billing_address; brand_id: string; business_id: string; created_at: string; currency: currency; customer: customer_limited_details; digital_products_delivered: boolean; disputes: dispute[]; includes_usage: boolean; is_multi_subscription: boolean; is_update_payment_method: boolean; metadata: metadata; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; refunds: refund_list_item[]; retry_attempt: number; service_periods: subscription_service_period[]; settlement_amount: number; settlement_currency: currency; subscription_ids: string[]; total_amount: number; card_exp_month?: string; card_exp_year?: string; card_holder_name?: string; card_issuing_country?: country_code; card_last_four?: string; card_network?: string; card_type?: string; charge_type?: charge_type; checkout_session_id?: string; custom_field_responses?: custom_field_response[]; discount_id?: string; discounts?: discount_detail[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_id?: string; payment_method_type?: string; product_cart?: object[]; refund_status?: payment_refund_status; settlement_tax?: number; status?: intent_status; subscription_id?: string; tax?: number; three_ds_flow?: three_ds_flow; three_ds_status?: three_ds_status; three_ds_version?: string; updated_at?: string; }`\n\n**get** `/payments/{payment_id}`\n\n### Parameters\n\n- `payment_id: string`\n\n### Returns\n\n- `{ billing: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }; brand_id: string; business_id: string; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; digital_products_delivered: boolean; disputes: { amount: string; business_id: string; created_at: string; currency: string; dispute_id: string; dispute_stage: dispute_stage; dispute_status: dispute_status; payment_id: string; is_resolved_by_rdr?: boolean; remarks?: string; }[]; includes_usage: boolean; is_multi_subscription: boolean; is_update_payment_method: boolean; metadata: object; payment_id: string; payment_provider: 'stripe' | 'adyen' | 'dodo'; refunds: { business_id: string; created_at: string; is_partial: boolean; payment_id: string; refund_id: string; status: refund_status; amount?: number; currency?: currency; network_reference?: string; network_reference_type?: refund_network_reference_type; network_reference_updated_at?: string; reason?: string; }[]; retry_attempt: number; service_periods: { ends_at: string; proration_factor: string; starts_at: string; subscription_id: string; }[]; settlement_amount: number; settlement_currency: string; subscription_ids: string[]; total_amount: number; card_exp_month?: string; card_exp_year?: string; card_holder_name?: string; card_issuing_country?: string; card_last_four?: string; card_network?: string; card_type?: string; charge_type?: 'new' | 'renewal' | 'plan_change' | 'on_demand'; checkout_session_id?: string; custom_field_responses?: { key: string; value: string; }[]; discount_id?: string; discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: metadata; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]; error_code?: string; error_message?: string; invoice_id?: string; invoice_url?: string; payment_link?: string; payment_method?: string; payment_method_id?: string; payment_method_type?: string; product_cart?: { product_id: string; quantity: number; }[]; refund_status?: 'partial' | 'full'; settlement_tax?: number; status?: string; subscription_id?: string; tax?: number; three_ds_flow?: 'challenge' | 'frictionless'; three_ds_status?: string; three_ds_version?: string; updated_at?: string; }`\n\n  - `billing: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  - `brand_id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `digital_products_delivered: boolean`\n  - `disputes: { amount: string; business_id: string; created_at: string; currency: string; dispute_id: string; dispute_stage: 'pre_dispute' | 'dispute' | 'pre_arbitration'; dispute_status: string; payment_id: string; is_resolved_by_rdr?: boolean; remarks?: string; }[]`\n  - `includes_usage: boolean`\n  - `is_multi_subscription: boolean`\n  - `is_update_payment_method: boolean`\n  - `metadata: object`\n  - `payment_id: string`\n  - `payment_provider: 'stripe' | 'adyen' | 'dodo'`\n  - `refunds: { business_id: string; created_at: string; is_partial: boolean; payment_id: string; refund_id: string; status: 'succeeded' | 'failed' | 'pending' | 'review'; amount?: number; currency?: string; network_reference?: string; network_reference_type?: 'acquirer_reference_number' | 'system_trace_audit_number' | 'retrieval_reference_number' | 'other'; network_reference_updated_at?: string; reason?: string; }[]`\n  - `retry_attempt: number`\n  - `service_periods: { ends_at: string; proration_factor: string; starts_at: string; subscription_id: string; }[]`\n  - `settlement_amount: number`\n  - `settlement_currency: string`\n  - `subscription_ids: string[]`\n  - `total_amount: number`\n  - `card_exp_month?: string`\n  - `card_exp_year?: string`\n  - `card_holder_name?: string`\n  - `card_issuing_country?: string`\n  - `card_last_four?: string`\n  - `card_network?: string`\n  - `card_type?: string`\n  - `charge_type?: 'new' | 'renewal' | 'plan_change' | 'on_demand'`\n  - `checkout_session_id?: string`\n  - `custom_field_responses?: { key: string; value: string; }[]`\n  - `discount_id?: string`\n  - `discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'flat' | 'percentage'; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]`\n  - `error_code?: string`\n  - `error_message?: string`\n  - `invoice_id?: string`\n  - `invoice_url?: string`\n  - `payment_link?: string`\n  - `payment_method?: string`\n  - `payment_method_id?: string`\n  - `payment_method_type?: string`\n  - `product_cart?: { product_id: string; quantity: number; }[]`\n  - `refund_status?: 'partial' | 'full'`\n  - `settlement_tax?: number`\n  - `status?: string`\n  - `subscription_id?: string`\n  - `tax?: number`\n  - `three_ds_flow?: 'challenge' | 'frictionless'`\n  - `three_ds_status?: string`\n  - `three_ds_version?: string`\n  - `updated_at?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst payment = await client.payments.retrieve('pay_gr4RizvMOXFJ6xca3y2tU');\n\nconsole.log(payment);\n```",
     perLanguage: {
       typescript: {
         method: 'client.payments.retrieve',
@@ -498,11 +499,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: '',
     stainlessPath: '(resource) payments > (method) retrieve_line_items',
     qualified: 'client.payments.retrieveLineItems',
-    params: ['payment_id: string;'],
+    params: ['payment_id: string;', 'currency?: string;'],
     response:
-      '{ currency: string; items: { amount: number; items_id: string; refundable_amount: number; tax: number; description?: string; name?: string; }[]; }',
+      '{ currency: string; items: { amount: number; items_id: string; refundable_amount: number; tax: number; description?: string; name?: string; }[]; partial_refund_allowed: boolean; }',
     markdown:
-      "## retrieve_line_items\n\n`client.payments.retrieveLineItems(payment_id: string): { currency: currency; items: object[]; }`\n\n**get** `/payments/{payment_id}/line-items`\n\n### Parameters\n\n- `payment_id: string`\n\n### Returns\n\n- `{ currency: string; items: { amount: number; items_id: string; refundable_amount: number; tax: number; description?: string; name?: string; }[]; }`\n\n  - `currency: string`\n  - `items: { amount: number; items_id: string; refundable_amount: number; tax: number; description?: string; name?: string; }[]`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.payments.retrieveLineItems('pay_gr4RizvMOXFJ6xca3y2tU');\n\nconsole.log(response);\n```",
+      "## retrieve_line_items\n\n`client.payments.retrieveLineItems(payment_id: string, currency?: string): { currency: currency; items: object[]; partial_refund_allowed: boolean; }`\n\n**get** `/payments/{payment_id}/line-items`\n\n### Parameters\n\n- `payment_id: string`\n\n- `currency?: string`\n  The currency of the amounts. It must be the currency that the customer paid in. Without\nit, the amounts are in the settlement currency.\n\n### Returns\n\n- `{ currency: string; items: { amount: number; items_id: string; refundable_amount: number; tax: number; description?: string; name?: string; }[]; partial_refund_allowed: boolean; }`\n\n  - `currency: string`\n  - `items: { amount: number; items_id: string; refundable_amount: number; tax: number; description?: string; name?: string; }[]`\n  - `partial_refund_allowed: boolean`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.payments.retrieveLineItems('pay_gr4RizvMOXFJ6xca3y2tU');\n\nconsole.log(response);\n```",
     perLanguage: {
       typescript: {
         method: 'client.payments.retrieveLineItems',
@@ -516,7 +517,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       python: {
         method: 'payments.retrieve_line_items',
         example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.payments.retrieve_line_items(\n    "pay_gr4RizvMOXFJ6xca3y2tU",\n)\nprint(response.currency)',
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.payments.retrieve_line_items(\n    payment_id="pay_gr4RizvMOXFJ6xca3y2tU",\n)\nprint(response.currency)',
       },
       java: {
         method: 'payments().retrieveLineItems',
@@ -531,7 +532,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Payments.GetLineItems',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Payments.GetLineItems(context.TODO(), "pay_gr4RizvMOXFJ6xca3y2tU")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Currency)\n}\n',
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tresponse, err := client.Payments.GetLineItems(\n\t\tcontext.TODO(),\n\t\t"pay_gr4RizvMOXFJ6xca3y2tU",\n\t\tdodopayments.PaymentGetLineItemsParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Currency)\n}\n',
       },
       ruby: {
         method: 'payments.retrieve_line_items',
@@ -541,7 +542,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'payments->retrieveLineItems',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->payments->retrieveLineItems('pay_gr4RizvMOXFJ6xca3y2tU');\n\nvar_dump($response);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$response = $client->payments->retrieveLineItems(\n  'pay_gr4RizvMOXFJ6xca3y2tU', currency: Currency::AED\n);\n\nvar_dump($response);",
       },
       csharp: {
         method: 'Payments.RetrieveLineItems',
@@ -684,6 +685,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'created_at_gte?: string;',
       'created_at_lte?: string;',
       'customer_id?: string;',
+      'locale?: string;',
       'page_number?: number;',
       'page_size?: number;',
       'product_id?: string;',
@@ -692,7 +694,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     response:
       "{ billing: object; cancel_at_next_billing_date: boolean; created_at: string; currency: string; customer: object; discounts: { discount_id: string; discount_cycles_remaining?: number; }[]; has_payment_method: boolean; metadata: object; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due'; subscription_id: string; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; tax_inclusive: boolean; trial_period_days: number; cancelled_at?: string; cancelled_by?: object; customer_business_name?: string; discount_cycles_remaining?: number; discount_id?: string; paused_at?: string; payment_method_id?: string; product_name?: string; scheduled_change?: object; tax_id?: string; trial_amount?: number; }",
     markdown:
-      "## list\n\n`client.subscriptions.list(brand_id?: string, cancel_at_next_billing_date?: boolean, created_at_gte?: string, created_at_lte?: string, customer_id?: string, page_number?: number, page_size?: number, product_id?: string, status?: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due'): { billing: billing_address; cancel_at_next_billing_date: boolean; created_at: string; currency: currency; customer: customer_limited_details; discounts: object[]; has_payment_method: boolean; metadata: metadata; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: time_interval; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: subscription_status; subscription_id: string; subscription_period_count: number; subscription_period_interval: time_interval; tax_inclusive: boolean; trial_period_days: number; cancelled_at?: string; cancelled_by?: subscription_cancelled_by; customer_business_name?: string; discount_cycles_remaining?: number; discount_id?: string; paused_at?: string; payment_method_id?: string; product_name?: string; scheduled_change?: scheduled_plan_change; tax_id?: string; trial_amount?: number; }`\n\n**get** `/subscriptions`\n\n### Parameters\n\n- `brand_id?: string`\n  filter by Brand id\n\n- `cancel_at_next_billing_date?: boolean`\n  Filter by cancel_at_next_billing_date (subscriptions scheduled for cancellation)\n\n- `created_at_gte?: string`\n  Get events after this created time\n\n- `created_at_lte?: string`\n  Get events created before this time\n\n- `customer_id?: string`\n  Filter by customer id\n\n- `page_number?: number`\n  Page number default is 0\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n- `product_id?: string`\n  Filter by product id\n\n- `status?: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due'`\n  Filter by status\n\n### Returns\n\n- `{ billing: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }; cancel_at_next_billing_date: boolean; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; discounts: { discount_id: string; discount_cycles_remaining?: number; }[]; has_payment_method: boolean; metadata: object; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due'; subscription_id: string; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; tax_inclusive: boolean; trial_period_days: number; cancelled_at?: string; cancelled_by?: { actor_type: 'customer' | 'merchant_user' | 'api_key' | 'dodo_team'; email?: string; name?: string; }; customer_business_name?: string; discount_cycles_remaining?: number; discount_id?: string; paused_at?: string; payment_method_id?: string; product_name?: string; scheduled_change?: { id: string; addons: object[]; created_at: string; effective_at: string; product_id: string; quantity: number; product_description?: string; product_name?: string; }; tax_id?: string; trial_amount?: number; }`\n  Response struct representing subscription details\n\n  - `billing: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  - `cancel_at_next_billing_date: boolean`\n  - `created_at: string`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `discounts: { discount_id: string; discount_cycles_remaining?: number; }[]`\n  - `has_payment_method: boolean`\n  - `metadata: object`\n  - `next_billing_date: string`\n  - `on_demand: boolean`\n  - `payment_frequency_count: number`\n  - `payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'`\n  - `previous_billing_date: string`\n  - `product_id: string`\n  - `quantity: number`\n  - `recurring_pre_tax_amount: number`\n  - `status: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due'`\n  - `subscription_id: string`\n  - `subscription_period_count: number`\n  - `subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'`\n  - `tax_inclusive: boolean`\n  - `trial_period_days: number`\n  - `cancelled_at?: string`\n  - `cancelled_by?: { actor_type: 'customer' | 'merchant_user' | 'api_key' | 'dodo_team'; email?: string; name?: string; }`\n  - `customer_business_name?: string`\n  - `discount_cycles_remaining?: number`\n  - `discount_id?: string`\n  - `paused_at?: string`\n  - `payment_method_id?: string`\n  - `product_name?: string`\n  - `scheduled_change?: { id: string; addons: { addon_id: string; name: string; quantity: number; }[]; created_at: string; effective_at: string; product_id: string; quantity: number; product_description?: string; product_name?: string; }`\n  - `tax_id?: string`\n  - `trial_amount?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const subscriptionListResponse of client.subscriptions.list()) {\n  console.log(subscriptionListResponse);\n}\n```",
+      "## list\n\n`client.subscriptions.list(brand_id?: string, cancel_at_next_billing_date?: boolean, created_at_gte?: string, created_at_lte?: string, customer_id?: string, locale?: string, page_number?: number, page_size?: number, product_id?: string, status?: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due'): { billing: billing_address; cancel_at_next_billing_date: boolean; created_at: string; currency: currency; customer: customer_limited_details; discounts: object[]; has_payment_method: boolean; metadata: metadata; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: time_interval; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: subscription_status; subscription_id: string; subscription_period_count: number; subscription_period_interval: time_interval; tax_inclusive: boolean; trial_period_days: number; cancelled_at?: string; cancelled_by?: subscription_cancelled_by; customer_business_name?: string; discount_cycles_remaining?: number; discount_id?: string; paused_at?: string; payment_method_id?: string; product_name?: string; scheduled_change?: scheduled_plan_change; tax_id?: string; trial_amount?: number; }`\n\n**get** `/subscriptions`\n\n### Parameters\n\n- `brand_id?: string`\n  filter by Brand id\n\n- `cancel_at_next_billing_date?: boolean`\n  Filter by cancel_at_next_billing_date (subscriptions scheduled for cancellation)\n\n- `created_at_gte?: string`\n  Get events after this created time\n\n- `created_at_lte?: string`\n  Get events created before this time\n\n- `customer_id?: string`\n  Filter by customer id\n\n- `locale?: string`\n  Shows the translated name, description and unit of the catalog entities in this\nlocale. The value must be a code from `GET /locales`, for example `fr`.\nA field with no translation, an unknown code, or no code shows the base text.\n\nDo not send a text from a localized response back in a create or update request.\nThe base text then changes to the translated text.\n\n- `page_number?: number`\n  Page number default is 0\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n- `product_id?: string`\n  Filter by product id\n\n- `status?: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due'`\n  Filter by status\n\n### Returns\n\n- `{ billing: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }; cancel_at_next_billing_date: boolean; created_at: string; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; discounts: { discount_id: string; discount_cycles_remaining?: number; }[]; has_payment_method: boolean; metadata: object; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due'; subscription_id: string; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; tax_inclusive: boolean; trial_period_days: number; cancelled_at?: string; cancelled_by?: { actor_type: 'customer' | 'merchant_user' | 'api_key' | 'dodo_team'; email?: string; name?: string; }; customer_business_name?: string; discount_cycles_remaining?: number; discount_id?: string; paused_at?: string; payment_method_id?: string; product_name?: string; scheduled_change?: { id: string; addons: object[]; created_at: string; effective_at: string; product_id: string; quantity: number; product_description?: string; product_name?: string; }; tax_id?: string; trial_amount?: number; }`\n  Response struct representing subscription details\n\n  - `billing: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  - `cancel_at_next_billing_date: boolean`\n  - `created_at: string`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `discounts: { discount_id: string; discount_cycles_remaining?: number; }[]`\n  - `has_payment_method: boolean`\n  - `metadata: object`\n  - `next_billing_date: string`\n  - `on_demand: boolean`\n  - `payment_frequency_count: number`\n  - `payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'`\n  - `previous_billing_date: string`\n  - `product_id: string`\n  - `quantity: number`\n  - `recurring_pre_tax_amount: number`\n  - `status: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due'`\n  - `subscription_id: string`\n  - `subscription_period_count: number`\n  - `subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'`\n  - `tax_inclusive: boolean`\n  - `trial_period_days: number`\n  - `cancelled_at?: string`\n  - `cancelled_by?: { actor_type: 'customer' | 'merchant_user' | 'api_key' | 'dodo_team'; email?: string; name?: string; }`\n  - `customer_business_name?: string`\n  - `discount_cycles_remaining?: number`\n  - `discount_id?: string`\n  - `paused_at?: string`\n  - `payment_method_id?: string`\n  - `product_name?: string`\n  - `scheduled_change?: { id: string; addons: { addon_id: string; name: string; quantity: number; }[]; created_at: string; effective_at: string; product_id: string; quantity: number; product_description?: string; product_name?: string; }`\n  - `tax_id?: string`\n  - `trial_amount?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const subscriptionListResponse of client.subscriptions.list()) {\n  console.log(subscriptionListResponse);\n}\n```",
     perLanguage: {
       typescript: {
         method: 'client.subscriptions.list',
@@ -731,7 +733,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'subscriptions->list',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->subscriptions->list(\n  brandID: 'brand_id',\n  cancelAtNextBillingDate: true,\n  createdAtGte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  createdAtLte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  customerID: 'customer_id',\n  pageNumber: 0,\n  pageSize: 0,\n  productID: 'product_id',\n  status: 'pending',\n);\n\nvar_dump($page);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->subscriptions->list(\n  brandID: 'brand_id',\n  cancelAtNextBillingDate: true,\n  createdAtGte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  createdAtLte: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  customerID: 'customer_id',\n  locale: 'locale',\n  pageNumber: 0,\n  pageSize: 0,\n  productID: 'product_id',\n  status: 'pending',\n);\n\nvar_dump($page);",
       },
       csharp: {
         method: 'Subscriptions.List',
@@ -833,10 +835,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: '',
     stainlessPath: '(resource) subscriptions > (method) retrieve',
     qualified: 'client.subscriptions.retrieve',
-    params: ['subscription_id: string;'],
+    params: ['subscription_id: string;', 'locale?: string;'],
     response: 'object',
     markdown:
-      "## retrieve\n\n`client.subscriptions.retrieve(subscription_id: string): { addons: addon_cart_response_item[]; billing: billing_address; brand_id: string; cancel_at_next_billing_date: boolean; created_at: string; credit_entitlement_cart: credit_entitlement_cart_response[]; currency: currency; customer: customer_limited_details; has_payment_method: boolean; metadata: metadata; meter_credit_entitlement_cart: meter_credit_entitlement_cart_response[]; meters: meter_cart_response_item[]; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: time_interval; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: subscription_status; subscription_id: string; subscription_period_count: number; subscription_period_interval: time_interval; tax_inclusive: boolean; trial_period_days: number; cancellation_comment?: string; cancellation_feedback?: cancellation_feedback; cancelled_at?: string; cancelled_by?: subscription_cancelled_by; custom_field_responses?: custom_field_response[]; customer_business_name?: string; discount_cycles_remaining?: number; discount_id?: string; discounts?: discount_detail[]; expires_at?: string; paused_at?: string; payment_method_id?: string; scheduled_change?: scheduled_plan_change; tax_id?: string; trial_amount?: number; }`\n\n**get** `/subscriptions/{subscription_id}`\n\n### Parameters\n\n- `subscription_id: string`\n\n### Returns\n\n- `{ addons: { addon_id: string; quantity: number; }[]; billing: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }; brand_id: string; cancel_at_next_billing_date: boolean; created_at: string; credit_entitlement_cart: { credit_entitlement_id: string; credit_entitlement_name: string; credits_amount: string; overage_balance: string; overage_behavior: cbb_overage_behavior; overage_enabled: boolean; product_id: string; remaining_balance: string; rollover_enabled: boolean; unit: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_limit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: time_interval; }[]; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; has_payment_method: boolean; metadata: object; meter_credit_entitlement_cart: { credit_entitlement_id: string; meter_id: string; meter_name: string; meter_units_per_credit: string; product_id: string; }[]; meters: { currency: currency; free_threshold: number; measurement_unit: string; meter_id: string; name: string; description?: string; price_per_unit?: string; }[]; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due'; subscription_id: string; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; tax_inclusive: boolean; trial_period_days: number; cancellation_comment?: string; cancellation_feedback?: string; cancelled_at?: string; cancelled_by?: { actor_type: 'customer' | 'merchant_user' | 'api_key' | 'dodo_team'; email?: string; name?: string; }; custom_field_responses?: { key: string; value: string; }[]; customer_business_name?: string; discount_cycles_remaining?: number; discount_id?: string; discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: metadata; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]; expires_at?: string; paused_at?: string; payment_method_id?: string; scheduled_change?: { id: string; addons: object[]; created_at: string; effective_at: string; product_id: string; quantity: number; product_description?: string; product_name?: string; }; tax_id?: string; trial_amount?: number; }`\n  Response struct representing subscription details\n\n  - `addons: { addon_id: string; quantity: number; }[]`\n  - `billing: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  - `brand_id: string`\n  - `cancel_at_next_billing_date: boolean`\n  - `created_at: string`\n  - `credit_entitlement_cart: { credit_entitlement_id: string; credit_entitlement_name: string; credits_amount: string; overage_balance: string; overage_behavior: 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'; overage_enabled: boolean; product_id: string; remaining_balance: string; rollover_enabled: boolean; unit: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_limit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; }[]`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `has_payment_method: boolean`\n  - `metadata: object`\n  - `meter_credit_entitlement_cart: { credit_entitlement_id: string; meter_id: string; meter_name: string; meter_units_per_credit: string; product_id: string; }[]`\n  - `meters: { currency: string; free_threshold: number; measurement_unit: string; meter_id: string; name: string; description?: string; price_per_unit?: string; }[]`\n  - `next_billing_date: string`\n  - `on_demand: boolean`\n  - `payment_frequency_count: number`\n  - `payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'`\n  - `previous_billing_date: string`\n  - `product_id: string`\n  - `quantity: number`\n  - `recurring_pre_tax_amount: number`\n  - `status: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due'`\n  - `subscription_id: string`\n  - `subscription_period_count: number`\n  - `subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'`\n  - `tax_inclusive: boolean`\n  - `trial_period_days: number`\n  - `cancellation_comment?: string`\n  - `cancellation_feedback?: string`\n  - `cancelled_at?: string`\n  - `cancelled_by?: { actor_type: 'customer' | 'merchant_user' | 'api_key' | 'dodo_team'; email?: string; name?: string; }`\n  - `custom_field_responses?: { key: string; value: string; }[]`\n  - `customer_business_name?: string`\n  - `discount_cycles_remaining?: number`\n  - `discount_id?: string`\n  - `discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'flat' | 'percentage'; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]`\n  - `expires_at?: string`\n  - `paused_at?: string`\n  - `payment_method_id?: string`\n  - `scheduled_change?: { id: string; addons: { addon_id: string; name: string; quantity: number; }[]; created_at: string; effective_at: string; product_id: string; quantity: number; product_description?: string; product_name?: string; }`\n  - `tax_id?: string`\n  - `trial_amount?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst subscription = await client.subscriptions.retrieve('sub_Iuaq622bbmmfOGrVTqdXv');\n\nconsole.log(subscription);\n```",
+      "## retrieve\n\n`client.subscriptions.retrieve(subscription_id: string, locale?: string): { addons: addon_cart_response_item[]; billing: billing_address; brand_id: string; cancel_at_next_billing_date: boolean; created_at: string; credit_entitlement_cart: credit_entitlement_cart_response[]; currency: currency; customer: customer_limited_details; has_payment_method: boolean; metadata: metadata; meter_credit_entitlement_cart: meter_credit_entitlement_cart_response[]; meters: meter_cart_response_item[]; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: time_interval; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: subscription_status; subscription_id: string; subscription_period_count: number; subscription_period_interval: time_interval; tax_inclusive: boolean; trial_period_days: number; cancellation_comment?: string; cancellation_feedback?: cancellation_feedback; cancelled_at?: string; cancelled_by?: subscription_cancelled_by; custom_field_responses?: custom_field_response[]; customer_business_name?: string; discount_cycles_remaining?: number; discount_id?: string; discounts?: discount_detail[]; expires_at?: string; paused_at?: string; payment_method_id?: string; scheduled_change?: scheduled_plan_change; tax_id?: string; trial_amount?: number; }`\n\n**get** `/subscriptions/{subscription_id}`\n\n### Parameters\n\n- `subscription_id: string`\n\n- `locale?: string`\n  Shows the translated name, description and unit of the catalog entities in this\nlocale. The value must be a code from `GET /locales`, for example `fr`.\nA field with no translation, an unknown code, or no code shows the base text.\n\nDo not send a text from a localized response back in a create or update request.\nThe base text then changes to the translated text.\n\n### Returns\n\n- `{ addons: { addon_id: string; quantity: number; }[]; billing: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }; brand_id: string; cancel_at_next_billing_date: boolean; created_at: string; credit_entitlement_cart: { credit_entitlement_id: string; credit_entitlement_name: string; credits_amount: string; overage_balance: string; overage_behavior: cbb_overage_behavior; overage_enabled: boolean; product_id: string; remaining_balance: string; rollover_enabled: boolean; unit: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_limit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: time_interval; }[]; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; has_payment_method: boolean; metadata: object; meter_credit_entitlement_cart: { credit_entitlement_id: string; meter_id: string; meter_name: string; meter_units_per_credit: string; product_id: string; }[]; meters: { currency: currency; free_threshold: number; measurement_unit: string; meter_id: string; name: string; description?: string; price_per_unit?: string; }[]; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due'; subscription_id: string; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; tax_inclusive: boolean; trial_period_days: number; cancellation_comment?: string; cancellation_feedback?: string; cancelled_at?: string; cancelled_by?: { actor_type: 'customer' | 'merchant_user' | 'api_key' | 'dodo_team'; email?: string; name?: string; }; custom_field_responses?: { key: string; value: string; }[]; customer_business_name?: string; discount_cycles_remaining?: number; discount_id?: string; discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: metadata; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]; expires_at?: string; paused_at?: string; payment_method_id?: string; scheduled_change?: { id: string; addons: object[]; created_at: string; effective_at: string; product_id: string; quantity: number; product_description?: string; product_name?: string; }; tax_id?: string; trial_amount?: number; }`\n  Response struct representing subscription details\n\n  - `addons: { addon_id: string; quantity: number; }[]`\n  - `billing: { country: string; city?: string; state?: string; street?: string; zipcode?: string; }`\n  - `brand_id: string`\n  - `cancel_at_next_billing_date: boolean`\n  - `created_at: string`\n  - `credit_entitlement_cart: { credit_entitlement_id: string; credit_entitlement_name: string; credits_amount: string; overage_balance: string; overage_behavior: 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'; overage_enabled: boolean; product_id: string; remaining_balance: string; rollover_enabled: boolean; unit: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_limit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; }[]`\n  - `currency: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `has_payment_method: boolean`\n  - `metadata: object`\n  - `meter_credit_entitlement_cart: { credit_entitlement_id: string; meter_id: string; meter_name: string; meter_units_per_credit: string; product_id: string; }[]`\n  - `meters: { currency: string; free_threshold: number; measurement_unit: string; meter_id: string; name: string; description?: string; price_per_unit?: string; }[]`\n  - `next_billing_date: string`\n  - `on_demand: boolean`\n  - `payment_frequency_count: number`\n  - `payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'`\n  - `previous_billing_date: string`\n  - `product_id: string`\n  - `quantity: number`\n  - `recurring_pre_tax_amount: number`\n  - `status: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due'`\n  - `subscription_id: string`\n  - `subscription_period_count: number`\n  - `subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'`\n  - `tax_inclusive: boolean`\n  - `trial_period_days: number`\n  - `cancellation_comment?: string`\n  - `cancellation_feedback?: string`\n  - `cancelled_at?: string`\n  - `cancelled_by?: { actor_type: 'customer' | 'merchant_user' | 'api_key' | 'dodo_team'; email?: string; name?: string; }`\n  - `custom_field_responses?: { key: string; value: string; }[]`\n  - `customer_business_name?: string`\n  - `discount_cycles_remaining?: number`\n  - `discount_id?: string`\n  - `discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: object; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: 'flat' | 'percentage'; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]`\n  - `expires_at?: string`\n  - `paused_at?: string`\n  - `payment_method_id?: string`\n  - `scheduled_change?: { id: string; addons: { addon_id: string; name: string; quantity: number; }[]; created_at: string; effective_at: string; product_id: string; quantity: number; product_description?: string; product_name?: string; }`\n  - `tax_id?: string`\n  - `trial_amount?: number`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst subscription = await client.subscriptions.retrieve('sub_Iuaq622bbmmfOGrVTqdXv');\n\nconsole.log(subscription);\n```",
     perLanguage: {
       typescript: {
         method: 'client.subscriptions.retrieve',
@@ -850,7 +852,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       python: {
         method: 'subscriptions.retrieve',
         example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nsubscription = client.subscriptions.retrieve(\n    "sub_Iuaq622bbmmfOGrVTqdXv",\n)\nprint(subscription.brand_id)',
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nsubscription = client.subscriptions.retrieve(\n    subscription_id="sub_Iuaq622bbmmfOGrVTqdXv",\n)\nprint(subscription.brand_id)',
       },
       java: {
         method: 'subscriptions().retrieve',
@@ -865,7 +867,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Subscriptions.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tsubscription, err := client.Subscriptions.Get(context.TODO(), "sub_Iuaq622bbmmfOGrVTqdXv")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", subscription.BrandID)\n}\n',
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tsubscription, err := client.Subscriptions.Get(\n\t\tcontext.TODO(),\n\t\t"sub_Iuaq622bbmmfOGrVTqdXv",\n\t\tdodopayments.SubscriptionGetParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", subscription.BrandID)\n}\n',
       },
       ruby: {
         method: 'subscriptions.retrieve',
@@ -875,7 +877,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'subscriptions->retrieve',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$subscription = $client->subscriptions->retrieve('sub_Iuaq622bbmmfOGrVTqdXv');\n\nvar_dump($subscription);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$subscription = $client->subscriptions->retrieve(\n  'sub_Iuaq622bbmmfOGrVTqdXv', locale: 'locale'\n);\n\nvar_dump($subscription);",
       },
       csharp: {
         method: 'Subscriptions.Retrieve',
@@ -1055,7 +1057,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     ],
     response: '{ client_secret?: string; expires_on?: string; payment_id?: string; payment_link?: string; }',
     markdown:
-      "## change_plan\n\n`client.subscriptions.changePlan(subscription_id: string, product_id: string, proration_billing_mode: string, quantity: number, adaptive_currency_fees_inclusive?: boolean, addons?: { addon_id: string; quantity: number; }[], cancel_older_payment_link?: boolean, cancel_scheduled_change_plan?: boolean, collect_via_payment_link?: boolean, discount_code?: string, discount_codes?: string[], effective_at?: 'immediately' | 'next_billing_date', metadata?: object, on_payment_failure?: 'prevent_change' | 'apply_change', return_url?: string): { client_secret?: string; expires_on?: string; payment_id?: string; payment_link?: string; }`\n\n**post** `/subscriptions/{subscription_id}/change-plan`\n\n### Parameters\n\n- `subscription_id: string`\n\n- `product_id: string`\n  Unique identifier of the product to subscribe to\n\n- `proration_billing_mode: string`\n  Proration Billing Mode\n\n- `quantity: number`\n  Number of units to subscribe for. Must be at least 1.\n\n- `adaptive_currency_fees_inclusive?: boolean`\n  Whether adaptive currency fees should be included in the price (true) or added on top (false).\nIf not specified, uses the subscription's stored setting.\n\n- `addons?: { addon_id: string; quantity: number; }[]`\n  Addons for the new plan.\nNote : Leaving this empty would remove any existing addons\n\n- `cancel_older_payment_link?: boolean`\n  Cancel the payment link of a pending plan change, so that this change\ncan replace it.\n\nThe link is cancelled only if the customer has not started to pay. A\npaid or in-progress payment gives a `409`. A failed cancel gives a\n`503`, and a retry is safe.\n\nThe request is validated before the cancel. A later failure, for example\nan amount below the minimum, leaves the subscription on its current plan\nwith no open link. A retry is safe.\n\nThe preview route shares this request body and ignores this field.\n\n- `cancel_scheduled_change_plan?: boolean`\n  Replace a scheduled plan change with this one.\n\nThe scheduled change is cancelled by the transaction that applies this\nchange. A change that never applies leaves the schedule in place.\n\n`effective_at: next_billing_date` is allowed. The new schedule then\nreplaces the old one in the request transaction.\n\nA pending plan change still gets a `409`. This field does not affect it.\n\nThe preview route shares this request body, so a preview that sets this\nfield also passes the scheduled-change `409`.\n\n- `collect_via_payment_link?: boolean`\n  Collect the plan-change amount with a payment link. The customer then\npays on a checkout page.\n\nThe business needs the `allow_plan_change_via_payment_link` capability.\nThe request needs `effective_at: immediately`. The request also needs\n`on_payment_failure: prevent_change`.\n\nThe preview route shares this request body and ignores this field.\n\n- `discount_code?: string`\n  DEPRECATED: Use discount_codes instead. Cannot be used together with discount_codes.\n\n- `discount_codes?: string[]`\n  Stacked discount codes to apply to the new plan. Max 20.\nCannot be used together with discount_code.\nIf provided, replaces any existing discount codes.\nEmpty array removes all discounts.\nIf not provided (None), existing discounts with preserve_on_plan_change=true are preserved.\n\n- `effective_at?: 'immediately' | 'next_billing_date'`\n  When to apply the plan change.\n- `immediately` (default): Apply the plan change right away\n- `next_billing_date`: Schedule the change for the next billing date\n\n- `metadata?: object`\n  Metadata for the payment. If not passed, the metadata of the subscription will be taken\n\n- `on_payment_failure?: 'prevent_change' | 'apply_change'`\n  Controls behavior when the plan change payment fails.\n- `prevent_change`: Keep subscription on current plan until payment succeeds\n- `apply_change` (default): Apply plan change immediately regardless of payment outcome\n\nIf not specified, uses the business-level default setting.\n\n- `return_url?: string`\n  The URL that receives the customer after they pay the payment link.\nNeeds `collect_via_payment_link: true`. Without it, the request gets a\n`422`. A change that collects no money issues no link and does not use\nthe URL. The preview route validates this field but does not use it.\n\nThe redirect adds `subscription_id`, `payment_id` and `status`. The\n`status` value is the status of the plan-change payment. It is not the\nstatus of the subscription. When that payment fails, the subscription\nstays active on its current plan. To try again, call this endpoint\nagain to get a new link. The new plan can apply after the redirect,\nwhen the payment webhook arrives.\n\n### Returns\n\n- `{ client_secret?: string; expires_on?: string; payment_id?: string; payment_link?: string; }`\n  Handles for a hosted checkout page that settles a plan change.\n\nThe four fields repeat `UpdatePaymentMethodResponse` and a subset of\n`CreateSubscriptionResponse`. A shared type would rename the generated SDK\ntypes for all three routes, so each route keeps its own.\n\n  - `client_secret?: string`\n  - `expires_on?: string`\n  - `payment_id?: string`\n  - `payment_link?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.subscriptions.changePlan('sub_Iuaq622bbmmfOGrVTqdXv', {\n  product_id: 'product_id',\n  proration_billing_mode: 'prorated_immediately',\n  quantity: 0,\n});\n\nconsole.log(response);\n```",
+      "## change_plan\n\n`client.subscriptions.changePlan(subscription_id: string, product_id: string, proration_billing_mode: string, quantity: number, adaptive_currency_fees_inclusive?: boolean, addons?: { addon_id: string; quantity: number; }[], cancel_older_payment_link?: boolean, cancel_scheduled_change_plan?: boolean, collect_via_payment_link?: boolean, discount_code?: string, discount_codes?: string[], effective_at?: 'immediately' | 'next_billing_date', metadata?: object, on_payment_failure?: 'prevent_change' | 'apply_change', return_url?: string): { client_secret?: string; expires_on?: string; payment_id?: string; payment_link?: string; }`\n\n**post** `/subscriptions/{subscription_id}/change-plan`\n\n### Parameters\n\n- `subscription_id: string`\n\n- `product_id: string`\n  Unique identifier of the product to subscribe to\n\n- `proration_billing_mode: string`\n  Proration Billing Mode\n\n- `quantity: number`\n  Number of units to subscribe for. Must be at least 1.\n\n- `adaptive_currency_fees_inclusive?: boolean`\n  Whether adaptive currency fees should be included in the price (true) or added on top (false).\nIf not specified, uses the subscription's stored setting.\n\n- `addons?: { addon_id: string; quantity: number; }[]`\n  Addons for the new plan.\nNote : Leaving this empty would remove any existing addons\n\n- `cancel_older_payment_link?: boolean`\n  Cancel the payment link of a pending plan change, so that this change\ncan replace it.\n\nThe link is cancelled only if the customer has not started to pay. A\npaid or in-progress payment gives a `409`. A failed cancel gives a\n`503`, and a retry is safe.\n\nThe request is validated before the cancel. A later failure, for example\nan amount below the minimum, leaves the subscription on its current plan\nwith no open link. A retry is safe.\n\nThe preview route shares this request body and ignores this field.\n\n- `cancel_scheduled_change_plan?: boolean`\n  Replace a scheduled plan change with this one.\n\nThe scheduled change is cancelled by the transaction that applies this\nchange. A change that never applies leaves the schedule in place.\n\n`effective_at: next_billing_date` is allowed. The new schedule then\nreplaces the old one in the request transaction.\n\nA pending plan change still gets a `409`. This field does not affect it.\n\nThe preview route shares this request body, so a preview that sets this\nfield also passes the scheduled-change `409`.\n\n- `collect_via_payment_link?: boolean`\n  Collect the plan-change amount with a payment link. The customer then\npays on a checkout page.\n\nThe business needs the `allow_plan_change_via_payment_link` capability.\nThe request needs `effective_at: immediately`. The request also needs\n`on_payment_failure: prevent_change`.\n\nThe preview route shares this request body and ignores this field.\n\n- `discount_code?: string`\n  DEPRECATED: Use discount_codes instead. Cannot be used together with discount_codes.\n\n- `discount_codes?: string[]`\n  Stacked discount codes to apply to the new plan. Max 20.\nCannot be used together with discount_code.\nIf provided, replaces any existing discount codes.\nEmpty array removes all discounts.\nIf not provided (None), existing discounts with preserve_on_plan_change=true are preserved.\n\n- `effective_at?: 'immediately' | 'next_billing_date'`\n  When to apply the plan change.\n- `immediately` (default): Apply the plan change right away\n- `next_billing_date`: Schedule the change for the next billing date\n\n- `metadata?: object`\n  Metadata for the payment. If not passed, the metadata of the subscription will be taken\n\n- `on_payment_failure?: 'prevent_change' | 'apply_change'`\n  Controls behavior when the plan change payment fails.\n- `prevent_change`: Keep subscription on current plan until payment succeeds\n- `apply_change` (default): Apply plan change immediately regardless of payment outcome\n\nWith `effective_at: next_billing_date`, the plan change payment replaces the renewal payment.\nIf that payment fails with `prevent_change`, the plan change is cancelled.\nThe subscription then renews on the current plan, with the usual payment retries.\n\nIf not specified, uses the business-level default setting.\n\n- `return_url?: string`\n  The URL that receives the customer after they pay the payment link.\nNeeds `collect_via_payment_link: true`. Without it, the request gets a\n`422`. A change that collects no money issues no link and does not use\nthe URL. The preview route validates this field but does not use it.\n\nThe redirect adds `subscription_id`, `payment_id` and `status`. The\n`status` value is the status of the plan-change payment. It is not the\nstatus of the subscription. When that payment fails, the subscription\nstays active on its current plan. To try again, call this endpoint\nagain to get a new link. The new plan can apply after the redirect,\nwhen the payment webhook arrives.\n\n### Returns\n\n- `{ client_secret?: string; expires_on?: string; payment_id?: string; payment_link?: string; }`\n  Handles for a hosted checkout page that settles a plan change.\n\nThe four fields repeat `UpdatePaymentMethodResponse` and a subset of\n`CreateSubscriptionResponse`. A shared type would rename the generated SDK\ntypes for all three routes, so each route keeps its own.\n\n  - `client_secret?: string`\n  - `expires_on?: string`\n  - `payment_id?: string`\n  - `payment_link?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.subscriptions.changePlan('sub_Iuaq622bbmmfOGrVTqdXv', {\n  product_id: 'product_id',\n  proration_billing_mode: 'prorated_immediately',\n  quantity: 0,\n});\n\nconsole.log(response);\n```",
     perLanguage: {
       typescript: {
         method: 'client.subscriptions.changePlan',
@@ -1261,7 +1263,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     response:
       '{ immediate_charge: { effective_at: string; line_items: object | object | object[]; summary: object; }; new_plan: object; }',
     markdown:
-      "## preview_change_plan\n\n`client.subscriptions.previewChangePlan(subscription_id: string, product_id: string, proration_billing_mode: string, quantity: number, adaptive_currency_fees_inclusive?: boolean, addons?: { addon_id: string; quantity: number; }[], cancel_older_payment_link?: boolean, cancel_scheduled_change_plan?: boolean, collect_via_payment_link?: boolean, discount_code?: string, discount_codes?: string[], effective_at?: 'immediately' | 'next_billing_date', metadata?: object, on_payment_failure?: 'prevent_change' | 'apply_change', return_url?: string): { immediate_charge: object; new_plan: subscription; }`\n\n**post** `/subscriptions/{subscription_id}/change-plan/preview`\n\n### Parameters\n\n- `subscription_id: string`\n\n- `product_id: string`\n  Unique identifier of the product to subscribe to\n\n- `proration_billing_mode: string`\n  Proration Billing Mode\n\n- `quantity: number`\n  Number of units to subscribe for. Must be at least 1.\n\n- `adaptive_currency_fees_inclusive?: boolean`\n  Whether adaptive currency fees should be included in the price (true) or added on top (false).\nIf not specified, uses the subscription's stored setting.\n\n- `addons?: { addon_id: string; quantity: number; }[]`\n  Addons for the new plan.\nNote : Leaving this empty would remove any existing addons\n\n- `cancel_older_payment_link?: boolean`\n  Cancel the payment link of a pending plan change, so that this change\ncan replace it.\n\nThe link is cancelled only if the customer has not started to pay. A\npaid or in-progress payment gives a `409`. A failed cancel gives a\n`503`, and a retry is safe.\n\nThe request is validated before the cancel. A later failure, for example\nan amount below the minimum, leaves the subscription on its current plan\nwith no open link. A retry is safe.\n\nThe preview route shares this request body and ignores this field.\n\n- `cancel_scheduled_change_plan?: boolean`\n  Replace a scheduled plan change with this one.\n\nThe scheduled change is cancelled by the transaction that applies this\nchange. A change that never applies leaves the schedule in place.\n\n`effective_at: next_billing_date` is allowed. The new schedule then\nreplaces the old one in the request transaction.\n\nA pending plan change still gets a `409`. This field does not affect it.\n\nThe preview route shares this request body, so a preview that sets this\nfield also passes the scheduled-change `409`.\n\n- `collect_via_payment_link?: boolean`\n  Collect the plan-change amount with a payment link. The customer then\npays on a checkout page.\n\nThe business needs the `allow_plan_change_via_payment_link` capability.\nThe request needs `effective_at: immediately`. The request also needs\n`on_payment_failure: prevent_change`.\n\nThe preview route shares this request body and ignores this field.\n\n- `discount_code?: string`\n  DEPRECATED: Use discount_codes instead. Cannot be used together with discount_codes.\n\n- `discount_codes?: string[]`\n  Stacked discount codes to apply to the new plan. Max 20.\nCannot be used together with discount_code.\nIf provided, replaces any existing discount codes.\nEmpty array removes all discounts.\nIf not provided (None), existing discounts with preserve_on_plan_change=true are preserved.\n\n- `effective_at?: 'immediately' | 'next_billing_date'`\n  When to apply the plan change.\n- `immediately` (default): Apply the plan change right away\n- `next_billing_date`: Schedule the change for the next billing date\n\n- `metadata?: object`\n  Metadata for the payment. If not passed, the metadata of the subscription will be taken\n\n- `on_payment_failure?: 'prevent_change' | 'apply_change'`\n  Controls behavior when the plan change payment fails.\n- `prevent_change`: Keep subscription on current plan until payment succeeds\n- `apply_change` (default): Apply plan change immediately regardless of payment outcome\n\nIf not specified, uses the business-level default setting.\n\n- `return_url?: string`\n  The URL that receives the customer after they pay the payment link.\nNeeds `collect_via_payment_link: true`. Without it, the request gets a\n`422`. A change that collects no money issues no link and does not use\nthe URL. The preview route validates this field but does not use it.\n\nThe redirect adds `subscription_id`, `payment_id` and `status`. The\n`status` value is the status of the plan-change payment. It is not the\nstatus of the subscription. When that payment fails, the subscription\nstays active on its current plan. To try again, call this endpoint\nagain to get a new link. The new plan can apply after the redirect,\nwhen the payment webhook arrives.\n\n### Returns\n\n- `{ immediate_charge: { effective_at: string; line_items: { id: string; currency: currency; product_id: string; proration_factor: number; quantity: number; tax_inclusive: boolean; type: 'subscription'; unit_price: number; description?: string; name?: string; tax?: number; tax_rate?: number; } | { id: string; currency: currency; name: string; proration_factor: number; quantity: number; tax_category: tax_category; tax_inclusive: boolean; tax_rate: number; type: 'addon'; unit_price: number; description?: string; tax?: number; } | { id: string; chargeable_units: string; currency: currency; free_threshold: number; name: string; price_per_unit: string; subtotal: number; tax_inclusive: boolean; tax_rate: number; type: 'meter'; units_consumed: string; description?: string; tax?: number; }[]; summary: { currency: currency; customer_credits: number; customer_credits_currency: currency; settlement_amount: number; settlement_currency: currency; total_amount: number; settlement_tax?: number; tax?: number; }; }; new_plan: { addons: addon_cart_response_item[]; billing: billing_address; brand_id: string; cancel_at_next_billing_date: boolean; created_at: string; credit_entitlement_cart: credit_entitlement_cart_response[]; currency: currency; customer: customer_limited_details; has_payment_method: boolean; metadata: metadata; meter_credit_entitlement_cart: meter_credit_entitlement_cart_response[]; meters: meter_cart_response_item[]; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: time_interval; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: subscription_status; subscription_id: string; subscription_period_count: number; subscription_period_interval: time_interval; tax_inclusive: boolean; trial_period_days: number; cancellation_comment?: string; cancellation_feedback?: cancellation_feedback; cancelled_at?: string; cancelled_by?: subscription_cancelled_by; custom_field_responses?: custom_field_response[]; customer_business_name?: string; discount_cycles_remaining?: number; discount_id?: string; discounts?: discount_detail[]; expires_at?: string; paused_at?: string; payment_method_id?: string; scheduled_change?: scheduled_plan_change; tax_id?: string; trial_amount?: number; }; }`\n\n  - `immediate_charge: { effective_at: string; line_items: { id: string; currency: string; product_id: string; proration_factor: number; quantity: number; tax_inclusive: boolean; type: 'subscription'; unit_price: number; description?: string; name?: string; tax?: number; tax_rate?: number; } | { id: string; currency: string; name: string; proration_factor: number; quantity: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; type: 'addon'; unit_price: number; description?: string; tax?: number; } | { id: string; chargeable_units: string; currency: string; free_threshold: number; name: string; price_per_unit: string; subtotal: number; tax_inclusive: boolean; tax_rate: number; type: 'meter'; units_consumed: string; description?: string; tax?: number; }[]; summary: { currency: string; customer_credits: number; customer_credits_currency: string; settlement_amount: number; settlement_currency: string; total_amount: number; settlement_tax?: number; tax?: number; }; }`\n  - `new_plan: { addons: { addon_id: string; quantity: number; }[]; billing: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }; brand_id: string; cancel_at_next_billing_date: boolean; created_at: string; credit_entitlement_cart: { credit_entitlement_id: string; credit_entitlement_name: string; credits_amount: string; overage_balance: string; overage_behavior: cbb_overage_behavior; overage_enabled: boolean; product_id: string; remaining_balance: string; rollover_enabled: boolean; unit: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_limit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: time_interval; }[]; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; has_payment_method: boolean; metadata: object; meter_credit_entitlement_cart: { credit_entitlement_id: string; meter_id: string; meter_name: string; meter_units_per_credit: string; product_id: string; }[]; meters: { currency: currency; free_threshold: number; measurement_unit: string; meter_id: string; name: string; description?: string; price_per_unit?: string; }[]; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due'; subscription_id: string; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; tax_inclusive: boolean; trial_period_days: number; cancellation_comment?: string; cancellation_feedback?: string; cancelled_at?: string; cancelled_by?: { actor_type: 'customer' | 'merchant_user' | 'api_key' | 'dodo_team'; email?: string; name?: string; }; custom_field_responses?: { key: string; value: string; }[]; customer_business_name?: string; discount_cycles_remaining?: number; discount_id?: string; discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: metadata; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]; expires_at?: string; paused_at?: string; payment_method_id?: string; scheduled_change?: { id: string; addons: object[]; created_at: string; effective_at: string; product_id: string; quantity: number; product_description?: string; product_name?: string; }; tax_id?: string; trial_amount?: number; }`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.subscriptions.previewChangePlan('sub_Iuaq622bbmmfOGrVTqdXv', {\n  product_id: 'product_id',\n  proration_billing_mode: 'prorated_immediately',\n  quantity: 0,\n});\n\nconsole.log(response);\n```",
+      "## preview_change_plan\n\n`client.subscriptions.previewChangePlan(subscription_id: string, product_id: string, proration_billing_mode: string, quantity: number, adaptive_currency_fees_inclusive?: boolean, addons?: { addon_id: string; quantity: number; }[], cancel_older_payment_link?: boolean, cancel_scheduled_change_plan?: boolean, collect_via_payment_link?: boolean, discount_code?: string, discount_codes?: string[], effective_at?: 'immediately' | 'next_billing_date', metadata?: object, on_payment_failure?: 'prevent_change' | 'apply_change', return_url?: string): { immediate_charge: object; new_plan: subscription; }`\n\n**post** `/subscriptions/{subscription_id}/change-plan/preview`\n\n### Parameters\n\n- `subscription_id: string`\n\n- `product_id: string`\n  Unique identifier of the product to subscribe to\n\n- `proration_billing_mode: string`\n  Proration Billing Mode\n\n- `quantity: number`\n  Number of units to subscribe for. Must be at least 1.\n\n- `adaptive_currency_fees_inclusive?: boolean`\n  Whether adaptive currency fees should be included in the price (true) or added on top (false).\nIf not specified, uses the subscription's stored setting.\n\n- `addons?: { addon_id: string; quantity: number; }[]`\n  Addons for the new plan.\nNote : Leaving this empty would remove any existing addons\n\n- `cancel_older_payment_link?: boolean`\n  Cancel the payment link of a pending plan change, so that this change\ncan replace it.\n\nThe link is cancelled only if the customer has not started to pay. A\npaid or in-progress payment gives a `409`. A failed cancel gives a\n`503`, and a retry is safe.\n\nThe request is validated before the cancel. A later failure, for example\nan amount below the minimum, leaves the subscription on its current plan\nwith no open link. A retry is safe.\n\nThe preview route shares this request body and ignores this field.\n\n- `cancel_scheduled_change_plan?: boolean`\n  Replace a scheduled plan change with this one.\n\nThe scheduled change is cancelled by the transaction that applies this\nchange. A change that never applies leaves the schedule in place.\n\n`effective_at: next_billing_date` is allowed. The new schedule then\nreplaces the old one in the request transaction.\n\nA pending plan change still gets a `409`. This field does not affect it.\n\nThe preview route shares this request body, so a preview that sets this\nfield also passes the scheduled-change `409`.\n\n- `collect_via_payment_link?: boolean`\n  Collect the plan-change amount with a payment link. The customer then\npays on a checkout page.\n\nThe business needs the `allow_plan_change_via_payment_link` capability.\nThe request needs `effective_at: immediately`. The request also needs\n`on_payment_failure: prevent_change`.\n\nThe preview route shares this request body and ignores this field.\n\n- `discount_code?: string`\n  DEPRECATED: Use discount_codes instead. Cannot be used together with discount_codes.\n\n- `discount_codes?: string[]`\n  Stacked discount codes to apply to the new plan. Max 20.\nCannot be used together with discount_code.\nIf provided, replaces any existing discount codes.\nEmpty array removes all discounts.\nIf not provided (None), existing discounts with preserve_on_plan_change=true are preserved.\n\n- `effective_at?: 'immediately' | 'next_billing_date'`\n  When to apply the plan change.\n- `immediately` (default): Apply the plan change right away\n- `next_billing_date`: Schedule the change for the next billing date\n\n- `metadata?: object`\n  Metadata for the payment. If not passed, the metadata of the subscription will be taken\n\n- `on_payment_failure?: 'prevent_change' | 'apply_change'`\n  Controls behavior when the plan change payment fails.\n- `prevent_change`: Keep subscription on current plan until payment succeeds\n- `apply_change` (default): Apply plan change immediately regardless of payment outcome\n\nWith `effective_at: next_billing_date`, the plan change payment replaces the renewal payment.\nIf that payment fails with `prevent_change`, the plan change is cancelled.\nThe subscription then renews on the current plan, with the usual payment retries.\n\nIf not specified, uses the business-level default setting.\n\n- `return_url?: string`\n  The URL that receives the customer after they pay the payment link.\nNeeds `collect_via_payment_link: true`. Without it, the request gets a\n`422`. A change that collects no money issues no link and does not use\nthe URL. The preview route validates this field but does not use it.\n\nThe redirect adds `subscription_id`, `payment_id` and `status`. The\n`status` value is the status of the plan-change payment. It is not the\nstatus of the subscription. When that payment fails, the subscription\nstays active on its current plan. To try again, call this endpoint\nagain to get a new link. The new plan can apply after the redirect,\nwhen the payment webhook arrives.\n\n### Returns\n\n- `{ immediate_charge: { effective_at: string; line_items: { id: string; currency: currency; product_id: string; proration_factor: number; quantity: number; tax_inclusive: boolean; type: 'subscription'; unit_price: number; description?: string; name?: string; tax?: number; tax_rate?: number; } | { id: string; currency: currency; name: string; proration_factor: number; quantity: number; tax_category: tax_category; tax_inclusive: boolean; tax_rate: number; type: 'addon'; unit_price: number; description?: string; tax?: number; } | { id: string; chargeable_units: string; currency: currency; free_threshold: number; name: string; price_per_unit: string; subtotal: number; tax_inclusive: boolean; tax_rate: number; type: 'meter'; units_consumed: string; description?: string; tax?: number; }[]; summary: { currency: currency; customer_credits: number; customer_credits_currency: currency; settlement_amount: number; settlement_currency: currency; total_amount: number; settlement_tax?: number; tax?: number; }; }; new_plan: { addons: addon_cart_response_item[]; billing: billing_address; brand_id: string; cancel_at_next_billing_date: boolean; created_at: string; credit_entitlement_cart: credit_entitlement_cart_response[]; currency: currency; customer: customer_limited_details; has_payment_method: boolean; metadata: metadata; meter_credit_entitlement_cart: meter_credit_entitlement_cart_response[]; meters: meter_cart_response_item[]; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: time_interval; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: subscription_status; subscription_id: string; subscription_period_count: number; subscription_period_interval: time_interval; tax_inclusive: boolean; trial_period_days: number; cancellation_comment?: string; cancellation_feedback?: cancellation_feedback; cancelled_at?: string; cancelled_by?: subscription_cancelled_by; custom_field_responses?: custom_field_response[]; customer_business_name?: string; discount_cycles_remaining?: number; discount_id?: string; discounts?: discount_detail[]; expires_at?: string; paused_at?: string; payment_method_id?: string; scheduled_change?: scheduled_plan_change; tax_id?: string; trial_amount?: number; }; }`\n\n  - `immediate_charge: { effective_at: string; line_items: { id: string; currency: string; product_id: string; proration_factor: number; quantity: number; tax_inclusive: boolean; type: 'subscription'; unit_price: number; description?: string; name?: string; tax?: number; tax_rate?: number; } | { id: string; currency: string; name: string; proration_factor: number; quantity: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; tax_inclusive: boolean; tax_rate: number; type: 'addon'; unit_price: number; description?: string; tax?: number; } | { id: string; chargeable_units: string; currency: string; free_threshold: number; name: string; price_per_unit: string; subtotal: number; tax_inclusive: boolean; tax_rate: number; type: 'meter'; units_consumed: string; description?: string; tax?: number; }[]; summary: { currency: string; customer_credits: number; customer_credits_currency: string; settlement_amount: number; settlement_currency: string; total_amount: number; settlement_tax?: number; tax?: number; }; }`\n  - `new_plan: { addons: { addon_id: string; quantity: number; }[]; billing: { country: country_code; city?: string; state?: string; street?: string; zipcode?: string; }; brand_id: string; cancel_at_next_billing_date: boolean; created_at: string; credit_entitlement_cart: { credit_entitlement_id: string; credit_entitlement_name: string; credits_amount: string; overage_balance: string; overage_behavior: cbb_overage_behavior; overage_enabled: boolean; product_id: string; remaining_balance: string; rollover_enabled: boolean; unit: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_limit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: time_interval; }[]; currency: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; has_payment_method: boolean; metadata: object; meter_credit_entitlement_cart: { credit_entitlement_id: string; meter_id: string; meter_name: string; meter_units_per_credit: string; product_id: string; }[]; meters: { currency: currency; free_threshold: number; measurement_unit: string; meter_id: string; name: string; description?: string; price_per_unit?: string; }[]; next_billing_date: string; on_demand: boolean; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; previous_billing_date: string; product_id: string; quantity: number; recurring_pre_tax_amount: number; status: 'pending' | 'active' | 'on_hold' | 'paused' | 'cancelled' | 'failed' | 'expired' | 'past_due'; subscription_id: string; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; tax_inclusive: boolean; trial_period_days: number; cancellation_comment?: string; cancellation_feedback?: string; cancelled_at?: string; cancelled_by?: { actor_type: 'customer' | 'merchant_user' | 'api_key' | 'dodo_team'; email?: string; name?: string; }; custom_field_responses?: { key: string; value: string; }[]; customer_business_name?: string; discount_cycles_remaining?: number; discount_id?: string; discounts?: { amount: number; business_id: string; code: string; created_at: string; discount_id: string; metadata: metadata; position: number; preserve_on_plan_change: boolean; restricted_to: string[]; times_used: number; type: discount_type; cycles_remaining?: number; expires_at?: string; name?: string; subscription_cycles?: number; usage_limit?: number; }[]; expires_at?: string; paused_at?: string; payment_method_id?: string; scheduled_change?: { id: string; addons: object[]; created_at: string; effective_at: string; product_id: string; quantity: number; product_description?: string; product_name?: string; }; tax_id?: string; trial_amount?: number; }`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst response = await client.subscriptions.previewChangePlan('sub_Iuaq622bbmmfOGrVTqdXv', {\n  product_id: 'product_id',\n  proration_billing_mode: 'prorated_immediately',\n  quantity: 0,\n});\n\nconsole.log(response);\n```",
     perLanguage: {
       typescript: {
         method: 'client.subscriptions.previewChangePlan',
@@ -2238,9 +2240,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'page_size?: number;',
     ],
     response:
-      '{ business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: object; phone_number?: string; }',
+      '{ business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: object; phone_number?: string; preferred_locale?: string; }',
     markdown:
-      "## list\n\n`client.customers.list(created_at_gte?: string, created_at_lte?: string, email?: string, name?: string, page_number?: number, page_size?: number): { business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: metadata; phone_number?: string; }`\n\n**get** `/customers`\n\n### Parameters\n\n- `created_at_gte?: string`\n  Filter customers created on or after this timestamp\n\n- `created_at_lte?: string`\n  Filter customers created on or before this timestamp\n\n- `email?: string`\n  Filter by customer email\n\n- `name?: string`\n  Filter by customer name (partial match, case-insensitive)\n\n- `page_number?: number`\n  Page number default is 0\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n### Returns\n\n- `{ business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: object; phone_number?: string; }`\n\n  - `business_id: string`\n  - `created_at: string`\n  - `customer_id: string`\n  - `email: string`\n  - `name: string`\n  - `blocked_at?: string`\n  - `blocklist_entry_id?: string`\n  - `metadata?: object`\n  - `phone_number?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const customer of client.customers.list()) {\n  console.log(customer);\n}\n```",
+      "## list\n\n`client.customers.list(created_at_gte?: string, created_at_lte?: string, email?: string, name?: string, page_number?: number, page_size?: number): { business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: metadata; phone_number?: string; preferred_locale?: locale; }`\n\n**get** `/customers`\n\n### Parameters\n\n- `created_at_gte?: string`\n  Filter customers created on or after this timestamp\n\n- `created_at_lte?: string`\n  Filter customers created on or before this timestamp\n\n- `email?: string`\n  Filter by customer email\n\n- `name?: string`\n  Filter by customer name (partial match, case-insensitive)\n\n- `page_number?: number`\n  Page number default is 0\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n### Returns\n\n- `{ business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: object; phone_number?: string; preferred_locale?: string; }`\n\n  - `business_id: string`\n  - `created_at: string`\n  - `customer_id: string`\n  - `email: string`\n  - `name: string`\n  - `blocked_at?: string`\n  - `blocklist_entry_id?: string`\n  - `metadata?: object`\n  - `phone_number?: string`\n  - `preferred_locale?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const customer of client.customers.list()) {\n  console.log(customer);\n}\n```",
     perLanguage: {
       typescript: {
         method: 'client.customers.list',
@@ -2298,9 +2300,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     qualified: 'client.customers.retrieve',
     params: ['customer_id: string;'],
     response:
-      '{ business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: object; phone_number?: string; }',
+      '{ business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: object; phone_number?: string; preferred_locale?: string; }',
     markdown:
-      "## retrieve\n\n`client.customers.retrieve(customer_id: string): { business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: metadata; phone_number?: string; }`\n\n**get** `/customers/{customer_id}`\n\n### Parameters\n\n- `customer_id: string`\n\n### Returns\n\n- `{ business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: object; phone_number?: string; }`\n\n  - `business_id: string`\n  - `created_at: string`\n  - `customer_id: string`\n  - `email: string`\n  - `name: string`\n  - `blocked_at?: string`\n  - `blocklist_entry_id?: string`\n  - `metadata?: object`\n  - `phone_number?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst customer = await client.customers.retrieve('cus_TV52uJWWXt2yIoBBxpjaa');\n\nconsole.log(customer);\n```",
+      "## retrieve\n\n`client.customers.retrieve(customer_id: string): { business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: metadata; phone_number?: string; preferred_locale?: locale; }`\n\n**get** `/customers/{customer_id}`\n\n### Parameters\n\n- `customer_id: string`\n\n### Returns\n\n- `{ business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: object; phone_number?: string; preferred_locale?: string; }`\n\n  - `business_id: string`\n  - `created_at: string`\n  - `customer_id: string`\n  - `email: string`\n  - `name: string`\n  - `blocked_at?: string`\n  - `blocklist_entry_id?: string`\n  - `metadata?: object`\n  - `phone_number?: string`\n  - `preferred_locale?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst customer = await client.customers.retrieve('cus_TV52uJWWXt2yIoBBxpjaa');\n\nconsole.log(customer);\n```",
     perLanguage: {
       typescript: {
         method: 'client.customers.retrieve',
@@ -2356,11 +2358,17 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: '',
     stainlessPath: '(resource) customers > (method) create',
     qualified: 'client.customers.create',
-    params: ['email: string;', 'name: string;', 'metadata?: object;', 'phone_number?: string;'],
+    params: [
+      'email: string;',
+      'name: string;',
+      'metadata?: object;',
+      'phone_number?: string;',
+      'preferred_locale?: string;',
+    ],
     response:
-      '{ business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: object; phone_number?: string; }',
+      '{ business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: object; phone_number?: string; preferred_locale?: string; }',
     markdown:
-      "## create\n\n`client.customers.create(email: string, name: string, metadata?: object, phone_number?: string): { business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: metadata; phone_number?: string; }`\n\n**post** `/customers`\n\n### Parameters\n\n- `email: string`\n\n- `name: string`\n\n- `metadata?: object`\n  Additional metadata for the customer\n\n- `phone_number?: string`\n\n### Returns\n\n- `{ business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: object; phone_number?: string; }`\n\n  - `business_id: string`\n  - `created_at: string`\n  - `customer_id: string`\n  - `email: string`\n  - `name: string`\n  - `blocked_at?: string`\n  - `blocklist_entry_id?: string`\n  - `metadata?: object`\n  - `phone_number?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst customer = await client.customers.create({ email: 'email', name: 'name' });\n\nconsole.log(customer);\n```",
+      "## create\n\n`client.customers.create(email: string, name: string, metadata?: object, phone_number?: string, preferred_locale?: string): { business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: metadata; phone_number?: string; preferred_locale?: locale; }`\n\n**post** `/customers`\n\n### Parameters\n\n- `email: string`\n\n- `name: string`\n\n- `metadata?: object`\n  Additional metadata for the customer\n\n- `phone_number?: string`\n\n- `preferred_locale?: string`\n  The language of the customer emails, a code from `GET /locales`. With no value, the\nemails are in English until a checkout or the customer portal sets a language.\n\n### Returns\n\n- `{ business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: object; phone_number?: string; preferred_locale?: string; }`\n\n  - `business_id: string`\n  - `created_at: string`\n  - `customer_id: string`\n  - `email: string`\n  - `name: string`\n  - `blocked_at?: string`\n  - `blocklist_entry_id?: string`\n  - `metadata?: object`\n  - `phone_number?: string`\n  - `preferred_locale?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst customer = await client.customers.create({ email: 'email', name: 'name' });\n\nconsole.log(customer);\n```",
     perLanguage: {
       typescript: {
         method: 'client.customers.create',
@@ -2399,7 +2407,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'customers->create',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$customer = $client->customers->create(\n  email: 'email',\n  name: 'name',\n  metadata: ['foo' => 'string'],\n  phoneNumber: 'phone_number',\n);\n\nvar_dump($customer);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$customer = $client->customers->create(\n  email: 'email',\n  name: 'name',\n  metadata: ['foo' => 'string'],\n  phoneNumber: 'phone_number',\n  preferredLocale: Locale::AR,\n);\n\nvar_dump($customer);",
       },
       csharp: {
         method: 'Customers.Create',
@@ -2422,11 +2430,12 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'metadata?: object;',
       'name?: string;',
       'phone_number?: string;',
+      'preferred_locale?: string;',
     ],
     response:
-      '{ business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: object; phone_number?: string; }',
+      '{ business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: object; phone_number?: string; preferred_locale?: string; }',
     markdown:
-      "## update\n\n`client.customers.update(customer_id: string, email?: string, metadata?: object, name?: string, phone_number?: string): { business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: metadata; phone_number?: string; }`\n\n**patch** `/customers/{customer_id}`\n\n### Parameters\n\n- `customer_id: string`\n\n- `email?: string`\n\n- `metadata?: object`\n  Additional metadata for the customer\n\n- `name?: string`\n\n- `phone_number?: string`\n\n### Returns\n\n- `{ business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: object; phone_number?: string; }`\n\n  - `business_id: string`\n  - `created_at: string`\n  - `customer_id: string`\n  - `email: string`\n  - `name: string`\n  - `blocked_at?: string`\n  - `blocklist_entry_id?: string`\n  - `metadata?: object`\n  - `phone_number?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst customer = await client.customers.update('cus_TV52uJWWXt2yIoBBxpjaa');\n\nconsole.log(customer);\n```",
+      "## update\n\n`client.customers.update(customer_id: string, email?: string, metadata?: object, name?: string, phone_number?: string, preferred_locale?: string): { business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: metadata; phone_number?: string; preferred_locale?: locale; }`\n\n**patch** `/customers/{customer_id}`\n\n### Parameters\n\n- `customer_id: string`\n\n- `email?: string`\n\n- `metadata?: object`\n  Additional metadata for the customer\n\n- `name?: string`\n\n- `phone_number?: string`\n\n- `preferred_locale?: string`\n  The language of the customer emails, a code from `GET /locales`. A value replaces the\ncurrent language, and `null` removes it. Send this field only to change the language\non purpose. With no language, the emails are in English.\n\n### Returns\n\n- `{ business_id: string; created_at: string; customer_id: string; email: string; name: string; blocked_at?: string; blocklist_entry_id?: string; metadata?: object; phone_number?: string; preferred_locale?: string; }`\n\n  - `business_id: string`\n  - `created_at: string`\n  - `customer_id: string`\n  - `email: string`\n  - `name: string`\n  - `blocked_at?: string`\n  - `blocklist_entry_id?: string`\n  - `metadata?: object`\n  - `phone_number?: string`\n  - `preferred_locale?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst customer = await client.customers.update('cus_TV52uJWWXt2yIoBBxpjaa');\n\nconsole.log(customer);\n```",
     perLanguage: {
       typescript: {
         method: 'client.customers.update',
@@ -2465,7 +2474,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'customers->update',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$customer = $client->customers->update(\n  'cus_TV52uJWWXt2yIoBBxpjaa',\n  email: 'email',\n  metadata: ['foo' => 'string'],\n  name: 'name',\n  phoneNumber: 'phone_number',\n);\n\nvar_dump($customer);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$customer = $client->customers->update(\n  'cus_TV52uJWWXt2yIoBBxpjaa',\n  email: 'email',\n  metadata: ['foo' => 'string'],\n  name: 'name',\n  phoneNumber: 'phone_number',\n  preferredLocale: Locale::AR,\n);\n\nvar_dump($customer);",
       },
       csharp: {
         method: 'Customers.Update',
@@ -3585,6 +3594,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     qualified: 'client.refunds.create',
     params: [
       'payment_id: string;',
+      'currency?: string;',
       'items?: { item_id: string; amount?: number; tax_inclusive?: boolean; }[];',
       'metadata?: object;',
       'reason?: string;',
@@ -3592,7 +3602,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     response:
       "{ brand_id: string; business_id: string; created_at: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; is_partial: boolean; metadata: object; payment_id: string; refund_id: string; status: 'succeeded' | 'failed' | 'pending' | 'review'; amount?: number; currency?: string; network_reference?: string; network_reference_type?: 'acquirer_reference_number' | 'system_trace_audit_number' | 'retrieval_reference_number' | 'other'; network_reference_updated_at?: string; reason?: string; }",
     markdown:
-      "## create\n\n`client.refunds.create(payment_id: string, items?: { item_id: string; amount?: number; tax_inclusive?: boolean; }[], metadata?: object, reason?: string): { brand_id: string; business_id: string; created_at: string; customer: customer_limited_details; is_partial: boolean; metadata: metadata; payment_id: string; refund_id: string; status: refund_status; amount?: number; currency?: currency; network_reference?: string; network_reference_type?: refund_network_reference_type; network_reference_updated_at?: string; reason?: string; }`\n\n**post** `/refunds`\n\n### Parameters\n\n- `payment_id: string`\n  The unique identifier of the payment to be refunded.\n\n- `items?: { item_id: string; amount?: number; tax_inclusive?: boolean; }[]`\n  Partially Refund an Individual Item\n\n- `metadata?: object`\n  Additional metadata associated with the refund.\n\n- `reason?: string`\n  The reason for the refund, if any. Maximum length is 3000 characters. Optional.\n\n### Returns\n\n- `{ brand_id: string; business_id: string; created_at: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; is_partial: boolean; metadata: object; payment_id: string; refund_id: string; status: 'succeeded' | 'failed' | 'pending' | 'review'; amount?: number; currency?: string; network_reference?: string; network_reference_type?: 'acquirer_reference_number' | 'system_trace_audit_number' | 'retrieval_reference_number' | 'other'; network_reference_updated_at?: string; reason?: string; }`\n\n  - `brand_id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `is_partial: boolean`\n  - `metadata: object`\n  - `payment_id: string`\n  - `refund_id: string`\n  - `status: 'succeeded' | 'failed' | 'pending' | 'review'`\n  - `amount?: number`\n  - `currency?: string`\n  - `network_reference?: string`\n  - `network_reference_type?: 'acquirer_reference_number' | 'system_trace_audit_number' | 'retrieval_reference_number' | 'other'`\n  - `network_reference_updated_at?: string`\n  - `reason?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst refund = await client.refunds.create({ payment_id: 'payment_id' });\n\nconsole.log(refund);\n```",
+      "## create\n\n`client.refunds.create(payment_id: string, currency?: string, items?: { item_id: string; amount?: number; tax_inclusive?: boolean; }[], metadata?: object, reason?: string): { brand_id: string; business_id: string; created_at: string; customer: customer_limited_details; is_partial: boolean; metadata: metadata; payment_id: string; refund_id: string; status: refund_status; amount?: number; currency?: currency; network_reference?: string; network_reference_type?: refund_network_reference_type; network_reference_updated_at?: string; reason?: string; }`\n\n**post** `/refunds`\n\n### Parameters\n\n- `payment_id: string`\n  The unique identifier of the payment to be refunded.\n\n- `currency?: string`\n  The currency of every `items[].amount`. It must be the currency the customer paid in.\nWithout it, the amounts are in the settlement currency.\n\n- `items?: { item_id: string; amount?: number; tax_inclusive?: boolean; }[]`\n  Partially Refund an Individual Item\n\n- `metadata?: object`\n  Additional metadata associated with the refund.\n\n- `reason?: string`\n  The reason for the refund, if any. Maximum length is 3000 characters. Optional.\n\n### Returns\n\n- `{ brand_id: string; business_id: string; created_at: string; customer: { customer_id: string; email: string; name: string; metadata?: metadata; phone_number?: string; }; is_partial: boolean; metadata: object; payment_id: string; refund_id: string; status: 'succeeded' | 'failed' | 'pending' | 'review'; amount?: number; currency?: string; network_reference?: string; network_reference_type?: 'acquirer_reference_number' | 'system_trace_audit_number' | 'retrieval_reference_number' | 'other'; network_reference_updated_at?: string; reason?: string; }`\n\n  - `brand_id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `customer: { customer_id: string; email: string; name: string; metadata?: object; phone_number?: string; }`\n  - `is_partial: boolean`\n  - `metadata: object`\n  - `payment_id: string`\n  - `refund_id: string`\n  - `status: 'succeeded' | 'failed' | 'pending' | 'review'`\n  - `amount?: number`\n  - `currency?: string`\n  - `network_reference?: string`\n  - `network_reference_type?: 'acquirer_reference_number' | 'system_trace_audit_number' | 'retrieval_reference_number' | 'other'`\n  - `network_reference_updated_at?: string`\n  - `reason?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst refund = await client.refunds.create({ payment_id: 'payment_id' });\n\nconsole.log(refund);\n```",
     perLanguage: {
       typescript: {
         method: 'client.refunds.create',
@@ -3631,7 +3641,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'refunds->create',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$refund = $client->refunds->create(\n  paymentID: 'payment_id',\n  items: [['itemID' => 'item_id', 'amount' => 0, 'taxInclusive' => true]],\n  metadata: ['foo' => 'string'],\n  reason: 'reason',\n);\n\nvar_dump($refund);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$refund = $client->refunds->create(\n  paymentID: 'payment_id',\n  currency: Currency::AED,\n  items: [['itemID' => 'item_id', 'amount' => 0, 'taxInclusive' => true]],\n  metadata: ['foo' => 'string'],\n  reason: 'reason',\n);\n\nvar_dump($refund);",
       },
       csharp: {
         method: 'Refunds.Create',
@@ -3899,13 +3909,13 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'get',
     summary: '',
     description:
-      "Returns the breakdown of a payout by event type (payments, refunds, disputes, fees, etc.) in the payout's currency. Each amount is proportionally allocated based on USD equivalent values, ensuring the total sums exactly to the payout amount.",
+      "Returns the breakdown of a payout by event type (payments, refunds, disputes, fees, etc.) in the payout's currency. Each amount is proportionally allocated based on USD equivalent values, ensuring the total sums exactly to the payout amount. A settlement batch payout shows its rows in native amounts. The `carried_over` line holds the opening balance from the switch to settlement batches and the rows dated before that opening balance. The `unattributed` line shows the payout amount that the rows do not account for.",
     stainlessPath: '(resource) payouts.breakup > (method) retrieve',
     qualified: 'client.payouts.breakup.retrieve',
     params: ['payout_id: string;'],
     response: '{ event_type: string; total: number; }[]',
     markdown:
-      "## retrieve\n\n`client.payouts.breakup.retrieve(payout_id: string): { event_type: string; total: number; }[]`\n\n**get** `/payouts/{payout_id}/breakup`\n\nReturns the breakdown of a payout by event type (payments, refunds, disputes, fees, etc.) in the payout's currency. Each amount is proportionally allocated based on USD equivalent values, ensuring the total sums exactly to the payout amount.\n\n### Parameters\n\n- `payout_id: string`\n\n### Returns\n\n- `{ event_type: string; total: number; }[]`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst breakups = await client.payouts.breakup.retrieve('pyt_zFTrrn4sk3x3y2vjDBW3T');\n\nconsole.log(breakups);\n```",
+      "## retrieve\n\n`client.payouts.breakup.retrieve(payout_id: string): { event_type: string; total: number; }[]`\n\n**get** `/payouts/{payout_id}/breakup`\n\nReturns the breakdown of a payout by event type (payments, refunds, disputes, fees, etc.) in the payout's currency. Each amount is proportionally allocated based on USD equivalent values, ensuring the total sums exactly to the payout amount. A settlement batch payout shows its rows in native amounts. The `carried_over` line holds the opening balance from the switch to settlement batches and the rows dated before that opening balance. The `unattributed` line shows the payout amount that the rows do not account for.\n\n### Parameters\n\n- `payout_id: string`\n\n### Returns\n\n- `{ event_type: string; total: number; }[]`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst breakups = await client.payouts.breakup.retrieve('pyt_zFTrrn4sk3x3y2vjDBW3T');\n\nconsole.log(breakups);\n```",
     perLanguage: {
       typescript: {
         method: 'client.payouts.breakup.retrieve',
@@ -3959,14 +3969,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'get',
     summary: '',
     description:
-      "Returns paginated individual balance ledger entries for a payout. Each entry is converted into the payout's currency at the rate the payout settled at. Supports pagination via `page_size` (default 10, max 100) and `page_number` (default 0) query parameters.",
+      "Returns paginated individual balance ledger entries for a payout. Each entry is converted into the payout's currency at the rate the payout settled at. Supports pagination via `page_size` (default 10, max 100) and `page_number` (default 0) query parameters. A settlement batch payout shows its rows in native amounts. `unattributed` is the payout amount less the sum of its rows in the payout currency.",
     stainlessPath: '(resource) payouts.breakup.details > (method) list',
     qualified: 'client.payouts.breakup.details.list',
     params: ['payout_id: string;', 'page_number?: number;', 'page_size?: number;'],
     response:
       '{ id: string; created_at: string; event_type: string; original_amount: number; original_currency: string; payout_currency_amount: number; usd_equivalent_amount: number; description?: string; reference_object_id?: string; }',
     markdown:
-      "## list\n\n`client.payouts.breakup.details.list(payout_id: string, page_number?: number, page_size?: number): { id: string; created_at: string; event_type: string; original_amount: number; original_currency: string; payout_currency_amount: number; usd_equivalent_amount: number; description?: string; reference_object_id?: string; }`\n\n**get** `/payouts/{payout_id}/breakup/details`\n\nReturns paginated individual balance ledger entries for a payout. Each entry is converted into the payout's currency at the rate the payout settled at. Supports pagination via `page_size` (default 10, max 100) and `page_number` (default 0) query parameters.\n\n### Parameters\n\n- `payout_id: string`\n\n- `page_number?: number`\n  Page number (0-indexed). Default: 0.\n\n- `page_size?: number`\n  Number of items per page. Default: 10, Max: 100.\n\n### Returns\n\n- `{ id: string; created_at: string; event_type: string; original_amount: number; original_currency: string; payout_currency_amount: number; usd_equivalent_amount: number; description?: string; reference_object_id?: string; }`\n  Individual balance ledger entry for a payout, converted into the payout's currency.\n\n  - `id: string`\n  - `created_at: string`\n  - `event_type: string`\n  - `original_amount: number`\n  - `original_currency: string`\n  - `payout_currency_amount: number`\n  - `usd_equivalent_amount: number`\n  - `description?: string`\n  - `reference_object_id?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const detailListResponse of client.payouts.breakup.details.list('pyt_zFTrrn4sk3x3y2vjDBW3T')) {\n  console.log(detailListResponse);\n}\n```",
+      "## list\n\n`client.payouts.breakup.details.list(payout_id: string, page_number?: number, page_size?: number): { id: string; created_at: string; event_type: string; original_amount: number; original_currency: string; payout_currency_amount: number; usd_equivalent_amount: number; description?: string; reference_object_id?: string; }`\n\n**get** `/payouts/{payout_id}/breakup/details`\n\nReturns paginated individual balance ledger entries for a payout. Each entry is converted into the payout's currency at the rate the payout settled at. Supports pagination via `page_size` (default 10, max 100) and `page_number` (default 0) query parameters. A settlement batch payout shows its rows in native amounts. `unattributed` is the payout amount less the sum of its rows in the payout currency.\n\n### Parameters\n\n- `payout_id: string`\n\n- `page_number?: number`\n  Page number (0-indexed). Default: 0.\n\n- `page_size?: number`\n  Number of items per page. Default: 10, Max: 100.\n\n### Returns\n\n- `{ id: string; created_at: string; event_type: string; original_amount: number; original_currency: string; payout_currency_amount: number; usd_equivalent_amount: number; description?: string; reference_object_id?: string; }`\n  Individual balance ledger entry for a payout, converted into the payout's currency.\n\n  - `id: string`\n  - `created_at: string`\n  - `event_type: string`\n  - `original_amount: number`\n  - `original_currency: string`\n  - `payout_currency_amount: number`\n  - `usd_equivalent_amount: number`\n  - `description?: string`\n  - `reference_object_id?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const detailListResponse of client.payouts.breakup.details.list('pyt_zFTrrn4sk3x3y2vjDBW3T')) {\n  console.log(detailListResponse);\n}\n```",
     perLanguage: {
       typescript: {
         method: 'client.payouts.breakup.details.list',
@@ -4020,12 +4030,12 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'get',
     summary: '',
     description:
-      'Downloads the complete payout breakup as a CSV file. Each row represents a balance ledger entry with columns: Ledger ID, Event Type, Original Amount, Original Currency, Reference Object ID, Description, Created At, USD Equivalent Amount, and Payout Currency Amount.',
+      'Downloads the complete payout breakup as a CSV file. Each row represents a balance ledger entry with columns: Ledger ID, Event Type, Original Amount, Original Currency, Reference Object ID, Description, Created At, USD Equivalent Amount, and Payout Currency Amount. A settlement batch payout shows its rows in native amounts.',
     stainlessPath: '(resource) payouts.breakup.details > (method) download_csv',
     qualified: 'client.payouts.breakup.details.downloadCsv',
     params: ['payout_id: string;'],
     markdown:
-      "## download_csv\n\n`client.payouts.breakup.details.downloadCsv(payout_id: string): void`\n\n**get** `/payouts/{payout_id}/breakup/details/csv`\n\nDownloads the complete payout breakup as a CSV file. Each row represents a balance ledger entry with columns: Ledger ID, Event Type, Original Amount, Original Currency, Reference Object ID, Description, Created At, USD Equivalent Amount, and Payout Currency Amount.\n\n### Parameters\n\n- `payout_id: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nawait client.payouts.breakup.details.downloadCsv('pyt_zFTrrn4sk3x3y2vjDBW3T')\n```",
+      "## download_csv\n\n`client.payouts.breakup.details.downloadCsv(payout_id: string): void`\n\n**get** `/payouts/{payout_id}/breakup/details/csv`\n\nDownloads the complete payout breakup as a CSV file. Each row represents a balance ledger entry with columns: Ledger ID, Event Type, Original Amount, Original Currency, Reference Object ID, Description, Created At, USD Equivalent Amount, and Payout Currency Amount. A settlement batch payout shows its rows in native amounts.\n\n### Parameters\n\n- `payout_id: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nawait client.payouts.breakup.details.downloadCsv('pyt_zFTrrn4sk3x3y2vjDBW3T')\n```",
     perLanguage: {
       typescript: {
         method: 'client.payouts.breakup.details.downloadCsv',
@@ -4084,6 +4094,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     params: [
       'archived?: boolean;',
       'brand_id?: string;',
+      'locale?: string;',
       'page_number?: number;',
       'page_size?: number;',
       'recurring?: boolean;',
@@ -4091,7 +4102,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     response:
       "{ business_id: string; created_at: string; entitlements: object[]; is_recurring: boolean; metadata: object; product_id: string; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; updated_at: string; currency?: string; description?: string; image?: string; name?: string; price?: number; price_detail?: object | object | object; pricing_mode?: 'by_currency' | 'by_country'; tax_inclusive?: boolean; }",
     markdown:
-      "## list\n\n`client.products.list(archived?: boolean, brand_id?: string, page_number?: number, page_size?: number, recurring?: boolean): { business_id: string; created_at: string; entitlements: product_entitlement_summary[]; is_recurring: boolean; metadata: metadata; product_id: string; tax_category: tax_category; updated_at: string; currency?: currency; description?: string; image?: string; name?: string; price?: number; price_detail?: price; pricing_mode?: pricing_mode; tax_inclusive?: boolean; }`\n\n**get** `/products`\n\n### Parameters\n\n- `archived?: boolean`\n  List archived products\n\n- `brand_id?: string`\n  filter by Brand id\n\n- `page_number?: number`\n  Page number default is 0\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n- `recurring?: boolean`\n  Filter products by pricing type:\n- `true`: Show only recurring pricing products (e.g. subscriptions)\n- `false`: Show only one-time price products\n- `null` or absent: Show both types of products\n\n### Returns\n\n- `{ business_id: string; created_at: string; entitlements: { id: string; integration_config: integration_config_response; integration_type: entitlement_integration_type; name: string; description?: string; }[]; is_recurring: boolean; metadata: object; product_id: string; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; updated_at: string; currency?: string; description?: string; image?: string; name?: string; price?: number; price_detail?: { currency: currency; price: number; type: 'one_time_price'; discount?: number; discount_bps?: number; pay_what_you_want?: boolean; purchasing_power_parity?: boolean; suggested_price?: number; tax_inclusive?: boolean; } | { currency: currency; payment_frequency_count: number; payment_frequency_interval: time_interval; price: number; subscription_period_count: number; subscription_period_interval: time_interval; type: 'recurring_price'; discount?: number; discount_bps?: number; purchasing_power_parity?: boolean; tax_inclusive?: boolean; trial_amount?: number; trial_apply_discounts?: boolean; trial_payment_method_optional?: boolean; trial_period_days?: number; zero_amount_payment_method_optional?: boolean; } | { currency: currency; fixed_price: number; payment_frequency_count: number; payment_frequency_interval: time_interval; subscription_period_count: number; subscription_period_interval: time_interval; type: 'usage_based_price'; discount?: number; discount_bps?: number; meters?: add_meter_to_price[]; purchasing_power_parity?: boolean; tax_inclusive?: boolean; }; pricing_mode?: 'by_currency' | 'by_country'; tax_inclusive?: boolean; }`\n\n  - `business_id: string`\n  - `created_at: string`\n  - `entitlements: { id: string; integration_config: { feature_id: string; feature_type: feature_type; } | { permission: github_permission; target_id: string; } | { guild_id: string; role_id?: string; } | { chat_id: string; } | { figma_file_id: string; } | { framer_template_id: string; } | { notion_template_id: string; } | { digital_files: object; } | { activation_message?: string; activations_limit?: number; duration_count?: number; duration_interval?: time_interval; fulfillment_mode?: 'auto' | 'manual'; }; integration_type: string; name: string; description?: string; }[]`\n  - `is_recurring: boolean`\n  - `metadata: object`\n  - `product_id: string`\n  - `tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'`\n  - `updated_at: string`\n  - `currency?: string`\n  - `description?: string`\n  - `image?: string`\n  - `name?: string`\n  - `price?: number`\n  - `price_detail?: { currency: string; price: number; type: 'one_time_price'; discount?: number; discount_bps?: number; pay_what_you_want?: boolean; purchasing_power_parity?: boolean; suggested_price?: number; tax_inclusive?: boolean; } | { currency: string; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; price: number; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; type: 'recurring_price'; discount?: number; discount_bps?: number; purchasing_power_parity?: boolean; tax_inclusive?: boolean; trial_amount?: number; trial_apply_discounts?: boolean; trial_payment_method_optional?: boolean; trial_period_days?: number; zero_amount_payment_method_optional?: boolean; } | { currency: string; fixed_price: number; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; type: 'usage_based_price'; discount?: number; discount_bps?: number; meters?: { meter_id: string; credit_entitlement_id?: string; description?: string; free_threshold?: number; measurement_unit?: string; meter_units_per_credit?: string; name?: string; price_per_unit?: string; }[]; purchasing_power_parity?: boolean; tax_inclusive?: boolean; }`\n  - `pricing_mode?: 'by_currency' | 'by_country'`\n  - `tax_inclusive?: boolean`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const productListResponse of client.products.list()) {\n  console.log(productListResponse);\n}\n```",
+      "## list\n\n`client.products.list(archived?: boolean, brand_id?: string, locale?: string, page_number?: number, page_size?: number, recurring?: boolean): { business_id: string; created_at: string; entitlements: product_entitlement_summary[]; is_recurring: boolean; metadata: metadata; product_id: string; tax_category: tax_category; updated_at: string; currency?: currency; description?: string; image?: string; name?: string; price?: number; price_detail?: price; pricing_mode?: pricing_mode; tax_inclusive?: boolean; }`\n\n**get** `/products`\n\n### Parameters\n\n- `archived?: boolean`\n  List archived products\n\n- `brand_id?: string`\n  filter by Brand id\n\n- `locale?: string`\n  Shows the translated name, description and unit of the catalog entities in this\nlocale. The value must be a code from `GET /locales`, for example `fr`.\nA field with no translation, an unknown code, or no code shows the base text.\n\nDo not send a text from a localized response back in a create or update request.\nThe base text then changes to the translated text.\n\n- `page_number?: number`\n  Page number default is 0\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n- `recurring?: boolean`\n  Filter products by pricing type:\n- `true`: Show only recurring pricing products (e.g. subscriptions)\n- `false`: Show only one-time price products\n- `null` or absent: Show both types of products\n\n### Returns\n\n- `{ business_id: string; created_at: string; entitlements: { id: string; integration_config: integration_config_response; integration_type: entitlement_integration_type; name: string; description?: string; }[]; is_recurring: boolean; metadata: object; product_id: string; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; updated_at: string; currency?: string; description?: string; image?: string; name?: string; price?: number; price_detail?: { currency: currency; price: number; type: 'one_time_price'; discount?: number; discount_bps?: number; pay_what_you_want?: boolean; purchasing_power_parity?: boolean; suggested_price?: number; tax_inclusive?: boolean; } | { currency: currency; payment_frequency_count: number; payment_frequency_interval: time_interval; price: number; subscription_period_count: number; subscription_period_interval: time_interval; type: 'recurring_price'; discount?: number; discount_bps?: number; purchasing_power_parity?: boolean; tax_inclusive?: boolean; trial_amount?: number; trial_apply_discounts?: boolean; trial_payment_method_optional?: boolean; trial_period_days?: number; zero_amount_payment_method_optional?: boolean; } | { currency: currency; fixed_price: number; payment_frequency_count: number; payment_frequency_interval: time_interval; subscription_period_count: number; subscription_period_interval: time_interval; type: 'usage_based_price'; discount?: number; discount_bps?: number; meters?: add_meter_to_price[]; purchasing_power_parity?: boolean; tax_inclusive?: boolean; }; pricing_mode?: 'by_currency' | 'by_country'; tax_inclusive?: boolean; }`\n\n  - `business_id: string`\n  - `created_at: string`\n  - `entitlements: { id: string; integration_config: { feature_id: string; feature_type: feature_type; } | { permission: github_permission; target_id: string; } | { guild_id: string; role_id?: string; } | { chat_id: string; } | { figma_file_id: string; } | { framer_template_id: string; } | { notion_template_id: string; } | { digital_files: object; } | { activation_message?: string; activations_limit?: number; duration_count?: number; duration_interval?: time_interval; fulfillment_mode?: 'auto' | 'manual'; }; integration_type: string; name: string; description?: string; }[]`\n  - `is_recurring: boolean`\n  - `metadata: object`\n  - `product_id: string`\n  - `tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'`\n  - `updated_at: string`\n  - `currency?: string`\n  - `description?: string`\n  - `image?: string`\n  - `name?: string`\n  - `price?: number`\n  - `price_detail?: { currency: string; price: number; type: 'one_time_price'; discount?: number; discount_bps?: number; pay_what_you_want?: boolean; purchasing_power_parity?: boolean; suggested_price?: number; tax_inclusive?: boolean; } | { currency: string; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; price: number; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; type: 'recurring_price'; discount?: number; discount_bps?: number; purchasing_power_parity?: boolean; tax_inclusive?: boolean; trial_amount?: number; trial_apply_discounts?: boolean; trial_payment_method_optional?: boolean; trial_period_days?: number; zero_amount_payment_method_optional?: boolean; } | { currency: string; fixed_price: number; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; type: 'usage_based_price'; discount?: number; discount_bps?: number; meters?: { meter_id: string; credit_entitlement_id?: string; description?: string; free_threshold?: number; measurement_unit?: string; meter_units_per_credit?: string; name?: string; price_per_unit?: string; }[]; purchasing_power_parity?: boolean; tax_inclusive?: boolean; }`\n  - `pricing_mode?: 'by_currency' | 'by_country'`\n  - `tax_inclusive?: boolean`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const productListResponse of client.products.list()) {\n  console.log(productListResponse);\n}\n```",
     perLanguage: {
       typescript: {
         method: 'client.products.list',
@@ -4130,7 +4141,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'products->list',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->products->list(\n  archived: true,\n  brandID: 'brand_id',\n  pageNumber: 0,\n  pageSize: 0,\n  recurring: true,\n);\n\nvar_dump($page);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->products->list(\n  archived: true,\n  brandID: 'brand_id',\n  locale: 'locale',\n  pageNumber: 0,\n  pageSize: 0,\n  recurring: true,\n);\n\nvar_dump($page);",
       },
       csharp: {
         method: 'Products.List',
@@ -4223,11 +4234,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: '',
     stainlessPath: '(resource) products > (method) retrieve',
     qualified: 'client.products.retrieve',
-    params: ['id: string;'],
+    params: ['id: string;', 'locale?: string;'],
     response:
       "{ brand_id: string; business_id: string; created_at: string; credit_entitlements: object[]; entitlements: object[]; is_recurring: boolean; license_key_enabled: boolean; metadata: object; price: object | object | object; product_id: string; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; updated_at: string; addons?: string[]; description?: string; digital_product_delivery?: object; image?: string; license_key_activation_message?: string; license_key_activations_limit?: number; license_key_duration?: object; name?: string; pricing_mode?: 'by_currency' | 'by_country'; product_collection_id?: string; }",
     markdown:
-      "## retrieve\n\n`client.products.retrieve(id: string): { brand_id: string; business_id: string; created_at: string; credit_entitlements: credit_entitlement_mapping_response[]; entitlements: product_entitlement_summary[]; is_recurring: boolean; license_key_enabled: boolean; metadata: metadata; price: price; product_id: string; tax_category: tax_category; updated_at: string; addons?: string[]; description?: string; digital_product_delivery?: digital_product_delivery; image?: string; license_key_activation_message?: string; license_key_activations_limit?: number; license_key_duration?: license_key_duration; name?: string; pricing_mode?: pricing_mode; product_collection_id?: string; }`\n\n**get** `/products/{id}`\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ brand_id: string; business_id: string; created_at: string; credit_entitlements: { id: string; credit_entitlement_id: string; credit_entitlement_name: string; credit_entitlement_unit: string; credits_amount: string; overage_behavior: cbb_overage_behavior; overage_enabled: boolean; proration_behavior: cbb_proration_behavior; rollover_enabled: boolean; trial_credits_expire_after_trial: boolean; currency?: currency; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_limit?: string; price_per_unit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: time_interval; trial_credits?: string; }[]; entitlements: { id: string; integration_config: integration_config_response; integration_type: entitlement_integration_type; name: string; description?: string; }[]; is_recurring: boolean; license_key_enabled: boolean; metadata: object; price: { currency: currency; price: number; type: 'one_time_price'; discount?: number; discount_bps?: number; pay_what_you_want?: boolean; purchasing_power_parity?: boolean; suggested_price?: number; tax_inclusive?: boolean; } | { currency: currency; payment_frequency_count: number; payment_frequency_interval: time_interval; price: number; subscription_period_count: number; subscription_period_interval: time_interval; type: 'recurring_price'; discount?: number; discount_bps?: number; purchasing_power_parity?: boolean; tax_inclusive?: boolean; trial_amount?: number; trial_apply_discounts?: boolean; trial_payment_method_optional?: boolean; trial_period_days?: number; zero_amount_payment_method_optional?: boolean; } | { currency: currency; fixed_price: number; payment_frequency_count: number; payment_frequency_interval: time_interval; subscription_period_count: number; subscription_period_interval: time_interval; type: 'usage_based_price'; discount?: number; discount_bps?: number; meters?: add_meter_to_price[]; purchasing_power_parity?: boolean; tax_inclusive?: boolean; }; product_id: string; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; updated_at: string; addons?: string[]; description?: string; digital_product_delivery?: { files: digital_product_delivery_file[]; external_url?: string; instructions?: string; }; image?: string; license_key_activation_message?: string; license_key_activations_limit?: number; license_key_duration?: { count: number; interval: time_interval; }; name?: string; pricing_mode?: 'by_currency' | 'by_country'; product_collection_id?: string; }`\n\n  - `brand_id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `credit_entitlements: { id: string; credit_entitlement_id: string; credit_entitlement_name: string; credit_entitlement_unit: string; credits_amount: string; overage_behavior: 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'; overage_enabled: boolean; proration_behavior: 'prorate' | 'no_prorate'; rollover_enabled: boolean; trial_credits_expire_after_trial: boolean; currency?: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_limit?: string; price_per_unit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; trial_credits?: string; }[]`\n  - `entitlements: { id: string; integration_config: { feature_id: string; feature_type: feature_type; } | { permission: github_permission; target_id: string; } | { guild_id: string; role_id?: string; } | { chat_id: string; } | { figma_file_id: string; } | { framer_template_id: string; } | { notion_template_id: string; } | { digital_files: object; } | { activation_message?: string; activations_limit?: number; duration_count?: number; duration_interval?: time_interval; fulfillment_mode?: 'auto' | 'manual'; }; integration_type: string; name: string; description?: string; }[]`\n  - `is_recurring: boolean`\n  - `license_key_enabled: boolean`\n  - `metadata: object`\n  - `price: { currency: string; price: number; type: 'one_time_price'; discount?: number; discount_bps?: number; pay_what_you_want?: boolean; purchasing_power_parity?: boolean; suggested_price?: number; tax_inclusive?: boolean; } | { currency: string; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; price: number; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; type: 'recurring_price'; discount?: number; discount_bps?: number; purchasing_power_parity?: boolean; tax_inclusive?: boolean; trial_amount?: number; trial_apply_discounts?: boolean; trial_payment_method_optional?: boolean; trial_period_days?: number; zero_amount_payment_method_optional?: boolean; } | { currency: string; fixed_price: number; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; type: 'usage_based_price'; discount?: number; discount_bps?: number; meters?: { meter_id: string; credit_entitlement_id?: string; description?: string; free_threshold?: number; measurement_unit?: string; meter_units_per_credit?: string; name?: string; price_per_unit?: string; }[]; purchasing_power_parity?: boolean; tax_inclusive?: boolean; }`\n  - `product_id: string`\n  - `tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'`\n  - `updated_at: string`\n  - `addons?: string[]`\n  - `description?: string`\n  - `digital_product_delivery?: { files: { download_url: string; expires_in: number; file_id: string; filename: string; content_type?: string; file_size?: number; }[]; external_url?: string; instructions?: string; }`\n  - `image?: string`\n  - `license_key_activation_message?: string`\n  - `license_key_activations_limit?: number`\n  - `license_key_duration?: { count: number; interval: 'Day' | 'Week' | 'Month' | 'Year'; }`\n  - `name?: string`\n  - `pricing_mode?: 'by_currency' | 'by_country'`\n  - `product_collection_id?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst product = await client.products.retrieve('pdt_R8AWMPiV8RyJElcCKvAID');\n\nconsole.log(product);\n```",
+      "## retrieve\n\n`client.products.retrieve(id: string, locale?: string): { brand_id: string; business_id: string; created_at: string; credit_entitlements: credit_entitlement_mapping_response[]; entitlements: product_entitlement_summary[]; is_recurring: boolean; license_key_enabled: boolean; metadata: metadata; price: price; product_id: string; tax_category: tax_category; updated_at: string; addons?: string[]; description?: string; digital_product_delivery?: digital_product_delivery; image?: string; license_key_activation_message?: string; license_key_activations_limit?: number; license_key_duration?: license_key_duration; name?: string; pricing_mode?: pricing_mode; product_collection_id?: string; }`\n\n**get** `/products/{id}`\n\n### Parameters\n\n- `id: string`\n\n- `locale?: string`\n  Shows the translated name, description and unit of the catalog entities in this\nlocale. The value must be a code from `GET /locales`, for example `fr`.\nA field with no translation, an unknown code, or no code shows the base text.\n\nDo not send a text from a localized response back in a create or update request.\nThe base text then changes to the translated text.\n\n### Returns\n\n- `{ brand_id: string; business_id: string; created_at: string; credit_entitlements: { id: string; credit_entitlement_id: string; credit_entitlement_name: string; credit_entitlement_unit: string; credits_amount: string; overage_behavior: cbb_overage_behavior; overage_enabled: boolean; proration_behavior: cbb_proration_behavior; rollover_enabled: boolean; trial_credits_expire_after_trial: boolean; currency?: currency; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_limit?: string; price_per_unit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: time_interval; trial_credits?: string; }[]; entitlements: { id: string; integration_config: integration_config_response; integration_type: entitlement_integration_type; name: string; description?: string; }[]; is_recurring: boolean; license_key_enabled: boolean; metadata: object; price: { currency: currency; price: number; type: 'one_time_price'; discount?: number; discount_bps?: number; pay_what_you_want?: boolean; purchasing_power_parity?: boolean; suggested_price?: number; tax_inclusive?: boolean; } | { currency: currency; payment_frequency_count: number; payment_frequency_interval: time_interval; price: number; subscription_period_count: number; subscription_period_interval: time_interval; type: 'recurring_price'; discount?: number; discount_bps?: number; purchasing_power_parity?: boolean; tax_inclusive?: boolean; trial_amount?: number; trial_apply_discounts?: boolean; trial_payment_method_optional?: boolean; trial_period_days?: number; zero_amount_payment_method_optional?: boolean; } | { currency: currency; fixed_price: number; payment_frequency_count: number; payment_frequency_interval: time_interval; subscription_period_count: number; subscription_period_interval: time_interval; type: 'usage_based_price'; discount?: number; discount_bps?: number; meters?: add_meter_to_price[]; purchasing_power_parity?: boolean; tax_inclusive?: boolean; }; product_id: string; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; updated_at: string; addons?: string[]; description?: string; digital_product_delivery?: { files: digital_product_delivery_file[]; external_url?: string; instructions?: string; }; image?: string; license_key_activation_message?: string; license_key_activations_limit?: number; license_key_duration?: { count: number; interval: time_interval; }; name?: string; pricing_mode?: 'by_currency' | 'by_country'; product_collection_id?: string; }`\n\n  - `brand_id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `credit_entitlements: { id: string; credit_entitlement_id: string; credit_entitlement_name: string; credit_entitlement_unit: string; credits_amount: string; overage_behavior: 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'; overage_enabled: boolean; proration_behavior: 'prorate' | 'no_prorate'; rollover_enabled: boolean; trial_credits_expire_after_trial: boolean; currency?: string; expires_after_days?: number; low_balance_threshold_percent?: number; max_rollover_count?: number; overage_limit?: string; price_per_unit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; trial_credits?: string; }[]`\n  - `entitlements: { id: string; integration_config: { feature_id: string; feature_type: feature_type; } | { permission: github_permission; target_id: string; } | { guild_id: string; role_id?: string; } | { chat_id: string; } | { figma_file_id: string; } | { framer_template_id: string; } | { notion_template_id: string; } | { digital_files: object; } | { activation_message?: string; activations_limit?: number; duration_count?: number; duration_interval?: time_interval; fulfillment_mode?: 'auto' | 'manual'; }; integration_type: string; name: string; description?: string; }[]`\n  - `is_recurring: boolean`\n  - `license_key_enabled: boolean`\n  - `metadata: object`\n  - `price: { currency: string; price: number; type: 'one_time_price'; discount?: number; discount_bps?: number; pay_what_you_want?: boolean; purchasing_power_parity?: boolean; suggested_price?: number; tax_inclusive?: boolean; } | { currency: string; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; price: number; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; type: 'recurring_price'; discount?: number; discount_bps?: number; purchasing_power_parity?: boolean; tax_inclusive?: boolean; trial_amount?: number; trial_apply_discounts?: boolean; trial_payment_method_optional?: boolean; trial_period_days?: number; zero_amount_payment_method_optional?: boolean; } | { currency: string; fixed_price: number; payment_frequency_count: number; payment_frequency_interval: 'Day' | 'Week' | 'Month' | 'Year'; subscription_period_count: number; subscription_period_interval: 'Day' | 'Week' | 'Month' | 'Year'; type: 'usage_based_price'; discount?: number; discount_bps?: number; meters?: { meter_id: string; credit_entitlement_id?: string; description?: string; free_threshold?: number; measurement_unit?: string; meter_units_per_credit?: string; name?: string; price_per_unit?: string; }[]; purchasing_power_parity?: boolean; tax_inclusive?: boolean; }`\n  - `product_id: string`\n  - `tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'`\n  - `updated_at: string`\n  - `addons?: string[]`\n  - `description?: string`\n  - `digital_product_delivery?: { files: { download_url: string; expires_in: number; file_id: string; filename: string; content_type?: string; file_size?: number; }[]; external_url?: string; instructions?: string; }`\n  - `image?: string`\n  - `license_key_activation_message?: string`\n  - `license_key_activations_limit?: number`\n  - `license_key_duration?: { count: number; interval: 'Day' | 'Week' | 'Month' | 'Year'; }`\n  - `name?: string`\n  - `pricing_mode?: 'by_currency' | 'by_country'`\n  - `product_collection_id?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst product = await client.products.retrieve('pdt_R8AWMPiV8RyJElcCKvAID');\n\nconsole.log(product);\n```",
     perLanguage: {
       typescript: {
         method: 'client.products.retrieve',
@@ -4241,7 +4252,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       python: {
         method: 'products.retrieve',
         example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nproduct = client.products.retrieve(\n    "pdt_R8AWMPiV8RyJElcCKvAID",\n)\nprint(product.brand_id)',
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nproduct = client.products.retrieve(\n    id="pdt_R8AWMPiV8RyJElcCKvAID",\n)\nprint(product.brand_id)',
       },
       java: {
         method: 'products().retrieve',
@@ -4256,7 +4267,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Products.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tproduct, err := client.Products.Get(context.TODO(), "pdt_R8AWMPiV8RyJElcCKvAID")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", product.BrandID)\n}\n',
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tproduct, err := client.Products.Get(\n\t\tcontext.TODO(),\n\t\t"pdt_R8AWMPiV8RyJElcCKvAID",\n\t\tdodopayments.ProductGetParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", product.BrandID)\n}\n',
       },
       ruby: {
         method: 'products.retrieve',
@@ -4266,7 +4277,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'products->retrieve',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$product = $client->products->retrieve('pdt_R8AWMPiV8RyJElcCKvAID');\n\nvar_dump($product);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$product = $client->products->retrieve(\n  'pdt_R8AWMPiV8RyJElcCKvAID', locale: 'locale'\n);\n\nvar_dump($product);",
       },
       csharp: {
         method: 'Products.Retrieve',
@@ -4523,6 +4534,184 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Products.UpdateFiles',
         example:
           'ProductUpdateFilesParams parameters = new()\n{\n    ID = "pdt_R8AWMPiV8RyJElcCKvAID",\n    FileName = "file_name",\n};\n\nvar response = await client.Products.UpdateFiles(parameters);\n\nConsole.WriteLine(response);',
+      },
+    },
+  },
+  {
+    name: 'list',
+    endpoint: '/products/{id}/translations',
+    httpMethod: 'get',
+    summary: 'Lists the translations, for all the locales or for the locales of the filter.',
+    description: 'Lists the translations, for all the locales or for the locales of the filter.',
+    stainlessPath: '(resource) products.translations > (method) list',
+    qualified: 'client.products.translations.list',
+    params: ['id: string;', 'locale?: string[];'],
+    response: '{ items: { locale: locale; updated_at: string; description?: string; name?: string; }[]; }',
+    markdown:
+      "## list\n\n`client.products.translations.list(id: string, locale?: string[]): { items: translation[]; }`\n\n**get** `/products/{id}/translations`\n\nLists the translations, for all the locales or for the locales of the filter.\n\n### Parameters\n\n- `id: string`\n\n- `locale?: string[]`\n  Returns only these locales, for example `?locale=fr&locale=de`. With no value, the\nresponse has all the locales.\n\n### Returns\n\n- `{ items: { locale: locale; updated_at: string; description?: string; name?: string; }[]; }`\n  The translations of a product, an add-on, a product collection or a meter.\n\n  - `items: { locale: string; updated_at: string; description?: string; name?: string; }[]`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst translationsListResponse = await client.products.translations.list('id');\n\nconsole.log(translationsListResponse);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.products.translations.list',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst translationsListResponse = await client.products.translations.list('id');\n\nconsole.log(translationsListResponse.items);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/products/$ID/translations \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      python: {
+        method: 'products.translations.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ntranslations_list_response = client.products.translations.list(\n    id="id",\n)\nprint(translations_list_response.items)',
+      },
+      java: {
+        method: 'products().translations().list',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.products.translations.TranslationListParams;\nimport com.dodopayments.api.models.products.translations.TranslationsListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        TranslationsListResponse translationsListResponse = client.products().translations().list("id");\n    }\n}',
+      },
+      kotlin: {
+        method: 'products().translations().list',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.products.translations.TranslationListParams\nimport com.dodopayments.api.models.products.translations.TranslationsListResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val translationsListResponse: TranslationsListResponse = client.products().translations().list("id")\n}',
+      },
+      go: {
+        method: 'client.Products.Translations.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\ttranslationsListResponse, err := client.Products.Translations.List(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.ProductTranslationListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", translationsListResponse.Items)\n}\n',
+      },
+      ruby: {
+        method: 'products.translations.list',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ntranslations_list_response = dodo_payments.products.translations.list("id")\n\nputs(translations_list_response)',
+      },
+      php: {
+        method: 'products->translations->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$translationsListResponse = $client->products->translations->list(\n  'id', locale: ['string']\n);\n\nvar_dump($translationsListResponse);",
+      },
+      csharp: {
+        method: 'Products.Translations.List',
+        example:
+          'TranslationListParams parameters = new() { ID = "id" };\n\nvar translationsListResponse = await client.Products.Translations.List(parameters);\n\nConsole.WriteLine(translationsListResponse);',
+      },
+    },
+  },
+  {
+    name: 'update',
+    endpoint: '/products/{id}/translations/{locale}',
+    httpMethod: 'put',
+    summary:
+      'Creates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.',
+    description:
+      'Creates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.',
+    stainlessPath: '(resource) products.translations > (method) update',
+    qualified: 'client.products.translations.update',
+    params: ['id: string;', 'locale: string;', 'description?: string;', 'name?: string;'],
+    response: '{ locale: string; updated_at: string; description?: string; name?: string; }',
+    markdown:
+      "## update\n\n`client.products.translations.update(id: string, locale: string, description?: string, name?: string): { locale: locale; updated_at: string; description?: string; name?: string; }`\n\n**put** `/products/{id}/translations/{locale}`\n\nCreates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.\n\n### Parameters\n\n- `id: string`\n\n- `locale: string`\n  A locale that the checkout and the customer portal can show.\n\nThe codes are a copy of the checkout locales. `GET /locales` lists them.\n\n- `description?: string`\n  The translated description.\n\n- `name?: string`\n  The translated name.\n\n### Returns\n\n- `{ locale: string; updated_at: string; description?: string; name?: string; }`\n  The translation of a product, an add-on, a product collection or a meter in one locale.\n\n  - `locale: string`\n  - `updated_at: string`\n  - `description?: string`\n  - `name?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst translation = await client.products.translations.update('ar', { id: 'id' });\n\nconsole.log(translation);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.products.translations.update',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst translation = await client.products.translations.update('ar', { id: 'id' });\n\nconsole.log(translation.locale);",
+      },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/products/$ID/translations/$LOCALE \\\n    -X PUT \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
+      python: {
+        method: 'products.translations.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ntranslation = client.products.translations.update(\n    locale="ar",\n    id="id",\n)\nprint(translation.locale)',
+      },
+      java: {
+        method: 'products().translations().update',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.misc.Locale;\nimport com.dodopayments.api.models.products.translations.Translation;\nimport com.dodopayments.api.models.products.translations.TranslationUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        TranslationUpdateParams params = TranslationUpdateParams.builder()\n            .id("id")\n            .locale(Locale.AR)\n            .build();\n        Translation translation = client.products().translations().update(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'products().translations().update',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.misc.Locale\nimport com.dodopayments.api.models.products.translations.Translation\nimport com.dodopayments.api.models.products.translations.TranslationUpdateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: TranslationUpdateParams = TranslationUpdateParams.builder()\n        .id("id")\n        .locale(Locale.AR)\n        .build()\n    val translation: Translation = client.products().translations().update(params)\n}',
+      },
+      go: {
+        method: 'client.Products.Translations.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\ttranslation, err := client.Products.Translations.Update(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.LocaleAr,\n\t\tdodopayments.ProductTranslationUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", translation.Locale)\n}\n',
+      },
+      ruby: {
+        method: 'products.translations.update',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ntranslation = dodo_payments.products.translations.update(:ar, id: "id")\n\nputs(translation)',
+      },
+      php: {
+        method: 'products->translations->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$translation = $client->products->translations->update(\n  Locale::AR, id: 'id', description: 'description', name: 'name'\n);\n\nvar_dump($translation);",
+      },
+      csharp: {
+        method: 'Products.Translations.Update',
+        example:
+          'TranslationUpdateParams parameters = new()\n{\n    ID = "id",\n    Locale = Locale.Ar,\n};\n\nvar translation = await client.Products.Translations.Update(parameters);\n\nConsole.WriteLine(translation);',
+      },
+    },
+  },
+  {
+    name: 'delete',
+    endpoint: '/products/{id}/translations/{locale}',
+    httpMethod: 'delete',
+    summary: 'Deletes the translation of one locale.',
+    description: 'Deletes the translation of one locale.',
+    stainlessPath: '(resource) products.translations > (method) delete',
+    qualified: 'client.products.translations.delete',
+    params: ['id: string;', 'locale: string;'],
+    markdown:
+      "## delete\n\n`client.products.translations.delete(id: string, locale: string): void`\n\n**delete** `/products/{id}/translations/{locale}`\n\nDeletes the translation of one locale.\n\n### Parameters\n\n- `id: string`\n\n- `locale: string`\n  A locale that the checkout and the customer portal can show.\n\nThe codes are a copy of the checkout locales. `GET /locales` lists them.\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nawait client.products.translations.delete('ar', { id: 'id' })\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.products.translations.delete',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.products.translations.delete('ar', { id: 'id' });",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/products/$ID/translations/$LOCALE \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      python: {
+        method: 'products.translations.delete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.products.translations.delete(\n    locale="ar",\n    id="id",\n)',
+      },
+      java: {
+        method: 'products().translations().delete',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.misc.Locale;\nimport com.dodopayments.api.models.products.translations.TranslationDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        TranslationDeleteParams params = TranslationDeleteParams.builder()\n            .id("id")\n            .locale(Locale.AR)\n            .build();\n        client.products().translations().delete(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'products().translations().delete',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.misc.Locale\nimport com.dodopayments.api.models.products.translations.TranslationDeleteParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: TranslationDeleteParams = TranslationDeleteParams.builder()\n        .id("id")\n        .locale(Locale.AR)\n        .build()\n    client.products().translations().delete(params)\n}',
+      },
+      go: {
+        method: 'client.Products.Translations.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Products.Translations.Delete(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.LocaleAr,\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
+      ruby: {
+        method: 'products.translations.delete',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.products.translations.delete(:ar, id: "id")\n\nputs(result)',
+      },
+      php: {
+        method: 'products->translations->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->products->translations->delete(Locale::AR, id: 'id');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Products.Translations.Delete',
+        example:
+          'TranslationDeleteParams parameters = new()\n{\n    ID = "id",\n    Locale = Locale.Ar,\n};\n\nawait client.Products.Translations.Delete(parameters);',
       },
     },
   },
@@ -5062,6 +5251,64 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     },
   },
   {
+    name: 'list_locales',
+    endpoint: '/locales',
+    httpMethod: 'get',
+    summary: 'Lists the locales that a translation can have.',
+    description: 'Lists the locales that a translation can have.',
+    stainlessPath: '(resource) misc > (method) list_locales',
+    qualified: 'client.misc.listLocales',
+    response: '{ code: string; name: string; native_name: string; }[]',
+    markdown:
+      "## list_locales\n\n`client.misc.listLocales(): object[]`\n\n**get** `/locales`\n\nLists the locales that a translation can have.\n\n### Returns\n\n- `{ code: string; name: string; native_name: string; }[]`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst localeInfos = await client.misc.listLocales();\n\nconsole.log(localeInfos);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.misc.listLocales',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst localeInfos = await client.misc.listLocales();\n\nconsole.log(localeInfos);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/locales \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      python: {
+        method: 'misc.list_locales',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nlocale_infos = client.misc.list_locales()\nprint(locale_infos)',
+      },
+      java: {
+        method: 'misc().listLocales',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.misc.LocaleInfo;\nimport com.dodopayments.api.models.misc.MiscListLocalesParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        List<LocaleInfo> localeInfos = client.misc().listLocales();\n    }\n}',
+      },
+      kotlin: {
+        method: 'misc().listLocales',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.misc.LocaleInfo\nimport com.dodopayments.api.models.misc.MiscListLocalesParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val localeInfos: List<LocaleInfo> = client.misc().listLocales()\n}',
+      },
+      go: {
+        method: 'client.Misc.ListLocales',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tlocaleInfos, err := client.Misc.ListLocales(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", localeInfos)\n}\n',
+      },
+      ruby: {
+        method: 'misc.list_locales',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nlocale_infos = dodo_payments.misc.list_locales\n\nputs(locale_infos)',
+      },
+      php: {
+        method: 'misc->listLocales',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$localeInfos = $client->misc->listLocales();\n\nvar_dump($localeInfos);",
+      },
+      csharp: {
+        method: 'Misc.ListLocales',
+        example:
+          'MiscListLocalesParams parameters = new();\n\nvar localeInfos = await client.Misc.ListLocales(parameters);\n\nConsole.WriteLine(localeInfos);',
+      },
+    },
+  },
+  {
     name: 'list',
     endpoint: '/discounts',
     httpMethod: 'get',
@@ -5467,11 +5714,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: '',
     stainlessPath: '(resource) addons > (method) list',
     qualified: 'client.addons.list',
-    params: ['page_number?: number;', 'page_size?: number;'],
+    params: ['archived?: boolean;', 'locale?: string;', 'page_number?: number;', 'page_size?: number;'],
     response:
       "{ id: string; business_id: string; created_at: string; currency: string; name: string; price: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; updated_at: string; description?: string; image?: string; }",
     markdown:
-      "## list\n\n`client.addons.list(page_number?: number, page_size?: number): { id: string; business_id: string; created_at: string; currency: currency; name: string; price: number; tax_category: tax_category; updated_at: string; description?: string; image?: string; }`\n\n**get** `/addons`\n\n### Parameters\n\n- `page_number?: number`\n  Page number default is 0\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n### Returns\n\n- `{ id: string; business_id: string; created_at: string; currency: string; name: string; price: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; updated_at: string; description?: string; image?: string; }`\n\n  - `id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `name: string`\n  - `price: number`\n  - `tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'`\n  - `updated_at: string`\n  - `description?: string`\n  - `image?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const addonResponse of client.addons.list()) {\n  console.log(addonResponse);\n}\n```",
+      "## list\n\n`client.addons.list(archived?: boolean, locale?: string, page_number?: number, page_size?: number): { id: string; business_id: string; created_at: string; currency: currency; name: string; price: number; tax_category: tax_category; updated_at: string; description?: string; image?: string; }`\n\n**get** `/addons`\n\n### Parameters\n\n- `archived?: boolean`\n  List archived addons. The default is false.\n\n- `locale?: string`\n  Shows the translated name, description and unit of the catalog entities in this\nlocale. The value must be a code from `GET /locales`, for example `fr`.\nA field with no translation, an unknown code, or no code shows the base text.\n\nDo not send a text from a localized response back in a create or update request.\nThe base text then changes to the translated text.\n\n- `page_number?: number`\n  Page number default is 0\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n### Returns\n\n- `{ id: string; business_id: string; created_at: string; currency: string; name: string; price: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; updated_at: string; description?: string; image?: string; }`\n\n  - `id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `name: string`\n  - `price: number`\n  - `tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'`\n  - `updated_at: string`\n  - `description?: string`\n  - `image?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const addonResponse of client.addons.list()) {\n  console.log(addonResponse);\n}\n```",
     perLanguage: {
       typescript: {
         method: 'client.addons.list',
@@ -5510,7 +5757,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'addons->list',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->addons->list(pageNumber: 0, pageSize: 0);\n\nvar_dump($page);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->addons->list(\n  archived: true, locale: 'locale', pageNumber: 0, pageSize: 0\n);\n\nvar_dump($page);",
       },
       csharp: {
         method: 'Addons.List',
@@ -5593,11 +5840,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: '',
     stainlessPath: '(resource) addons > (method) retrieve',
     qualified: 'client.addons.retrieve',
-    params: ['id: string;'],
+    params: ['id: string;', 'locale?: string;'],
     response:
       "{ id: string; business_id: string; created_at: string; currency: string; name: string; price: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; updated_at: string; description?: string; image?: string; }",
     markdown:
-      "## retrieve\n\n`client.addons.retrieve(id: string): { id: string; business_id: string; created_at: string; currency: currency; name: string; price: number; tax_category: tax_category; updated_at: string; description?: string; image?: string; }`\n\n**get** `/addons/{id}`\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ id: string; business_id: string; created_at: string; currency: string; name: string; price: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; updated_at: string; description?: string; image?: string; }`\n\n  - `id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `name: string`\n  - `price: number`\n  - `tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'`\n  - `updated_at: string`\n  - `description?: string`\n  - `image?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst addonResponse = await client.addons.retrieve('adn_NX1zdqW4Hbivsqz8vI9dc');\n\nconsole.log(addonResponse);\n```",
+      "## retrieve\n\n`client.addons.retrieve(id: string, locale?: string): { id: string; business_id: string; created_at: string; currency: currency; name: string; price: number; tax_category: tax_category; updated_at: string; description?: string; image?: string; }`\n\n**get** `/addons/{id}`\n\n### Parameters\n\n- `id: string`\n\n- `locale?: string`\n  Shows the translated name, description and unit of the catalog entities in this\nlocale. The value must be a code from `GET /locales`, for example `fr`.\nA field with no translation, an unknown code, or no code shows the base text.\n\nDo not send a text from a localized response back in a create or update request.\nThe base text then changes to the translated text.\n\n### Returns\n\n- `{ id: string; business_id: string; created_at: string; currency: string; name: string; price: number; tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'; updated_at: string; description?: string; image?: string; }`\n\n  - `id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `currency: string`\n  - `name: string`\n  - `price: number`\n  - `tax_category: 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring'`\n  - `updated_at: string`\n  - `description?: string`\n  - `image?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst addonResponse = await client.addons.retrieve('adn_NX1zdqW4Hbivsqz8vI9dc');\n\nconsole.log(addonResponse);\n```",
     perLanguage: {
       typescript: {
         method: 'client.addons.retrieve',
@@ -5611,7 +5858,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       python: {
         method: 'addons.retrieve',
         example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\naddon_response = client.addons.retrieve(\n    "adn_NX1zdqW4Hbivsqz8vI9dc",\n)\nprint(addon_response.id)',
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\naddon_response = client.addons.retrieve(\n    id="adn_NX1zdqW4Hbivsqz8vI9dc",\n)\nprint(addon_response.id)',
       },
       java: {
         method: 'addons().retrieve',
@@ -5626,7 +5873,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Addons.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\taddonResponse, err := client.Addons.Get(context.TODO(), "adn_NX1zdqW4Hbivsqz8vI9dc")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", addonResponse.ID)\n}\n',
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\taddonResponse, err := client.Addons.Get(\n\t\tcontext.TODO(),\n\t\t"adn_NX1zdqW4Hbivsqz8vI9dc",\n\t\tdodopayments.AddonGetParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", addonResponse.ID)\n}\n',
       },
       ruby: {
         method: 'addons.retrieve',
@@ -5636,7 +5883,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'addons->retrieve',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$addonResponse = $client->addons->retrieve('adn_NX1zdqW4Hbivsqz8vI9dc');\n\nvar_dump($addonResponse);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$addonResponse = $client->addons->retrieve(\n  'adn_NX1zdqW4Hbivsqz8vI9dc', locale: 'locale'\n);\n\nvar_dump($addonResponse);",
       },
       csharp: {
         method: 'Addons.Retrieve',
@@ -5769,6 +6016,300 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Addons.UpdateImages',
         example:
           'AddonUpdateImagesParams parameters = new() { ID = "adn_NX1zdqW4Hbivsqz8vI9dc" };\n\nvar response = await client.Addons.UpdateImages(parameters);\n\nConsole.WriteLine(response);',
+      },
+    },
+  },
+  {
+    name: 'delete',
+    endpoint: '/addons/{id}',
+    httpMethod: 'delete',
+    summary: '',
+    description: '',
+    stainlessPath: '(resource) addons > (method) delete',
+    qualified: 'client.addons.delete',
+    params: ['id: string;'],
+    markdown:
+      "## delete\n\n`client.addons.delete(id: string): void`\n\n**delete** `/addons/{id}`\n\n### Parameters\n\n- `id: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nawait client.addons.delete('adn_NX1zdqW4Hbivsqz8vI9dc')\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.addons.delete',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.addons.delete('adn_NX1zdqW4Hbivsqz8vI9dc');",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/addons/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      python: {
+        method: 'addons.delete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.addons.delete(\n    "adn_NX1zdqW4Hbivsqz8vI9dc",\n)',
+      },
+      java: {
+        method: 'addons().delete',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.addons.AddonDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.addons().delete("adn_NX1zdqW4Hbivsqz8vI9dc");\n    }\n}',
+      },
+      kotlin: {
+        method: 'addons().delete',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.addons.AddonDeleteParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.addons().delete("adn_NX1zdqW4Hbivsqz8vI9dc")\n}',
+      },
+      go: {
+        method: 'client.Addons.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Addons.Delete(context.TODO(), "adn_NX1zdqW4Hbivsqz8vI9dc")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
+      ruby: {
+        method: 'addons.delete',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.addons.delete("adn_NX1zdqW4Hbivsqz8vI9dc")\n\nputs(result)',
+      },
+      php: {
+        method: 'addons->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->addons->delete('adn_NX1zdqW4Hbivsqz8vI9dc');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Addons.Delete',
+        example:
+          'AddonDeleteParams parameters = new() { ID = "adn_NX1zdqW4Hbivsqz8vI9dc" };\n\nawait client.Addons.Delete(parameters);',
+      },
+    },
+  },
+  {
+    name: 'unarchive',
+    endpoint: '/addons/{id}/unarchive',
+    httpMethod: 'post',
+    summary: '',
+    description: '',
+    stainlessPath: '(resource) addons > (method) unarchive',
+    qualified: 'client.addons.unarchive',
+    params: ['id: string;'],
+    markdown:
+      "## unarchive\n\n`client.addons.unarchive(id: string): void`\n\n**post** `/addons/{id}/unarchive`\n\n### Parameters\n\n- `id: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nawait client.addons.unarchive('adn_NX1zdqW4Hbivsqz8vI9dc')\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.addons.unarchive',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.addons.unarchive('adn_NX1zdqW4Hbivsqz8vI9dc');",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/addons/$ID/unarchive \\\n    -X POST \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      python: {
+        method: 'addons.unarchive',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.addons.unarchive(\n    "adn_NX1zdqW4Hbivsqz8vI9dc",\n)',
+      },
+      java: {
+        method: 'addons().unarchive',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.addons.AddonUnarchiveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        client.addons().unarchive("adn_NX1zdqW4Hbivsqz8vI9dc");\n    }\n}',
+      },
+      kotlin: {
+        method: 'addons().unarchive',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.addons.AddonUnarchiveParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    client.addons().unarchive("adn_NX1zdqW4Hbivsqz8vI9dc")\n}',
+      },
+      go: {
+        method: 'client.Addons.Unarchive',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Addons.Unarchive(context.TODO(), "adn_NX1zdqW4Hbivsqz8vI9dc")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
+      ruby: {
+        method: 'addons.unarchive',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.addons.unarchive("adn_NX1zdqW4Hbivsqz8vI9dc")\n\nputs(result)',
+      },
+      php: {
+        method: 'addons->unarchive',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->addons->unarchive('adn_NX1zdqW4Hbivsqz8vI9dc');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Addons.Unarchive',
+        example:
+          'AddonUnarchiveParams parameters = new() { ID = "adn_NX1zdqW4Hbivsqz8vI9dc" };\n\nawait client.Addons.Unarchive(parameters);',
+      },
+    },
+  },
+  {
+    name: 'list',
+    endpoint: '/addons/{id}/translations',
+    httpMethod: 'get',
+    summary: 'Lists the translations, for all the locales or for the locales of the filter.',
+    description: 'Lists the translations, for all the locales or for the locales of the filter.',
+    stainlessPath: '(resource) addons.translations > (method) list',
+    qualified: 'client.addons.translations.list',
+    params: ['id: string;', 'locale?: string[];'],
+    response: '{ items: { locale: locale; updated_at: string; description?: string; name?: string; }[]; }',
+    markdown:
+      "## list\n\n`client.addons.translations.list(id: string, locale?: string[]): { items: translation[]; }`\n\n**get** `/addons/{id}/translations`\n\nLists the translations, for all the locales or for the locales of the filter.\n\n### Parameters\n\n- `id: string`\n\n- `locale?: string[]`\n  Returns only these locales, for example `?locale=fr&locale=de`. With no value, the\nresponse has all the locales.\n\n### Returns\n\n- `{ items: { locale: locale; updated_at: string; description?: string; name?: string; }[]; }`\n  The translations of a product, an add-on, a product collection or a meter.\n\n  - `items: { locale: string; updated_at: string; description?: string; name?: string; }[]`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst translationsListResponse = await client.addons.translations.list('id');\n\nconsole.log(translationsListResponse);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.addons.translations.list',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst translationsListResponse = await client.addons.translations.list('id');\n\nconsole.log(translationsListResponse.items);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/addons/$ID/translations \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      python: {
+        method: 'addons.translations.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ntranslations_list_response = client.addons.translations.list(\n    id="id",\n)\nprint(translations_list_response.items)',
+      },
+      java: {
+        method: 'addons().translations().list',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.addons.translations.TranslationListParams;\nimport com.dodopayments.api.models.products.translations.TranslationsListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        TranslationsListResponse translationsListResponse = client.addons().translations().list("id");\n    }\n}',
+      },
+      kotlin: {
+        method: 'addons().translations().list',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.addons.translations.TranslationListParams\nimport com.dodopayments.api.models.products.translations.TranslationsListResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val translationsListResponse: TranslationsListResponse = client.addons().translations().list("id")\n}',
+      },
+      go: {
+        method: 'client.Addons.Translations.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\ttranslationsListResponse, err := client.Addons.Translations.List(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.AddonTranslationListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", translationsListResponse.Items)\n}\n',
+      },
+      ruby: {
+        method: 'addons.translations.list',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ntranslations_list_response = dodo_payments.addons.translations.list("id")\n\nputs(translations_list_response)',
+      },
+      php: {
+        method: 'addons->translations->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$translationsListResponse = $client->addons->translations->list(\n  'id', locale: ['string']\n);\n\nvar_dump($translationsListResponse);",
+      },
+      csharp: {
+        method: 'Addons.Translations.List',
+        example:
+          'TranslationListParams parameters = new() { ID = "id" };\n\nvar translationsListResponse = await client.Addons.Translations.List(parameters);\n\nConsole.WriteLine(translationsListResponse);',
+      },
+    },
+  },
+  {
+    name: 'update',
+    endpoint: '/addons/{id}/translations/{locale}',
+    httpMethod: 'put',
+    summary:
+      'Creates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.',
+    description:
+      'Creates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.',
+    stainlessPath: '(resource) addons.translations > (method) update',
+    qualified: 'client.addons.translations.update',
+    params: ['id: string;', 'locale: string;', 'description?: string;', 'name?: string;'],
+    response: '{ locale: string; updated_at: string; description?: string; name?: string; }',
+    markdown:
+      "## update\n\n`client.addons.translations.update(id: string, locale: string, description?: string, name?: string): { locale: locale; updated_at: string; description?: string; name?: string; }`\n\n**put** `/addons/{id}/translations/{locale}`\n\nCreates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.\n\n### Parameters\n\n- `id: string`\n\n- `locale: string`\n  A locale that the checkout and the customer portal can show.\n\nThe codes are a copy of the checkout locales. `GET /locales` lists them.\n\n- `description?: string`\n  The translated description.\n\n- `name?: string`\n  The translated name.\n\n### Returns\n\n- `{ locale: string; updated_at: string; description?: string; name?: string; }`\n  The translation of a product, an add-on, a product collection or a meter in one locale.\n\n  - `locale: string`\n  - `updated_at: string`\n  - `description?: string`\n  - `name?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst translation = await client.addons.translations.update('ar', { id: 'id' });\n\nconsole.log(translation);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.addons.translations.update',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst translation = await client.addons.translations.update('ar', { id: 'id' });\n\nconsole.log(translation.locale);",
+      },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/addons/$ID/translations/$LOCALE \\\n    -X PUT \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
+      python: {
+        method: 'addons.translations.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ntranslation = client.addons.translations.update(\n    locale="ar",\n    id="id",\n)\nprint(translation.locale)',
+      },
+      java: {
+        method: 'addons().translations().update',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.addons.translations.TranslationUpdateParams;\nimport com.dodopayments.api.models.misc.Locale;\nimport com.dodopayments.api.models.products.translations.Translation;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        TranslationUpdateParams params = TranslationUpdateParams.builder()\n            .id("id")\n            .locale(Locale.AR)\n            .build();\n        Translation translation = client.addons().translations().update(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'addons().translations().update',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.addons.translations.TranslationUpdateParams\nimport com.dodopayments.api.models.misc.Locale\nimport com.dodopayments.api.models.products.translations.Translation\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: TranslationUpdateParams = TranslationUpdateParams.builder()\n        .id("id")\n        .locale(Locale.AR)\n        .build()\n    val translation: Translation = client.addons().translations().update(params)\n}',
+      },
+      go: {
+        method: 'client.Addons.Translations.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\ttranslation, err := client.Addons.Translations.Update(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.LocaleAr,\n\t\tdodopayments.AddonTranslationUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", translation.Locale)\n}\n',
+      },
+      ruby: {
+        method: 'addons.translations.update',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ntranslation = dodo_payments.addons.translations.update(:ar, id: "id")\n\nputs(translation)',
+      },
+      php: {
+        method: 'addons->translations->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$translation = $client->addons->translations->update(\n  Locale::AR, id: 'id', description: 'description', name: 'name'\n);\n\nvar_dump($translation);",
+      },
+      csharp: {
+        method: 'Addons.Translations.Update',
+        example:
+          'TranslationUpdateParams parameters = new()\n{\n    ID = "id",\n    Locale = Locale.Ar,\n};\n\nvar translation = await client.Addons.Translations.Update(parameters);\n\nConsole.WriteLine(translation);',
+      },
+    },
+  },
+  {
+    name: 'delete',
+    endpoint: '/addons/{id}/translations/{locale}',
+    httpMethod: 'delete',
+    summary: 'Deletes the translation of one locale.',
+    description: 'Deletes the translation of one locale.',
+    stainlessPath: '(resource) addons.translations > (method) delete',
+    qualified: 'client.addons.translations.delete',
+    params: ['id: string;', 'locale: string;'],
+    markdown:
+      "## delete\n\n`client.addons.translations.delete(id: string, locale: string): void`\n\n**delete** `/addons/{id}/translations/{locale}`\n\nDeletes the translation of one locale.\n\n### Parameters\n\n- `id: string`\n\n- `locale: string`\n  A locale that the checkout and the customer portal can show.\n\nThe codes are a copy of the checkout locales. `GET /locales` lists them.\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nawait client.addons.translations.delete('ar', { id: 'id' })\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.addons.translations.delete',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.addons.translations.delete('ar', { id: 'id' });",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/addons/$ID/translations/$LOCALE \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      python: {
+        method: 'addons.translations.delete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.addons.translations.delete(\n    locale="ar",\n    id="id",\n)',
+      },
+      java: {
+        method: 'addons().translations().delete',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.addons.translations.TranslationDeleteParams;\nimport com.dodopayments.api.models.misc.Locale;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        TranslationDeleteParams params = TranslationDeleteParams.builder()\n            .id("id")\n            .locale(Locale.AR)\n            .build();\n        client.addons().translations().delete(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'addons().translations().delete',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.addons.translations.TranslationDeleteParams\nimport com.dodopayments.api.models.misc.Locale\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: TranslationDeleteParams = TranslationDeleteParams.builder()\n        .id("id")\n        .locale(Locale.AR)\n        .build()\n    client.addons().translations().delete(params)\n}',
+      },
+      go: {
+        method: 'client.Addons.Translations.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Addons.Translations.Delete(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.LocaleAr,\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
+      ruby: {
+        method: 'addons.translations.delete',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.addons.translations.delete(:ar, id: "id")\n\nputs(result)',
+      },
+      php: {
+        method: 'addons->translations->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->addons->translations->delete(Locale::AR, id: 'id');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Addons.Translations.Delete',
+        example:
+          'TranslationDeleteParams parameters = new()\n{\n    ID = "id",\n    Locale = Locale.Ar,\n};\n\nawait client.Addons.Translations.Delete(parameters);',
       },
     },
   },
@@ -6926,11 +7467,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: '',
     stainlessPath: '(resource) meters > (method) list',
     qualified: 'client.meters.list',
-    params: ['archived?: boolean;', 'page_number?: number;', 'page_size?: number;'],
+    params: ['archived?: boolean;', 'locale?: string;', 'page_number?: number;', 'page_size?: number;'],
     response:
       "{ id: string; aggregation: { type: 'count' | 'sum' | 'max' | 'last'; key?: string; }; business_id: string; created_at: string; event_name: string; measurement_unit: string; name: string; updated_at: string; description?: string; filter?: { clauses: filter_type; conjunction: conjunction; }; }",
     markdown:
-      "## list\n\n`client.meters.list(archived?: boolean, page_number?: number, page_size?: number): { id: string; aggregation: meter_aggregation; business_id: string; created_at: string; event_name: string; measurement_unit: string; name: string; updated_at: string; description?: string; filter?: meter_filter; }`\n\n**get** `/meters`\n\n### Parameters\n\n- `archived?: boolean`\n  List archived meters\n\n- `page_number?: number`\n  Page number default is 0\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n### Returns\n\n- `{ id: string; aggregation: { type: 'count' | 'sum' | 'max' | 'last'; key?: string; }; business_id: string; created_at: string; event_name: string; measurement_unit: string; name: string; updated_at: string; description?: string; filter?: { clauses: filter_type; conjunction: conjunction; }; }`\n\n  - `id: string`\n  - `aggregation: { type: 'count' | 'sum' | 'max' | 'last'; key?: string; }`\n  - `business_id: string`\n  - `created_at: string`\n  - `event_name: string`\n  - `measurement_unit: string`\n  - `name: string`\n  - `updated_at: string`\n  - `description?: string`\n  - `filter?: { clauses: { key: string; operator: filter_operator; value: string | number | boolean; }[] | object[]; conjunction: 'and' | 'or'; }`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const meter of client.meters.list()) {\n  console.log(meter);\n}\n```",
+      "## list\n\n`client.meters.list(archived?: boolean, locale?: string, page_number?: number, page_size?: number): { id: string; aggregation: meter_aggregation; business_id: string; created_at: string; event_name: string; measurement_unit: string; name: string; updated_at: string; description?: string; filter?: meter_filter; }`\n\n**get** `/meters`\n\n### Parameters\n\n- `archived?: boolean`\n  List archived meters\n\n- `locale?: string`\n  Shows the translated name, description and unit of the catalog entities in this\nlocale. The value must be a code from `GET /locales`, for example `fr`.\nA field with no translation, an unknown code, or no code shows the base text.\n\nDo not send a text from a localized response back in a create or update request.\nThe base text then changes to the translated text.\n\n- `page_number?: number`\n  Page number default is 0\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n### Returns\n\n- `{ id: string; aggregation: { type: 'count' | 'sum' | 'max' | 'last'; key?: string; }; business_id: string; created_at: string; event_name: string; measurement_unit: string; name: string; updated_at: string; description?: string; filter?: { clauses: filter_type; conjunction: conjunction; }; }`\n\n  - `id: string`\n  - `aggregation: { type: 'count' | 'sum' | 'max' | 'last'; key?: string; }`\n  - `business_id: string`\n  - `created_at: string`\n  - `event_name: string`\n  - `measurement_unit: string`\n  - `name: string`\n  - `updated_at: string`\n  - `description?: string`\n  - `filter?: { clauses: { key: string; operator: filter_operator; value: string | number | boolean; }[] | object[]; conjunction: 'and' | 'or'; }`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const meter of client.meters.list()) {\n  console.log(meter);\n}\n```",
     perLanguage: {
       typescript: {
         method: 'client.meters.list',
@@ -6969,7 +7510,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'meters->list',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->meters->list(archived: true, pageNumber: 0, pageSize: 0);\n\nvar_dump($page);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->meters->list(\n  archived: true, locale: 'locale', pageNumber: 0, pageSize: 0\n);\n\nvar_dump($page);",
       },
       csharp: {
         method: 'Meters.List',
@@ -7053,11 +7594,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: '',
     stainlessPath: '(resource) meters > (method) retrieve',
     qualified: 'client.meters.retrieve',
-    params: ['id: string;'],
+    params: ['id: string;', 'locale?: string;'],
     response:
       "{ id: string; aggregation: { type: 'count' | 'sum' | 'max' | 'last'; key?: string; }; business_id: string; created_at: string; event_name: string; measurement_unit: string; name: string; updated_at: string; description?: string; filter?: { clauses: filter_type; conjunction: conjunction; }; }",
     markdown:
-      "## retrieve\n\n`client.meters.retrieve(id: string): { id: string; aggregation: meter_aggregation; business_id: string; created_at: string; event_name: string; measurement_unit: string; name: string; updated_at: string; description?: string; filter?: meter_filter; }`\n\n**get** `/meters/{id}`\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ id: string; aggregation: { type: 'count' | 'sum' | 'max' | 'last'; key?: string; }; business_id: string; created_at: string; event_name: string; measurement_unit: string; name: string; updated_at: string; description?: string; filter?: { clauses: filter_type; conjunction: conjunction; }; }`\n\n  - `id: string`\n  - `aggregation: { type: 'count' | 'sum' | 'max' | 'last'; key?: string; }`\n  - `business_id: string`\n  - `created_at: string`\n  - `event_name: string`\n  - `measurement_unit: string`\n  - `name: string`\n  - `updated_at: string`\n  - `description?: string`\n  - `filter?: { clauses: { key: string; operator: filter_operator; value: string | number | boolean; }[] | object[]; conjunction: 'and' | 'or'; }`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst meter = await client.meters.retrieve('mtr_h5tgTWL55OyMO0L2Q9w9v');\n\nconsole.log(meter);\n```",
+      "## retrieve\n\n`client.meters.retrieve(id: string, locale?: string): { id: string; aggregation: meter_aggregation; business_id: string; created_at: string; event_name: string; measurement_unit: string; name: string; updated_at: string; description?: string; filter?: meter_filter; }`\n\n**get** `/meters/{id}`\n\n### Parameters\n\n- `id: string`\n\n- `locale?: string`\n  Shows the translated name, description and unit of the catalog entities in this\nlocale. The value must be a code from `GET /locales`, for example `fr`.\nA field with no translation, an unknown code, or no code shows the base text.\n\nDo not send a text from a localized response back in a create or update request.\nThe base text then changes to the translated text.\n\n### Returns\n\n- `{ id: string; aggregation: { type: 'count' | 'sum' | 'max' | 'last'; key?: string; }; business_id: string; created_at: string; event_name: string; measurement_unit: string; name: string; updated_at: string; description?: string; filter?: { clauses: filter_type; conjunction: conjunction; }; }`\n\n  - `id: string`\n  - `aggregation: { type: 'count' | 'sum' | 'max' | 'last'; key?: string; }`\n  - `business_id: string`\n  - `created_at: string`\n  - `event_name: string`\n  - `measurement_unit: string`\n  - `name: string`\n  - `updated_at: string`\n  - `description?: string`\n  - `filter?: { clauses: { key: string; operator: filter_operator; value: string | number | boolean; }[] | object[]; conjunction: 'and' | 'or'; }`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst meter = await client.meters.retrieve('mtr_h5tgTWL55OyMO0L2Q9w9v');\n\nconsole.log(meter);\n```",
     perLanguage: {
       typescript: {
         method: 'client.meters.retrieve',
@@ -7071,7 +7612,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       python: {
         method: 'meters.retrieve',
         example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nmeter = client.meters.retrieve(\n    "mtr_h5tgTWL55OyMO0L2Q9w9v",\n)\nprint(meter.id)',
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nmeter = client.meters.retrieve(\n    id="mtr_h5tgTWL55OyMO0L2Q9w9v",\n)\nprint(meter.id)',
       },
       java: {
         method: 'meters().retrieve',
@@ -7086,7 +7627,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Meters.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tmeter, err := client.Meters.Get(context.TODO(), "mtr_h5tgTWL55OyMO0L2Q9w9v")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", meter.ID)\n}\n',
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tmeter, err := client.Meters.Get(\n\t\tcontext.TODO(),\n\t\t"mtr_h5tgTWL55OyMO0L2Q9w9v",\n\t\tdodopayments.MeterGetParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", meter.ID)\n}\n',
       },
       ruby: {
         method: 'meters.retrieve',
@@ -7096,12 +7637,72 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'meters->retrieve',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$meter = $client->meters->retrieve('mtr_h5tgTWL55OyMO0L2Q9w9v');\n\nvar_dump($meter);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$meter = $client->meters->retrieve(\n  'mtr_h5tgTWL55OyMO0L2Q9w9v', locale: 'locale'\n);\n\nvar_dump($meter);",
       },
       csharp: {
         method: 'Meters.Retrieve',
         example:
           'MeterRetrieveParams parameters = new() { ID = "mtr_h5tgTWL55OyMO0L2Q9w9v" };\n\nvar meter = await client.Meters.Retrieve(parameters);\n\nConsole.WriteLine(meter);',
+      },
+    },
+  },
+  {
+    name: 'update',
+    endpoint: '/meters/{id}',
+    httpMethod: 'patch',
+    summary: '',
+    description: '',
+    stainlessPath: '(resource) meters > (method) update',
+    qualified: 'client.meters.update',
+    params: ['id: string;', 'description?: string;', 'measurement_unit?: string;', 'name?: string;'],
+    response:
+      "{ id: string; aggregation: { type: 'count' | 'sum' | 'max' | 'last'; key?: string; }; business_id: string; created_at: string; event_name: string; measurement_unit: string; name: string; updated_at: string; description?: string; filter?: { clauses: filter_type; conjunction: conjunction; }; }",
+    markdown:
+      "## update\n\n`client.meters.update(id: string, description?: string, measurement_unit?: string, name?: string): { id: string; aggregation: meter_aggregation; business_id: string; created_at: string; event_name: string; measurement_unit: string; name: string; updated_at: string; description?: string; filter?: meter_filter; }`\n\n**patch** `/meters/{id}`\n\n### Parameters\n\n- `id: string`\n\n- `description?: string`\n  Description of the meter. Send `null` to remove the description. Omit it to keep it.\n\n- `measurement_unit?: string`\n  Measurement unit\n\n- `name?: string`\n  Name of the meter\n\n### Returns\n\n- `{ id: string; aggregation: { type: 'count' | 'sum' | 'max' | 'last'; key?: string; }; business_id: string; created_at: string; event_name: string; measurement_unit: string; name: string; updated_at: string; description?: string; filter?: { clauses: filter_type; conjunction: conjunction; }; }`\n\n  - `id: string`\n  - `aggregation: { type: 'count' | 'sum' | 'max' | 'last'; key?: string; }`\n  - `business_id: string`\n  - `created_at: string`\n  - `event_name: string`\n  - `measurement_unit: string`\n  - `name: string`\n  - `updated_at: string`\n  - `description?: string`\n  - `filter?: { clauses: { key: string; operator: filter_operator; value: string | number | boolean; }[] | object[]; conjunction: 'and' | 'or'; }`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst meter = await client.meters.update('mtr_h5tgTWL55OyMO0L2Q9w9v');\n\nconsole.log(meter);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.meters.update',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst meter = await client.meters.update('mtr_h5tgTWL55OyMO0L2Q9w9v');\n\nconsole.log(meter.id);",
+      },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/meters/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
+      python: {
+        method: 'meters.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nmeter = client.meters.update(\n    id="mtr_h5tgTWL55OyMO0L2Q9w9v",\n)\nprint(meter.id)',
+      },
+      java: {
+        method: 'meters().update',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.meters.Meter;\nimport com.dodopayments.api.models.meters.MeterUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        Meter meter = client.meters().update("mtr_h5tgTWL55OyMO0L2Q9w9v");\n    }\n}',
+      },
+      kotlin: {
+        method: 'meters().update',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.meters.Meter\nimport com.dodopayments.api.models.meters.MeterUpdateParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val meter: Meter = client.meters().update("mtr_h5tgTWL55OyMO0L2Q9w9v")\n}',
+      },
+      go: {
+        method: 'client.Meters.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tmeter, err := client.Meters.Update(\n\t\tcontext.TODO(),\n\t\t"mtr_h5tgTWL55OyMO0L2Q9w9v",\n\t\tdodopayments.MeterUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", meter.ID)\n}\n',
+      },
+      ruby: {
+        method: 'meters.update',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nmeter = dodo_payments.meters.update("mtr_h5tgTWL55OyMO0L2Q9w9v")\n\nputs(meter)',
+      },
+      php: {
+        method: 'meters->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$meter = $client->meters->update(\n  'mtr_h5tgTWL55OyMO0L2Q9w9v',\n  description: 'description',\n  measurementUnit: 'measurement_unit',\n  name: 'name',\n);\n\nvar_dump($meter);",
+      },
+      csharp: {
+        method: 'Meters.Update',
+        example:
+          'MeterUpdateParams parameters = new() { ID = "mtr_h5tgTWL55OyMO0L2Q9w9v" };\n\nvar meter = await client.Meters.Update(parameters);\n\nConsole.WriteLine(meter);',
       },
     },
   },
@@ -7222,6 +7823,184 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     },
   },
   {
+    name: 'list',
+    endpoint: '/meters/{id}/translations',
+    httpMethod: 'get',
+    summary: 'Lists the translations, for all the locales or for the locales of the filter.',
+    description: 'Lists the translations, for all the locales or for the locales of the filter.',
+    stainlessPath: '(resource) meters.translations > (method) list',
+    qualified: 'client.meters.translations.list',
+    params: ['id: string;', 'locale?: string[];'],
+    response: '{ items: { locale: locale; updated_at: string; description?: string; name?: string; }[]; }',
+    markdown:
+      "## list\n\n`client.meters.translations.list(id: string, locale?: string[]): { items: translation[]; }`\n\n**get** `/meters/{id}/translations`\n\nLists the translations, for all the locales or for the locales of the filter.\n\n### Parameters\n\n- `id: string`\n\n- `locale?: string[]`\n  Returns only these locales, for example `?locale=fr&locale=de`. With no value, the\nresponse has all the locales.\n\n### Returns\n\n- `{ items: { locale: locale; updated_at: string; description?: string; name?: string; }[]; }`\n  The translations of a product, an add-on, a product collection or a meter.\n\n  - `items: { locale: string; updated_at: string; description?: string; name?: string; }[]`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst translationsListResponse = await client.meters.translations.list('id');\n\nconsole.log(translationsListResponse);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.meters.translations.list',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst translationsListResponse = await client.meters.translations.list('id');\n\nconsole.log(translationsListResponse.items);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/meters/$ID/translations \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      python: {
+        method: 'meters.translations.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ntranslations_list_response = client.meters.translations.list(\n    id="id",\n)\nprint(translations_list_response.items)',
+      },
+      java: {
+        method: 'meters().translations().list',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.meters.translations.TranslationListParams;\nimport com.dodopayments.api.models.products.translations.TranslationsListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        TranslationsListResponse translationsListResponse = client.meters().translations().list("id");\n    }\n}',
+      },
+      kotlin: {
+        method: 'meters().translations().list',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.meters.translations.TranslationListParams\nimport com.dodopayments.api.models.products.translations.TranslationsListResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val translationsListResponse: TranslationsListResponse = client.meters().translations().list("id")\n}',
+      },
+      go: {
+        method: 'client.Meters.Translations.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\ttranslationsListResponse, err := client.Meters.Translations.List(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.MeterTranslationListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", translationsListResponse.Items)\n}\n',
+      },
+      ruby: {
+        method: 'meters.translations.list',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ntranslations_list_response = dodo_payments.meters.translations.list("id")\n\nputs(translations_list_response)',
+      },
+      php: {
+        method: 'meters->translations->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$translationsListResponse = $client->meters->translations->list(\n  'id', locale: ['string']\n);\n\nvar_dump($translationsListResponse);",
+      },
+      csharp: {
+        method: 'Meters.Translations.List',
+        example:
+          'TranslationListParams parameters = new() { ID = "id" };\n\nvar translationsListResponse = await client.Meters.Translations.List(parameters);\n\nConsole.WriteLine(translationsListResponse);',
+      },
+    },
+  },
+  {
+    name: 'update',
+    endpoint: '/meters/{id}/translations/{locale}',
+    httpMethod: 'put',
+    summary:
+      'Creates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.',
+    description:
+      'Creates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.',
+    stainlessPath: '(resource) meters.translations > (method) update',
+    qualified: 'client.meters.translations.update',
+    params: ['id: string;', 'locale: string;', 'description?: string;', 'name?: string;'],
+    response: '{ locale: string; updated_at: string; description?: string; name?: string; }',
+    markdown:
+      "## update\n\n`client.meters.translations.update(id: string, locale: string, description?: string, name?: string): { locale: locale; updated_at: string; description?: string; name?: string; }`\n\n**put** `/meters/{id}/translations/{locale}`\n\nCreates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.\n\n### Parameters\n\n- `id: string`\n\n- `locale: string`\n  A locale that the checkout and the customer portal can show.\n\nThe codes are a copy of the checkout locales. `GET /locales` lists them.\n\n- `description?: string`\n  The translated description.\n\n- `name?: string`\n  The translated name.\n\n### Returns\n\n- `{ locale: string; updated_at: string; description?: string; name?: string; }`\n  The translation of a product, an add-on, a product collection or a meter in one locale.\n\n  - `locale: string`\n  - `updated_at: string`\n  - `description?: string`\n  - `name?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst translation = await client.meters.translations.update('ar', { id: 'id' });\n\nconsole.log(translation);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.meters.translations.update',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst translation = await client.meters.translations.update('ar', { id: 'id' });\n\nconsole.log(translation.locale);",
+      },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/meters/$ID/translations/$LOCALE \\\n    -X PUT \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
+      python: {
+        method: 'meters.translations.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ntranslation = client.meters.translations.update(\n    locale="ar",\n    id="id",\n)\nprint(translation.locale)',
+      },
+      java: {
+        method: 'meters().translations().update',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.meters.translations.TranslationUpdateParams;\nimport com.dodopayments.api.models.misc.Locale;\nimport com.dodopayments.api.models.products.translations.Translation;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        TranslationUpdateParams params = TranslationUpdateParams.builder()\n            .id("id")\n            .locale(Locale.AR)\n            .build();\n        Translation translation = client.meters().translations().update(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'meters().translations().update',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.meters.translations.TranslationUpdateParams\nimport com.dodopayments.api.models.misc.Locale\nimport com.dodopayments.api.models.products.translations.Translation\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: TranslationUpdateParams = TranslationUpdateParams.builder()\n        .id("id")\n        .locale(Locale.AR)\n        .build()\n    val translation: Translation = client.meters().translations().update(params)\n}',
+      },
+      go: {
+        method: 'client.Meters.Translations.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\ttranslation, err := client.Meters.Translations.Update(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.LocaleAr,\n\t\tdodopayments.MeterTranslationUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", translation.Locale)\n}\n',
+      },
+      ruby: {
+        method: 'meters.translations.update',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ntranslation = dodo_payments.meters.translations.update(:ar, id: "id")\n\nputs(translation)',
+      },
+      php: {
+        method: 'meters->translations->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$translation = $client->meters->translations->update(\n  Locale::AR, id: 'id', description: 'description', name: 'name'\n);\n\nvar_dump($translation);",
+      },
+      csharp: {
+        method: 'Meters.Translations.Update',
+        example:
+          'TranslationUpdateParams parameters = new()\n{\n    ID = "id",\n    Locale = Locale.Ar,\n};\n\nvar translation = await client.Meters.Translations.Update(parameters);\n\nConsole.WriteLine(translation);',
+      },
+    },
+  },
+  {
+    name: 'delete',
+    endpoint: '/meters/{id}/translations/{locale}',
+    httpMethod: 'delete',
+    summary: 'Deletes the translation of one locale.',
+    description: 'Deletes the translation of one locale.',
+    stainlessPath: '(resource) meters.translations > (method) delete',
+    qualified: 'client.meters.translations.delete',
+    params: ['id: string;', 'locale: string;'],
+    markdown:
+      "## delete\n\n`client.meters.translations.delete(id: string, locale: string): void`\n\n**delete** `/meters/{id}/translations/{locale}`\n\nDeletes the translation of one locale.\n\n### Parameters\n\n- `id: string`\n\n- `locale: string`\n  A locale that the checkout and the customer portal can show.\n\nThe codes are a copy of the checkout locales. `GET /locales` lists them.\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nawait client.meters.translations.delete('ar', { id: 'id' })\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.meters.translations.delete',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.meters.translations.delete('ar', { id: 'id' });",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/meters/$ID/translations/$LOCALE \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      python: {
+        method: 'meters.translations.delete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.meters.translations.delete(\n    locale="ar",\n    id="id",\n)',
+      },
+      java: {
+        method: 'meters().translations().delete',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.meters.translations.TranslationDeleteParams;\nimport com.dodopayments.api.models.misc.Locale;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        TranslationDeleteParams params = TranslationDeleteParams.builder()\n            .id("id")\n            .locale(Locale.AR)\n            .build();\n        client.meters().translations().delete(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'meters().translations().delete',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.meters.translations.TranslationDeleteParams\nimport com.dodopayments.api.models.misc.Locale\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: TranslationDeleteParams = TranslationDeleteParams.builder()\n        .id("id")\n        .locale(Locale.AR)\n        .build()\n    client.meters().translations().delete(params)\n}',
+      },
+      go: {
+        method: 'client.Meters.Translations.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Meters.Translations.Delete(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.LocaleAr,\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
+      ruby: {
+        method: 'meters.translations.delete',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.meters.translations.delete(:ar, id: "id")\n\nputs(result)',
+      },
+      php: {
+        method: 'meters->translations->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->meters->translations->delete(Locale::AR, id: 'id');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Meters.Translations.Delete',
+        example:
+          'TranslationDeleteParams parameters = new()\n{\n    ID = "id",\n    Locale = Locale.Ar,\n};\n\nawait client.Meters.Translations.Delete(parameters);',
+      },
+    },
+  },
+  {
     name: 'retrieve_ledger',
     endpoint: '/balances/ledger',
     httpMethod: 'get',
@@ -7299,11 +8078,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'Returns a paginated list of credit entitlements, allowing filtering of deleted\nentitlements. By default, only non-deleted entitlements are returned.\n\n# Authentication\nRequires an API key with `Viewer` role or higher.\n\n# Query Parameters\n- `page_size` - Number of items per page (default: 10, max: 100)\n- `page_number` - Zero-based page number (default: 0)\n- `deleted` - Boolean flag to list deleted entitlements instead of active ones (default: false)\n\n# Responses\n- `200 OK` - Returns a list of credit entitlements wrapped in a response object\n- `422 Unprocessable Entity` - Invalid query parameters (e.g., page_size > 100)\n- `500 Internal Server Error` - Database or server error\n\n# Business Logic\n- Results are ordered by creation date in descending order (newest first)\n- Only entitlements belonging to the authenticated business are returned\n- The `deleted` parameter controls visibility of soft-deleted entitlements\n- Pagination uses offset-based pagination (offset = page_number * page_size)',
     stainlessPath: '(resource) credit_entitlements > (method) list',
     qualified: 'client.creditEntitlements.list',
-    params: ['deleted?: boolean;', 'page_number?: number;', 'page_size?: number;'],
+    params: ['deleted?: boolean;', 'locale?: string;', 'page_number?: number;', 'page_size?: number;'],
     response:
       "{ id: string; business_id: string; created_at: string; name: string; overage_behavior: 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'; overage_enabled: boolean; precision: number; rollover_enabled: boolean; unit: string; updated_at: string; currency?: string; description?: string; expires_after_days?: number; max_rollover_count?: number; overage_limit?: number; price_per_unit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; }",
     markdown:
-      "## list\n\n`client.creditEntitlements.list(deleted?: boolean, page_number?: number, page_size?: number): { id: string; business_id: string; created_at: string; name: string; overage_behavior: cbb_overage_behavior; overage_enabled: boolean; precision: number; rollover_enabled: boolean; unit: string; updated_at: string; currency?: currency; description?: string; expires_after_days?: number; max_rollover_count?: number; overage_limit?: number; price_per_unit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: time_interval; }`\n\n**get** `/credit-entitlements`\n\nReturns a paginated list of credit entitlements, allowing filtering of deleted\nentitlements. By default, only non-deleted entitlements are returned.\n\n# Authentication\nRequires an API key with `Viewer` role or higher.\n\n# Query Parameters\n- `page_size` - Number of items per page (default: 10, max: 100)\n- `page_number` - Zero-based page number (default: 0)\n- `deleted` - Boolean flag to list deleted entitlements instead of active ones (default: false)\n\n# Responses\n- `200 OK` - Returns a list of credit entitlements wrapped in a response object\n- `422 Unprocessable Entity` - Invalid query parameters (e.g., page_size > 100)\n- `500 Internal Server Error` - Database or server error\n\n# Business Logic\n- Results are ordered by creation date in descending order (newest first)\n- Only entitlements belonging to the authenticated business are returned\n- The `deleted` parameter controls visibility of soft-deleted entitlements\n- Pagination uses offset-based pagination (offset = page_number * page_size)\n\n### Parameters\n\n- `deleted?: boolean`\n  List deleted credit entitlements\n\n- `page_number?: number`\n  Page number default is 0\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n### Returns\n\n- `{ id: string; business_id: string; created_at: string; name: string; overage_behavior: 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'; overage_enabled: boolean; precision: number; rollover_enabled: boolean; unit: string; updated_at: string; currency?: string; description?: string; expires_after_days?: number; max_rollover_count?: number; overage_limit?: number; price_per_unit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; }`\n\n  - `id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `name: string`\n  - `overage_behavior: 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'`\n  - `overage_enabled: boolean`\n  - `precision: number`\n  - `rollover_enabled: boolean`\n  - `unit: string`\n  - `updated_at: string`\n  - `currency?: string`\n  - `description?: string`\n  - `expires_after_days?: number`\n  - `max_rollover_count?: number`\n  - `overage_limit?: number`\n  - `price_per_unit?: string`\n  - `rollover_percentage?: number`\n  - `rollover_timeframe_count?: number`\n  - `rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const creditEntitlement of client.creditEntitlements.list()) {\n  console.log(creditEntitlement);\n}\n```",
+      "## list\n\n`client.creditEntitlements.list(deleted?: boolean, locale?: string, page_number?: number, page_size?: number): { id: string; business_id: string; created_at: string; name: string; overage_behavior: cbb_overage_behavior; overage_enabled: boolean; precision: number; rollover_enabled: boolean; unit: string; updated_at: string; currency?: currency; description?: string; expires_after_days?: number; max_rollover_count?: number; overage_limit?: number; price_per_unit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: time_interval; }`\n\n**get** `/credit-entitlements`\n\nReturns a paginated list of credit entitlements, allowing filtering of deleted\nentitlements. By default, only non-deleted entitlements are returned.\n\n# Authentication\nRequires an API key with `Viewer` role or higher.\n\n# Query Parameters\n- `page_size` - Number of items per page (default: 10, max: 100)\n- `page_number` - Zero-based page number (default: 0)\n- `deleted` - Boolean flag to list deleted entitlements instead of active ones (default: false)\n\n# Responses\n- `200 OK` - Returns a list of credit entitlements wrapped in a response object\n- `422 Unprocessable Entity` - Invalid query parameters (e.g., page_size > 100)\n- `500 Internal Server Error` - Database or server error\n\n# Business Logic\n- Results are ordered by creation date in descending order (newest first)\n- Only entitlements belonging to the authenticated business are returned\n- The `deleted` parameter controls visibility of soft-deleted entitlements\n- Pagination uses offset-based pagination (offset = page_number * page_size)\n\n### Parameters\n\n- `deleted?: boolean`\n  List deleted credit entitlements\n\n- `locale?: string`\n  Shows the translated name, description and unit of the catalog entities in this\nlocale. The value must be a code from `GET /locales`, for example `fr`.\nA field with no translation, an unknown code, or no code shows the base text.\n\nDo not send a text from a localized response back in a create or update request.\nThe base text then changes to the translated text.\n\n- `page_number?: number`\n  Page number default is 0\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n### Returns\n\n- `{ id: string; business_id: string; created_at: string; name: string; overage_behavior: 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'; overage_enabled: boolean; precision: number; rollover_enabled: boolean; unit: string; updated_at: string; currency?: string; description?: string; expires_after_days?: number; max_rollover_count?: number; overage_limit?: number; price_per_unit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; }`\n\n  - `id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `name: string`\n  - `overage_behavior: 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'`\n  - `overage_enabled: boolean`\n  - `precision: number`\n  - `rollover_enabled: boolean`\n  - `unit: string`\n  - `updated_at: string`\n  - `currency?: string`\n  - `description?: string`\n  - `expires_after_days?: number`\n  - `max_rollover_count?: number`\n  - `overage_limit?: number`\n  - `price_per_unit?: string`\n  - `rollover_percentage?: number`\n  - `rollover_timeframe_count?: number`\n  - `rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const creditEntitlement of client.creditEntitlements.list()) {\n  console.log(creditEntitlement);\n}\n```",
     perLanguage: {
       typescript: {
         method: 'client.creditEntitlements.list',
@@ -7342,7 +8121,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'creditEntitlements->list',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->creditEntitlements->list(\n  deleted: true, pageNumber: 0, pageSize: 0\n);\n\nvar_dump($page);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->creditEntitlements->list(\n  deleted: true, locale: 'locale', pageNumber: 0, pageSize: 0\n);\n\nvar_dump($page);",
       },
       csharp: {
         method: 'CreditEntitlements.List',
@@ -7437,11 +8216,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'Returns the full details of a single credit entitlement including all configuration\nsettings for expiration, rollover, and overage policies.\n\n# Authentication\nRequires an API key with `Viewer` role or higher.\n\n# Path Parameters\n- `id` - The unique identifier of the credit entitlement (format: `cde_...`)\n\n# Responses\n- `200 OK` - Returns the full credit entitlement object\n- `404 Not Found` - Credit entitlement does not exist or does not belong to the authenticated business\n- `500 Internal Server Error` - Database or server error\n\n# Business Logic\n- Only non-deleted credit entitlements can be retrieved through this endpoint\n- The entitlement must belong to the authenticated business (business_id check)\n- Deleted entitlements return a 404 error and must be retrieved via the list endpoint with `deleted=true`',
     stainlessPath: '(resource) credit_entitlements > (method) retrieve',
     qualified: 'client.creditEntitlements.retrieve',
-    params: ['id: string;'],
+    params: ['id: string;', 'locale?: string;'],
     response:
       "{ id: string; business_id: string; created_at: string; name: string; overage_behavior: 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'; overage_enabled: boolean; precision: number; rollover_enabled: boolean; unit: string; updated_at: string; currency?: string; description?: string; expires_after_days?: number; max_rollover_count?: number; overage_limit?: number; price_per_unit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; }",
     markdown:
-      "## retrieve\n\n`client.creditEntitlements.retrieve(id: string): { id: string; business_id: string; created_at: string; name: string; overage_behavior: cbb_overage_behavior; overage_enabled: boolean; precision: number; rollover_enabled: boolean; unit: string; updated_at: string; currency?: currency; description?: string; expires_after_days?: number; max_rollover_count?: number; overage_limit?: number; price_per_unit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: time_interval; }`\n\n**get** `/credit-entitlements/{id}`\n\nReturns the full details of a single credit entitlement including all configuration\nsettings for expiration, rollover, and overage policies.\n\n# Authentication\nRequires an API key with `Viewer` role or higher.\n\n# Path Parameters\n- `id` - The unique identifier of the credit entitlement (format: `cde_...`)\n\n# Responses\n- `200 OK` - Returns the full credit entitlement object\n- `404 Not Found` - Credit entitlement does not exist or does not belong to the authenticated business\n- `500 Internal Server Error` - Database or server error\n\n# Business Logic\n- Only non-deleted credit entitlements can be retrieved through this endpoint\n- The entitlement must belong to the authenticated business (business_id check)\n- Deleted entitlements return a 404 error and must be retrieved via the list endpoint with `deleted=true`\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ id: string; business_id: string; created_at: string; name: string; overage_behavior: 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'; overage_enabled: boolean; precision: number; rollover_enabled: boolean; unit: string; updated_at: string; currency?: string; description?: string; expires_after_days?: number; max_rollover_count?: number; overage_limit?: number; price_per_unit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; }`\n\n  - `id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `name: string`\n  - `overage_behavior: 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'`\n  - `overage_enabled: boolean`\n  - `precision: number`\n  - `rollover_enabled: boolean`\n  - `unit: string`\n  - `updated_at: string`\n  - `currency?: string`\n  - `description?: string`\n  - `expires_after_days?: number`\n  - `max_rollover_count?: number`\n  - `overage_limit?: number`\n  - `price_per_unit?: string`\n  - `rollover_percentage?: number`\n  - `rollover_timeframe_count?: number`\n  - `rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst creditEntitlement = await client.creditEntitlements.retrieve('cde_ztxm5XJsKxWucRWA3rjdM');\n\nconsole.log(creditEntitlement);\n```",
+      "## retrieve\n\n`client.creditEntitlements.retrieve(id: string, locale?: string): { id: string; business_id: string; created_at: string; name: string; overage_behavior: cbb_overage_behavior; overage_enabled: boolean; precision: number; rollover_enabled: boolean; unit: string; updated_at: string; currency?: currency; description?: string; expires_after_days?: number; max_rollover_count?: number; overage_limit?: number; price_per_unit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: time_interval; }`\n\n**get** `/credit-entitlements/{id}`\n\nReturns the full details of a single credit entitlement including all configuration\nsettings for expiration, rollover, and overage policies.\n\n# Authentication\nRequires an API key with `Viewer` role or higher.\n\n# Path Parameters\n- `id` - The unique identifier of the credit entitlement (format: `cde_...`)\n\n# Responses\n- `200 OK` - Returns the full credit entitlement object\n- `404 Not Found` - Credit entitlement does not exist or does not belong to the authenticated business\n- `500 Internal Server Error` - Database or server error\n\n# Business Logic\n- Only non-deleted credit entitlements can be retrieved through this endpoint\n- The entitlement must belong to the authenticated business (business_id check)\n- Deleted entitlements return a 404 error and must be retrieved via the list endpoint with `deleted=true`\n\n### Parameters\n\n- `id: string`\n\n- `locale?: string`\n  Shows the translated name, description and unit of the catalog entities in this\nlocale. The value must be a code from `GET /locales`, for example `fr`.\nA field with no translation, an unknown code, or no code shows the base text.\n\nDo not send a text from a localized response back in a create or update request.\nThe base text then changes to the translated text.\n\n### Returns\n\n- `{ id: string; business_id: string; created_at: string; name: string; overage_behavior: 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'; overage_enabled: boolean; precision: number; rollover_enabled: boolean; unit: string; updated_at: string; currency?: string; description?: string; expires_after_days?: number; max_rollover_count?: number; overage_limit?: number; price_per_unit?: string; rollover_percentage?: number; rollover_timeframe_count?: number; rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'; }`\n\n  - `id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `name: string`\n  - `overage_behavior: 'forgive_at_reset' | 'invoice_at_billing' | 'carry_deficit' | 'carry_deficit_auto_repay'`\n  - `overage_enabled: boolean`\n  - `precision: number`\n  - `rollover_enabled: boolean`\n  - `unit: string`\n  - `updated_at: string`\n  - `currency?: string`\n  - `description?: string`\n  - `expires_after_days?: number`\n  - `max_rollover_count?: number`\n  - `overage_limit?: number`\n  - `price_per_unit?: string`\n  - `rollover_percentage?: number`\n  - `rollover_timeframe_count?: number`\n  - `rollover_timeframe_interval?: 'Day' | 'Week' | 'Month' | 'Year'`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst creditEntitlement = await client.creditEntitlements.retrieve('cde_ztxm5XJsKxWucRWA3rjdM');\n\nconsole.log(creditEntitlement);\n```",
     perLanguage: {
       typescript: {
         method: 'client.creditEntitlements.retrieve',
@@ -7455,7 +8234,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       python: {
         method: 'credit_entitlements.retrieve',
         example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncredit_entitlement = client.credit_entitlements.retrieve(\n    "cde_ztxm5XJsKxWucRWA3rjdM",\n)\nprint(credit_entitlement.id)',
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncredit_entitlement = client.credit_entitlements.retrieve(\n    id="cde_ztxm5XJsKxWucRWA3rjdM",\n)\nprint(credit_entitlement.id)',
       },
       java: {
         method: 'creditEntitlements().retrieve',
@@ -7470,7 +8249,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.CreditEntitlements.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tcreditEntitlement, err := client.CreditEntitlements.Get(context.TODO(), "cde_ztxm5XJsKxWucRWA3rjdM")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", creditEntitlement.ID)\n}\n',
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tcreditEntitlement, err := client.CreditEntitlements.Get(\n\t\tcontext.TODO(),\n\t\t"cde_ztxm5XJsKxWucRWA3rjdM",\n\t\tdodopayments.CreditEntitlementGetParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", creditEntitlement.ID)\n}\n',
       },
       ruby: {
         method: 'credit_entitlements.retrieve',
@@ -7480,7 +8259,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'creditEntitlements->retrieve',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$creditEntitlement = $client->creditEntitlements->retrieve(\n  'cde_ztxm5XJsKxWucRWA3rjdM'\n);\n\nvar_dump($creditEntitlement);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$creditEntitlement = $client->creditEntitlements->retrieve(\n  'cde_ztxm5XJsKxWucRWA3rjdM', locale: 'locale'\n);\n\nvar_dump($creditEntitlement);",
       },
       csharp: {
         method: 'CreditEntitlements.Retrieve',
@@ -7678,6 +8457,184 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'CreditEntitlements.Undelete',
         example:
           'CreditEntitlementUndeleteParams parameters = new()\n{\n    ID = "cde_ztxm5XJsKxWucRWA3rjdM"\n};\n\nawait client.CreditEntitlements.Undelete(parameters);',
+      },
+    },
+  },
+  {
+    name: 'list',
+    endpoint: '/credit-entitlements/{id}/translations',
+    httpMethod: 'get',
+    summary: 'Lists the translations, for all the locales or for the locales of the filter.',
+    description: 'Lists the translations, for all the locales or for the locales of the filter.',
+    stainlessPath: '(resource) credit_entitlements.translations > (method) list',
+    qualified: 'client.creditEntitlements.translations.list',
+    params: ['id: string;', 'locale?: string[];'],
+    response: '{ items: { locale: locale; updated_at: string; name?: string; unit?: string; }[]; }',
+    markdown:
+      "## list\n\n`client.creditEntitlements.translations.list(id: string, locale?: string[]): { items: credit_entitlement_translation[]; }`\n\n**get** `/credit-entitlements/{id}/translations`\n\nLists the translations, for all the locales or for the locales of the filter.\n\n### Parameters\n\n- `id: string`\n\n- `locale?: string[]`\n  Returns only these locales, for example `?locale=fr&locale=de`. With no value, the\nresponse has all the locales.\n\n### Returns\n\n- `{ items: { locale: locale; updated_at: string; name?: string; unit?: string; }[]; }`\n  The translations of a credit entitlement.\n\n  - `items: { locale: string; updated_at: string; name?: string; unit?: string; }[]`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst creditEntitlementTranslationsListResponse = await client.creditEntitlements.translations.list('id');\n\nconsole.log(creditEntitlementTranslationsListResponse);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.creditEntitlements.translations.list',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst creditEntitlementTranslationsListResponse = await client.creditEntitlements.translations.list(\n  'id',\n);\n\nconsole.log(creditEntitlementTranslationsListResponse.items);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/credit-entitlements/$ID/translations \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      python: {
+        method: 'credit_entitlements.translations.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncredit_entitlement_translations_list_response = client.credit_entitlements.translations.list(\n    id="id",\n)\nprint(credit_entitlement_translations_list_response.items)',
+      },
+      java: {
+        method: 'creditEntitlements().translations().list',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.creditentitlements.translations.CreditEntitlementTranslationsListResponse;\nimport com.dodopayments.api.models.creditentitlements.translations.TranslationListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        CreditEntitlementTranslationsListResponse creditEntitlementTranslationsListResponse = client.creditEntitlements().translations().list("id");\n    }\n}',
+      },
+      kotlin: {
+        method: 'creditEntitlements().translations().list',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.creditentitlements.translations.CreditEntitlementTranslationsListResponse\nimport com.dodopayments.api.models.creditentitlements.translations.TranslationListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val creditEntitlementTranslationsListResponse: CreditEntitlementTranslationsListResponse = client.creditEntitlements().translations().list("id")\n}',
+      },
+      go: {
+        method: 'client.CreditEntitlements.Translations.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tcreditEntitlementTranslationsListResponse, err := client.CreditEntitlements.Translations.List(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.CreditEntitlementTranslationListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", creditEntitlementTranslationsListResponse.Items)\n}\n',
+      },
+      ruby: {
+        method: 'credit_entitlements.translations.list',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ncredit_entitlement_translations_list_response = dodo_payments.credit_entitlements.translations.list("id")\n\nputs(credit_entitlement_translations_list_response)',
+      },
+      php: {
+        method: 'creditEntitlements->translations->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$creditEntitlementTranslationsListResponse = $client\n  ->creditEntitlements\n  ->translations\n  ->list('id', locale: ['string']);\n\nvar_dump($creditEntitlementTranslationsListResponse);",
+      },
+      csharp: {
+        method: 'CreditEntitlements.Translations.List',
+        example:
+          'TranslationListParams parameters = new() { ID = "id" };\n\nvar creditEntitlementTranslationsListResponse = await client.CreditEntitlements.Translations.List(parameters);\n\nConsole.WriteLine(creditEntitlementTranslationsListResponse);',
+      },
+    },
+  },
+  {
+    name: 'update',
+    endpoint: '/credit-entitlements/{id}/translations/{locale}',
+    httpMethod: 'put',
+    summary:
+      'Creates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.',
+    description:
+      'Creates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.',
+    stainlessPath: '(resource) credit_entitlements.translations > (method) update',
+    qualified: 'client.creditEntitlements.translations.update',
+    params: ['id: string;', 'locale: string;', 'name?: string;', 'unit?: string;'],
+    response: '{ locale: string; updated_at: string; name?: string; unit?: string; }',
+    markdown:
+      "## update\n\n`client.creditEntitlements.translations.update(id: string, locale: string, name?: string, unit?: string): { locale: locale; updated_at: string; name?: string; unit?: string; }`\n\n**put** `/credit-entitlements/{id}/translations/{locale}`\n\nCreates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.\n\n### Parameters\n\n- `id: string`\n\n- `locale: string`\n  A locale that the checkout and the customer portal can show.\n\nThe codes are a copy of the checkout locales. `GET /locales` lists them.\n\n- `name?: string`\n  The translated name.\n\n- `unit?: string`\n  The translated unit.\n\n### Returns\n\n- `{ locale: string; updated_at: string; name?: string; unit?: string; }`\n  The translation of a credit entitlement in one locale.\n\n  - `locale: string`\n  - `updated_at: string`\n  - `name?: string`\n  - `unit?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst creditEntitlementTranslation = await client.creditEntitlements.translations.update('ar', { id: 'id' });\n\nconsole.log(creditEntitlementTranslation);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.creditEntitlements.translations.update',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst creditEntitlementTranslation = await client.creditEntitlements.translations.update('ar', {\n  id: 'id',\n});\n\nconsole.log(creditEntitlementTranslation.locale);",
+      },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/credit-entitlements/$ID/translations/$LOCALE \\\n    -X PUT \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
+      python: {
+        method: 'credit_entitlements.translations.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ncredit_entitlement_translation = client.credit_entitlements.translations.update(\n    locale="ar",\n    id="id",\n)\nprint(credit_entitlement_translation.locale)',
+      },
+      java: {
+        method: 'creditEntitlements().translations().update',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.creditentitlements.translations.CreditEntitlementTranslation;\nimport com.dodopayments.api.models.creditentitlements.translations.TranslationUpdateParams;\nimport com.dodopayments.api.models.misc.Locale;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        TranslationUpdateParams params = TranslationUpdateParams.builder()\n            .id("id")\n            .locale(Locale.AR)\n            .build();\n        CreditEntitlementTranslation creditEntitlementTranslation = client.creditEntitlements().translations().update(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'creditEntitlements().translations().update',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.creditentitlements.translations.CreditEntitlementTranslation\nimport com.dodopayments.api.models.creditentitlements.translations.TranslationUpdateParams\nimport com.dodopayments.api.models.misc.Locale\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: TranslationUpdateParams = TranslationUpdateParams.builder()\n        .id("id")\n        .locale(Locale.AR)\n        .build()\n    val creditEntitlementTranslation: CreditEntitlementTranslation = client.creditEntitlements().translations().update(params)\n}',
+      },
+      go: {
+        method: 'client.CreditEntitlements.Translations.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tcreditEntitlementTranslation, err := client.CreditEntitlements.Translations.Update(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.LocaleAr,\n\t\tdodopayments.CreditEntitlementTranslationUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", creditEntitlementTranslation.Locale)\n}\n',
+      },
+      ruby: {
+        method: 'credit_entitlements.translations.update',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ncredit_entitlement_translation = dodo_payments.credit_entitlements.translations.update(:ar, id: "id")\n\nputs(credit_entitlement_translation)',
+      },
+      php: {
+        method: 'creditEntitlements->translations->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$creditEntitlementTranslation = $client\n  ->creditEntitlements\n  ->translations\n  ->update(Locale::AR, id: 'id', name: 'name', unit: 'unit');\n\nvar_dump($creditEntitlementTranslation);",
+      },
+      csharp: {
+        method: 'CreditEntitlements.Translations.Update',
+        example:
+          'TranslationUpdateParams parameters = new()\n{\n    ID = "id",\n    Locale = Locale.Ar,\n};\n\nvar creditEntitlementTranslation = await client.CreditEntitlements.Translations.Update(parameters);\n\nConsole.WriteLine(creditEntitlementTranslation);',
+      },
+    },
+  },
+  {
+    name: 'delete',
+    endpoint: '/credit-entitlements/{id}/translations/{locale}',
+    httpMethod: 'delete',
+    summary: 'Deletes the translation of one locale.',
+    description: 'Deletes the translation of one locale.',
+    stainlessPath: '(resource) credit_entitlements.translations > (method) delete',
+    qualified: 'client.creditEntitlements.translations.delete',
+    params: ['id: string;', 'locale: string;'],
+    markdown:
+      "## delete\n\n`client.creditEntitlements.translations.delete(id: string, locale: string): void`\n\n**delete** `/credit-entitlements/{id}/translations/{locale}`\n\nDeletes the translation of one locale.\n\n### Parameters\n\n- `id: string`\n\n- `locale: string`\n  A locale that the checkout and the customer portal can show.\n\nThe codes are a copy of the checkout locales. `GET /locales` lists them.\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nawait client.creditEntitlements.translations.delete('ar', { id: 'id' })\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.creditEntitlements.translations.delete',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.creditEntitlements.translations.delete('ar', { id: 'id' });",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/credit-entitlements/$ID/translations/$LOCALE \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      python: {
+        method: 'credit_entitlements.translations.delete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.credit_entitlements.translations.delete(\n    locale="ar",\n    id="id",\n)',
+      },
+      java: {
+        method: 'creditEntitlements().translations().delete',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.creditentitlements.translations.TranslationDeleteParams;\nimport com.dodopayments.api.models.misc.Locale;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        TranslationDeleteParams params = TranslationDeleteParams.builder()\n            .id("id")\n            .locale(Locale.AR)\n            .build();\n        client.creditEntitlements().translations().delete(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'creditEntitlements().translations().delete',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.creditentitlements.translations.TranslationDeleteParams\nimport com.dodopayments.api.models.misc.Locale\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: TranslationDeleteParams = TranslationDeleteParams.builder()\n        .id("id")\n        .locale(Locale.AR)\n        .build()\n    client.creditEntitlements().translations().delete(params)\n}',
+      },
+      go: {
+        method: 'client.CreditEntitlements.Translations.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.CreditEntitlements.Translations.Delete(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.LocaleAr,\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
+      ruby: {
+        method: 'credit_entitlements.translations.delete',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.credit_entitlements.translations.delete(:ar, id: "id")\n\nputs(result)',
+      },
+      php: {
+        method: 'creditEntitlements->translations->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->creditEntitlements->translations->delete(\n  Locale::AR, id: 'id'\n);\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'CreditEntitlements.Translations.Delete',
+        example:
+          'TranslationDeleteParams parameters = new()\n{\n    ID = "id",\n    Locale = Locale.Ar,\n};\n\nawait client.CreditEntitlements.Translations.Delete(parameters);',
       },
     },
   },
@@ -8022,11 +8979,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: 'GET /entitlements',
     stainlessPath: '(resource) entitlements > (method) list',
     qualified: 'client.entitlements.list',
-    params: ['integration_type?: string;', 'page_number?: number;', 'page_size?: number;'],
+    params: [
+      'integration_type?: string;',
+      'locale?: string;',
+      'page_number?: number;',
+      'page_size?: number;',
+    ],
     response:
       "{ id: string; business_id: string; created_at: string; integration_config: { feature_id: string; feature_type: feature_type; } | { permission: github_permission; target_id: string; } | { guild_id: string; role_id?: string; } | { chat_id: string; } | { figma_file_id: string; } | { framer_template_id: string; } | { notion_template_id: string; } | { digital_files: object; } | { activation_message?: string; activations_limit?: number; duration_count?: number; duration_interval?: time_interval; fulfillment_mode?: 'auto' | 'manual'; }; integration_type: string; is_active: boolean; metadata: object; name: string; updated_at: string; description?: string; }",
     markdown:
-      "## list\n\n`client.entitlements.list(integration_type?: string, page_number?: number, page_size?: number): { id: string; business_id: string; created_at: string; integration_config: integration_config_response; integration_type: entitlement_integration_type; is_active: boolean; metadata: metadata; name: string; updated_at: string; description?: string; }`\n\n**get** `/entitlements`\n\nGET /entitlements\n\n### Parameters\n\n- `integration_type?: string`\n  Filter by integration type\n\n- `page_number?: number`\n  Page number (default 0)\n\n- `page_size?: number`\n  Page size (default 10, max 100)\n\n### Returns\n\n- `{ id: string; business_id: string; created_at: string; integration_config: { feature_id: string; feature_type: feature_type; } | { permission: github_permission; target_id: string; } | { guild_id: string; role_id?: string; } | { chat_id: string; } | { figma_file_id: string; } | { framer_template_id: string; } | { notion_template_id: string; } | { digital_files: object; } | { activation_message?: string; activations_limit?: number; duration_count?: number; duration_interval?: time_interval; fulfillment_mode?: 'auto' | 'manual'; }; integration_type: string; is_active: boolean; metadata: object; name: string; updated_at: string; description?: string; }`\n  Detailed view of a single entitlement: identity, integration type,\nintegration-specific configuration, and metadata.\n\n  - `id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `integration_config: { feature_id: string; feature_type: 'boolean'; } | { permission: 'pull' | 'push' | 'admin' | 'maintain' | 'triage'; target_id: string; } | { guild_id: string; role_id?: string; } | { chat_id: string; } | { figma_file_id: string; } | { framer_template_id: string; } | { notion_template_id: string; } | { digital_files: { files: { download_url: string; expires_in: number; file_id: string; filename: string; content_type?: string; file_size?: number; }[]; external_url?: string; instructions?: string; }; } | { activation_message?: string; activations_limit?: number; duration_count?: number; duration_interval?: 'Day' | 'Week' | 'Month' | 'Year'; fulfillment_mode?: 'auto' | 'manual'; }`\n  - `integration_type: string`\n  - `is_active: boolean`\n  - `metadata: object`\n  - `name: string`\n  - `updated_at: string`\n  - `description?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const entitlement of client.entitlements.list()) {\n  console.log(entitlement);\n}\n```",
+      "## list\n\n`client.entitlements.list(integration_type?: string, locale?: string, page_number?: number, page_size?: number): { id: string; business_id: string; created_at: string; integration_config: integration_config_response; integration_type: entitlement_integration_type; is_active: boolean; metadata: metadata; name: string; updated_at: string; description?: string; }`\n\n**get** `/entitlements`\n\nGET /entitlements\n\n### Parameters\n\n- `integration_type?: string`\n  Filter by integration type\n\n- `locale?: string`\n  Shows the translated name, description and unit of the catalog entities in this\nlocale. The value must be a code from `GET /locales`, for example `fr`.\nA field with no translation, an unknown code, or no code shows the base text.\n\nDo not send a text from a localized response back in a create or update request.\nThe base text then changes to the translated text.\n\n- `page_number?: number`\n  Page number (default 0)\n\n- `page_size?: number`\n  Page size (default 10, max 100)\n\n### Returns\n\n- `{ id: string; business_id: string; created_at: string; integration_config: { feature_id: string; feature_type: feature_type; } | { permission: github_permission; target_id: string; } | { guild_id: string; role_id?: string; } | { chat_id: string; } | { figma_file_id: string; } | { framer_template_id: string; } | { notion_template_id: string; } | { digital_files: object; } | { activation_message?: string; activations_limit?: number; duration_count?: number; duration_interval?: time_interval; fulfillment_mode?: 'auto' | 'manual'; }; integration_type: string; is_active: boolean; metadata: object; name: string; updated_at: string; description?: string; }`\n  Detailed view of a single entitlement: identity, integration type,\nintegration-specific configuration, and metadata.\n\n  - `id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `integration_config: { feature_id: string; feature_type: 'boolean'; } | { permission: 'pull' | 'push' | 'admin' | 'maintain' | 'triage'; target_id: string; } | { guild_id: string; role_id?: string; } | { chat_id: string; } | { figma_file_id: string; } | { framer_template_id: string; } | { notion_template_id: string; } | { digital_files: { files: { download_url: string; expires_in: number; file_id: string; filename: string; content_type?: string; file_size?: number; }[]; external_url?: string; instructions?: string; }; } | { activation_message?: string; activations_limit?: number; duration_count?: number; duration_interval?: 'Day' | 'Week' | 'Month' | 'Year'; fulfillment_mode?: 'auto' | 'manual'; }`\n  - `integration_type: string`\n  - `is_active: boolean`\n  - `metadata: object`\n  - `name: string`\n  - `updated_at: string`\n  - `description?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const entitlement of client.entitlements.list()) {\n  console.log(entitlement);\n}\n```",
     perLanguage: {
       typescript: {
         method: 'client.entitlements.list',
@@ -8065,7 +9027,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'entitlements->list',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->entitlements->list(\n  integrationType: 'discord', pageNumber: 0, pageSize: 0\n);\n\nvar_dump($page);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->entitlements->list(\n  integrationType: 'discord', locale: 'locale', pageNumber: 0, pageSize: 0\n);\n\nvar_dump($page);",
       },
       csharp: {
         method: 'Entitlements.List',
@@ -8148,11 +9110,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: 'GET /entitlements/{id}',
     stainlessPath: '(resource) entitlements > (method) retrieve',
     qualified: 'client.entitlements.retrieve',
-    params: ['id: string;'],
+    params: ['id: string;', 'locale?: string;'],
     response:
       "{ id: string; business_id: string; created_at: string; integration_config: { feature_id: string; feature_type: feature_type; } | { permission: github_permission; target_id: string; } | { guild_id: string; role_id?: string; } | { chat_id: string; } | { figma_file_id: string; } | { framer_template_id: string; } | { notion_template_id: string; } | { digital_files: object; } | { activation_message?: string; activations_limit?: number; duration_count?: number; duration_interval?: time_interval; fulfillment_mode?: 'auto' | 'manual'; }; integration_type: string; is_active: boolean; metadata: object; name: string; updated_at: string; description?: string; }",
     markdown:
-      "## retrieve\n\n`client.entitlements.retrieve(id: string): { id: string; business_id: string; created_at: string; integration_config: integration_config_response; integration_type: entitlement_integration_type; is_active: boolean; metadata: metadata; name: string; updated_at: string; description?: string; }`\n\n**get** `/entitlements/{id}`\n\nGET /entitlements/{id}\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ id: string; business_id: string; created_at: string; integration_config: { feature_id: string; feature_type: feature_type; } | { permission: github_permission; target_id: string; } | { guild_id: string; role_id?: string; } | { chat_id: string; } | { figma_file_id: string; } | { framer_template_id: string; } | { notion_template_id: string; } | { digital_files: object; } | { activation_message?: string; activations_limit?: number; duration_count?: number; duration_interval?: time_interval; fulfillment_mode?: 'auto' | 'manual'; }; integration_type: string; is_active: boolean; metadata: object; name: string; updated_at: string; description?: string; }`\n  Detailed view of a single entitlement: identity, integration type,\nintegration-specific configuration, and metadata.\n\n  - `id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `integration_config: { feature_id: string; feature_type: 'boolean'; } | { permission: 'pull' | 'push' | 'admin' | 'maintain' | 'triage'; target_id: string; } | { guild_id: string; role_id?: string; } | { chat_id: string; } | { figma_file_id: string; } | { framer_template_id: string; } | { notion_template_id: string; } | { digital_files: { files: { download_url: string; expires_in: number; file_id: string; filename: string; content_type?: string; file_size?: number; }[]; external_url?: string; instructions?: string; }; } | { activation_message?: string; activations_limit?: number; duration_count?: number; duration_interval?: 'Day' | 'Week' | 'Month' | 'Year'; fulfillment_mode?: 'auto' | 'manual'; }`\n  - `integration_type: string`\n  - `is_active: boolean`\n  - `metadata: object`\n  - `name: string`\n  - `updated_at: string`\n  - `description?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst entitlement = await client.entitlements.retrieve('ent_jt7jcvI79Xh8eehqgWdcm');\n\nconsole.log(entitlement);\n```",
+      "## retrieve\n\n`client.entitlements.retrieve(id: string, locale?: string): { id: string; business_id: string; created_at: string; integration_config: integration_config_response; integration_type: entitlement_integration_type; is_active: boolean; metadata: metadata; name: string; updated_at: string; description?: string; }`\n\n**get** `/entitlements/{id}`\n\nGET /entitlements/{id}\n\n### Parameters\n\n- `id: string`\n\n- `locale?: string`\n  Shows the translated name, description and unit of the catalog entities in this\nlocale. The value must be a code from `GET /locales`, for example `fr`.\nA field with no translation, an unknown code, or no code shows the base text.\n\nDo not send a text from a localized response back in a create or update request.\nThe base text then changes to the translated text.\n\n### Returns\n\n- `{ id: string; business_id: string; created_at: string; integration_config: { feature_id: string; feature_type: feature_type; } | { permission: github_permission; target_id: string; } | { guild_id: string; role_id?: string; } | { chat_id: string; } | { figma_file_id: string; } | { framer_template_id: string; } | { notion_template_id: string; } | { digital_files: object; } | { activation_message?: string; activations_limit?: number; duration_count?: number; duration_interval?: time_interval; fulfillment_mode?: 'auto' | 'manual'; }; integration_type: string; is_active: boolean; metadata: object; name: string; updated_at: string; description?: string; }`\n  Detailed view of a single entitlement: identity, integration type,\nintegration-specific configuration, and metadata.\n\n  - `id: string`\n  - `business_id: string`\n  - `created_at: string`\n  - `integration_config: { feature_id: string; feature_type: 'boolean'; } | { permission: 'pull' | 'push' | 'admin' | 'maintain' | 'triage'; target_id: string; } | { guild_id: string; role_id?: string; } | { chat_id: string; } | { figma_file_id: string; } | { framer_template_id: string; } | { notion_template_id: string; } | { digital_files: { files: { download_url: string; expires_in: number; file_id: string; filename: string; content_type?: string; file_size?: number; }[]; external_url?: string; instructions?: string; }; } | { activation_message?: string; activations_limit?: number; duration_count?: number; duration_interval?: 'Day' | 'Week' | 'Month' | 'Year'; fulfillment_mode?: 'auto' | 'manual'; }`\n  - `integration_type: string`\n  - `is_active: boolean`\n  - `metadata: object`\n  - `name: string`\n  - `updated_at: string`\n  - `description?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst entitlement = await client.entitlements.retrieve('ent_jt7jcvI79Xh8eehqgWdcm');\n\nconsole.log(entitlement);\n```",
     perLanguage: {
       typescript: {
         method: 'client.entitlements.retrieve',
@@ -8166,7 +9128,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       python: {
         method: 'entitlements.retrieve',
         example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nentitlement = client.entitlements.retrieve(\n    "ent_jt7jcvI79Xh8eehqgWdcm",\n)\nprint(entitlement.id)',
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nentitlement = client.entitlements.retrieve(\n    id="ent_jt7jcvI79Xh8eehqgWdcm",\n)\nprint(entitlement.id)',
       },
       java: {
         method: 'entitlements().retrieve',
@@ -8181,7 +9143,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.Entitlements.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tentitlement, err := client.Entitlements.Get(context.TODO(), "ent_jt7jcvI79Xh8eehqgWdcm")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", entitlement.ID)\n}\n',
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tentitlement, err := client.Entitlements.Get(\n\t\tcontext.TODO(),\n\t\t"ent_jt7jcvI79Xh8eehqgWdcm",\n\t\tdodopayments.EntitlementGetParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", entitlement.ID)\n}\n',
       },
       ruby: {
         method: 'entitlements.retrieve',
@@ -8191,7 +9153,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'entitlements->retrieve',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$entitlement = $client->entitlements->retrieve('ent_jt7jcvI79Xh8eehqgWdcm');\n\nvar_dump($entitlement);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$entitlement = $client->entitlements->retrieve(\n  'ent_jt7jcvI79Xh8eehqgWdcm', locale: 'locale'\n);\n\nvar_dump($entitlement);",
       },
       csharp: {
         method: 'Entitlements.Retrieve',
@@ -8321,6 +9283,193 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'Entitlements.Update',
         example:
           'EntitlementUpdateParams parameters = new() { ID = "ent_jt7jcvI79Xh8eehqgWdcm" };\n\nvar entitlement = await client.Entitlements.Update(parameters);\n\nConsole.WriteLine(entitlement);',
+      },
+    },
+  },
+  {
+    name: 'list',
+    endpoint: '/entitlements/{id}/translations',
+    httpMethod: 'get',
+    summary: 'Lists the translations, for all the locales or for the locales of the filter.',
+    description: 'Lists the translations, for all the locales or for the locales of the filter.',
+    stainlessPath: '(resource) entitlements.translations > (method) list',
+    qualified: 'client.entitlements.translations.list',
+    params: ['id: string;', 'locale?: string[];'],
+    response:
+      '{ items: { locale: locale; updated_at: string; activation_message?: string; description?: string; instructions?: string; name?: string; }[]; }',
+    markdown:
+      "## list\n\n`client.entitlements.translations.list(id: string, locale?: string[]): { items: entitlement_translation[]; }`\n\n**get** `/entitlements/{id}/translations`\n\nLists the translations, for all the locales or for the locales of the filter.\n\n### Parameters\n\n- `id: string`\n\n- `locale?: string[]`\n  Returns only these locales, for example `?locale=fr&locale=de`. With no value, the\nresponse has all the locales.\n\n### Returns\n\n- `{ items: { locale: locale; updated_at: string; activation_message?: string; description?: string; instructions?: string; name?: string; }[]; }`\n  The translations of an entitlement.\n\n  - `items: { locale: string; updated_at: string; activation_message?: string; description?: string; instructions?: string; name?: string; }[]`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst entitlementTranslationsListResponse = await client.entitlements.translations.list('id');\n\nconsole.log(entitlementTranslationsListResponse);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.entitlements.translations.list',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst entitlementTranslationsListResponse = await client.entitlements.translations.list('id');\n\nconsole.log(entitlementTranslationsListResponse.items);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/entitlements/$ID/translations \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      python: {
+        method: 'entitlements.translations.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nentitlement_translations_list_response = client.entitlements.translations.list(\n    id="id",\n)\nprint(entitlement_translations_list_response.items)',
+      },
+      java: {
+        method: 'entitlements().translations().list',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.entitlements.translations.EntitlementTranslationsListResponse;\nimport com.dodopayments.api.models.entitlements.translations.TranslationListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        EntitlementTranslationsListResponse entitlementTranslationsListResponse = client.entitlements().translations().list("id");\n    }\n}',
+      },
+      kotlin: {
+        method: 'entitlements().translations().list',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.entitlements.translations.EntitlementTranslationsListResponse\nimport com.dodopayments.api.models.entitlements.translations.TranslationListParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val entitlementTranslationsListResponse: EntitlementTranslationsListResponse = client.entitlements().translations().list("id")\n}',
+      },
+      go: {
+        method: 'client.Entitlements.Translations.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tentitlementTranslationsListResponse, err := client.Entitlements.Translations.List(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.EntitlementTranslationListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", entitlementTranslationsListResponse.Items)\n}\n',
+      },
+      ruby: {
+        method: 'entitlements.translations.list',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nentitlement_translations_list_response = dodo_payments.entitlements.translations.list("id")\n\nputs(entitlement_translations_list_response)',
+      },
+      php: {
+        method: 'entitlements->translations->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$entitlementTranslationsListResponse = $client\n  ->entitlements\n  ->translations\n  ->list('id', locale: ['string']);\n\nvar_dump($entitlementTranslationsListResponse);",
+      },
+      csharp: {
+        method: 'Entitlements.Translations.List',
+        example:
+          'TranslationListParams parameters = new() { ID = "id" };\n\nvar entitlementTranslationsListResponse = await client.Entitlements.Translations.List(parameters);\n\nConsole.WriteLine(entitlementTranslationsListResponse);',
+      },
+    },
+  },
+  {
+    name: 'update',
+    endpoint: '/entitlements/{id}/translations/{locale}',
+    httpMethod: 'put',
+    summary:
+      'Creates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.',
+    description:
+      'Creates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.',
+    stainlessPath: '(resource) entitlements.translations > (method) update',
+    qualified: 'client.entitlements.translations.update',
+    params: [
+      'id: string;',
+      'locale: string;',
+      'activation_message?: string;',
+      'description?: string;',
+      'instructions?: string;',
+      'name?: string;',
+    ],
+    response:
+      '{ locale: string; updated_at: string; activation_message?: string; description?: string; instructions?: string; name?: string; }',
+    markdown:
+      "## update\n\n`client.entitlements.translations.update(id: string, locale: string, activation_message?: string, description?: string, instructions?: string, name?: string): { locale: locale; updated_at: string; activation_message?: string; description?: string; instructions?: string; name?: string; }`\n\n**put** `/entitlements/{id}/translations/{locale}`\n\nCreates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.\n\n### Parameters\n\n- `id: string`\n\n- `locale: string`\n  A locale that the checkout and the customer portal can show.\n\nThe codes are a copy of the checkout locales. `GET /locales` lists them.\n\n- `activation_message?: string`\n  The translated activation message. Only a `license_key` entitlement has it.\n\n- `description?: string`\n  The translated description.\n\n- `instructions?: string`\n  The translated delivery instructions. Only a `digital_files` entitlement has them.\n\n- `name?: string`\n  The translated name.\n\n### Returns\n\n- `{ locale: string; updated_at: string; activation_message?: string; description?: string; instructions?: string; name?: string; }`\n  The translation of an entitlement in one locale.\n\n  - `locale: string`\n  - `updated_at: string`\n  - `activation_message?: string`\n  - `description?: string`\n  - `instructions?: string`\n  - `name?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst entitlementTranslation = await client.entitlements.translations.update('ar', { id: 'id' });\n\nconsole.log(entitlementTranslation);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.entitlements.translations.update',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst entitlementTranslation = await client.entitlements.translations.update('ar', { id: 'id' });\n\nconsole.log(entitlementTranslation.locale);",
+      },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/entitlements/$ID/translations/$LOCALE \\\n    -X PUT \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
+      python: {
+        method: 'entitlements.translations.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nentitlement_translation = client.entitlements.translations.update(\n    locale="ar",\n    id="id",\n)\nprint(entitlement_translation.locale)',
+      },
+      java: {
+        method: 'entitlements().translations().update',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.entitlements.translations.EntitlementTranslation;\nimport com.dodopayments.api.models.entitlements.translations.TranslationUpdateParams;\nimport com.dodopayments.api.models.misc.Locale;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        TranslationUpdateParams params = TranslationUpdateParams.builder()\n            .id("id")\n            .locale(Locale.AR)\n            .build();\n        EntitlementTranslation entitlementTranslation = client.entitlements().translations().update(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'entitlements().translations().update',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.entitlements.translations.EntitlementTranslation\nimport com.dodopayments.api.models.entitlements.translations.TranslationUpdateParams\nimport com.dodopayments.api.models.misc.Locale\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: TranslationUpdateParams = TranslationUpdateParams.builder()\n        .id("id")\n        .locale(Locale.AR)\n        .build()\n    val entitlementTranslation: EntitlementTranslation = client.entitlements().translations().update(params)\n}',
+      },
+      go: {
+        method: 'client.Entitlements.Translations.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tentitlementTranslation, err := client.Entitlements.Translations.Update(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.LocaleAr,\n\t\tdodopayments.EntitlementTranslationUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", entitlementTranslation.Locale)\n}\n',
+      },
+      ruby: {
+        method: 'entitlements.translations.update',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nentitlement_translation = dodo_payments.entitlements.translations.update(:ar, id: "id")\n\nputs(entitlement_translation)',
+      },
+      php: {
+        method: 'entitlements->translations->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$entitlementTranslation = $client->entitlements->translations->update(\n  Locale::AR,\n  id: 'id',\n  activationMessage: 'activation_message',\n  description: 'description',\n  instructions: 'instructions',\n  name: 'name',\n);\n\nvar_dump($entitlementTranslation);",
+      },
+      csharp: {
+        method: 'Entitlements.Translations.Update',
+        example:
+          'TranslationUpdateParams parameters = new()\n{\n    ID = "id",\n    Locale = Locale.Ar,\n};\n\nvar entitlementTranslation = await client.Entitlements.Translations.Update(parameters);\n\nConsole.WriteLine(entitlementTranslation);',
+      },
+    },
+  },
+  {
+    name: 'delete',
+    endpoint: '/entitlements/{id}/translations/{locale}',
+    httpMethod: 'delete',
+    summary: 'Deletes the translation of one locale.',
+    description: 'Deletes the translation of one locale.',
+    stainlessPath: '(resource) entitlements.translations > (method) delete',
+    qualified: 'client.entitlements.translations.delete',
+    params: ['id: string;', 'locale: string;'],
+    markdown:
+      "## delete\n\n`client.entitlements.translations.delete(id: string, locale: string): void`\n\n**delete** `/entitlements/{id}/translations/{locale}`\n\nDeletes the translation of one locale.\n\n### Parameters\n\n- `id: string`\n\n- `locale: string`\n  A locale that the checkout and the customer portal can show.\n\nThe codes are a copy of the checkout locales. `GET /locales` lists them.\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nawait client.entitlements.translations.delete('ar', { id: 'id' })\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.entitlements.translations.delete',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.entitlements.translations.delete('ar', { id: 'id' });",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/entitlements/$ID/translations/$LOCALE \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      python: {
+        method: 'entitlements.translations.delete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.entitlements.translations.delete(\n    locale="ar",\n    id="id",\n)',
+      },
+      java: {
+        method: 'entitlements().translations().delete',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.entitlements.translations.TranslationDeleteParams;\nimport com.dodopayments.api.models.misc.Locale;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        TranslationDeleteParams params = TranslationDeleteParams.builder()\n            .id("id")\n            .locale(Locale.AR)\n            .build();\n        client.entitlements().translations().delete(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'entitlements().translations().delete',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.entitlements.translations.TranslationDeleteParams\nimport com.dodopayments.api.models.misc.Locale\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: TranslationDeleteParams = TranslationDeleteParams.builder()\n        .id("id")\n        .locale(Locale.AR)\n        .build()\n    client.entitlements().translations().delete(params)\n}',
+      },
+      go: {
+        method: 'client.Entitlements.Translations.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.Entitlements.Translations.Delete(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.LocaleAr,\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
+      ruby: {
+        method: 'entitlements.translations.delete',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.entitlements.translations.delete(:ar, id: "id")\n\nputs(result)',
+      },
+      php: {
+        method: 'entitlements->translations->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->entitlements->translations->delete(Locale::AR, id: 'id');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Entitlements.Translations.Delete',
+        example:
+          'TranslationDeleteParams parameters = new()\n{\n    ID = "id",\n    Locale = Locale.Ar,\n};\n\nawait client.Entitlements.Translations.Delete(parameters);',
       },
     },
   },
@@ -8638,11 +9787,17 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: '',
     stainlessPath: '(resource) product_collections > (method) list',
     qualified: 'client.productCollections.list',
-    params: ['archived?: boolean;', 'brand_id?: string;', 'page_number?: number;', 'page_size?: number;'],
+    params: [
+      'archived?: boolean;',
+      'brand_id?: string;',
+      'locale?: string;',
+      'page_number?: number;',
+      'page_size?: number;',
+    ],
     response:
       '{ id: string; created_at: string; name: string; products_count: number; updated_at: string; description?: string; image?: string; }',
     markdown:
-      "## list\n\n`client.productCollections.list(archived?: boolean, brand_id?: string, page_number?: number, page_size?: number): { id: string; created_at: string; name: string; products_count: number; updated_at: string; description?: string; image?: string; }`\n\n**get** `/product-collections`\n\n### Parameters\n\n- `archived?: boolean`\n  List archived collections\n\n- `brand_id?: string`\n  Filter by Brand id\n\n- `page_number?: number`\n  Page number default is 0\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n### Returns\n\n- `{ id: string; created_at: string; name: string; products_count: number; updated_at: string; description?: string; image?: string; }`\n\n  - `id: string`\n  - `created_at: string`\n  - `name: string`\n  - `products_count: number`\n  - `updated_at: string`\n  - `description?: string`\n  - `image?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const productCollectionListResponse of client.productCollections.list()) {\n  console.log(productCollectionListResponse);\n}\n```",
+      "## list\n\n`client.productCollections.list(archived?: boolean, brand_id?: string, locale?: string, page_number?: number, page_size?: number): { id: string; created_at: string; name: string; products_count: number; updated_at: string; description?: string; image?: string; }`\n\n**get** `/product-collections`\n\n### Parameters\n\n- `archived?: boolean`\n  List archived collections\n\n- `brand_id?: string`\n  Filter by Brand id\n\n- `locale?: string`\n  Shows the translated name, description and unit of the catalog entities in this\nlocale. The value must be a code from `GET /locales`, for example `fr`.\nA field with no translation, an unknown code, or no code shows the base text.\n\nDo not send a text from a localized response back in a create or update request.\nThe base text then changes to the translated text.\n\n- `page_number?: number`\n  Page number default is 0\n\n- `page_size?: number`\n  Page size default is 10 max is 100\n\n### Returns\n\n- `{ id: string; created_at: string; name: string; products_count: number; updated_at: string; description?: string; image?: string; }`\n\n  - `id: string`\n  - `created_at: string`\n  - `name: string`\n  - `products_count: number`\n  - `updated_at: string`\n  - `description?: string`\n  - `image?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\n// Automatically fetches more pages as needed.\nfor await (const productCollectionListResponse of client.productCollections.list()) {\n  console.log(productCollectionListResponse);\n}\n```",
     perLanguage: {
       typescript: {
         method: 'client.productCollections.list',
@@ -8681,7 +9836,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'productCollections->list',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->productCollections->list(\n  archived: true, brandID: 'brand_id', pageNumber: 0, pageSize: 0\n);\n\nvar_dump($page);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$page = $client->productCollections->list(\n  archived: true,\n  brandID: 'brand_id',\n  locale: 'locale',\n  pageNumber: 0,\n  pageSize: 0,\n);\n\nvar_dump($page);",
       },
       csharp: {
         method: 'ProductCollections.List',
@@ -8768,11 +9923,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: '',
     stainlessPath: '(resource) product_collections > (method) retrieve',
     qualified: 'client.productCollections.retrieve',
-    params: ['id: string;'],
+    params: ['id: string;', 'locale?: string;'],
     response:
       "{ id: string; brand_id: string; created_at: string; groups: { group_id: string; products: product_collection_product[]; status: boolean; group_name?: string; }[]; name: string; updated_at: string; description?: string; effective_at_on_downgrade?: 'immediately' | 'next_billing_date'; effective_at_on_upgrade?: 'immediately' | 'next_billing_date'; image?: string; on_payment_failure?: 'prevent_change' | 'apply_change'; proration_billing_mode_on_downgrade?: string; proration_billing_mode_on_upgrade?: string; }",
     markdown:
-      "## retrieve\n\n`client.productCollections.retrieve(id: string): { id: string; brand_id: string; created_at: string; groups: product_collection_group_response[]; name: string; updated_at: string; description?: string; effective_at_on_downgrade?: 'immediately' | 'next_billing_date'; effective_at_on_upgrade?: 'immediately' | 'next_billing_date'; image?: string; on_payment_failure?: 'prevent_change' | 'apply_change'; proration_billing_mode_on_downgrade?: string; proration_billing_mode_on_upgrade?: string; }`\n\n**get** `/product-collections/{id}`\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ id: string; brand_id: string; created_at: string; groups: { group_id: string; products: product_collection_product[]; status: boolean; group_name?: string; }[]; name: string; updated_at: string; description?: string; effective_at_on_downgrade?: 'immediately' | 'next_billing_date'; effective_at_on_upgrade?: 'immediately' | 'next_billing_date'; image?: string; on_payment_failure?: 'prevent_change' | 'apply_change'; proration_billing_mode_on_downgrade?: string; proration_billing_mode_on_upgrade?: string; }`\n\n  - `id: string`\n  - `brand_id: string`\n  - `created_at: string`\n  - `groups: { group_id: string; products: { id: string; addons_count: number; files_count: number; has_credit_entitlements: boolean; is_recurring: boolean; license_key_enabled: boolean; meters_count: number; product_id: string; status: boolean; currency?: currency; description?: string; name?: string; price?: number; price_detail?: price; tax_category?: tax_category; tax_inclusive?: boolean; }[]; status: boolean; group_name?: string; }[]`\n  - `name: string`\n  - `updated_at: string`\n  - `description?: string`\n  - `effective_at_on_downgrade?: 'immediately' | 'next_billing_date'`\n  - `effective_at_on_upgrade?: 'immediately' | 'next_billing_date'`\n  - `image?: string`\n  - `on_payment_failure?: 'prevent_change' | 'apply_change'`\n  - `proration_billing_mode_on_downgrade?: string`\n  - `proration_billing_mode_on_upgrade?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst productCollection = await client.productCollections.retrieve('pdc_8BWv0hojwUH7iCDabr0NI');\n\nconsole.log(productCollection);\n```",
+      "## retrieve\n\n`client.productCollections.retrieve(id: string, locale?: string): { id: string; brand_id: string; created_at: string; groups: product_collection_group_response[]; name: string; updated_at: string; description?: string; effective_at_on_downgrade?: 'immediately' | 'next_billing_date'; effective_at_on_upgrade?: 'immediately' | 'next_billing_date'; image?: string; on_payment_failure?: 'prevent_change' | 'apply_change'; proration_billing_mode_on_downgrade?: string; proration_billing_mode_on_upgrade?: string; }`\n\n**get** `/product-collections/{id}`\n\n### Parameters\n\n- `id: string`\n\n- `locale?: string`\n  Shows the translated name, description and unit of the catalog entities in this\nlocale. The value must be a code from `GET /locales`, for example `fr`.\nA field with no translation, an unknown code, or no code shows the base text.\n\nDo not send a text from a localized response back in a create or update request.\nThe base text then changes to the translated text.\n\n### Returns\n\n- `{ id: string; brand_id: string; created_at: string; groups: { group_id: string; products: product_collection_product[]; status: boolean; group_name?: string; }[]; name: string; updated_at: string; description?: string; effective_at_on_downgrade?: 'immediately' | 'next_billing_date'; effective_at_on_upgrade?: 'immediately' | 'next_billing_date'; image?: string; on_payment_failure?: 'prevent_change' | 'apply_change'; proration_billing_mode_on_downgrade?: string; proration_billing_mode_on_upgrade?: string; }`\n\n  - `id: string`\n  - `brand_id: string`\n  - `created_at: string`\n  - `groups: { group_id: string; products: { id: string; addons_count: number; files_count: number; has_credit_entitlements: boolean; is_recurring: boolean; license_key_enabled: boolean; meters_count: number; product_id: string; status: boolean; currency?: currency; description?: string; name?: string; price?: number; price_detail?: price; tax_category?: tax_category; tax_inclusive?: boolean; }[]; status: boolean; group_name?: string; }[]`\n  - `name: string`\n  - `updated_at: string`\n  - `description?: string`\n  - `effective_at_on_downgrade?: 'immediately' | 'next_billing_date'`\n  - `effective_at_on_upgrade?: 'immediately' | 'next_billing_date'`\n  - `image?: string`\n  - `on_payment_failure?: 'prevent_change' | 'apply_change'`\n  - `proration_billing_mode_on_downgrade?: string`\n  - `proration_billing_mode_on_upgrade?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst productCollection = await client.productCollections.retrieve('pdc_8BWv0hojwUH7iCDabr0NI');\n\nconsole.log(productCollection);\n```",
     perLanguage: {
       typescript: {
         method: 'client.productCollections.retrieve',
@@ -8786,7 +9941,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       python: {
         method: 'product_collections.retrieve',
         example:
-          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nproduct_collection = client.product_collections.retrieve(\n    "pdc_8BWv0hojwUH7iCDabr0NI",\n)\nprint(product_collection.id)',
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nproduct_collection = client.product_collections.retrieve(\n    id="pdc_8BWv0hojwUH7iCDabr0NI",\n)\nprint(product_collection.id)',
       },
       java: {
         method: 'productCollections().retrieve',
@@ -8801,7 +9956,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       go: {
         method: 'client.ProductCollections.Get',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tproductCollection, err := client.ProductCollections.Get(context.TODO(), "pdc_8BWv0hojwUH7iCDabr0NI")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", productCollection.ID)\n}\n',
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\tproductCollection, err := client.ProductCollections.Get(\n\t\tcontext.TODO(),\n\t\t"pdc_8BWv0hojwUH7iCDabr0NI",\n\t\tdodopayments.ProductCollectionGetParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", productCollection.ID)\n}\n',
       },
       ruby: {
         method: 'product_collections.retrieve',
@@ -8811,7 +9966,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'productCollections->retrieve',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$productCollection = $client->productCollections->retrieve(\n  'pdc_8BWv0hojwUH7iCDabr0NI'\n);\n\nvar_dump($productCollection);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$productCollection = $client->productCollections->retrieve(\n  'pdc_8BWv0hojwUH7iCDabr0NI', locale: 'locale'\n);\n\nvar_dump($productCollection);",
       },
       csharp: {
         method: 'ProductCollections.Retrieve',
@@ -9063,6 +10218,184 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'ProductCollections.Unarchive',
         example:
           'ProductCollectionUnarchiveParams parameters = new()\n{\n    ID = "pdc_8BWv0hojwUH7iCDabr0NI"\n};\n\nvar response = await client.ProductCollections.Unarchive(parameters);\n\nConsole.WriteLine(response);',
+      },
+    },
+  },
+  {
+    name: 'list',
+    endpoint: '/product-collections/{id}/translations',
+    httpMethod: 'get',
+    summary: 'Lists the translations, for all the locales or for the locales of the filter.',
+    description: 'Lists the translations, for all the locales or for the locales of the filter.',
+    stainlessPath: '(resource) product_collections.translations > (method) list',
+    qualified: 'client.productCollections.translations.list',
+    params: ['id: string;', 'locale?: string[];'],
+    response: '{ items: { locale: locale; updated_at: string; description?: string; name?: string; }[]; }',
+    markdown:
+      "## list\n\n`client.productCollections.translations.list(id: string, locale?: string[]): { items: translation[]; }`\n\n**get** `/product-collections/{id}/translations`\n\nLists the translations, for all the locales or for the locales of the filter.\n\n### Parameters\n\n- `id: string`\n\n- `locale?: string[]`\n  Returns only these locales, for example `?locale=fr&locale=de`. With no value, the\nresponse has all the locales.\n\n### Returns\n\n- `{ items: { locale: locale; updated_at: string; description?: string; name?: string; }[]; }`\n  The translations of a product, an add-on, a product collection or a meter.\n\n  - `items: { locale: string; updated_at: string; description?: string; name?: string; }[]`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst translationsListResponse = await client.productCollections.translations.list('id');\n\nconsole.log(translationsListResponse);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.productCollections.translations.list',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst translationsListResponse = await client.productCollections.translations.list('id');\n\nconsole.log(translationsListResponse.items);",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/product-collections/$ID/translations \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      python: {
+        method: 'product_collections.translations.list',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ntranslations_list_response = client.product_collections.translations.list(\n    id="id",\n)\nprint(translations_list_response.items)',
+      },
+      java: {
+        method: 'productCollections().translations().list',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.productcollections.translations.TranslationListParams;\nimport com.dodopayments.api.models.products.translations.TranslationsListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        TranslationsListResponse translationsListResponse = client.productCollections().translations().list("id");\n    }\n}',
+      },
+      kotlin: {
+        method: 'productCollections().translations().list',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.productcollections.translations.TranslationListParams\nimport com.dodopayments.api.models.products.translations.TranslationsListResponse\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val translationsListResponse: TranslationsListResponse = client.productCollections().translations().list("id")\n}',
+      },
+      go: {
+        method: 'client.ProductCollections.Translations.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\ttranslationsListResponse, err := client.ProductCollections.Translations.List(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.ProductCollectionTranslationListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", translationsListResponse.Items)\n}\n',
+      },
+      ruby: {
+        method: 'product_collections.translations.list',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ntranslations_list_response = dodo_payments.product_collections.translations.list("id")\n\nputs(translations_list_response)',
+      },
+      php: {
+        method: 'productCollections->translations->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$translationsListResponse = $client->productCollections->translations->list(\n  'id', locale: ['string']\n);\n\nvar_dump($translationsListResponse);",
+      },
+      csharp: {
+        method: 'ProductCollections.Translations.List',
+        example:
+          'TranslationListParams parameters = new() { ID = "id" };\n\nvar translationsListResponse = await client.ProductCollections.Translations.List(parameters);\n\nConsole.WriteLine(translationsListResponse);',
+      },
+    },
+  },
+  {
+    name: 'update',
+    endpoint: '/product-collections/{id}/translations/{locale}',
+    httpMethod: 'put',
+    summary:
+      'Creates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.',
+    description:
+      'Creates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.',
+    stainlessPath: '(resource) product_collections.translations > (method) update',
+    qualified: 'client.productCollections.translations.update',
+    params: ['id: string;', 'locale: string;', 'description?: string;', 'name?: string;'],
+    response: '{ locale: string; updated_at: string; description?: string; name?: string; }',
+    markdown:
+      "## update\n\n`client.productCollections.translations.update(id: string, locale: string, description?: string, name?: string): { locale: locale; updated_at: string; description?: string; name?: string; }`\n\n**put** `/product-collections/{id}/translations/{locale}`\n\nCreates or replaces the translation of one locale. The response is 201 for a new\nlocale and 200 for a replaced locale.\n\n### Parameters\n\n- `id: string`\n\n- `locale: string`\n  A locale that the checkout and the customer portal can show.\n\nThe codes are a copy of the checkout locales. `GET /locales` lists them.\n\n- `description?: string`\n  The translated description.\n\n- `name?: string`\n  The translated name.\n\n### Returns\n\n- `{ locale: string; updated_at: string; description?: string; name?: string; }`\n  The translation of a product, an add-on, a product collection or a meter in one locale.\n\n  - `locale: string`\n  - `updated_at: string`\n  - `description?: string`\n  - `name?: string`\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nconst translation = await client.productCollections.translations.update('ar', { id: 'id' });\n\nconsole.log(translation);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.productCollections.translations.update',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nconst translation = await client.productCollections.translations.update('ar', { id: 'id' });\n\nconsole.log(translation.locale);",
+      },
+      http: {
+        example:
+          "curl https://live.dodopayments.com/product-collections/$ID/translations/$LOCALE \\\n    -X PUT \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $DODO_PAYMENTS_API_KEY\" \\\n    -d '{}'",
+      },
+      python: {
+        method: 'product_collections.translations.update',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\ntranslation = client.product_collections.translations.update(\n    locale="ar",\n    id="id",\n)\nprint(translation.locale)',
+      },
+      java: {
+        method: 'productCollections().translations().update',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.misc.Locale;\nimport com.dodopayments.api.models.productcollections.translations.TranslationUpdateParams;\nimport com.dodopayments.api.models.products.translations.Translation;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        TranslationUpdateParams params = TranslationUpdateParams.builder()\n            .id("id")\n            .locale(Locale.AR)\n            .build();\n        Translation translation = client.productCollections().translations().update(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'productCollections().translations().update',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.misc.Locale\nimport com.dodopayments.api.models.productcollections.translations.TranslationUpdateParams\nimport com.dodopayments.api.models.products.translations.Translation\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: TranslationUpdateParams = TranslationUpdateParams.builder()\n        .id("id")\n        .locale(Locale.AR)\n        .build()\n    val translation: Translation = client.productCollections().translations().update(params)\n}',
+      },
+      go: {
+        method: 'client.ProductCollections.Translations.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\ttranslation, err := client.ProductCollections.Translations.Update(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.LocaleAr,\n\t\tdodopayments.ProductCollectionTranslationUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", translation.Locale)\n}\n',
+      },
+      ruby: {
+        method: 'product_collections.translations.update',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\ntranslation = dodo_payments.product_collections.translations.update(:ar, id: "id")\n\nputs(translation)',
+      },
+      php: {
+        method: 'productCollections->translations->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$translation = $client->productCollections->translations->update(\n  Locale::AR, id: 'id', description: 'description', name: 'name'\n);\n\nvar_dump($translation);",
+      },
+      csharp: {
+        method: 'ProductCollections.Translations.Update',
+        example:
+          'TranslationUpdateParams parameters = new()\n{\n    ID = "id",\n    Locale = Locale.Ar,\n};\n\nvar translation = await client.ProductCollections.Translations.Update(parameters);\n\nConsole.WriteLine(translation);',
+      },
+    },
+  },
+  {
+    name: 'delete',
+    endpoint: '/product-collections/{id}/translations/{locale}',
+    httpMethod: 'delete',
+    summary: 'Deletes the translation of one locale.',
+    description: 'Deletes the translation of one locale.',
+    stainlessPath: '(resource) product_collections.translations > (method) delete',
+    qualified: 'client.productCollections.translations.delete',
+    params: ['id: string;', 'locale: string;'],
+    markdown:
+      "## delete\n\n`client.productCollections.translations.delete(id: string, locale: string): void`\n\n**delete** `/product-collections/{id}/translations/{locale}`\n\nDeletes the translation of one locale.\n\n### Parameters\n\n- `id: string`\n\n- `locale: string`\n  A locale that the checkout and the customer portal can show.\n\nThe codes are a copy of the checkout locales. `GET /locales` lists them.\n\n### Example\n\n```typescript\nimport DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments();\n\nawait client.productCollections.translations.delete('ar', { id: 'id' })\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.productCollections.translations.delete',
+        example:
+          "import DodoPayments from 'dodopayments';\n\nconst client = new DodoPayments({\n  bearerToken: process.env['DODO_PAYMENTS_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.productCollections.translations.delete('ar', { id: 'id' });",
+      },
+      http: {
+        example:
+          'curl https://live.dodopayments.com/product-collections/$ID/translations/$LOCALE \\\n    -X DELETE \\\n    -H "Authorization: Bearer $DODO_PAYMENTS_API_KEY"',
+      },
+      python: {
+        method: 'product_collections.translations.delete',
+        example:
+          'import os\nfrom dodopayments import DodoPayments\n\nclient = DodoPayments(\n    bearer_token=os.environ.get("DODO_PAYMENTS_API_KEY"),  # This is the default and can be omitted\n)\nclient.product_collections.translations.delete(\n    locale="ar",\n    id="id",\n)',
+      },
+      java: {
+        method: 'productCollections().translations().delete',
+        example:
+          'package com.dodopayments.api.example;\n\nimport com.dodopayments.api.client.DodoPaymentsClient;\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient;\nimport com.dodopayments.api.models.misc.Locale;\nimport com.dodopayments.api.models.productcollections.translations.TranslationDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        DodoPaymentsClient client = DodoPaymentsOkHttpClient.fromEnv();\n\n        TranslationDeleteParams params = TranslationDeleteParams.builder()\n            .id("id")\n            .locale(Locale.AR)\n            .build();\n        client.productCollections().translations().delete(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'productCollections().translations().delete',
+        example:
+          'package com.dodopayments.api.example\n\nimport com.dodopayments.api.client.DodoPaymentsClient\nimport com.dodopayments.api.client.okhttp.DodoPaymentsOkHttpClient\nimport com.dodopayments.api.models.misc.Locale\nimport com.dodopayments.api.models.productcollections.translations.TranslationDeleteParams\n\nfun main() {\n    val client: DodoPaymentsClient = DodoPaymentsOkHttpClient.fromEnv()\n\n    val params: TranslationDeleteParams = TranslationDeleteParams.builder()\n        .id("id")\n        .locale(Locale.AR)\n        .build()\n    client.productCollections().translations().delete(params)\n}',
+      },
+      go: {
+        method: 'client.ProductCollections.Translations.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/dodopayments/dodopayments-go"\n\t"github.com/dodopayments/dodopayments-go/option"\n)\n\nfunc main() {\n\tclient := dodopayments.NewClient(\n\t\toption.WithBearerToken("My Bearer Token"),\n\t)\n\terr := client.ProductCollections.Translations.Delete(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tdodopayments.LocaleAr,\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
+      ruby: {
+        method: 'product_collections.translations.delete',
+        example:
+          'require "dodopayments"\n\ndodo_payments = Dodopayments::Client.new(\n  bearer_token: "My Bearer Token",\n  environment: "test_mode" # defaults to "live_mode"\n)\n\nresult = dodo_payments.product_collections.translations.delete(:ar, id: "id")\n\nputs(result)',
+      },
+      php: {
+        method: 'productCollections->translations->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(bearerToken: 'My Bearer Token', environment: 'test_mode');\n\n$result = $client->productCollections->translations->delete(\n  Locale::AR, id: 'id'\n);\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'ProductCollections.Translations.Delete',
+        example:
+          'TranslationDeleteParams parameters = new()\n{\n    ID = "id",\n    Locale = Locale.Ar,\n};\n\nawait client.ProductCollections.Translations.Delete(parameters);',
       },
     },
   },

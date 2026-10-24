@@ -8,6 +8,13 @@ export class Misc extends APIResource {
   listSupportedCountries(options?: RequestOptions): APIPromise<MiscListSupportedCountriesResponse> {
     return this._client.get('/checkout/supported_countries', options);
   }
+
+  /**
+   * Lists the locales that a translation can have.
+   */
+  listLocales(options?: RequestOptions): APIPromise<MiscListLocalesResponse> {
+    return this._client.get('/locales', options);
+  }
 }
 
 /**
@@ -412,6 +419,55 @@ export type Currency =
   | 'ZMW';
 
 /**
+ * A locale that the checkout and the customer portal can show.
+ *
+ * The codes are a copy of the checkout locales. `GET /locales` lists them.
+ */
+export type Locale =
+  | 'ar'
+  | 'ca'
+  | 'zh'
+  | 'nl'
+  | 'en'
+  | 'fr'
+  | 'de'
+  | 'he'
+  | 'id'
+  | 'it'
+  | 'ja'
+  | 'ka'
+  | 'ko'
+  | 'ms'
+  | 'pl'
+  | 'pt'
+  | 'ro'
+  | 'ru'
+  | 'es'
+  | 'sv'
+  | 'th'
+  | 'tr';
+
+/**
+ * A locale that the checkout and the customer portal can show.
+ */
+export interface LocaleInfo {
+  /**
+   * The code to send in the `locale` parameter.
+   */
+  code: Locale;
+
+  /**
+   * The English name of the language.
+   */
+  name: string;
+
+  /**
+   * The name of the language in that language.
+   */
+  native_name: string;
+}
+
+/**
  * Arbitrary key-value metadata. Values can be string, integer, number, or boolean.
  */
 export type Metadata = { [key: string]: string | number | boolean };
@@ -422,14 +478,19 @@ export type Metadata = { [key: string]: string | number | boolean };
  */
 export type TaxCategory = 'digital_products' | 'saas' | 'e_book' | 'edtech' | 'live_tutoring';
 
+export type MiscListLocalesResponse = Array<LocaleInfo>;
+
 export type MiscListSupportedCountriesResponse = Array<CountryCode>;
 
 export declare namespace Misc {
   export {
     type CountryCode as CountryCode,
     type Currency as Currency,
+    type Locale as Locale,
+    type LocaleInfo as LocaleInfo,
     type Metadata as Metadata,
     type TaxCategory as TaxCategory,
+    type MiscListLocalesResponse as MiscListLocalesResponse,
     type MiscListSupportedCountriesResponse as MiscListSupportedCountriesResponse,
   };
 }

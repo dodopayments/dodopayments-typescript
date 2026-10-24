@@ -26,6 +26,7 @@ describe('resource products', () => {
         {
           archived: true,
           brand_id: 'brand_id',
+          locale: 'locale',
           page_number: 0,
           page_size: 0,
           recurring: true,
@@ -113,6 +114,17 @@ describe('resource products', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieve: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.products.retrieve(
+        'pdt_R8AWMPiV8RyJElcCKvAID',
+        { locale: 'locale' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
   test('update', async () => {
