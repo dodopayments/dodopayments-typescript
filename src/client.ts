@@ -26,15 +26,6 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
-  AddonCreateParams,
-  AddonListParams,
-  AddonResponse,
-  AddonResponsesDefaultPageNumberPagination,
-  AddonUpdateImagesResponse,
-  AddonUpdateParams,
-  Addons,
-} from './resources/addons';
-import {
   BalanceLedgerEntriesDefaultPageNumberPagination,
   BalanceLedgerEntry,
   BalanceRetrieveLedgerParams,
@@ -113,22 +104,13 @@ import {
   Licenses,
 } from './resources/licenses';
 import {
-  Conjunction,
-  FilterOperator,
-  FilterType,
-  Meter,
-  MeterAggregation,
-  MeterCreateParams,
-  MeterFilter,
-  MeterListParams,
-  Meters,
-  MetersDefaultPageNumberPagination,
-} from './resources/meters';
-import {
   CountryCode,
   Currency,
+  Locale,
+  LocaleInfo,
   Metadata,
   Misc,
+  MiscListLocalesResponse,
   MiscListSupportedCountriesResponse,
   TaxCategory,
 } from './resources/misc';
@@ -164,10 +146,13 @@ import {
   PaymentListResponsesDefaultPageNumberPagination,
   PaymentMethodTypes,
   PaymentRefundStatus,
+  PaymentRetrieveLineItemsParams,
   PaymentRetrieveLineItemsResponse,
   Payments,
   RefundListItem,
   SubscriptionServicePeriod,
+  ThreeDSFlow,
+  ThreeDSStatus,
 } from './resources/payments';
 import {
   Refund,
@@ -200,6 +185,7 @@ import {
   SubscriptionPreviewChangePlanParams,
   SubscriptionPreviewChangePlanResponse,
   SubscriptionRetrieveCreditUsageResponse,
+  SubscriptionRetrieveParams,
   SubscriptionRetrieveUsageHistoryParams,
   SubscriptionRetrieveUsageHistoryResponse,
   SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
@@ -221,12 +207,23 @@ import {
   UsageEvents,
 } from './resources/usage-events';
 import { WebhookEventType, WebhookEvents, WebhookPayload } from './resources/webhook-events';
+import {
+  AddonCreateParams,
+  AddonListParams,
+  AddonResponse,
+  AddonResponsesDefaultPageNumberPagination,
+  AddonRetrieveParams,
+  AddonUpdateImagesResponse,
+  AddonUpdateParams,
+  Addons,
+} from './resources/addons/addons';
 import { Blocklist } from './resources/blocklist/blocklist';
 import {
   CbbOverageBehavior,
   CreditEntitlement,
   CreditEntitlementCreateParams,
   CreditEntitlementListParams,
+  CreditEntitlementRetrieveParams,
   CreditEntitlementUpdateParams,
   CreditEntitlements,
   CreditEntitlementsDefaultPageNumberPagination,
@@ -250,6 +247,7 @@ import {
   EntitlementCreateParams,
   EntitlementIntegrationType,
   EntitlementListParams,
+  EntitlementRetrieveParams,
   EntitlementUpdateParams,
   Entitlements,
   EntitlementsDefaultPageNumberPagination,
@@ -260,6 +258,20 @@ import {
   IntegrationConfigResponse,
 } from './resources/entitlements/entitlements';
 import { Invoices } from './resources/invoices/invoices';
+import {
+  Conjunction,
+  FilterOperator,
+  FilterType,
+  Meter,
+  MeterAggregation,
+  MeterCreateParams,
+  MeterFilter,
+  MeterListParams,
+  MeterRetrieveParams,
+  MeterUpdateParams,
+  Meters,
+  MetersDefaultPageNumberPagination,
+} from './resources/meters/meters';
 import {
   PayoutListParams,
   PayoutListResponse,
@@ -272,6 +284,7 @@ import {
   ProductCollectionListParams,
   ProductCollectionListResponse,
   ProductCollectionListResponsesDefaultPageNumberPagination,
+  ProductCollectionRetrieveParams,
   ProductCollectionUnarchiveResponse,
   ProductCollectionUpdateImagesParams,
   ProductCollectionUpdateImagesResponse,
@@ -294,6 +307,7 @@ import {
   ProductListParams,
   ProductListResponse,
   ProductListResponsesDefaultPageNumberPagination,
+  ProductRetrieveParams,
   ProductUpdateFilesParams,
   ProductUpdateFilesResponse,
   ProductUpdateParams,
@@ -598,9 +612,6 @@ export class DodoPayments {
     return buildHeaders([{ Authorization: `Bearer ${this.bearerToken}` }]);
   }
 
-  /**
-   * Basic re-implementation of `qs.stringify` for primitive types.
-   */
   protected stringifyQuery(query: object | Record<string, unknown>): string {
     return stringifyQuery(query);
   }
@@ -1234,12 +1245,15 @@ export declare namespace DodoPayments {
     type PaymentRefundStatus as PaymentRefundStatus,
     type RefundListItem as RefundListItem,
     type SubscriptionServicePeriod as SubscriptionServicePeriod,
+    type ThreeDSFlow as ThreeDSFlow,
+    type ThreeDSStatus as ThreeDSStatus,
     type PaymentCreateResponse as PaymentCreateResponse,
     type PaymentListResponse as PaymentListResponse,
     type PaymentRetrieveLineItemsResponse as PaymentRetrieveLineItemsResponse,
     type PaymentListResponsesDefaultPageNumberPagination as PaymentListResponsesDefaultPageNumberPagination,
     type PaymentListParams as PaymentListParams,
     type PaymentCreateParams as PaymentCreateParams,
+    type PaymentRetrieveLineItemsParams as PaymentRetrieveLineItemsParams,
   };
 
   export {
@@ -1269,6 +1283,7 @@ export declare namespace DodoPayments {
     type SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination as SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
     type SubscriptionListParams as SubscriptionListParams,
     type SubscriptionCreateParams as SubscriptionCreateParams,
+    type SubscriptionRetrieveParams as SubscriptionRetrieveParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionChargeParams as SubscriptionChargeParams,
     type SubscriptionChangePlanParams as SubscriptionChangePlanParams,
@@ -1368,6 +1383,7 @@ export declare namespace DodoPayments {
     type ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
     type ProductListParams as ProductListParams,
     type ProductCreateParams as ProductCreateParams,
+    type ProductRetrieveParams as ProductRetrieveParams,
     type ProductUpdateParams as ProductUpdateParams,
     type ProductUpdateFilesParams as ProductUpdateFilesParams,
   };
@@ -1376,8 +1392,11 @@ export declare namespace DodoPayments {
     Misc as Misc,
     type CountryCode as CountryCode,
     type Currency as Currency,
+    type Locale as Locale,
+    type LocaleInfo as LocaleInfo,
     type Metadata as Metadata,
     type TaxCategory as TaxCategory,
+    type MiscListLocalesResponse as MiscListLocalesResponse,
     type MiscListSupportedCountriesResponse as MiscListSupportedCountriesResponse,
   };
 
@@ -1399,6 +1418,7 @@ export declare namespace DodoPayments {
     type AddonResponsesDefaultPageNumberPagination as AddonResponsesDefaultPageNumberPagination,
     type AddonListParams as AddonListParams,
     type AddonCreateParams as AddonCreateParams,
+    type AddonRetrieveParams as AddonRetrieveParams,
     type AddonUpdateParams as AddonUpdateParams,
   };
 
@@ -1501,6 +1521,8 @@ export declare namespace DodoPayments {
     type MetersDefaultPageNumberPagination as MetersDefaultPageNumberPagination,
     type MeterListParams as MeterListParams,
     type MeterCreateParams as MeterCreateParams,
+    type MeterRetrieveParams as MeterRetrieveParams,
+    type MeterUpdateParams as MeterUpdateParams,
   };
 
   export {
@@ -1517,6 +1539,7 @@ export declare namespace DodoPayments {
     type CreditEntitlementsDefaultPageNumberPagination as CreditEntitlementsDefaultPageNumberPagination,
     type CreditEntitlementListParams as CreditEntitlementListParams,
     type CreditEntitlementCreateParams as CreditEntitlementCreateParams,
+    type CreditEntitlementRetrieveParams as CreditEntitlementRetrieveParams,
     type CreditEntitlementUpdateParams as CreditEntitlementUpdateParams,
   };
 
@@ -1532,6 +1555,7 @@ export declare namespace DodoPayments {
     type EntitlementsDefaultPageNumberPagination as EntitlementsDefaultPageNumberPagination,
     type EntitlementListParams as EntitlementListParams,
     type EntitlementCreateParams as EntitlementCreateParams,
+    type EntitlementRetrieveParams as EntitlementRetrieveParams,
     type EntitlementUpdateParams as EntitlementUpdateParams,
   };
 
@@ -1544,6 +1568,7 @@ export declare namespace DodoPayments {
     type ProductCollectionListResponsesDefaultPageNumberPagination as ProductCollectionListResponsesDefaultPageNumberPagination,
     type ProductCollectionListParams as ProductCollectionListParams,
     type ProductCollectionCreateParams as ProductCollectionCreateParams,
+    type ProductCollectionRetrieveParams as ProductCollectionRetrieveParams,
     type ProductCollectionUpdateParams as ProductCollectionUpdateParams,
     type ProductCollectionUpdateImagesParams as ProductCollectionUpdateImagesParams,
   };

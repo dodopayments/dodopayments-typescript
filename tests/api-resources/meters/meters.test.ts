@@ -25,6 +25,7 @@ describe('resource meters', () => {
       client.meters.list(
         {
           archived: true,
+          locale: 'locale',
           page_number: 0,
           page_size: 0,
         },
@@ -76,6 +77,28 @@ describe('resource meters', () => {
 
   test('retrieve', async () => {
     const responsePromise = client.meters.retrieve('mtr_h5tgTWL55OyMO0L2Q9w9v');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieve: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.meters.retrieve(
+        'mtr_h5tgTWL55OyMO0L2Q9w9v',
+        { locale: 'locale' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
+
+  test('update', async () => {
+    const responsePromise = client.meters.update('mtr_h5tgTWL55OyMO0L2Q9w9v', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

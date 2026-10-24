@@ -20,6 +20,15 @@ import {
   CustomerCreditBalancesDefaultPageNumberPagination,
   LedgerEntryType,
 } from './balances';
+import * as TranslationsAPI from './translations';
+import {
+  CreditEntitlementTranslation,
+  CreditEntitlementTranslationsListResponse,
+  TranslationDeleteParams,
+  TranslationListParams,
+  TranslationUpdateParams,
+  Translations,
+} from './translations';
 import { APIPromise } from '../../core/api-promise';
 import {
   DefaultPageNumberPagination,
@@ -31,6 +40,7 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class CreditEntitlements extends APIResource {
+  translations: TranslationsAPI.Translations = new TranslationsAPI.Translations(this._client);
   balances: BalancesAPI.Balances = new BalancesAPI.Balances(this._client);
 
   /**
@@ -174,8 +184,12 @@ export class CreditEntitlements extends APIResource {
    *   );
    * ```
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<CreditEntitlement> {
-    return this._client.get(path`/credit-entitlements/${id}`, options);
+  retrieve(
+    id: string,
+    query: CreditEntitlementRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CreditEntitlement> {
+    return this._client.get(path`/credit-entitlements/${id}`, { query, ...options });
   }
 
   /**
@@ -392,6 +406,16 @@ export interface CreditEntitlementListParams extends DefaultPageNumberPagination
    * List deleted credit entitlements
    */
   deleted?: boolean;
+
+  /**
+   * Shows the translated name, description and unit of the catalog entities in this
+   * locale. The value must be a code from `GET /locales`, for example `fr`. A field
+   * with no translation, an unknown code, or no code shows the base text.
+   *
+   * Do not send a text from a localized response back in a create or update request.
+   * The base text then changes to the translated text.
+   */
+  locale?: string;
 }
 
 export interface CreditEntitlementCreateParams {
@@ -472,6 +496,18 @@ export interface CreditEntitlementCreateParams {
   rollover_timeframe_interval?: SubscriptionsAPI.TimeInterval | null;
 }
 
+export interface CreditEntitlementRetrieveParams {
+  /**
+   * Shows the translated name, description and unit of the catalog entities in this
+   * locale. The value must be a code from `GET /locales`, for example `fr`. A field
+   * with no translation, an unknown code, or no code shows the base text.
+   *
+   * Do not send a text from a localized response back in a create or update request.
+   * The base text then changes to the translated text.
+   */
+  locale?: string;
+}
+
 export interface CreditEntitlementUpdateParams {
   /**
    * Currency for pricing
@@ -544,6 +580,7 @@ export interface CreditEntitlementUpdateParams {
   unit?: string | null;
 }
 
+CreditEntitlements.Translations = Translations;
 CreditEntitlements.Balances = Balances;
 
 export declare namespace CreditEntitlements {
@@ -553,7 +590,17 @@ export declare namespace CreditEntitlements {
     type CreditEntitlementsDefaultPageNumberPagination as CreditEntitlementsDefaultPageNumberPagination,
     type CreditEntitlementListParams as CreditEntitlementListParams,
     type CreditEntitlementCreateParams as CreditEntitlementCreateParams,
+    type CreditEntitlementRetrieveParams as CreditEntitlementRetrieveParams,
     type CreditEntitlementUpdateParams as CreditEntitlementUpdateParams,
+  };
+
+  export {
+    Translations as Translations,
+    type CreditEntitlementTranslation as CreditEntitlementTranslation,
+    type CreditEntitlementTranslationsListResponse as CreditEntitlementTranslationsListResponse,
+    type TranslationListParams as TranslationListParams,
+    type TranslationUpdateParams as TranslationUpdateParams,
+    type TranslationDeleteParams as TranslationDeleteParams,
   };
 
   export {

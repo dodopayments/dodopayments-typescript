@@ -191,6 +191,7 @@ describe('resource checkoutSessions', () => {
           ],
         },
       ],
+      locale: 'locale',
       allowed_payment_method_types: ['ach'],
       billing_address: {
         country: 'AF',

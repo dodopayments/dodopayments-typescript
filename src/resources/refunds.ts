@@ -182,6 +182,12 @@ export interface RefundCreateParams {
   payment_id: string;
 
   /**
+   * The currency of every `items[].amount`. It must be the currency the customer
+   * paid in. Without it, the amounts are in the settlement currency.
+   */
+  currency?: MiscAPI.Currency | null;
+
+  /**
    * Partially Refund an Individual Item
    */
   items?: Array<RefundCreateParams.Item> | null;

@@ -29,6 +29,7 @@ describe('resource subscriptions', () => {
           created_at_gte: '2019-12-27T18:11:19.117Z',
           created_at_lte: '2019-12-27T18:11:19.117Z',
           customer_id: 'customer_id',
+          locale: 'locale',
           page_number: 0,
           page_size: 0,
           product_id: 'product_id',
@@ -111,6 +112,17 @@ describe('resource subscriptions', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieve: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.subscriptions.retrieve(
+        'sub_Iuaq622bbmmfOGrVTqdXv',
+        { locale: 'locale' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
   test('update', async () => {
