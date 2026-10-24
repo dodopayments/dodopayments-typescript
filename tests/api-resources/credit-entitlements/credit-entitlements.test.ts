@@ -25,6 +25,7 @@ describe('resource creditEntitlements', () => {
       client.creditEntitlements.list(
         {
           deleted: true,
+          locale: 'locale',
           page_number: 0,
           page_size: 0,
         },
@@ -79,6 +80,17 @@ describe('resource creditEntitlements', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieve: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.creditEntitlements.retrieve(
+        'cde_ztxm5XJsKxWucRWA3rjdM',
+        { locale: 'locale' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
   test('delete', async () => {
