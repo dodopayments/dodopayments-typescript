@@ -90,8 +90,8 @@ importers:
         specifier: ^1.32.1
         version: 1.32.1(zod@4.6.7)
       '@valtown/deno-http-worker':
-        specifier: ^0.0.21
-        version: 0.0.21
+        specifier: ^3.0.0
+        version: 3.0.0
       ajv:
         specifier: ^8.20.0
         version: 8.20.0
@@ -2180,10 +2180,10 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@valtown/deno-http-worker@0.0.21':
+  '@valtown/deno-http-worker@3.0.0':
     resolution:
       {
-        integrity: sha512-16kFuUykann75lNytnXXIQlmpzreZjzdyT27ebT3yNGCS3kKaS1iZYWHc3Si9An54Cphwr4qEcviChQkEeJBlA==,
+        integrity: sha512-+92vwPm6KtgrmcLJE7jzx0i8FT+Ksha1VpiPKeobKqLeKuvB6b2MYfHadmUHacQHMu5/ifldrHyYVC99SG9vVg==,
       }
     engines: { node: 20 || 22 || 24 }
 
@@ -7535,7 +7535,7 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.12.2':
     optional: true
 
-  '@valtown/deno-http-worker@0.0.21': {}
+  '@valtown/deno-http-worker@3.0.0': {}
 
   accepts@2.0.0:
     dependencies:
