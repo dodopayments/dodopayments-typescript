@@ -62,6 +62,32 @@ const checkoutSessionResponse: DodoPayments.CheckoutSessionResponse =
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
 
+## Workload identity
+
+The client can authenticate with an OIDC token from your CI or cloud platform instead of an API key.
+The client exchanges this token for a short-lived access token, keeps it in a cache, and gets a new access token before it expires.
+
+```ts
+import DodoPayments from 'dodopayments';
+
+const client = new DodoPayments({
+  workloadIdentity: {
+    identityProviderId: 'wip_...', // defaults to process.env['DODO_PAYMENTS_IDENTITY_PROVIDER_ID']
+    provider: DodoPayments.workloadIdentity.githubActions(),
+  },
+});
+
+// Revoke the cached access token, for example at the end of a job.
+await client.workloadIdentity.revoke();
+```
+
+The token helpers are on `DodoPayments.workloadIdentity`: `githubActions(audience?)`, `gitlab(envVar?)`, `terraformCloud()`, `gcp(audience?)`, `vercel()`, `kubernetes(path?)`, `file(path?)`, `aws(fn)`, `static(token)` and `auto()`.
+A `provider` can also be your own function that returns the token.
+
+If you do not give `bearerToken` or `workloadIdentity`, and `DODO_PAYMENTS_API_KEY` is not set, the client uses workload identity when `DODO_PAYMENTS_IDENTITY_PROVIDER_ID` is set.
+Then `auto()` finds the token source in this order: GitHub Actions, Terraform Cloud, `DODO_PAYMENTS_IDENTITY_TOKEN_FILE`, and the Kubernetes token path.
+You cannot use `bearerToken` and `workloadIdentity` together.
+
 ## Handling errors
 
 When the library is unable to connect to the API,
