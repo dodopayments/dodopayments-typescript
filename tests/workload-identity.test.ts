@@ -235,3 +235,66 @@ describe('workload identity', () => {
     expect(server.count(tokenPath)).toEqual(1);
   });
 });
+
+describe('workload identity vercel()', () => {
+  const vercelTokenURL = 'https://oidc.vercel.com/~token';
+
+  function vercelServer(vercelResponse: () => Response) {
+    const calls: { url: string; headers: Headers; body: string | undefined }[] = [];
+    const fetch = async (url: string | URL | Request, init?: RequestInit): Promise<Response> => {
+      calls.push({
+        url: String(url),
+        headers: new Headers(init?.headers),
+        body: typeof init?.body === 'string' ? init.body : undefined,
+      });
+      if (String(url) === vercelTokenURL) {
+        return vercelResponse();
+      }
+      return new URL(String(url)).pathname === tokenPath ?
+          tokenResponse('access-token-v', 3600)
+        : jsonResponse(200, { ok: true });
+    };
+    const client = new DodoPayments({
+      baseURL: `${baseURL}/v1`,
+      fetch,
+      maxRetries: 0,
+      workloadIdentity: { identityProviderId, provider: DodoPayments.workloadIdentity.vercel() },
+    });
+    return { calls, client };
+  }
+
+  test('exchanges the Vercel token for a token with the default audience', async () => {
+    const env = process.env;
+    process.env = { ...env, VERCEL_OIDC_TOKEN: 'vercel-base-token' };
+    try {
+      const { calls, client } = vercelServer(() =>
+        jsonResponse(200, { token: 'vercel-dodo-token', expiry: 1 }),
+      );
+      await client.get('/foo');
+
+      expect(calls[0]!.url).toEqual(vercelTokenURL);
+      expect(calls[0]!.headers.get('content-type')).toEqual('application/json');
+      expect(JSON.parse(calls[0]!.body!)).toEqual({
+        token: 'vercel-base-token',
+        aud: 'http://localhost:5000',
+      });
+      expect(JSON.parse(calls[1]!.body!).subject_token).toEqual('vercel-dodo-token');
+    } finally {
+      process.env = env;
+    }
+  });
+
+  test('a non-2xx response from Vercel is an error without the token', async () => {
+    const env = process.env;
+    process.env = { ...env, VERCEL_OIDC_TOKEN: 'vercel-base-token' };
+    try {
+      const { client } = vercelServer(() => jsonResponse(400, { error: 'invalid_request' }));
+      const err = await client.get('/foo').catch((e: unknown) => e);
+      expect(err).toBeInstanceOf(Error);
+      expect(String(err)).toContain('status 400');
+      expect(String(err)).not.toContain('vercel-base-token');
+    } finally {
+      process.env = env;
+    }
+  });
+});

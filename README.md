@@ -81,7 +81,7 @@ const client = new DodoPayments({
 await client.workloadIdentity.revoke();
 ```
 
-The token helpers are on `DodoPayments.workloadIdentity`: `githubActions(audience?)`, `gitlab(envVar?)`, `terraformCloud()`, `gcp(audience?)`, `vercel()`, `kubernetes(path?)`, `file(path?)`, `aws(fn)`, `static(token)` and `auto()`.
+The token helpers are on `DodoPayments.workloadIdentity`: `githubActions(audience?)`, `gitlab(envVar?)`, `terraformCloud()`, `gcp(audience?)`, `vercel(audience?)`, `kubernetes(path?)`, `file(path?)`, `aws(fn)`, `static(token)` and `auto()`.
 A `provider` can also be your own function that returns the token.
 
 If you do not give `bearerToken` or `workloadIdentity`, and `DODO_PAYMENTS_API_KEY` is not set, the client uses workload identity when `DODO_PAYMENTS_IDENTITY_PROVIDER_ID` is set.
