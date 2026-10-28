@@ -23,6 +23,7 @@ import {
   DefaultPageNumberPaginationResponse,
 } from './core/pagination';
 import * as Uploads from './core/uploads';
+import * as WorkloadIdentity from './core/workload-identity';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
@@ -478,13 +479,22 @@ export interface ClientOptions {
    * Defaults to globalThis.console.
    */
   logger?: Logger | undefined;
+
+  /**
+   * Authenticate with workload identity federation instead of a bearer token.
+   * The client exchanges a token from your identity provider for a short-lived access token.
+   *
+   * If you give neither `bearerToken` nor this option, and process.env['DODO_PAYMENTS_API_KEY'] is not set,
+   * the client uses workload identity when process.env['DODO_PAYMENTS_IDENTITY_PROVIDER_ID'] is set.
+   */
+  workloadIdentity?: WorkloadIdentity.WorkloadIdentityOptions | undefined;
 }
 
 /**
  * API Client for interfacing with the Dodo Payments API.
  */
 export class DodoPayments {
-  bearerToken: string;
+  bearerToken: string | undefined;
   webhookKey: string | null;
 
   baseURL: string;
@@ -498,6 +508,8 @@ export class DodoPayments {
   #encoder: Opts.RequestEncoder;
   protected idempotencyHeader?: string;
   private _options: ClientOptions;
+  #workloadIdentity: WorkloadIdentity.TokenManager | undefined;
+  #workloadIdentityRetried = new WeakSet<FinalRequestOptions>();
 
   /**
    * API Client for interfacing with the Dodo Payments API.
@@ -515,11 +527,13 @@ export class DodoPayments {
    */
   constructor({
     baseURL = readEnv('DODO_PAYMENTS_BASE_URL'),
-    bearerToken = readEnv('DODO_PAYMENTS_API_KEY'),
+    workloadIdentity,
+    bearerToken = workloadIdentity ? undefined : readEnv('DODO_PAYMENTS_API_KEY'),
     webhookKey = readEnv('DODO_PAYMENTS_WEBHOOK_KEY') ?? null,
     ...opts
   }: ClientOptions = {}) {
-    if (bearerToken === undefined) {
+    const resolvedWorkloadIdentity = WorkloadIdentity.resolveOptions(bearerToken, workloadIdentity);
+    if (bearerToken === undefined && !resolvedWorkloadIdentity) {
       throw new Errors.DodoPaymentsError(
         "The DODO_PAYMENTS_API_KEY environment variable is missing or empty; either provide it, or instantiate the DodoPayments client with an bearerToken option, like new DodoPayments({ bearerToken: 'My Bearer Token' }).",
       );
@@ -529,6 +543,7 @@ export class DodoPayments {
       bearerToken,
       webhookKey,
       ...opts,
+      workloadIdentity: resolvedWorkloadIdentity,
       baseURL,
       environment: opts.environment ?? 'live_mode',
     };
@@ -569,6 +584,8 @@ export class DodoPayments {
     this._options = options;
 
     this.bearerToken = bearerToken;
+    this.#workloadIdentity =
+      resolvedWorkloadIdentity && new WorkloadIdentity.TokenManager(this, resolvedWorkloadIdentity);
     this.webhookKey = webhookKey;
   }
 
@@ -609,6 +626,9 @@ export class DodoPayments {
   }
 
   protected async authHeaders(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
+    if (this.#workloadIdentity) {
+      return buildHeaders([{ Authorization: `Bearer ${await this.#workloadIdentity.getToken()}` }]);
+    }
     return buildHeaders([{ Authorization: `Bearer ${this.bearerToken}` }]);
   }
 
@@ -803,6 +823,15 @@ export class DodoPayments {
     const responseInfo = `[${requestLogID}${retryLogStr}] ${req.method} ${url} ${response.ok ? 'succeeded' : 'failed'} with status ${response.status} in ${headersTime - startTime}ms`;
 
     if (!response.ok) {
+      if (response.status === 401 && this.#workloadIdentity && !this.#workloadIdentityRetried.has(options)) {
+        // The access token can be revoked or expired: get a new one and retry the request once.
+        this.#workloadIdentityRetried.add(options);
+        await Shims.CancelReadableStream(response.body);
+        this.#workloadIdentity.invalidate(req.headers.get('authorization'));
+        loggerFor(this).info(`${responseInfo} - retrying with a new workload identity access token`);
+        return this.makeRequest(options, retriesRemaining, retryOfRequestLogID ?? requestLogID);
+      }
+
       const shouldRetry = await this.shouldRetry(response);
       if (retriesRemaining && shouldRetry) {
         const retryMessage = `retrying, ${retriesRemaining} attempts remaining`;
@@ -1121,6 +1150,20 @@ export class DodoPayments {
 
   static DodoPayments = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
+
+  /**
+   * Subject token helpers for the `workloadIdentity` client option.
+   */
+  static workloadIdentity = WorkloadIdentity.helpers;
+
+  /**
+   * Workload identity operations: `revoke()` revokes the cached access token and clears the cache.
+   */
+  workloadIdentity: WorkloadIdentity.WorkloadIdentityResource = {
+    revoke: async () => {
+      await this.#workloadIdentity?.revoke();
+    },
+  };
 
   static DodoPaymentsError = Errors.DodoPaymentsError;
   static APIError = Errors.APIError;
