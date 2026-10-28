@@ -19,7 +19,7 @@
     "marked": "^18.1.0",
     "oauth-provider-v0": "npm:@cloudflare/workers-oauth-provider@0.8.0",
     "typescript": "^7.0.2",
-    "wrangler": "^4.149.0"
+    "wrangler": "^4.154.0"
   },
   "dependencies": {
     "@cloudflare/workers-oauth-provider": "^1.2.3",
