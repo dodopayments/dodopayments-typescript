@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.59.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.58.0...v2.59.0) (2026-10-28)
+
+
+### Features
+
+* **api:** regenerate SDK from latest OpenAPI spec ([ac72777](https://github.com/dodopayments/dodopayments-typescript/commit/ac727771b5202d54b236b345821a347c5c0d56a4))
+* **api:** regenerate SDK from latest OpenAPI spec ([b8c1bdd](https://github.com/dodopayments/dodopayments-typescript/commit/b8c1bdd262df4d5425149a9b1b15923997154089))
+
+
+### Bug Fixes
+
+* restore pnpm-lock.yaml from main ([bea97cb](https://github.com/dodopayments/dodopayments-typescript/commit/bea97cbbc5c49b9aabe2aff3c1e84442fc0bd806))
+
 ## [2.58.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.57.0...v2.58.0) (2026-10-28)
 
 
