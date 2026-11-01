@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.60.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.59.0...v2.60.0) (2026-11-01)
+
+
+### Features
+
+* **mcp-worker:** accept dodo-auth tokens and exchange them for API tokens ([1569b63](https://github.com/dodopayments/dodopayments-typescript/commit/1569b630b62e09d7766ff55d74f1b5f76b36fce2))
+* **mcp-worker:** accept dodo-auth tokens and exchange them for API tokens ([8bc60dd](https://github.com/dodopayments/dodopayments-typescript/commit/8bc60dd7112b26172b773521d701c486b6932d71))
+
+
+### Bug Fixes
+
+* **mcp-worker:** fix the session mode and owner checks, the issuer trim, and the format ([592ef61](https://github.com/dodopayments/dodopayments-typescript/commit/592ef61a07dbe4011ea4af5d82ae7cea4e48556e))
+
 ## [2.59.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.58.0...v2.59.0) (2026-10-28)
 
 
