@@ -191,11 +191,11 @@ export const layout = (content: HtmlEscapedString | string, title: string, confi
           margin-bottom: 0.5rem;
         }
 
-        .markdown ul li {
+        .markdown ul > li {
           list-style-type: disc;
         }
 
-        .markdown ol li {
+        .markdown ol > li {
           list-style-type: decimal;
         }
 
@@ -238,12 +238,10 @@ export const layout = (content: HtmlEscapedString | string, title: string, confi
 `;
 
 export const homeContent = async (req: Request): Promise<HtmlEscapedString> => {
-  // We have the README symlinked into the static directory, so we can fetch it
-  // and render it into HTML
+  // `static/home.md` is the source of the page. `{{origin}}` gives the URLs of the host that serves it.
   const origin = new URL(req.url).origin;
   const res = await env.ASSETS.fetch(`${origin}/home.md`);
-  let markdown = await res.text();
-  markdown = markdown.replaceAll('{{cloudflareWorkerUrl}}', origin + '/sse');
+  const markdown = (await res.text()).replaceAll('{{origin}}', origin);
   const content = await marked(markdown);
   return html` <div class="max-w-4xl mx-auto markdown">${raw(content)}</div> `;
 };
