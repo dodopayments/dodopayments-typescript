@@ -50,14 +50,31 @@ const EXCHANGE_MARGIN_MS = 30_000;
 const CACHE_LIMIT = 1000;
 const TIMEOUT_MS = 5_000;
 
+function trimTrailingSlashes(value: string): string {
+  let end = value.length;
+  while (end > 0 && value[end - 1] === '/') end -= 1;
+  return value.slice(0, end);
+}
+
 export function dodoAuthConfig(env: DodoAuthEnv): DodoAuthConfig | undefined {
-  const { DODO_AUTH_ISSUER, DODO_AUTH_MCP_RESOURCE, DODO_AUTH_API_RESOURCE_TEST, DODO_AUTH_API_RESOURCE_LIVE } = env;
+  const {
+    DODO_AUTH_ISSUER,
+    DODO_AUTH_MCP_RESOURCE,
+    DODO_AUTH_API_RESOURCE_TEST,
+    DODO_AUTH_API_RESOURCE_LIVE,
+  } = env;
   const secret = env.MCP_WORKER_CLIENT_SECRET;
-  if (!DODO_AUTH_ISSUER || !DODO_AUTH_MCP_RESOURCE || !DODO_AUTH_API_RESOURCE_TEST || !DODO_AUTH_API_RESOURCE_LIVE || !secret) {
+  if (
+    !DODO_AUTH_ISSUER ||
+    !DODO_AUTH_MCP_RESOURCE ||
+    !DODO_AUTH_API_RESOURCE_TEST ||
+    !DODO_AUTH_API_RESOURCE_LIVE ||
+    !secret
+  ) {
     return undefined;
   }
   return {
-    issuer: DODO_AUTH_ISSUER.replace(/\/+$/, ''),
+    issuer: trimTrailingSlashes(DODO_AUTH_ISSUER),
     mcpResource: DODO_AUTH_MCP_RESOURCE,
     apiResources: { test: DODO_AUTH_API_RESOURCE_TEST, live: DODO_AUTH_API_RESOURCE_LIVE },
     clientSecret: secret,
@@ -104,7 +121,11 @@ class ExpiringCache<T> {
 const introspections = new ExpiringCache<Introspection>();
 const exchanges = new ExpiringCache<string>();
 
-async function postForm(config: DodoAuthConfig, path: string, fields: Record<string, string>): Promise<Response> {
+async function postForm(
+  config: DodoAuthConfig,
+  path: string,
+  fields: Record<string, string>,
+): Promise<Response> {
   return fetch(`${config.issuer}${path}`, {
     method: 'POST',
     headers: {
@@ -121,7 +142,10 @@ async function postForm(config: DodoAuthConfig, path: string, fields: Record<str
  * The introspection of an MCP token. `null` means that the token is not an active token for
  * the MCP resource. A failure of dodo-auth throws, so the caller answers 503, not 401.
  */
-export async function introspectMcpToken(config: DodoAuthConfig, token: string): Promise<Introspection | null> {
+export async function introspectMcpToken(
+  config: DodoAuthConfig,
+  token: string,
+): Promise<Introspection | null> {
   const key = await sha256(token);
   const cached = introspections.get(key);
   if (cached) return cached.active ? cached : null;
@@ -131,7 +155,10 @@ export async function introspectMcpToken(config: DodoAuthConfig, token: string):
     throw new Error(`dodo-auth introspection returned ${response.status}`);
   }
   const body = (await response.json()) as Introspection;
-  const audiences = Array.isArray(body.aud) ? body.aud : body.aud ? [body.aud] : [];
+  const audiences =
+    Array.isArray(body.aud) ? body.aud
+    : body.aud ? [body.aud]
+    : [];
   const nowSeconds = Math.floor(Date.now() / 1000);
   const active =
     body.active === true &&
@@ -142,7 +169,10 @@ export async function introspectMcpToken(config: DodoAuthConfig, token: string):
     typeof body.client_id === 'string' &&
     typeof body.business_id === 'string';
   const result: Introspection = active ? body : { active: false };
-  const until = active ? Math.min(Date.now() + INTROSPECTION_CACHE_MS, (body.exp ?? 0) * 1000) : Date.now() + INTROSPECTION_CACHE_MS;
+  const until =
+    active ?
+      Math.min(Date.now() + INTROSPECTION_CACHE_MS, (body.exp ?? 0) * 1000)
+    : Date.now() + INTROSPECTION_CACHE_MS;
   introspections.set(key, result, until);
   return active ? result : null;
 }
@@ -151,7 +181,10 @@ export async function introspectMcpToken(config: DodoAuthConfig, token: string):
  * The mode of a request. A grant with one mode gives its mode in the introspection. A CLI grant
  * with two modes needs the `Dodo-Mode` header. A header that names a different mode is an error.
  */
-export function requestMode(introspection: Introspection, header: string | null): DodoMode | { error: string } {
+export function requestMode(
+  introspection: Introspection,
+  header: string | null,
+): DodoMode | { error: string } {
   const requested = header?.trim().toLowerCase();
   if (requested !== undefined && requested !== '' && requested !== 'test' && requested !== 'live') {
     return { error: 'The Dodo-Mode header must be test or live.' };
@@ -165,7 +198,10 @@ export function requestMode(introspection: Introspection, header: string | null)
   if (requested === 'test' || requested === 'live') {
     return requested;
   }
-  return { error: 'This connection has access to test mode and live mode. Send the Dodo-Mode header with test or live.' };
+  return {
+    error:
+      'This connection has access to test mode and live mode. Send the Dodo-Mode header with test or live.',
+  };
 }
 
 export class ExchangeRefusedError extends Error {
@@ -191,7 +227,9 @@ export async function apiTokenFor(config: DodoAuthConfig, mcpToken: string, mode
     error_description?: string;
   };
   if (response.status >= 400 && response.status < 500) {
-    throw new ExchangeRefusedError(body.error_description ?? body.error ?? `the exchange returned ${response.status}`);
+    throw new ExchangeRefusedError(
+      body.error_description ?? body.error ?? `the exchange returned ${response.status}`,
+    );
   }
   if (!response.ok || typeof body.access_token !== 'string' || typeof body.expires_in !== 'number') {
     throw new Error(`dodo-auth token exchange returned ${response.status}`);

@@ -181,22 +181,27 @@ export class MyMCP extends McpAgent<Env, unknown, MCPProps> {
   // last-write-wins `setRequestHandler`, capturing the package's handlers and
   // delegating to them for every tool except our self-hosted `execute`.
   /**
-   * The Worker calls this for each request of a dodo-auth session, so that the session uses the
-   * newest MCP token and the mode of the request. A token of a different user or client cannot
-   * take over the session.
+   * The Worker calls this for each request that has a session ID. A dodo-auth session gets the
+   * newest MCP token. The mode of a session cannot change, so a tool call cannot run in the mode
+   * of a different request. A token of a different user, client, business, or kind cannot take
+   * over the session.
    */
-  async refreshDodoProps(props: DodoProps): Promise<boolean> {
+  async refreshProps(props: MCPProps): Promise<boolean> {
     // After an eviction, `this.props` is empty until the transport starts the agent again.
     const current = this.props ?? (await this.ctx.storage.get<MCPProps>('props'));
     if (current === undefined) {
       // No session with this ID: the transport answers the request.
       return true;
     }
+    if (!isDodoProps(props)) {
+      return !isDodoProps(current);
+    }
     if (
       !isDodoProps(current) ||
       current.dodoAuth.subject !== props.dodoAuth.subject ||
       current.dodoAuth.clientId !== props.dodoAuth.clientId ||
-      current.dodoAuth.businessId !== props.dodoAuth.businessId
+      current.dodoAuth.businessId !== props.dodoAuth.businessId ||
+      current.dodoAuth.mode !== props.dodoAuth.mode
     ) {
       return false;
     }
@@ -320,17 +325,21 @@ export type ClientProperty = {
 // Export the OAuth handler as the default
 const streamableHttp = MyMCP.serve('/mcp');
 
-// A dodo-auth session keeps its first props in the Durable Object. Each request gives the
-// session the current token and mode before the transport handles the request.
+// A session keeps its first props in the Durable Object. Each request with a session ID is checked
+// against them, and a dodo-auth session gets the current token, before the transport handles it.
 const mcpHandler: OAuthResourceHandler<Env, MCPProps> = {
   async fetch(request, env, ctx) {
     const sessionId = request.headers.get('mcp-session-id');
     const props = ctx.props;
-    if (sessionId && isDodoProps(props)) {
+    if (sessionId && props !== undefined) {
       const stub = env.MCP_OBJECT.get(env.MCP_OBJECT.idFromName(`streamable-http:${sessionId}`));
-      if (!(await stub.refreshDodoProps(props))) {
+      if (!(await stub.refreshProps(props))) {
         return Response.json(
-          { jsonrpc: '2.0', error: { code: -32001, message: 'The session belongs to a different connection.' }, id: null },
+          {
+            jsonrpc: '2.0',
+            error: { code: -32001, message: 'The session belongs to a different connection.' },
+            id: null,
+          },
           { status: 404 },
         );
       }

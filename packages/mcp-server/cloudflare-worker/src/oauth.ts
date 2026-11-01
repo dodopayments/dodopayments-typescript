@@ -68,7 +68,12 @@ export function makeOAuthHandler<E extends { OAUTH_KV: KVNamespace } & DodoAuthE
         // With dodo-auth configured, the MCP resource of this origin belongs to dodo-auth. New
         // clients go there. Tokens of this Worker's own server keep working until they end.
         const dodo = dodoAuthConfig(env);
-        if (dodo && path === '/mcp' && `${origin}/mcp` === dodo.mcpResource && !(bearer && isLegacyToken(bearer))) {
+        if (
+          dodo &&
+          path === '/mcp' &&
+          `${origin}/mcp` === dodo.mcpResource &&
+          !(bearer && isLegacyToken(bearer))
+        ) {
           return dodoResource(dodo, handlers['/mcp'], bearer, request, env, ctx);
         }
         const pathToken =
@@ -118,7 +123,10 @@ async function dodoResource<E, Props>(
     } catch (error) {
       console.error('dodo-auth introspection failed', error);
       return Response.json(
-        { error: 'temporarily_unavailable', error_description: 'The authorization server is not available. Try again later.' },
+        {
+          error: 'temporarily_unavailable',
+          error_description: 'The authorization server is not available. Try again later.',
+        },
         { status: 503, headers: { 'retry-after': '5' } },
       );
     }

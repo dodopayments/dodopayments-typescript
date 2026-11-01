@@ -13,8 +13,13 @@ async function loadBundle(entry) {
       {
         name: 'workers-runtime',
         setup(plugin) {
-          plugin.onResolve({ filter: /^cloudflare:workers$/ }, () => ({ path: 'workers', namespace: 'fixture' }));
-          plugin.onLoad({ filter: /.*/, namespace: 'fixture' }, () => ({ contents: 'export class WorkerEntrypoint {}' }));
+          plugin.onResolve({ filter: /^cloudflare:workers$/ }, () => ({
+            path: 'workers',
+            namespace: 'fixture',
+          }));
+          plugin.onLoad({ filter: /.*/, namespace: 'fixture' }, () => ({
+            contents: 'export class WorkerEntrypoint {}',
+          }));
         },
       },
     ],
@@ -27,7 +32,12 @@ const { apiTokenFor, requestMode } = await loadBundle('src/dodo-auth.ts');
 const origin = 'https://mcp.example.com';
 const issuer = 'https://auth.example.com';
 const dodoEnv = {
-  OAUTH_KV: { get: async () => null, put: async () => {}, delete: async () => {}, list: async () => ({ keys: [], list_complete: true }) },
+  OAUTH_KV: {
+    get: async () => null,
+    put: async () => {},
+    delete: async () => {},
+    list: async () => ({ keys: [], list_complete: true }),
+  },
   DODO_AUTH_ISSUER: issuer,
   DODO_AUTH_MCP_RESOURCE: `${origin}/mcp`,
   DODO_AUTH_API_RESOURCE_TEST: 'https://test.example.com',
@@ -108,7 +118,10 @@ test('a grant with two modes needs the Dodo-Mode header, and a mode outside the 
   assert.equal((await call(dodoEnv, '/mcp', { authorization: 'Bearer two' })).status, 400);
   const live = await call(dodoEnv, '/mcp', { authorization: 'Bearer two', 'dodo-mode': 'live' });
   assert.equal((await live.json()).dodoAuth.mode, 'live');
-  assert.equal((await call(dodoEnv, '/mcp', { authorization: 'Bearer one', 'dodo-mode': 'live' })).status, 400);
+  assert.equal(
+    (await call(dodoEnv, '/mcp', { authorization: 'Bearer one', 'dodo-mode': 'live' })).status,
+    400,
+  );
 });
 
 test('an inactive token or a token for a different resource gets 401 with the challenge', async () => {
