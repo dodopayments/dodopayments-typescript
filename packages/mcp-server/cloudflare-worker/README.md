@@ -24,6 +24,26 @@ Requirements:
 - The `worker_loaders` binding (`LOADER`) must be enabled on the Cloudflare account. Worker Loaders is in open beta; deployment fails if the account is not entitled.
 - `npm run build:isolate` runs automatically on `postinstall` and before `dev`/`deploy`; `src/isolate-bundle.generated.ts` is a generated artifact and is git-ignored.
 
+## Dodo Payments sign-in (dodo-auth)
+
+When these five secrets are set, the MCP resource at `/mcp` uses the Dodo Payments authorization server. If one secret is missing, the Worker uses only its own API-key sign-in.
+
+| Secret                        | Production value                              |
+| ----------------------------- | --------------------------------------------- |
+| `DODO_AUTH_ISSUER`            | `https://auth.dodopayments.com`               |
+| `DODO_AUTH_MCP_RESOURCE`      | `https://mcp.dodopayments.com/mcp`            |
+| `DODO_AUTH_API_RESOURCE_TEST` | `https://test.dodopayments.com`               |
+| `DODO_AUTH_API_RESOURCE_LIVE` | `https://live.dodopayments.com`               |
+| `MCP_WORKER_CLIENT_SECRET`    | `MCP_WORKER_CLIENT_SECRET` of `dodo_auth/prd` |
+
+- The metadata at `/.well-known/oauth-protected-resource/mcp` names `DODO_AUTH_ISSUER`. New clients thus sign in at Dodo Payments.
+- The Worker introspects each token. It never sends the MCP token to the API. The `execute` tool exchanges the MCP token (RFC 8693) for an API token of 5 minutes.
+- A connection with test mode and live mode must send the `Dodo-Mode: test` or `Dodo-Mode: live` header.
+- The mode of a session cannot change. A request with a different mode gets a 404, and the client must start a new session.
+- A token of the Worker's own server (the form `user:grant:secret`) works until it expires.
+
+To turn it off, delete `DODO_AUTH_ISSUER`.
+
 ## Usage
 
 The recommended way to use this project is to use the below "deploy to cloudflare" button to use this repo as a template for generating a server.
