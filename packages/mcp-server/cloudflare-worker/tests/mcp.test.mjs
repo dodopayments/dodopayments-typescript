@@ -38,14 +38,7 @@ const { default: worker } = await loadBundle("export { default } from './src/ind
 const origin = 'https://mcp.example.com';
 const issuer = 'https://auth.example.com';
 const ctx = { waitUntil() {}, passThroughOnException() {} };
-const kv = {
-  get: async () => null,
-  put: async () => {},
-  delete: async () => {},
-  list: async () => ({ keys: [], list_complete: true }),
-};
 const dodoEnv = {
-  OAUTH_KV: kv,
   DODO_AUTH_ISSUER: issuer,
   DODO_AUTH_MCP_RESOURCE: `${origin}/mcp`,
   DODO_AUTH_API_RESOURCE_TEST: 'https://test.example.com',
@@ -54,7 +47,6 @@ const dodoEnv = {
 };
 
 const readGrant = {
-  kind: 'dodo',
   token: 'mcp-token',
   mode: 'test',
   scopes: ['payments:read', 'refunds:read'],
@@ -238,8 +230,9 @@ test('tools/list annotations follow the grant', async () => {
   assert.equal(write.execute.annotations.readOnlyHint, false);
   assert.equal(write.execute.annotations.destructiveHint, true);
 
-  const apiKey = await annotationsOf({ kind: 'api-key', clientOptions: { bearerToken: 'k' } });
-  assert.equal(apiKey.execute.annotations.destructiveHint, true);
+  const none = await annotationsOf({ ...readGrant, scopes: [] });
+  assert.equal(none.execute.annotations.readOnlyHint, true);
+  assert.match(none.execute.description, /scopes: none\./);
 });
 
 test('an API 403 becomes a tool error with the missing scope', async () => {
@@ -271,18 +264,10 @@ test('an API 403 becomes a tool error with the missing scope', async () => {
   );
 });
 
-test('a 403 keeps the API result for an API key, a caught 403, and a path with no MCP scope', async () => {
+test('a 403 keeps the API result for a caught 403 and for a path with no MCP scope', async () => {
   const forbidden = { method: 'POST', path: '/refunds', message: 'Forbidden' };
   const call = (session, run) =>
     legacyCall(session, 'tools/call', { name: 'execute', arguments: { code: 'x' } }, deps(fakeLoader(run)));
-
-  const apiKey = await call(
-    { kind: 'api-key', clientOptions: { bearerToken: 'k' } },
-    { is_error: true, result: 'PermissionDeniedError: 403', log_lines: [], err_lines: [], forbidden },
-  );
-  assert.equal(apiKey.isError, true);
-  assert.equal(apiKey._meta?.['mcp/www_authenticate'], undefined);
-  assert.ok(!JSON.stringify(apiKey.content).includes('refunds:write'));
 
   const caught = await call(readGrant, {
     is_error: false,

@@ -2,8 +2,7 @@
 //
 // The Worker never sends a dodo-auth MCP token to the API (no token passthrough). It
 // introspects the MCP token, then exchanges it (RFC 8693) for a short API token of the
-// mode of the request. All settings are optional: without them, only the legacy
-// API-key tokens of this Worker work.
+// mode of the request. Without all five settings, the Worker does not accept MCP requests.
 
 export type DodoMode = 'test' | 'live';
 
@@ -48,7 +47,7 @@ export interface Introspection {
 const CLIENT_ID = 'mcp_worker';
 const TOKEN_EXCHANGE = 'urn:ietf:params:oauth:grant-type:token-exchange';
 const ACCESS_TOKEN_TYPE = 'urn:ietf:params:oauth:token-type:access_token';
-const INTROSPECTION_CACHE_MS = 30_000;
+const INTROSPECTION_CACHE_MS = 60_000;
 const EXCHANGE_MARGIN_MS = 30_000;
 const CACHE_LIMIT = 1000;
 const TIMEOUT_MS = 5_000;
@@ -84,7 +83,7 @@ export function dodoAuthConfig(env: DodoAuthEnv): DodoAuthConfig | undefined {
   };
 }
 
-/** A token of this Worker's own authorization server has the form `user:grant:secret`. */
+/** A token of the removed Worker authorization server has the form `user:grant:secret`. */
 export function isLegacyToken(token: string): boolean {
   return token.includes(':');
 }

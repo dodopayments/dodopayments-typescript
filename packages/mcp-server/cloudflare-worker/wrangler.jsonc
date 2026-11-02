@@ -9,13 +9,6 @@
   "compatibility_date": "2025-10-01",
   "compatibility_flags": ["nodejs_compat"],
   "worker_loaders": [{ "binding": "LOADER" }],
-  "ratelimits": [
-    {
-      "name": "APPROVE_RATE_LIMITER",
-      "namespace_id": "1001",
-      "simple": { "limit": 10, "period": 60 },
-    },
-  ],
   // The stateless Worker has no Durable Object. v2 deletes MyMCP and its session storage.
   "migrations": [
     {
@@ -25,12 +18,6 @@
     {
       "deleted_classes": ["MyMCP"],
       "tag": "v2",
-    },
-  ],
-  "kv_namespaces": [
-    {
-      "binding": "OAUTH_KV",
-      "id": "f6b42367fc184a6a81d0f17ebfb0b537",
     },
   ],
   "observability": {

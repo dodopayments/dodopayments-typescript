@@ -1,175 +1,232 @@
+// The Worker is an OAuth resource server of dodo-auth. It has no authorization server of its own.
+//
+// - Protected resource metadata (RFC 9728) at the root path and at the `/mcp` path.
+// - A copy of the authorization server metadata of dodo-auth (RFC 8414). The issuer stays dodo-auth.
+// - `/authorize`, `/token` and `/register` send the client to the endpoints of dodo-auth.
+// - `POST /mcp` needs a dodo-auth MCP token. The Worker introspects it.
+
 import {
-  OAuthAuthorizationServer,
-  OAuthResourceServer,
-  type OAuthHelpers,
-  type OAuthResourceHandler,
-} from '@cloudflare/workers-oauth-provider';
-import {
-  dodoAuthConfig,
   introspectMcpToken,
   isLegacyToken,
   requestMode,
   type DodoAuthConfig,
-  type DodoAuthEnv,
   type DodoAuthProps,
 } from './dodo-auth';
+import { CORS_HEADERS } from './mcp';
 
-type ConsentHandler<E> = {
-  fetch(
-    request: Request,
-    env: E & { OAUTH_PROVIDER: OAuthHelpers },
-    ctx: ExecutionContext,
-  ): Response | Promise<Response>;
+const PRM_PATHS: ReadonlySet<string> = new Set([
+  '/.well-known/oauth-protected-resource',
+  '/.well-known/oauth-protected-resource/mcp',
+]);
+const AS_METADATA_PATH = '/.well-known/oauth-authorization-server';
+
+/** The path on this host, and the field of the dodo-auth metadata that gives the target endpoint. */
+const PASS_THROUGH: Readonly<Record<string, string>> = {
+  '/authorize': 'authorization_endpoint',
+  '/token': 'token_endpoint',
+  '/register': 'registration_endpoint',
 };
 
-// 0.x advertised the origin, /mcp and /sse separately. Keep all three registered:
-// replacing them with one resource would invalidate existing grants on refresh.
-// The /sse transport is gone, so only /mcp serves requests. Tokens for any of the
-// three resources work on /mcp.
-// Construct per request so the workers.dev alias and localhost keep their own issuer.
-export function makeOAuthHandler<E extends { OAUTH_KV: KVNamespace } & DodoAuthEnv, Props>(
-  mcpHandler: OAuthResourceHandler<E, Props>,
-  consent: ConsentHandler<E>,
-) {
-  return {
-    async fetch(request: Request, env: E, ctx: ExecutionContext): Promise<Response> {
-      const { origin, pathname } = new URL(request.url);
-      const authorizationServer = new OAuthAuthorizationServer<E>({
-        issuer: origin,
-        resources: [origin, `${origin}/mcp`, `${origin}/sse`],
-        defaultResource: origin,
-        legacyGrantResource: origin,
-        authorizeEndpoint: '/authorize',
-        tokenEndpoint: '/token',
-        clientRegistrationEndpoint: '/register',
-        // mcp-remote refreshes only after a 401, so retain the 24h access TTL to
-        // avoid repeated browser prompts. Explicit undefined overrides the 30d
-        // refresh / 90d registration defaults; existing sessions never expire.
-        accessTokenTTL: 86400,
-        refreshTokenTTL: undefined,
-        clientRegistrationTTL: undefined,
-      });
+const METADATA_TTL_MS = 3_600_000;
+/** After a failed fetch, the Worker uses its stale copy and tries again after this time. */
+const METADATA_RETRY_MS = 60_000;
+const METADATA_TIMEOUT_MS = 5_000;
 
-      const path =
-        pathname === '/mcp' || pathname === '/.well-known/oauth-protected-resource/mcp' ? '/mcp' : undefined;
-      if (path || pathname === '/.well-known/oauth-protected-resource') {
-        const handler = mcpHandler;
-        // Origin-bound (including previously unbound) tokens cover both transports.
-        // Use the origin resource host for those tokens, without rewriting audience.
-        // Metadata documents are public and must describe the requested path whatever
-        // token the client sends, so only transport requests are pre-validated. The
-        // path-bound audience is tried first because that is what most clients hold.
-        const isTransport = path !== undefined && !pathname.startsWith('/.well-known/');
-        const bearer =
-          isTransport ? request.headers.get('authorization')?.match(/^Bearer\s+(\S+)$/i)?.[1] : undefined;
+const DISCOVERY_CORS: Record<string, string> = {
+  'access-control-allow-origin': '*',
+  'access-control-allow-methods': 'GET, HEAD, OPTIONS',
+  'access-control-allow-headers': '*',
+  'access-control-max-age': '86400',
+};
 
-        // With dodo-auth configured, the MCP resource of this origin belongs to dodo-auth. New
-        // clients go there. Tokens of this Worker's own server keep working until they end.
-        const dodo = dodoAuthConfig(env);
-        if (
-          dodo &&
-          path === '/mcp' &&
-          `${origin}/mcp` === dodo.mcpResource &&
-          !(bearer && isLegacyToken(bearer))
-        ) {
-          return dodoResource(dodo, mcpHandler, bearer, request, env, ctx);
-        }
-        const pathToken =
-          bearer ? await authorizationServer.validateToken<Props>(`${origin}${path}`, bearer, env) : null;
-        const sseToken =
-          bearer && !pathToken ?
-            await authorizationServer.validateToken<Props>(`${origin}/sse`, bearer, env)
-          : null;
-        const originToken =
-          bearer && !pathToken && !sseToken ?
-            await authorizationServer.validateToken<Props>(origin, bearer, env)
-          : null;
-        const resource = originToken || !path ? origin : `${origin}${path}`;
-        // A token for the removed /sse resource is valid for the same grant on /mcp.
-        const sseAsMcp = sseToken ? { ...sseToken, audience: resource } : null;
-        const host = new OAuthResourceServer<E, Props>({
-          resourceMetadata: { resource, authorization_servers: [origin] },
-          handler,
-          validateToken: () => (audience, token) =>
-            (sseAsMcp ?? originToken) && token === bearer ?
-              Promise.resolve(sseAsMcp ?? originToken)
-            : authorizationServer.validateToken<Props>(audience, token, env),
-        });
-        return host.fetch(request, env, ctx);
-      }
+type Metadata = Record<string, unknown>;
 
-      if (
-        pathname === '/token' ||
-        pathname === '/register' ||
-        pathname === '/.well-known/oauth-authorization-server'
-      ) {
-        return authorizationServer.fetch(request, env, ctx);
-      }
-      return consent.fetch(request, { ...env, OAUTH_PROVIDER: authorizationServer.getOAuthApi(env) }, ctx);
-    },
-  };
+/** The metadata copy of each issuer. `until` is the time of the next fetch. */
+const metadataCopies = new Map<string, { metadata: Metadata; until: number }>();
+
+function isRecord(value: unknown): value is Metadata {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-/** Serves the MCP resource for a dodo-auth token, or the metadata and the 401 challenge without one. */
-async function dodoResource<E, Props>(
-  config: DodoAuthConfig,
-  handler: OAuthResourceHandler<E, Props>,
-  bearer: string | undefined,
-  request: Request,
-  env: E,
-  ctx: ExecutionContext,
-): Promise<Response> {
-  let props: { dodoAuth: DodoAuthProps } | undefined;
-  let expiresAt = 0;
-  let scope: string[] = [];
-  if (bearer) {
-    let introspection;
-    try {
-      introspection = await introspectMcpToken(config, bearer);
-    } catch (error) {
-      console.error('dodo-auth introspection failed', error);
-      return Response.json(
-        {
-          error: 'temporarily_unavailable',
-          error_description: 'The authorization server is not available. Try again later.',
-        },
-        { status: 503, headers: { 'retry-after': '5' } },
-      );
-    }
-    if (introspection) {
-      const mode = requestMode(introspection, request.headers.get('dodo-mode'));
-      if (typeof mode !== 'string') {
-        return Response.json({ error: 'invalid_request', error_description: mode.error }, { status: 400 });
-      }
-      props = {
-        dodoAuth: {
-          token: bearer,
-          mode,
-          subject: introspection.sub ?? '',
-          clientId: introspection.client_id ?? '',
-          businessId: introspection.business_id ?? '',
-          scopes: (introspection.scope ?? '').split(' ').filter(Boolean),
-          ...(introspection.exp !== undefined && { expiresAt: introspection.exp }),
-        },
-      };
-      expiresAt = introspection.exp ?? 0;
-      scope = (introspection.scope ?? '').split(' ').filter(Boolean);
-    }
-  }
-  const host = new OAuthResourceServer<E, Props>({
-    resourceMetadata: { resource: config.mcpResource, authorization_servers: [config.issuer] },
-    handler,
-    validateToken: () => async (_audience, token) =>
-      props && token === bearer ?
-        {
-          props: props as Props,
-          audience: config.mcpResource,
-          expiresAt,
-          scope,
-          userId: props.dodoAuth.subject,
-          clientId: props.dodoAuth.clientId,
-        }
-      : null,
+async function fetchMetadata(config: DodoAuthConfig): Promise<Metadata> {
+  const response = await fetch(`${config.issuer}${AS_METADATA_PATH}`, {
+    headers: { accept: 'application/json' },
+    signal: AbortSignal.timeout(METADATA_TIMEOUT_MS),
   });
-  return host.fetch(request, env, ctx);
+  if (!response.ok) {
+    throw new Error(`dodo-auth metadata returned ${response.status}`);
+  }
+  const body: unknown = await response.json();
+  // RFC 8414, section 3.3: the issuer in the document must be the issuer that the client uses.
+  if (!isRecord(body) || body['issuer'] !== config.issuer) {
+    throw new Error('dodo-auth metadata does not have the configured issuer');
+  }
+  return body;
+}
+
+/**
+ * The authorization server metadata of dodo-auth, kept for one hour. If dodo-auth is not
+ * available, the stale copy is used. `fresh` is false for a stale copy.
+ */
+export async function authServerMetadata(
+  config: DodoAuthConfig,
+): Promise<{ metadata: Metadata; fresh: boolean } | undefined> {
+  const copy = metadataCopies.get(config.issuer);
+  if (copy && copy.until > Date.now()) return { metadata: copy.metadata, fresh: true };
+  try {
+    const metadata = await fetchMetadata(config);
+    metadataCopies.set(config.issuer, { metadata, until: Date.now() + METADATA_TTL_MS });
+    return { metadata, fresh: true };
+  } catch (error) {
+    console.error('dodo-auth metadata fetch failed', error);
+    if (!copy) return undefined;
+    metadataCopies.set(config.issuer, { metadata: copy.metadata, until: Date.now() + METADATA_RETRY_MS });
+    return { metadata: copy.metadata, fresh: false };
+  }
+}
+
+function oauthError(status: number, error: string, description: string, headers: HeadersInit = {}): Response {
+  return Response.json(
+    { error, error_description: description },
+    { status, headers: { 'cache-control': 'no-store', ...DISCOVERY_CORS, ...headers } },
+  );
+}
+
+function notConfigured(): Response {
+  return oauthError(503, 'temporarily_unavailable', 'Sign-in is not configured on this server.');
+}
+
+function metadataUnavailable(): Response {
+  return oauthError(
+    502,
+    'temporarily_unavailable',
+    'The authorization server is not available. Try again later.',
+    { 'retry-after': '30' },
+  );
+}
+
+function protectedResourceMetadata(config: DodoAuthConfig): Response {
+  return Response.json(
+    {
+      resource: config.mcpResource,
+      authorization_servers: [config.issuer],
+      bearer_methods_supported: ['header'],
+    },
+    { headers: { 'cache-control': 'public, max-age=3600', ...DISCOVERY_CORS } },
+  );
+}
+
+async function metadataCopy(config: DodoAuthConfig): Promise<Response> {
+  const result = await authServerMetadata(config);
+  if (!result) return metadataUnavailable();
+  return Response.json(result.metadata, {
+    headers: { 'cache-control': `public, max-age=${result.fresh ? 3600 : 60}`, ...DISCOVERY_CORS },
+  });
+}
+
+async function passThrough(request: Request, config: DodoAuthConfig, field: string): Promise<Response> {
+  const result = await authServerMetadata(config);
+  if (!result) return metadataUnavailable();
+  const endpoint = result.metadata[field];
+  if (typeof endpoint !== 'string') {
+    return oauthError(404, 'invalid_request', 'The authorization server does not have this endpoint.');
+  }
+  const target = new URL(endpoint);
+  target.search = new URL(request.url).search;
+  // 307 keeps the method and the body of POST /token and POST /register. Clients do not
+  // keep a 307, so a change of the dodo-auth endpoints takes effect when the copy expires.
+  return new Response(null, {
+    status: 307,
+    headers: { location: target.toString(), 'cache-control': 'no-store', ...DISCOVERY_CORS },
+  });
+}
+
+/**
+ * The discovery documents and the pass-through endpoints. `undefined` means that the path is
+ * not one of them.
+ */
+export async function discoveryResponse(
+  request: Request,
+  config: DodoAuthConfig | undefined,
+): Promise<Response | undefined> {
+  const { pathname } = new URL(request.url);
+  const field = PASS_THROUGH[pathname];
+  const isDocument = PRM_PATHS.has(pathname) || pathname === AS_METADATA_PATH;
+  if (!isDocument && field === undefined) return undefined;
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: DISCOVERY_CORS });
+  }
+  if (!config) return notConfigured();
+  if (field !== undefined) return passThrough(request, config, field);
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    return new Response(null, { status: 405, headers: { allow: 'GET, HEAD, OPTIONS', ...DISCOVERY_CORS } });
+  }
+  return PRM_PATHS.has(pathname) ? protectedResourceMetadata(config) : metadataCopy(config);
+}
+
+function challenge(request: Request, error?: { code: string; description: string }): Response {
+  const metadataUrl = `${new URL(request.url).origin}/.well-known/oauth-protected-resource/mcp`;
+  const params = [
+    'realm="OAuth"',
+    ...(error ? [`error="${error.code}"`, `error_description="${error.description}"`] : []),
+    `resource_metadata="${metadataUrl}"`,
+  ];
+  return Response.json(
+    {
+      error: error?.code ?? 'invalid_token',
+      error_description: error?.description ?? 'This request needs an access token.',
+    },
+    { status: 401, headers: { 'www-authenticate': `Bearer ${params.join(', ')}`, ...CORS_HEADERS } },
+  );
+}
+
+/** The session of a request to `POST /mcp`, or the error response. */
+export async function authenticate(
+  request: Request,
+  config: DodoAuthConfig,
+): Promise<DodoAuthProps | Response> {
+  const bearer = request.headers.get('authorization')?.match(/^Bearer\s+(\S+)$/i)?.[1];
+  if (!bearer) return challenge(request);
+  // A token of the removed Worker authorization server. dodo-auth does not know it.
+  if (isLegacyToken(bearer)) {
+    return challenge(request, {
+      code: 'invalid_token',
+      description: 'This connection uses the old sign-in. Connect again.',
+    });
+  }
+  let introspection;
+  try {
+    introspection = await introspectMcpToken(config, bearer);
+  } catch (error) {
+    console.error('dodo-auth introspection failed', error);
+    return Response.json(
+      {
+        error: 'temporarily_unavailable',
+        error_description: 'The authorization server is not available. Try again later.',
+      },
+      { status: 503, headers: { 'retry-after': '5', ...CORS_HEADERS } },
+    );
+  }
+  if (!introspection) {
+    return challenge(request, {
+      code: 'invalid_token',
+      description: 'The access token is not active for this server.',
+    });
+  }
+  const mode = requestMode(introspection, request.headers.get('dodo-mode'));
+  if (typeof mode !== 'string') {
+    return Response.json(
+      { error: 'invalid_request', error_description: mode.error },
+      { status: 400, headers: CORS_HEADERS },
+    );
+  }
+  return {
+    token: bearer,
+    mode,
+    subject: introspection.sub ?? '',
+    clientId: introspection.client_id ?? '',
+    businessId: introspection.business_id ?? '',
+    scopes: (introspection.scope ?? '').split(' ').filter(Boolean),
+    ...(introspection.exp !== undefined && { expiresAt: introspection.exp }),
+  };
 }

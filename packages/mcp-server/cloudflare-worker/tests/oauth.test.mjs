@@ -1,15 +1,16 @@
 import assert from 'node:assert/strict';
-import { test } from 'node:test';
+import { afterEach, test } from 'node:test';
 import { build } from 'esbuild';
 
-// Bundle just the OAuth adapter: no Workers runtime or production credentials needed.
+// Bundle the Worker for Node: no Workers runtime or production credentials needed.
 async function loadBundle(entry) {
   const bundled = await build({
-    entryPoints: [entry],
+    stdin: { contents: entry, resolveDir: process.cwd(), loader: 'ts' },
     bundle: true,
     write: false,
     format: 'esm',
     platform: 'node',
+    alias: { '@valtown/deno-http-worker': './src/stubs/deno-http-worker.ts' },
     plugins: [
       {
         name: 'workers-runtime',
@@ -19,7 +20,7 @@ async function loadBundle(entry) {
             namespace: 'fixture',
           }));
           plugin.onLoad({ filter: /.*/, namespace: 'fixture' }, () => ({
-            contents: 'export class WorkerEntrypoint {}',
+            contents: 'export class WorkerEntrypoint {}\nexport const env = {};',
           }));
         },
       },
@@ -27,215 +28,178 @@ async function loadBundle(entry) {
   });
   return import(`data:text/javascript;base64,${Buffer.from(bundled.outputFiles[0].text).toString('base64')}`);
 }
-const { makeOAuthHandler } = await loadBundle('src/oauth.ts');
-const { default: LegacyOAuthProvider } = await loadBundle(
-  'node_modules/oauth-provider-v0/dist/oauth-provider.js',
-);
+const { default: worker } = await loadBundle("export { default } from './src/index.ts';");
+
 const origin = 'https://mcp.example.com';
-const ctx = { waitUntil() {} };
+const ctx = { waitUntil() {}, passThroughOnException() {} };
+const realFetch = globalThis.fetch;
+const realNow = Date.now;
+afterEach(() => {
+  globalThis.fetch = realFetch;
+  Date.now = realNow;
+});
 
-class MemoryKV {
-  entries = new Map();
-  async put(key, value, options = {}) {
-    this.entries.set(key, {
-      value,
-      metadata: options.metadata,
-      expiration:
-        options.expiration ??
-        (options.expirationTtl ? Math.floor(Date.now() / 1000) + options.expirationTtl : undefined),
-    });
-  }
-  async get(key, type) {
-    const entry = this.entries.get(key);
-    if (!entry || (entry.expiration && entry.expiration <= Date.now() / 1000)) return null;
-    return type === 'json' || type?.type === 'json' ? JSON.parse(entry.value) : entry.value;
-  }
-  async delete(key) {
-    this.entries.delete(key);
-  }
-  async list({ prefix = '' } = {}) {
-    return {
-      keys: [...this.entries]
-        .filter(([name]) => name.startsWith(prefix))
-        .map(([name, entry]) => ({ name, metadata: entry.metadata })),
-      list_complete: true,
-      cursor: '',
-    };
-  }
+// The Worker keeps one metadata copy for each issuer, so each test uses its own issuer.
+let issuerCount = 0;
+function newIssuer() {
+  issuerCount += 1;
+  return `https://auth${issuerCount}.example.com`;
 }
 
-const consent = {
-  async fetch(request, env) {
-    const auth = await env.OAUTH_PROVIDER.parseAuthRequest(request);
-    const { redirectTo } = await env.OAUTH_PROVIDER.completeAuthorization({
-      request: auth,
-      userId: 'dodo_test',
-      metadata: {},
-      scope: auth.scope,
-      props: { clientProps: { bearerToken: 'fixture-not-a-real-key', environment: 'test_mode' } },
-    });
-    return Response.redirect(redirectTo);
-  },
-};
-const mcpHandler = { fetch: (_req, _env, context) => Response.json(context.props) };
-// The 0.x provider served both transports; the current Worker serves only /mcp.
-const handlers = { '/mcp': mcpHandler, '/sse': mcpHandler };
-function fixture() {
-  const env = { OAUTH_KV: new MemoryKV() };
-  const current = makeOAuthHandler(mcpHandler, consent);
-  const legacy = new LegacyOAuthProvider({
-    apiHandlers: handlers,
-    defaultHandler: consent,
-    authorizeEndpoint: '/authorize',
-    tokenEndpoint: '/token',
-    clientRegistrationEndpoint: '/register',
-    accessTokenTTL: 86400,
-    refreshTokenTTL: undefined,
-    clientRegistrationTTL: undefined,
-  });
-  const call = (provider, path, init) => provider.fetch(new Request(origin + path, init), env, ctx);
-  return { env, current, legacy, call };
-}
-async function tokens(f, provider, resource) {
-  const registration = await f.call(provider, '/register', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      client_name: 'fixture',
-      redirect_uris: ['http://localhost:9999/cb'],
-      token_endpoint_auth_method: 'none',
-      grant_types: ['authorization_code', 'refresh_token'],
-      response_types: ['code'],
-    }),
-  });
-  assert.equal(registration.status, 201);
-  const { client_id } = await registration.json();
-  const verifier = 'x'.repeat(64);
-  const challenge = Buffer.from(
-    await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier)),
-  ).toString('base64url');
-  const query = new URLSearchParams({
-    client_id,
-    redirect_uri: 'http://localhost:9999/cb',
-    response_type: 'code',
-    state: 'fixture',
-    code_challenge: challenge,
-    code_challenge_method: 'S256',
-    scope: '',
-  });
-  if (resource) query.set('resource', resource);
-  const authorized = await f.call(provider, `/authorize?${query}`);
-  assert.equal(authorized.status, 302);
-  const code = new URL(authorized.headers.get('location')).searchParams.get('code');
-  const body = new URLSearchParams({
-    grant_type: 'authorization_code',
-    client_id,
-    code,
-    code_verifier: verifier,
-    redirect_uri: 'http://localhost:9999/cb',
-  });
-  if (resource) body.set('resource', resource);
-  const exchange = await f.call(provider, '/token', { method: 'POST', body });
-  assert.equal(exchange.status, 200, await exchange.clone().text());
-  return { ...(await exchange.json()), client_id };
+function envFor(issuer) {
+  return {
+    DODO_AUTH_ISSUER: issuer,
+    DODO_AUTH_MCP_RESOURCE: `${origin}/mcp`,
+    DODO_AUTH_API_RESOURCE_TEST: 'https://test.example.com',
+    DODO_AUTH_API_RESOURCE_LIVE: 'https://live.example.com',
+    MCP_WORKER_CLIENT_SECRET: 's'.repeat(43),
+  };
 }
 
-for (const path of ['', '/mcp']) {
-  test(`discovery preserves ${path || 'origin'} audience when upgraded`, async () => {
-    // Given the 0.x advertised audiences; When clients discover 1.x; Then URLs stay exact.
-    const f = fixture();
-    const response = await f.call(f.current, '/.well-known/oauth-protected-resource' + path);
-    assert.equal(response.status, 200);
-    assert.equal((await response.json()).resource, origin + path);
-  });
+function metadataOf(issuer) {
+  return {
+    issuer,
+    authorization_endpoint: `${issuer}/oauth2/authorize`,
+    token_endpoint: `${issuer}/oauth2/token`,
+    registration_endpoint: `${issuer}/oauth2/register`,
+    token_endpoint_auth_methods_supported: ['none', 'client_secret_basic'],
+    client_id_metadata_document_supported: true,
+  };
 }
-for (const path of ['', '/mcp', '/sse']) {
-  test(`old ${path || 'origin'} tokens and refresh remain valid when upgraded`, async () => {
-    // Given real 0.8.0 registrations/grants/tokens in KV.
-    const f = fixture();
-    const old = await tokens(f, f.legacy, origin + path);
-    // When the identical KV is served by 1.x, Then the access token still authorizes /mcp.
-    // The /sse transport is removed, so its tokens also work on /mcp.
-    const apiPaths = ['/mcp'];
-    for (const apiPath of apiPaths) {
-      const access = await f.call(f.current, apiPath, {
-        headers: { authorization: `Bearer ${old.access_token}` },
-      });
-      assert.equal(access.status, 200, await access.clone().text());
-      assert.equal((await access.json()).clientProps.environment, 'test_mode');
+
+/** Serves the metadata of dodo-auth. `state.down` makes it fail. `state.calls` counts the fetches. */
+function fakeIssuer(issuer, metadata = metadataOf(issuer)) {
+  const state = { calls: 0, down: false };
+  globalThis.fetch = async (input) => {
+    if (String(input) === `${issuer}/.well-known/oauth-authorization-server`) {
+      state.calls += 1;
+      return state.down ? new Response('down', { status: 502 }) : Response.json(metadata);
     }
-    const refresh = await f.call(f.current, '/token', {
-      method: 'POST',
-      body: new URLSearchParams({
-        grant_type: 'refresh_token',
-        client_id: old.client_id,
-        refresh_token: old.refresh_token,
-        resource: origin + path,
-      }),
-    });
-    assert.equal(refresh.status, 200, await refresh.clone().text());
-    const next = await refresh.json();
-    assert.equal(next.expires_in, 86400);
-    for (const apiPath of apiPaths) {
-      const renewed = await f.call(f.current, apiPath, {
-        headers: { authorization: `Bearer ${next.access_token}` },
-      });
-      assert.equal(renewed.status, 200);
-    }
-  });
+    return new Response('offline', { status: 503 });
+  };
+  return state;
 }
-test('unbound old grants refresh to the legacy origin when resource is omitted', async () => {
-  const f = fixture();
-  const old = await tokens(f, f.legacy);
-  const response = await f.call(f.current, '/token', {
-    method: 'POST',
-    body: new URLSearchParams({
-      grant_type: 'refresh_token',
-      client_id: old.client_id,
-      refresh_token: old.refresh_token,
-    }),
-  });
-  assert.equal(response.status, 200, await response.clone().text());
-});
-test('new registrations and S256 token flow work for each registered resource', async () => {
-  const f = fixture();
-  for (const path of ['/mcp', '/sse']) {
-    const issued = await tokens(f, f.current, origin + path);
-    const response = await f.call(f.current, '/mcp', {
-      headers: { authorization: `Bearer ${issued.access_token}` },
-    });
-    assert.equal(response.status, 200);
+
+const get = (env, path, init = {}) => worker.fetch(new Request(origin + path, init), env, ctx);
+
+test('the root PRM and the /mcp PRM name the /mcp resource and dodo-auth', async () => {
+  const issuer = newIssuer();
+  for (const path of ['/.well-known/oauth-protected-resource', '/.well-known/oauth-protected-resource/mcp']) {
+    const response = await get(envFor(issuer), path);
+    assert.equal(response.status, 200, path);
+    assert.equal(response.headers.get('access-control-allow-origin'), '*');
+    const metadata = await response.json();
+    assert.equal(metadata.resource, `${origin}/mcp`, path);
+    assert.deepEqual(metadata.authorization_servers, [issuer], path);
+    assert.equal(metadata.scopes_supported, undefined, path);
   }
 });
-test('path metadata is served even when the request carries an origin-bound token', async () => {
-  const f = fixture();
-  const old = await tokens(f, f.legacy, origin);
-  for (const path of ['/mcp']) {
-    const response = await f.call(f.current, '/.well-known/oauth-protected-resource' + path, {
-      headers: { authorization: `Bearer ${old.access_token}` },
-    });
-    assert.equal(response.status, 200);
-    assert.equal((await response.json()).resource, origin + path);
+
+test('the AS metadata is a copy of the dodo-auth metadata, with the dodo-auth issuer', async () => {
+  const issuer = newIssuer();
+  fakeIssuer(issuer);
+  const response = await get(envFor(issuer), '/.well-known/oauth-authorization-server');
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), metadataOf(issuer));
+  assert.equal(response.headers.get('cache-control'), 'public, max-age=3600');
+});
+
+test('the metadata copy is kept for one hour', async () => {
+  const issuer = newIssuer();
+  const state = fakeIssuer(issuer);
+  const start = realNow();
+  await get(envFor(issuer), '/.well-known/oauth-authorization-server');
+  Date.now = () => start + 3_500_000;
+  await get(envFor(issuer), '/.well-known/oauth-authorization-server');
+  assert.equal(state.calls, 1);
+  Date.now = () => start + 3_700_000;
+  await get(envFor(issuer), '/.well-known/oauth-authorization-server');
+  assert.equal(state.calls, 2);
+});
+
+test('if dodo-auth is down, the stale copy is served, and with no copy the answer is 502', async () => {
+  const issuer = newIssuer();
+  const state = fakeIssuer(issuer);
+  const start = realNow();
+  await get(envFor(issuer), '/.well-known/oauth-authorization-server');
+  state.down = true;
+  Date.now = () => start + 3_700_000;
+  const stale = await get(envFor(issuer), '/.well-known/oauth-authorization-server');
+  assert.equal(stale.status, 200);
+  assert.equal((await stale.json()).issuer, issuer);
+  assert.equal(stale.headers.get('cache-control'), 'public, max-age=60');
+
+  const other = newIssuer();
+  fakeIssuer(other).down = true;
+  const missing = await get(envFor(other), '/.well-known/oauth-authorization-server');
+  assert.equal(missing.status, 502);
+  assert.equal((await missing.json()).error, 'temporarily_unavailable');
+});
+
+test('a metadata document with a different issuer is not copied', async () => {
+  const issuer = newIssuer();
+  fakeIssuer(issuer, { ...metadataOf(issuer), issuer: 'https://evil.example.com' });
+  const response = await get(envFor(issuer), '/.well-known/oauth-authorization-server');
+  assert.equal(response.status, 502);
+});
+
+test('/authorize, /token and /register redirect to the dodo-auth endpoints with 307', async () => {
+  const issuer = newIssuer();
+  fakeIssuer(issuer);
+  const env = envFor(issuer);
+  const authorize = await get(env, '/authorize?response_type=code&client_id=c1&state=s');
+  assert.equal(authorize.status, 307);
+  assert.equal(
+    authorize.headers.get('location'),
+    `${issuer}/oauth2/authorize?response_type=code&client_id=c1&state=s`,
+  );
+  const token = await get(env, '/token', { method: 'POST', body: 'grant_type=refresh_token' });
+  assert.equal(token.status, 307);
+  assert.equal(token.headers.get('location'), `${issuer}/oauth2/token`);
+  const register = await get(env, '/register', { method: 'POST', body: '{}' });
+  assert.equal(register.status, 307);
+  assert.equal(register.headers.get('location'), `${issuer}/oauth2/register`);
+});
+
+test('the consent screen of the removed Worker server is gone', async () => {
+  const env = envFor(newIssuer());
+  for (const [method, path] of [
+    ['POST', '/approve'],
+    ['GET', '/approve'],
+    ['GET', '/demo'],
+    ['GET', '/.well-known/openid-configuration'],
+  ]) {
+    const response = await get(env, path, { method });
+    assert.equal(response.status, 404, `${method} ${path}`);
   }
 });
-test('a request without a token gets 401 with the resource metadata URL', async () => {
-  const f = fixture();
-  const response = await f.call(f.current, '/mcp', { method: 'POST' });
+
+test('POST /mcp without a token gets 401 with the PRM URL of /mcp', async () => {
+  const response = await get(envFor(newIssuer()), '/mcp', { method: 'POST' });
   assert.equal(response.status, 401);
-  assert.match(response.headers.get('www-authenticate') ?? '', /resource_metadata=/);
+  assert.equal(
+    response.headers.get('www-authenticate'),
+    `Bearer realm="OAuth", resource_metadata="${origin}/.well-known/oauth-protected-resource/mcp"`,
+  );
+  assert.equal(response.headers.get('access-control-expose-headers'), 'www-authenticate');
 });
-test('unregistered resource is rejected at refresh', async () => {
-  const f = fixture();
-  const issued = await tokens(f, f.current, origin + '/mcp');
-  const response = await f.call(f.current, '/token', {
-    method: 'POST',
-    body: new URLSearchParams({
-      grant_type: 'refresh_token',
-      client_id: issued.client_id,
-      refresh_token: issued.refresh_token,
-      resource: origin + '/other',
-    }),
+
+test('without the dodo-auth settings, /mcp and the discovery documents get 503', async () => {
+  const { DODO_AUTH_ISSUER: _unused, ...env } = envFor(newIssuer());
+  for (const path of [
+    '/.well-known/oauth-protected-resource',
+    '/.well-known/oauth-authorization-server',
+    '/authorize',
+  ]) {
+    assert.equal((await get(env, path)).status, 503, path);
+  }
+  assert.equal((await get(env, '/mcp', { method: 'POST' })).status, 503);
+});
+
+test('the discovery documents answer a CORS preflight', async () => {
+  const response = await get(envFor(newIssuer()), '/.well-known/oauth-protected-resource', {
+    method: 'OPTIONS',
   });
-  assert.equal(response.status, 400);
-  assert.equal((await response.json()).error, 'invalid_target');
+  assert.equal(response.status, 204);
+  assert.equal(response.headers.get('access-control-allow-origin'), '*');
 });

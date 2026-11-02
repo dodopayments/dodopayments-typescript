@@ -10,7 +10,6 @@ interface ConformanceEnv {
 }
 
 const session: McpSession = {
-  kind: 'dodo',
   token: 'conformance',
   mode: 'test',
   scopes: ['payments:read'],

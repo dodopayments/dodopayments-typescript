@@ -2,13 +2,15 @@ import assert from 'node:assert/strict';
 import { afterEach, test } from 'node:test';
 import { build } from 'esbuild';
 
+// Bundle the Worker modules for Node: no Workers runtime or production credentials needed.
 async function loadBundle(entry) {
   const bundled = await build({
-    entryPoints: [entry],
+    stdin: { contents: entry, resolveDir: process.cwd(), loader: 'ts' },
     bundle: true,
     write: false,
     format: 'esm',
     platform: 'node',
+    alias: { '@valtown/deno-http-worker': './src/stubs/deno-http-worker.ts' },
     plugins: [
       {
         name: 'workers-runtime',
@@ -18,7 +20,7 @@ async function loadBundle(entry) {
             namespace: 'fixture',
           }));
           plugin.onLoad({ filter: /.*/, namespace: 'fixture' }, () => ({
-            contents: 'export class WorkerEntrypoint {}',
+            contents: 'export class WorkerEntrypoint {}\nexport const env = {};',
           }));
         },
       },
@@ -26,27 +28,19 @@ async function loadBundle(entry) {
   });
   return import(`data:text/javascript;base64,${Buffer.from(bundled.outputFiles[0].text).toString('base64')}`);
 }
-const { makeOAuthHandler } = await loadBundle('src/oauth.ts');
-const { apiTokenFor, requestMode } = await loadBundle('src/dodo-auth.ts');
+const { apiTokenFor, dodoAuthConfig, requestMode, authenticate } = await loadBundle(
+  "export * from './src/dodo-auth.ts'; export { authenticate } from './src/oauth.ts';",
+);
 
 const origin = 'https://mcp.example.com';
 const issuer = 'https://auth.example.com';
 const dodoEnv = {
-  OAUTH_KV: {
-    get: async () => null,
-    put: async () => {},
-    delete: async () => {},
-    list: async () => ({ keys: [], list_complete: true }),
-  },
   DODO_AUTH_ISSUER: issuer,
   DODO_AUTH_MCP_RESOURCE: `${origin}/mcp`,
   DODO_AUTH_API_RESOURCE_TEST: 'https://test.example.com',
   DODO_AUTH_API_RESOURCE_LIVE: 'https://live.example.com',
   MCP_WORKER_CLIENT_SECRET: 's'.repeat(43),
 };
-const ctx = { waitUntil() {} };
-const mcpHandler = { fetch: (_req, _env, context) => Response.json(context.props) };
-const consent = { fetch: () => new Response('consent') };
 const realFetch = globalThis.fetch;
 afterEach(() => {
   globalThis.fetch = realFetch;
@@ -79,22 +73,14 @@ const active = (extra = {}) => ({
   scope: 'payments:read',
   ...extra,
 });
-const call = (env, path, headers = {}) =>
-  makeOAuthHandler(mcpHandler, consent).fetch(new Request(origin + path, { headers }), env, ctx);
-
-test('the MCP resource metadata names dodo-auth when it is configured', async () => {
-  const response = await call(dodoEnv, '/.well-known/oauth-protected-resource/mcp');
-  assert.equal(response.status, 200);
-  const metadata = await response.json();
-  assert.equal(metadata.resource, `${origin}/mcp`);
-  assert.deepEqual(metadata.authorization_servers, [issuer]);
-});
-
-test('without dodo-auth settings the metadata names this Worker', async () => {
-  const { DODO_AUTH_ISSUER: _unused, ...env } = dodoEnv;
-  const response = await call(env, '/.well-known/oauth-protected-resource/mcp');
-  assert.deepEqual((await response.json()).authorization_servers, [origin]);
-});
+/** The session for a POST /mcp request, as `{ dodoAuth }`, or the error response. */
+async function call(env, path, headers = {}) {
+  const result = await authenticate(
+    new Request(origin + path, { method: 'POST', headers }),
+    dodoAuthConfig(env),
+  );
+  return result instanceof Response ? result : Response.json({ dodoAuth: result });
+}
 
 test('a dodo-auth token gets the session props with its mode, and the worker client authenticates', async () => {
   const calls = fakeDodoAuth({ tok1: active({ mode: 'test' }) });
@@ -133,11 +119,32 @@ test('an inactive token or a token for a different resource gets 401 with the ch
   }
 });
 
-test('a token of this Worker does not go to dodo-auth', async () => {
+test('a token of the removed Worker server gets 401 and does not go to dodo-auth', async () => {
   const calls = fakeDodoAuth({});
   const response = await call(dodoEnv, '/mcp', { authorization: 'Bearer user:grant:secret' });
   assert.equal(response.status, 401);
+  assert.match(response.headers.get('www-authenticate') ?? '', /error="invalid_token"/);
+  assert.match((await response.json()).error_description, /Connect again/);
   assert.equal(calls.length, 0);
+});
+
+test('the introspection of a token is kept for 60 seconds', async () => {
+  const calls = fakeDodoAuth({ cached: active({ mode: 'test' }) });
+  const realNow = Date.now;
+  try {
+    assert.equal((await call(dodoEnv, '/mcp', { authorization: 'Bearer cached' })).status, 200);
+    assert.equal((await call(dodoEnv, '/mcp', { authorization: 'Bearer cached' })).status, 200);
+    assert.equal(calls.length, 1);
+    const start = realNow();
+    Date.now = () => start + 59_000;
+    await call(dodoEnv, '/mcp', { authorization: 'Bearer cached' });
+    assert.equal(calls.length, 1);
+    Date.now = () => start + 61_000;
+    await call(dodoEnv, '/mcp', { authorization: 'Bearer cached' });
+    assert.equal(calls.length, 2);
+  } finally {
+    Date.now = realNow;
+  }
 });
 
 test('dodo-auth down gives 503, not 401', async () => {
