@@ -5,4 +5,6 @@ interface Env {
   DODO_AUTH_API_RESOURCE_TEST?: string;
   DODO_AUTH_API_RESOURCE_LIVE?: string;
   MCP_WORKER_CLIENT_SECRET?: string;
+  /** The dashboard page where a user changes the scopes of a connection. */
+  DODO_PROFILE_SETTINGS_URL?: string;
 }

@@ -77,13 +77,12 @@ const consent = {
     return Response.redirect(redirectTo);
   },
 };
-const handlers = {
-  '/mcp': { fetch: (_req, _env, context) => Response.json(context.props) },
-  '/sse': { fetch: (_req, _env, context) => Response.json(context.props) },
-};
+const mcpHandler = { fetch: (_req, _env, context) => Response.json(context.props) };
+// The 0.x provider served both transports; the current Worker serves only /mcp.
+const handlers = { '/mcp': mcpHandler, '/sse': mcpHandler };
 function fixture() {
   const env = { OAUTH_KV: new MemoryKV() };
-  const current = makeOAuthHandler(handlers, consent);
+  const current = makeOAuthHandler(mcpHandler, consent);
   const legacy = new LegacyOAuthProvider({
     apiHandlers: handlers,
     defaultHandler: consent,
@@ -141,7 +140,7 @@ async function tokens(f, provider, resource) {
   return { ...(await exchange.json()), client_id };
 }
 
-for (const path of ['', '/mcp', '/sse']) {
+for (const path of ['', '/mcp']) {
   test(`discovery preserves ${path || 'origin'} audience when upgraded`, async () => {
     // Given the 0.x advertised audiences; When clients discover 1.x; Then URLs stay exact.
     const f = fixture();
@@ -149,13 +148,15 @@ for (const path of ['', '/mcp', '/sse']) {
     assert.equal(response.status, 200);
     assert.equal((await response.json()).resource, origin + path);
   });
+}
+for (const path of ['', '/mcp', '/sse']) {
   test(`old ${path || 'origin'} tokens and refresh remain valid when upgraded`, async () => {
     // Given real 0.8.0 registrations/grants/tokens in KV.
     const f = fixture();
     const old = await tokens(f, f.legacy, origin + path);
-    // When the identical KV is served by 1.x, Then the access token still authorizes.
-    // Origin-bound tokens covered both transports in 0.x, so check both.
-    const apiPaths = path ? [path] : ['/mcp', '/sse'];
+    // When the identical KV is served by 1.x, Then the access token still authorizes /mcp.
+    // The /sse transport is removed, so its tokens also work on /mcp.
+    const apiPaths = ['/mcp'];
     for (const apiPath of apiPaths) {
       const access = await f.call(f.current, apiPath, {
         headers: { authorization: `Bearer ${old.access_token}` },
@@ -196,11 +197,11 @@ test('unbound old grants refresh to the legacy origin when resource is omitted',
   });
   assert.equal(response.status, 200, await response.clone().text());
 });
-test('new registrations and S256 token flow work for both transports', async () => {
+test('new registrations and S256 token flow work for each registered resource', async () => {
   const f = fixture();
   for (const path of ['/mcp', '/sse']) {
     const issued = await tokens(f, f.current, origin + path);
-    const response = await f.call(f.current, path, {
+    const response = await f.call(f.current, '/mcp', {
       headers: { authorization: `Bearer ${issued.access_token}` },
     });
     assert.equal(response.status, 200);
@@ -209,7 +210,7 @@ test('new registrations and S256 token flow work for both transports', async () 
 test('path metadata is served even when the request carries an origin-bound token', async () => {
   const f = fixture();
   const old = await tokens(f, f.legacy, origin);
-  for (const path of ['/mcp', '/sse']) {
+  for (const path of ['/mcp']) {
     const response = await f.call(f.current, '/.well-known/oauth-protected-resource' + path, {
       headers: { authorization: `Bearer ${old.access_token}` },
     });
@@ -217,13 +218,11 @@ test('path metadata is served even when the request carries an origin-bound toke
     assert.equal((await response.json()).resource, origin + path);
   }
 });
-test('path-bound token cannot authorize the other transport', async () => {
+test('a request without a token gets 401 with the resource metadata URL', async () => {
   const f = fixture();
-  const issued = await tokens(f, f.current, origin + '/mcp');
-  const response = await f.call(f.current, '/sse', {
-    headers: { authorization: `Bearer ${issued.access_token}` },
-  });
+  const response = await f.call(f.current, '/mcp', { method: 'POST' });
   assert.equal(response.status, 401);
+  assert.match(response.headers.get('www-authenticate') ?? '', /resource_metadata=/);
 });
 test('unregistered resource is rejected at refresh', async () => {
   const f = fixture();

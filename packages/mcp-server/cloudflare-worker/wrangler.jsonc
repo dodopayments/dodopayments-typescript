@@ -16,20 +16,17 @@
       "simple": { "limit": 10, "period": 60 },
     },
   ],
+  // The stateless Worker has no Durable Object. v2 deletes MyMCP and its session storage.
   "migrations": [
     {
       "new_sqlite_classes": ["MyMCP"],
       "tag": "v1",
     },
+    {
+      "deleted_classes": ["MyMCP"],
+      "tag": "v2",
+    },
   ],
-  "durable_objects": {
-    "bindings": [
-      {
-        "class_name": "MyMCP",
-        "name": "MCP_OBJECT",
-      },
-    ],
-  },
   "kv_namespaces": [
     {
       "binding": "OAUTH_KV",

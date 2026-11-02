@@ -1,0 +1,13 @@
+// Local only: `npm run dev:conformance`. Never deploy this config.
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "dodopayments-mcp-conformance-local",
+  "main": "conformance-worker.ts",
+  "compatibility_date": "2025-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "worker_loaders": [{ "binding": "LOADER" }],
+  "workers_dev": false,
+  "alias": {
+    "@valtown/deno-http-worker": "../src/stubs/deno-http-worker.ts",
+  },
+}

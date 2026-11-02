@@ -24,9 +24,11 @@ type ConsentHandler<E> = {
 
 // 0.x advertised the origin, /mcp and /sse separately. Keep all three registered:
 // replacing them with one resource would invalidate existing grants on refresh.
+// The /sse transport is gone, so only /mcp serves requests. Tokens for any of the
+// three resources work on /mcp.
 // Construct per request so the workers.dev alias and localhost keep their own issuer.
 export function makeOAuthHandler<E extends { OAUTH_KV: KVNamespace } & DodoAuthEnv, Props>(
-  handlers: Readonly<Record<'/mcp' | '/sse', OAuthResourceHandler<E, Props>>>,
+  mcpHandler: OAuthResourceHandler<E, Props>,
   consent: ConsentHandler<E>,
 ) {
   return {
@@ -48,14 +50,10 @@ export function makeOAuthHandler<E extends { OAUTH_KV: KVNamespace } & DodoAuthE
         clientRegistrationTTL: undefined,
       });
 
-      const path = (['/mcp', '/sse'] as const).find(
-        (route) =>
-          pathname === route ||
-          pathname.startsWith(`${route}/`) ||
-          pathname === `/.well-known/oauth-protected-resource${route}`,
-      );
+      const path =
+        pathname === '/mcp' || pathname === '/.well-known/oauth-protected-resource/mcp' ? '/mcp' : undefined;
       if (path || pathname === '/.well-known/oauth-protected-resource') {
-        const handler = handlers[path ?? '/mcp'];
+        const handler = mcpHandler;
         // Origin-bound (including previously unbound) tokens cover both transports.
         // Use the origin resource host for those tokens, without rewriting audience.
         // Metadata documents are public and must describe the requested path whatever
@@ -74,19 +72,27 @@ export function makeOAuthHandler<E extends { OAUTH_KV: KVNamespace } & DodoAuthE
           `${origin}/mcp` === dodo.mcpResource &&
           !(bearer && isLegacyToken(bearer))
         ) {
-          return dodoResource(dodo, handlers['/mcp'], bearer, request, env, ctx);
+          return dodoResource(dodo, mcpHandler, bearer, request, env, ctx);
         }
         const pathToken =
           bearer ? await authorizationServer.validateToken<Props>(`${origin}${path}`, bearer, env) : null;
+        const sseToken =
+          bearer && !pathToken ?
+            await authorizationServer.validateToken<Props>(`${origin}/sse`, bearer, env)
+          : null;
         const originToken =
-          bearer && !pathToken ? await authorizationServer.validateToken<Props>(origin, bearer, env) : null;
+          bearer && !pathToken && !sseToken ?
+            await authorizationServer.validateToken<Props>(origin, bearer, env)
+          : null;
         const resource = originToken || !path ? origin : `${origin}${path}`;
+        // A token for the removed /sse resource is valid for the same grant on /mcp.
+        const sseAsMcp = sseToken ? { ...sseToken, audience: resource } : null;
         const host = new OAuthResourceServer<E, Props>({
           resourceMetadata: { resource, authorization_servers: [origin] },
           handler,
           validateToken: () => (audience, token) =>
-            originToken && token === bearer ?
-              Promise.resolve(originToken)
+            (sseAsMcp ?? originToken) && token === bearer ?
+              Promise.resolve(sseAsMcp ?? originToken)
             : authorizationServer.validateToken<Props>(audience, token, env),
         });
         return host.fetch(request, env, ctx);
@@ -142,6 +148,8 @@ async function dodoResource<E, Props>(
           subject: introspection.sub ?? '',
           clientId: introspection.client_id ?? '',
           businessId: introspection.business_id ?? '',
+          scopes: (introspection.scope ?? '').split(' ').filter(Boolean),
+          ...(introspection.exp !== undefined && { expiresAt: introspection.exp }),
         },
       };
       expiresAt = introspection.exp ?? 0;

@@ -5,12 +5,28 @@ import { ISOLATE_BOOTSTRAP } from './isolate-bundle.generated';
 
 export type ExecuteToolResult = ToolCallResult;
 
+/** The last API call of the run that got 403 Forbidden. */
+export type ForbiddenCall = { method: string; path: string; message?: string };
+
+export type ExecuteRun = { result: ExecuteToolResult; forbidden?: ForbiddenCall };
+
 type IsolateOutput = {
   is_error: boolean;
   result: unknown;
   log_lines: string[];
   err_lines: string[];
+  forbidden?: ForbiddenCall;
 };
+
+function isForbiddenCall(value: unknown): value is ForbiddenCall {
+  if (typeof value !== 'object' || value === null) return false;
+  const { method, path, message } = value as Record<string, unknown>;
+  return (
+    typeof method === 'string' &&
+    typeof path === 'string' &&
+    (message === undefined || typeof message === 'string')
+  );
+}
 
 // `cpuMs` is the authoritative hard stop for untrusted code: Cloudflare terminates
 // the isolate when it is exceeded (enforced on the network, not in `wrangler dev
@@ -48,7 +64,7 @@ export async function runExecute(args: {
   code: string;
   loader: WorkerLoader;
   clientOptions: ClientOptions;
-}): Promise<ExecuteToolResult> {
+}): Promise<ExecuteRun> {
   const { code, loader, clientOptions } = args;
 
   // A unique key per call gives every execution a fresh isolate with no shared
@@ -81,7 +97,7 @@ export async function runExecute(args: {
   try {
     response = await Promise.race([stub.getEntrypoint().fetch(new Request('https://isolate/')), timeout]);
   } catch (e) {
-    return asErrorResult(e instanceof Error ? e.message : String(e));
+    return { result: asErrorResult(e instanceof Error ? e.message : String(e)) };
   } finally {
     if (timeoutId != null) {
       clearTimeout(timeoutId);
@@ -92,8 +108,9 @@ export async function runExecute(args: {
   try {
     output = (await response.json()) as IsolateOutput;
   } catch {
-    return asErrorResult('Code execution returned an unreadable response.');
+    return { result: asErrorResult('Code execution returned an unreadable response.') };
   }
 
-  return toMcpResult(output);
+  const result = toMcpResult(output);
+  return isForbiddenCall(output.forbidden) ? { result, forbidden: output.forbidden } : { result };
 }

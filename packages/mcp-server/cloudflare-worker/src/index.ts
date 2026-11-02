@@ -1,59 +1,63 @@
-import { makeOAuthConsent } from './app';
-// `agents` and `@modelcontextprotocol/sdk` versions must stay in sync with the
-// pins/overrides in package.json. `agents` declares an exact peer on
-// `@modelcontextprotocol/sdk` (older than our pin); the overrides force one copy.
-// If they drift, npm installs a second copy under `agents/node_modules/`, and
-// `initMcpServer`'s runtime `instanceof McpServer` check fails because the two
-// `McpServer` classes are distinct constructors.
-import { McpAgent } from 'agents/mcp';
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import {
-  CallToolRequestSchema,
-  ListToolsRequestSchema,
-  type CallToolRequest,
-  type ListToolsResult,
-  type ServerResult,
-} from '@modelcontextprotocol/sdk/types.js';
 import type { OAuthResourceHandler } from '@cloudflare/workers-oauth-provider';
+import type { ClientOptions } from 'dodopayments';
+import { makeOAuthConsent } from './app';
+import { apiTokenFor, dodoAuthConfig, type DodoAuthProps } from './dodo-auth';
+import { serveMcp, transportGate, type McpSession } from './mcp';
 import { makeOAuthHandler } from './oauth';
-import { ClientOptions } from 'dodopayments';
-import { McpOptions } from 'dodopayments-mcp/options';
-import { initMcpServer, newMcpServer } from 'dodopayments-mcp/server';
-import { configureLogger } from 'dodopayments-mcp/logger';
-import { executeToolDescriptor, runExecute } from './execute-tool';
-import { apiTokenFor, dodoAuthConfig, ExchangeRefusedError, type DodoAuthProps } from './dodo-auth';
 
-// Explicit booleans for all three MCP tool hints. The generated package sets only
-// `readOnlyHint` on `search_docs` and nothing on `execute`; the OpenAI plugin
-// directory refuses submission unless every tool carries all three.
-// - search_docs reads the embedded docs index: read-only, no side effects.
-// - execute runs arbitrary SDK code against the caller's account, so it can create,
-//   refund, cancel or delete real resources in Dodo Payments.
-const TOOL_HINTS: Record<
-  string,
-  { readOnlyHint: boolean; destructiveHint: boolean; openWorldHint: boolean }
-> = {
-  search_docs: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
-  execute: { readOnlyHint: false, destructiveHint: true, openWorldHint: true },
-};
+/** A grant of this Worker's own OAuth server: the API key that the user pasted on the consent page. */
+type LegacyProps = { clientProps: ClientOptions };
 
-type LegacyProps = {
-  clientProps: ClientOptions;
-  clientConfig: McpOptions;
-};
-
-/** A session of a dodo-auth token. The API token comes from the exchange on each tool call. */
+/** A dodo-auth token. The API token comes from the exchange on each tool call. */
 type DodoProps = { dodoAuth: DodoAuthProps };
 
-type MCPProps = LegacyProps | DodoProps;
+export type MCPProps = LegacyProps | DodoProps;
 
-function isDodoProps(props: unknown): props is DodoProps {
-  return typeof props === 'object' && props !== null && 'dodoAuth' in props;
+const DEFAULT_PROFILE_URL = 'https://app.dodopayments.com';
+// The custom domain of the Worker. The `*.workers.dev` names are also allowed.
+const PRODUCTION_HOST = 'mcp.dodopayments.com';
+
+function allowedHosts(env: Env): string[] {
+  const hosts = [PRODUCTION_HOST];
+  if (env.DODO_AUTH_MCP_RESOURCE) {
+    try {
+      hosts.push(new URL(env.DODO_AUTH_MCP_RESOURCE).hostname);
+    } catch (error) {
+      console.error('DODO_AUTH_MCP_RESOURCE is not a URL', error);
+    }
+  }
+  return hosts;
 }
 
-// The SDK client of the package tools never calls the API for a dodo-auth session: the only
-// tool that does is `execute`, and it gets an exchanged token for each call.
-const DODO_PLACEHOLDER_KEY = 'dodo-auth-exchange';
+function sessionFor(props: MCPProps): McpSession {
+  if ('dodoAuth' in props) {
+    return { kind: 'dodo', ...props.dodoAuth };
+  }
+  return { kind: 'api-key', clientOptions: props.clientProps };
+}
+
+async function clientOptionsFor(env: Env, session: McpSession): Promise<ClientOptions> {
+  if (session.kind === 'api-key') return session.clientOptions;
+  const config = dodoAuthConfig(env);
+  if (!config) {
+    throw new Error('dodo-auth is not configured on this Worker');
+  }
+  return {
+    bearerToken: await apiTokenFor(config, session.token, session.mode),
+    environment: session.mode === 'live' ? 'live_mode' : 'test_mode',
+  };
+}
+
+const mcpHandler: OAuthResourceHandler<Env, MCPProps> = {
+  fetch(request, env, ctx) {
+    return serveMcp(request, sessionFor(ctx.props), {
+      loader: env.LOADER,
+      clientOptions: (session) => clientOptionsFor(env, session),
+      profileUrl: env.DODO_PROFILE_SETTINGS_URL ?? DEFAULT_PROFILE_URL,
+      allowedHosts: allowedHosts(env),
+    });
+  },
+};
 
 /**
  * The information displayed on the OAuth consent screen
@@ -88,207 +92,6 @@ const serverConfig: ServerConfig = {
   ],
 };
 
-// `newMcpServer` fetches MCP server instructions from the Stainless API. In a
-// Durable Object, that fetch happens inside `blockConcurrencyWhile`; if it
-// hangs the DO is reset, and if it rejects the same thing happens. Race
-// against a short timeout and catch any rejection so any failure mode lands
-// on a fallback server constructed without instructions (the `initialize`
-// response simply omits the `instructions` field, which is spec-allowed).
-const INSTRUCTIONS_FETCH_TIMEOUT_MS = 5000;
-
-function fallbackMcpServer(): McpServer {
-  return new McpServer(
-    { name: 'dodopayments_api', version: '2.56.1' },
-    { capabilities: { tools: {}, logging: {} } },
-  );
-}
-
-async function buildMcpServer(stainlessApiKey?: string): Promise<McpServer> {
-  let timeoutId: ReturnType<typeof setTimeout> | undefined;
-  try {
-    const fetched = newMcpServer({ stainlessApiKey });
-    const timeout = new Promise<null>((resolve) => {
-      timeoutId = setTimeout(() => resolve(null), INSTRUCTIONS_FETCH_TIMEOUT_MS);
-    });
-
-    const result = await Promise.race([fetched, timeout]);
-
-    if (result != null) {
-      return result;
-    }
-  } catch (error) {
-    console.error('Failed to build MCP server from upstream instructions; using fallback', error);
-  } finally {
-    if (timeoutId != null) {
-      clearTimeout(timeoutId);
-    }
-  }
-
-  return fallbackMcpServer();
-}
-
-export class MyMCP extends McpAgent<Env, unknown, MCPProps> {
-  #resolveServer!: (server: McpServer) => void;
-  #rejectServer!: (error: unknown) => void;
-  server: Promise<McpServer> = new Promise<McpServer>((resolve, reject) => {
-    this.#resolveServer = resolve;
-    this.#rejectServer = reject;
-  });
-
-  async init() {
-    try {
-      if (this.props == null) {
-        throw new Error('MCP props are not initialized');
-      }
-
-      configureLogger({ level: 'info', pretty: false });
-
-      const props = this.props;
-      const legacy = isDodoProps(props) ? undefined : props;
-      const server = await buildMcpServer(legacy?.clientConfig?.stainlessApiKey);
-
-      // `includeCodeTool: false` stops `dodopayments-mcp` from registering its own
-      // `execute` tool (which would proxy code to the remote Stainless sandbox).
-      // We register a self-hosted `execute` below that runs code in a Cloudflare
-      // Worker Loader isolate instead. `docsSearchMode: 'local'` makes
-      // `initMcpServer` build the embedded (no-fs) docs index `search_docs` needs.
-      // The consent page stores no `clientConfig`, so the package defaults apply in both cases.
-      const baseOptions: Partial<McpOptions> = legacy?.clientConfig ?? {};
-      const mcpOptions = {
-        ...baseOptions,
-        includeCodeTool: false,
-        docsSearchMode: 'local',
-      } as McpOptions;
-
-      await initMcpServer({
-        server,
-        clientOptions: legacy?.clientProps ?? { bearerToken: DODO_PLACEHOLDER_KEY },
-        mcpOptions,
-      });
-
-      this.#installExecuteTool(server);
-
-      this.#resolveServer(server);
-    } catch (error) {
-      this.#rejectServer(error);
-      throw error;
-    }
-  }
-
-  // `initMcpServer` installs the `tools/list` and `tools/call` handlers directly on
-  // the low-level `Server`. `McpServer.registerTool` would throw here because that
-  // handler already exists, so we instead re-install both handlers via the
-  // last-write-wins `setRequestHandler`, capturing the package's handlers and
-  // delegating to them for every tool except our self-hosted `execute`.
-  /**
-   * The Worker calls this for each request that has a session ID. A dodo-auth session gets the
-   * newest MCP token. The mode of a session cannot change, so a tool call cannot run in the mode
-   * of a different request. A token of a different user, client, business, or kind cannot take
-   * over the session.
-   */
-  async refreshProps(props: MCPProps): Promise<boolean> {
-    // After an eviction, `this.props` is empty until the transport starts the agent again.
-    const current = this.props ?? (await this.ctx.storage.get<MCPProps>('props'));
-    if (current === undefined) {
-      // No session with this ID: the transport answers the request.
-      return true;
-    }
-    if (!isDodoProps(props)) {
-      return !isDodoProps(current);
-    }
-    if (
-      !isDodoProps(current) ||
-      current.dodoAuth.subject !== props.dodoAuth.subject ||
-      current.dodoAuth.clientId !== props.dodoAuth.clientId ||
-      current.dodoAuth.businessId !== props.dodoAuth.businessId ||
-      current.dodoAuth.mode !== props.dodoAuth.mode
-    ) {
-      return false;
-    }
-    await this.updateProps(props);
-    return true;
-  }
-
-  /** The SDK options of the `execute` tool, read at call time. */
-  async #clientOptions(): Promise<ClientOptions> {
-    const props = this.props;
-    if (props === undefined) {
-      throw new Error('MCP props are not initialized');
-    }
-    if (!isDodoProps(props)) {
-      return props.clientProps;
-    }
-    const config = dodoAuthConfig(this.env);
-    if (!config) {
-      throw new Error('dodo-auth is not configured on this Worker');
-    }
-    const { token, mode } = props.dodoAuth;
-    return {
-      bearerToken: await apiTokenFor(config, token, mode),
-      environment: mode === 'live' ? 'live_mode' : 'test_mode',
-    };
-  }
-
-  #installExecuteTool(server: McpServer) {
-    const raw = server.server;
-    type InnerHandler = (request: unknown, extra: unknown) => Promise<ServerResult>;
-    const handlers = (raw as unknown as { _requestHandlers: Map<string, InnerHandler> })._requestHandlers;
-    const innerList = handlers.get('tools/list');
-    const innerCall = handlers.get('tools/call');
-
-    // Fail loudly at init rather than silently degrading at runtime: if a future
-    // `@modelcontextprotocol/sdk` release renames `_requestHandlers`, these lookups
-    // return undefined and we must not ship a server that drops `search_docs`.
-    if (!innerList || !innerCall) {
-      throw new Error(
-        'Expected dodopayments-mcp to have installed tools/list and tools/call handlers. ' +
-          'This usually means the @modelcontextprotocol/sdk internals changed; check version compatibility.',
-      );
-    }
-
-    raw.setRequestHandler(ListToolsRequestSchema, async (request, extra): Promise<ServerResult> => {
-      const base = (await innerList(request, extra)) as ListToolsResult;
-      const tools = [...base.tools, executeToolDescriptor].map((tool) => ({
-        ...tool,
-        annotations: { ...tool.annotations, ...TOOL_HINTS[tool.name] },
-      }));
-      return { ...base, tools };
-    });
-
-    raw.setRequestHandler(
-      CallToolRequestSchema,
-      async (request: CallToolRequest, extra): Promise<ServerResult> => {
-        if (request.params.name !== 'execute') {
-          return innerCall(request, extra);
-        }
-        const code = String(request.params.arguments?.code ?? '');
-        let clientOptions: ClientOptions;
-        try {
-          clientOptions = await this.#clientOptions();
-        } catch (error) {
-          if (error instanceof ExchangeRefusedError) {
-            return {
-              content: [
-                {
-                  type: 'text',
-                  text: `Dodo Payments refused this connection: ${error.message}. The access was revoked, or MCP access is off for this mode. Connect again.`,
-                },
-              ],
-              isError: true,
-            };
-          }
-          throw error;
-        }
-        return runExecute({
-          code,
-          loader: this.env.LOADER,
-          clientOptions,
-        });
-      },
-    );
-  }
-}
-
 export type ServerConfig = {
   /**
    * The name of the company/project
@@ -322,36 +125,22 @@ export type ClientProperty = {
   options?: { label: string; value: string; description?: string }[];
 };
 
-// Export the OAuth handler as the default
-const streamableHttp = MyMCP.serve('/mcp');
+const oauth = makeOAuthHandler<Env, MCPProps>(mcpHandler, makeOAuthConsent(serverConfig));
 
-// A session keeps its first props in the Durable Object. Each request with a session ID is checked
-// against them, and a dodo-auth session gets the current token, before the transport handles it.
-const mcpHandler: OAuthResourceHandler<Env, MCPProps> = {
-  async fetch(request, env, ctx) {
-    const sessionId = request.headers.get('mcp-session-id');
-    const props = ctx.props;
-    if (sessionId && props !== undefined) {
-      const stub = env.MCP_OBJECT.get(env.MCP_OBJECT.idFromName(`streamable-http:${sessionId}`));
-      if (!(await stub.refreshProps(props))) {
-        return Response.json(
-          {
-            jsonrpc: '2.0',
-            error: { code: -32001, message: 'The session belongs to a different connection.' },
-            id: null,
-          },
-          { status: 404 },
-        );
-      }
+function isRemovedSsePath(pathname: string): boolean {
+  return (
+    pathname === '/sse' ||
+    pathname.startsWith('/sse/') ||
+    pathname === '/.well-known/oauth-protected-resource/sse'
+  );
+}
+
+export default {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+    const { pathname } = new URL(request.url);
+    if (isRemovedSsePath(pathname)) {
+      return new Response('Not found. The SSE transport was removed: use POST /mcp.', { status: 404 });
     }
-    return streamableHttp.fetch(request, env, ctx);
+    return transportGate(request) ?? oauth.fetch(request, env, ctx);
   },
-};
-
-export default makeOAuthHandler<Env, MCPProps>(
-  {
-    '/sse': MyMCP.serveSSE('/sse'), // legacy SSE
-    '/mcp': mcpHandler, // Streaming HTTP
-  },
-  makeOAuthConsent(serverConfig),
-);
+} satisfies ExportedHandler<Env>;

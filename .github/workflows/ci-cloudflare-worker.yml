@@ -79,6 +79,9 @@ jobs:
       - name: Check types
         run: npm run typecheck
 
+      - name: Run tests
+        run: npm test
+
       - name: Test OAuth migration
         run: npm test
 

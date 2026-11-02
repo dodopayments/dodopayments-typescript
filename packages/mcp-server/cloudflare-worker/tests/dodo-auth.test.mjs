@@ -45,10 +45,7 @@ const dodoEnv = {
   MCP_WORKER_CLIENT_SECRET: 's'.repeat(43),
 };
 const ctx = { waitUntil() {} };
-const handlers = {
-  '/mcp': { fetch: (_req, _env, context) => Response.json(context.props) },
-  '/sse': { fetch: (_req, _env, context) => Response.json(context.props) },
-};
+const mcpHandler = { fetch: (_req, _env, context) => Response.json(context.props) };
 const consent = { fetch: () => new Response('consent') };
 const realFetch = globalThis.fetch;
 afterEach(() => {
@@ -83,7 +80,7 @@ const active = (extra = {}) => ({
   ...extra,
 });
 const call = (env, path, headers = {}) =>
-  makeOAuthHandler(handlers, consent).fetch(new Request(origin + path, { headers }), env, ctx);
+  makeOAuthHandler(mcpHandler, consent).fetch(new Request(origin + path, { headers }), env, ctx);
 
 test('the MCP resource metadata names dodo-auth when it is configured', async () => {
   const response = await call(dodoEnv, '/.well-known/oauth-protected-resource/mcp');
@@ -103,13 +100,16 @@ test('a dodo-auth token gets the session props with its mode, and the worker cli
   const calls = fakeDodoAuth({ tok1: active({ mode: 'test' }) });
   const response = await call(dodoEnv, '/mcp', { authorization: 'Bearer tok1' });
   assert.equal(response.status, 200, await response.clone().text());
-  assert.deepEqual((await response.json()).dodoAuth, {
+  const { expiresAt, ...dodoAuth } = (await response.json()).dodoAuth;
+  assert.deepEqual(dodoAuth, {
     token: 'tok1',
     mode: 'test',
     subject: 'user-1',
     clientId: 'https://claude.ai/meta',
     businessId: 'bus_1',
+    scopes: ['payments:read'],
   });
+  assert.ok(expiresAt > Date.now() / 1000);
   assert.equal(calls[0].authorization, `Basic ${btoa(`mcp_worker:${'s'.repeat(43)}`)}`);
 });
 
