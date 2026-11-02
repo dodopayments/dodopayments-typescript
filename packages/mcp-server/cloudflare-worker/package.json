@@ -14,7 +14,7 @@
     "cf-typegen": "wrangler types",
     "postinstall": "node scripts/patch-deps.js && node scripts/build-isolate.mjs",
     "dev:conformance": "npm run build:isolate && wrangler dev -c test-support/wrangler.conformance.jsonc",
-    "conformance": "npx -y @modelcontextprotocol/conformance@alpha server --url http://127.0.0.1:8787/mcp --requirements 2026-07-28 --expected-failures test-support/conformance-expected-failures.yml && npx -y @modelcontextprotocol/conformance@alpha server --url http://127.0.0.1:8787/mcp --requirements 2025-11-25 --expected-failures test-support/conformance-expected-failures.yml"
+    "conformance": "npx -y @modelcontextprotocol/conformance@0.2.0-alpha.12 server --url http://127.0.0.1:8787/mcp --requirements 2026-07-28 --expected-failures test-support/conformance-expected-failures-2026-07-28.yml && npx -y @modelcontextprotocol/conformance@0.2.0-alpha.12 server --url http://127.0.0.1:8787/mcp --requirements 2025-11-25 --expected-failures test-support/conformance-expected-failures-2025-11-25.yml"
   },
   "devDependencies": {
     "@modelcontextprotocol/client": "2.4.0",

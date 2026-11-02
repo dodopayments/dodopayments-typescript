@@ -38,7 +38,7 @@ The Worker serves MCP at `POST /mcp` only, with `@modelcontextprotocol/server` v
 
 ```bash
 npm run dev:conformance   # local only: serves /mcp on 127.0.0.1:8787 with a fixed read-only grant and no token check
-npm run conformance       # the 2026-07-28 and 2025-11-25 requirement sets, with test-support/conformance-expected-failures.yml
+npm run conformance       # the 2026-07-28 and 2025-11-25 requirement sets, with one test-support/conformance-expected-failures-<revision>.yml file for each set
 ```
 
 `test-support/wrangler.conformance.jsonc` builds `test-support/conformance-worker.ts`. The production config (`wrangler.jsonc`) builds `src/index.ts`, which does not import that file.

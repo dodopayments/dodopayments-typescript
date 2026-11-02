@@ -1,29 +1,23 @@
-# Known failures of `npm run conformance`. Each scenario in this list needs a fixture tool
+# Known failures of the 2026-07-28 run of `npm run conformance`. Each scenario in this list needs a fixture tool
 # (for example `test_simple_text`) or a capability (resources, prompts, completions, tasks,
 # logging, sampling, elicitation) that this server does not offer. A new failure that is not
-# in this list fails the run.
+# in this list fails the run. A listed scenario that passes also fails the run.
 server:
+  # server-stateless: the stateless checks pass. Four checks need the diagnostic tools
+  # test_missing_capability, test_streaming_elicitation and test_logging_tool.
   - server-stateless
   - completion-complete
-  - logging-set-level
   - tools-call-simple-text
   - tools-call-image
   - tools-call-audio
   - tools-call-embedded-resource
   - tools-call-mixed-content
-  - tools-call-with-logging
   - tools-call-error
   - tools-call-with-progress
-  - tools-call-sampling
-  - tools-call-elicitation
-  - elicitation-sep1034-defaults
-  - elicitation-sep1330-enums
   - resources-list
   - resources-read-text
   - resources-read-binary
   - resources-templates-read
-  - resources-subscribe
-  - resources-unsubscribe
   - prompts-list
   - prompts-get-simple
   - prompts-get-with-args
@@ -56,5 +50,3 @@ server:
   - sep-2164-resource-not-found
   - input-required-result-missing-input-response
   - input-required-result-ignore-extra-params
-  # 2025-11-25: warns that there is no session ID. The server is stateless by design.
-  - server-sse-multiple-streams
