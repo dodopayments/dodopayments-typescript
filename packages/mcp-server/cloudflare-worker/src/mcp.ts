@@ -21,27 +21,14 @@ import DodoPayments, { type ClientOptions } from 'dodopayments';
 import docsSearch, { setLocalSearch } from 'dodopayments-mcp/docs-search-tool';
 import { getInstructions } from 'dodopayments-mcp/instructions';
 import { LocalDocsSearch } from 'dodopayments-mcp/local-docs-search';
-import type { DodoMode } from './dodo-auth';
+import type { DodoAuthProps } from './dodo-auth';
 import { ExchangeRefusedError } from './dodo-auth';
 import { executeToolDescriptor, runExecute, type ForbiddenCall } from './execute-tool';
 
 export const SERVER_INFO = { name: 'dodopayments_api', version: '2.60.1' };
 
-/** The caller of one MCP request, after the token check. */
-export type McpSession =
-  /** A grant of the Worker's own OAuth server, with a pasted API key. */
-  | { kind: 'api-key'; clientOptions: ClientOptions }
-  /** A dodo-auth MCP token. The `execute` tool exchanges it for an API token on each call. */
-  | {
-      kind: 'dodo';
-      token: string;
-      mode: DodoMode;
-      scopes: string[];
-      subject: string;
-      clientId: string;
-      businessId: string;
-      expiresAt?: number;
-    };
+/** The caller of one MCP request: a dodo-auth MCP token after the token check. */
+export type McpSession = DodoAuthProps;
 
 export interface McpDeps {
   loader: WorkerLoader;
@@ -144,13 +131,8 @@ async function serverInstructions(): Promise<string | undefined> {
   }
 }
 
-function grantScopes(session: McpSession): string[] | undefined {
-  return session.kind === 'dodo' ? session.scopes : undefined;
-}
-
 function canWrite(session: McpSession): boolean {
-  const scopes = grantScopes(session);
-  return scopes === undefined || scopes.some((scope) => scope.endsWith(':write'));
+  return session.scopes.some((scope) => scope.endsWith(':write'));
 }
 
 function jsonValue(value: unknown): JSONValue {
@@ -193,11 +175,8 @@ function v2Tool(
 /** The tools for the grant of this request. The order is fixed. */
 export function toolsFor(session: McpSession): Tool[] {
   const write = canWrite(session);
-  const scopes = grantScopes(session);
-  const grantLine =
-    scopes === undefined ?
-      'This connection uses an API key, which has the permissions of that key.'
-    : `This connection can use these scopes: ${scopes.length > 0 ? scopes.join(', ') : 'none'}. A call that needs a different scope fails.`;
+  const { scopes } = session;
+  const grantLine = `This connection can use these scopes: ${scopes.length > 0 ? scopes.join(', ') : 'none'}. A call that needs a different scope fails.`;
   return [
     v2Tool(executeToolDescriptor, `${executeToolDescriptor.description ?? ''}\n\n${grantLine}`, {
       readOnlyHint: !write,
@@ -326,8 +305,8 @@ async function callExecute(
       defaultHeaders: { ...clientOptions.defaultHeaders, ...trace },
     },
   });
-  // An API key has no OAuth scopes, and a 403 that the code caught must not replace its result.
-  if (session.kind !== 'dodo' || !run.forbidden || !run.result.isError) return run.result;
+  // A 403 that the code caught must not replace its result.
+  if (!run.forbidden || !run.result.isError) return run.result;
   const scope = scopeForCall(run.forbidden);
   return scope ? scopeErrorResult(run.forbidden, origin, deps.profileUrl, scope) : run.result;
 }
@@ -361,9 +340,6 @@ export function buildServer(
 }
 
 function authInfoFor(session: McpSession): AuthInfo {
-  if (session.kind === 'api-key') {
-    return { token: 'api-key', clientId: 'worker-oauth', scopes: [] };
-  }
   return {
     token: session.token,
     clientId: session.clientId,

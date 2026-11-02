@@ -45,7 +45,7 @@ npm run conformance       # the 2026-07-28 and 2025-11-25 requirement sets, with
 
 ## Dodo Payments sign-in (dodo-auth)
 
-When these five secrets are set, the MCP resource at `/mcp` uses the Dodo Payments authorization server. If one secret is missing, the Worker uses only its own API-key sign-in.
+The Worker is an OAuth resource server of the Dodo Payments authorization server (dodo-auth). It has no authorization server of its own. Set these five secrets. If one secret is missing, `POST /mcp` and the discovery documents return 503.
 
 | Secret                        | Production value                              |
 | ----------------------------- | --------------------------------------------- |
@@ -55,13 +55,13 @@ When these five secrets are set, the MCP resource at `/mcp` uses the Dodo Paymen
 | `DODO_AUTH_API_RESOURCE_LIVE` | `https://live.dodopayments.com`               |
 | `MCP_WORKER_CLIENT_SECRET`    | `MCP_WORKER_CLIENT_SECRET` of `dodo_auth/prd` |
 
-- The metadata at `/.well-known/oauth-protected-resource/mcp` names `DODO_AUTH_ISSUER`. New clients thus sign in at Dodo Payments.
-- The Worker introspects each token. It never sends the MCP token to the API. The `execute` tool exchanges the MCP token (RFC 8693) for an API token of 5 minutes.
+- `/.well-known/oauth-protected-resource` and `/.well-known/oauth-protected-resource/mcp` give the same document. `resource` is `DODO_AUTH_MCP_RESOURCE`, and `authorization_servers` is `[DODO_AUTH_ISSUER]`.
+- `/.well-known/oauth-authorization-server` is a copy of the metadata of `DODO_AUTH_ISSUER`. The issuer in the copy is `DODO_AUTH_ISSUER`. The Worker keeps the copy for one hour. If dodo-auth is not available, the Worker gives its stale copy. If it has no copy, it returns 502.
+- `/authorize`, `/token` and `/register` return a 307 redirect to the endpoints in the dodo-auth metadata, with the same query string. A 307 keeps the method and the body.
+- A request to `POST /mcp` without a token gets 401 with `WWW-Authenticate: Bearer realm="OAuth", resource_metadata="<origin>/.well-known/oauth-protected-resource/mcp"`.
+- The Worker introspects each token and keeps the result for 60 seconds. It never sends the MCP token to the API. The `execute` tool exchanges the MCP token (RFC 8693) for an API token of 5 minutes.
 - A connection with test mode and live mode must send the `Dodo-Mode: test` or `Dodo-Mode: live` header.
-- Each request sends its token. The Worker keeps no MCP session, so each request uses the mode of its own token and header.
-- A token of the Worker's own server (the form `user:grant:secret`) works until it expires.
-
-To turn it off, delete `DODO_AUTH_ISSUER`.
+- A token of the removed Worker authorization server (the form `user:grant:secret`) gets 401. The client must connect again.
 
 ## Usage
 
@@ -87,7 +87,7 @@ To explore your new MCP api, you can use the [MCP Inspector](https://modelcontex
 
 - Start it with `npx @modelcontextprotocol/inspector`
 - [Within the inspector](http://localhost:5173), switch the Transport Type to `Streamable HTTP` and enter `http://localhost:8787/mcp` as the URL of the MCP server to connect to, and click "Connect"
-- You will navigate to a (mock) user/password login screen. Input any email and pass to login.
+- You will go to the Dodo Payments sign-in page of the dodo-auth issuer that you set.
 - You should be redirected back to the MCP Inspector and you can now list and call any defined tools!
 
 ## Connect Claude Desktop to your local MCP server
@@ -115,10 +115,9 @@ When you open Claude a browser window should open and allow you to login. You sh
 
 If you want to manually deploy this server (e.g. without the "deploy to cloudflare" button)
 
-1. `npx wrangler@latest kv namespace create remote-mcp-server-oauth-kv`
-2. Follow the guidance to add the kv namespace ID to `wrangler.jsonc`
-3. Ensure the target Cloudflare account has the Worker Loaders beta enabled (required by the `LOADER` binding for the `execute` tool)
-4. `npm run deploy`
+1. Set the five dodo-auth secrets (see above) with `npx wrangler secret put <NAME>`
+2. Ensure the target Cloudflare account has the Worker Loaders beta enabled (required by the `LOADER` binding for the `execute` tool)
+3. `npm run deploy`
 
 ## Call your newly deployed remote MCP server from a remote MCP client
 
