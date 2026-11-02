@@ -17,12 +17,31 @@ Security model:
 
 - Each execution gets its own V8 isolate with no shared state between calls.
 - The isolate runs with the **caller's own** API key (same trust level as a direct API call); no shared or privileged credential is exposed to user code.
-- Outbound `fetch` is enabled so the code can reach the DodoPayments API. The isolate cannot read the parent worker's bindings (KV, Durable Object, secrets) — it only receives what is explicitly passed in `env`.
+- Outbound `fetch` is enabled so the code can reach the DodoPayments API. The isolate cannot read the parent worker's bindings (KV, secrets) — it only receives what is explicitly passed in `env`.
 
 Requirements:
 
 - The `worker_loaders` binding (`LOADER`) must be enabled on the Cloudflare account. Worker Loaders is in open beta; deployment fails if the account is not entitled.
 - `npm run build:isolate` runs automatically on `postinstall` and before `dev`/`deploy`; `src/isolate-bundle.generated.ts` is a generated artifact and is git-ignored.
+
+## MCP transport
+
+The Worker serves MCP at `POST /mcp` only, with `@modelcontextprotocol/server` v2 (`createMcpHandler`):
+
+- Clients of the 2026-07-28 revision send `_meta` on each request. Clients that send `initialize` (2025 revisions) get a stateless answer from the same server.
+- The Worker keeps no session: no `Mcp-Session-Id`, no Durable Object. `GET /mcp` and `DELETE /mcp` return 405. `/sse` returns 404.
+- `tools/list` has `execute` and `search_docs`. The annotations of `execute` follow the scopes of the grant, so the list has `cacheScope: "private"` and `ttlMs: 300000`.
+- If the API returns 403 in `execute`, the tool returns an error with the missing scope and `_meta["mcp/www_authenticate"]`.
+- The `traceparent` and `tracestate` values of the request `_meta` go to the API calls of `execute`.
+
+### Conformance
+
+```bash
+npm run dev:conformance   # local only: serves /mcp on 127.0.0.1:8787 with a fixed read-only grant and no token check
+npm run conformance       # the 2026-07-28 and 2025-11-25 requirement sets, with one test-support/conformance-expected-failures-<revision>.yml file for each set
+```
+
+`test-support/wrangler.conformance.jsonc` builds `test-support/conformance-worker.ts`. The production config (`wrangler.jsonc`) builds `src/index.ts`, which does not import that file.
 
 ## Dodo Payments sign-in (dodo-auth)
 
@@ -39,7 +58,7 @@ When these five secrets are set, the MCP resource at `/mcp` uses the Dodo Paymen
 - The metadata at `/.well-known/oauth-protected-resource/mcp` names `DODO_AUTH_ISSUER`. New clients thus sign in at Dodo Payments.
 - The Worker introspects each token. It never sends the MCP token to the API. The `execute` tool exchanges the MCP token (RFC 8693) for an API token of 5 minutes.
 - A connection with test mode and live mode must send the `Dodo-Mode: test` or `Dodo-Mode: live` header.
-- The mode of a session cannot change. A request with a different mode gets a 404, and the client must start a new session.
+- Each request sends its token. The Worker keeps no MCP session, so each request uses the mode of its own token and header.
 - A token of the Worker's own server (the form `user:grant:secret`) works until it expires.
 
 To turn it off, delete `DODO_AUTH_ISSUER`.
@@ -67,7 +86,7 @@ You should be able to open [`http://localhost:8787/`](http://localhost:8787/) in
 To explore your new MCP api, you can use the [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector).
 
 - Start it with `npx @modelcontextprotocol/inspector`
-- [Within the inspector](http://localhost:5173), switch the Transport Type to `SSE` and enter `http://localhost:8787/sse` as the URL of the MCP server to connect to, and click "Connect"
+- [Within the inspector](http://localhost:5173), switch the Transport Type to `Streamable HTTP` and enter `http://localhost:8787/mcp` as the URL of the MCP server to connect to, and click "Connect"
 - You will navigate to a (mock) user/password login screen. Input any email and pass to login.
 - You should be redirected back to the MCP Inspector and you can now list and call any defined tools!
 
@@ -82,7 +101,7 @@ Open the file in your text editor and replace it with this configuration:
   "mcpServers": {
     "dodopayments_api": {
       "command": "npx",
-      "args": ["mcp-remote", "http://localhost:8787/sse"]
+      "args": ["mcp-remote", "http://localhost:8787/mcp"]
     }
   }
 }
@@ -107,20 +126,20 @@ Just like you did above in "Develop locally", run the MCP inspector:
 
 `npx @modelcontextprotocol/inspector@latest`
 
-Then enter the `workers.dev` URL (ex: `worker-name.account-name.workers.dev/sse`) of your Worker in the inspector as the URL of the MCP server to connect to, and click "Connect".
+Then enter the `workers.dev` URL (ex: `worker-name.account-name.workers.dev/mcp`) of your Worker in the inspector as the URL of the MCP server to connect to, and click "Connect".
 
 You've now connected to your MCP server from a remote MCP client.
 
 ## Connect Claude Desktop to your remote MCP server
 
-Update the Claude configuration file to point to your `workers.dev` URL (ex: `worker-name.account-name.workers.dev/sse`) and restart Claude
+Update the Claude configuration file to point to your `workers.dev` URL (ex: `worker-name.account-name.workers.dev/mcp`) and restart Claude
 
 ```json
 {
   "mcpServers": {
     "dodopayments_api": {
       "command": "npx",
-      "args": ["mcp-remote", "https://worker-name.account-name.workers.dev/sse"]
+      "args": ["mcp-remote", "https://worker-name.account-name.workers.dev/mcp"]
     }
   }
 }
@@ -132,7 +151,7 @@ Should anything go wrong it can be helpful to restart Claude, or to try connecti
 MCP server on the command line with the following command.
 
 ```bash
-npx mcp-remote http://localhost:8787/sse
+npx mcp-remote http://localhost:8787/mcp
 ```
 
 In some rare cases it may help to clear the files added to `~/.mcp-auth`

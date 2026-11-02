@@ -12,9 +12,12 @@
     "typecheck": "tsc --noEmit",
     "test": "node --test tests/*.test.mjs",
     "cf-typegen": "wrangler types",
-    "postinstall": "node scripts/patch-deps.js && node scripts/build-isolate.mjs"
+    "postinstall": "node scripts/patch-deps.js && node scripts/build-isolate.mjs",
+    "dev:conformance": "npm run build:isolate && wrangler dev -c test-support/wrangler.conformance.jsonc",
+    "conformance": "npx -y @modelcontextprotocol/conformance@0.2.0-alpha.12 server --url http://127.0.0.1:8787/mcp --requirements 2026-07-28 --expected-failures test-support/conformance-expected-failures-2026-07-28.yml && npx -y @modelcontextprotocol/conformance@0.2.0-alpha.12 server --url http://127.0.0.1:8787/mcp --requirements 2025-11-25 --expected-failures test-support/conformance-expected-failures-2025-11-25.yml"
   },
   "devDependencies": {
+    "@modelcontextprotocol/client": "2.4.0",
     "esbuild": "^0.28.2",
     "marked": "^18.1.0",
     "oauth-provider-v0": "npm:@cloudflare/workers-oauth-provider@0.8.0",
@@ -23,15 +26,13 @@
   },
   "dependencies": {
     "@cloudflare/workers-oauth-provider": "^1.2.3",
-    "@modelcontextprotocol/client": "2.3.1",
     "@modelcontextprotocol/sdk": "1.32.1",
-    "@modelcontextprotocol/server": "2.3.1",
-    "agents": "~0.27.0",
+    "@modelcontextprotocol/server": "2.4.0",
     "dodopayments": "2.54.1",
     "dodopayments-mcp": "2.54.1",
     "hono": "^4.13.13"
   },
-  "// overrides": "Use patched MCP releases rather than agents' older exact peer pins. Keep the SDK pin and overrides in sync so McpAgent and dodopayments-mcp share one McpServer constructor. Explicit v2 peers are required by agents/mcp imports even though MyMCP uses SDK v1. legacy-peer-deps in .npmrc is intentional; compatibility is checked by types, tests and the Worker build.",
+  "// overrides": "dodopayments-mcp builds its tools on @modelcontextprotocol/sdk v1. Keep the SDK pin and the three override blocks in sync, so that npm, yarn, and pnpm install the patched release. The Worker serves MCP with @modelcontextprotocol/server v2 (createMcpHandler). legacy-peer-deps in .npmrc is intentional; compatibility is checked by types, tests and the Worker build.",
   "overrides": {
     "@modelcontextprotocol/sdk": "1.32.1"
   },

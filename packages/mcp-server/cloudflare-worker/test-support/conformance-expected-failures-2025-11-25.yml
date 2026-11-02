@@ -1,0 +1,34 @@
+# Known failures of the 2025-11-25 run of `npm run conformance`. Each scenario in this list
+# needs a fixture tool (for example `test_simple_text`) or a capability (resources, prompts,
+# completions, logging, sampling, elicitation) that this server does not offer. A new failure
+# that is not in this list fails the run. A listed scenario that passes also fails the run.
+server:
+  - logging-set-level
+  - completion-complete
+  - tools-call-simple-text
+  - tools-call-image
+  - tools-call-audio
+  - tools-call-embedded-resource
+  - tools-call-mixed-content
+  - tools-call-with-logging
+  - tools-call-error
+  - tools-call-with-progress
+  - tools-call-sampling
+  - tools-call-elicitation
+  - elicitation-sep1034-defaults
+  - elicitation-sep1330-enums
+  - resources-list
+  - resources-read-text
+  - resources-read-binary
+  - resources-templates-read
+  - resources-subscribe
+  - resources-unsubscribe
+  - prompts-list
+  - prompts-get-simple
+  - prompts-get-with-args
+  - prompts-get-embedded-resource
+  - prompts-get-with-image
+  - json-schema-2020-12
+  # Passes with a SHOULD warning that the run counts as a failure: there is no session ID.
+  # The server is stateless by design.
+  - server-sse-multiple-streams

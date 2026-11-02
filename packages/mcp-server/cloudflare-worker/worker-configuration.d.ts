@@ -6,12 +6,10 @@ interface __BaseEnv_Env {
 	APPROVE_RATE_LIMITER: RateLimit;
 	LOADER: WorkerLoader;
 	ASSETS: Fetcher;
-	MCP_OBJECT: DurableObjectNamespace<import("./src/index").MyMCP>;
 }
 declare namespace Cloudflare {
 	interface GlobalProps {
 		mainModule: typeof import("./src/index");
-		durableNamespaces: "MyMCP";
 	}
 	interface Env extends __BaseEnv_Env {}
 }

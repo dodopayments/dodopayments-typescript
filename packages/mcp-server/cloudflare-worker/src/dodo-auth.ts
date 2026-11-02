@@ -29,6 +29,9 @@ export interface DodoAuthProps {
   subject: string;
   clientId: string;
   businessId: string;
+  scopes: string[];
+  /** Seconds since the epoch. */
+  expiresAt?: number;
 }
 
 export interface Introspection {
