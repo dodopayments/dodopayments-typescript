@@ -126,7 +126,10 @@ const initialize = {
 
 async function legacyCall(session, method, params, d = deps(), headers = {}) {
   const response = await serveMcp(
-    legacyPost({ jsonrpc: '2.0', id: 2, method, params }, { 'mcp-protocol-version': '2025-06-18', ...headers }),
+    legacyPost(
+      { jsonrpc: '2.0', id: 2, method, params },
+      { 'mcp-protocol-version': '2025-06-18', ...headers },
+    ),
     session,
     d,
   );
@@ -247,21 +250,68 @@ test('an API 403 becomes a tool error with the missing scope', async () => {
     err_lines: [],
     forbidden: { method: 'POST', path: '/refunds', message: 'Forbidden' },
   });
-  const result = await legacyCall(readGrant, 'tools/call', { name: 'execute', arguments: { code: 'x' } }, deps(loader));
+  const result = await legacyCall(
+    readGrant,
+    'tools/call',
+    { name: 'execute', arguments: { code: 'x' } },
+    deps(loader),
+  );
   assert.equal(result.isError, true);
   assert.match(result.content[0].text, /refunds:write/);
-  assert.match(result.content[0].text, /https:\/\/app\.example\.com\/profile/);
+  assert.ok(result.content[0].text.includes('https://app.example.com/profile'));
   const [challenge] = result._meta['mcp/www_authenticate'];
   assert.match(challenge, /error="insufficient_scope"/);
   assert.match(challenge, /scope="refunds:write"/);
-  assert.match(challenge, /resource_metadata="https:\/\/mcp\.example\.com\/\.well-known\/oauth-protected-resource\/mcp"/);
+  assert.match(
+    challenge,
+    /resource_metadata="https:\/\/mcp\.example\.com\/\.well-known\/oauth-protected-resource\/mcp"/,
+  );
+});
+
+test('a 403 keeps the API result for an API key, a caught 403, and a path with no MCP scope', async () => {
+  const forbidden = { method: 'POST', path: '/refunds', message: 'Forbidden' };
+  const call = (session, run) =>
+    legacyCall(session, 'tools/call', { name: 'execute', arguments: { code: 'x' } }, deps(fakeLoader(run)));
+
+  const apiKey = await call(
+    { kind: 'api-key', clientOptions: { bearerToken: 'k' } },
+    { is_error: true, result: 'PermissionDeniedError: 403', log_lines: [], err_lines: [], forbidden },
+  );
+  assert.equal(apiKey.isError, true);
+  assert.equal(apiKey._meta?.['mcp/www_authenticate'], undefined);
+  assert.ok(!JSON.stringify(apiKey.content).includes('refunds:write'));
+
+  const caught = await call(readGrant, {
+    is_error: false,
+    result: 'own data',
+    log_lines: [],
+    err_lines: [],
+    forbidden,
+  });
+  assert.notEqual(caught.isError, true);
+  assert.ok(JSON.stringify(caught.content).includes('own data'));
+
+  const unscoped = await call(readGrant, {
+    is_error: true,
+    result: 'PermissionDeniedError: 403',
+    log_lines: [],
+    err_lines: [],
+    forbidden: { method: 'GET', path: '/webhooks/wh_1', message: 'Forbidden' },
+  });
+  assert.equal(unscoped._meta?.['mcp/www_authenticate'], undefined);
 });
 
 test('the scope of an API call comes from its method and path', () => {
   assert.equal(scopeForCall({ method: 'GET', path: '/payments/pay_1' }), 'payments:read');
   assert.equal(scopeForCall({ method: 'POST', path: '/checkouts' }), 'checkout_sessions:write');
-  assert.equal(scopeForCall({ method: 'PATCH', path: '/credit-entitlements/ce_1' }), 'credit_entitlements:write');
+  assert.equal(
+    scopeForCall({ method: 'PATCH', path: '/credit-entitlements/ce_1' }),
+    'credit_entitlements:write',
+  );
   assert.equal(scopeForCall({ method: 'GET', path: '/invoices/refunds/ref_1' }), 'refunds:read');
+  assert.equal(scopeForCall({ method: 'POST', path: '/addons' }), 'products:write');
+  assert.equal(scopeForCall({ method: 'GET', path: '/webhooks/wh_1' }), undefined);
+  assert.equal(scopeForCall({ method: 'GET', path: '/' }), undefined);
 });
 
 test('traceparent from _meta goes to the API calls of execute', async () => {
@@ -285,7 +335,12 @@ test('a refused token exchange is a tool error that asks the user to connect aga
       throw new ExchangeRefusedError('grant revoked');
     },
   };
-  const result = await legacyCall(readGrant, 'tools/call', { name: 'execute', arguments: { code: 'x' } }, refused);
+  const result = await legacyCall(
+    readGrant,
+    'tools/call',
+    { name: 'execute', arguments: { code: 'x' } },
+    refused,
+  );
   assert.equal(result.isError, true);
   assert.match(result.content[0].text, /grant revoked\. .*Connect again\./);
 });

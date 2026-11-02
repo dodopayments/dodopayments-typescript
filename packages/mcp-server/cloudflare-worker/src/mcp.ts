@@ -154,7 +154,12 @@ function canWrite(session: McpSession): boolean {
 }
 
 function jsonValue(value: unknown): JSONValue {
-  if (value === null || typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+  if (
+    value === null ||
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    typeof value === 'boolean'
+  ) {
     return value;
   }
   if (Array.isArray(value)) return value.map(jsonValue);
@@ -167,7 +172,11 @@ function jsonObject(value: object): JSONObject {
 }
 
 /** A tool of the `dodopayments-mcp` package (SDK v1 types) as an SDK v2 tool. */
-function v2Tool(tool: typeof executeToolDescriptor, description: string, annotations: Tool['annotations']): Tool {
+function v2Tool(
+  tool: typeof executeToolDescriptor,
+  description: string,
+  annotations: Tool['annotations'],
+): Tool {
   const { properties, required } = tool.inputSchema;
   return {
     name: tool.name,
@@ -213,14 +222,35 @@ const SCOPE_ALIASES: Record<string, string> = {
   license_key_instances: 'license_keys',
 };
 
-/** The scope that an API call needs, from its method and path. */
-export function scopeForCall(call: Pick<ForbiddenCall, 'method' | 'path'>): string {
+/** The resources of `MCP_RESOURCES` in `common::permissions` of the backend. Keep the two lists the same. */
+export const MCP_SCOPE_RESOURCES: ReadonlySet<string> = new Set([
+  'payments',
+  'refunds',
+  'disputes',
+  'checkout_sessions',
+  'customers',
+  'subscriptions',
+  'discounts',
+  'license_keys',
+  'entitlements',
+  'credit_entitlements',
+  'products',
+  'brands',
+  'events',
+  'meters',
+  'payouts',
+  'balances',
+]);
+
+/** The scope that an API call needs, from its method and path. Undefined if the path has no MCP scope. */
+export function scopeForCall(call: Pick<ForbiddenCall, 'method' | 'path'>): string | undefined {
   const segments = call.path
     .split('/')
     .filter(Boolean)
     .map((segment) => segment.replaceAll('-', '_'));
   const first = segments[0] === 'invoices' ? segments[1] : segments[0];
-  const resource = SCOPE_ALIASES[first ?? ''] ?? first ?? 'unknown';
+  const resource = SCOPE_ALIASES[first ?? ''] ?? first;
+  if (resource === undefined || !MCP_SCOPE_RESOURCES.has(resource)) return undefined;
   const access = call.method === 'GET' || call.method === 'HEAD' ? 'read' : 'write';
   return `${resource}:${access}`;
 }
@@ -233,8 +263,8 @@ export function scopeErrorResult(
   call: ForbiddenCall,
   origin: string,
   profileUrl: string,
+  scope: string,
 ): CallToolResult {
-  const scope = scopeForCall(call);
   const description = `This connection does not have the ${scope} scope.`;
   const lines = [
     `Dodo Payments refused ${call.method} ${call.path} with 403 Forbidden.`,
@@ -296,7 +326,10 @@ async function callExecute(
       defaultHeaders: { ...clientOptions.defaultHeaders, ...trace },
     },
   });
-  return run.forbidden ? scopeErrorResult(run.forbidden, origin, deps.profileUrl) : run.result;
+  // An API key has no OAuth scopes, and a 403 that the code caught must not replace its result.
+  if (session.kind !== 'dodo' || !run.forbidden || !run.result.isError) return run.result;
+  const scope = scopeForCall(run.forbidden);
+  return scope ? scopeErrorResult(run.forbidden, origin, deps.profileUrl, scope) : run.result;
 }
 
 async function callSearchDocs(args: Record<string, unknown> | undefined): Promise<CallToolResult> {

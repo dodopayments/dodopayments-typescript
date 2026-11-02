@@ -82,8 +82,5 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Test OAuth migration
-        run: npm test
-
       - name: Validate worker build
         run: npx --no-install wrangler deploy --dry-run
