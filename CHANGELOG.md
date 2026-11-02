@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.61.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.60.1...v2.61.0) (2026-11-02)
+
+
+### Features
+
+* **mcp-worker:** remove the Worker OAuth server and serve the dodo-auth discovery documents (PR 7) ([0d99629](https://github.com/dodopayments/dodopayments-typescript/commit/0d996294f09d4fe29836ceda6618a6e469aab63f))
+* **mcp-worker:** remove the Worker OAuth server and serve the dodo-auth discovery documents (PR 7) ([a64a817](https://github.com/dodopayments/dodopayments-typescript/commit/a64a8176345b1a97693da0fd4786aa8785d3a5c8))
+* **mcp-worker:** serve MCP 2026-07-28 statelessly (PR 0) ([de3a250](https://github.com/dodopayments/dodopayments-typescript/commit/de3a2507be634e569af6a5ea7b4b1ac4d2ef20b5))
+* **mcp-worker:** stateless transport for MCP 2026-07-28 (PR 0) ([d3b6005](https://github.com/dodopayments/dodopayments-typescript/commit/d3b600588e435eef6bbc034ed29c8c14599906f5))
+
+
+### Bug Fixes
+
+* **mcp-worker:** scope errors only for dodo sessions with a failed run and a known MCP scope ([da9ac85](https://github.com/dodopayments/dodopayments-typescript/commit/da9ac85d16e39ea2be8f7ac8c3da311884c9649f))
+
 ## [2.60.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.60.0...v2.60.1) (2026-11-01)
 
 
