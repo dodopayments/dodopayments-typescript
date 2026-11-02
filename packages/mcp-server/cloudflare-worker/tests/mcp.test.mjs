@@ -258,7 +258,10 @@ test('an API 403 becomes a tool error with the missing scope', async () => {
   );
   assert.equal(result.isError, true);
   assert.match(result.content[0].text, /refunds:write/);
-  assert.ok(result.content[0].text.includes('https://app.example.com/profile'));
+  assert.equal(
+    result.content[0].text.split('\n')[2],
+    'To add the scope, change this connection in Profile settings: https://app.example.com/profile. Then call the tool again.',
+  );
   const [challenge] = result._meta['mcp/www_authenticate'];
   assert.match(challenge, /error="insufficient_scope"/);
   assert.match(challenge, /scope="refunds:write"/);
