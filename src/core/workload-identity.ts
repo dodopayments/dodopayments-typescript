@@ -379,11 +379,73 @@ export function gcp(audience?: string): SubjectTokenProvider {
   };
 }
 
+const VERCEL_TOKEN_URL = 'https://oidc.vercel.com/~token';
+const VERCEL_TIMEOUT_MS = 10 * 1000;
+
+type VercelRequestContext = { get?: () => { headers?: Record<string, string | undefined> } | undefined };
+
+function vercelRequestToken(): string | undefined {
+  const requestContext: VercelRequestContext | undefined = Reflect.get(
+    globalThis,
+    Symbol.for('@vercel/request-context'),
+  );
+  return requestContext?.get?.()?.headers?.['x-vercel-oidc-token'] || undefined;
+}
+
+async function vercelBaseToken(): Promise<string> {
+  const requestToken = vercelRequestToken();
+  if (requestToken) {
+    return requestToken;
+  }
+  const tokenFile = readEnv('VERCEL_OIDC_TOKEN_FILE');
+  if (tokenFile) {
+    return readTokenFile(tokenFile);
+  }
+  const token = readEnv('VERCEL_OIDC_TOKEN');
+  if (!token) {
+    throw configError(
+      'Cannot find a Vercel OIDC token. Run on Vercel, or set VERCEL_OIDC_TOKEN_FILE or VERCEL_OIDC_TOKEN.',
+    );
+  }
+  return token;
+}
+
 /**
- * Vercel: reads `VERCEL_OIDC_TOKEN`.
+ * Vercel: gets a Vercel OIDC token for the Dodo Payments audience before each exchange.
+ * The base token comes from the Vercel request context, `VERCEL_OIDC_TOKEN_FILE` or `VERCEL_OIDC_TOKEN`.
+ * Vercel exchanges the base token for a token with the audience.
+ *
+ * @param audience - Defaults to the origin of the client base URL.
  */
-export function vercel(): SubjectTokenProvider {
-  return () => requireEnv('VERCEL_OIDC_TOKEN');
+export function vercel(audience?: string): SubjectTokenProvider {
+  return async (context) => {
+    const baseToken = await vercelBaseToken();
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), VERCEL_TIMEOUT_MS);
+    let response: Response;
+    let text: string;
+    try {
+      response = await context.fetch(VERCEL_TOKEN_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ token: baseToken, aud: audience ?? context.audience }),
+        signal: controller.signal,
+      });
+      text = await response.text();
+    } finally {
+      clearTimeout(timeout);
+    }
+    if (!response.ok) {
+      throw configError(
+        `The Vercel OIDC token endpoint returned status ${response.status}: ${text.slice(0, 200)}`,
+      );
+    }
+    const json = safeJSON(text) as { token?: unknown } | undefined;
+    if (!json || typeof json.token !== 'string' || !json.token) {
+      throw configError(`The Vercel OIDC token endpoint returned no token (status ${response.status}).`);
+    }
+    return json.token;
+  };
 }
 
 /**
