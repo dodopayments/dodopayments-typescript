@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.60.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.60.0...v2.60.1) (2026-11-01)
+
+
+### Bug Fixes
+
+* **mcp-worker:** describe the dodo-auth sign-in on the home page ([7b98055](https://github.com/dodopayments/dodopayments-typescript/commit/7b98055265a1e5721fb881ad8e7226aed8ffce65))
+* **mcp-worker:** describe the dodo-auth sign-in on the home page ([a72fdbb](https://github.com/dodopayments/dodopayments-typescript/commit/a72fdbbb4648895d28b0d40343bc9983716207a2))
+
 ## [2.60.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.59.0...v2.60.0) (2026-11-01)
 
 
