@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.61.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.61.0...v2.61.1) (2026-11-03)
+
+
+### Bug Fixes
+
+* **mcp-worker:** link scope errors to Connected apps, and keep the server version current ([634614e](https://github.com/dodopayments/dodopayments-typescript/commit/634614e02b63c28c3d6072ec568b7c97fd0eff8a))
+* **mcp-worker:** link scope errors to Connected apps, and keep the server version current ([25e5bf2](https://github.com/dodopayments/dodopayments-typescript/commit/25e5bf21fa1a7f1fd972c63ce6fdb884db6c86a1))
+
 ## [2.61.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.60.1...v2.61.0) (2026-11-02)
 
 
