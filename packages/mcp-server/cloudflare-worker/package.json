@@ -1,39 +1,45 @@
 {
-  "name": "remote-mcp-server-with-stainless",
+  "name": "dodopayments-api-mcp-server",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "deploy": "wrangler deploy",
-    "dev": "wrangler dev",
+    "build:isolate": "node scripts/build-isolate.mjs",
+    "deploy": "npm run build:isolate && wrangler deploy",
+    "dev": "npm run build:isolate && wrangler dev",
     "format": "biome format --write",
     "lint:fix": "biome lint --fix",
-    "start": "wrangler dev",
-    "cf-typegen": "wrangler types"
+    "start": "npm run build:isolate && wrangler dev",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.mjs",
+    "cf-typegen": "wrangler types",
+    "postinstall": "node scripts/patch-deps.js && node scripts/build-isolate.mjs",
+    "dev:conformance": "npm run build:isolate && wrangler dev -c test-support/wrangler.conformance.jsonc",
+    "conformance": "npx -y @modelcontextprotocol/conformance@0.2.0-alpha.12 server --url http://127.0.0.1:8787/mcp --requirements 2026-07-28 --expected-failures test-support/conformance-expected-failures-2026-07-28.yml && npx -y @modelcontextprotocol/conformance@0.2.0-alpha.12 server --url http://127.0.0.1:8787/mcp --requirements 2025-11-25 --expected-failures test-support/conformance-expected-failures-2025-11-25.yml"
   },
   "devDependencies": {
-    "marked": "^15.0.11",
-    "typescript": "^5.8.3",
-    "workers-mcp": "0.1.0-3",
-    "wrangler": "^4.59.1"
+    "@modelcontextprotocol/client": "2.4.0",
+    "esbuild": "^0.28.2",
+    "marked": "^18.1.0",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.149.0"
   },
   "dependencies": {
-    "@cloudflare/workers-oauth-provider": "^0.0.5",
-    "@modelcontextprotocol/sdk": "1.28.0",
-    "agents": "~0.8.7",
-    "hono": "^4.12.4",
-    "dodopayments-mcp": "latest",
-    "dodopayments": "latest"
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "@modelcontextprotocol/server": "2.4.0",
+    "dodopayments": "2.54.1",
+    "dodopayments-mcp": "2.54.1",
+    "hono": "^4.13.13"
   },
-  "// overrides": "agents pins @modelcontextprotocol/sdk exactly; the three override blocks below force npm/yarn/pnpm to dedupe to that same version. Keep all four @modelcontextprotocol/sdk values in sync. See src/index.ts for the full rationale.",
+  "// overrides": "dodopayments-mcp builds its tools on @modelcontextprotocol/sdk v1. Keep the SDK pin and the three override blocks in sync, so that npm, yarn, and pnpm install the patched release. The Worker serves MCP with @modelcontextprotocol/server v2 (createMcpHandler). legacy-peer-deps in .npmrc is intentional; compatibility is checked by types, tests and the Worker build.",
   "overrides": {
-    "@modelcontextprotocol/sdk": "1.28.0"
+    "@modelcontextprotocol/sdk": "1.32.1"
   },
   "resolutions": {
-    "@modelcontextprotocol/sdk": "1.28.0"
+    "@modelcontextprotocol/sdk": "1.32.1"
   },
   "pnpm": {
     "overrides": {
-      "@modelcontextprotocol/sdk": "1.28.0"
+      "@modelcontextprotocol/sdk": "1.32.1"
     }
   }
 }

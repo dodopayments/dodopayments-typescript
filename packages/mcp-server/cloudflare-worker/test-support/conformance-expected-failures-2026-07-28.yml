@@ -1,0 +1,52 @@
+# Known failures of the 2026-07-28 run of `npm run conformance`. Each scenario in this list needs a fixture tool
+# (for example `test_simple_text`) or a capability (resources, prompts, completions, tasks,
+# logging, sampling, elicitation) that this server does not offer. A new failure that is not
+# in this list fails the run. A listed scenario that passes also fails the run.
+server:
+  # server-stateless: the stateless checks pass. Four checks need the diagnostic tools
+  # test_missing_capability, test_streaming_elicitation and test_logging_tool.
+  - server-stateless
+  - completion-complete
+  - tools-call-simple-text
+  - tools-call-image
+  - tools-call-audio
+  - tools-call-embedded-resource
+  - tools-call-mixed-content
+  - tools-call-error
+  - tools-call-with-progress
+  - resources-list
+  - resources-read-text
+  - resources-read-binary
+  - resources-templates-read
+  - prompts-list
+  - prompts-get-simple
+  - prompts-get-with-args
+  - prompts-get-embedded-resource
+  - prompts-get-with-image
+  - caching
+  - input-required-result-basic-elicitation
+  - input-required-result-basic-sampling
+  - input-required-result-basic-list-roots
+  - input-required-result-request-state
+  - input-required-result-multiple-input-requests
+  - input-required-result-multi-round
+  - input-required-result-non-tool-request
+  - input-required-result-result-type
+  - input-required-result-tampered-state
+  - input-required-result-capability-check
+  - tasks-lifecycle
+  - tasks-capability-negotiation
+  - tasks-wire-fields
+  - tasks-request-state-removal
+  - tasks-mrtr-input
+  - tasks-request-headers
+  - tasks-dispatch-and-envelope
+  - tasks-required-task-error
+  - tasks-mrtr-composition
+  - json-schema-2020-12
+  - http-custom-header-server-validation
+  # These pass, with SHOULD warnings that the run counts as failures: the server has no
+  # resources and does not return input_required results.
+  - sep-2164-resource-not-found
+  - input-required-result-missing-input-response
+  - input-required-result-ignore-extra-params
