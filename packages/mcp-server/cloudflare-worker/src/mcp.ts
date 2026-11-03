@@ -25,7 +25,7 @@ import type { DodoAuthProps } from './dodo-auth';
 import { ExchangeRefusedError } from './dodo-auth';
 import { executeToolDescriptor, runExecute, type ForbiddenCall } from './execute-tool';
 
-export const SERVER_INFO = { name: 'dodopayments_api', version: '2.61.0' }; // x-release-please-version
+export const SERVER_INFO = { name: 'dodopayments_api', version: '2.61.1' }; // x-release-please-version
 
 /** The caller of one MCP request: a dodo-auth MCP token after the token check. */
 export type McpSession = DodoAuthProps;
