@@ -3,7 +3,7 @@ import { apiTokenFor, dodoAuthConfig, type DodoAuthConfig } from './dodo-auth';
 import { serveMcp, transportGate, type McpDeps } from './mcp';
 import { authenticate, discoveryResponse } from './oauth';
 
-const DEFAULT_PROFILE_URL = 'https://app.dodopayments.com';
+const DEFAULT_PROFILE_URL = 'https://app.dodopayments.com/settings?tab=connected-apps';
 // The custom domain of the Worker. The `*.workers.dev` names are also allowed.
 const PRODUCTION_HOST = 'mcp.dodopayments.com';
 

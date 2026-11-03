@@ -25,7 +25,7 @@ import type { DodoAuthProps } from './dodo-auth';
 import { ExchangeRefusedError } from './dodo-auth';
 import { executeToolDescriptor, runExecute, type ForbiddenCall } from './execute-tool';
 
-export const SERVER_INFO = { name: 'dodopayments_api', version: '2.60.1' };
+export const SERVER_INFO = { name: 'dodopayments_api', version: '2.61.0' }; // x-release-please-version
 
 /** The caller of one MCP request: a dodo-auth MCP token after the token check. */
 export type McpSession = DodoAuthProps;
@@ -248,7 +248,7 @@ export function scopeErrorResult(
   const lines = [
     `Dodo Payments refused ${call.method} ${call.path} with 403 Forbidden.`,
     description,
-    `To add the scope, change this connection in Profile settings: ${profileUrl}. Then call the tool again.`,
+    `To add the scope, change this connection in Settings, Connected apps: ${profileUrl}. Then call the tool again.`,
   ];
   if (call.message) lines.push(`API message: ${call.message}`);
   return {

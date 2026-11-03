@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict';
 import { afterEach, test } from 'node:test';
 import { build } from 'esbuild';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 // Bundle the Worker modules for Node: no Workers runtime or production credentials needed.
 async function loadBundle(entry) {
@@ -26,7 +30,13 @@ async function loadBundle(entry) {
       },
     ],
   });
-  return import(`data:text/javascript;base64,${Buffer.from(bundled.outputFiles[0].text).toString('base64')}`);
+  // A file, not a data: URL. A data: URL puts the full bundle in each stack frame of a logged
+  // error, and GitHub Actions then takes minutes to write the log.
+  const dir = mkdtempSync(join(tmpdir(), 'worker-test-'));
+  const file = join(dir, 'worker.mjs');
+  writeFileSync(file, bundled.outputFiles[0].text);
+  process.on('exit', () => rmSync(dir, { recursive: true, force: true }));
+  return import(pathToFileURL(file).href);
 }
 const { apiTokenFor, dodoAuthConfig, requestMode, authenticate } = await loadBundle(
   "export * from './src/dodo-auth.ts'; export { authenticate } from './src/oauth.ts';",
