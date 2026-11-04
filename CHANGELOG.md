@@ -1,5 +1,30 @@
 # Changelog
 
+## [2.62.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.61.1...v2.62.0) (2026-11-04)
+
+
+### Features
+
+* **api:** regenerate SDK from latest OpenAPI spec ([712e631](https://github.com/dodopayments/dodopayments-typescript/commit/712e631016fde88ef3de9cbf81cd0a64f5759885))
+* **api:** regenerate SDK from latest OpenAPI spec ([48647d5](https://github.com/dodopayments/dodopayments-typescript/commit/48647d56457bf70a387b3f0b41da6f251d645503))
+* **api:** regenerate SDK from latest OpenAPI spec ([aa9307b](https://github.com/dodopayments/dodopayments-typescript/commit/aa9307bcbb52246d0f7bede4507cc30a0c6a566c))
+* **api:** regenerate SDK from latest OpenAPI spec ([b915f4e](https://github.com/dodopayments/dodopayments-typescript/commit/b915f4edd87f3834eefa2b9ceaf0f59fd0ef3d2b))
+
+
+### Chores
+
+* **deps:** bump body-parser from 2.3.0 to 2.4.0 in /packages/mcp-server/cloudflare-worker ([153d389](https://github.com/dodopayments/dodopayments-typescript/commit/153d389377858037cd4d926b80a9f34208b6cf3a))
+* **deps:** bump body-parser in /packages/mcp-server/cloudflare-worker ([69122ca](https://github.com/dodopayments/dodopayments-typescript/commit/69122ca90058362f74d9574c35e3a044baa9dba5))
+* **deps:** bump fast-uri from 3.1.8 to 3.1.9 in /packages/mcp-server/cloudflare-worker ([d30f3a4](https://github.com/dodopayments/dodopayments-typescript/commit/d30f3a4a065f6d5b76034d2155695f5d4278bf30))
+* **deps:** bump fast-uri in /packages/mcp-server/cloudflare-worker ([bae1ea6](https://github.com/dodopayments/dodopayments-typescript/commit/bae1ea6a9693bf5730423f2119c1a171d2f44170))
+* **deps:** bump ip-address from 10.7.3 to 10.7.4 in /packages/mcp-server/cloudflare-worker ([898b523](https://github.com/dodopayments/dodopayments-typescript/commit/898b523345a413b4d87b9ad955a48bc6dbb77f11))
+* **deps:** bump qs from 6.16.0 to 6.17.1 in /packages/mcp-server/cloudflare-worker ([5192190](https://github.com/dodopayments/dodopayments-typescript/commit/51921900e78394bd2b50f965eb8344cf818224f6))
+* **deps:** bump qs in /packages/mcp-server/cloudflare-worker ([60db8d9](https://github.com/dodopayments/dodopayments-typescript/commit/60db8d92c7bf8181136f3e687c80eada63ec1044))
+* **deps:** bump undici and wrangler ([c981d0f](https://github.com/dodopayments/dodopayments-typescript/commit/c981d0f3bacfc405781cd0501dcd9fdf84828d4e))
+* **deps:** bump undici and wrangler in /packages/mcp-server/cloudflare-worker ([977b261](https://github.com/dodopayments/dodopayments-typescript/commit/977b261642be845e34d021fa5e00051b66fe8ffa))
+* **mcp-worker:** bump dodopayments and dodopayments-mcp to 2.61.1 together ([906d7e8](https://github.com/dodopayments/dodopayments-typescript/commit/906d7e853ebbe84b222624af245eec3277876ccf))
+* **mcp-worker:** bump dodopayments and dodopayments-mcp to 2.61.1 together ([1db7cf0](https://github.com/dodopayments/dodopayments-typescript/commit/1db7cf021897955b9ad6f89b0f93c4e9764fc774))
+
 ## [2.61.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.61.0...v2.61.1) (2026-11-03)
 
 
