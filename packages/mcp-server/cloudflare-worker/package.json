@@ -21,7 +21,7 @@
     "esbuild": "^0.28.2",
     "marked": "^18.1.0",
     "typescript": "^7.0.2",
-    "wrangler": "^4.149.0"
+    "wrangler": "^4.157.0"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.32.1",
