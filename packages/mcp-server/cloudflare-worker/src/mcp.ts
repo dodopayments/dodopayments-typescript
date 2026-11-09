@@ -17,18 +17,30 @@ import {
   type JSONValue,
   type Tool,
 } from '@modelcontextprotocol/server';
-import DodoPayments, { type ClientOptions } from 'dodopayments';
-import docsSearch, { setLocalSearch } from 'dodopayments-mcp/docs-search-tool';
-import { getInstructions } from 'dodopayments-mcp/instructions';
+import type { ClientOptions } from 'dodopayments';
+import docsSearch from 'dodopayments-mcp/docs-search-tool';
 import { LocalDocsSearch } from 'dodopayments-mcp/local-docs-search';
+import { asTextContentResult } from 'dodopayments-mcp/types';
 import type { DodoAuthProps } from './dodo-auth';
 import { ExchangeRefusedError } from './dodo-auth';
+import {
+  callReadDocsPage,
+  callSearchDocs,
+  readDocsPageTool,
+  searchDocsTool,
+  type DocsFetcher,
+} from './docs-tools';
 import { executeToolDescriptor, runExecute, type ForbiddenCall } from './execute-tool';
+import { callFeedback, feedbackTool } from './feedback';
 
 export const SERVER_INFO = { name: 'dodopayments_api', version: '2.61.1' }; // x-release-please-version
 
-/** The caller of one MCP request: a dodo-auth MCP token after the token check. */
+/**
+ * The caller of one MCP request: a dodo-auth MCP token after the token check. A request without
+ * a token gets `null`: it can use the docs tools and `feedback`, but never gets an API client.
+ */
 export type McpSession = DodoAuthProps;
+export type McpCaller = McpSession | null;
 
 export interface McpDeps {
   loader: WorkerLoader;
@@ -38,12 +50,24 @@ export interface McpDeps {
   profileUrl: string;
   /** Host names that this deployment serves, in addition to the loopback names. */
   allowedHosts: readonly string[];
+  /** dodo-knowledge, for `search_docs`: the KNOWLEDGE service binding. */
+  knowledge: DocsFetcher;
+  /** The fetcher of docs.dodopayments.com pages, for `read_docs_page`. */
+  docs: DocsFetcher;
 }
 
 const TOOLS_LIST_TTL_MS = 300_000;
-const INSTRUCTIONS_TIMEOUT_MS = 3_000;
-const INSTRUCTIONS_RETRY_MS = 300_000;
 const MCP_PATH = '/mcp';
+
+export const SERVER_INSTRUCTIONS = `Dodo Payments: docs and API tools.
+
+- search_docs: search the guides. Call it before you write integration code.
+- read_docs_page: read a full docs page from a search_docs \`Source:\` URL.
+- search: find SDK methods and their parameters. Call it before execute.
+- execute: run code against the Dodo Payments API for the signed-in business. Needs sign-in: the first call without it starts sign-in in the client.
+- feedback: report a wrong answer, a confusing error or a missing feature.
+
+All tools except execute work without sign-in. Each execute call runs in a fresh sandbox, so return everything you need, and read an error before you retry. Use test mode until the integration is ready for live payments.`;
 
 export const CORS_HEADERS: Record<string, string> = {
   'access-control-allow-origin': '*',
@@ -95,40 +119,15 @@ function rebindingGate(request: Request, allowedHosts: readonly string[]): Respo
   return forbidden(`Invalid Host header: ${hostname}`);
 }
 
-let docsIndex: Promise<void> | undefined;
+let docsIndex: Promise<LocalDocsSearch> | undefined;
 
-/** The embedded docs index is built once for each isolate, at the first `search_docs` call. */
-function ensureDocsIndex(): Promise<void> {
-  docsIndex ??= LocalDocsSearch.create().then(setLocalSearch, (error: unknown) => {
+/** The embedded SDK method index is built once for each isolate, at the first `search` call. */
+function ensureDocsIndex(): Promise<LocalDocsSearch> {
+  docsIndex ??= LocalDocsSearch.create().catch((error: unknown) => {
     docsIndex = undefined;
     throw error;
   });
   return docsIndex;
-}
-
-let instructions: { value: string | undefined; until: number } | undefined;
-
-/** The server instructions come from the Stainless API. A failure gives no instructions, which is valid. */
-async function serverInstructions(): Promise<string | undefined> {
-  if (instructions && instructions.until > Date.now()) return instructions.value;
-  let timeoutId: ReturnType<typeof setTimeout> | undefined;
-  try {
-    const timeout = new Promise<undefined>((resolve) => {
-      timeoutId = setTimeout(() => resolve(undefined), INSTRUCTIONS_TIMEOUT_MS);
-    });
-    const value = await Promise.race([getInstructions({}), timeout]);
-    instructions = {
-      value,
-      until: value === undefined ? Date.now() + INSTRUCTIONS_RETRY_MS : Number.POSITIVE_INFINITY,
-    };
-    return value;
-  } catch (error) {
-    console.error('Failed to fetch the MCP server instructions', error);
-    instructions = { value: undefined, until: Date.now() + INSTRUCTIONS_RETRY_MS };
-    return undefined;
-  } finally {
-    if (timeoutId !== undefined) clearTimeout(timeoutId);
-  }
 }
 
 function canWrite(session: McpSession): boolean {
@@ -156,12 +155,13 @@ function jsonObject(value: object): JSONObject {
 /** A tool of the `dodopayments-mcp` package (SDK v1 types) as an SDK v2 tool. */
 function v2Tool(
   tool: typeof executeToolDescriptor,
+  name: string,
   description: string,
   annotations: Tool['annotations'],
 ): Tool {
   const { properties, required } = tool.inputSchema;
   return {
-    name: tool.name,
+    name,
     description,
     inputSchema: {
       type: 'object',
@@ -172,24 +172,36 @@ function v2Tool(
   };
 }
 
-/** The tools for the grant of this request. The order is fixed. */
-export function toolsFor(session: McpSession): Tool[] {
-  const write = canWrite(session);
-  const { scopes } = session;
-  const grantLine = `This connection can use these scopes: ${scopes.length > 0 ? scopes.join(', ') : 'none'}. A call that needs a different scope fails.`;
+const EXECUTE_DESCRIPTION = `Run JavaScript against the Dodo Payments API with an SDK client for the signed-in business, in the mode of the session (test or live). Needs sign-in: without it the call returns 401 and the client starts sign-in.
+
+Call search first to find the SDK method and its parameters. Define \`async function run(client) { ... }\`. The tool returns the value of run and the console.log output. Each call runs in a fresh sandbox with no network except the API: return everything you need. Do not wrap single calls in try/catch. Write calls change real data.`;
+
+const SEARCH_DESCRIPTION =
+  'Search the Dodo Payments SDK reference for methods, parameters and examples. Call it before execute, or when you need the exact SDK method for your code. For guides and concepts, use search_docs. No sign-in needed.';
+
+/** The tools for the caller of this request. The order is fixed. */
+export function toolsFor(session: McpCaller): Tool[] {
+  const write = session === null || canWrite(session);
+  const grantLine =
+    session === null ? undefined : (
+      `This connection can use these scopes: ${session.scopes.length > 0 ? session.scopes.join(', ') : 'none'}. A call that needs a different scope fails.`
+    );
   return [
-    v2Tool(executeToolDescriptor, `${executeToolDescriptor.description ?? ''}\n\n${grantLine}`, {
-      readOnlyHint: !write,
-      destructiveHint: write,
-      idempotentHint: false,
-      openWorldHint: true,
-    }),
-    v2Tool(docsSearch.tool, docsSearch.tool.description ?? '', {
+    v2Tool(docsSearch.tool, 'search', SEARCH_DESCRIPTION, {
       readOnlyHint: true,
       destructiveHint: false,
       idempotentHint: true,
       openWorldHint: false,
     }),
+    searchDocsTool,
+    readDocsPageTool,
+    v2Tool(
+      executeToolDescriptor,
+      'execute',
+      grantLine === undefined ? EXECUTE_DESCRIPTION : `${EXECUTE_DESCRIPTION}\n\n${grantLine}`,
+      { readOnlyHint: !write, destructiveHint: write, idempotentHint: false, openWorldHint: true },
+    ),
+    feedbackTool,
   ];
 }
 
@@ -311,32 +323,84 @@ async function callExecute(
   return scope ? scopeErrorResult(run.forbidden, origin, deps.profileUrl, scope) : run.result;
 }
 
-async function callSearchDocs(args: Record<string, unknown> | undefined): Promise<CallToolResult> {
-  await ensureDocsIndex();
-  // The handler type asks for an SDK client, but `search_docs` reads only the embedded index.
-  const client = new DodoPayments({ bearerToken: 'search-docs-has-no-api-access' });
-  return docsSearch.handler({ reqContext: { client }, args });
+/** The SDK method search. It reads only the embedded index and never creates an API client. */
+async function callSearch(args: Record<string, unknown> | undefined): Promise<CallToolResult> {
+  const index = await ensureDocsIndex();
+  const query = typeof args?.['query'] === 'string' ? args['query'] : '';
+  const language = typeof args?.['language'] === 'string' ? args['language'] : 'typescript';
+  const detail = typeof args?.['detail'] === 'string' ? args['detail'] : 'default';
+  const { results } = index.search({ query, language, detail, maxResults: 10 });
+  return asTextContentResult(results);
 }
 
-export function buildServer(
-  session: McpSession,
-  deps: McpDeps,
-  origin: string,
-  instructionsText: string | undefined,
-): Server {
+export function buildServer(session: McpCaller, deps: McpDeps, origin: string): Server {
   const server = new Server(SERVER_INFO, {
     capabilities: { tools: {} },
-    ...(instructionsText !== undefined && { instructions: instructionsText }),
+    instructions: SERVER_INSTRUCTIONS,
     cacheHints: { 'tools/list': { ttlMs: TOOLS_LIST_TTL_MS, cacheScope: 'private' } },
   });
   server.setRequestHandler('tools/list', async () => ({ tools: toolsFor(session) }));
   server.setRequestHandler('tools/call', async (request, ctx) => {
     const { name, arguments: args } = request.params;
-    if (name === 'execute') return callExecute(args, ctx.mcpReq._meta, session, deps, origin);
-    if (name === 'search_docs') return callSearchDocs(args);
-    throw new ProtocolError(ProtocolErrorCode.InvalidParams, `Unknown tool: ${name}`);
+    switch (name) {
+      case 'execute':
+        // `serveMcp` answers an unsigned `execute` with HTTP 401 before it gets here.
+        return session === null ?
+            textError('The execute tool needs sign-in. Connect to Dodo Payments, then call it again.')
+          : callExecute(args, ctx.mcpReq._meta, session, deps, origin);
+      case 'search':
+        return callSearch(args);
+      case 'search_docs':
+        return callSearchDocs(args, deps.knowledge);
+      case 'read_docs_page':
+        return callReadDocsPage(args, deps.docs);
+      case 'feedback':
+        return callFeedback(args, session !== null);
+      default:
+        throw new ProtocolError(ProtocolErrorCode.InvalidParams, `Unknown tool: ${name}`);
+    }
   });
   return server;
+}
+
+/** True if a JSON-RPC message (or batch) of the body calls the `execute` tool. */
+export function callsExecute(body: unknown): boolean {
+  if (Array.isArray(body)) return body.some(callsExecute);
+  if (typeof body !== 'object' || body === null) return false;
+  const { method, params } = body as { method?: unknown; params?: unknown };
+  return (
+    method === 'tools/call' &&
+    typeof params === 'object' &&
+    params !== null &&
+    (params as { name?: unknown }).name === 'execute'
+  );
+}
+
+/** The challenge that makes an MCP client start sign-in (RFC 9728, section 5.1). */
+export function signInChallenge(
+  origin: string,
+  description = 'This request needs an access token.',
+): Response {
+  return Response.json(
+    { error: 'invalid_token', error_description: description },
+    {
+      status: 401,
+      headers: {
+        'www-authenticate': `Bearer realm="OAuth", resource_metadata="${origin}/.well-known/oauth-protected-resource${MCP_PATH}"`,
+        ...CORS_HEADERS,
+      },
+    },
+  );
+}
+
+async function unsignedExecute(request: Request): Promise<boolean> {
+  try {
+    return callsExecute(await request.clone().json());
+  } catch (error) {
+    // The MCP handler answers a body that is not JSON with a parse error.
+    console.warn('POST /mcp body is not JSON', error instanceof Error ? error.message : error);
+    return false;
+  }
 }
 
 function authInfoFor(session: McpSession): AuthInfo {
@@ -348,17 +412,22 @@ function authInfoFor(session: McpSession): AuthInfo {
   };
 }
 
-/** Serves one POST /mcp for a caller whose token is already checked. */
-export async function serveMcp(request: Request, session: McpSession, deps: McpDeps): Promise<Response> {
+/**
+ * Serves one POST /mcp. `session` is the caller whose token is already checked, or `null` for a
+ * request without a token: its `execute` call gets HTTP 401 so that the client starts sign-in.
+ */
+export async function serveMcp(request: Request, session: McpCaller, deps: McpDeps): Promise<Response> {
   const rejected = transportGate(request) ?? rebindingGate(request, deps.allowedHosts);
   if (rejected) return rejected;
   const origin = new URL(request.url).origin;
-  const instructionsText = await serverInstructions();
-  const handler = createMcpHandler(() => buildServer(session, deps, origin, instructionsText), {
+  if (session === null && (await unsignedExecute(request))) {
+    return signInChallenge(origin, 'The execute tool needs sign-in.');
+  }
+  const handler = createMcpHandler(() => buildServer(session, deps, origin), {
     legacy: 'stateless',
     onerror: (error) => console.error('MCP request failed', error),
   });
-  const response = await handler.fetch(request, { authInfo: authInfoFor(session) });
+  const response = await handler.fetch(request, session === null ? {} : { authInfo: authInfoFor(session) });
   const headers = new Headers(response.headers);
   for (const [key, value] of Object.entries(CORS_HEADERS)) headers.set(key, value);
   return new Response(response.body, { status: response.status, statusText: response.statusText, headers });

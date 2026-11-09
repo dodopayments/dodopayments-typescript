@@ -7,4 +7,6 @@ interface Env {
   MCP_WORKER_CLIENT_SECRET?: string;
   /** The dashboard page where a user changes the scopes of a connection. */
   DODO_PROFILE_SETTINGS_URL?: string;
+  /** The dodo-knowledge Worker (`search_docs`). Declared in wrangler.jsonc `services`. */
+  KNOWLEDGE: Fetcher;
 }

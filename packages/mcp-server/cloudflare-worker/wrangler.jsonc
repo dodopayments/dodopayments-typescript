@@ -9,6 +9,8 @@
   "compatibility_date": "2025-10-01",
   "compatibility_flags": ["nodejs_compat"],
   "worker_loaders": [{ "binding": "LOADER" }],
+  // dodo-knowledge (Pinecone guide search) for the `search_docs` tool. Same Cloudflare account.
+  "services": [{ "binding": "KNOWLEDGE", "service": "dodo-knowledge-mcp" }],
   // The stateless Worker has no Durable Object. v2 deletes MyMCP and its session storage.
   "migrations": [
     {

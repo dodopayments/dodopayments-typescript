@@ -30,6 +30,8 @@ export default {
       },
       profileUrl: 'https://app.dodopayments.com',
       allowedHosts: [],
+      knowledge: { fetch: async () => new Response('offline', { status: 503 }) },
+      docs: { fetch: async () => new Response('offline', { status: 503 }) },
     });
   },
 };
