@@ -8,9 +8,9 @@ This server connects AI assistants and other MCP clients to the Dodo Payments AP
 
 ## Sign in with Dodo Payments
 
-You sign in with your Dodo Payments account through OAuth. You do not need an API key.
+The docs tools work without sign-in. The `execute` tool needs sign-in: you sign in with your Dodo Payments account through OAuth. You do not need an API key.
 
-The first time that you connect, your client opens the Dodo Payments sign-in page (`https://auth.dodopayments.com`) in your browser. On the consent page, select:
+The first time that you call `execute`, your client opens the Dodo Payments sign-in page (`https://auth.dodopayments.com`) in your browser. On the consent page, select:
 
 - The business that the client can use.
 - The modes: test mode, live mode, or both.
@@ -94,7 +94,15 @@ Cursor:
 
 ## Tools
 
-- `search_docs`: searches the Dodo Payments SDK documentation for methods, parameters, and examples.
+Without sign-in:
+
+- `search_docs`: searches the Dodo Payments guides. Call it before you write integration code.
+- `read_docs_page`: reads a page of docs.dodopayments.com as markdown.
+- `search`: searches the SDK reference for methods, parameters, and examples. Call it before `execute`.
+- `feedback`: sends a note about a wrong answer or a missing feature to the Dodo Payments team. Emails, IDs, and keys are removed first.
+
+With sign-in:
+
 - `execute`: runs JavaScript code with the Dodo Payments TypeScript SDK. The code defines `async function run(client) { ... }`. The `client` is an SDK client for your business, in the mode of the session. The tool returns the value of `run` and the `console.log` output.
 
 ```js

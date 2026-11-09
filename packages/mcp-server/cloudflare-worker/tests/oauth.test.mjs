@@ -184,8 +184,12 @@ test('the consent screen of the removed Worker server is gone', async () => {
   }
 });
 
-test('POST /mcp without a token gets 401 with the PRM URL of /mcp', async () => {
-  const response = await get(envFor(newIssuer()), '/mcp', { method: 'POST' });
+// A request without an Authorization header gets the no-sign-in tier (tests/mcp.test.mjs).
+test('POST /mcp with an Authorization header but no bearer token gets 401 with the PRM URL of /mcp', async () => {
+  const response = await get(envFor(newIssuer()), '/mcp', {
+    method: 'POST',
+    headers: { authorization: 'Basic dXNlcjpwYXNz' },
+  });
   assert.equal(response.status, 401);
   assert.equal(
     response.headers.get('www-authenticate'),

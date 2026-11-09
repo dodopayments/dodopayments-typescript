@@ -30,7 +30,10 @@ The Worker serves MCP at `POST /mcp` only, with `@modelcontextprotocol/server` v
 
 - Clients of the 2026-07-28 revision send `_meta` on each request. Clients that send `initialize` (2025 revisions) get a stateless answer from the same server.
 - The Worker keeps no session: no `Mcp-Session-Id`, no Durable Object. `GET /mcp` and `DELETE /mcp` return 405. `/sse` returns 404.
-- `tools/list` has `execute` and `search_docs`. The annotations of `execute` follow the scopes of the grant, so the list has `cacheScope: "private"` and `ttlMs: 300000`.
+- `tools/list` has five tools: `search` (the SDK method index built into the Worker), `search_docs` (guides, from dodo-knowledge), `read_docs_page` (the markdown of a docs.dodopayments.com page), `execute` and `feedback`. The annotations of `execute` follow the scopes of the grant, so the list has `cacheScope: "private"` and `ttlMs: 300000`.
+- A request without an `Authorization` header gets the same five tools, with no token check and no API client. Its `execute` call gets HTTP 401 with `WWW-Authenticate: Bearer realm="OAuth", resource_metadata="<origin>/.well-known/oauth-protected-resource/mcp"`, so the client starts sign-in.
+- `search_docs` calls `GET /search` of the `dodo-knowledge-mcp` Worker through the `KNOWLEDGE` service binding (`wrangler.jsonc`). If it fails or times out, the tool returns a short message that points to `search` and the docs. `search_docs` and `read_docs_page` answers are capped at about 2k tokens.
+- `feedback` writes one `mcp_feedback` JSON line to the Worker logs, after it removes emails, Dodo IDs, keys, tokens and card-like numbers (`src/feedback.ts`).
 - If the API returns 403 in `execute`, the tool returns an error with the missing scope and `_meta["mcp/www_authenticate"]`.
 - The `traceparent` and `tracestate` values of the request `_meta` go to the API calls of `execute`.
 
@@ -58,7 +61,7 @@ The Worker is an OAuth resource server of the Dodo Payments authorization server
 - `/.well-known/oauth-protected-resource` and `/.well-known/oauth-protected-resource/mcp` give the same document. `resource` is `DODO_AUTH_MCP_RESOURCE`, and `authorization_servers` is `[DODO_AUTH_ISSUER]`.
 - `/.well-known/oauth-authorization-server` is a copy of the metadata of `DODO_AUTH_ISSUER`. The issuer in the copy is `DODO_AUTH_ISSUER`. The Worker keeps the copy for one hour. If dodo-auth is not available, the Worker gives its stale copy. If it has no copy, it returns 502.
 - `/authorize`, `/token` and `/register` return a 307 redirect to the endpoints in the dodo-auth metadata, with the same query string. A 307 keeps the method and the body.
-- A request to `POST /mcp` without a token gets 401 with `WWW-Authenticate: Bearer realm="OAuth", resource_metadata="<origin>/.well-known/oauth-protected-resource/mcp"`.
+- A request to `POST /mcp` without a token gets the docs tools. A call of `execute` without a token, or a request with an `Authorization` header that is not a valid token, gets 401 with `WWW-Authenticate: Bearer realm="OAuth", resource_metadata="<origin>/.well-known/oauth-protected-resource/mcp"`.
 - The Worker introspects each token and keeps the result for 60 seconds. It never sends the MCP token to the API. The `execute` tool exchanges the MCP token (RFC 8693) for an API token of 5 minutes.
 - A connection with test mode and live mode must send the `Dodo-Mode: test` or `Dodo-Mode: live` header.
 - A token of the removed Worker authorization server (the form `user:grant:secret`) gets 401. The client must connect again.

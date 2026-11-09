@@ -28,6 +28,8 @@ function mcpDeps(env: Env, config: DodoAuthConfig): McpDeps {
     }),
     profileUrl: env.DODO_PROFILE_SETTINGS_URL ?? DEFAULT_PROFILE_URL,
     allowedHosts: allowedHosts(env),
+    knowledge: env.KNOWLEDGE,
+    docs: { fetch: (request) => fetch(request) },
   };
 }
 
@@ -58,6 +60,8 @@ export default {
           { status: 503 },
         );
       }
+      // A request without a token gets the docs tools. Its `execute` call gets 401 (see serveMcp).
+      if (!request.headers.has('authorization')) return serveMcp(request, null, mcpDeps(env, config));
       const session = await authenticate(request, config);
       if (session instanceof Response) return session;
       return serveMcp(request, session, mcpDeps(env, config));
