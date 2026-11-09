@@ -9,4 +9,10 @@ interface Env {
   DODO_PROFILE_SETTINGS_URL?: string;
   /** The dodo-knowledge Worker (`search_docs`). Declared in wrangler.jsonc `services`. */
   KNOWLEDGE: Fetcher;
+  /** Sentinel's feedback ingest URL (`/api/public/mcp-feedback`). A Worker variable. */
+  MCP_FEEDBACK_URL?: string;
+  /** The bearer secret of that URL (Sentinel's `MCP_FEEDBACK_SECRET`). A Worker secret. */
+  MCP_FEEDBACK_SECRET?: string;
+  /** 10 `feedback` calls a minute per connection. Declared in wrangler.jsonc `ratelimits`. */
+  FEEDBACK_LIMITER?: RateLimit;
 }

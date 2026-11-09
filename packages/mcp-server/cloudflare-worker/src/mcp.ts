@@ -32,13 +32,13 @@ import {
   type DocsFetcher,
 } from './docs-tools';
 import { executeToolDescriptor, runExecute, type ForbiddenCall } from './execute-tool';
-import { callFeedback, feedbackTool } from './feedback';
+import { callFeedback, feedbackTool, type FeedbackLimiter, type FeedbackSink } from './feedback';
 
 export const SERVER_INFO = { name: 'dodopayments_api', version: '2.61.1' }; // x-release-please-version
 
 /**
  * The caller of one MCP request: a dodo-auth MCP token after the token check. A request without
- * a token gets `null`: it can use the docs tools and `feedback`, but never gets an API client.
+ * a token gets `null`: it can use the docs tools, but never gets an API client and cannot send feedback.
  */
 export type McpSession = DodoAuthProps;
 export type McpCaller = McpSession | null;
@@ -55,6 +55,10 @@ export interface McpDeps {
   knowledge: DocsFetcher;
   /** The fetcher of docs.dodopayments.com pages, for `read_docs_page`. */
   docs: DocsFetcher;
+  /** Sentinel, where `feedback` is stored. Without it, feedback goes to the Worker logs. */
+  feedback?: FeedbackSink;
+  /** The per-connection limit of `feedback` calls. */
+  feedbackLimiter?: FeedbackLimiter;
 }
 
 const TOOLS_LIST_TTL_MS = 300_000;
@@ -66,9 +70,9 @@ export const SERVER_INSTRUCTIONS = `Dodo Payments: docs and API tools.
 - read_docs_page: read a full docs page from a search_docs \`Source:\` URL.
 - search: find SDK methods and their parameters. Call it before execute.
 - execute: run code against the Dodo Payments API for the signed-in business. Needs sign-in: the first call without it starts sign-in in the client.
-- feedback: report a wrong answer, a confusing error or a missing feature.
+- feedback: report a wrong answer, a confusing error or a missing feature. The team reads each message. Needs sign-in.
 
-All tools except execute work without sign-in. Each execute call runs in a fresh sandbox, so return everything you need, and read an error before you retry. Use test mode until the integration is ready for live payments.`;
+search_docs, read_docs_page and search work without sign-in; execute and feedback need it. Each execute call runs in a fresh sandbox, so return everything you need, and read an error before you retry. Use test mode until the integration is ready for live payments.`;
 
 export const CORS_HEADERS: Record<string, string> = {
   'access-control-allow-origin': '*',
@@ -356,7 +360,10 @@ export function buildServer(session: McpCaller, deps: McpDeps, origin: string): 
       case 'read_docs_page':
         return callReadDocsPage(args, deps.docs);
       case 'feedback':
-        return callFeedback(args, session !== null);
+        // `serveMcp` answers an unsigned `feedback` with HTTP 401 before it gets here.
+        return session === null ?
+            textError('The feedback tool needs sign-in. Connect to Dodo Payments, then call it again.')
+          : callFeedback(args, session, deps.feedback, deps.feedbackLimiter);
       default:
         throw new ProtocolError(ProtocolErrorCode.InvalidParams, `Unknown tool: ${name}`);
     }
@@ -364,17 +371,23 @@ export function buildServer(session: McpCaller, deps: McpDeps, origin: string): 
   return server;
 }
 
-/** True if a JSON-RPC message (or batch) of the body calls the `execute` tool. */
-export function callsExecute(body: unknown): boolean {
-  if (Array.isArray(body)) return body.some(callsExecute);
-  if (typeof body !== 'object' || body === null) return false;
+/** The tools that need sign-in. A call to one of them without a token gets HTTP 401. */
+const SIGNED_IN_TOOLS: ReadonlySet<string> = new Set(['execute', 'feedback']);
+
+/** The first tool of the body (a JSON-RPC message or a batch) that needs sign-in, if any. */
+export function signedInToolCalled(body: unknown): string | undefined {
+  if (Array.isArray(body)) {
+    for (const message of body) {
+      const name = signedInToolCalled(message);
+      if (name !== undefined) return name;
+    }
+    return undefined;
+  }
+  if (typeof body !== 'object' || body === null) return undefined;
   const { method, params } = body as { method?: unknown; params?: unknown };
-  return (
-    method === 'tools/call' &&
-    typeof params === 'object' &&
-    params !== null &&
-    (params as { name?: unknown }).name === 'execute'
-  );
+  if (method !== 'tools/call' || typeof params !== 'object' || params === null) return undefined;
+  const name = (params as { name?: unknown }).name;
+  return typeof name === 'string' && SIGNED_IN_TOOLS.has(name) ? name : undefined;
 }
 
 /** The challenge that makes an MCP client start sign-in (RFC 9728, section 5.1). */
@@ -442,7 +455,8 @@ function authInfoFor(session: McpSession): AuthInfo {
 
 /**
  * Serves one POST /mcp. `session` is the caller whose token is already checked, or `null` for a
- * request without a token: its `execute` call gets HTTP 401 so that the client starts sign-in.
+ * request without a token: its `execute` and `feedback` calls get HTTP 401 so that the client
+ * starts sign-in.
  */
 export async function serveMcp(request: Request, session: McpCaller, deps: McpDeps): Promise<Response> {
   const rejected = transportGate(request) ?? rebindingGate(request, deps.allowedHosts);
@@ -458,10 +472,12 @@ export async function serveMcp(request: Request, session: McpCaller, deps: McpDe
           { jsonrpc: '2.0', error: { code: -32000, message: 'Request body too large.' }, id: null },
           { status: 413, headers: CORS_HEADERS },
         );
-      case 'json':
-        if (callsExecute(body.value)) return signInChallenge(origin, 'The execute tool needs sign-in.');
+      case 'json': {
+        const tool = signedInToolCalled(body.value);
+        if (tool !== undefined) return signInChallenge(origin, `The ${tool} tool needs sign-in.`);
         options = { parsedBody: body.value };
         break;
+      }
       case 'other':
         // The body is already read: the handler gets the same bytes and answers the parse error.
         served = new Request(request, { body: body.bytes });

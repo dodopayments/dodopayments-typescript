@@ -1,4 +1,5 @@
 import { home } from './app';
+import { sentinelSink } from './feedback';
 import { apiTokenFor, dodoAuthConfig, type DodoAuthConfig } from './dodo-auth';
 import { serveMcp, signInChallenge, transportGate, type McpDeps } from './mcp';
 import { authenticate, discoveryResponse } from './oauth';
@@ -30,6 +31,9 @@ function mcpDeps(env: Env, config: DodoAuthConfig): McpDeps {
     allowedHosts: allowedHosts(env),
     knowledge: env.KNOWLEDGE,
     docs: { fetch: (request) => fetch(request) },
+    ...(env.MCP_FEEDBACK_URL &&
+      env.MCP_FEEDBACK_SECRET && { feedback: sentinelSink(env.MCP_FEEDBACK_URL, env.MCP_FEEDBACK_SECRET) }),
+    ...(env.FEEDBACK_LIMITER && { feedbackLimiter: env.FEEDBACK_LIMITER }),
   };
 }
 

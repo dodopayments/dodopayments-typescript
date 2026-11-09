@@ -40,8 +40,8 @@ async function loadBundle(entry) {
   return import(pathToFileURL(file).href);
 }
 
-const { serveMcp, scopeForCall, ExchangeRefusedError, redact } = await loadBundle(
-  "export * from './src/mcp.ts'; export { ExchangeRefusedError } from './src/dodo-auth.ts'; export { redact } from './src/feedback.ts';",
+const { serveMcp, scopeForCall, ExchangeRefusedError, redact, sentinelSink } = await loadBundle(
+  "export * from './src/mcp.ts'; export { ExchangeRefusedError } from './src/dodo-auth.ts'; export { redact, sentinelSink } from './src/feedback.ts';",
 );
 const { default: worker } = await loadBundle("export { default } from './src/index.ts';");
 
@@ -249,6 +249,21 @@ test('execute with auth=optional and no token gets 401 with the resource metadat
     assert.equal(response.status, 401);
     assert.equal(response.headers.get('www-authenticate'), challengeHeader);
     assert.equal(response.headers.get('access-control-expose-headers'), 'www-authenticate');
+  }
+});
+
+test('feedback with auth=optional and no token gets 401 and stores nothing', async () => {
+  const call = {
+    jsonrpc: '2.0',
+    id: 4,
+    method: 'tools/call',
+    params: { name: 'feedback', arguments: { message: 'search_docs missed refunds' } },
+  };
+  for (const body of [call, [initialize, call]]) {
+    const response = await unsignedPost(body);
+    assert.equal(response.status, 401);
+    assert.equal(response.headers.get('www-authenticate'), challengeHeader);
+    assert.match((await response.json()).error_description, /feedback tool needs sign-in/);
   }
 });
 
@@ -612,28 +627,158 @@ test('read_docs_page returns a long page in parts with the next offset', async (
   assert.equal(first.slice(0, next) + second.slice(0, 10), page.slice(0, next + 10));
 });
 
-test('feedback logs a redacted message and thanks the caller', async () => {
+/** A sink that records what it gets and answers with `id`, or fails with `error`. */
+function recordingSink({ id = 'fb-1', error } = {}) {
+  const sent = [];
+  return {
+    sent,
+    send: async (record) => {
+      sent.push(record);
+      if (error) throw error;
+      return id;
+    },
+  };
+}
+
+async function captureLogs(run) {
   const logged = [];
   const realLog = console.log;
+  const realError = console.error;
   console.log = (line) => logged.push(line);
+  console.error = () => {};
   try {
-    const result = await legacyCall(null, 'tools/call', {
-      name: 'feedback',
-      arguments: {
-        message: 'search_docs missed refunds for jane@acme.io on pay_gr4RizvMOXFJ6xca3y2tU',
-        tool: 'search_docs',
-      },
-    });
-    assert.notEqual(result.isError, true);
-    assert.match(result.content[0].text, /Thank you/);
+    return { result: await run(), logged };
   } finally {
     console.log = realLog;
+    console.error = realError;
   }
-  const entry = JSON.parse(logged[0]);
-  assert.equal(entry.event, 'mcp_feedback');
-  assert.equal(entry.message, 'search_docs missed refunds for <redacted> on <redacted>');
-  assert.equal(entry.tool, 'search_docs');
-  assert.equal(entry.signed_in, false);
+}
+
+test("signed-in feedback is redacted, stored with the token's business, user and mode, and returns its id", async () => {
+  const sink = recordingSink({ id: '7f1d2c3b-0000-4000-8000-000000000001' });
+  const { result, logged } = await captureLogs(() =>
+    legacyCall(
+      readGrant,
+      'tools/call',
+      {
+        name: 'feedback',
+        arguments: {
+          message: '  search_docs missed refunds for jane@acme.io on pay_gr4RizvMOXFJ6xca3y2tU ',
+          tool: 'search_docs',
+          intent: 'refund a payment',
+          // Arguments cannot choose the business or user.
+          business_id: 'bus_other',
+        },
+      },
+      { ...deps(), feedback: sink },
+    ),
+  );
+  assert.notEqual(result.isError, true);
+  assert.match(result.content[0].text, /stored as 7f1d2c3b-0000-4000-8000-000000000001/);
+  assert.deepEqual(sink.sent, [
+    {
+      message: 'search_docs missed refunds for <redacted> on <redacted>',
+      tool: 'search_docs',
+      intent: 'refund a payment',
+      business_id: 'bus_1',
+      user_id: 'user-1',
+      mode: 'test',
+      client: { name: 'https://claude.ai/meta' },
+    },
+  ]);
+  // The log names the stored id only, not the message.
+  assert.deepEqual(JSON.parse(logged[0]), {
+    event: 'mcp_feedback',
+    stored: true,
+    id: '7f1d2c3b-0000-4000-8000-000000000001',
+  });
+});
+
+test('feedback drops an unknown tool value and an empty intent', async () => {
+  const sink = recordingSink();
+  await captureLogs(() =>
+    legacyCall(
+      readGrant,
+      'tools/call',
+      { name: 'feedback', arguments: { message: 'hi', tool: 'delete_everything', intent: '   ' } },
+      { ...deps(), feedback: sink },
+    ),
+  );
+  assert.equal(sink.sent[0].tool, undefined);
+  assert.equal(sink.sent[0].intent, undefined);
+});
+
+test('feedback falls back to the log when Sentinel fails or is not set up', async () => {
+  for (const feedback of [recordingSink({ error: new Error('Sentinel answered 503') }), undefined]) {
+    const { result, logged } = await captureLogs(() =>
+      legacyCall(
+        readGrant,
+        'tools/call',
+        { name: 'feedback', arguments: { message: 'card 4242 4242 4242 4242 failed' } },
+        { ...deps(), feedback },
+      ),
+    );
+    assert.notEqual(result.isError, true);
+    assert.match(result.content[0].text, /recorded/);
+    const entry = JSON.parse(logged.at(-1));
+    assert.equal(entry.stored, false);
+    assert.equal(entry.message, 'card <redacted> failed');
+    assert.equal(entry.business_id, 'bus_1');
+  }
+});
+
+test('feedback without a message is an error and stores nothing', async () => {
+  const sink = recordingSink();
+  const result = await legacyCall(
+    readGrant,
+    'tools/call',
+    { name: 'feedback', arguments: { message: '   ' } },
+    { ...deps(), feedback: sink },
+  );
+  assert.equal(result.isError, true);
+  assert.equal(sink.sent.length, 0);
+});
+
+test('feedback over the per-connection limit is refused and stores nothing', async () => {
+  const sink = recordingSink();
+  const keys = [];
+  const limiter = { limit: async ({ key }) => (keys.push(key), { success: false }) };
+  const result = await legacyCall(
+    readGrant,
+    'tools/call',
+    { name: 'feedback', arguments: { message: 'hi' } },
+    { ...deps(), feedback: sink, feedbackLimiter: limiter },
+  );
+  assert.equal(result.isError, true);
+  assert.match(result.content[0].text, /Too much feedback/);
+  assert.deepEqual(keys, ['bus_1:user-1']);
+  assert.equal(sink.sent.length, 0);
+});
+
+test('sentinelSink posts with the bearer secret and needs a 201 with an id', async () => {
+  const requests = [];
+  const answer = (response) => async (url, init) => {
+    requests.push({ url, init });
+    return response();
+  };
+  const record = { message: 'm', business_id: 'b', user_id: 'u', mode: 'live' };
+  const ok = sentinelSink(
+    'https://sentinel.example/api/public/mcp-feedback',
+    'secret-1',
+    answer(() => Response.json({ id: 'abc' }, { status: 201 })),
+  );
+  assert.equal(await ok.send(record), 'abc');
+  assert.equal(requests[0].url, 'https://sentinel.example/api/public/mcp-feedback');
+  assert.equal(requests[0].init.method, 'POST');
+  assert.equal(requests[0].init.headers.authorization, 'Bearer secret-1');
+  assert.deepEqual(JSON.parse(requests[0].init.body), record);
+  for (const response of [
+    () => Response.json({ error: 'no' }, { status: 401 }),
+    () => Response.json({ id: 'abc' }, { status: 200 }),
+    () => Response.json({}, { status: 201 }),
+  ]) {
+    await assert.rejects(sentinelSink('https://s.example', 'x', answer(response)).send(record));
+  }
 });
 
 test('redact removes emails, Dodo IDs, keys, tokens and card numbers', () => {
