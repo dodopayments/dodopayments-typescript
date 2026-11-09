@@ -188,16 +188,25 @@ test('the SSE transport is removed', async () => {
 
 const challengeHeader = `Bearer realm="OAuth", resource_metadata="${origin}/.well-known/oauth-protected-resource/mcp"`;
 
-/** A POST /mcp of the Worker without a token. */
-function unsignedPost(body, headers = {}) {
+/** A POST /mcp?auth=optional of the Worker without a token: the opt-in docs tier. */
+function unsignedPost(body, headers = {}, query = '?auth=optional') {
+  const request = legacyPost(body, { 'mcp-protocol-version': '2025-06-18', ...headers });
   return worker.fetch(
-    legacyPost(body, { 'mcp-protocol-version': '2025-06-18', ...headers }),
+    new Request(`${request.url}${query}`, request),
     { ...dodoEnv, LOADER: noLoader, KNOWLEDGE: offline },
     ctx,
   );
 }
 
-test('POST /mcp without a token gets a session with the five tools, and no token check', async () => {
+test('POST /mcp without a token gets 401 with the resource metadata URL by default', async () => {
+  for (const query of ['', '?auth=required', '?auth=OPTIONAL']) {
+    const response = await unsignedPost(initialize, {}, query);
+    assert.equal(response.status, 401, query);
+    assert.equal(response.headers.get('www-authenticate'), challengeHeader, query);
+  }
+});
+
+test('POST /mcp?auth=optional without a token gets a session with the five tools, and no token check', async () => {
   let fetches = 0;
   globalThis.fetch = async () => {
     fetches += 1;
@@ -228,7 +237,7 @@ test('a 2026-07-28 client without a token lists the five tools', async () => {
   await client.close();
 });
 
-test('execute without a token gets 401 with the resource metadata URL, and runs no code', async () => {
+test('execute with auth=optional and no token gets 401 with the resource metadata URL, and runs no code', async () => {
   const call = {
     jsonrpc: '2.0',
     id: 3,
@@ -684,7 +693,7 @@ test('a request without a token and a body over 4 MiB gets 413', async () => {
     params: { pad: 'x'.repeat(4 * 1024 * 1024) },
   });
   const response = await worker.fetch(
-    new Request(`${origin}/mcp`, {
+    new Request(`${origin}/mcp?auth=optional`, {
       method: 'POST',
       headers: { 'content-type': 'application/json', accept: 'application/json, text/event-stream' },
       body: big,
@@ -697,7 +706,7 @@ test('a request without a token and a body over 4 MiB gets 413', async () => {
 
 test('a request without a token and a body that is not JSON gets the parse error of the handler', async () => {
   const response = await worker.fetch(
-    new Request(`${origin}/mcp`, {
+    new Request(`${origin}/mcp?auth=optional`, {
       method: 'POST',
       headers: { 'content-type': 'application/json', accept: 'application/json, text/event-stream' },
       body: '{not json',
