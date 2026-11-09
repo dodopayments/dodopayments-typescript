@@ -138,6 +138,33 @@ function withoutIndexPreamble(markdown: string): string {
   return markdown.replace(/^(?:> [^\n]*\n)*> [^\n]*llms\.txt[^\n]*\n(?:> [^\n]*\n)*\n*/, '');
 }
 
+const MAX_REDIRECTS = 3;
+
+/**
+ * The markdown response of a docs page. Redirects are followed by hand, and only to docs pages:
+ * a redirect to another host gives that URL back, unread.
+ */
+async function fetchDocsPage(page: URL, fetcher: DocsFetcher): Promise<Response | URL> {
+  let current = page;
+  for (let hop = 0; ; hop += 1) {
+    const response = await fetcher.fetch(
+      new Request(`${current.href}.md`, {
+        headers: { accept: 'text/markdown' },
+        redirect: 'manual',
+        signal: AbortSignal.timeout(PAGE_TIMEOUT_MS),
+      }),
+    );
+    const location = response.headers.get('location');
+    if (response.status < 300 || response.status >= 400 || location === null || hop >= MAX_REDIRECTS) {
+      return response;
+    }
+    const target = new URL(location, current);
+    const next = docsPageUrl(target.href);
+    if (!next) return target;
+    current = next;
+  }
+}
+
 export async function callReadDocsPage(
   args: Record<string, unknown> | undefined,
   fetcher: DocsFetcher,
@@ -151,12 +178,11 @@ export async function callReadDocsPage(
   }
   let response: Response;
   try {
-    response = await fetcher.fetch(
-      new Request(`${page.href}.md`, {
-        headers: { accept: 'text/markdown' },
-        signal: AbortSignal.timeout(PAGE_TIMEOUT_MS),
-      }),
-    );
+    const fetched = await fetchDocsPage(page, fetcher);
+    if (fetched instanceof URL) {
+      return text(`${page.href} redirects outside ${DOCS_HOST} (${fetched.host}). It is not read.`, true);
+    }
+    response = fetched;
   } catch (error) {
     console.error('docs page fetch failed', error);
     return text(`Could not read ${page.href} right now. Try again, or open it in a browser.`, true);

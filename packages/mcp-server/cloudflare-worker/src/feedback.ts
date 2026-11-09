@@ -13,10 +13,11 @@ const REDACTIONS: readonly RegExp[] = [
   /\b(?:Bearer|Basic)\s+[^\s"',;]+/gi,
   // JWTs.
   /\beyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/g,
+  // URLs with credentials: before the email pattern, which would leave the user name.
+  /\b[a-z][a-z0-9+.-]*:\/\/[^\s/@]*@\S+/gi,
   // Email addresses.
   /[^\s@<>()"',;:]+@[^\s@<>()"',;:]+\.[A-Za-z]{2,}/g,
-  // URLs with credentials or a query string can carry secrets: keep the host only.
-  /\bhttps?:\/\/[^\s/@]*@\S+/gi,
+  // URLs with a query string or anchor can carry secrets: keep the host only.
   /(\bhttps?:\/\/[^\s/?#]+)[^\s?#]*[?#]\S*/gi,
   // Prefixed keys and secrets.
   /\b(?:sk|pk|rk)_(?:live|test)_[A-Za-z0-9]+/g,

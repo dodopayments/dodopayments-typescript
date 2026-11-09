@@ -643,10 +643,68 @@ test('redact removes emails, Dodo IDs, keys, tokens and card numbers', () => {
     ['card 4242 4242 4242 4242 declined', 'card <redacted> declined'],
     ['card 4000-0000-0000-0002', 'card <redacted>'],
     ['see https://example.com/cb?token=abc', 'see https://example.com/<redacted>'],
+    ['proxy https://jane:hunter2@host.example.com/x failed', 'proxy <redacted> failed'],
   ];
   for (const [input, expected] of cases) assert.equal(redact(input), expected, input);
   // Words and tool names stay.
   const plain = 'search_docs and payment_succeeded webhooks in test_mode with 3 retries';
   assert.equal(redact(plain), plain);
   assert.equal(redact('x'.repeat(5000)).length <= 2000, true);
+});
+
+test('read_docs_page follows a redirect within the docs, and refuses one to another host', async () => {
+  const docs = recorder((request) => {
+    const { pathname } = new URL(request.url);
+    if (pathname === '/old.md') return new Response(null, { status: 301, headers: { location: '/new' } });
+    if (pathname === '/away.md') {
+      return new Response(null, { status: 302, headers: { location: 'https://evil.example.com/x' } });
+    }
+    return new Response(`# ${pathname}`);
+  });
+  const read = (path) =>
+    legacyCall(
+      null,
+      'tools/call',
+      { name: 'read_docs_page', arguments: { path } },
+      { ...deps(noLoader), docs },
+    );
+  assert.equal((await read('/old')).content[0].text, '# /new.md');
+  assert.equal(docs.requests[0].redirect, 'manual');
+  const away = await read('/away');
+  assert.equal(away.isError, true);
+  assert.match(away.content[0].text, /redirects outside docs\.dodopayments\.com/);
+  assert.ok(docs.requests.every((request) => new URL(request.url).host === 'docs.dodopayments.com'));
+});
+
+test('a request without a token and a body over 4 MiB gets 413', async () => {
+  const big = JSON.stringify({
+    jsonrpc: '2.0',
+    id: 1,
+    method: 'tools/list',
+    params: { pad: 'x'.repeat(4 * 1024 * 1024) },
+  });
+  const response = await worker.fetch(
+    new Request(`${origin}/mcp`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', accept: 'application/json, text/event-stream' },
+      body: big,
+    }),
+    { ...dodoEnv, LOADER: noLoader, KNOWLEDGE: offline },
+    ctx,
+  );
+  assert.equal(response.status, 413);
+});
+
+test('a request without a token and a body that is not JSON gets the parse error of the handler', async () => {
+  const response = await worker.fetch(
+    new Request(`${origin}/mcp`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', accept: 'application/json, text/event-stream' },
+      body: '{not json',
+    }),
+    { ...dodoEnv, LOADER: noLoader, KNOWLEDGE: offline },
+    ctx,
+  );
+  assert.equal(response.status, 400);
+  assert.equal((await response.json()).error.code, -32700);
 });

@@ -15,6 +15,7 @@ import {
   type CallToolResult,
   type JSONObject,
   type JSONValue,
+  type McpHandlerRequestOptions,
   type Tool,
 } from '@modelcontextprotocol/server';
 import type { ClientOptions } from 'dodopayments';
@@ -393,13 +394,40 @@ export function signInChallenge(
   );
 }
 
-async function unsignedExecute(request: Request): Promise<boolean> {
+/** The size bound of the MCP handler (`maxRequestBodySize`), applied to the body that the Worker reads. */
+export const MAX_BODY_BYTES = 4 * 1024 * 1024;
+
+/** The body of a request without a token, read once with a size bound. */
+type UnsignedBody =
+  { kind: 'too_large' } | { kind: 'json'; value: unknown } | { kind: 'other'; bytes: Uint8Array };
+
+async function readUnsignedBody(request: Request): Promise<UnsignedBody> {
+  const declared = Number(request.headers.get('content-length') ?? '0');
+  if (declared > MAX_BODY_BYTES) return { kind: 'too_large' };
+  const reader = request.body?.getReader();
+  if (!reader) return { kind: 'other', bytes: new Uint8Array() };
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  for (let chunk = await reader.read(); !chunk.done; chunk = await reader.read()) {
+    size += chunk.value.byteLength;
+    if (size > MAX_BODY_BYTES) {
+      await reader.cancel();
+      return { kind: 'too_large' };
+    }
+    chunks.push(chunk.value);
+  }
+  const bytes = new Uint8Array(size);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
   try {
-    return callsExecute(await request.clone().json());
+    return { kind: 'json', value: JSON.parse(new TextDecoder().decode(bytes)) };
   } catch (error) {
-    // The MCP handler answers a body that is not JSON with a parse error.
+    // The MCP handler answers it with a parse error.
     console.warn('POST /mcp body is not JSON', error instanceof Error ? error.message : error);
-    return false;
+    return { kind: 'other', bytes };
   }
 }
 
@@ -420,14 +448,35 @@ export async function serveMcp(request: Request, session: McpCaller, deps: McpDe
   const rejected = transportGate(request) ?? rebindingGate(request, deps.allowedHosts);
   if (rejected) return rejected;
   const origin = new URL(request.url).origin;
-  if (session === null && (await unsignedExecute(request))) {
-    return signInChallenge(origin, 'The execute tool needs sign-in.');
+  let options: McpHandlerRequestOptions;
+  let served = request;
+  if (session === null) {
+    const body = await readUnsignedBody(request);
+    switch (body.kind) {
+      case 'too_large':
+        return Response.json(
+          { jsonrpc: '2.0', error: { code: -32000, message: 'Request body too large.' }, id: null },
+          { status: 413, headers: CORS_HEADERS },
+        );
+      case 'json':
+        if (callsExecute(body.value)) return signInChallenge(origin, 'The execute tool needs sign-in.');
+        options = { parsedBody: body.value };
+        break;
+      case 'other':
+        // The body is already read: the handler gets the same bytes and answers the parse error.
+        served = new Request(request, { body: body.bytes });
+        options = {};
+        break;
+    }
+  } else {
+    options = { authInfo: authInfoFor(session) };
   }
   const handler = createMcpHandler(() => buildServer(session, deps, origin), {
     legacy: 'stateless',
+    maxRequestBodySize: MAX_BODY_BYTES,
     onerror: (error) => console.error('MCP request failed', error),
   });
-  const response = await handler.fetch(request, session === null ? {} : { authInfo: authInfoFor(session) });
+  const response = await handler.fetch(served, options);
   const headers = new Headers(response.headers);
   for (const [key, value] of Object.entries(CORS_HEADERS)) headers.set(key, value);
   return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
