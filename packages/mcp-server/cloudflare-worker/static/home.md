@@ -94,17 +94,17 @@ Cursor:
 
 ## Tools
 
-If your client cannot sign in, use `{{origin}}/mcp?auth=optional`. The tools below then work without sign-in, and `execute` asks you to sign in.
+If your client cannot sign in, use `{{origin}}/mcp?auth=optional`. The docs tools then work without sign-in, and `execute` and `feedback` ask you to sign in.
 
 Docs tools:
 
 - `search_docs`: searches the Dodo Payments guides. Call it before you write integration code.
 - `read_docs_page`: reads a page of docs.dodopayments.com as markdown.
 - `search`: searches the SDK reference for methods, parameters, and examples. Call it before `execute`.
-- `feedback`: sends a note about a wrong answer or a missing feature to the Dodo Payments team. Emails, IDs, and keys are removed first.
 
-Account tool:
+Account tools:
 
+- `feedback`: sends a note about a wrong answer or a missing feature to the Dodo Payments team, which reads and triages each message. Emails, IDs, and keys are removed before it is stored.
 - `execute`: runs JavaScript code with the Dodo Payments TypeScript SDK. The code defines `async function run(client) { ... }`. The `client` is an SDK client for your business, in the mode of the session. The tool returns the value of `run` and the `console.log` output.
 
 ```js

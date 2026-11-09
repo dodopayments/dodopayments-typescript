@@ -11,6 +11,12 @@
   "worker_loaders": [{ "binding": "LOADER" }],
   // dodo-knowledge (Pinecone guide search) for the `search_docs` tool. Same Cloudflare account.
   "services": [{ "binding": "KNOWLEDGE", "service": "dodo-knowledge-mcp" }],
+  // The `feedback` tool stores feedback in Sentinel. MCP_FEEDBACK_SECRET is a Worker secret.
+  "vars": { "MCP_FEEDBACK_URL": "https://sentinal.dodopayments.com/api/public/mcp-feedback" },
+  // 10 `feedback` calls a minute per business and user.
+  "ratelimits": [
+    { "name": "FEEDBACK_LIMITER", "namespace_id": "1001", "simple": { "limit": 10, "period": 60 } },
+  ],
   // The stateless Worker has no Durable Object. v2 deletes MyMCP and its session storage.
   "migrations": [
     {
