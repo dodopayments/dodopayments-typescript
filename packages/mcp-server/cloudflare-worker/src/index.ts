@@ -1,6 +1,6 @@
 import { home } from './app';
 import { apiTokenFor, dodoAuthConfig, type DodoAuthConfig } from './dodo-auth';
-import { serveMcp, transportGate, type McpDeps } from './mcp';
+import { serveMcp, signInChallenge, transportGate, type McpDeps } from './mcp';
 import { authenticate, discoveryResponse } from './oauth';
 
 const DEFAULT_PROFILE_URL = 'https://app.dodopayments.com/settings?tab=connected-apps';
@@ -43,7 +43,8 @@ function isRemovedSsePath(pathname: string): boolean {
 
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-    const { pathname } = new URL(request.url);
+    const url = new URL(request.url);
+    const { pathname } = url;
     if (isRemovedSsePath(pathname)) {
       return new Response('Not found. The SSE transport was removed: use POST /mcp.', { status: 404 });
     }
@@ -60,8 +61,14 @@ export default {
           { status: 503 },
         );
       }
-      // A request without a token gets the docs tools. Its `execute` call gets 401 (see serveMcp).
-      if (!request.headers.has('authorization')) return serveMcp(request, null, mcpDeps(env, config));
+      if (!request.headers.has('authorization')) {
+        // Sign-in is required by default: several clients (OpenCode, Cursor) only start OAuth when
+        // connecting returns 401, and never after a 401 in the middle of a session.
+        // `?auth=optional` opts in to the docs tools without sign-in, for clients that cannot do
+        // OAuth. Its `execute` call still gets 401 (see serveMcp).
+        if (url.searchParams.get('auth') !== 'optional') return signInChallenge(url.origin);
+        return serveMcp(request, null, mcpDeps(env, config));
+      }
       const session = await authenticate(request, config);
       if (session instanceof Response) return session;
       return serveMcp(request, session, mcpDeps(env, config));
