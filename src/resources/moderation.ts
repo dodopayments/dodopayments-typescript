@@ -11,7 +11,8 @@ export class Moderation extends APIResource {
    *
    * **Pricing.** Dodo Payments charges $0.30 per 1000 billable screens and debits
    * the fee from your balance. A billable screen is a live-mode screen that returns
-   * a verdict. Errors and test-mode screens are free.
+   * a verdict. Errors and test-mode screens are free. Live-mode screens need a
+   * business with live mode and live payments enabled.
    *
    * **429.** Honour `Retry-After` and retry. A 429 is a throughput limit, not a
    * verdict.

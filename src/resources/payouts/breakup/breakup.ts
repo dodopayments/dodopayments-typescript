@@ -19,10 +19,7 @@ export class Breakup extends APIResource {
    * Returns the breakdown of a payout by event type (payments, refunds, disputes,
    * fees, etc.) in the payout's currency. Each amount is proportionally allocated
    * based on USD equivalent values, ensuring the total sums exactly to the payout
-   * amount. A settlement batch payout shows its rows in native amounts. The
-   * `carried_over` line holds the opening balance from the switch to settlement
-   * batches and the rows dated before that opening balance. The `unattributed` line
-   * shows the payout amount that the rows do not account for.
+   * amount.
    *
    * @example
    * ```ts
@@ -61,8 +58,7 @@ export namespace BreakupRetrieveResponse {
     /**
      * The type of balance ledger event (e.g., "payment", "refund", "dispute",
      * "payment_fees"), or `unattributed` for the payout amount the entries do not
-     * account for. A settlement batch payout shows `carried_over` for its opening
-     * balance and the entries dated before that row.
+     * account for.
      */
     event_type: string;
 
