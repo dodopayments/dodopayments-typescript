@@ -931,15 +931,15 @@ export namespace UpdateSubscriptionPlanReq {
     /**
      * The terms of the plan-change invoice. The subscription terms apply when absent.
      */
-    payment_terms?: Invoice.Type | Invoice.UnionMember1 | null;
+    payment_terms?: Invoice.DueOnReceipt | Invoice.Net | null;
   }
 
   export namespace Invoice {
-    export interface Type {
+    export interface DueOnReceipt {
       type: 'due_on_receipt';
     }
 
-    export interface UnionMember1 {
+    export interface Net {
       days: number;
 
       type: 'net';
@@ -2079,15 +2079,15 @@ export namespace SubscriptionChangePlanParams {
     /**
      * The terms of the plan-change invoice. The subscription terms apply when absent.
      */
-    payment_terms?: Invoice.Type | Invoice.UnionMember1 | null;
+    payment_terms?: Invoice.DueOnReceipt | Invoice.Net | null;
   }
 
   export namespace Invoice {
-    export interface Type {
+    export interface DueOnReceipt {
       type: 'due_on_receipt';
     }
 
-    export interface UnionMember1 {
+    export interface Net {
       days: number;
 
       type: 'net';
@@ -2305,15 +2305,15 @@ export namespace SubscriptionPreviewChangePlanParams {
     /**
      * The terms of the plan-change invoice. The subscription terms apply when absent.
      */
-    payment_terms?: Invoice.Type | Invoice.UnionMember1 | null;
+    payment_terms?: Invoice.DueOnReceipt | Invoice.Net | null;
   }
 
   export namespace Invoice {
-    export interface Type {
+    export interface DueOnReceipt {
       type: 'due_on_receipt';
     }
 
-    export interface UnionMember1 {
+    export interface Net {
       days: number;
 
       type: 'net';

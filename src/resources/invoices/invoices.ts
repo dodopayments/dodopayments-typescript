@@ -453,7 +453,7 @@ export interface Invoice {
    * How often the invoice lines bill. `mixed` covers several intervals, or one-time
    * lines next to a plan.
    */
-  frequency: Invoice.Type | Invoice.UnionMember1 | Invoice.Type;
+  frequency: Invoice.OneTime | Invoice.Recurring | Invoice.Mixed;
 
   invoice_id: string;
 
@@ -538,7 +538,7 @@ export interface Invoice {
   /**
    * `null` on a draft that keeps all reminder settings of the business.
    */
-  reminder_settings?: Invoice.UnionMember0 | Invoice.UnionMember1 | null;
+  reminder_settings?: Invoice.Snapshot | Invoice.Override | null;
 
   /**
    * The time at which a draft that waits for review finalises.
@@ -584,11 +584,11 @@ export namespace Invoice {
     }
   }
 
-  export interface Type {
+  export interface OneTime {
     type: 'one_time';
   }
 
-  export interface UnionMember1 {
+  export interface Recurring {
     count: number;
 
     /**
@@ -599,7 +599,7 @@ export namespace Invoice {
     type: 'recurring';
   }
 
-  export interface Type {
+  export interface Mixed {
     type: 'mixed';
   }
 
@@ -624,7 +624,7 @@ export namespace Invoice {
   /**
    * The settings that finalise froze. The reminders run on them.
    */
-  export interface UnionMember0 {
+  export interface Snapshot {
     kind: 'snapshot';
 
     offsets_minutes: Array<number>;
@@ -637,7 +637,7 @@ export namespace Invoice {
   /**
    * The changes of a draft. A `null` field keeps the business value at finalise.
    */
-  export interface UnionMember1 {
+  export interface Override {
     kind: 'override';
 
     offsets_minutes?: Array<number> | null;
@@ -821,7 +821,7 @@ export interface InvoiceCreateParams {
   /**
    * Body param: Do not send it with `due_at`.
    */
-  payment_terms?: InvoiceCreateParams.Type | InvoiceCreateParams.UnionMember1 | null;
+  payment_terms?: InvoiceCreateParams.DueOnReceipt | InvoiceCreateParams.Net | null;
 
   /**
    * Body param: `true` keeps a renewal draft for review before it finalises.
@@ -905,11 +905,11 @@ export namespace InvoiceCreateParams {
     offsets_days?: Array<number> | null;
   }
 
-  export interface Type {
+  export interface DueOnReceipt {
     type: 'due_on_receipt';
   }
 
-  export interface UnionMember1 {
+  export interface Net {
     days: number;
 
     type: 'net';
@@ -987,7 +987,7 @@ export interface InvoiceUpdateParams {
   /**
    * Body param
    */
-  payment_terms?: InvoiceUpdateParams.Type | InvoiceUpdateParams.UnionMember1 | null;
+  payment_terms?: InvoiceUpdateParams.DueOnReceipt | InvoiceUpdateParams.Net | null;
 
   /**
    * Body param
@@ -1065,11 +1065,11 @@ export namespace InvoiceUpdateParams {
     addons?: Array<SubscriptionsAPI.AttachAddon> | null;
   }
 
-  export interface Type {
+  export interface DueOnReceipt {
     type: 'due_on_receipt';
   }
 
-  export interface UnionMember1 {
+  export interface Net {
     days: number;
 
     type: 'net';
@@ -1156,7 +1156,7 @@ export interface InvoicePreviewParams {
   /**
    * Body param: Do not send it with `due_at`.
    */
-  payment_terms?: InvoicePreviewParams.Type | InvoicePreviewParams.UnionMember1 | null;
+  payment_terms?: InvoicePreviewParams.DueOnReceipt | InvoicePreviewParams.Net | null;
 
   /**
    * Body param: `true` keeps a renewal draft for review before it finalises.
@@ -1234,11 +1234,11 @@ export namespace InvoicePreviewParams {
     offsets_days?: Array<number> | null;
   }
 
-  export interface Type {
+  export interface DueOnReceipt {
     type: 'due_on_receipt';
   }
 
-  export interface UnionMember1 {
+  export interface Net {
     days: number;
 
     type: 'net';
