@@ -46,11 +46,10 @@ export class CheckoutSessions extends APIResource {
    * ```
    */
   preview(
-    params: CheckoutSessionPreviewParams,
+    body: CheckoutSessionPreviewParams,
     options?: RequestOptions,
   ): APIPromise<CheckoutSessionPreviewResponse> {
-    const { locale, ...body } = params;
-    return this._client.post('/checkouts/preview', { query: { locale }, body, ...options });
+    return this._client.post('/checkouts/preview', { body, ...options });
   }
 }
 
@@ -86,6 +85,14 @@ export interface CheckoutSessionCustomization {
    * Force the checkout interface to render in a specific language (e.g. `en`, `es`)
    */
   force_language?: string | null;
+
+  /**
+   * How a single-page checkout shows the payment methods. You can set it only when
+   * `feature_flags.single_page` is true.
+   *
+   * Default is `accordion`.
+   */
+  payment_method_layout?: 'accordion' | 'tabs' | null;
 
   /**
    * Show on demand tag
@@ -962,6 +969,12 @@ export namespace CheckoutSessionPreviewResponse {
 
       discounted_price: number;
 
+      /**
+       * True when one more unit of this addon puts the cart above the cart value limit
+       * of the business. False when the limit does not apply to the business.
+       */
+      max_quantity_reached: boolean;
+
       name: string;
 
       og_currency: MiscAPI.Currency;
@@ -1216,28 +1229,16 @@ export interface CheckoutSessionCreateParams {
 
 export interface CheckoutSessionPreviewParams {
   /**
-   * Body param: The products of the checkout. A cart holds at most 20 of them,
-   * one-time and subscription products together. An empty cart is valid for the
+   * The products of the checkout. A cart holds at most 20 of them, one-time and
+   * subscription products together. An empty cart is valid for the
    * product-collection flow, where the customer chooses the product later.
    */
   product_cart: Array<ProductItemReq>;
 
   /**
-   * Query param: Shows the translated name, description and unit of the catalog
-   * entities in this locale. The value must be a code from `GET /locales`, for
-   * example `fr`. A field with no translation, an unknown code, or no code shows the
-   * base text.
-   *
-   * Do not send a text from a localized response back in a create or update request.
-   * The base text then changes to the translated text.
-   */
-  locale?: string;
-
-  /**
-   * Body param: Customers will never see payment methods that are not in this list.
-   * However, adding a method here does not guarantee customers will see it.
-   * Availability still depends on other factors (e.g., customer location, merchant
-   * settings).
+   * Customers will never see payment methods that are not in this list. However,
+   * adding a method here does not guarantee customers will see it. Availability
+   * still depends on other factors (e.g., customer location, merchant settings).
    *
    * Disclaimar: Always provide 'credit' and 'debit' as a fallback. If all payment
    * methods are unavailable, checkout session will fail.
@@ -1245,12 +1246,12 @@ export interface CheckoutSessionPreviewParams {
   allowed_payment_method_types?: Array<PaymentsAPI.PaymentMethodTypes> | null;
 
   /**
-   * Body param: Billing address information for the session
+   * Billing address information for the session
    */
   billing_address?: CheckoutSessionBillingAddress | null;
 
   /**
-   * Body param: The currency to charge the customer in.
+   * The currency to charge the customer in.
    *
    * Adaptive pricing must be enabled for the business. The customer then pays in
    * this currency. If you do not set it, the currency comes from the billing
@@ -1262,37 +1263,36 @@ export interface CheckoutSessionPreviewParams {
   billing_currency?: MiscAPI.Currency | null;
 
   /**
-   * Body param: The URL to redirect the customer if they cancel or go back from the
-   * checkout. If not provided, the back button will not be displayed.
+   * The URL to redirect the customer if they cancel or go back from the checkout. If
+   * not provided, the back button will not be displayed.
    */
   cancel_url?: string | null;
 
   /**
-   * Body param: If confirm is true, all the details will be finalized. If required
-   * data is missing, an API error is thrown.
+   * If confirm is true, all the details will be finalized. If required data is
+   * missing, an API error is thrown.
    */
   confirm?: boolean;
 
   /**
-   * Body param: Custom fields to collect from customer during checkout (max 5
-   * fields)
+   * Custom fields to collect from customer during checkout (max 5 fields)
    */
   custom_fields?: Array<CustomField> | null;
 
   /**
-   * Body param: Customer details for the session
+   * Customer details for the session
    */
   customer?: PaymentsAPI.CustomerRequest | null;
 
   /**
-   * Body param: Optional business / legal name associated with the tax id. When
-   * provided together with a valid tax id for a B2B purchase, this name is rendered
-   * on the invoice instead of the customer's personal name.
+   * Optional business / legal name associated with the tax id. When provided
+   * together with a valid tax id for a B2B purchase, this name is rendered on the
+   * invoice instead of the customer's personal name.
    */
   customer_business_name?: string | null;
 
   /**
-   * Body param: Customization for the checkout session page
+   * Customization for the checkout session page
    */
   customization?: CheckoutSessionCustomization;
 
@@ -1302,40 +1302,37 @@ export interface CheckoutSessionPreviewParams {
   discount_code?: string | null;
 
   /**
-   * Body param: Stacked discount codes to apply, in order. Max 20. Cannot be used
-   * together with discount_code.
+   * Stacked discount codes to apply, in order. Max 20. Cannot be used together with
+   * discount_code.
    */
   discount_codes?: Array<string> | null;
 
-  /**
-   * Body param
-   */
   feature_flags?: CheckoutSessionFlags;
 
   /**
-   * Body param: Override merchant default 3DS behaviour for this session
+   * Override merchant default 3DS behaviour for this session
    */
   force_3ds?: boolean | null;
 
   /**
-   * Body param: Override the merchant-level mandate floor (in INR paise) for INR
-   * e-mandates on Indian-card recurring payments. The mandate amount sent to the
-   * processor is `max(this_floor, actual_billing_amount)`, so this is effectively
-   * the customer-facing authorization ceiling whenever billing is lower. When unset,
-   * the merchant setting applies; when that's also unset, the system default of
-   * ₹15,000 applies.
+   * Override the merchant-level mandate floor (in INR paise) for INR e-mandates on
+   * Indian-card recurring payments. The mandate amount sent to the processor is
+   * `max(this_floor, actual_billing_amount)`, so this is effectively the
+   * customer-facing authorization ceiling whenever billing is lower. When unset, the
+   * merchant setting applies; when that's also unset, the system default of ₹15,000
+   * applies.
    */
   mandate_min_amount_inr_paise?: number | null;
 
   /**
-   * Body param: Additional metadata associated with the payment. Defaults to empty
-   * if not provided.
+   * Additional metadata associated with the payment. Defaults to empty if not
+   * provided.
    */
   metadata?: MiscAPI.Metadata | null;
 
   /**
-   * Body param: If true, only zipcode is required when confirm is true; other
-   * address fields remain optional
+   * If true, only zipcode is required when confirm is true; other address fields
+   * remain optional
    *
    * Default is true when `feature_flags.single_page` is true. Otherwise, default is
    * false.
@@ -1343,42 +1340,36 @@ export interface CheckoutSessionPreviewParams {
   minimal_address?: boolean | null;
 
   /**
-   * Body param: Optional payment method ID to use for this checkout session. Only
-   * allowed when `confirm` is true. If provided, existing customer id must also be
-   * provided.
+   * Optional payment method ID to use for this checkout session. Only allowed when
+   * `confirm` is true. If provided, existing customer id must also be provided.
    */
   payment_method_id?: string | null;
 
   /**
-   * Body param: Product collection ID for collection-based checkout flow
+   * Product collection ID for collection-based checkout flow
    */
   product_collection_id?: string | null;
 
   /**
-   * Body param: The url to redirect after payment failure or success.
+   * The url to redirect after payment failure or success.
    */
   return_url?: string | null;
 
   /**
-   * Body param: If true, returns a shortened checkout URL. Defaults to false if not
-   * specified.
+   * If true, returns a shortened checkout URL. Defaults to false if not specified.
    */
   short_link?: boolean;
 
   /**
-   * Body param: Display saved payment methods of a returning customer False by
-   * default
+   * Display saved payment methods of a returning customer False by default
    */
   show_saved_payment_methods?: boolean;
 
-  /**
-   * Body param
-   */
   subscription_data?: SubscriptionData | null;
 
   /**
-   * Body param: Tax ID for the customer (e.g. VAT number). Requires billing_address
-   * with country.
+   * Tax ID for the customer (e.g. VAT number). Requires billing_address with
+   * country.
    */
   tax_id?: string | null;
 }
