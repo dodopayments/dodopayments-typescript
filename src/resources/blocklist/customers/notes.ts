@@ -33,11 +33,11 @@ export interface BlockedCustomerNote {
 }
 
 export interface NoteRequest {
-  note: string;
+  text: string;
 }
 
 export interface NoteCreateParams {
-  note: string;
+  text: string;
 }
 
 export interface NoteUpdateParams {
@@ -49,7 +49,7 @@ export interface NoteUpdateParams {
   /**
    * Body param
    */
-  note: string;
+  text: string;
 }
 
 export declare namespace Notes {

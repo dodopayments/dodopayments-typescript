@@ -6,6 +6,7 @@ import * as DiscountsAPI from './discounts';
 import * as MiscAPI from './misc';
 import * as PaymentsAPI from './payments';
 import * as CreditEntitlementsAPI from './credit-entitlements/credit-entitlements';
+import * as InvoicesAPI from './invoices/invoices';
 import { APIPromise } from '../core/api-promise';
 import {
   DefaultPageNumberPagination,
@@ -51,12 +52,8 @@ export class Subscriptions extends APIResource {
    * );
    * ```
    */
-  retrieve(
-    subscriptionID: string,
-    query: SubscriptionRetrieveParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<Subscription> {
-    return this._client.get(path`/subscriptions/${subscriptionID}`, { query, ...options });
+  retrieve(subscriptionID: string, options?: RequestOptions): APIPromise<Subscription> {
+    return this._client.get(path`/subscriptions/${subscriptionID}`, options);
   }
 
   /**
@@ -183,6 +180,9 @@ export class Subscriptions extends APIResource {
   }
 
   /**
+   * For an invoice-led subscription, billing charges the open invoices after the
+   * change, so the response has no payment.
+   *
    * @example
    * ```ts
    * const response =
@@ -258,6 +258,23 @@ export class Subscriptions extends APIResource {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
+  }
+
+  /**
+   * Prices the next cycle invoice of an invoice-led subscription. The invoice ID in
+   * the response is not stored, so the response has no allowed actions and no
+   * editable fields.
+   *
+   * @example
+   * ```ts
+   * const invoice =
+   *   await client.subscriptions.retrieveUpcomingInvoice(
+   *     'subscription_id',
+   *   );
+   * ```
+   */
+  retrieveUpcomingInvoice(subscriptionID: string, options?: RequestOptions): APIPromise<InvoicesAPI.Invoice> {
+    return this._client.get(path`/subscriptions/${subscriptionID}/upcoming-invoice`, options);
   }
 }
 
@@ -501,6 +518,11 @@ export interface Subscription {
   billing: PaymentsAPI.BillingAddress;
 
   /**
+   * `invoice_led` when invoices bill the subscription. `normal` otherwise.
+   */
+  billing_mode: 'normal' | 'invoice_led';
+
+  /**
    * Brand id this subscription belongs to
    */
   brand_id: string;
@@ -645,6 +667,11 @@ export interface Subscription {
   cancelled_by?: SubscriptionCancelledBy | null;
 
   /**
+   * How an invoice-led subscription collects each invoice. `null` for `normal`.
+   */
+  collection_method?: InvoicesAPI.CollectionMethod | null;
+
+  /**
    * Customer's responses to custom fields collected during checkout
    */
   custom_field_responses?: Array<PaymentsAPI.CustomFieldResponse> | null;
@@ -685,6 +712,11 @@ export interface Subscription {
    * Saved payment method id used for recurring charges
    */
   payment_method_id?: string | null;
+
+  /**
+   * Days from the invoice date to the due date. `null` for `normal`.
+   */
+  payment_terms_days?: number | null;
 
   /**
    * Scheduled plan change details, if any
@@ -812,6 +844,12 @@ export interface UpdateSubscriptionPlanReq {
   collect_via_payment_link?: boolean;
 
   /**
+   * Where a downgrade credit goes. Only invoice-led subscriptions read it. The
+   * default is `customer_balance`.
+   */
+  credit?: 'customer_balance' | 'refund' | null;
+
+  /**
    * @deprecated Use `discount_id` instead.
    */
   discount_code?: string | null;
@@ -831,6 +869,11 @@ export interface UpdateSubscriptionPlanReq {
    * - `next_billing_date`: Schedule the change for the next billing date
    */
   effective_at?: 'immediately' | 'next_billing_date';
+
+  /**
+   * The invoice of a plan change billed now. Only invoice-led subscriptions read it.
+   */
+  invoice?: UpdateSubscriptionPlanReq.Invoice | null;
 
   /**
    * Metadata for the payment. If not passed, the metadata of the subscription will
@@ -867,6 +910,41 @@ export interface UpdateSubscriptionPlanReq {
    * plan can apply after the redirect, when the payment webhook arrives.
    */
   return_url?: string | null;
+}
+
+export namespace UpdateSubscriptionPlanReq {
+  /**
+   * The invoice of a plan change billed now. Only invoice-led subscriptions read it.
+   */
+  export interface Invoice {
+    /**
+     * The collection method of the invoice. The subscription value applies when
+     * absent.
+     */
+    collection_method?: InvoicesAPI.CollectionMethod | null;
+
+    /**
+     * `false` keeps the invoice as a draft for review. Default `true`.
+     */
+    finalize?: boolean;
+
+    /**
+     * The terms of the plan-change invoice. The subscription terms apply when absent.
+     */
+    payment_terms?: Invoice.Type | Invoice.UnionMember1 | null;
+  }
+
+  export namespace Invoice {
+    export interface Type {
+      type: 'due_on_receipt';
+    }
+
+    export interface UnionMember1 {
+      days: number;
+
+      type: 'net';
+    }
+  }
 }
 
 export interface SubscriptionCreateResponse {
@@ -961,6 +1039,11 @@ export interface SubscriptionListResponse {
    * Billing address details for payments
    */
   billing: PaymentsAPI.BillingAddress;
+
+  /**
+   * `invoice_led` when invoices bill the subscription. `normal` otherwise.
+   */
+  billing_mode: 'normal' | 'invoice_led';
 
   /**
    * Indicates if the subscription will cancel at the next billing date
@@ -1082,6 +1165,11 @@ export interface SubscriptionListResponse {
   cancelled_by?: SubscriptionCancelledBy | null;
 
   /**
+   * How an invoice-led subscription collects each invoice. `null` for `normal`.
+   */
+  collection_method?: InvoicesAPI.CollectionMethod | null;
+
+  /**
    * Business / legal name associated with the tax id (B2B). When set this is used on
    * the invoice in place of the customer's personal name.
    */
@@ -1107,6 +1195,11 @@ export interface SubscriptionListResponse {
    * Saved payment method id used for recurring charges
    */
   payment_method_id?: string | null;
+
+  /**
+   * Days from the invoice date to the due date. `null` for `normal`.
+   */
+  payment_terms_days?: number | null;
 
   /**
    * Name of the product associated with this subscription
@@ -1168,6 +1261,12 @@ export interface SubscriptionChangePlanResponse {
   expires_on?: string | null;
 
   /**
+   * The invoice that bills the plan change. Set only for an invoice-led
+   * subscription.
+   */
+  invoice_id?: string | null;
+
+  /**
    * Id of the payment that settles the plan change.
    */
   payment_id?: string | null;
@@ -1176,6 +1275,11 @@ export interface SubscriptionChangePlanResponse {
    * Checkout page URL. Give this to the customer.
    */
   payment_link?: string | null;
+
+  /**
+   * The refund of a downgrade with `credit: refund`.
+   */
+  refund_id?: string | null;
 }
 
 export interface SubscriptionChargeResponse {
@@ -1479,16 +1583,6 @@ export interface SubscriptionListParams extends DefaultPageNumberPaginationParam
   customer_id?: string;
 
   /**
-   * Shows the translated name, description and unit of the catalog entities in this
-   * locale. The value must be a code from `GET /locales`, for example `fr`. A field
-   * with no translation, an unknown code, or no code shows the base text.
-   *
-   * Do not send a text from a localized response back in a create or update request.
-   * The base text then changes to the translated text.
-   */
-  locale?: string;
-
-  /**
    * Filter by product id
    */
   product_id?: string;
@@ -1638,18 +1732,6 @@ export interface SubscriptionCreateParams {
    * period set in the product's price Must be between 0 and 10000 days
    */
   trial_period_days?: number | null;
-}
-
-export interface SubscriptionRetrieveParams {
-  /**
-   * Shows the translated name, description and unit of the catalog entities in this
-   * locale. The value must be a code from `GET /locales`, for example `fr`. A field
-   * with no translation, an unknown code, or no code shows the base text.
-   *
-   * Do not send a text from a localized response back in a create or update request.
-   * The base text then changes to the translated text.
-   */
-  locale?: string;
 }
 
 export interface SubscriptionUpdateParams {
@@ -1910,6 +1992,12 @@ export interface SubscriptionChangePlanParams {
   collect_via_payment_link?: boolean;
 
   /**
+   * Where a downgrade credit goes. Only invoice-led subscriptions read it. The
+   * default is `customer_balance`.
+   */
+  credit?: 'customer_balance' | 'refund' | null;
+
+  /**
    * @deprecated Use `discount_id` instead.
    */
   discount_code?: string | null;
@@ -1929,6 +2017,11 @@ export interface SubscriptionChangePlanParams {
    * - `next_billing_date`: Schedule the change for the next billing date
    */
   effective_at?: 'immediately' | 'next_billing_date';
+
+  /**
+   * The invoice of a plan change billed now. Only invoice-led subscriptions read it.
+   */
+  invoice?: SubscriptionChangePlanParams.Invoice | null;
 
   /**
    * Metadata for the payment. If not passed, the metadata of the subscription will
@@ -1965,6 +2058,41 @@ export interface SubscriptionChangePlanParams {
    * plan can apply after the redirect, when the payment webhook arrives.
    */
   return_url?: string | null;
+}
+
+export namespace SubscriptionChangePlanParams {
+  /**
+   * The invoice of a plan change billed now. Only invoice-led subscriptions read it.
+   */
+  export interface Invoice {
+    /**
+     * The collection method of the invoice. The subscription value applies when
+     * absent.
+     */
+    collection_method?: InvoicesAPI.CollectionMethod | null;
+
+    /**
+     * `false` keeps the invoice as a draft for review. Default `true`.
+     */
+    finalize?: boolean;
+
+    /**
+     * The terms of the plan-change invoice. The subscription terms apply when absent.
+     */
+    payment_terms?: Invoice.Type | Invoice.UnionMember1 | null;
+  }
+
+  export namespace Invoice {
+    export interface Type {
+      type: 'due_on_receipt';
+    }
+
+    export interface UnionMember1 {
+      days: number;
+
+      type: 'net';
+    }
+  }
 }
 
 export interface SubscriptionRetrieveUsageHistoryParams extends DefaultPageNumberPaginationParams {
@@ -2090,6 +2218,12 @@ export interface SubscriptionPreviewChangePlanParams {
   collect_via_payment_link?: boolean;
 
   /**
+   * Where a downgrade credit goes. Only invoice-led subscriptions read it. The
+   * default is `customer_balance`.
+   */
+  credit?: 'customer_balance' | 'refund' | null;
+
+  /**
    * @deprecated Use `discount_id` instead.
    */
   discount_code?: string | null;
@@ -2109,6 +2243,11 @@ export interface SubscriptionPreviewChangePlanParams {
    * - `next_billing_date`: Schedule the change for the next billing date
    */
   effective_at?: 'immediately' | 'next_billing_date';
+
+  /**
+   * The invoice of a plan change billed now. Only invoice-led subscriptions read it.
+   */
+  invoice?: SubscriptionPreviewChangePlanParams.Invoice | null;
 
   /**
    * Metadata for the payment. If not passed, the metadata of the subscription will
@@ -2147,6 +2286,41 @@ export interface SubscriptionPreviewChangePlanParams {
   return_url?: string | null;
 }
 
+export namespace SubscriptionPreviewChangePlanParams {
+  /**
+   * The invoice of a plan change billed now. Only invoice-led subscriptions read it.
+   */
+  export interface Invoice {
+    /**
+     * The collection method of the invoice. The subscription value applies when
+     * absent.
+     */
+    collection_method?: InvoicesAPI.CollectionMethod | null;
+
+    /**
+     * `false` keeps the invoice as a draft for review. Default `true`.
+     */
+    finalize?: boolean;
+
+    /**
+     * The terms of the plan-change invoice. The subscription terms apply when absent.
+     */
+    payment_terms?: Invoice.Type | Invoice.UnionMember1 | null;
+  }
+
+  export namespace Invoice {
+    export interface Type {
+      type: 'due_on_receipt';
+    }
+
+    export interface UnionMember1 {
+      days: number;
+
+      type: 'net';
+    }
+  }
+}
+
 export declare namespace Subscriptions {
   export {
     type AddonCartResponseItem as AddonCartResponseItem,
@@ -2174,7 +2348,6 @@ export declare namespace Subscriptions {
     type SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination as SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
     type SubscriptionListParams as SubscriptionListParams,
     type SubscriptionCreateParams as SubscriptionCreateParams,
-    type SubscriptionRetrieveParams as SubscriptionRetrieveParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionChargeParams as SubscriptionChargeParams,
     type SubscriptionChangePlanParams as SubscriptionChangePlanParams,

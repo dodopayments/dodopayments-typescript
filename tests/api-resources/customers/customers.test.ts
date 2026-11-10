@@ -64,7 +64,6 @@ describe('resource customers', () => {
       name: 'name',
       metadata: { foo: 'string' },
       phone_number: 'phone_number',
-      preferred_locale: 'ar',
     });
   });
 
