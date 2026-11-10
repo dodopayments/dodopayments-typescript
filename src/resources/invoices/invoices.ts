@@ -135,7 +135,7 @@ export class Invoices extends APIResource {
    *
    * @example
    * ```ts
-   * await client.invoices.preview({
+   * const response = await client.invoices.preview({
    *   collection_method: 'auto_charge',
    *   currency: 'AED',
    *   customer_id: 'customer_id',
@@ -148,15 +148,19 @@ export class Invoices extends APIResource {
    *     },
    *   ],
    * });
+   *
+   * const content = await response.blob();
+   * console.log(content);
    * ```
    */
-  preview(params: InvoicePreviewParams, options?: RequestOptions): APIPromise<void> {
+  preview(params: InvoicePreviewParams, options?: RequestOptions): APIPromise<Response> {
     const { format, ...body } = params;
     return this._client.post('/billing/invoices/preview', {
       query: { format },
       body,
       ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+      headers: buildHeaders([{ Accept: 'application/pdf' }, options?.headers]),
+      __binaryResponse: true,
     });
   }
 
@@ -165,18 +169,24 @@ export class Invoices extends APIResource {
    *
    * @example
    * ```ts
-   * await client.invoices.previewExisting('invoice_id');
+   * const response = await client.invoices.previewExisting(
+   *   'invoice_id',
+   * );
+   *
+   * const content = await response.blob();
+   * console.log(content);
    * ```
    */
   previewExisting(
     invoiceID: string,
     query: InvoicePreviewExistingParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<void> {
+  ): APIPromise<Response> {
     return this._client.get(path`/billing/invoices/${invoiceID}/preview`, {
       query,
       ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+      headers: buildHeaders([{ Accept: 'application/pdf' }, options?.headers]),
+      __binaryResponse: true,
     });
   }
 

@@ -118,8 +118,8 @@ Methods:
 - <code title="get /billing/invoices/{invoice_id}">client.invoices.<a href="./src/resources/invoices/invoices.ts">retrieve</a>(invoiceID) -> Invoice</code>
 - <code title="patch /billing/invoices/{invoice_id}">client.invoices.<a href="./src/resources/invoices/invoices.ts">update</a>(invoiceID, { ...params }) -> Invoice</code>
 - <code title="delete /billing/invoices/{invoice_id}">client.invoices.<a href="./src/resources/invoices/invoices.ts">delete</a>(invoiceID, { ...params }) -> void</code>
-- <code title="post /billing/invoices/preview">client.invoices.<a href="./src/resources/invoices/invoices.ts">preview</a>({ ...params }) -> void</code>
-- <code title="get /billing/invoices/{invoice_id}/preview">client.invoices.<a href="./src/resources/invoices/invoices.ts">previewExisting</a>(invoiceID, { ...params }) -> void</code>
+- <code title="post /billing/invoices/preview">client.invoices.<a href="./src/resources/invoices/invoices.ts">preview</a>({ ...params }) -> Response</code>
+- <code title="get /billing/invoices/{invoice_id}/preview">client.invoices.<a href="./src/resources/invoices/invoices.ts">previewExisting</a>(invoiceID, { ...params }) -> Response</code>
 - <code title="post /billing/invoices/{invoice_id}/finalize">client.invoices.<a href="./src/resources/invoices/invoices.ts">finalize</a>(invoiceID, { ...params }) -> Invoice</code>
 - <code title="post /billing/invoices/{invoice_id}/send">client.invoices.<a href="./src/resources/invoices/invoices.ts">send</a>(invoiceID, { ...params }) -> Invoice</code>
 - <code title="post /billing/invoices/{invoice_id}/void">client.invoices.<a href="./src/resources/invoices/invoices.ts">void</a>(invoiceID, { ...params }) -> Invoice</code>

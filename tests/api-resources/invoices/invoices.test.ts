@@ -173,29 +173,6 @@ describe('resource invoices', () => {
     const response = await client.invoices.delete('invoice_id', { 'If-Match': 'If-Match' });
   });
 
-  test('preview: only required params', async () => {
-    const responsePromise = client.invoices.preview({
-      collection_method: 'auto_charge',
-      currency: 'AED',
-      customer_id: 'customer_id',
-      items: [
-        {
-          description: 'description',
-          kind: 'custom',
-          tax_category: 'digital_products',
-          unit_amount: 0,
-        },
-      ],
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
   test('preview: required and optional params', async () => {
     const response = await client.invoices.preview({
       collection_method: 'auto_charge',
@@ -229,17 +206,6 @@ describe('resource invoices', () => {
       review_required: true,
       tax_id: 'tax_id',
     });
-  });
-
-  test('previewExisting', async () => {
-    const responsePromise = client.invoices.previewExisting('invoice_id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
   });
 
   test('previewExisting: request options and params are passed correctly', async () => {
