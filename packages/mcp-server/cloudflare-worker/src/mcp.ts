@@ -34,7 +34,7 @@ import {
 import { executeToolDescriptor, runExecute, type ForbiddenCall } from './execute-tool';
 import { callFeedback, feedbackTool, type FeedbackLimiter, type FeedbackSink } from './feedback';
 
-export const SERVER_INFO = { name: 'dodopayments_api', version: '2.61.1' }; // x-release-please-version
+export const SERVER_INFO = { name: 'dodopayments_api', version: '2.62.0' }; // x-release-please-version
 
 /**
  * The caller of one MCP request: a dodo-auth MCP token after the token check. A request without
