@@ -27,6 +27,15 @@ import * as WorkloadIdentity from './core/workload-identity';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
+  AddonCreateParams,
+  AddonListParams,
+  AddonResponse,
+  AddonResponsesDefaultPageNumberPagination,
+  AddonUpdateImagesResponse,
+  AddonUpdateParams,
+  Addons,
+} from './resources/addons';
+import {
   BalanceLedgerEntriesDefaultPageNumberPagination,
   BalanceLedgerEntry,
   BalanceRetrieveLedgerParams,
@@ -105,13 +114,23 @@ import {
   Licenses,
 } from './resources/licenses';
 import {
+  Conjunction,
+  FilterOperator,
+  FilterType,
+  Meter,
+  MeterAggregation,
+  MeterCreateParams,
+  MeterFilter,
+  MeterListParams,
+  MeterUpdateParams,
+  Meters,
+  MetersDefaultPageNumberPagination,
+} from './resources/meters';
+import {
   CountryCode,
   Currency,
-  Locale,
-  LocaleInfo,
   Metadata,
   Misc,
-  MiscListLocalesResponse,
   MiscListSupportedCountriesResponse,
   TaxCategory,
 } from './resources/misc';
@@ -186,7 +205,6 @@ import {
   SubscriptionPreviewChangePlanParams,
   SubscriptionPreviewChangePlanResponse,
   SubscriptionRetrieveCreditUsageResponse,
-  SubscriptionRetrieveParams,
   SubscriptionRetrieveUsageHistoryParams,
   SubscriptionRetrieveUsageHistoryResponse,
   SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
@@ -208,23 +226,12 @@ import {
   UsageEvents,
 } from './resources/usage-events';
 import { WebhookEventType, WebhookEvents, WebhookPayload } from './resources/webhook-events';
-import {
-  AddonCreateParams,
-  AddonListParams,
-  AddonResponse,
-  AddonResponsesDefaultPageNumberPagination,
-  AddonRetrieveParams,
-  AddonUpdateImagesResponse,
-  AddonUpdateParams,
-  Addons,
-} from './resources/addons/addons';
 import { Blocklist } from './resources/blocklist/blocklist';
 import {
   CbbOverageBehavior,
   CreditEntitlement,
   CreditEntitlementCreateParams,
   CreditEntitlementListParams,
-  CreditEntitlementRetrieveParams,
   CreditEntitlementUpdateParams,
   CreditEntitlements,
   CreditEntitlementsDefaultPageNumberPagination,
@@ -248,7 +255,6 @@ import {
   EntitlementCreateParams,
   EntitlementIntegrationType,
   EntitlementListParams,
-  EntitlementRetrieveParams,
   EntitlementUpdateParams,
   Entitlements,
   EntitlementsDefaultPageNumberPagination,
@@ -258,21 +264,31 @@ import {
   IntegrationConfig,
   IntegrationConfigResponse,
 } from './resources/entitlements/entitlements';
-import { Invoices } from './resources/invoices/invoices';
 import {
-  Conjunction,
-  FilterOperator,
-  FilterType,
-  Meter,
-  MeterAggregation,
-  MeterCreateParams,
-  MeterFilter,
-  MeterListParams,
-  MeterRetrieveParams,
-  MeterUpdateParams,
-  Meters,
-  MetersDefaultPageNumberPagination,
-} from './resources/meters/meters';
+  CollectionMethod,
+  DunningState,
+  Invoice,
+  InvoiceAddNoteParams,
+  InvoiceCreateHostedLinkResponse,
+  InvoiceCreateParams,
+  InvoiceDeleteParams,
+  InvoiceEvent,
+  InvoiceFinalizeParams,
+  InvoiceLine,
+  InvoiceListEventsResponse,
+  InvoiceListParams,
+  InvoiceMarkUncollectableParams,
+  InvoicePreviewExistingParams,
+  InvoicePreviewParams,
+  InvoiceRetryParams,
+  InvoiceSendParams,
+  InvoiceStatus,
+  InvoiceUpdateDunningParams,
+  InvoiceUpdateParams,
+  InvoiceVoidParams,
+  Invoices,
+  InvoicesDefaultPageNumberPagination,
+} from './resources/invoices/invoices';
 import {
   PayoutListParams,
   PayoutListResponse,
@@ -285,7 +301,6 @@ import {
   ProductCollectionListParams,
   ProductCollectionListResponse,
   ProductCollectionListResponsesDefaultPageNumberPagination,
-  ProductCollectionRetrieveParams,
   ProductCollectionUnarchiveResponse,
   ProductCollectionUpdateImagesParams,
   ProductCollectionUpdateImagesResponse,
@@ -308,7 +323,6 @@ import {
   ProductListParams,
   ProductListResponse,
   ProductListResponsesDefaultPageNumberPagination,
-  ProductRetrieveParams,
   ProductUpdateFilesParams,
   ProductUpdateFilesResponse,
   ProductUpdateParams,
@@ -339,6 +353,14 @@ import {
   EntitlementGrantDeliveredWebhookEvent,
   EntitlementGrantFailedWebhookEvent,
   EntitlementGrantRevokedWebhookEvent,
+  InvoiceFinalizedWebhookEvent,
+  InvoiceMarkedUncollectableWebhookEvent,
+  InvoicePaidWebhookEvent,
+  InvoicePastDueWebhookEvent,
+  InvoicePaymentFailedWebhookEvent,
+  InvoiceReopenedWebhookEvent,
+  InvoiceSentWebhookEvent,
+  InvoiceVoidedWebhookEvent,
   LicenseKeyCreatedWebhookEvent,
   PaymentCancelledWebhookEvent,
   PaymentFailedWebhookEvent,
@@ -1326,7 +1348,6 @@ export declare namespace DodoPayments {
     type SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination as SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
     type SubscriptionListParams as SubscriptionListParams,
     type SubscriptionCreateParams as SubscriptionCreateParams,
-    type SubscriptionRetrieveParams as SubscriptionRetrieveParams,
     type SubscriptionUpdateParams as SubscriptionUpdateParams,
     type SubscriptionChargeParams as SubscriptionChargeParams,
     type SubscriptionChangePlanParams as SubscriptionChangePlanParams,
@@ -1335,7 +1356,31 @@ export declare namespace DodoPayments {
     type SubscriptionPreviewChangePlanParams as SubscriptionPreviewChangePlanParams,
   };
 
-  export { Invoices as Invoices };
+  export {
+    Invoices as Invoices,
+    type CollectionMethod as CollectionMethod,
+    type DunningState as DunningState,
+    type Invoice as Invoice,
+    type InvoiceEvent as InvoiceEvent,
+    type InvoiceLine as InvoiceLine,
+    type InvoiceStatus as InvoiceStatus,
+    type InvoiceCreateHostedLinkResponse as InvoiceCreateHostedLinkResponse,
+    type InvoiceListEventsResponse as InvoiceListEventsResponse,
+    type InvoicesDefaultPageNumberPagination as InvoicesDefaultPageNumberPagination,
+    type InvoiceListParams as InvoiceListParams,
+    type InvoiceCreateParams as InvoiceCreateParams,
+    type InvoiceUpdateParams as InvoiceUpdateParams,
+    type InvoiceDeleteParams as InvoiceDeleteParams,
+    type InvoicePreviewParams as InvoicePreviewParams,
+    type InvoicePreviewExistingParams as InvoicePreviewExistingParams,
+    type InvoiceFinalizeParams as InvoiceFinalizeParams,
+    type InvoiceSendParams as InvoiceSendParams,
+    type InvoiceVoidParams as InvoiceVoidParams,
+    type InvoiceRetryParams as InvoiceRetryParams,
+    type InvoiceMarkUncollectableParams as InvoiceMarkUncollectableParams,
+    type InvoiceAddNoteParams as InvoiceAddNoteParams,
+    type InvoiceUpdateDunningParams as InvoiceUpdateDunningParams,
+  };
 
   export {
     Licenses as Licenses,
@@ -1426,7 +1471,6 @@ export declare namespace DodoPayments {
     type ProductListResponsesDefaultPageNumberPagination as ProductListResponsesDefaultPageNumberPagination,
     type ProductListParams as ProductListParams,
     type ProductCreateParams as ProductCreateParams,
-    type ProductRetrieveParams as ProductRetrieveParams,
     type ProductUpdateParams as ProductUpdateParams,
     type ProductUpdateFilesParams as ProductUpdateFilesParams,
   };
@@ -1435,11 +1479,8 @@ export declare namespace DodoPayments {
     Misc as Misc,
     type CountryCode as CountryCode,
     type Currency as Currency,
-    type Locale as Locale,
-    type LocaleInfo as LocaleInfo,
     type Metadata as Metadata,
     type TaxCategory as TaxCategory,
-    type MiscListLocalesResponse as MiscListLocalesResponse,
     type MiscListSupportedCountriesResponse as MiscListSupportedCountriesResponse,
   };
 
@@ -1461,7 +1502,6 @@ export declare namespace DodoPayments {
     type AddonResponsesDefaultPageNumberPagination as AddonResponsesDefaultPageNumberPagination,
     type AddonListParams as AddonListParams,
     type AddonCreateParams as AddonCreateParams,
-    type AddonRetrieveParams as AddonRetrieveParams,
     type AddonUpdateParams as AddonUpdateParams,
   };
 
@@ -1505,6 +1545,14 @@ export declare namespace DodoPayments {
     type EntitlementGrantDeliveredWebhookEvent as EntitlementGrantDeliveredWebhookEvent,
     type EntitlementGrantFailedWebhookEvent as EntitlementGrantFailedWebhookEvent,
     type EntitlementGrantRevokedWebhookEvent as EntitlementGrantRevokedWebhookEvent,
+    type InvoiceFinalizedWebhookEvent as InvoiceFinalizedWebhookEvent,
+    type InvoiceMarkedUncollectableWebhookEvent as InvoiceMarkedUncollectableWebhookEvent,
+    type InvoicePaidWebhookEvent as InvoicePaidWebhookEvent,
+    type InvoicePastDueWebhookEvent as InvoicePastDueWebhookEvent,
+    type InvoicePaymentFailedWebhookEvent as InvoicePaymentFailedWebhookEvent,
+    type InvoiceReopenedWebhookEvent as InvoiceReopenedWebhookEvent,
+    type InvoiceSentWebhookEvent as InvoiceSentWebhookEvent,
+    type InvoiceVoidedWebhookEvent as InvoiceVoidedWebhookEvent,
     type LicenseKeyCreatedWebhookEvent as LicenseKeyCreatedWebhookEvent,
     type PaymentCancelledWebhookEvent as PaymentCancelledWebhookEvent,
     type PaymentFailedWebhookEvent as PaymentFailedWebhookEvent,
@@ -1564,7 +1612,6 @@ export declare namespace DodoPayments {
     type MetersDefaultPageNumberPagination as MetersDefaultPageNumberPagination,
     type MeterListParams as MeterListParams,
     type MeterCreateParams as MeterCreateParams,
-    type MeterRetrieveParams as MeterRetrieveParams,
     type MeterUpdateParams as MeterUpdateParams,
   };
 
@@ -1582,7 +1629,6 @@ export declare namespace DodoPayments {
     type CreditEntitlementsDefaultPageNumberPagination as CreditEntitlementsDefaultPageNumberPagination,
     type CreditEntitlementListParams as CreditEntitlementListParams,
     type CreditEntitlementCreateParams as CreditEntitlementCreateParams,
-    type CreditEntitlementRetrieveParams as CreditEntitlementRetrieveParams,
     type CreditEntitlementUpdateParams as CreditEntitlementUpdateParams,
   };
 
@@ -1598,7 +1644,6 @@ export declare namespace DodoPayments {
     type EntitlementsDefaultPageNumberPagination as EntitlementsDefaultPageNumberPagination,
     type EntitlementListParams as EntitlementListParams,
     type EntitlementCreateParams as EntitlementCreateParams,
-    type EntitlementRetrieveParams as EntitlementRetrieveParams,
     type EntitlementUpdateParams as EntitlementUpdateParams,
   };
 
@@ -1611,7 +1656,6 @@ export declare namespace DodoPayments {
     type ProductCollectionListResponsesDefaultPageNumberPagination as ProductCollectionListResponsesDefaultPageNumberPagination,
     type ProductCollectionListParams as ProductCollectionListParams,
     type ProductCollectionCreateParams as ProductCollectionCreateParams,
-    type ProductCollectionRetrieveParams as ProductCollectionRetrieveParams,
     type ProductCollectionUpdateParams as ProductCollectionUpdateParams,
     type ProductCollectionUpdateImagesParams as ProductCollectionUpdateImagesParams,
   };
