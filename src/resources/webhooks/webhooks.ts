@@ -10,6 +10,7 @@ import * as SubscriptionsAPI from '../subscriptions';
 import * as WebhookEventsAPI from '../webhook-events';
 import * as BalancesAPI from '../credit-entitlements/balances';
 import * as GrantsAPI from '../entitlements/grants';
+import * as InvoicesAPI from '../invoices/invoices';
 import * as HeadersAPI from './headers';
 import { HeaderRetrieveResponse, HeaderUpdateParams, Headers } from './headers';
 import { Webhook } from 'standardwebhooks';
@@ -823,6 +824,190 @@ export interface EntitlementGrantRevokedWebhookEvent {
    * The event type
    */
   type: 'entitlement_grant.revoked';
+}
+
+export interface InvoiceFinalizedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  data: InvoicesAPI.Invoice;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'invoice.finalized';
+}
+
+export interface InvoiceMarkedUncollectableWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  data: InvoicesAPI.Invoice;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'invoice.marked_uncollectable';
+}
+
+export interface InvoicePaidWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  data: InvoicesAPI.Invoice;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'invoice.paid';
+}
+
+export interface InvoicePastDueWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  data: InvoicesAPI.Invoice;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'invoice.past_due';
+}
+
+export interface InvoicePaymentFailedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  data: InvoicesAPI.Invoice;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'invoice.payment_failed';
+}
+
+export interface InvoiceReopenedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  data: InvoicesAPI.Invoice;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'invoice.reopened';
+}
+
+export interface InvoiceSentWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  data: InvoicesAPI.Invoice;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'invoice.sent';
+}
+
+export interface InvoiceVoidedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  data: InvoicesAPI.Invoice;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'invoice.voided';
 }
 
 export interface LicenseKeyCreatedWebhookEvent {
@@ -2676,6 +2861,190 @@ export interface EntitlementGrantRevokedWebhookEvent {
    * The event type
    */
   type: 'entitlement_grant.revoked';
+}
+
+export interface InvoiceFinalizedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  data: InvoicesAPI.Invoice;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'invoice.finalized';
+}
+
+export interface InvoiceMarkedUncollectableWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  data: InvoicesAPI.Invoice;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'invoice.marked_uncollectable';
+}
+
+export interface InvoicePaidWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  data: InvoicesAPI.Invoice;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'invoice.paid';
+}
+
+export interface InvoicePastDueWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  data: InvoicesAPI.Invoice;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'invoice.past_due';
+}
+
+export interface InvoicePaymentFailedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  data: InvoicesAPI.Invoice;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'invoice.payment_failed';
+}
+
+export interface InvoiceReopenedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  data: InvoicesAPI.Invoice;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'invoice.reopened';
+}
+
+export interface InvoiceSentWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  data: InvoicesAPI.Invoice;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'invoice.sent';
+}
+
+export interface InvoiceVoidedWebhookEvent {
+  /**
+   * The business identifier
+   */
+  business_id: string;
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  data: InvoicesAPI.Invoice;
+
+  /**
+   * The timestamp of when the event occurred
+   */
+  timestamp: string;
+
+  /**
+   * The event type
+   */
+  type: 'invoice.voided';
 }
 
 export interface LicenseKeyCreatedWebhookEvent {
@@ -3917,6 +4286,14 @@ export type UnsafeUnwrapWebhookEvent =
   | EntitlementGrantDeliveredWebhookEvent
   | EntitlementGrantFailedWebhookEvent
   | EntitlementGrantRevokedWebhookEvent
+  | InvoiceFinalizedWebhookEvent
+  | InvoiceMarkedUncollectableWebhookEvent
+  | InvoicePaidWebhookEvent
+  | InvoicePastDueWebhookEvent
+  | InvoicePaymentFailedWebhookEvent
+  | InvoiceReopenedWebhookEvent
+  | InvoiceSentWebhookEvent
+  | InvoiceVoidedWebhookEvent
   | LicenseKeyCreatedWebhookEvent
   | PaymentCancelledWebhookEvent
   | PaymentFailedWebhookEvent
@@ -3967,6 +4344,14 @@ export type UnwrapWebhookEvent =
   | EntitlementGrantDeliveredWebhookEvent
   | EntitlementGrantFailedWebhookEvent
   | EntitlementGrantRevokedWebhookEvent
+  | InvoiceFinalizedWebhookEvent
+  | InvoiceMarkedUncollectableWebhookEvent
+  | InvoicePaidWebhookEvent
+  | InvoicePastDueWebhookEvent
+  | InvoicePaymentFailedWebhookEvent
+  | InvoiceReopenedWebhookEvent
+  | InvoiceSentWebhookEvent
+  | InvoiceVoidedWebhookEvent
   | LicenseKeyCreatedWebhookEvent
   | PaymentCancelledWebhookEvent
   | PaymentFailedWebhookEvent
@@ -4098,6 +4483,14 @@ export declare namespace Webhooks {
     type EntitlementGrantDeliveredWebhookEvent as EntitlementGrantDeliveredWebhookEvent,
     type EntitlementGrantFailedWebhookEvent as EntitlementGrantFailedWebhookEvent,
     type EntitlementGrantRevokedWebhookEvent as EntitlementGrantRevokedWebhookEvent,
+    type InvoiceFinalizedWebhookEvent as InvoiceFinalizedWebhookEvent,
+    type InvoiceMarkedUncollectableWebhookEvent as InvoiceMarkedUncollectableWebhookEvent,
+    type InvoicePaidWebhookEvent as InvoicePaidWebhookEvent,
+    type InvoicePastDueWebhookEvent as InvoicePastDueWebhookEvent,
+    type InvoicePaymentFailedWebhookEvent as InvoicePaymentFailedWebhookEvent,
+    type InvoiceReopenedWebhookEvent as InvoiceReopenedWebhookEvent,
+    type InvoiceSentWebhookEvent as InvoiceSentWebhookEvent,
+    type InvoiceVoidedWebhookEvent as InvoiceVoidedWebhookEvent,
     type LicenseKeyCreatedWebhookEvent as LicenseKeyCreatedWebhookEvent,
     type PaymentCancelledWebhookEvent as PaymentCancelledWebhookEvent,
     type PaymentFailedWebhookEvent as PaymentFailedWebhookEvent,
