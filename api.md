@@ -87,7 +87,7 @@ Methods:
 
 - <code title="get /subscriptions">client.subscriptions.<a href="./src/resources/subscriptions.ts">list</a>({ ...params }) -> SubscriptionListResponsesDefaultPageNumberPagination</code>
 - <code title="post /subscriptions">client.subscriptions.<a href="./src/resources/subscriptions.ts">create</a>({ ...params }) -> SubscriptionCreateResponse</code>
-- <code title="get /subscriptions/{subscription_id}">client.subscriptions.<a href="./src/resources/subscriptions.ts">retrieve</a>(subscriptionID, { ...params }) -> Subscription</code>
+- <code title="get /subscriptions/{subscription_id}">client.subscriptions.<a href="./src/resources/subscriptions.ts">retrieve</a>(subscriptionID) -> Subscription</code>
 - <code title="patch /subscriptions/{subscription_id}">client.subscriptions.<a href="./src/resources/subscriptions.ts">update</a>(subscriptionID, { ...params }) -> Subscription</code>
 - <code title="post /subscriptions/{subscription_id}/charge">client.subscriptions.<a href="./src/resources/subscriptions.ts">charge</a>(subscriptionID, { ...params }) -> SubscriptionChargeResponse</code>
 - <code title="post /subscriptions/{subscription_id}/change-plan">client.subscriptions.<a href="./src/resources/subscriptions.ts">changePlan</a>(subscriptionID, { ...params }) -> SubscriptionChangePlanResponse</code>
@@ -96,8 +96,40 @@ Methods:
 - <code title="post /subscriptions/{subscription_id}/change-plan/preview">client.subscriptions.<a href="./src/resources/subscriptions.ts">previewChangePlan</a>(subscriptionID, { ...params }) -> SubscriptionPreviewChangePlanResponse</code>
 - <code title="get /subscriptions/{subscription_id}/credit-usage">client.subscriptions.<a href="./src/resources/subscriptions.ts">retrieveCreditUsage</a>(subscriptionID) -> SubscriptionRetrieveCreditUsageResponse</code>
 - <code title="delete /subscriptions/{subscription_id}/change-plan/scheduled">client.subscriptions.<a href="./src/resources/subscriptions.ts">cancelChangePlan</a>(subscriptionID) -> void</code>
+- <code title="get /subscriptions/{subscription_id}/upcoming-invoice">client.subscriptions.<a href="./src/resources/subscriptions.ts">retrieveUpcomingInvoice</a>(subscriptionID) -> Invoice</code>
 
 # Invoices
+
+Types:
+
+- <code><a href="./src/resources/invoices/invoices.ts">CollectionMethod</a></code>
+- <code><a href="./src/resources/invoices/invoices.ts">DunningState</a></code>
+- <code><a href="./src/resources/invoices/invoices.ts">Invoice</a></code>
+- <code><a href="./src/resources/invoices/invoices.ts">InvoiceEvent</a></code>
+- <code><a href="./src/resources/invoices/invoices.ts">InvoiceLine</a></code>
+- <code><a href="./src/resources/invoices/invoices.ts">InvoiceStatus</a></code>
+- <code><a href="./src/resources/invoices/invoices.ts">InvoiceCreateHostedLinkResponse</a></code>
+- <code><a href="./src/resources/invoices/invoices.ts">InvoiceListEventsResponse</a></code>
+
+Methods:
+
+- <code title="get /billing/invoices">client.invoices.<a href="./src/resources/invoices/invoices.ts">list</a>({ ...params }) -> InvoicesDefaultPageNumberPagination</code>
+- <code title="post /billing/invoices">client.invoices.<a href="./src/resources/invoices/invoices.ts">create</a>({ ...params }) -> Invoice</code>
+- <code title="get /billing/invoices/{invoice_id}">client.invoices.<a href="./src/resources/invoices/invoices.ts">retrieve</a>(invoiceID) -> Invoice</code>
+- <code title="patch /billing/invoices/{invoice_id}">client.invoices.<a href="./src/resources/invoices/invoices.ts">update</a>(invoiceID, { ...params }) -> Invoice</code>
+- <code title="delete /billing/invoices/{invoice_id}">client.invoices.<a href="./src/resources/invoices/invoices.ts">delete</a>(invoiceID, { ...params }) -> void</code>
+- <code title="post /billing/invoices/preview">client.invoices.<a href="./src/resources/invoices/invoices.ts">preview</a>({ ...params }) -> Invoice</code>
+- <code title="get /billing/invoices/{invoice_id}/preview">client.invoices.<a href="./src/resources/invoices/invoices.ts">previewExisting</a>(invoiceID, { ...params }) -> Invoice</code>
+- <code title="post /billing/invoices/{invoice_id}/finalize">client.invoices.<a href="./src/resources/invoices/invoices.ts">finalize</a>(invoiceID, { ...params }) -> Invoice</code>
+- <code title="post /billing/invoices/{invoice_id}/send">client.invoices.<a href="./src/resources/invoices/invoices.ts">send</a>(invoiceID, { ...params }) -> Invoice</code>
+- <code title="post /billing/invoices/{invoice_id}/void">client.invoices.<a href="./src/resources/invoices/invoices.ts">void</a>(invoiceID, { ...params }) -> Invoice</code>
+- <code title="post /billing/invoices/{invoice_id}/retry">client.invoices.<a href="./src/resources/invoices/invoices.ts">retry</a>(invoiceID, { ...params }) -> Invoice</code>
+- <code title="post /billing/invoices/{invoice_id}/duplicate">client.invoices.<a href="./src/resources/invoices/invoices.ts">duplicate</a>(invoiceID) -> Invoice</code>
+- <code title="post /billing/invoices/{invoice_id}/mark-uncollectable">client.invoices.<a href="./src/resources/invoices/invoices.ts">markUncollectable</a>(invoiceID, { ...params }) -> Invoice</code>
+- <code title="post /billing/invoices/{invoice_id}/notes">client.invoices.<a href="./src/resources/invoices/invoices.ts">addNote</a>(invoiceID, { ...params }) -> Invoice</code>
+- <code title="get /billing/invoices/{invoice_id}/events">client.invoices.<a href="./src/resources/invoices/invoices.ts">listEvents</a>(invoiceID) -> InvoiceListEventsResponse</code>
+- <code title="post /billing/invoices/{invoice_id}/hosted-link">client.invoices.<a href="./src/resources/invoices/invoices.ts">createHostedLink</a>(invoiceID) -> InvoiceCreateHostedLinkResponse</code>
+- <code title="post /billing/invoices/{invoice_id}/dunning">client.invoices.<a href="./src/resources/invoices/invoices.ts">updateDunning</a>(invoiceID, { ...params }) -> Invoice</code>
 
 ## Payments
 
@@ -325,24 +357,11 @@ Methods:
 
 - <code title="get /products">client.products.<a href="./src/resources/products/products.ts">list</a>({ ...params }) -> ProductListResponsesDefaultPageNumberPagination</code>
 - <code title="post /products">client.products.<a href="./src/resources/products/products.ts">create</a>({ ...params }) -> Product</code>
-- <code title="get /products/{id}">client.products.<a href="./src/resources/products/products.ts">retrieve</a>(id, { ...params }) -> Product</code>
+- <code title="get /products/{id}">client.products.<a href="./src/resources/products/products.ts">retrieve</a>(id) -> Product</code>
 - <code title="patch /products/{id}">client.products.<a href="./src/resources/products/products.ts">update</a>(id, { ...params }) -> void</code>
 - <code title="delete /products/{id}">client.products.<a href="./src/resources/products/products.ts">archive</a>(id) -> void</code>
 - <code title="post /products/{id}/unarchive">client.products.<a href="./src/resources/products/products.ts">unarchive</a>(id) -> void</code>
 - <code title="put /products/{id}/files">client.products.<a href="./src/resources/products/products.ts">updateFiles</a>(id, { ...params }) -> ProductUpdateFilesResponse</code>
-
-## Translations
-
-Types:
-
-- <code><a href="./src/resources/products/translations.ts">Translation</a></code>
-- <code><a href="./src/resources/products/translations.ts">TranslationsListResponse</a></code>
-
-Methods:
-
-- <code title="get /products/{id}/translations">client.products.translations.<a href="./src/resources/products/translations.ts">list</a>(id, { ...params }) -> TranslationsListResponse</code>
-- <code title="put /products/{id}/translations/{locale}">client.products.translations.<a href="./src/resources/products/translations.ts">update</a>(locale, { ...params }) -> Translation</code>
-- <code title="delete /products/{id}/translations/{locale}">client.products.translations.<a href="./src/resources/products/translations.ts">delete</a>(locale, { ...params }) -> void</code>
 
 ## Images
 
@@ -388,17 +407,13 @@ Types:
 
 - <code><a href="./src/resources/misc.ts">CountryCode</a></code>
 - <code><a href="./src/resources/misc.ts">Currency</a></code>
-- <code><a href="./src/resources/misc.ts">Locale</a></code>
-- <code><a href="./src/resources/misc.ts">LocaleInfo</a></code>
 - <code><a href="./src/resources/misc.ts">Metadata</a></code>
 - <code><a href="./src/resources/misc.ts">TaxCategory</a></code>
-- <code><a href="./src/resources/misc.ts">MiscListLocalesResponse</a></code>
 - <code><a href="./src/resources/misc.ts">MiscListSupportedCountriesResponse</a></code>
 
 Methods:
 
 - <code title="get /checkout/supported_countries">client.misc.<a href="./src/resources/misc.ts">listSupportedCountries</a>() -> MiscListSupportedCountriesResponse</code>
-- <code title="get /locales">client.misc.<a href="./src/resources/misc.ts">listLocales</a>() -> MiscListLocalesResponse</code>
 
 # Discounts
 
@@ -421,26 +436,18 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/addons/addons.ts">AddonResponse</a></code>
-- <code><a href="./src/resources/addons/addons.ts">AddonUpdateImagesResponse</a></code>
+- <code><a href="./src/resources/addons.ts">AddonResponse</a></code>
+- <code><a href="./src/resources/addons.ts">AddonUpdateImagesResponse</a></code>
 
 Methods:
 
-- <code title="get /addons">client.addons.<a href="./src/resources/addons/addons.ts">list</a>({ ...params }) -> AddonResponsesDefaultPageNumberPagination</code>
-- <code title="post /addons">client.addons.<a href="./src/resources/addons/addons.ts">create</a>({ ...params }) -> AddonResponse</code>
-- <code title="get /addons/{id}">client.addons.<a href="./src/resources/addons/addons.ts">retrieve</a>(id, { ...params }) -> AddonResponse</code>
-- <code title="patch /addons/{id}">client.addons.<a href="./src/resources/addons/addons.ts">update</a>(id, { ...params }) -> AddonResponse</code>
-- <code title="put /addons/{id}/images">client.addons.<a href="./src/resources/addons/addons.ts">updateImages</a>(id) -> AddonUpdateImagesResponse</code>
-- <code title="delete /addons/{id}">client.addons.<a href="./src/resources/addons/addons.ts">delete</a>(id) -> void</code>
-- <code title="post /addons/{id}/unarchive">client.addons.<a href="./src/resources/addons/addons.ts">unarchive</a>(id) -> void</code>
-
-## Translations
-
-Methods:
-
-- <code title="get /addons/{id}/translations">client.addons.translations.<a href="./src/resources/addons/translations.ts">list</a>(id, { ...params }) -> TranslationsListResponse</code>
-- <code title="put /addons/{id}/translations/{locale}">client.addons.translations.<a href="./src/resources/addons/translations.ts">update</a>(locale, { ...params }) -> Translation</code>
-- <code title="delete /addons/{id}/translations/{locale}">client.addons.translations.<a href="./src/resources/addons/translations.ts">delete</a>(locale, { ...params }) -> void</code>
+- <code title="get /addons">client.addons.<a href="./src/resources/addons.ts">list</a>({ ...params }) -> AddonResponsesDefaultPageNumberPagination</code>
+- <code title="post /addons">client.addons.<a href="./src/resources/addons.ts">create</a>({ ...params }) -> AddonResponse</code>
+- <code title="get /addons/{id}">client.addons.<a href="./src/resources/addons.ts">retrieve</a>(id) -> AddonResponse</code>
+- <code title="patch /addons/{id}">client.addons.<a href="./src/resources/addons.ts">update</a>(id, { ...params }) -> AddonResponse</code>
+- <code title="put /addons/{id}/images">client.addons.<a href="./src/resources/addons.ts">updateImages</a>(id) -> AddonUpdateImagesResponse</code>
+- <code title="delete /addons/{id}">client.addons.<a href="./src/resources/addons.ts">delete</a>(id) -> void</code>
+- <code title="post /addons/{id}/unarchive">client.addons.<a href="./src/resources/addons.ts">unarchive</a>(id) -> void</code>
 
 # Brands
 
@@ -490,6 +497,14 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">EntitlementGrantDeliveredWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">EntitlementGrantFailedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">EntitlementGrantRevokedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">InvoiceFinalizedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">InvoiceMarkedUncollectableWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">InvoicePaidWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">InvoicePastDueWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">InvoicePaymentFailedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">InvoiceReopenedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">InvoiceSentWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">InvoiceVoidedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">LicenseKeyCreatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentCancelledWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentFailedWebhookEvent</a></code>
@@ -538,6 +553,14 @@ Types:
 - <code><a href="./src/resources/webhooks/webhooks.ts">EntitlementGrantDeliveredWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">EntitlementGrantFailedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">EntitlementGrantRevokedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">InvoiceFinalizedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">InvoiceMarkedUncollectableWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">InvoicePaidWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">InvoicePastDueWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">InvoicePaymentFailedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">InvoiceReopenedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">InvoiceSentWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks/webhooks.ts">InvoiceVoidedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">LicenseKeyCreatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentCancelledWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks/webhooks.ts">PaymentFailedWebhookEvent</a></code>
@@ -612,29 +635,21 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/meters/meters.ts">Conjunction</a></code>
-- <code><a href="./src/resources/meters/meters.ts">FilterOperator</a></code>
-- <code><a href="./src/resources/meters/meters.ts">FilterType</a></code>
-- <code><a href="./src/resources/meters/meters.ts">Meter</a></code>
-- <code><a href="./src/resources/meters/meters.ts">MeterAggregation</a></code>
-- <code><a href="./src/resources/meters/meters.ts">MeterFilter</a></code>
+- <code><a href="./src/resources/meters.ts">Conjunction</a></code>
+- <code><a href="./src/resources/meters.ts">FilterOperator</a></code>
+- <code><a href="./src/resources/meters.ts">FilterType</a></code>
+- <code><a href="./src/resources/meters.ts">Meter</a></code>
+- <code><a href="./src/resources/meters.ts">MeterAggregation</a></code>
+- <code><a href="./src/resources/meters.ts">MeterFilter</a></code>
 
 Methods:
 
-- <code title="get /meters">client.meters.<a href="./src/resources/meters/meters.ts">list</a>({ ...params }) -> MetersDefaultPageNumberPagination</code>
-- <code title="post /meters">client.meters.<a href="./src/resources/meters/meters.ts">create</a>({ ...params }) -> Meter</code>
-- <code title="get /meters/{id}">client.meters.<a href="./src/resources/meters/meters.ts">retrieve</a>(id, { ...params }) -> Meter</code>
-- <code title="patch /meters/{id}">client.meters.<a href="./src/resources/meters/meters.ts">update</a>(id, { ...params }) -> Meter</code>
-- <code title="delete /meters/{id}">client.meters.<a href="./src/resources/meters/meters.ts">archive</a>(id) -> void</code>
-- <code title="post /meters/{id}/unarchive">client.meters.<a href="./src/resources/meters/meters.ts">unarchive</a>(id) -> void</code>
-
-## Translations
-
-Methods:
-
-- <code title="get /meters/{id}/translations">client.meters.translations.<a href="./src/resources/meters/translations.ts">list</a>(id, { ...params }) -> TranslationsListResponse</code>
-- <code title="put /meters/{id}/translations/{locale}">client.meters.translations.<a href="./src/resources/meters/translations.ts">update</a>(locale, { ...params }) -> Translation</code>
-- <code title="delete /meters/{id}/translations/{locale}">client.meters.translations.<a href="./src/resources/meters/translations.ts">delete</a>(locale, { ...params }) -> void</code>
+- <code title="get /meters">client.meters.<a href="./src/resources/meters.ts">list</a>({ ...params }) -> MetersDefaultPageNumberPagination</code>
+- <code title="post /meters">client.meters.<a href="./src/resources/meters.ts">create</a>({ ...params }) -> Meter</code>
+- <code title="get /meters/{id}">client.meters.<a href="./src/resources/meters.ts">retrieve</a>(id) -> Meter</code>
+- <code title="patch /meters/{id}">client.meters.<a href="./src/resources/meters.ts">update</a>(id, { ...params }) -> Meter</code>
+- <code title="delete /meters/{id}">client.meters.<a href="./src/resources/meters.ts">archive</a>(id) -> void</code>
+- <code title="post /meters/{id}/unarchive">client.meters.<a href="./src/resources/meters.ts">unarchive</a>(id) -> void</code>
 
 # Balances
 
@@ -657,23 +672,10 @@ Methods:
 
 - <code title="get /credit-entitlements">client.creditEntitlements.<a href="./src/resources/credit-entitlements/credit-entitlements.ts">list</a>({ ...params }) -> CreditEntitlementsDefaultPageNumberPagination</code>
 - <code title="post /credit-entitlements">client.creditEntitlements.<a href="./src/resources/credit-entitlements/credit-entitlements.ts">create</a>({ ...params }) -> CreditEntitlement</code>
-- <code title="get /credit-entitlements/{id}">client.creditEntitlements.<a href="./src/resources/credit-entitlements/credit-entitlements.ts">retrieve</a>(id, { ...params }) -> CreditEntitlement</code>
+- <code title="get /credit-entitlements/{id}">client.creditEntitlements.<a href="./src/resources/credit-entitlements/credit-entitlements.ts">retrieve</a>(id) -> CreditEntitlement</code>
 - <code title="delete /credit-entitlements/{id}">client.creditEntitlements.<a href="./src/resources/credit-entitlements/credit-entitlements.ts">delete</a>(id) -> void</code>
 - <code title="patch /credit-entitlements/{id}">client.creditEntitlements.<a href="./src/resources/credit-entitlements/credit-entitlements.ts">update</a>(id, { ...params }) -> void</code>
 - <code title="post /credit-entitlements/{id}/undelete">client.creditEntitlements.<a href="./src/resources/credit-entitlements/credit-entitlements.ts">undelete</a>(id) -> void</code>
-
-## Translations
-
-Types:
-
-- <code><a href="./src/resources/credit-entitlements/translations.ts">CreditEntitlementTranslation</a></code>
-- <code><a href="./src/resources/credit-entitlements/translations.ts">CreditEntitlementTranslationsListResponse</a></code>
-
-Methods:
-
-- <code title="get /credit-entitlements/{id}/translations">client.creditEntitlements.translations.<a href="./src/resources/credit-entitlements/translations.ts">list</a>(id, { ...params }) -> CreditEntitlementTranslationsListResponse</code>
-- <code title="put /credit-entitlements/{id}/translations/{locale}">client.creditEntitlements.translations.<a href="./src/resources/credit-entitlements/translations.ts">update</a>(locale, { ...params }) -> CreditEntitlementTranslation</code>
-- <code title="delete /credit-entitlements/{id}/translations/{locale}">client.creditEntitlements.translations.<a href="./src/resources/credit-entitlements/translations.ts">delete</a>(locale, { ...params }) -> void</code>
 
 ## Balances
 
@@ -709,22 +711,9 @@ Methods:
 
 - <code title="get /entitlements">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">list</a>({ ...params }) -> EntitlementsDefaultPageNumberPagination</code>
 - <code title="post /entitlements">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">create</a>({ ...params }) -> Entitlement</code>
-- <code title="get /entitlements/{id}">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">retrieve</a>(id, { ...params }) -> Entitlement</code>
+- <code title="get /entitlements/{id}">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">retrieve</a>(id) -> Entitlement</code>
 - <code title="delete /entitlements/{id}">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">delete</a>(id) -> void</code>
 - <code title="patch /entitlements/{id}">client.entitlements.<a href="./src/resources/entitlements/entitlements.ts">update</a>(id, { ...params }) -> Entitlement</code>
-
-## Translations
-
-Types:
-
-- <code><a href="./src/resources/entitlements/translations.ts">EntitlementTranslation</a></code>
-- <code><a href="./src/resources/entitlements/translations.ts">EntitlementTranslationsListResponse</a></code>
-
-Methods:
-
-- <code title="get /entitlements/{id}/translations">client.entitlements.translations.<a href="./src/resources/entitlements/translations.ts">list</a>(id, { ...params }) -> EntitlementTranslationsListResponse</code>
-- <code title="put /entitlements/{id}/translations/{locale}">client.entitlements.translations.<a href="./src/resources/entitlements/translations.ts">update</a>(locale, { ...params }) -> EntitlementTranslation</code>
-- <code title="delete /entitlements/{id}/translations/{locale}">client.entitlements.translations.<a href="./src/resources/entitlements/translations.ts">delete</a>(locale, { ...params }) -> void</code>
 
 ## Files
 
@@ -763,19 +752,11 @@ Methods:
 
 - <code title="get /product-collections">client.productCollections.<a href="./src/resources/product-collections/product-collections.ts">list</a>({ ...params }) -> ProductCollectionListResponsesDefaultPageNumberPagination</code>
 - <code title="post /product-collections">client.productCollections.<a href="./src/resources/product-collections/product-collections.ts">create</a>({ ...params }) -> ProductCollection</code>
-- <code title="get /product-collections/{id}">client.productCollections.<a href="./src/resources/product-collections/product-collections.ts">retrieve</a>(id, { ...params }) -> ProductCollection</code>
+- <code title="get /product-collections/{id}">client.productCollections.<a href="./src/resources/product-collections/product-collections.ts">retrieve</a>(id) -> ProductCollection</code>
 - <code title="delete /product-collections/{id}">client.productCollections.<a href="./src/resources/product-collections/product-collections.ts">delete</a>(id) -> void</code>
 - <code title="patch /product-collections/{id}">client.productCollections.<a href="./src/resources/product-collections/product-collections.ts">update</a>(id, { ...params }) -> void</code>
 - <code title="put /product-collections/{id}/images">client.productCollections.<a href="./src/resources/product-collections/product-collections.ts">updateImages</a>(id, { ...params }) -> ProductCollectionUpdateImagesResponse</code>
 - <code title="post /product-collections/{id}/unarchive">client.productCollections.<a href="./src/resources/product-collections/product-collections.ts">unarchive</a>(id) -> ProductCollectionUnarchiveResponse</code>
-
-## Translations
-
-Methods:
-
-- <code title="get /product-collections/{id}/translations">client.productCollections.translations.<a href="./src/resources/product-collections/translations.ts">list</a>(id, { ...params }) -> TranslationsListResponse</code>
-- <code title="put /product-collections/{id}/translations/{locale}">client.productCollections.translations.<a href="./src/resources/product-collections/translations.ts">update</a>(locale, { ...params }) -> Translation</code>
-- <code title="delete /product-collections/{id}/translations/{locale}">client.productCollections.translations.<a href="./src/resources/product-collections/translations.ts">delete</a>(locale, { ...params }) -> void</code>
 
 ## Groups
 
