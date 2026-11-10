@@ -52,41 +52,25 @@ client.parents.children.retrieve('p_123', 'c_456');
 client.parents.children.retrieve('c_456', { parent_id: 'p_123' });
 ```
 
-<details>
-
-<summary>This affects the following methods</summary>
+This affects the following methods:
 
 - `client.customers.deletePaymentMethod()`
 - `client.customers.emails.retrieveBody()`
 - `client.blocklist.customers.notes.update()`
-- `client.products.translations.update()`
-- `client.products.translations.delete()`
 - `client.products.localizedPrices.retrieve()`
 - `client.products.localizedPrices.update()`
 - `client.products.localizedPrices.archive()`
-- `client.addons.translations.update()`
-- `client.addons.translations.delete()`
-- `client.meters.translations.update()`
-- `client.meters.translations.delete()`
-- `client.creditEntitlements.translations.update()`
-- `client.creditEntitlements.translations.delete()`
 - `client.creditEntitlements.balances.retrieve()`
 - `client.creditEntitlements.balances.listGrants()`
 - `client.creditEntitlements.balances.listLedger()`
 - `client.creditEntitlements.balances.createLedgerEntry()`
-- `client.entitlements.translations.update()`
-- `client.entitlements.translations.delete()`
 - `client.entitlements.files.delete()`
 - `client.entitlements.grants.revoke()`
-- `client.productCollections.translations.update()`
-- `client.productCollections.translations.delete()`
 - `client.productCollections.groups.delete()`
 - `client.productCollections.groups.update()`
 - `client.productCollections.groups.items.create()`
 - `client.productCollections.groups.items.delete()`
 - `client.productCollections.groups.items.update()`
-
-</details>
 
 ### URI encoded path parameters
 
@@ -141,8 +125,9 @@ client.example.list(undefined, { headers: { ... } });
 - `client.payments.list()`
 - `client.payments.retrieveLineItems()`
 - `client.subscriptions.list()`
-- `client.subscriptions.retrieve()`
 - `client.subscriptions.retrieveUsageHistory()`
+- `client.invoices.list()`
+- `client.invoices.previewExisting()`
 - `client.invoices.payments.retrieve()`
 - `client.invoices.payments.retrieveRefund()`
 - `client.invoices.payments.retrievePayout()`
@@ -159,33 +144,21 @@ client.example.list(undefined, { headers: { ... } });
 - `client.payouts.list()`
 - `client.payouts.breakup.details.list()`
 - `client.products.list()`
-- `client.products.retrieve()`
-- `client.products.translations.list()`
 - `client.products.images.update()`
 - `client.products.shortLinks.list()`
 - `client.discounts.list()`
 - `client.addons.list()`
-- `client.addons.retrieve()`
-- `client.addons.translations.list()`
 - `client.brands.list()`
 - `client.webhooks.list()`
 - `client.usageEvents.list()`
 - `client.meters.list()`
-- `client.meters.retrieve()`
-- `client.meters.translations.list()`
 - `client.balances.retrieveLedger()`
 - `client.creditEntitlements.list()`
-- `client.creditEntitlements.retrieve()`
-- `client.creditEntitlements.translations.list()`
 - `client.creditEntitlements.balances.list()`
 - `client.entitlements.list()`
-- `client.entitlements.retrieve()`
-- `client.entitlements.translations.list()`
 - `client.entitlements.grants.list()`
 - `client.productCollections.list()`
-- `client.productCollections.retrieve()`
 - `client.productCollections.updateImages()`
-- `client.productCollections.translations.list()`
 
 </details>
 

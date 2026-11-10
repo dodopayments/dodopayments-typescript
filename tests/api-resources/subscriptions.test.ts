@@ -29,7 +29,6 @@ describe('resource subscriptions', () => {
           created_at_gte: '2019-12-27T18:11:19.117Z',
           created_at_lte: '2019-12-27T18:11:19.117Z',
           customer_id: 'customer_id',
-          locale: 'locale',
           page_number: 0,
           page_size: 0,
           product_id: 'product_id',
@@ -114,17 +113,6 @@ describe('resource subscriptions', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('retrieve: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.subscriptions.retrieve(
-        'sub_Iuaq622bbmmfOGrVTqdXv',
-        { locale: 'locale' },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(DodoPayments.NotFoundError);
-  });
-
   test('update', async () => {
     const responsePromise = client.subscriptions.update('sub_Iuaq622bbmmfOGrVTqdXv', {});
     const rawResponse = await responsePromise.asResponse();
@@ -183,9 +171,15 @@ describe('resource subscriptions', () => {
       cancel_older_payment_link: true,
       cancel_scheduled_change_plan: true,
       collect_via_payment_link: true,
+      credit: 'customer_balance',
       discount_code: 'discount_code',
       discount_codes: ['string'],
       effective_at: 'immediately',
+      invoice: {
+        collection_method: 'auto_charge',
+        finalize: true,
+        payment_terms: { type: 'due_on_receipt' },
+      },
       metadata: { foo: 'string' },
       on_payment_failure: 'prevent_change',
       return_url: 'return_url',
@@ -268,9 +262,15 @@ describe('resource subscriptions', () => {
       cancel_older_payment_link: true,
       cancel_scheduled_change_plan: true,
       collect_via_payment_link: true,
+      credit: 'customer_balance',
       discount_code: 'discount_code',
       discount_codes: ['string'],
       effective_at: 'immediately',
+      invoice: {
+        collection_method: 'auto_charge',
+        finalize: true,
+        payment_terms: { type: 'due_on_receipt' },
+      },
       metadata: { foo: 'string' },
       on_payment_failure: 'prevent_change',
       return_url: 'return_url',
@@ -290,6 +290,17 @@ describe('resource subscriptions', () => {
 
   test('cancelChangePlan', async () => {
     const responsePromise = client.subscriptions.cancelChangePlan('sub_Iuaq622bbmmfOGrVTqdXv');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieveUpcomingInvoice', async () => {
+    const responsePromise = client.subscriptions.retrieveUpcomingInvoice('subscription_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
