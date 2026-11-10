@@ -9,7 +9,7 @@ const client = new DodoPayments({
 
 describe('resource notes', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.blocklist.customers.notes.create('entry_id', { note: 'note' });
+    const responsePromise = client.blocklist.customers.notes.create('entry_id', { text: 'text' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -20,13 +20,13 @@ describe('resource notes', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.blocklist.customers.notes.create('entry_id', { note: 'note' });
+    const response = await client.blocklist.customers.notes.create('entry_id', { text: 'text' });
   });
 
   test('update: only required params', async () => {
     const responsePromise = client.blocklist.customers.notes.update('note_id', {
       entry_id: 'entry_id',
-      note: 'note',
+      text: 'text',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -40,7 +40,7 @@ describe('resource notes', () => {
   test('update: required and optional params', async () => {
     const response = await client.blocklist.customers.notes.update('note_id', {
       entry_id: 'entry_id',
-      note: 'note',
+      text: 'text',
     });
   });
 });

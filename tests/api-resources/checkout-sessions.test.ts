@@ -59,6 +59,7 @@ describe('resource checkoutSessions', () => {
       customer_business_name: 'customer_business_name',
       customization: {
         force_language: 'force_language',
+        payment_method_layout: 'accordion',
         show_on_demand_tag: true,
         show_order_details: true,
         theme: 'dark',
@@ -191,7 +192,6 @@ describe('resource checkoutSessions', () => {
           ],
         },
       ],
-      locale: 'locale',
       allowed_payment_method_types: ['ach'],
       billing_address: {
         country: 'AF',
@@ -217,6 +217,7 @@ describe('resource checkoutSessions', () => {
       customer_business_name: 'customer_business_name',
       customization: {
         force_language: 'force_language',
+        payment_method_layout: 'accordion',
         show_on_demand_tag: true,
         show_order_details: true,
         theme: 'dark',
