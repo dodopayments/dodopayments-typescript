@@ -9,6 +9,7 @@ import * as RefundsAPI from './refunds';
 import * as SubscriptionsAPI from './subscriptions';
 import * as BalancesAPI from './credit-entitlements/balances';
 import * as GrantsAPI from './entitlements/grants';
+import * as InvoicesAPI from './invoices/invoices';
 
 export class WebhookEvents extends APIResource {}
 
@@ -41,6 +42,14 @@ export type WebhookEventType =
   | 'subscription.plan_changed'
   | 'subscription.updated'
   | 'subscription.update_payment_method'
+  | 'invoice.finalized'
+  | 'invoice.sent'
+  | 'invoice.paid'
+  | 'invoice.payment_failed'
+  | 'invoice.past_due'
+  | 'invoice.reopened'
+  | 'invoice.voided'
+  | 'invoice.marked_uncollectable'
   | 'license_key.created'
   | 'payout.created'
   | 'payout.on_hold'
@@ -82,7 +91,8 @@ export interface WebhookPayload {
     | WebhookPayload.CreditBalanceLow
     | WebhookPayload.AbandonedCheckout
     | WebhookPayload.DunningAttempt
-    | WebhookPayload.EntitlementGrant;
+    | WebhookPayload.EntitlementGrant
+    | WebhookPayload.Invoice;
 
   /**
    * The timestamp of when the event occurred (not necessarily the same of when it
@@ -299,6 +309,14 @@ export namespace WebhookPayload {
    */
   export interface EntitlementGrant extends GrantsAPI.EntitlementGrant {
     payload_type: 'EntitlementGrant';
+  }
+
+  /**
+   * An invoice-led invoice. Every read and every `invoice.*` webhook uses this
+   * schema.
+   */
+  export interface Invoice extends InvoicesAPI.Invoice {
+    payload_type: 'Invoice';
   }
 }
 
