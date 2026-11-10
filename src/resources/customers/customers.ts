@@ -223,11 +223,6 @@ export interface Customer {
   metadata?: MiscAPI.Metadata;
 
   phone_number?: string | null;
-
-  /**
-   * The language of the customer emails. `null` gives English.
-   */
-  preferred_locale?: MiscAPI.Locale | null;
 }
 
 export interface CustomerPortalSession {
@@ -403,13 +398,6 @@ export interface CustomerCreateParams {
   metadata?: MiscAPI.Metadata;
 
   phone_number?: string | null;
-
-  /**
-   * The language of the customer emails, a code from `GET /locales`. With no value,
-   * the emails are in English until a checkout or the customer portal sets a
-   * language.
-   */
-  preferred_locale?: MiscAPI.Locale | null;
 }
 
 export interface CustomerUpdateParams {
@@ -423,13 +411,6 @@ export interface CustomerUpdateParams {
   name?: string | null;
 
   phone_number?: string | null;
-
-  /**
-   * The language of the customer emails, a code from `GET /locales`. A value
-   * replaces the current language, and `null` removes it. Send this field only to
-   * change the language on purpose. With no language, the emails are in English.
-   */
-  preferred_locale?: MiscAPI.Locale | null;
 }
 
 export interface CustomerDeletePaymentMethodParams {

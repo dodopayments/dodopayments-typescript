@@ -1,13 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
-import * as TranslationsAPI from './translations';
-import {
-  TranslationDeleteParams,
-  TranslationListParams,
-  TranslationUpdateParams,
-  Translations,
-} from './translations';
 import * as GroupsAPI from './groups/groups';
 import {
   GroupCreateParams,
@@ -29,7 +22,6 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class ProductCollections extends APIResource {
-  translations: TranslationsAPI.Translations = new TranslationsAPI.Translations(this._client);
   groups: GroupsAPI.Groups = new GroupsAPI.Groups(this._client);
 
   /**
@@ -75,12 +67,8 @@ export class ProductCollections extends APIResource {
    *   );
    * ```
    */
-  retrieve(
-    id: string,
-    query: ProductCollectionRetrieveParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<ProductCollection> {
-    return this._client.get(path`/product-collections/${id}`, { query, ...options });
+  retrieve(id: string, options?: RequestOptions): APIPromise<ProductCollection> {
+    return this._client.get(path`/product-collections/${id}`, options);
   }
 
   /**
@@ -308,16 +296,6 @@ export interface ProductCollectionListParams extends DefaultPageNumberPagination
    * Filter by Brand id
    */
   brand_id?: string;
-
-  /**
-   * Shows the translated name, description and unit of the catalog entities in this
-   * locale. The value must be a code from `GET /locales`, for example `fr`. A field
-   * with no translation, an unknown code, or no code shows the base text.
-   *
-   * Do not send a text from a localized response back in a create or update request.
-   * The base text then changes to the translated text.
-   */
-  locale?: string;
 }
 
 export interface ProductCollectionCreateParams {
@@ -382,18 +360,6 @@ export interface ProductCollectionCreateParams {
     | 'do_not_bill'
     | 'prorated_immediately_keep_cycle'
     | null;
-}
-
-export interface ProductCollectionRetrieveParams {
-  /**
-   * Shows the translated name, description and unit of the catalog entities in this
-   * locale. The value must be a code from `GET /locales`, for example `fr`. A field
-   * with no translation, an unknown code, or no code shows the base text.
-   *
-   * Do not send a text from a localized response back in a create or update request.
-   * The base text then changes to the translated text.
-   */
-  locale?: string;
 }
 
 export interface ProductCollectionUpdateParams {
@@ -472,7 +438,6 @@ export interface ProductCollectionUpdateImagesParams {
   force_update?: boolean | null;
 }
 
-ProductCollections.Translations = Translations;
 ProductCollections.Groups = Groups;
 
 export declare namespace ProductCollections {
@@ -484,16 +449,8 @@ export declare namespace ProductCollections {
     type ProductCollectionListResponsesDefaultPageNumberPagination as ProductCollectionListResponsesDefaultPageNumberPagination,
     type ProductCollectionListParams as ProductCollectionListParams,
     type ProductCollectionCreateParams as ProductCollectionCreateParams,
-    type ProductCollectionRetrieveParams as ProductCollectionRetrieveParams,
     type ProductCollectionUpdateParams as ProductCollectionUpdateParams,
     type ProductCollectionUpdateImagesParams as ProductCollectionUpdateImagesParams,
-  };
-
-  export {
-    Translations as Translations,
-    type TranslationListParams as TranslationListParams,
-    type TranslationUpdateParams as TranslationUpdateParams,
-    type TranslationDeleteParams as TranslationDeleteParams,
   };
 
   export {
