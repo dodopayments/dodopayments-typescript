@@ -7,9 +7,9 @@ const client = new DodoPayments({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource meters', () => {
+describe('resource addons', () => {
   test('list', async () => {
-    const responsePromise = client.meters.list();
+    const responsePromise = client.addons.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,10 +22,9 @@ describe('resource meters', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.meters.list(
+      client.addons.list(
         {
           archived: true,
-          locale: 'locale',
           page_number: 0,
           page_size: 0,
         },
@@ -35,11 +34,11 @@ describe('resource meters', () => {
   });
 
   test('create: only required params', async () => {
-    const responsePromise = client.meters.create({
-      aggregation: { type: 'count' },
-      event_name: 'event_name',
-      measurement_unit: 'measurement_unit',
+    const responsePromise = client.addons.create({
+      currency: 'AED',
       name: 'name',
+      price: 0,
+      tax_category: 'digital_products',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -51,32 +50,17 @@ describe('resource meters', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.meters.create({
-      aggregation: { type: 'count', key: 'key' },
-      event_name: 'event_name',
-      measurement_unit: 'measurement_unit',
+    const response = await client.addons.create({
+      currency: 'AED',
       name: 'name',
+      price: 0,
+      tax_category: 'digital_products',
       description: 'description',
-      filter: {
-        clauses: [
-          {
-            key: 'user_id',
-            operator: 'equals',
-            value: 'user123',
-          },
-          {
-            key: 'amount',
-            operator: 'greater_than',
-            value: 100,
-          },
-        ],
-        conjunction: 'and',
-      },
     });
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.meters.retrieve('mtr_h5tgTWL55OyMO0L2Q9w9v');
+    const responsePromise = client.addons.retrieve('adn_NX1zdqW4Hbivsqz8vI9dc');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -84,21 +68,10 @@ describe('resource meters', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieve: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.meters.retrieve(
-        'mtr_h5tgTWL55OyMO0L2Q9w9v',
-        { locale: 'locale' },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(DodoPayments.NotFoundError);
   });
 
   test('update', async () => {
-    const responsePromise = client.meters.update('mtr_h5tgTWL55OyMO0L2Q9w9v', {});
+    const responsePromise = client.addons.update('adn_NX1zdqW4Hbivsqz8vI9dc', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -108,8 +81,19 @@ describe('resource meters', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('archive', async () => {
-    const responsePromise = client.meters.archive('mtr_h5tgTWL55OyMO0L2Q9w9v');
+  test('updateImages', async () => {
+    const responsePromise = client.addons.updateImages('adn_NX1zdqW4Hbivsqz8vI9dc');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('delete', async () => {
+    const responsePromise = client.addons.delete('adn_NX1zdqW4Hbivsqz8vI9dc');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -120,7 +104,7 @@ describe('resource meters', () => {
   });
 
   test('unarchive', async () => {
-    const responsePromise = client.meters.unarchive('mtr_h5tgTWL55OyMO0L2Q9w9v');
+    const responsePromise = client.addons.unarchive('adn_NX1zdqW4Hbivsqz8vI9dc');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

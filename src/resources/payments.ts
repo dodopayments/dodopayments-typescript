@@ -162,14 +162,6 @@ export interface CreateNewCustomer {
   create_new_customer?: boolean;
 
   phone_number?: string | null;
-
-  /**
-   * The language of the customer emails, a code from `GET /locales`. A value
-   * replaces the stored language of the customer, also for an existing customer.
-   * Send a value only to change that language on purpose. With no value, the stored
-   * language stays.
-   */
-  preferred_locale?: MiscAPI.Locale | null;
 }
 
 /**
