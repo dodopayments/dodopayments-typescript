@@ -28,7 +28,7 @@
     "@modelcontextprotocol/server": "2.4.0",
     "dodopayments": "2.61.1",
     "dodopayments-mcp": "2.61.1",
-    "hono": "^4.13.13",
+    "hono": "^4.13.18",
     "zod": "4.6.7"
   },
   "// overrides": "dodopayments-mcp builds its tools on @modelcontextprotocol/sdk v1. Keep the SDK pin and the three override blocks in sync, so that npm, yarn, and pnpm install the patched release. The Worker serves MCP with @modelcontextprotocol/server v2 (createMcpHandler). legacy-peer-deps in .npmrc is intentional; compatibility is checked by types, tests and the Worker build.",
