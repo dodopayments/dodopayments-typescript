@@ -81,6 +81,7 @@ Types:
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionPreviewChangePlanResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionRetrieveCreditUsageResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionRetrieveUsageHistoryResponse</a></code>
+- <code><a href="./src/resources/subscriptions.ts">SubscriptionStartTrialResponse</a></code>
 - <code><a href="./src/resources/subscriptions.ts">SubscriptionUpdatePaymentMethodResponse</a></code>
 
 Methods:
@@ -97,6 +98,7 @@ Methods:
 - <code title="get /subscriptions/{subscription_id}/credit-usage">client.subscriptions.<a href="./src/resources/subscriptions.ts">retrieveCreditUsage</a>(subscriptionID) -> SubscriptionRetrieveCreditUsageResponse</code>
 - <code title="delete /subscriptions/{subscription_id}/change-plan/scheduled">client.subscriptions.<a href="./src/resources/subscriptions.ts">cancelChangePlan</a>(subscriptionID) -> void</code>
 - <code title="get /subscriptions/{subscription_id}/upcoming-invoice">client.subscriptions.<a href="./src/resources/subscriptions.ts">retrieveUpcomingInvoice</a>(subscriptionID) -> Invoice</code>
+- <code title="post /billing/subscriptions">client.subscriptions.<a href="./src/resources/subscriptions.ts">startTrial</a>({ ...params }) -> SubscriptionStartTrialResponse</code>
 
 # Invoices
 
@@ -194,7 +196,7 @@ Methods:
 - <code title="get /customers/{customer_id}">client.customers.<a href="./src/resources/customers/customers.ts">retrieve</a>(customerID) -> Customer</code>
 - <code title="post /customers">client.customers.<a href="./src/resources/customers/customers.ts">create</a>({ ...params }) -> Customer</code>
 - <code title="patch /customers/{customer_id}">client.customers.<a href="./src/resources/customers/customers.ts">update</a>(customerID, { ...params }) -> Customer</code>
-- <code title="get /customers/{customer_id}/payment-methods">client.customers.<a href="./src/resources/customers/customers.ts">retrievePaymentMethods</a>(customerID) -> CustomerRetrievePaymentMethodsResponse</code>
+- <code title="get /customers/{customer_id}/payment-methods">client.customers.<a href="./src/resources/customers/customers.ts">retrievePaymentMethods</a>(customerID, { ...params }) -> CustomerRetrievePaymentMethodsResponse</code>
 - <code title="get /customers/{customer_id}/credit-entitlements">client.customers.<a href="./src/resources/customers/customers.ts">listCreditEntitlements</a>(customerID) -> CustomerListCreditEntitlementsResponse</code>
 - <code title="delete /customers/{customer_id}/payment-methods/{payment_method_id}">client.customers.<a href="./src/resources/customers/customers.ts">deletePaymentMethod</a>(paymentMethodID, { ...params }) -> void</code>
 - <code title="get /customers/{customer_id}/entitlements">client.customers.<a href="./src/resources/customers/customers.ts">listEntitlements</a>(customerID) -> CustomerListEntitlementsResponse</code>
@@ -801,3 +803,13 @@ Methods:
 
 - <code title="post /moderation/screen">client.moderation.<a href="./src/resources/moderation.ts">screen</a>({ ...params }) -> ModerationScreenResponse</code>
 - <code title="get /moderation/usage">client.moderation.<a href="./src/resources/moderation.ts">retrieveUsage</a>() -> ModerationRetrieveUsageResponse</code>
+
+# AppInstallation
+
+Types:
+
+- <code><a href="./src/resources/app-installation.ts">AppInstallationRetrieveSettingsResponse</a></code>
+
+Methods:
+
+- <code title="get /app-installation/settings">client.appInstallation.<a href="./src/resources/app-installation.ts">retrieveSettings</a>() -> AppInstallationRetrieveSettingsResponse</code>

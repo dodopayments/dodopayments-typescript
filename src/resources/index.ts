@@ -9,6 +9,7 @@ export {
   type AddonUpdateParams,
   type AddonResponsesDefaultPageNumberPagination,
 } from './addons';
+export { AppInstallation, type AppInstallationRetrieveSettingsResponse } from './app-installation';
 export {
   Balances,
   type BalanceLedgerEntry,
@@ -63,6 +64,7 @@ export {
   type CustomerListParams,
   type CustomerCreateParams,
   type CustomerUpdateParams,
+  type CustomerRetrievePaymentMethodsParams,
   type CustomerDeletePaymentMethodParams,
   type CustomerListEntitlementGrantsParams,
   type CustomersDefaultPageNumberPagination,
@@ -281,6 +283,7 @@ export {
   type SubscriptionPreviewChangePlanResponse,
   type SubscriptionRetrieveCreditUsageResponse,
   type SubscriptionRetrieveUsageHistoryResponse,
+  type SubscriptionStartTrialResponse,
   type SubscriptionUpdatePaymentMethodResponse,
   type SubscriptionListParams,
   type SubscriptionCreateParams,
@@ -290,6 +293,7 @@ export {
   type SubscriptionRetrieveUsageHistoryParams,
   type SubscriptionUpdatePaymentMethodParams,
   type SubscriptionPreviewChangePlanParams,
+  type SubscriptionStartTrialParams,
   type SubscriptionListResponsesDefaultPageNumberPagination,
   type SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
 } from './subscriptions';
