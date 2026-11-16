@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.63.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.62.0...v2.63.0) (2026-11-16)
+
+
+### Features
+
+* **api:** trial subscriptions and app installation settings; sync spec to prod 1.124.0 ([954581a](https://github.com/dodopayments/dodopayments-typescript/commit/954581a6864dc6db5127676288136377e95e9f9f))
+* **api:** trial subscriptions and app installation settings; sync spec to prod 1.124.0 ([e77d06c](https://github.com/dodopayments/dodopayments-typescript/commit/e77d06cbcb5068ba353ce265d9cd9712d76968d7))
+
 ## [2.62.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.61.1...v2.62.0) (2026-11-10)
 
 
