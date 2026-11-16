@@ -137,6 +137,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/subscriptions/{subscription_id}/upcoming-invoice',
   },
   {
+    clientCallName: 'client.subscriptions.startTrial',
+    fullyQualifiedName: 'subscriptions.startTrial',
+    httpMethod: 'post',
+    httpPath: '/billing/subscriptions',
+  },
+  {
     clientCallName: 'client.invoices.list',
     fullyQualifiedName: 'invoices.list',
     httpMethod: 'get',
@@ -1031,6 +1037,12 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'moderation.retrieveUsage',
     httpMethod: 'get',
     httpPath: '/moderation/usage',
+  },
+  {
+    clientCallName: 'client.appInstallation.retrieveSettings',
+    fullyQualifiedName: 'appInstallation.retrieveSettings',
+    httpMethod: 'get',
+    httpPath: '/app-installation/settings',
   },
 ];
 
