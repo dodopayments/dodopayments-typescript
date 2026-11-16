@@ -11,6 +11,7 @@ export {
   type CustomerListParams,
   type CustomerCreateParams,
   type CustomerUpdateParams,
+  type CustomerRetrievePaymentMethodsParams,
   type CustomerDeletePaymentMethodParams,
   type CustomerListEntitlementGrantsParams,
   type CustomersDefaultPageNumberPagination,
