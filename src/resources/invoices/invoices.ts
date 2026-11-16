@@ -334,8 +334,8 @@ export class Invoices extends APIResource {
   }
 
   /**
-   * Returns the page where the customer pays. A copied link counts as a send, so the
-   * first call sets `sent_at`.
+   * Returns the page where the customer pays. The first call sets `sent_at` and
+   * records a `link_shared` event. It sends no email and no `invoice.sent` webhook.
    *
    * @example
    * ```ts
@@ -450,6 +450,7 @@ export interface Invoice {
     | 'billing_address'
     | 'tax_id'
     | 'review_required'
+    | 'payment_method'
     | 'due_at'
     | 'collection_method'
     | 'memo'
@@ -475,6 +476,13 @@ export interface Invoice {
    * The number of failed automatic charges.
    */
   retry_count: number;
+
+  /**
+   * `true` when a subscription of the invoice has renewal review on now. The value
+   * follows the subscription, so it can change after finalise. `review_deadline`
+   * shows that this draft waits.
+   */
+  review_required: boolean;
 
   /**
    * Goes up by one on each change. Use it to ignore an older webhook delivery.
@@ -531,6 +539,11 @@ export interface Invoice {
   next_reminder_at?: string | null;
 
   next_retry_at?: string | null;
+
+  /**
+   * The saved card that an automatic charge of the invoice uses.
+   */
+  payment_method_id?: string | null;
 
   /**
    * Days from finalise to the due date. `null` when the invoice has a custom due
@@ -829,6 +842,12 @@ export interface InvoiceCreateParams {
   metadata?: MiscAPI.Metadata;
 
   /**
+   * Body param: A saved card of the customer. The new subscriptions of the invoice
+   * charge it.
+   */
+  payment_method_id?: string | null;
+
+  /**
    * Body param: Do not send it with `due_at`.
    */
   payment_terms?: InvoiceCreateParams.DueOnReceipt | InvoiceCreateParams.Net | null;
@@ -993,6 +1012,12 @@ export interface InvoiceUpdateParams {
    * or boolean.
    */
   metadata?: MiscAPI.Metadata | null;
+
+  /**
+   * Body param: A saved card of the customer. `null` removes the card from the
+   * draft.
+   */
+  payment_method_id?: string | null;
 
   /**
    * Body param
@@ -1162,6 +1187,12 @@ export interface InvoicePreviewParams {
    * or boolean.
    */
   metadata?: MiscAPI.Metadata;
+
+  /**
+   * Body param: A saved card of the customer. The new subscriptions of the invoice
+   * charge it.
+   */
+  payment_method_id?: string | null;
 
   /**
    * Body param: Do not send it with `due_at`.
