@@ -127,6 +127,7 @@ const fuse = new Fuse(
     'client.subscriptions.retrieveCreditUsage',
     'client.subscriptions.retrieveUpcomingInvoice',
     'client.subscriptions.retrieveUsageHistory',
+    'client.subscriptions.startTrial',
     'client.subscriptions.update',
     'client.subscriptions.updatePaymentMethod',
     'client.invoices.addNote',
@@ -280,6 +281,7 @@ const fuse = new Fuse(
     'client.productCollections.groups.items.update',
     'client.moderation.retrieveUsage',
     'client.moderation.screen',
+    'client.appInstallation.retrieveSettings',
   ],
   { threshold: 1, shouldSort: true },
 );

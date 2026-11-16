@@ -309,4 +309,43 @@ describe('resource subscriptions', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
+
+  test('startTrial: only required params', async () => {
+    const responsePromise = client.subscriptions.startTrial({
+      collection_method: 'auto_charge',
+      currency: 'AED',
+      customer_id: 'customer_id',
+      product_id: 'product_id',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('startTrial: required and optional params', async () => {
+    const response = await client.subscriptions.startTrial({
+      collection_method: 'auto_charge',
+      currency: 'AED',
+      customer_id: 'customer_id',
+      product_id: 'product_id',
+      billing_address: {
+        country: 'AF',
+        city: 'city',
+        state: 'state',
+        street: 'street',
+        zipcode: 'zipcode',
+      },
+      payment_method_id: 'payment_method_id',
+      payment_terms: { type: 'due_on_receipt' },
+      quantity: 0,
+      review_required: true,
+      tax_id: 'tax_id',
+      trial_period_days: 0,
+      'Idempotency-Key': 'Idempotency-Key',
+    });
+  });
 });
