@@ -104,9 +104,10 @@ export class Customers extends APIResource {
    */
   retrievePaymentMethods(
     customerID: string,
+    query: CustomerRetrievePaymentMethodsParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<CustomerRetrievePaymentMethodsResponse> {
-    return this._client.get(path`/customers/${customerID}/payment-methods`, options);
+    return this._client.get(path`/customers/${customerID}/payment-methods`, { query, ...options });
   }
 
   /**
@@ -413,6 +414,15 @@ export interface CustomerUpdateParams {
   phone_number?: string | null;
 }
 
+export interface CustomerRetrievePaymentMethodsParams {
+  /**
+   * ISO country code alpha2 variant
+   */
+  billing_country?: MiscAPI.CountryCode;
+
+  currency?: MiscAPI.Currency;
+}
+
 export interface CustomerDeletePaymentMethodParams {
   /**
    * Customer Id
@@ -456,6 +466,7 @@ export declare namespace Customers {
     type CustomerListParams as CustomerListParams,
     type CustomerCreateParams as CustomerCreateParams,
     type CustomerUpdateParams as CustomerUpdateParams,
+    type CustomerRetrievePaymentMethodsParams as CustomerRetrievePaymentMethodsParams,
     type CustomerDeletePaymentMethodParams as CustomerDeletePaymentMethodParams,
     type CustomerListEntitlementGrantsParams as CustomerListEntitlementGrantsParams,
   };

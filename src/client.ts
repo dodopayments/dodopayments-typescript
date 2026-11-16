@@ -35,6 +35,7 @@ import {
   AddonUpdateParams,
   Addons,
 } from './resources/addons';
+import { AppInstallation, AppInstallationRetrieveSettingsResponse } from './resources/app-installation';
 import {
   BalanceLedgerEntriesDefaultPageNumberPagination,
   BalanceLedgerEntry,
@@ -208,6 +209,8 @@ import {
   SubscriptionRetrieveUsageHistoryParams,
   SubscriptionRetrieveUsageHistoryResponse,
   SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
+  SubscriptionStartTrialParams,
+  SubscriptionStartTrialResponse,
   SubscriptionStatus,
   SubscriptionUpdateParams,
   SubscriptionUpdatePaymentMethodParams,
@@ -245,6 +248,7 @@ import {
   CustomerListEntitlementsResponse,
   CustomerListParams,
   CustomerPortalSession,
+  CustomerRetrievePaymentMethodsParams,
   CustomerRetrievePaymentMethodsResponse,
   CustomerUpdateParams,
   Customers,
@@ -1229,6 +1233,7 @@ export class DodoPayments {
   entitlements: API.Entitlements = new API.Entitlements(this);
   productCollections: API.ProductCollections = new API.ProductCollections(this);
   moderation: API.Moderation = new API.Moderation(this);
+  appInstallation: API.AppInstallation = new API.AppInstallation(this);
 }
 
 DodoPayments.CheckoutSessions = CheckoutSessions;
@@ -1257,6 +1262,7 @@ DodoPayments.CreditEntitlements = CreditEntitlements;
 DodoPayments.Entitlements = Entitlements;
 DodoPayments.ProductCollections = ProductCollections;
 DodoPayments.Moderation = Moderation;
+DodoPayments.AppInstallation = AppInstallation;
 
 export declare namespace DodoPayments {
   export type RequestOptions = Opts.RequestOptions;
@@ -1343,6 +1349,7 @@ export declare namespace DodoPayments {
     type SubscriptionPreviewChangePlanResponse as SubscriptionPreviewChangePlanResponse,
     type SubscriptionRetrieveCreditUsageResponse as SubscriptionRetrieveCreditUsageResponse,
     type SubscriptionRetrieveUsageHistoryResponse as SubscriptionRetrieveUsageHistoryResponse,
+    type SubscriptionStartTrialResponse as SubscriptionStartTrialResponse,
     type SubscriptionUpdatePaymentMethodResponse as SubscriptionUpdatePaymentMethodResponse,
     type SubscriptionListResponsesDefaultPageNumberPagination as SubscriptionListResponsesDefaultPageNumberPagination,
     type SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination as SubscriptionRetrieveUsageHistoryResponsesDefaultPageNumberPagination,
@@ -1354,6 +1361,7 @@ export declare namespace DodoPayments {
     type SubscriptionRetrieveUsageHistoryParams as SubscriptionRetrieveUsageHistoryParams,
     type SubscriptionUpdatePaymentMethodParams as SubscriptionUpdatePaymentMethodParams,
     type SubscriptionPreviewChangePlanParams as SubscriptionPreviewChangePlanParams,
+    type SubscriptionStartTrialParams as SubscriptionStartTrialParams,
   };
 
   export {
@@ -1420,6 +1428,7 @@ export declare namespace DodoPayments {
     type CustomerListParams as CustomerListParams,
     type CustomerCreateParams as CustomerCreateParams,
     type CustomerUpdateParams as CustomerUpdateParams,
+    type CustomerRetrievePaymentMethodsParams as CustomerRetrievePaymentMethodsParams,
     type CustomerDeletePaymentMethodParams as CustomerDeletePaymentMethodParams,
     type CustomerListEntitlementGrantsParams as CustomerListEntitlementGrantsParams,
   };
@@ -1670,5 +1679,10 @@ export declare namespace DodoPayments {
     type ModerationRetrieveUsageResponse as ModerationRetrieveUsageResponse,
     type ModerationScreenResponse as ModerationScreenResponse,
     type ModerationScreenParams as ModerationScreenParams,
+  };
+
+  export {
+    AppInstallation as AppInstallation,
+    type AppInstallationRetrieveSettingsResponse as AppInstallationRetrieveSettingsResponse,
   };
 }

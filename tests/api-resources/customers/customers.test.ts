@@ -89,6 +89,17 @@ describe('resource customers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('retrievePaymentMethods: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.customers.retrievePaymentMethods(
+        'cus_TV52uJWWXt2yIoBBxpjaa',
+        { billing_country: 'AF', currency: 'AED' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(DodoPayments.NotFoundError);
+  });
+
   test('listCreditEntitlements', async () => {
     const responsePromise = client.customers.listCreditEntitlements('cus_TV52uJWWXt2yIoBBxpjaa');
     const rawResponse = await responsePromise.asResponse();
