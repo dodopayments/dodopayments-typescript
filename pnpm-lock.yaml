@@ -85,7 +85,7 @@ importers:
         version: 0.2.4
       '@hono/node-server':
         specifier: ^2.1.4
-        version: 2.1.8(hono@4.13.18)
+        version: 2.1.8(hono@4.13.19)
       '@modelcontextprotocol/sdk':
         specifier: ^1.32.1
         version: 1.32.2(zod@4.6.7)
@@ -112,7 +112,7 @@ importers:
         version: 7.5.0
       hono:
         specifier: ^4.13.13
-        version: 4.13.18
+        version: 4.13.19
       jq-web:
         specifier: https://github.com/stainless-api/jq-web/releases/download/v0.8.8/jq-web.tar.gz
         version: https://github.com/stainless-api/jq-web/releases/download/v0.8.8/jq-web.tar.gz
@@ -1264,10 +1264,10 @@ packages:
         integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==,
       }
 
-  '@sinonjs/fake-timers@15.4.0':
+  '@sinonjs/fake-timers@15.5.0':
     resolution:
       {
-        integrity: sha512-DsG+8/LscQIQg68J6Ef3dv10u6nVyetYn923s3/sus5eaGfTo1of5WMZSLf0UJc9KDuKPilPH0UDJCjvNbDNCA==,
+        integrity: sha512-i7HpIYIsUmdSTQbtBjs2b3VqMgDsVDWfzVPV3MuUrXVqJNZmzFB8YJeM9SPms2bGg5zg7HvKH31sPS1WoLLRFg==,
       }
 
   '@stablelib/base64@1.0.1':
@@ -2868,13 +2868,6 @@ packages:
       }
     engines: { node: '>= 0.4' }
 
-  escalade@3.1.1:
-    resolution:
-      {
-        integrity: sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw==,
-      }
-    engines: { node: '>=6' }
-
   escalade@3.2.0:
     resolution:
       {
@@ -3458,10 +3451,10 @@ packages:
         integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==,
       }
 
-  hono@4.13.18:
+  hono@4.13.19:
     resolution:
       {
-        integrity: sha512-H9q/E1XizaWstJxUW881dmLxEj+t/TrGGnyxINkm4+sK0qUwsMtFdo2BWI9Vs3cIS19MU6b6iCijoUoEf4f3DA==,
+        integrity: sha512-KmXvQAXwcAHV+muzbIwoJ23niEB5nMoDVr9WcRkU8mvjUECm/1+7v4Jgp7P7a+H6MLFrh+vXrGonGrGS+RQfkA==,
       }
     engines: { node: '>=16.9.0' }
 
@@ -6215,9 +6208,9 @@ snapshots:
       '@eslint/core': 0.17.0
       levn: 0.4.1
 
-  '@hono/node-server@2.1.8(hono@4.13.18)':
+  '@hono/node-server@2.1.8(hono@4.13.19)':
     dependencies:
-      hono: 4.13.18
+      hono: 4.13.19
 
   '@humanfs/core@0.19.1': {}
 
@@ -6488,7 +6481,7 @@ snapshots:
   '@jest/fake-timers@30.5.2':
     dependencies:
       '@jest/types': 30.5.1
-      '@sinonjs/fake-timers': 15.4.0
+      '@sinonjs/fake-timers': 15.5.0
       '@types/node': 20.19.43
       jest-message-util: 30.5.1
       jest-mock: 30.5.2
@@ -6715,7 +6708,7 @@ snapshots:
 
   '@modelcontextprotocol/sdk@1.32.2(zod@4.6.7)':
     dependencies:
-      '@hono/node-server': 2.1.8(hono@4.13.18)
+      '@hono/node-server': 2.1.8(hono@4.13.19)
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
       content-type: 1.0.5
@@ -6725,7 +6718,7 @@ snapshots:
       eventsource-parser: 3.0.6
       express: 5.2.1
       express-rate-limit: 8.3.1(express@5.2.1)
-      hono: 4.13.18
+      hono: 4.13.19
       jose: 6.1.3
       json-schema-typed: 8.0.2
       pkce-challenge: 5.0.0
@@ -6828,7 +6821,7 @@ snapshots:
     dependencies:
       '@sinonjs/commons': 3.0.0
 
-  '@sinonjs/fake-timers@15.4.0':
+  '@sinonjs/fake-timers@15.5.0':
     dependencies:
       '@sinonjs/commons': 3.0.1
 
@@ -7750,8 +7743,6 @@ snapshots:
     dependencies:
       es-errors: 1.3.0
 
-  escalade@3.1.1: {}
-
   escalade@3.2.0: {}
 
   escape-html@1.0.3: {}
@@ -8144,7 +8135,7 @@ snapshots:
 
   highlight.js@10.7.3: {}
 
-  hono@4.13.18: {}
+  hono@4.13.19: {}
 
   html-escaper@2.0.2: {}
 
@@ -9934,7 +9925,7 @@ snapshots:
   yargs@17.7.2:
     dependencies:
       cliui: 8.0.1
-      escalade: 3.1.1
+      escalade: 3.2.0
       get-caller-file: 2.0.5
       require-directory: 2.1.1
       string-width: 4.2.3
