@@ -480,6 +480,19 @@ describe('instantiate client', () => {
   });
 });
 
+describe('idempotency', () => {
+  test('key can be set per-request', async () => {
+    const client = new DodoPayments({
+      baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+      bearerToken: 'My Bearer Token',
+    });
+    await client.checkoutSessions.create(
+      { product_cart: [{ product_id: 'product_id', quantity: 0 }] },
+      { idempotencyKey: 'my-idempotency-key' },
+    );
+  });
+});
+
 describe('request building', () => {
   const client = new DodoPayments({ bearerToken: 'My Bearer Token' });
 

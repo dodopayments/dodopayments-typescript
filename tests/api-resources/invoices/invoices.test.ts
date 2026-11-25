@@ -98,7 +98,6 @@ describe('resource invoices', () => {
       payment_terms: { type: 'due_on_receipt' },
       review_required: true,
       tax_id: 'tax_id',
-      'Idempotency-Key': 'Idempotency-Key',
     });
   });
 

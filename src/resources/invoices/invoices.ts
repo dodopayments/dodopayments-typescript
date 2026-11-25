@@ -67,16 +67,8 @@ export class Invoices extends APIResource {
    * });
    * ```
    */
-  create(params: InvoiceCreateParams, options?: RequestOptions): APIPromise<Invoice> {
-    const { 'Idempotency-Key': idempotencyKey, ...body } = params;
-    return this._client.post('/billing/invoices', {
-      body,
-      ...options,
-      headers: buildHeaders([
-        { ...(idempotencyKey != null ? { 'Idempotency-Key': idempotencyKey } : undefined) },
-        options?.headers,
-      ]),
-    });
+  create(body: InvoiceCreateParams, options?: RequestOptions): APIPromise<Invoice> {
+    return this._client.post('/billing/invoices', { body, ...options });
   }
 
   /**
@@ -779,94 +771,71 @@ export interface InvoiceListParams extends DefaultPageNumberPaginationParams {
 }
 
 export interface InvoiceCreateParams {
-  /**
-   * Body param
-   */
   collection_method: CollectionMethod;
 
-  /**
-   * Body param
-   */
   currency: MiscAPI.Currency;
 
-  /**
-   * Body param
-   */
   customer_id: string;
 
   /**
-   * Body param: 1 to 50 items.
+   * 1 to 50 items.
    */
   items: Array<InvoiceCreateParams.CustomItem | InvoiceCreateParams.ProductItem>;
 
   /**
-   * Body param: The billing address of an invoice request.
+   * The billing address of an invoice request.
    */
   billing_address?: InvoiceCreateParams.BillingAddress | null;
 
   /**
-   * Body param: 10 addresses or fewer.
+   * 10 addresses or fewer.
    */
   cc_emails?: Array<string> | null;
 
   /**
-   * Body param: The customer email is used when this is not set.
+   * The customer email is used when this is not set.
    */
   customer_email?: string | null;
 
   /**
-   * Body param: 20 codes or fewer.
+   * 20 codes or fewer.
    */
   discount_ids?: Array<string> | null;
 
   /**
-   * Body param: A custom due date. Do not send it with `payment_terms`.
+   * A custom due date. Do not send it with `payment_terms`.
    */
   due_at?: string | null;
 
   /**
-   * Body param: The reminder override of one invoice. The business settings fill the
-   * other dunning values.
+   * The reminder override of one invoice. The business settings fill the other
+   * dunning values.
    */
   dunning?: InvoiceCreateParams.Dunning | null;
 
-  /**
-   * Body param
-   */
   memo?: string | null;
 
   /**
-   * Body param: Arbitrary key-value metadata. Values can be string, integer, number,
-   * or boolean.
+   * Arbitrary key-value metadata. Values can be string, integer, number, or boolean.
    */
   metadata?: MiscAPI.Metadata;
 
   /**
-   * Body param: A saved card of the customer. The new subscriptions of the invoice
-   * charge it.
+   * A saved card of the customer. The new subscriptions of the invoice charge it.
    */
   payment_method_id?: string | null;
 
   /**
-   * Body param: Do not send it with `due_at`.
+   * Do not send it with `due_at`.
    */
   payment_terms?: InvoiceCreateParams.DueOnReceipt | InvoiceCreateParams.Net | null;
 
   /**
-   * Body param: `true` keeps a renewal draft for review before it finalises.
+   * `true` keeps a renewal draft for review before it finalises.
    */
   review_required?: boolean;
 
-  /**
-   * Body param
-   */
   tax_id?: string | null;
-
-  /**
-   * Header param: A key of 1 to 255 characters. A repeat with the same key returns
-   * the first draft.
-   */
-  'Idempotency-Key'?: string;
 }
 
 export namespace InvoiceCreateParams {
