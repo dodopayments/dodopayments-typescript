@@ -28,12 +28,8 @@
       "tag": "v2",
     },
   ],
-  // Sample 1% of invocations. The Worker serves tens of millions of requests a
-  // month and Workers Logs bills per event. Every deploy overwrites the live
-  // setting, so the rate has to live here.
   "observability": {
     "enabled": true,
-    "head_sampling_rate": 0.01,
   },
   "assets": { "directory": "./static/", "binding": "ASSETS" },
   "alias": {

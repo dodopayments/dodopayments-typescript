@@ -85,7 +85,7 @@ importers:
         version: 0.2.4
       '@hono/node-server':
         specifier: ^2.1.4
-        version: 2.1.8(hono@4.13.18)
+        version: 2.1.11(hono@4.13.21)
       '@modelcontextprotocol/sdk':
         specifier: ^1.32.1
         version: 1.32.2(zod@4.6.7)
@@ -112,7 +112,7 @@ importers:
         version: 7.5.0
       hono:
         specifier: ^4.13.13
-        version: 4.13.18
+        version: 4.13.21
       jq-web:
         specifier: https://github.com/stainless-api/jq-web/releases/download/v0.8.8/jq-web.tar.gz
         version: https://github.com/stainless-api/jq-web/releases/download/v0.8.8/jq-web.tar.gz
@@ -608,10 +608,10 @@ packages:
       }
     engines: { node: ^18.18.0 || ^20.9.0 || >=21.1.0 }
 
-  '@hono/node-server@2.1.8':
+  '@hono/node-server@2.1.11':
     resolution:
       {
-        integrity: sha512-jdf7FHh6A1lzjpHHQUgxsg2GeER2vMetnAOfeActzcoli6jamlK+NAwL6Dsr5Fl3BS3tYUQzCdtZjU8Qxv7bEA==,
+        integrity: sha512-KzKz9vl4vvr1vgLHamj+g5uonbrj5NwAdO3yzOS6cd2HjALVeOgTgeZOyAzNxejbkfOOPIcvuf/Tg8l1pEFLog==,
       }
     engines: { node: '>=20' }
     peerDependencies:
@@ -1264,10 +1264,10 @@ packages:
         integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==,
       }
 
-  '@sinonjs/fake-timers@15.4.0':
+  '@sinonjs/fake-timers@15.5.0':
     resolution:
       {
-        integrity: sha512-DsG+8/LscQIQg68J6Ef3dv10u6nVyetYn923s3/sus5eaGfTo1of5WMZSLf0UJc9KDuKPilPH0UDJCjvNbDNCA==,
+        integrity: sha512-i7HpIYIsUmdSTQbtBjs2b3VqMgDsVDWfzVPV3MuUrXVqJNZmzFB8YJeM9SPms2bGg5zg7HvKH31sPS1WoLLRFg==,
       }
 
   '@stablelib/base64@1.0.1':
@@ -1403,10 +1403,10 @@ packages:
         integrity: sha512-/JLo/l2JsT/LRd80C3HfbmVpxOAJ11FO2RCEslFrgzLltoP9j8XIbsyDcfCt2WWyX+CM96rBoNM+IToAkFOugg==,
       }
 
-  '@ts-morph/common@0.29.0':
+  '@ts-morph/common@0.29.1':
     resolution:
       {
-        integrity: sha512-35oUmphHbJvQ/+UTwFNme/t2p3FoKiGJ5auTjjpNTop2dyREspirjMy82PLSC1pnDJ8ah1GU98hwpVt64YXQsg==,
+        integrity: sha512-P6hGYQ+taPsxmoY4svs0uFNiaLdOPDE+F5FqTBwoA76x8HmEggQXbEhSo78ZsyrGzUxbQfdr/5P7lHYUHF0r2Q==,
       }
 
   '@tsconfig/node10@1.0.8':
@@ -3451,10 +3451,10 @@ packages:
         integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==,
       }
 
-  hono@4.13.18:
+  hono@4.13.21:
     resolution:
       {
-        integrity: sha512-H9q/E1XizaWstJxUW881dmLxEj+t/TrGGnyxINkm4+sK0qUwsMtFdo2BWI9Vs3cIS19MU6b6iCijoUoEf4f3DA==,
+        integrity: sha512-h9UsguqfVk4kjUwLvQpHOmOaJpW10jz9lp8bvKUUa04wJG/fabKFBqXZ06D6LFaeKQZtUZRVeg0gfkTTEsX7Mw==,
       }
     engines: { node: '>=16.9.0' }
 
@@ -6208,9 +6208,9 @@ snapshots:
       '@eslint/core': 0.17.0
       levn: 0.4.1
 
-  '@hono/node-server@2.1.8(hono@4.13.18)':
+  '@hono/node-server@2.1.11(hono@4.13.21)':
     dependencies:
-      hono: 4.13.18
+      hono: 4.13.21
 
   '@humanfs/core@0.19.1': {}
 
@@ -6481,7 +6481,7 @@ snapshots:
   '@jest/fake-timers@30.5.2':
     dependencies:
       '@jest/types': 30.5.1
-      '@sinonjs/fake-timers': 15.4.0
+      '@sinonjs/fake-timers': 15.5.0
       '@types/node': 20.19.43
       jest-message-util: 30.5.1
       jest-mock: 30.5.2
@@ -6708,7 +6708,7 @@ snapshots:
 
   '@modelcontextprotocol/sdk@1.32.2(zod@4.6.7)':
     dependencies:
-      '@hono/node-server': 2.1.8(hono@4.13.18)
+      '@hono/node-server': 2.1.11(hono@4.13.21)
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
       content-type: 1.0.5
@@ -6718,7 +6718,7 @@ snapshots:
       eventsource-parser: 3.0.6
       express: 5.2.1
       express-rate-limit: 8.3.1(express@5.2.1)
-      hono: 4.13.18
+      hono: 4.13.21
       jose: 6.1.3
       json-schema-typed: 8.0.2
       pkce-challenge: 5.0.0
@@ -6821,7 +6821,7 @@ snapshots:
     dependencies:
       '@sinonjs/commons': 3.0.0
 
-  '@sinonjs/fake-timers@15.4.0':
+  '@sinonjs/fake-timers@15.5.0':
     dependencies:
       '@sinonjs/commons': 3.0.1
 
@@ -6886,7 +6886,7 @@ snapshots:
     dependencies:
       '@swc/counter': 0.1.3
 
-  '@ts-morph/common@0.29.0':
+  '@ts-morph/common@0.29.1':
     dependencies:
       minimatch: 9.0.5
       path-browserify: 1.0.1
@@ -8135,7 +8135,7 @@ snapshots:
 
   highlight.js@10.7.3: {}
 
-  hono@4.13.18: {}
+  hono@4.13.21: {}
 
   html-escaper@2.0.2: {}
 
@@ -9654,7 +9654,7 @@ snapshots:
 
   ts-morph@28.0.0:
     dependencies:
-      '@ts-morph/common': 0.29.0
+      '@ts-morph/common': 0.29.1
       code-block-writer: 13.0.3
 
   ts-node@10.7.0(@swc/core@1.4.16)(@types/node@20.19.43)(@typescript/typescript6@6.0.2):

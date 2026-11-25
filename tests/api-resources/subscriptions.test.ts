@@ -345,7 +345,6 @@ describe('resource subscriptions', () => {
       review_required: true,
       tax_id: 'tax_id',
       trial_period_days: 0,
-      'Idempotency-Key': 'Idempotency-Key',
     });
   });
 });

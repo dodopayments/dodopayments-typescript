@@ -1,13 +1,5 @@
 # Changelog
 
-## [2.63.1](https://github.com/dodopayments/dodopayments-typescript/compare/v2.63.0...v2.63.1) (2026-11-19)
-
-
-### Chores
-
-* **mcp:** sample 1% of Workers Logs on the Cloudflare Worker ([7fd0386](https://github.com/dodopayments/dodopayments-typescript/commit/7fd03861c1821618f7948ec85b26f6108a396a24))
-* **mcp:** sample 1% of Workers Logs on the Cloudflare Worker ([bb75b57](https://github.com/dodopayments/dodopayments-typescript/commit/bb75b57dd35408507a63a2de9f20cb30ca5d58a8))
-
 ## [2.63.0](https://github.com/dodopayments/dodopayments-typescript/compare/v2.62.0...v2.63.0) (2026-11-16)
 
 

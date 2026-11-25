@@ -292,18 +292,10 @@ export class Subscriptions extends APIResource {
    * ```
    */
   startTrial(
-    params: SubscriptionStartTrialParams,
+    body: SubscriptionStartTrialParams,
     options?: RequestOptions,
   ): APIPromise<SubscriptionStartTrialResponse> {
-    const { 'Idempotency-Key': idempotencyKey, ...body } = params;
-    return this._client.post('/billing/subscriptions', {
-      body,
-      ...options,
-      headers: buildHeaders([
-        { ...(idempotencyKey != null ? { 'Idempotency-Key': idempotencyKey } : undefined) },
-        options?.headers,
-      ]),
-    });
+    return this._client.post('/billing/subscriptions', { body, ...options });
   }
 }
 
@@ -2365,67 +2357,46 @@ export namespace SubscriptionPreviewChangePlanParams {
 }
 
 export interface SubscriptionStartTrialParams {
-  /**
-   * Body param
-   */
   collection_method: InvoicesAPI.CollectionMethod;
 
-  /**
-   * Body param
-   */
   currency: MiscAPI.Currency;
 
-  /**
-   * Body param
-   */
   customer_id: string;
 
   /**
-   * Body param: A recurring product.
+   * A recurring product.
    */
   product_id: string;
 
   /**
-   * Body param: The billing address of an invoice request.
+   * The billing address of an invoice request.
    */
   billing_address?: SubscriptionStartTrialParams.BillingAddress | null;
 
   /**
-   * Body param: A saved card of the customer. Automatic charge needs it.
+   * A saved card of the customer. Automatic charge needs it.
    */
   payment_method_id?: string | null;
 
   /**
-   * Body param: The terms of the invoices after the trial.
+   * The terms of the invoices after the trial.
    */
   payment_terms?: SubscriptionStartTrialParams.DueOnReceipt | SubscriptionStartTrialParams.Net | null;
 
-  /**
-   * Body param
-   */
   quantity?: number;
 
   /**
-   * Body param: `true` keeps each renewal draft for review before it finalises.
+   * `true` keeps each renewal draft for review before it finalises.
    */
   review_required?: boolean;
 
-  /**
-   * Body param
-   */
   tax_id?: string | null;
 
   /**
-   * Body param: 1 to 730 days. When this is not set, the product trial applies and
-   * the trial misuse check runs.
+   * 1 to 730 days. When this is not set, the product trial applies and the trial
+   * misuse check runs.
    */
   trial_period_days?: number | null;
-
-  /**
-   * Header param: A key of 1 to 255 characters. A repeat with the same key returns
-   * the first trial.
-   */
-  'Idempotency-Key'?: string;
 }
 
 export namespace SubscriptionStartTrialParams {

@@ -608,6 +608,7 @@ export class DodoPayments {
     }
 
     this._options = options;
+    this.idempotencyHeader = 'Idempotency-Key';
 
     this.bearerToken = bearerToken;
     this.#workloadIdentity =
